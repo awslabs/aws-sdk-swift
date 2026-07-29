@@ -34037,6 +34037,211 @@ public struct CreateTransitGatewayPolicyTableOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    /// A metadata key-value pair for a transit gateway policy rule.
+    public struct TransitGatewayRequestPolicyRuleMetaData: Swift.Sendable {
+        /// The key of the metadata pair for the policy rule.
+        public var metaDataKey: Swift.String?
+        /// The value of the metadata pair for the policy rule.
+        public var metaDataValue: Swift.String?
+
+        public init(
+            metaDataKey: Swift.String? = nil,
+            metaDataValue: Swift.String? = nil
+        ) {
+            self.metaDataKey = metaDataKey
+            self.metaDataValue = metaDataValue
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The matching criteria for a transit gateway policy table entry.
+    public struct TransitGatewayRequestPolicyRule: Swift.Sendable {
+        /// The destination CIDR block for the policy rule.
+        public var destinationCidrBlock: Swift.String?
+        /// The destination port or port range for the policy rule. You can specify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be *.
+        public var destinationPortRange: Swift.String?
+        /// The metadata key-value pair for the policy rule.
+        public var metaData: EC2ClientTypes.TransitGatewayRequestPolicyRuleMetaData?
+        /// The protocol for the policy rule. Valid values are 1 (ICMP), 6 (TCP), 17 (UDP), 47 (GRE), or * for all protocols.
+        public var `protocol`: Swift.String?
+        /// The source CIDR block for the policy rule.
+        public var sourceCidrBlock: Swift.String?
+        /// The source port or port range for the policy rule. You can specify a port range only when Protocol is 6 (TCP) or 17 (UDP); for all other protocols, this value must be *.
+        public var sourcePortRange: Swift.String?
+
+        public init(
+            destinationCidrBlock: Swift.String? = nil,
+            destinationPortRange: Swift.String? = nil,
+            metaData: EC2ClientTypes.TransitGatewayRequestPolicyRuleMetaData? = nil,
+            `protocol`: Swift.String? = nil,
+            sourceCidrBlock: Swift.String? = nil,
+            sourcePortRange: Swift.String? = nil
+        ) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.metaData = metaData
+            self.`protocol` = `protocol`
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+        }
+    }
+}
+
+public struct CreateTransitGatewayPolicyTableEntryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The matching criteria for the policy table entry.
+    public var policyRule: EC2ClientTypes.TransitGatewayRequestPolicyRule?
+    /// The rule number for the policy table entry. Lower rule numbers are evaluated first and take precedence.
+    /// This member is required.
+    public var policyRuleNumber: Swift.String?
+    /// The ID of the transit gateway route table to use for traffic matching this rule.
+    /// This member is required.
+    public var targetRouteTableId: Swift.String?
+    /// The ID of the transit gateway policy table.
+    /// This member is required.
+    public var transitGatewayPolicyTableId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        policyRule: EC2ClientTypes.TransitGatewayRequestPolicyRule? = nil,
+        policyRuleNumber: Swift.String? = nil,
+        targetRouteTableId: Swift.String? = nil,
+        transitGatewayPolicyTableId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.policyRule = policyRule
+        self.policyRuleNumber = policyRuleNumber
+        self.targetRouteTableId = targetRouteTableId
+        self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the meta data tags associated with a transit gateway policy rule.
+    public struct TransitGatewayPolicyRuleMetaData: Swift.Sendable {
+        /// The key name for the transit gateway policy rule meta data tag.
+        public var metaDataKey: Swift.String?
+        /// The value of the key for the transit gateway policy rule meta data tag.
+        public var metaDataValue: Swift.String?
+
+        public init(
+            metaDataKey: Swift.String? = nil,
+            metaDataValue: Swift.String? = nil
+        ) {
+            self.metaDataKey = metaDataKey
+            self.metaDataValue = metaDataValue
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a rule associated with a transit gateway policy.
+    public struct TransitGatewayPolicyRule: Swift.Sendable {
+        /// The destination CIDR block for the transit gateway policy rule.
+        public var destinationCidrBlock: Swift.String?
+        /// The destination port or port range for the transit gateway policy rule.
+        public var destinationPortRange: Swift.String?
+        /// The meta data tags used for the transit gateway policy rule.
+        public var metaData: EC2ClientTypes.TransitGatewayPolicyRuleMetaData?
+        /// The protocol used by the transit gateway policy rule.
+        public var `protocol`: Swift.String?
+        /// The source CIDR block for the transit gateway policy rule.
+        public var sourceCidrBlock: Swift.String?
+        /// The source port or port range for the transit gateway policy rule.
+        public var sourcePortRange: Swift.String?
+
+        public init(
+            destinationCidrBlock: Swift.String? = nil,
+            destinationPortRange: Swift.String? = nil,
+            metaData: EC2ClientTypes.TransitGatewayPolicyRuleMetaData? = nil,
+            `protocol`: Swift.String? = nil,
+            sourceCidrBlock: Swift.String? = nil,
+            sourcePortRange: Swift.String? = nil
+        ) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.metaData = metaData
+            self.`protocol` = `protocol`
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayPolicyTableEntryState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayPolicyTableEntryState] {
+            return [
+                .active,
+                .deleted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .deleted: return "deleted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a transit gateway policy table entry
+    public struct TransitGatewayPolicyTableEntry: Swift.Sendable {
+        /// The policy rule associated with the transit gateway policy table.
+        public var policyRule: EC2ClientTypes.TransitGatewayPolicyRule?
+        /// The rule number for the transit gateway policy table entry.
+        public var policyRuleNumber: Swift.String?
+        /// The state of the transit gateway policy table entry.
+        public var state: EC2ClientTypes.TransitGatewayPolicyTableEntryState?
+        /// The ID of the target route table.
+        public var targetRouteTableId: Swift.String?
+
+        public init(
+            policyRule: EC2ClientTypes.TransitGatewayPolicyRule? = nil,
+            policyRuleNumber: Swift.String? = nil,
+            state: EC2ClientTypes.TransitGatewayPolicyTableEntryState? = nil,
+            targetRouteTableId: Swift.String? = nil
+        ) {
+            self.policyRule = policyRule
+            self.policyRuleNumber = policyRuleNumber
+            self.state = state
+            self.targetRouteTableId = targetRouteTableId
+        }
+    }
+}
+
+public struct CreateTransitGatewayPolicyTableEntryOutput: Swift.Sendable {
+    /// Describes a transit gateway policy table entry
+    public var transitGatewayPolicyTableEntry: EC2ClientTypes.TransitGatewayPolicyTableEntry?
+
+    public init(
+        transitGatewayPolicyTableEntry: EC2ClientTypes.TransitGatewayPolicyTableEntry? = nil
+    ) {
+        self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
+    }
+}
+
 public struct CreateTransitGatewayPrefixListReferenceInput: Swift.Sendable {
     /// Indicates whether to drop traffic that matches this route.
     public var blackhole: Swift.Bool?
@@ -34609,7 +34814,7 @@ extension EC2ClientTypes {
         public var applianceModeSupport: EC2ClientTypes.ApplianceModeSupportValue?
         /// Enable or disable DNS support. The default is enable.
         public var dnsSupport: EC2ClientTypes.DnsSupportValue?
-        /// Enable or disable IPv6 support. The default is disable.
+        /// Specifies whether IPv6 support is enabled for the attachment. When enabled, the transit gateway network interface receives an IPv6 address. When you enable route propagation, IPv6 VPC CIDRs propagate to the transit gateway route tables. When disabled, the network interface does not receive an IPv6 address, and IPv6 routes do not propagate. The setting does not filter IPv6 traffic. The default is disable.
         public var ipv6Support: EC2ClientTypes.Ipv6SupportValue?
         /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is set to enable by default. However, at the transit gateway level the default is set to disable. For more information about security group referencing, see [Security group referencing ](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security) in the Amazon Web Services Transit Gateways Guide.
         public var securityGroupReferencingSupport: EC2ClientTypes.SecurityGroupReferencingSupportValue?
@@ -40820,6 +41025,38 @@ public struct DeleteTransitGatewayPolicyTableOutput: Swift.Sendable {
         transitGatewayPolicyTable: EC2ClientTypes.TransitGatewayPolicyTable? = nil
     ) {
         self.transitGatewayPolicyTable = transitGatewayPolicyTable
+    }
+}
+
+public struct DeleteTransitGatewayPolicyTableEntryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The rule number of the policy table entry to delete.
+    /// This member is required.
+    public var policyRuleNumber: Swift.String?
+    /// The ID of the transit gateway policy table.
+    /// This member is required.
+    public var transitGatewayPolicyTableId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        policyRuleNumber: Swift.String? = nil,
+        transitGatewayPolicyTableId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.policyRuleNumber = policyRuleNumber
+        self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+    }
+}
+
+public struct DeleteTransitGatewayPolicyTableEntryOutput: Swift.Sendable {
+    /// Describes a transit gateway policy table entry
+    public var transitGatewayPolicyTableEntry: EC2ClientTypes.TransitGatewayPolicyTableEntry?
+
+    public init(
+        transitGatewayPolicyTableEntry: EC2ClientTypes.TransitGatewayPolicyTableEntry? = nil
+    ) {
+        self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
     }
 }
 
@@ -62232,14 +62469,18 @@ extension EC2ClientTypes {
     public struct TransitGatewayAttachmentAssociation: Swift.Sendable {
         /// The state of the association.
         public var state: EC2ClientTypes.TransitGatewayAssociationState?
+        /// The ID of the transit gateway policy table associated with the attachment.
+        public var transitGatewayPolicyTableId: Swift.String?
         /// The ID of the route table for the transit gateway.
         public var transitGatewayRouteTableId: Swift.String?
 
         public init(
             state: EC2ClientTypes.TransitGatewayAssociationState? = nil,
+            transitGatewayPolicyTableId: Swift.String? = nil,
             transitGatewayRouteTableId: Swift.String? = nil
         ) {
             self.state = state
+            self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
             self.transitGatewayRouteTableId = transitGatewayRouteTableId
         }
     }
@@ -73849,7 +74090,25 @@ public struct GetTransitGatewayPolicyTableAssociationsOutput: Swift.Sendable {
 public struct GetTransitGatewayPolicyTableEntriesInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
-    /// The filters associated with the transit gateway policy table.
+    /// One or more filters. The possible values are:
+    ///
+    /// * policy-rule-number - The rule number for the transit gateway policy table entry.
+    ///
+    /// * target-route-table-id - The ID of the target route table.
+    ///
+    /// * policy-rule.source-ip - The source CIDR block for the policy rule.
+    ///
+    /// * policy-rule.destination-ip - The destination CIDR block for the policy rule.
+    ///
+    /// * policy-rule.source-port - The source port or port range for the policy rule.
+    ///
+    /// * policy-rule.destination-port - The destination port or port range for the policy rule.
+    ///
+    /// * policy-rule.protocol - The protocol for the policy rule.
+    ///
+    /// * policy-rule.meta-data.key - The metadata key for the policy rule.
+    ///
+    /// * policy-rule.meta-data.value - The metadata value for the policy rule.
     public var filters: [EC2ClientTypes.Filter]?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
@@ -73874,90 +74133,17 @@ public struct GetTransitGatewayPolicyTableEntriesInput: Swift.Sendable {
     }
 }
 
-extension EC2ClientTypes {
-
-    /// Describes the meta data tags associated with a transit gateway policy rule.
-    public struct TransitGatewayPolicyRuleMetaData: Swift.Sendable {
-        /// The key name for the transit gateway policy rule meta data tag.
-        public var metaDataKey: Swift.String?
-        /// The value of the key for the transit gateway policy rule meta data tag.
-        public var metaDataValue: Swift.String?
-
-        public init(
-            metaDataKey: Swift.String? = nil,
-            metaDataValue: Swift.String? = nil
-        ) {
-            self.metaDataKey = metaDataKey
-            self.metaDataValue = metaDataValue
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// Describes a rule associated with a transit gateway policy.
-    public struct TransitGatewayPolicyRule: Swift.Sendable {
-        /// The destination CIDR block for the transit gateway policy rule.
-        public var destinationCidrBlock: Swift.String?
-        /// The port range for the transit gateway policy rule. Currently this is set to * (all).
-        public var destinationPortRange: Swift.String?
-        /// The meta data tags used for the transit gateway policy rule.
-        public var metaData: EC2ClientTypes.TransitGatewayPolicyRuleMetaData?
-        /// The protocol used by the transit gateway policy rule.
-        public var `protocol`: Swift.String?
-        /// The source CIDR block for the transit gateway policy rule.
-        public var sourceCidrBlock: Swift.String?
-        /// The port range for the transit gateway policy rule. Currently this is set to * (all).
-        public var sourcePortRange: Swift.String?
-
-        public init(
-            destinationCidrBlock: Swift.String? = nil,
-            destinationPortRange: Swift.String? = nil,
-            metaData: EC2ClientTypes.TransitGatewayPolicyRuleMetaData? = nil,
-            `protocol`: Swift.String? = nil,
-            sourceCidrBlock: Swift.String? = nil,
-            sourcePortRange: Swift.String? = nil
-        ) {
-            self.destinationCidrBlock = destinationCidrBlock
-            self.destinationPortRange = destinationPortRange
-            self.metaData = metaData
-            self.`protocol` = `protocol`
-            self.sourceCidrBlock = sourceCidrBlock
-            self.sourcePortRange = sourcePortRange
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// Describes a transit gateway policy table entry
-    public struct TransitGatewayPolicyTableEntry: Swift.Sendable {
-        /// The policy rule associated with the transit gateway policy table.
-        public var policyRule: EC2ClientTypes.TransitGatewayPolicyRule?
-        /// The rule number for the transit gateway policy table entry.
-        public var policyRuleNumber: Swift.String?
-        /// The ID of the target route table.
-        public var targetRouteTableId: Swift.String?
-
-        public init(
-            policyRule: EC2ClientTypes.TransitGatewayPolicyRule? = nil,
-            policyRuleNumber: Swift.String? = nil,
-            targetRouteTableId: Swift.String? = nil
-        ) {
-            self.policyRule = policyRule
-            self.policyRuleNumber = policyRuleNumber
-            self.targetRouteTableId = targetRouteTableId
-        }
-    }
-}
-
 public struct GetTransitGatewayPolicyTableEntriesOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
     /// The entries for the transit gateway policy table.
     public var transitGatewayPolicyTableEntries: [EC2ClientTypes.TransitGatewayPolicyTableEntry]?
 
     public init(
+        nextToken: Swift.String? = nil,
         transitGatewayPolicyTableEntries: [EC2ClientTypes.TransitGatewayPolicyTableEntry]? = nil
     ) {
+        self.nextToken = nextToken
         self.transitGatewayPolicyTableEntries = transitGatewayPolicyTableEntries
     }
 }
@@ -78940,6 +79126,46 @@ public struct ModifyTransitGatewayMeteringPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyTransitGatewayPolicyTableEntryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The updated matching criteria for the policy table entry. Unspecified fields retain their current values.
+    public var policyRule: EC2ClientTypes.TransitGatewayRequestPolicyRule?
+    /// The rule number of the policy table entry to modify.
+    /// This member is required.
+    public var policyRuleNumber: Swift.String?
+    /// The ID of the transit gateway route table to use for traffic matching this rule.
+    public var targetRouteTableId: Swift.String?
+    /// The ID of the transit gateway policy table.
+    /// This member is required.
+    public var transitGatewayPolicyTableId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        policyRule: EC2ClientTypes.TransitGatewayRequestPolicyRule? = nil,
+        policyRuleNumber: Swift.String? = nil,
+        targetRouteTableId: Swift.String? = nil,
+        transitGatewayPolicyTableId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.policyRule = policyRule
+        self.policyRuleNumber = policyRuleNumber
+        self.targetRouteTableId = targetRouteTableId
+        self.transitGatewayPolicyTableId = transitGatewayPolicyTableId
+    }
+}
+
+public struct ModifyTransitGatewayPolicyTableEntryOutput: Swift.Sendable {
+    /// Describes a transit gateway policy table entry
+    public var transitGatewayPolicyTableEntry: EC2ClientTypes.TransitGatewayPolicyTableEntry?
+
+    public init(
+        transitGatewayPolicyTableEntry: EC2ClientTypes.TransitGatewayPolicyTableEntry? = nil
+    ) {
+        self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
+    }
+}
+
 public struct ModifyTransitGatewayPrefixListReferenceInput: Swift.Sendable {
     /// Indicates whether to drop traffic that matches this route.
     public var blackhole: Swift.Bool?
@@ -78988,7 +79214,7 @@ extension EC2ClientTypes {
         public var applianceModeSupport: EC2ClientTypes.ApplianceModeSupportValue?
         /// Enable or disable DNS support. The default is enable.
         public var dnsSupport: EC2ClientTypes.DnsSupportValue?
-        /// Enable or disable IPv6 support. The default is enable.
+        /// Specifies whether IPv6 support is enabled for the attachment. When enabled, the transit gateway network interface receives an IPv6 address. When you enable route propagation, IPv6 VPC CIDRs propagate to the transit gateway route tables. When disabled, the network interface does not receive an IPv6 address, and IPv6 routes do not propagate. The setting does not filter IPv6 traffic.
         public var ipv6Support: EC2ClientTypes.Ipv6SupportValue?
         /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is disabled by default. For more information about security group referencing, see [Security group referencing](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security) in the Amazon Web Services Transit Gateways Guide.
         public var securityGroupReferencingSupport: EC2ClientTypes.SecurityGroupReferencingSupportValue?
@@ -86318,6 +86544,13 @@ extension CreateTransitGatewayPolicyTableInput {
     }
 }
 
+extension CreateTransitGatewayPolicyTableEntryInput {
+
+    static func urlPathProvider(_ value: CreateTransitGatewayPolicyTableEntryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateTransitGatewayPrefixListReferenceInput {
 
     static func urlPathProvider(_ value: CreateTransitGatewayPrefixListReferenceInput) -> Swift.String? {
@@ -86965,6 +87198,13 @@ extension DeleteTransitGatewayPeeringAttachmentInput {
 extension DeleteTransitGatewayPolicyTableInput {
 
     static func urlPathProvider(_ value: DeleteTransitGatewayPolicyTableInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteTransitGatewayPolicyTableEntryInput {
+
+    static func urlPathProvider(_ value: DeleteTransitGatewayPolicyTableEntryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -89940,6 +90180,13 @@ extension ModifyTransitGatewayInput {
 extension ModifyTransitGatewayMeteringPolicyInput {
 
     static func urlPathProvider(_ value: ModifyTransitGatewayMeteringPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyTransitGatewayPolicyTableEntryInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayPolicyTableEntryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -93159,6 +93406,20 @@ extension CreateTransitGatewayPolicyTableInput {
     }
 }
 
+extension CreateTransitGatewayPolicyTableEntryInput {
+
+    static func write(value: CreateTransitGatewayPolicyTableEntryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PolicyRule"].write(value.policyRule, with: EC2ClientTypes.TransitGatewayRequestPolicyRule.write(value:to:))
+        try writer["PolicyRuleNumber"].write(value.policyRuleNumber)
+        try writer["TargetRouteTableId"].write(value.targetRouteTableId)
+        try writer["TransitGatewayPolicyTableId"].write(value.transitGatewayPolicyTableId)
+        try writer["Action"].write("CreateTransitGatewayPolicyTableEntry")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateTransitGatewayPrefixListReferenceInput {
 
     static func write(value: CreateTransitGatewayPrefixListReferenceInput?, to writer: SmithyFormURL.Writer) throws {
@@ -94388,6 +94649,18 @@ extension DeleteTransitGatewayPolicyTableInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["TransitGatewayPolicyTableId"].write(value.transitGatewayPolicyTableId)
         try writer["Action"].write("DeleteTransitGatewayPolicyTable")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteTransitGatewayPolicyTableEntryInput {
+
+    static func write(value: DeleteTransitGatewayPolicyTableEntryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PolicyRuleNumber"].write(value.policyRuleNumber)
+        try writer["TransitGatewayPolicyTableId"].write(value.transitGatewayPolicyTableId)
+        try writer["Action"].write("DeleteTransitGatewayPolicyTableEntry")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -100931,6 +101204,20 @@ extension ModifyTransitGatewayMeteringPolicyInput {
     }
 }
 
+extension ModifyTransitGatewayPolicyTableEntryInput {
+
+    static func write(value: ModifyTransitGatewayPolicyTableEntryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PolicyRule"].write(value.policyRule, with: EC2ClientTypes.TransitGatewayRequestPolicyRule.write(value:to:))
+        try writer["PolicyRuleNumber"].write(value.policyRuleNumber)
+        try writer["TargetRouteTableId"].write(value.targetRouteTableId)
+        try writer["TransitGatewayPolicyTableId"].write(value.transitGatewayPolicyTableId)
+        try writer["Action"].write("ModifyTransitGatewayPolicyTableEntry")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyTransitGatewayPrefixListReferenceInput {
 
     static func write(value: ModifyTransitGatewayPrefixListReferenceInput?, to writer: SmithyFormURL.Writer) throws {
@@ -104415,6 +104702,18 @@ extension CreateTransitGatewayPolicyTableOutput {
     }
 }
 
+extension CreateTransitGatewayPolicyTableEntryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTransitGatewayPolicyTableEntryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTransitGatewayPolicyTableEntryOutput()
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.TransitGatewayPolicyTableEntry.read(from:))
+        return value
+    }
+}
+
 extension CreateTransitGatewayPrefixListReferenceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTransitGatewayPrefixListReferenceOutput {
@@ -105487,6 +105786,18 @@ extension DeleteTransitGatewayPolicyTableOutput {
         let reader = responseReader
         var value = DeleteTransitGatewayPolicyTableOutput()
         value.transitGatewayPolicyTable = try reader["transitGatewayPolicyTable"].readIfPresent(with: EC2ClientTypes.TransitGatewayPolicyTable.read(from:))
+        return value
+    }
+}
+
+extension DeleteTransitGatewayPolicyTableEntryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTransitGatewayPolicyTableEntryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTransitGatewayPolicyTableEntryOutput()
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.TransitGatewayPolicyTableEntry.read(from:))
         return value
     }
 }
@@ -109984,6 +110295,7 @@ extension GetTransitGatewayPolicyTableEntriesOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = GetTransitGatewayPolicyTableEntriesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.transitGatewayPolicyTableEntries = try reader["transitGatewayPolicyTableEntries"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayPolicyTableEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
@@ -110892,6 +111204,18 @@ extension ModifyTransitGatewayMeteringPolicyOutput {
         let reader = responseReader
         var value = ModifyTransitGatewayMeteringPolicyOutput()
         value.transitGatewayMeteringPolicy = try reader["transitGatewayMeteringPolicy"].readIfPresent(with: EC2ClientTypes.TransitGatewayMeteringPolicy.read(from:))
+        return value
+    }
+}
+
+extension ModifyTransitGatewayPolicyTableEntryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayPolicyTableEntryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayPolicyTableEntryOutput()
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.TransitGatewayPolicyTableEntry.read(from:))
         return value
     }
 }
@@ -114081,6 +114405,19 @@ enum CreateTransitGatewayPolicyTableOutputError {
     }
 }
 
+enum CreateTransitGatewayPolicyTableEntryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateTransitGatewayPrefixListReferenceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -115278,6 +115615,19 @@ enum DeleteTransitGatewayPeeringAttachmentOutputError {
 }
 
 enum DeleteTransitGatewayPolicyTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTransitGatewayPolicyTableEntryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -120803,6 +121153,19 @@ enum ModifyTransitGatewayOutputError {
 }
 
 enum ModifyTransitGatewayMeteringPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyTransitGatewayPolicyTableEntryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -133652,6 +134015,7 @@ extension EC2ClientTypes.TransitGatewayAttachmentAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.TransitGatewayAttachmentAssociation()
         value.transitGatewayRouteTableId = try reader["transitGatewayRouteTableId"].readIfPresent()
+        value.transitGatewayPolicyTableId = try reader["transitGatewayPolicyTableId"].readIfPresent()
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -134072,6 +134436,7 @@ extension EC2ClientTypes.TransitGatewayPolicyTableEntry {
         value.policyRuleNumber = try reader["policyRuleNumber"].readIfPresent()
         value.policyRule = try reader["policyRule"].readIfPresent(with: EC2ClientTypes.TransitGatewayPolicyRule.read(from:))
         value.targetRouteTableId = try reader["targetRouteTableId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -134133,6 +134498,28 @@ extension EC2ClientTypes.TransitGatewayRequestOptions {
             try writer["TransitGatewayCidrBlocks"].writeList(value.transitGatewayCidrBlocks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["VpnEcmpSupport"].write(value.vpnEcmpSupport)
+    }
+}
+
+extension EC2ClientTypes.TransitGatewayRequestPolicyRule {
+
+    static func write(value: EC2ClientTypes.TransitGatewayRequestPolicyRule?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationCidrBlock"].write(value.destinationCidrBlock)
+        try writer["DestinationPortRange"].write(value.destinationPortRange)
+        try writer["MetaData"].write(value.metaData, with: EC2ClientTypes.TransitGatewayRequestPolicyRuleMetaData.write(value:to:))
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["SourceCidrBlock"].write(value.sourceCidrBlock)
+        try writer["SourcePortRange"].write(value.sourcePortRange)
+    }
+}
+
+extension EC2ClientTypes.TransitGatewayRequestPolicyRuleMetaData {
+
+    static func write(value: EC2ClientTypes.TransitGatewayRequestPolicyRuleMetaData?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MetaDataKey"].write(value.metaDataKey)
+        try writer["MetaDataValue"].write(value.metaDataValue)
     }
 }
 

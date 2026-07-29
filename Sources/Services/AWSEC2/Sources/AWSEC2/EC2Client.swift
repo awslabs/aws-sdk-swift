@@ -10115,6 +10115,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateTransitGatewayPolicyTableEntry` operation on the `EC2` service.
+    ///
+    /// Creates an entry in a transit gateway policy table to route matching traffic to a specified route table.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayPolicyTableEntryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayPolicyTableEntryOutput`)
+    public func createTransitGatewayPolicyTableEntry(input: CreateTransitGatewayPolicyTableEntryInput) async throws -> CreateTransitGatewayPolicyTableEntryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createTransitGatewayPolicyTableEntry")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>(CreateTransitGatewayPolicyTableEntryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayPolicyTableEntryOutput>(CreateTransitGatewayPolicyTableEntryOutput.httpOutput(from:), CreateTransitGatewayPolicyTableEntryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayPolicyTableEntryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTransitGatewayPolicyTableEntryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTransitGatewayPolicyTableEntryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTransitGatewayPolicyTableEntryInput, CreateTransitGatewayPolicyTableEntryOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayPolicyTableEntry")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateTransitGatewayPrefixListReference` operation on the `EC2` service.
     ///
     /// Creates a reference (route) to a prefix list in a specified transit gateway route table.
@@ -16002,6 +16065,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayPolicyTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteTransitGatewayPolicyTableEntry` operation on the `EC2` service.
+    ///
+    /// Deletes the specified transit gateway policy table entry.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayPolicyTableEntryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayPolicyTableEntryOutput`)
+    public func deleteTransitGatewayPolicyTableEntry(input: DeleteTransitGatewayPolicyTableEntryInput) async throws -> DeleteTransitGatewayPolicyTableEntryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTransitGatewayPolicyTableEntry")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>(DeleteTransitGatewayPolicyTableEntryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayPolicyTableEntryOutput>(DeleteTransitGatewayPolicyTableEntryOutput.httpOutput(from:), DeleteTransitGatewayPolicyTableEntryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayPolicyTableEntryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTransitGatewayPolicyTableEntryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTransitGatewayPolicyTableEntryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTransitGatewayPolicyTableEntryInput, DeleteTransitGatewayPolicyTableEntryOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayPolicyTableEntry")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -42966,6 +43092,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayMeteringPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyTransitGatewayPolicyTableEntry` operation on the `EC2` service.
+    ///
+    /// Modifies the specified transit gateway policy table entry.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayPolicyTableEntryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayPolicyTableEntryOutput`)
+    public func modifyTransitGatewayPolicyTableEntry(input: ModifyTransitGatewayPolicyTableEntryInput) async throws -> ModifyTransitGatewayPolicyTableEntryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyTransitGatewayPolicyTableEntry")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>(ModifyTransitGatewayPolicyTableEntryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayPolicyTableEntryOutput>(ModifyTransitGatewayPolicyTableEntryOutput.httpOutput(from:), ModifyTransitGatewayPolicyTableEntryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayPolicyTableEntryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyTransitGatewayPolicyTableEntryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyTransitGatewayPolicyTableEntryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyTransitGatewayPolicyTableEntryInput, ModifyTransitGatewayPolicyTableEntryOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayPolicyTableEntry")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

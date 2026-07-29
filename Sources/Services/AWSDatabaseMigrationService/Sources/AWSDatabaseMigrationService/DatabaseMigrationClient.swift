@@ -839,7 +839,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `CancelMetadataModelConversion` operation on the `DatabaseMigration` service.
     ///
-    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion. Required permissions: dms:CancelMetadataModelConversion. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelMetadataModelConversionInput`)
     ///
@@ -915,7 +915,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `CancelMetadataModelCreation` operation on the `DatabaseMigration` service.
     ///
-    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.
+    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation. Required permissions: dms:CancelMetadataModelCreation. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelMetadataModelCreationInput`)
     ///
@@ -1145,7 +1145,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `CreateDataProvider` operation on the `DatabaseMigration` service.
     ///
-    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
+    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database. Required permissions: dms:CreateDataProvider. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDataProviderInput`)
     ///
@@ -1463,7 +1463,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `CreateInstanceProfile` operation on the `DatabaseMigration` service.
     ///
-    /// Creates the instance profile using the specified parameters.
+    /// Creates the instance profile using the specified parameters. Required permissions: dms:CreateInstanceProfile. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateInstanceProfileInput`)
     ///
@@ -1545,7 +1545,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `CreateMigrationProject` operation on the `DatabaseMigration` service.
     ///
-    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using [CreateInstanceProfile](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html) and [CreateDataProvider](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html).
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using [CreateInstanceProfile](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateInstanceProfile.html) and [CreateDataProvider](https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html). Required permissions: dms:CreateMigrationProject. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateMigrationProjectInput`)
     ///
@@ -2174,7 +2174,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DeleteDataProvider` operation on the `DatabaseMigration` service.
     ///
-    /// Deletes the specified data provider. All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
+    /// Deletes the specified data provider. Required permissions: dms:DeleteDataProvider. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html). All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDataProviderInput`)
     ///
@@ -2554,7 +2554,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DeleteInstanceProfile` operation on the `DatabaseMigration` service.
     ///
-    /// Deletes the specified instance profile. All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
+    /// Deletes the specified instance profile. Required permissions: dms:DeleteInstanceProfile. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html). All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteInstanceProfileInput`)
     ///
@@ -2631,7 +2631,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DeleteMigrationProject` operation on the `DatabaseMigration` service.
     ///
-    /// Deletes the specified migration project. The migration project must be closed before you can delete it.
+    /// Deletes the specified migration project. Required permissions: dms:DeleteMigrationProject. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html). The migration project must be closed before you can delete it.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteMigrationProjectInput`)
     ///
@@ -3379,7 +3379,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeConversionConfiguration` operation on the `DatabaseMigration` service.
     ///
-    /// Returns configuration parameters for a schema conversion project.
+    /// Returns configuration parameters for a schema conversion project. Required permissions: dms:DescribeConversionConfiguration. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeConversionConfigurationInput`)
     ///
@@ -3529,7 +3529,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeDataProviders` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of data providers for your account in the current region.
+    /// Returns a paginated list of data providers for your account in the current region. Required permissions: dms:ListDataProviders. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeDataProvidersInput`)
     ///
@@ -4098,7 +4098,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeExtensionPackAssociations` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Returns a paginated list of extension pack installation requests for a migration project, initiated by [StartExtensionPackAssociation](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartExtensionPackAssociation.html). Required permissions: dms:ListExtensionPacks. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeExtensionPackAssociationsInput`)
     ///
@@ -4537,7 +4537,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeInstanceProfiles` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of instance profiles for your account in the current region.
+    /// Returns a paginated list of instance profiles for your account in the current region. Required permissions: dms:ListInstanceProfiles. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeInstanceProfilesInput`)
     ///
@@ -4613,7 +4613,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModel` operation on the `DatabaseMigration` service.
     ///
-    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable. Required permissions: dms:DescribeMetadataModel. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelInput`)
     ///
@@ -4688,7 +4688,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelAssessments` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    /// Returns a paginated list of metadata model assessment requests for a migration project, initiated by [StartMetadataModelAssessment](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelAssessment.html). Required permissions: dms:ListMetadataModelAssessments. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelAssessmentsInput`)
     ///
@@ -4762,7 +4762,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelChildren` operation on the `DatabaseMigration` service.
     ///
-    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy. Required permissions: dms:DescribeMetadataModelChildren. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelChildrenInput`)
     ///
@@ -4837,7 +4837,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelConversions` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of metadata model conversions for a migration project.
+    /// Returns a paginated list of metadata model conversion requests for a migration project, initiated by [StartMetadataModelConversion](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelConversion.html). To cancel a queued or in-progress request, call [CancelMetadataModelConversion](https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelConversion.html). Required permissions: dms:ListMetadataModelConversions. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelConversionsInput`)
     ///
@@ -4911,7 +4911,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelCreations` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of metadata model creation requests for a migration project.
+    /// Returns a paginated list of metadata model creation requests for a migration project, initiated by [StartMetadataModelCreation](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelCreation.html). To cancel a queued or in-progress request, call [CancelMetadataModelCreation](https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelCreation.html). Required permissions: dms:DescribeMetadataModelCreations. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelCreationsInput`)
     ///
@@ -4986,7 +4986,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelExportsAsScript` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of metadata model exports.
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by [StartMetadataModelExportAsScript](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportAsScript.html). Required permissions: dms:ListMetadataModelExports. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelExportsAsScriptInput`)
     ///
@@ -5060,7 +5060,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelExportsToTarget` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of metadata model exports.
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by [StartMetadataModelExportToTarget](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportToTarget.html). Required permissions: dms:ListMetadataModelExports. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelExportsToTargetInput`)
     ///
@@ -5134,7 +5134,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMetadataModelImports` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of metadata model imports.
+    /// Returns a paginated list of metadata model import requests for a migration project, initiated by [StartMetadataModelImport](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html). Required permissions: dms:DescribeMetadataModelImports. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelImportsInput`)
     ///
@@ -5208,7 +5208,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribeMigrationProjects` operation on the `DatabaseMigration` service.
     ///
-    /// Returns a paginated list of migration projects for your account in the current region.
+    /// Returns a paginated list of migration projects for your account in the current region. Required permissions: dms:ListMigrationProjects. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeMigrationProjectsInput`)
     ///
@@ -6545,7 +6545,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `ExportMetadataModelAssessment` operation on the `DatabaseMigration` service.
     ///
-    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file. Required permissions: dms:ExportMetadataModelAssessment. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ExportMetadataModelAssessmentInput`)
     ///
@@ -6619,7 +6619,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `GetTargetSelectionRules` operation on the `DatabaseMigration` service.
     ///
-    /// Converts source selection rules into their target counterparts for schema conversion operations.
+    /// Converts source selection rules into their target counterparts for schema conversion operations. Required permissions: dms:GetTargetSelectionRules. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetTargetSelectionRulesInput`)
     ///
@@ -6847,7 +6847,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `ModifyConversionConfiguration` operation on the `DatabaseMigration` service.
     ///
-    /// Modifies the specified schema conversion configuration using the provided parameters.
+    /// Modifies the specified schema conversion configuration using the provided parameters. Required permissions: dms:UpdateConversionConfiguration. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyConversionConfigurationInput`)
     ///
@@ -6998,7 +6998,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `ModifyDataProvider` operation on the `DatabaseMigration` service.
     ///
-    /// Modifies the specified data provider using the provided settings. You must remove the data provider from all migration projects before you can modify it.
+    /// Modifies the specified data provider using the provided settings. Required permissions: dms:UpdateDataProvider. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html). You must remove the data provider from all migration projects before you can modify it.
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyDataProviderInput`)
     ///
@@ -7236,7 +7236,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `ModifyInstanceProfile` operation on the `DatabaseMigration` service.
     ///
-    /// Modifies the specified instance profile using the provided parameters. All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
+    /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html). All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyInstanceProfileInput`)
     ///
@@ -7316,7 +7316,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `ModifyMigrationProject` operation on the `DatabaseMigration` service.
     ///
-    /// Modifies the specified migration project using the provided parameters. The migration project must be closed before you can modify it.
+    /// Modifies the specified migration project using the provided parameters. Required permissions: dms:UpdateMigrationProject. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html). The migration project must be closed before you can modify it.
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyMigrationProjectInput`)
     ///
@@ -8318,7 +8318,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartExtensionPackAssociation` operation on the `DatabaseMigration` service.
     ///
-    /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the migration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see [Using extension packs in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/extension-pack.html). To check the status of the request, call [DescribeExtensionPackAssociations](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeExtensionPackAssociations.html) using the returned RequestIdentifier as a filter. Required permissions: dms:AssociateExtensionPack. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartExtensionPackAssociationInput`)
     ///
@@ -8399,7 +8399,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartMetadataModelAssessment` operation on the `DatabaseMigration` service.
     ///
-    /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
+    /// Queues an assessment of the selected source metadata models (database objects such as tables, views, and procedures) to evaluate conversion complexity to the target database format. If other requests created by Start* operations are already in the migration project's queue, the assessment begins after they complete. The assessment request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refresh the affected metadata models with [StartMetadataModelImport](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html) before calling this operation. To check the status of the assessment request, call [DescribeMetadataModelAssessments](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelAssessments.html) using the returned RequestIdentifier as a filter. To export the conversion assessment report after the request completes successfully, call [ExportMetadataModelAssessment](https://docs.aws.amazon.com/dms/latest/APIReference/API_ExportMetadataModelAssessment.html). Required permissions: dms:StartMetadataModelAssessment. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMetadataModelAssessmentInput`)
     ///
@@ -8480,7 +8480,23 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartMetadataModelConversion` operation on the `DatabaseMigration` service.
     ///
-    /// Converts your source database objects to a format compatible with the target database.
+    /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they complete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refresh the affected metadata models with [StartMetadataModelImport](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html) before calling this operation. If converted objects already exist in the target metadata tree, the conversion overwrites them, including any manual edits. To check the status of the conversion request, call [DescribeMetadataModelConversions](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelConversions.html) using the returned RequestIdentifier as a filter. To cancel a queued or in-progress request, call [CancelMetadataModelConversion](https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelConversion.html) with the returned RequestIdentifier. After the conversion completes successfully:
+    ///
+    /// * To export a post-conversion assessment report, call [ExportMetadataModelAssessment](https://docs.aws.amazon.com/dms/latest/APIReference/API_ExportMetadataModelAssessment.html).
+    ///
+    /// * To retrieve converted code, use any of the following options:
+    ///
+    /// * [DescribeMetadataModel](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModel.html) and [DescribeMetadataModelChildren](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelChildren.html) – navigate the target metadata tree and retrieve converted definitions.
+    ///
+    /// * [StartMetadataModelExportAsScript](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportAsScript.html) – export as data definition language (DDL) scripts to your Amazon S3 bucket.
+    ///
+    /// * [StartMetadataModelExportToTarget](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelExportToTarget.html) – apply directly to your target database.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// Required permissions: dms:StartMetadataModelConversion. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMetadataModelConversionInput`)
     ///
@@ -8561,7 +8577,14 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartMetadataModelCreation` operation on the `DatabaseMigration` service.
     ///
-    /// Creates source metadata model of the given type with the specified properties for schema conversion operations. This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migration project's queue, the creation begins after they complete. This operation supports only Microsoft SQL Server to Aurora PostgreSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths. To check the status of the creation request, call [DescribeMetadataModelCreations](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelCreations.html) using the returned RequestIdentifier as a filter. To cancel a queued or in-progress request, call [CancelMetadataModelCreation](https://docs.aws.amazon.com/dms/latest/APIReference/API_CancelMetadataModelCreation.html) with the returned RequestIdentifier. Calling [StartMetadataModelImport](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelImport.html) with Refresh deletes metadata models created by this operation. After the creation completes successfully:
+    ///
+    /// * To evaluate conversion complexity, call [StartMetadataModelAssessment](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelAssessment.html).
+    ///
+    /// * To convert to the target database format, call [StartMetadataModelConversion](https://docs.aws.amazon.com/dms/latest/APIReference/API_StartMetadataModelConversion.html).
+    ///
+    ///
+    /// Required permissions: dms:StartMetadataModelCreation. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMetadataModelCreationInput`)
     ///
@@ -8638,7 +8661,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartMetadataModelExportAsScript` operation on the `DatabaseMigration` service.
     ///
-    /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
+    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models imported from the database are skipped. To check the status of the export request, call [DescribeMetadataModelExportsAsScript](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelExportsAsScript.html) using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelExportAsScripts. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMetadataModelExportAsScriptInput`)
     ///
@@ -8719,7 +8742,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartMetadataModelExportToTarget` operation on the `DatabaseMigration` service.
     ///
-    /// Applies converted database objects to your target database.
+    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped. If objects with the same name already exist on the target database, the export overwrites them. The operation installs the extension pack on the target database. For more information, see [Using extension packs in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/extension-pack.html). To check the status of the export request, call [DescribeMetadataModelExportsToTarget](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelExportsToTarget.html) using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelExportToTarget. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMetadataModelExportToTargetInput`)
     ///
@@ -8800,7 +8823,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `StartMetadataModelImport` operation on the `DatabaseMigration` service.
     ///
-    /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
+    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the migration project's queue, the import begins after they complete. To check the status of the import request, call [DescribeMetadataModelImports](https://docs.aws.amazon.com/dms/latest/APIReference/API_DescribeMetadataModelImports.html) using the returned RequestIdentifier as a filter. Required permissions: dms:StartMetadataModelImport. For more information, see [Actions, resources, and condition keys for Database Migration Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsdatabasemigrationservice.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMetadataModelImportInput`)
     ///

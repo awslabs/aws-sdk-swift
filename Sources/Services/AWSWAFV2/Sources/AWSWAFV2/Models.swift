@@ -865,25 +865,94 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    public enum PreParseTextTransformationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case combineDuplicateQueryArgsByComma
+        case `none`
+        case replaceSemicolonsWithAmpersands
+        case urlDecode
+        case urlDecodeUni
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreParseTextTransformationType] {
+            return [
+                .combineDuplicateQueryArgsByComma,
+                .none,
+                .replaceSemicolonsWithAmpersands,
+                .urlDecode,
+                .urlDecodeUni
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .combineDuplicateQueryArgsByComma: return "COMBINE_DUPLICATE_QUERY_ARGS_BY_COMMA"
+            case .none: return "NONE"
+            case .replaceSemicolonsWithAmpersands: return "REPLACE_SEMICOLONS_WITH_AMPERSANDS"
+            case .urlDecode: return "URL_DECODE"
+            case .urlDecodeUni: return "URL_DECODE_UNI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A pre-parse text transformation that normalizes the raw query string before WAF parses it into individual query arguments. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments.
+    public struct PreParseTextTransformation: Swift.Sendable {
+        /// Sets the relative processing order for the pre-parse text transformations that you define. WAF processes all transformations, from lowest priority value to highest, before inspecting the transformed content.
+        /// This member is required.
+        public var priority: Swift.Int
+        /// The type of pre-parse text transformation to apply to the raw query string.
+        /// This member is required.
+        public var type: WAFV2ClientTypes.PreParseTextTransformationType?
+
+        public init(
+            priority: Swift.Int = 0,
+            type: WAFV2ClientTypes.PreParseTextTransformationType? = nil
+        ) {
+            self.priority = priority
+            self.type = type
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum TextTransformationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case base64Decode
         case base64DecodeExt
         case cmdLine
+        case cmdLineUnix
+        case cmdLineWin
         case compressWhiteSpace
         case cssDecode
         case escapeSeqDecode
         case hexDecode
         case htmlEntityDecode
         case jsDecode
+        case jsDecodeExt
         case lowercase
         case md5
         case `none`
         case normalizePath
         case normalizePathWin
+        case removeCommentsChar
         case removeNulls
+        case removeWhitespace
         case replaceComments
         case replaceNulls
+        case sha256
         case sqlHexDecode
+        case trim
+        case trimLeft
+        case trimRight
+        case uppercase
         case urlDecode
         case urlDecodeUni
         case utf8ToUnicode
@@ -894,21 +963,31 @@ extension WAFV2ClientTypes {
                 .base64Decode,
                 .base64DecodeExt,
                 .cmdLine,
+                .cmdLineUnix,
+                .cmdLineWin,
                 .compressWhiteSpace,
                 .cssDecode,
                 .escapeSeqDecode,
                 .hexDecode,
                 .htmlEntityDecode,
                 .jsDecode,
+                .jsDecodeExt,
                 .lowercase,
                 .md5,
                 .none,
                 .normalizePath,
                 .normalizePathWin,
+                .removeCommentsChar,
                 .removeNulls,
+                .removeWhitespace,
                 .replaceComments,
                 .replaceNulls,
+                .sha256,
                 .sqlHexDecode,
+                .trim,
+                .trimLeft,
+                .trimRight,
+                .uppercase,
                 .urlDecode,
                 .urlDecodeUni,
                 .utf8ToUnicode
@@ -925,21 +1004,31 @@ extension WAFV2ClientTypes {
             case .base64Decode: return "BASE64_DECODE"
             case .base64DecodeExt: return "BASE64_DECODE_EXT"
             case .cmdLine: return "CMD_LINE"
+            case .cmdLineUnix: return "CMD_LINE_UNIX"
+            case .cmdLineWin: return "CMD_LINE_WIN"
             case .compressWhiteSpace: return "COMPRESS_WHITE_SPACE"
             case .cssDecode: return "CSS_DECODE"
             case .escapeSeqDecode: return "ESCAPE_SEQ_DECODE"
             case .hexDecode: return "HEX_DECODE"
             case .htmlEntityDecode: return "HTML_ENTITY_DECODE"
             case .jsDecode: return "JS_DECODE"
+            case .jsDecodeExt: return "JS_DECODE_EXT"
             case .lowercase: return "LOWERCASE"
             case .md5: return "MD5"
             case .none: return "NONE"
             case .normalizePath: return "NORMALIZE_PATH"
             case .normalizePathWin: return "NORMALIZE_PATH_WIN"
+            case .removeCommentsChar: return "REMOVE_COMMENTS_CHAR"
             case .removeNulls: return "REMOVE_NULLS"
+            case .removeWhitespace: return "REMOVE_WHITESPACE"
             case .replaceComments: return "REPLACE_COMMENTS"
             case .replaceNulls: return "REPLACE_NULLS"
+            case .sha256: return "SHA256"
             case .sqlHexDecode: return "SQL_HEX_DECODE"
+            case .trim: return "TRIM"
+            case .trimLeft: return "TRIM_LEFT"
+            case .trimRight: return "TRIM_RIGHT"
+            case .uppercase: return "UPPERCASE"
             case .urlDecode: return "URL_DECODE"
             case .urlDecodeUni: return "URL_DECODE_UNI"
             case .utf8ToUnicode: return "UTF8_TO_UNICODE"
@@ -987,6 +1076,8 @@ extension WAFV2ClientTypes {
         /// EXACTLY The value of the specified part of the web request must exactly match the value of SearchString. STARTS_WITH The value of SearchString must appear at the beginning of the specified part of the web request. ENDS_WITH The value of SearchString must appear at the end of the specified part of the web request.
         /// This member is required.
         public var positionalConstraint: WAFV2ClientTypes.PositionalConstraint?
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public var preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]?
         /// A string value that you want WAF to search for. WAF searches only in the part of web requests that you designate for inspection in [FieldToMatch]. The maximum length of the value is 200 bytes. Valid values depend on the component that you specify for inspection in FieldToMatch:
         ///
         /// * Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.
@@ -1008,11 +1099,13 @@ extension WAFV2ClientTypes {
         public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             positionalConstraint: WAFV2ClientTypes.PositionalConstraint? = nil,
+            preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]? = nil,
             searchString: Foundation.Data? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         ) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
+            self.preParseTextTransformations = preParseTextTransformations
             self.searchString = searchString
             self.textTransformations = textTransformations
         }
@@ -2303,7 +2396,7 @@ extension WAFV2ClientTypes {
 
     /// A single regular expression. This is used in a [RegexPatternSet] and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet.
     public struct Regex: Swift.Sendable {
-        /// The string representing the regular expression.
+        /// The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var regexString: Swift.String?
 
         public init(
@@ -3120,7 +3213,9 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
-        /// The string representing the regular expression.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public var preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]?
+        /// The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         /// This member is required.
         public var regexString: Swift.String?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
@@ -3129,10 +3224,12 @@ extension WAFV2ClientTypes {
 
         public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
+            preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]? = nil,
             regexString: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         ) {
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.regexString = regexString
             self.textTransformations = textTransformations
         }
@@ -3149,6 +3246,8 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public var preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
@@ -3156,10 +3255,12 @@ extension WAFV2ClientTypes {
         public init(
             arn: Swift.String? = nil,
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
+            preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         ) {
             self.arn = arn
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.textTransformations = textTransformations
         }
     }
@@ -3240,6 +3341,8 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public var preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]?
         /// The size, in byte, to compare to the request part, after any transformations.
         /// This member is required.
         public var size: Swift.Int
@@ -3250,11 +3353,13 @@ extension WAFV2ClientTypes {
         public init(
             comparisonOperator: WAFV2ClientTypes.ComparisonOperator? = nil,
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
+            preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]? = nil,
             size: Swift.Int = 0,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         ) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.size = size
             self.textTransformations = textTransformations
         }
@@ -3297,6 +3402,8 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public var preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]?
         /// The sensitivity that you want WAF to use to inspect for SQL injection attacks. HIGH detects more attacks, but might generate more false positives, especially if your web requests frequently contain unusual strings. For information about identifying and mitigating false positives, see [Testing and tuning](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html) in the WAF Developer Guide. LOW is generally a better choice for resources that already have other protections against SQL injection attacks or that have a low tolerance for false positives. Default: LOW
         public var sensitivityLevel: WAFV2ClientTypes.SensitivityLevel?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
@@ -3305,10 +3412,12 @@ extension WAFV2ClientTypes {
 
         public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
+            preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]? = nil,
             sensitivityLevel: WAFV2ClientTypes.SensitivityLevel? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         ) {
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.sensitivityLevel = sensitivityLevel
             self.textTransformations = textTransformations
         }
@@ -3322,15 +3431,19 @@ extension WAFV2ClientTypes {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public var preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
 
         public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
+            preParseTextTransformations: [WAFV2ClientTypes.PreParseTextTransformation]? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
         ) {
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.textTransformations = textTransformations
         }
     }
@@ -3584,6 +3697,7 @@ extension WAFV2ClientTypes {
         case payloadType
         case paymentNetwork
         case position
+        case preParseTextTransformation
         case priceAmount
         case rateBasedStatement
         case regexPatternReferenceStatement
@@ -3664,6 +3778,7 @@ extension WAFV2ClientTypes {
                 .payloadType,
                 .paymentNetwork,
                 .position,
+                .preParseTextTransformation,
                 .priceAmount,
                 .rateBasedStatement,
                 .regexPatternReferenceStatement,
@@ -3750,6 +3865,7 @@ extension WAFV2ClientTypes {
             case .payloadType: return "PAYLOAD_TYPE"
             case .paymentNetwork: return "PAYMENT_NETWORK"
             case .position: return "POSITION"
+            case .preParseTextTransformation: return "PRE_PARSE_TEXT_TRANSFORMATION"
             case .priceAmount: return "PRICE_AMOUNT"
             case .rateBasedStatement: return "RATE_BASED_STATEMENT"
             case .regexPatternReferenceStatement: return "REGEX_PATTERN_REFERENCE_STATEMENT"
@@ -9711,7 +9827,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
 
 extension WAFV2ClientTypes {
 
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
     public struct WebACL: Swift.Sendable {
         /// Returns a list of ApplicationAttributes.
         public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?

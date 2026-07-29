@@ -20,6 +20,9 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.mapWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -570,6 +573,89 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
+    /// The annotation format configuration for bulk import files.
+    public struct Annotation: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Current status of the application
+    public enum ApplicationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Summary of an application for list operations
+    public struct ApplicationSummary: Swift.Sendable {
+        /// ARN of the application
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Timestamp when the application was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Unique identifier of the application
+        /// This member is required.
+        public var id: Swift.String?
+        /// Name of the application
+        /// This member is required.
+        public var name: Swift.String?
+        /// Current status of the application
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.ApplicationStatus?
+        /// Name of the workspace this application belongs to
+        /// This member is required.
+        public var workspaceName: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: IoTSiteWiseClientTypes.ApplicationStatus? = nil,
+            workspaceName: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.status = status
+            self.workspaceName = workspaceName
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
     /// A filter used to match data bindings based on a specific asset. This filter identifies all computation models referencing a particular asset in their data bindings.
     public struct AssetBindingValueFilter: Swift.Sendable {
         /// The ID of the asset to filter data bindings by. Only data bindings referencing this specific asset are matched.
@@ -587,20 +673,26 @@ extension IoTSiteWiseClientTypes {
 extension IoTSiteWiseClientTypes {
 
     public enum PropertyDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case annotation
         case boolean
         case double
         case integer
+        case json
         case string
         case `struct`
+        case video
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PropertyDataType] {
             return [
+                .annotation,
                 .boolean,
                 .double,
                 .integer,
+                .json,
                 .string,
-                .struct
+                .struct,
+                .video
             ]
         }
 
@@ -611,11 +703,14 @@ extension IoTSiteWiseClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .annotation: return "ANNOTATION"
             case .boolean: return "BOOLEAN"
             case .double: return "DOUBLE"
             case .integer: return "INTEGER"
+            case .json: return "JSON"
             case .string: return "STRING"
             case .struct: return "STRUCT"
+            case .video: return "VIDEO"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1317,7 +1412,7 @@ extension IoTSiteWiseClientTypes {
 
     /// Contains information about an asset model property.
     public struct AssetModelProperty: Swift.Sendable {
-        /// The data type of the asset model property. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
+        /// The data type of the asset model property. The VIDEO, ANNOTATION, and JSON data types aren't supported for asset model properties. These types are used only by time series that store data for datasets in a workspace. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         /// This member is required.
         public var dataType: IoTSiteWiseClientTypes.PropertyDataType?
         /// The data type of the structure for this property. This parameter exists on properties that have the STRUCT data type.
@@ -1404,7 +1499,7 @@ extension IoTSiteWiseClientTypes {
 
     /// Contains an asset model property definition. This property definition is applied to all assets created from the asset model.
     public struct AssetModelPropertyDefinition: Swift.Sendable {
-        /// The data type of the property definition. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
+        /// The data type of the property definition. The VIDEO, ANNOTATION, and JSON data types aren't supported for asset model properties. These types are used only by time series that store data for datasets in a workspace. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         /// This member is required.
         public var dataType: IoTSiteWiseClientTypes.PropertyDataType?
         /// The data type of the structure for this property. This parameter is required on properties that have the STRUCT data type. The options for this parameter depend on the type of the composite model in which you define this property. Use AWS/ALARM_STATE for alarm state in alarm composite models.
@@ -2653,6 +2748,37 @@ extension IoTSiteWiseClientTypes {
     }
 }
 
+extension IoTSiteWiseClientTypes {
+
+    /// Contains information about a data segment entry to associate with a dataset.
+    public struct AssociateDataSegmentEntry: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment to associate.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the source dataset that contains the data segment.
+        /// This member is required.
+        public var sourceDatasetId: Swift.String?
+        /// The nanosecond-precision start time of the data segment to associate.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            sourceDatasetId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
 public struct AssociateTimeSeriesToAssetPropertyInput: Swift.Sendable {
     /// The alias that identifies the time series.
     /// This member is required.
@@ -2708,6 +2834,133 @@ extension IoTSiteWiseClientTypes {
     }
 }
 
+public struct BatchAssociateDataSegmentsToDatasetInput: Swift.Sendable {
+    /// The list of data segment entries to associate with the dataset.
+    /// This member is required.
+    public var associateDataSegmentEntries: [IoTSiteWiseClientTypes.AssociateDataSegmentEntry]?
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The ID of the curated dataset to associate data segments with.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The name of the workspace that contains the dataset.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        associateDataSegmentEntries: [IoTSiteWiseClientTypes.AssociateDataSegmentEntry]? = nil,
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.associateDataSegmentEntries = associateDataSegmentEntries
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    public enum DataSegmentErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case conflictingOperation
+        case internalFailure
+        case limitExceeded
+        case resourceNotFound
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSegmentErrorCode] {
+            return [
+                .conflictingOperation,
+                .internalFailure,
+                .limitExceeded,
+                .resourceNotFound,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conflictingOperation: return "CONFLICTING_OPERATION"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .limitExceeded: return "LIMIT_EXCEEDED"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains error information for a data segment association that failed.
+    public struct FailedDataSegmentAssociation: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The error code for the failed association.
+        /// This member is required.
+        public var errorCode: IoTSiteWiseClientTypes.DataSegmentErrorCode?
+        /// The error message for the failed association.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The ID of the source dataset.
+        /// This member is required.
+        public var sourceDatasetId: Swift.String?
+        /// The nanosecond-precision start time of the data segment.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            errorCode: IoTSiteWiseClientTypes.DataSegmentErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            sourceDatasetId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct BatchAssociateDataSegmentsToDatasetOutput: Swift.Sendable {
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version of the dataset after association.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// A list of data segment associations that failed.
+    /// This member is required.
+    public var failedAssociations: [IoTSiteWiseClientTypes.FailedDataSegmentAssociation]?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        failedAssociations: [IoTSiteWiseClientTypes.FailedDataSegmentAssociation]? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.failedAssociations = failedAssociations
+    }
+}
+
 public struct BatchAssociateProjectAssetsInput: Swift.Sendable {
     /// The IDs of the assets to be associated to the project.
     /// This member is required.
@@ -2737,6 +2990,236 @@ public struct BatchAssociateProjectAssetsOutput: Swift.Sendable {
         errors: [IoTSiteWiseClientTypes.AssetErrorDetails]? = nil
     ) {
         self.errors = errors
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains information about a data segment entry to delete.
+    public struct DeleteDataSegmentEntry: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment to delete.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The nanosecond-precision start time of the data segment to delete.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct BatchDeleteDatasetDataSegmentsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The ID of the session dataset from which to delete data segments.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The list of data segment entries to delete.
+    /// This member is required.
+    public var deleteDataSegmentEntries: [IoTSiteWiseClientTypes.DeleteDataSegmentEntry]?
+    /// The name of the workspace that contains the dataset.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        deleteDataSegmentEntries: [IoTSiteWiseClientTypes.DeleteDataSegmentEntry]? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.deleteDataSegmentEntries = deleteDataSegmentEntries
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains error information for a data segment deletion that failed.
+    public struct FailedDataSegmentDeletion: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The error code for the failed deletion.
+        /// This member is required.
+        public var errorCode: IoTSiteWiseClientTypes.DataSegmentErrorCode?
+        /// The error message for the failed deletion.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The nanosecond-precision start time of the data segment.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            errorCode: IoTSiteWiseClientTypes.DataSegmentErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct BatchDeleteDatasetDataSegmentsOutput: Swift.Sendable {
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version of the dataset after deletion.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// A list of data segment deletions that failed.
+    /// This member is required.
+    public var errors: [IoTSiteWiseClientTypes.FailedDataSegmentDeletion]?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        errors: [IoTSiteWiseClientTypes.FailedDataSegmentDeletion]? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.errors = errors
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains information about a data segment entry to disassociate from a dataset.
+    public struct DisassociateDataSegmentEntry: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment to disassociate.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the source dataset that contains the data segment.
+        /// This member is required.
+        public var sourceDatasetId: Swift.String?
+        /// The nanosecond-precision start time of the data segment to disassociate.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            sourceDatasetId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct BatchDisassociateDataSegmentsFromDatasetInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The ID of the curated dataset to disassociate data segments from.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The list of data segment entries to disassociate from the dataset.
+    /// This member is required.
+    public var disassociateDataSegmentEntries: [IoTSiteWiseClientTypes.DisassociateDataSegmentEntry]?
+    /// The name of the workspace that contains the dataset.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        disassociateDataSegmentEntries: [IoTSiteWiseClientTypes.DisassociateDataSegmentEntry]? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.disassociateDataSegmentEntries = disassociateDataSegmentEntries
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains error information for a data segment disassociation that failed.
+    public struct FailedDataSegmentDisassociation: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The error code for the failed disassociation.
+        /// This member is required.
+        public var errorCode: IoTSiteWiseClientTypes.DataSegmentErrorCode?
+        /// The error message for the failed disassociation.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The ID of the source dataset.
+        /// This member is required.
+        public var sourceDatasetId: Swift.String?
+        /// The nanosecond-precision start time of the data segment.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            errorCode: IoTSiteWiseClientTypes.DataSegmentErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            sourceDatasetId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct BatchDisassociateDataSegmentsFromDatasetOutput: Swift.Sendable {
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version of the dataset after disassociation.
+    /// This member is required.
+    public var datasetVersion: Swift.String?
+    /// A list of data segment disassociations that failed.
+    /// This member is required.
+    public var failedDisassociations: [IoTSiteWiseClientTypes.FailedDataSegmentDisassociation]?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        failedDisassociations: [IoTSiteWiseClientTypes.FailedDataSegmentDisassociation]? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.failedDisassociations = failedDisassociations
     }
 }
 
@@ -3668,6 +4151,256 @@ public struct BatchPutAssetPropertyValueOutput: Swift.Sendable {
     }
 }
 
+public struct CancelEnrichmentJobInput: Swift.Sendable {
+    /// The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the IoT SiteWise workspace containing the enrichment job to cancel.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Status of an enrichment job throughout its lifecycle. Status progression: PENDING → RUNNING → {COMPLETED, FAILED, TIMED_OUT, CANCELLED}
+    ///
+    /// * PENDING: Job has been accepted and is waiting to start processing
+    ///
+    /// * RUNNING: Job is actively processing video data to generate embeddings
+    ///
+    /// * COMPLETED: Job finished successfully; embeddings are available in IoT SiteWise
+    ///
+    /// * FAILED: Job encountered an error during processing
+    ///
+    /// * TIMED_OUT: Job exceeded the maximum processing time limit
+    ///
+    /// * CANCELLED: Job was cancelled via CancelEnrichmentJob
+    ///
+    ///
+    /// Terminal states (job will not change status): COMPLETED, FAILED, TIMED_OUT, CANCELLED
+    public enum EnrichmentJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case pending
+        case running
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnrichmentJobStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .pending,
+                .running,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CancelEnrichmentJobOutput: Swift.Sendable {
+    /// The unique identifier of the cancelled enrichment job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The status of the enrichment job after cancellation. This will be CANCELLED, indicating the job was successfully cancelled or was already in CANCELLED state (idempotent behavior).
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.EnrichmentJobStatus?
+
+    public init(
+        jobId: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.EnrichmentJobStatus? = nil
+    ) {
+        self.jobId = jobId
+        self.status = status
+    }
+}
+
+/// Request structure for CancelPipelineExecution operation.
+public struct CancelPipelineExecutionInput: Swift.Sendable {
+    /// The unique identifier of the pipeline execution.
+    /// This member is required.
+    public var pipelineExecutionId: Swift.String?
+    /// The name of the pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// A message describing why the pipeline execution is being cancelled.
+    public var reason: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        pipelineExecutionId: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        reason: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.pipelineExecutionId = pipelineExecutionId
+        self.pipelineName = pipelineName
+        self.reason = reason
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The state of a pipeline execution.
+    public enum PipelineExecutionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case failed
+        case notStarted
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineExecutionState] {
+            return [
+                .cancelled,
+                .cancelling,
+                .failed,
+                .notStarted,
+                .running,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .failed: return "FAILED"
+            case .notStarted: return "NOT_STARTED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Response structure for CancelPipelineExecution operation.
+public struct CancelPipelineExecutionOutput: Swift.Sendable {
+    /// The current execution state of the pipeline. Can only be CANCELLING or CANCELLED.
+    /// This member is required.
+    public var state: IoTSiteWiseClientTypes.PipelineExecutionState?
+
+    public init(
+        state: IoTSiteWiseClientTypes.PipelineExecutionState? = nil
+    ) {
+        self.state = state
+    }
+}
+
+public struct CancelQueryInput: Swift.Sendable {
+    /// The unique identifier for the query execution to cancel.
+    /// This member is required.
+    public var queryId: Swift.String?
+    /// The name of the workspace associated with the query.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        queryId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.queryId = queryId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The status of a query execution.
+    public enum QueryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case canceling
+        case completed
+        case failed
+        case running
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryStatus] {
+            return [
+                .canceled,
+                .canceling,
+                .completed,
+                .failed,
+                .running,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .canceling: return "CANCELING"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Contains the response for the CancelQuery operation.
+public struct CancelQueryOutput: Swift.Sendable {
+    /// The unique identifier for the cancelled query.
+    /// This member is required.
+    public var queryId: Swift.String?
+    /// The current query status.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.QueryStatus?
+
+    public init(
+        queryId: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.QueryStatus? = nil
+    ) {
+        self.queryId = queryId
+        self.status = status
+    }
+}
+
 public struct CreateAccessPolicyInput: Swift.Sendable {
     /// The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
     /// This member is required.
@@ -3712,6 +4445,72 @@ public struct CreateAccessPolicyOutput: Swift.Sendable {
     ) {
         self.accessPolicyArn = accessPolicyArn
         self.accessPolicyId = accessPolicyId
+    }
+}
+
+public struct CreateApplicationInput: Swift.Sendable {
+    /// Unique client token for idempotent request handling
+    public var clientToken: Swift.String?
+    /// Description of the application
+    public var description: Swift.String?
+    /// Identity Center Instance ARN to create the application in
+    /// This member is required.
+    public var idcInstanceArn: Swift.String?
+    /// Name of the application
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of key-value pairs that contain metadata for the application.
+    public var tags: [Swift.String: Swift.String]?
+    /// Name of the workspace to associate with the underlying Application
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        idcInstanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.idcInstanceArn = idcInstanceArn
+        self.name = name
+        self.tags = tags
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct CreateApplicationOutput: Swift.Sendable {
+    /// ARN of the application
+    /// This member is required.
+    public var arn: Swift.String?
+    /// DNS subdomain for the application
+    /// This member is required.
+    public var dnsSubdomain: Swift.String?
+    /// Unique identifier of the application
+    /// This member is required.
+    public var id: Swift.String?
+    /// Name of the application
+    /// This member is required.
+    public var name: Swift.String?
+    /// Current status of the application
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ApplicationStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        dnsSubdomain: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.ApplicationStatus? = nil
+    ) {
+        self.arn = arn
+        self.dnsSubdomain = dnsSubdomain
+        self.id = id
+        self.name = name
+        self.status = status
     }
 }
 
@@ -3951,6 +4750,8 @@ public struct CreateAssetModelCompositeModelOutput: Swift.Sendable {
     /// The path to the composite model listing the parent composite models.
     /// This member is required.
     public var assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]?
+    /// The ID of the asset model.
+    public var assetModelId: Swift.String?
     /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
@@ -3958,10 +4759,12 @@ public struct CreateAssetModelCompositeModelOutput: Swift.Sendable {
     public init(
         assetModelCompositeModelId: Swift.String? = nil,
         assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]? = nil,
+        assetModelId: Swift.String? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
     ) {
         self.assetModelCompositeModelId = assetModelCompositeModelId
         self.assetModelCompositeModelPath = assetModelCompositeModelPath
+        self.assetModelId = assetModelId
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -3983,31 +4786,6 @@ extension IoTSiteWiseClientTypes {
         ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
-        }
-    }
-}
-
-extension IoTSiteWiseClientTypes {
-
-    /// The file in Amazon S3 where your data is saved.
-    public struct File: Swift.Sendable {
-        /// The name of the Amazon S3 bucket from which data is imported.
-        /// This member is required.
-        public var bucket: Swift.String?
-        /// The key of the Amazon S3 object that contains your data. Each object has a key that is a unique identifier. Each object has exactly one key.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The version ID to identify a specific version of the Amazon S3 object that contains your data.
-        public var versionId: Swift.String?
-
-        public init(
-            bucket: Swift.String? = nil,
-            key: Swift.String? = nil,
-            versionId: Swift.String? = nil
-        ) {
-            self.bucket = bucket
-            self.key = key
-            self.versionId = versionId
         }
     }
 }
@@ -4077,6 +4855,15 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
+    /// The MP4 video format configuration for bulk import files.
+    public struct Mp4: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
     /// A parquet file.
     public struct Parquet: Swift.Sendable {
 
@@ -4088,17 +4875,62 @@ extension IoTSiteWiseClientTypes {
 
     /// The file format of the data in S3.
     public struct FileFormat: Swift.Sendable {
+        /// The annotation format configuration.
+        public var annotation: IoTSiteWiseClientTypes.Annotation?
         /// The file is in .CSV format.
         public var csv: IoTSiteWiseClientTypes.Csv?
+        /// The MP4 format configuration.
+        public var mp4: IoTSiteWiseClientTypes.Mp4?
         /// The file is in parquet format.
         public var parquet: IoTSiteWiseClientTypes.Parquet?
 
         public init(
+            annotation: IoTSiteWiseClientTypes.Annotation? = nil,
             csv: IoTSiteWiseClientTypes.Csv? = nil,
+            mp4: IoTSiteWiseClientTypes.Mp4? = nil,
             parquet: IoTSiteWiseClientTypes.Parquet? = nil
         ) {
+            self.annotation = annotation
             self.csv = csv
+            self.mp4 = mp4
             self.parquet = parquet
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The file in Amazon S3 where your data is saved.
+    public struct File: Swift.Sendable {
+        /// The alias associated with the file's time series.
+        public var alias: Swift.String?
+        /// The name of the Amazon S3 bucket from which data is imported.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The file format of the data in S3.
+        public var fileFormat: IoTSiteWiseClientTypes.FileFormat?
+        /// The key of the Amazon S3 object that contains your data. Each object has a key that is a unique identifier. Each object has exactly one key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The nanosecond-precision start time for the file data.
+        public var startTime: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The version ID to identify a specific version of the Amazon S3 object that contains your data.
+        public var versionId: Swift.String?
+
+        public init(
+            alias: Swift.String? = nil,
+            bucket: Swift.String? = nil,
+            fileFormat: IoTSiteWiseClientTypes.FileFormat? = nil,
+            key: Swift.String? = nil,
+            startTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.alias = alias
+            self.bucket = bucket
+            self.fileFormat = fileFormat
+            self.key = key
+            self.startTime = startTime
+            self.versionId = versionId
         }
     }
 }
@@ -4108,7 +4940,6 @@ extension IoTSiteWiseClientTypes {
     /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
     public struct JobConfiguration: Swift.Sendable {
         /// The file format of the data in S3.
-        /// This member is required.
         public var fileFormat: IoTSiteWiseClientTypes.FileFormat?
 
         public init(
@@ -4122,16 +4953,21 @@ extension IoTSiteWiseClientTypes {
 public struct CreateBulkImportJobInput: Swift.Sendable {
     /// If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are computed. If set to false, historical data is ingested into IoT SiteWise as is.
     public var adaptiveIngestion: Swift.Bool?
+    /// The ID of the session dataset to ingest data into. Specify this field, together with workspaceName, to ingest data into a session dataset in a workspace.
+    public var datasetId: Swift.String?
     /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
     public var deleteFilesAfterImport: Swift.Bool?
     /// The Amazon S3 destination where errors associated with the job creation request are saved.
     /// This member is required.
     public var errorReportLocation: IoTSiteWiseClientTypes.ErrorReportLocation?
-    /// The files in the specified Amazon S3 bucket that contain your data.
+    /// The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits:
+    ///
+    /// * Parquet files – Up to 256 MiB.
+    ///
+    /// * Other file formats – Up to 5 GiB.
     /// This member is required.
     public var files: [IoTSiteWiseClientTypes.File]?
     /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
-    /// This member is required.
     public var jobConfiguration: IoTSiteWiseClientTypes.JobConfiguration?
     /// The unique name that helps identify the job request.
     /// This member is required.
@@ -4139,23 +4975,29 @@ public struct CreateBulkImportJobInput: Swift.Sendable {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the IAM role that allows IoT SiteWise to read Amazon S3 data.
     /// This member is required.
     public var jobRoleArn: Swift.String?
+    /// The name of the workspace that contains the session dataset. Specify this field together with datasetId.
+    public var workspaceName: Swift.String?
 
     public init(
         adaptiveIngestion: Swift.Bool? = nil,
+        datasetId: Swift.String? = nil,
         deleteFilesAfterImport: Swift.Bool? = nil,
         errorReportLocation: IoTSiteWiseClientTypes.ErrorReportLocation? = nil,
         files: [IoTSiteWiseClientTypes.File]? = nil,
         jobConfiguration: IoTSiteWiseClientTypes.JobConfiguration? = nil,
         jobName: Swift.String? = nil,
-        jobRoleArn: Swift.String? = nil
+        jobRoleArn: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.adaptiveIngestion = adaptiveIngestion
+        self.datasetId = datasetId
         self.deleteFilesAfterImport = deleteFilesAfterImport
         self.errorReportLocation = errorReportLocation
         self.files = files
         self.jobConfiguration = jobConfiguration
         self.jobName = jobName
         self.jobRoleArn = jobRoleArn
+        self.workspaceName = workspaceName
     }
 }
 
@@ -4410,6 +5252,42 @@ public struct CreateDashboardOutput: Swift.Sendable {
 
 extension IoTSiteWiseClientTypes {
 
+    /// Contains the session configuration for a session-type dataset.
+    public struct SessionConfig: Swift.Sendable {
+        /// The nanosecond-precision end time of the session.
+        /// This member is required.
+        public var sessionEndTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The nanosecond-precision start time of the session.
+        /// This member is required.
+        public var sessionStartTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+
+        public init(
+            sessionEndTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            sessionStartTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil
+        ) {
+            self.sessionEndTimestamp = sessionEndTimestamp
+            self.sessionStartTimestamp = sessionStartTimestamp
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the configuration for a dataset.
+    public struct DatasetConfig: Swift.Sendable {
+        /// The session configuration for a session-type dataset.
+        public var session: IoTSiteWiseClientTypes.SessionConfig?
+
+        public init(
+            session: IoTSiteWiseClientTypes.SessionConfig? = nil
+        ) {
+            self.session = session
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
     /// The source details for the Kendra dataset source.
     public struct KendraSourceDetail: Swift.Sendable {
         /// The knowledgeBaseArn details for the Kendra dataset source.
@@ -4448,11 +5326,13 @@ extension IoTSiteWiseClientTypes {
 
     public enum DatasetSourceFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case knowledgeBase
+        case timeseries
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatasetSourceFormat] {
             return [
-                .knowledgeBase
+                .knowledgeBase,
+                .timeseries
             ]
         }
 
@@ -4464,6 +5344,7 @@ extension IoTSiteWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case .timeseries: return "TIMESERIES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4474,11 +5355,13 @@ extension IoTSiteWiseClientTypes {
 
     public enum DatasetSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case kendra
+        case sitewise
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatasetSourceType] {
             return [
-                .kendra
+                .kendra,
+                .sitewise
             ]
         }
 
@@ -4490,6 +5373,7 @@ extension IoTSiteWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .kendra: return "KENDRA"
+            case .sitewise: return "SITEWISE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4521,9 +5405,43 @@ extension IoTSiteWiseClientTypes {
     }
 }
 
+extension IoTSiteWiseClientTypes {
+
+    public enum DatasetTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case curated
+        case external
+        case session
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetTypeEnum] {
+            return [
+                .curated,
+                .external,
+                .session
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .curated: return "CURATED"
+            case .external: return "EXTERNAL"
+            case .session: return "SESSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDatasetInput: Swift.Sendable {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
+    /// The configuration for the dataset.
+    public var datasetConfig: IoTSiteWiseClientTypes.DatasetConfig?
     /// A description about the dataset, and its functionality.
     public var datasetDescription: Swift.String?
     /// The ID of the dataset.
@@ -4534,23 +5452,37 @@ public struct CreateDatasetInput: Swift.Sendable {
     /// The data source for the dataset.
     /// This member is required.
     public var datasetSource: IoTSiteWiseClientTypes.DatasetSource?
+    /// The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+    public var datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum?
+    /// The metadata for the dataset, provided as key-value pairs.
+    public var metadata: [Swift.String: Swift.String]?
     /// A list of key-value pairs that contain metadata for the access policy. For more information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html) in the IoT SiteWise User Guide.
     public var tags: [Swift.String: Swift.String]?
+    /// The name of the workspace that contains the dataset. Required for session and curated datasets. Omit this field for datasets that connect to an external datasource.
+    public var workspaceName: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
+        datasetConfig: IoTSiteWiseClientTypes.DatasetConfig? = nil,
         datasetDescription: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         datasetName: Swift.String? = nil,
         datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.clientToken = clientToken
+        self.datasetConfig = datasetConfig
         self.datasetDescription = datasetDescription
         self.datasetId = datasetId
         self.datasetName = datasetName
         self.datasetSource = datasetSource
+        self.datasetType = datasetType
+        self.metadata = metadata
         self.tags = tags
+        self.workspaceName = workspaceName
     }
 }
 
@@ -4631,6 +5563,341 @@ public struct CreateDatasetOutput: Swift.Sendable {
         self.datasetArn = datasetArn
         self.datasetId = datasetId
         self.datasetStatus = datasetStatus
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the location where error reports will be written on failure.
+    public struct ExportErrorReportLocation: Swift.Sendable {
+        /// The S3 URI prefix for the error report.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Data types that can be exported from a dataset.
+    public enum ExportDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case annotation
+        case telemetry
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportDataType] {
+            return [
+                .annotation,
+                .telemetry,
+                .video
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .annotation: return "ANNOTATION"
+            case .telemetry: return "TELEMETRY"
+            case .video: return "VIDEO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains settings for trimming content to a specific time range.
+    public struct TrimSettings: Swift.Sendable {
+        /// The end time for the trim range. Must be greater than startTime.
+        /// This member is required.
+        public var endTime: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The start time for the trim range.
+        /// This member is required.
+        public var startTime: IoTSiteWiseClientTypes.TimeInNanos?
+
+        public init(
+            endTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            startTime: IoTSiteWiseClientTypes.TimeInNanos? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// A dataset to process.
+    public struct DatasetItem: Swift.Sendable {
+        /// The unique identifier for the dataset.
+        /// This member is required.
+        public var datasetId: Swift.String?
+        /// The optional subset of data types to export. If omitted, all data types are exported.
+        public var exportDataTypes: [IoTSiteWiseClientTypes.ExportDataType]?
+        /// The trim settings applied to all items in the dataset. When omitted, the full dataset time range is used.
+        public var trimSettings: IoTSiteWiseClientTypes.TrimSettings?
+
+        public init(
+            datasetId: Swift.String? = nil,
+            exportDataTypes: [IoTSiteWiseClientTypes.ExportDataType]? = nil,
+            trimSettings: IoTSiteWiseClientTypes.TrimSettings? = nil
+        ) {
+            self.datasetId = datasetId
+            self.exportDataTypes = exportDataTypes
+            self.trimSettings = trimSettings
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the output format configuration for video processing.
+    public struct FormatSettings: Swift.Sendable {
+        /// The target frame rate for the output.
+        public var framesPerSecond: Swift.Int?
+        /// The target height of the output, in pixels.
+        public var heightInPixels: Swift.Int?
+        /// The target width of the output, in pixels.
+        public var widthInPixels: Swift.Int?
+
+        public init(
+            framesPerSecond: Swift.Int? = nil,
+            heightInPixels: Swift.Int? = nil,
+            widthInPixels: Swift.Int? = nil
+        ) {
+            self.framesPerSecond = framesPerSecond
+            self.heightInPixels = heightInPixels
+            self.widthInPixels = widthInPixels
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// A single timeseries item to process. Exactly one of timeSeriesId or propertyAlias must be provided.
+    public struct TimeseriesItem: Swift.Sendable {
+        /// The optional format settings for the output.
+        public var formatSettings: IoTSiteWiseClientTypes.FormatSettings?
+        /// The customer-friendly alias for the timeseries. Mutually exclusive with timeSeriesId.
+        public var propertyAlias: Swift.String?
+        /// The unique identifier for the timeseries. Mutually exclusive with propertyAlias.
+        public var timeSeriesId: Swift.String?
+        /// The trim settings for the time range to export. Required for VIDEO and TELEMETRY data types; optional for ANNOTATION data types.
+        public var trimSettings: IoTSiteWiseClientTypes.TrimSettings?
+
+        public init(
+            formatSettings: IoTSiteWiseClientTypes.FormatSettings? = nil,
+            propertyAlias: Swift.String? = nil,
+            timeSeriesId: Swift.String? = nil,
+            trimSettings: IoTSiteWiseClientTypes.TrimSettings? = nil
+        ) {
+            self.formatSettings = formatSettings
+            self.propertyAlias = propertyAlias
+            self.timeSeriesId = timeSeriesId
+            self.trimSettings = trimSettings
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Input source for processing. Specify exactly one option.
+    public enum ProcessingInput: Swift.Sendable {
+        /// List of individual timeseries items to process.
+        case timeseries([IoTSiteWiseClientTypes.TimeseriesItem])
+        /// A dataset containing multiple items to process.
+        case dataset(IoTSiteWiseClientTypes.DatasetItem)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Request to create a dataset export job.
+public struct CreateDatasetExportJobInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The AWS SDKs and CLI populate this automatically.
+    public var clientToken: Swift.String?
+    /// The S3 URI where output clips will be written.
+    /// This member is required.
+    public var destinationS3Uri: Swift.String?
+    /// The location where the error report will be written on failure.
+    /// This member is required.
+    public var errorReportLocation: IoTSiteWiseClientTypes.ExportErrorReportLocation?
+    /// The processing input source.
+    /// This member is required.
+    public var input: IoTSiteWiseClientTypes.ProcessingInput?
+    /// The name of the workspace in which to create the dataset export job.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        destinationS3Uri: Swift.String? = nil,
+        errorReportLocation: IoTSiteWiseClientTypes.ExportErrorReportLocation? = nil,
+        input: IoTSiteWiseClientTypes.ProcessingInput? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.destinationS3Uri = destinationS3Uri
+        self.errorReportLocation = errorReportLocation
+        self.input = input
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response for create dataset export job request.
+public struct CreateDatasetExportJobOutput: Swift.Sendable {
+    /// The unique identifier for the dataset export job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the workspace in which the dataset export job was created.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Time range settings for extracting a specific window of video time-series data to process. Trim settings define the time bounds for enrichment and must satisfy:
+    ///
+    /// * Start and end times must be within the dataset's time bounds
+    ///
+    /// * Trim settings retrieve fully contained data segments within the specified time range
+    ///
+    /// * endTime must be greater than startTime
+    ///
+    /// * Both times should represent valid data ranges in the dataset
+    ///
+    ///
+    /// Trim settings are required to:
+    ///
+    /// * Prevent accidentally analyzing unbounded datasets
+    ///
+    /// * Ensure predictable processing time and costs
+    ///
+    /// * Allow focused analysis on specific time periods of interest
+    public struct EnrichmentTrimSettings: Swift.Sendable {
+        /// End time for the video analysis time range in nanoseconds since Unix epoch (TimeInNanos format). Data segments at or before this time are included in the enrichment. Must be greater than startTime and within the dataset's time bounds.
+        /// This member is required.
+        public var endTime: IoTSiteWiseClientTypes.TimeInNanos?
+        /// Start time for the video analysis time range in nanoseconds since Unix epoch (TimeInNanos format). Data segments at or after this time are included in the enrichment. Must be within the dataset's time bounds. Example (JavaScript): Date.parse('2024-01-01T00:00:00Z') * 1000000 Example (Python): int(datetime.timestamp() * 1e9)
+        /// This member is required.
+        public var startTime: IoTSiteWiseClientTypes.TimeInNanos?
+
+        public init(
+            endTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            startTime: IoTSiteWiseClientTypes.TimeInNanos? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Configuration for event detection enrichment on video time-series data. Event detection generates embeddings from video data enabling natural language similarity search on events. This allows customers to:
+    ///
+    /// * Query video events using semantic search after enrichment completes
+    ///
+    /// * Find relevant video segments through natural language queries
+    ///
+    /// * Search across video time-series data stored in IoT SiteWise
+    ///
+    ///
+    /// You must specify the dataset, exactly one time-series identifier (timeSeriesId OR propertyAlias), and trim settings defining the video time window to process.
+    public struct EventDetection: Swift.Sendable {
+        /// The IoT SiteWise dataset ID containing the video time-series data to analyze. Query IoT SiteWise to discover available datasets in your workspace.
+        /// This member is required.
+        public var datasetId: Swift.String?
+        /// Human-readable alias for the video time series to analyze (e.g., /camera/warehouse/zone-a). Specify either propertyAlias or timeSeriesId, but not both. Use this when you have configured friendly aliases in IoT SiteWise for better readability.
+        public var propertyAlias: Swift.String?
+        /// Unique system identifier for the video time series to analyze. Specify either timeSeriesId or propertyAlias, but not both. Use this when you have the system-generated time series identifier from IoT SiteWise.
+        public var timeSeriesId: Swift.String?
+        /// Time range settings defining which portion of the video time-series data to process. Required to ensure predictable processing time and prevent analyzing unbounded datasets. Start and end times must be within the dataset's time bounds.
+        /// This member is required.
+        public var trimSettings: IoTSiteWiseClientTypes.EnrichmentTrimSettings?
+
+        public init(
+            datasetId: Swift.String? = nil,
+            propertyAlias: Swift.String? = nil,
+            timeSeriesId: Swift.String? = nil,
+            trimSettings: IoTSiteWiseClientTypes.EnrichmentTrimSettings? = nil
+        ) {
+            self.datasetId = datasetId
+            self.propertyAlias = propertyAlias
+            self.timeSeriesId = timeSeriesId
+            self.trimSettings = trimSettings
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Configuration for the enrichment job defining which analysis type to perform on video time-series data. Currently supports event detection enrichment. Exactly one member must be specified.
+    public enum EnrichmentJobConfiguration: Swift.Sendable {
+        /// Event detection configuration that generates embeddings from video time-series data enabling natural language similarity search on events. The service processes video data and creates embeddings stored in IoT SiteWise for semantic querying.
+        case eventdetection(IoTSiteWiseClientTypes.EventDetection)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateEnrichmentJobInput: Swift.Sendable {
+    /// Optional unique token that makes the operation idempotent. If you submit the same request with the same token within the idempotency window, the service returns the original job without creating a duplicate. Use a UUID or timestamp-based token for each unique request.
+    public var clientToken: Swift.String?
+    /// Configuration defining the type of enrichment analysis to perform and which video data to analyze. Currently supports eventDetection for generating embeddings from video data for semantic search.
+    /// This member is required.
+    public var jobConfiguration: IoTSiteWiseClientTypes.EnrichmentJobConfiguration?
+    /// The name of the IoT SiteWise workspace containing the video data to analyze.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        jobConfiguration: IoTSiteWiseClientTypes.EnrichmentJobConfiguration? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.jobConfiguration = jobConfiguration
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct CreateEnrichmentJobOutput: Swift.Sendable {
+    /// Timestamp when the enrichment job was created in ISO 8601 format.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Unique identifier for the enrichment job. Use this ID with DescribeEnrichmentJob to monitor progress or with CancelEnrichmentJob to cancel the job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// Initial status of the enrichment job, typically PENDING. The job will transition to RUNNING when processing begins, then to a terminal state (COMPLETED, FAILED, TIMED_OUT, or CANCELLED). Use DescribeEnrichmentJob to track status changes.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.EnrichmentJobStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        jobId: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.EnrichmentJobStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.jobId = jobId
+        self.status = status
     }
 }
 
@@ -4780,6 +6047,219 @@ public struct CreateGatewayOutput: Swift.Sendable {
     ) {
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// A single compute node in a pipeline DAG. Each compute node references a task and can declare dependencies on other nodes.
+    public struct ComputeNode: Swift.Sendable {
+        /// The unique name for this compute node within the pipeline.
+        /// This member is required.
+        public var computeNodeName: Swift.String?
+        /// A list of compute node names that must complete successfully before this node can start.
+        public var dependsOn: [Swift.String]?
+        /// Environment variables specific to this compute node. These override pipeline-level environment variables with the same key.
+        public var environmentVariables: [Swift.String: Swift.String]?
+        /// The name of the task to execute for this compute node.
+        /// This member is required.
+        public var taskName: Swift.String?
+
+        public init(
+            computeNodeName: Swift.String? = nil,
+            dependsOn: [Swift.String]? = nil,
+            environmentVariables: [Swift.String: Swift.String]? = nil,
+            taskName: Swift.String? = nil
+        ) {
+            self.computeNodeName = computeNodeName
+            self.dependsOn = dependsOn
+            self.environmentVariables = environmentVariables
+            self.taskName = taskName
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputeNode: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ComputeNode(computeNodeName: \(Swift.String(describing: computeNodeName)), dependsOn: \(Swift.String(describing: dependsOn)), taskName: \(Swift.String(describing: taskName)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+/// Request structure for CreatePipeline operation.
+public struct CreatePipelineInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without performing the operation again.
+    public var clientToken: Swift.String?
+    /// The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes.
+    /// This member is required.
+    public var computations: [IoTSiteWiseClientTypes.ComputeNode]?
+    /// A description of the pipeline.
+    public var description: Swift.String?
+    /// Environment variables shared across all compute nodes in the pipeline. Individual compute nodes can override these values with their own environment variables.
+    public var environmentVariables: [Swift.String: Swift.String]?
+    /// The name of the pipeline to create. Must be unique within the workspace.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// A list of key-value pairs that contain metadata for the pipeline. For more information, see [Tagging your AWS IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html) in the AWS IoT SiteWise User Guide.
+    public var tags: [Swift.String: Swift.String]?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        computations: [IoTSiteWiseClientTypes.ComputeNode]? = nil,
+        description: Swift.String? = nil,
+        environmentVariables: [Swift.String: Swift.String]? = nil,
+        pipelineName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.computations = computations
+        self.description = description
+        self.environmentVariables = environmentVariables
+        self.pipelineName = pipelineName
+        self.tags = tags
+        self.workspaceName = workspaceName
+    }
+}
+
+extension CreatePipelineInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePipelineInput(clientToken: \(Swift.String(describing: clientToken)), computations: \(Swift.String(describing: computations)), description: \(Swift.String(describing: description)), pipelineName: \(Swift.String(describing: pipelineName)), tags: \(Swift.String(describing: tags)), workspaceName: \(Swift.String(describing: workspaceName)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The error code.
+    public enum ResourceErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalFailure
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceErrorCode] {
+            return [
+                .internalFailure,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the details of a resource error.
+    public struct ResourceError: Swift.Sendable {
+        /// The error code.
+        public var code: IoTSiteWiseClientTypes.ResourceErrorCode?
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            code: IoTSiteWiseClientTypes.ResourceErrorCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The lifecycle state of a resource.
+    public enum ResourceState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains information about the current status of a resource.
+    public struct ResourceStatus: Swift.Sendable {
+        /// Contains associated error information, if any.
+        public var error: IoTSiteWiseClientTypes.ResourceError?
+        /// The current status of the resource.
+        public var state: IoTSiteWiseClientTypes.ResourceState?
+
+        public init(
+            error: IoTSiteWiseClientTypes.ResourceError? = nil,
+            state: IoTSiteWiseClientTypes.ResourceState? = nil
+        ) {
+            self.error = error
+            self.state = state
+        }
+    }
+}
+
+/// Response structure for CreatePipeline operation.
+public struct CreatePipelineOutput: Swift.Sendable {
+    /// The ARN of the created pipeline.
+    /// This member is required.
+    public var pipelineArn: Swift.String?
+    /// The name of the created pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The current lifecycle status of the pipeline.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+    /// The version of the newly created pipeline.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        pipelineArn: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.pipelineArn = pipelineArn
+        self.pipelineName = pipelineName
+        self.status = status
+        self.version = version
     }
 }
 
@@ -5134,6 +6614,403 @@ public struct CreateProjectOutput: Swift.Sendable {
     }
 }
 
+extension IoTSiteWiseClientTypes {
+
+    /// The processing type for compute resources. Determines whether the task runs on standard CPU or GPU-accelerated hardware.
+    public enum ProcessingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case genericComputeProcessing
+        case hardwareAcceleratedProcessing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProcessingType] {
+            return [
+                .genericComputeProcessing,
+                .hardwareAcceleratedProcessing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .genericComputeProcessing: return "GENERIC_COMPUTE_PROCESSING"
+            case .hardwareAcceleratedProcessing: return "HARDWARE_ACCELERATED_PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The processing unit allocation that determines the vCPU, memory, and GPU resources assigned to a task. Available units depend on the processing type.
+    public enum ProcessingUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case units12
+        case units16
+        case units2
+        case units24
+        case units32
+        case units36
+        case units4
+        case units48
+        case units60
+        case units64
+        case units72
+        case units8
+        case units84
+        case units96
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProcessingUnit] {
+            return [
+                .units12,
+                .units16,
+                .units2,
+                .units24,
+                .units32,
+                .units36,
+                .units4,
+                .units48,
+                .units60,
+                .units64,
+                .units72,
+                .units8,
+                .units84,
+                .units96
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .units12: return "UNITS_12"
+            case .units16: return "UNITS_16"
+            case .units2: return "UNITS_2"
+            case .units24: return "UNITS_24"
+            case .units32: return "UNITS_32"
+            case .units36: return "UNITS_36"
+            case .units4: return "UNITS_4"
+            case .units48: return "UNITS_48"
+            case .units60: return "UNITS_60"
+            case .units64: return "UNITS_64"
+            case .units72: return "UNITS_72"
+            case .units8: return "UNITS_8"
+            case .units84: return "UNITS_84"
+            case .units96: return "UNITS_96"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Configuration for a container task, including the container image, IAM role, and compute settings.
+    public struct ContainerTaskConfiguration: Swift.Sendable {
+        /// The command to execute in the container.
+        public var command: [Swift.String]?
+        /// The Amazon ECR image URI for the task container.
+        /// This member is required.
+        public var ecrUri: Swift.String?
+        /// Environment variables passed to the container at runtime.
+        public var environmentVariables: [Swift.String: Swift.String]?
+        /// The processing type for compute resources.
+        /// This member is required.
+        public var processingType: IoTSiteWiseClientTypes.ProcessingType?
+        /// The processing unit allocation that determines the vCPU, memory, and GPU resources.
+        /// This member is required.
+        public var processingUnit: IoTSiteWiseClientTypes.ProcessingUnit?
+        /// The ARN of the IAM role that grants the containerized workload permissions to access AWS resources.
+        /// This member is required.
+        public var taskExecutionRole: Swift.String?
+        /// The timeout in seconds for task execution. Default: 3600 (1 hour).
+        public var timeoutSeconds: Swift.Int?
+
+        public init(
+            command: [Swift.String]? = nil,
+            ecrUri: Swift.String? = nil,
+            environmentVariables: [Swift.String: Swift.String]? = nil,
+            processingType: IoTSiteWiseClientTypes.ProcessingType? = nil,
+            processingUnit: IoTSiteWiseClientTypes.ProcessingUnit? = nil,
+            taskExecutionRole: Swift.String? = nil,
+            timeoutSeconds: Swift.Int? = nil
+        ) {
+            self.command = command
+            self.ecrUri = ecrUri
+            self.environmentVariables = environmentVariables
+            self.processingType = processingType
+            self.processingUnit = processingUnit
+            self.taskExecutionRole = taskExecutionRole
+            self.timeoutSeconds = timeoutSeconds
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.ContainerTaskConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContainerTaskConfiguration(processingType: \(Swift.String(describing: processingType)), processingUnit: \(Swift.String(describing: processingUnit)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), command: \"CONTENT_REDACTED\", ecrUri: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\", taskExecutionRole: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The task execution configuration. Specify a [containerTaskConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html) for a custom container workload.
+    public enum TaskConfiguration: Swift.Sendable {
+        /// Configuration for running a custom container image on managed compute.
+        case containertaskconfiguration(IoTSiteWiseClientTypes.ContainerTaskConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Request structure for CreateTask operation.
+public struct CreateTaskInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without performing the operation again.
+    public var clientToken: Swift.String?
+    /// A description of the task.
+    public var description: Swift.String?
+    /// A list of key-value pairs that contain metadata for the task. For more information, see [Tagging your AWS IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html) in the AWS IoT SiteWise User Guide.
+    public var tags: [Swift.String: Swift.String]?
+    /// The task execution configuration. Specify a [containerTaskConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html) for custom container workloads.
+    /// This member is required.
+    public var taskConfiguration: IoTSiteWiseClientTypes.TaskConfiguration?
+    /// The name of the task to create. Must be unique within the workspace.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        taskConfiguration: IoTSiteWiseClientTypes.TaskConfiguration? = nil,
+        taskName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.tags = tags
+        self.taskConfiguration = taskConfiguration
+        self.taskName = taskName
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response structure for CreateTask operation.
+public struct CreateTaskOutput: Swift.Sendable {
+    /// The current lifecycle status of the task.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+    /// The ARN of the created task.
+    /// This member is required.
+    public var taskArn: Swift.String?
+    /// The name of the created task.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The version of the newly created task.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+        taskArn: Swift.String? = nil,
+        taskName: Swift.String? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.status = status
+        self.taskArn = taskArn
+        self.taskName = taskName
+        self.version = version
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsBasedEncryption
+        case sitewiseDefaultEncryption
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .kmsBasedEncryption,
+                .sitewiseDefaultEncryption
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsBasedEncryption: return "KMS_BASED_ENCRYPTION"
+            case .sitewiseDefaultEncryption: return "SITEWISE_DEFAULT_ENCRYPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the encryption configuration for a workspace.
+    public struct WorkspaceEncryptionConfiguration: Swift.Sendable {
+        /// The encryption scheme for the workspace. SITEWISE_DEFAULT_ENCRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId.
+        /// This member is required.
+        public var encryptionType: IoTSiteWiseClientTypes.EncryptionType?
+        /// The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION. Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION; must be omitted for SITEWISE_DEFAULT_ENCRYPTION. After a workspace's customer managed key configuration becomes active, the key can't be changed.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            encryptionType: IoTSiteWiseClientTypes.EncryptionType? = nil,
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+public struct CreateWorkspaceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The encryption configuration for the workspace.
+    /// This member is required.
+    public var encryptionConfiguration: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration?
+    /// A list of key-value pairs that contain metadata for the workspace. For more information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html) in the IoT SiteWise User Guide.
+    public var tags: [Swift.String: Swift.String]?
+    /// A description for the workspace.
+    public var workspaceDescription: Swift.String?
+    /// The name of the workspace to create.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        encryptionConfiguration: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workspaceDescription: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.encryptionConfiguration = encryptionConfiguration
+        self.tags = tags
+        self.workspaceDescription = workspaceDescription
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the details of an error associated with a workspace.
+    public struct WorkspaceErrorDetails: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: IoTSiteWiseClientTypes.ErrorCode?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: IoTSiteWiseClientTypes.ErrorCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The current state of a workspace. The state changes as the workspace is created, updated, or deleted.
+    public enum WorkspaceState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains information about the current status of a workspace.
+    public struct WorkspaceStatus: Swift.Sendable {
+        /// Contains associated error information, if any.
+        public var error: IoTSiteWiseClientTypes.WorkspaceErrorDetails?
+        /// The current state of the workspace.
+        /// This member is required.
+        public var state: IoTSiteWiseClientTypes.WorkspaceState?
+
+        public init(
+            error: IoTSiteWiseClientTypes.WorkspaceErrorDetails? = nil,
+            state: IoTSiteWiseClientTypes.WorkspaceState? = nil
+        ) {
+            self.error = error
+            self.state = state
+        }
+    }
+}
+
+public struct CreateWorkspaceOutput: Swift.Sendable {
+    /// The ARN of the workspace.
+    /// This member is required.
+    public var workspaceArn: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+    /// The status of the workspace, which is CREATING when the operation returns.
+    /// This member is required.
+    public var workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus?
+
+    public init(
+        workspaceArn: Swift.String? = nil,
+        workspaceName: Swift.String? = nil,
+        workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus? = nil
+    ) {
+        self.workspaceArn = workspaceArn
+        self.workspaceName = workspaceName
+        self.workspaceStatus = workspaceStatus
+    }
+}
+
 public struct DeleteAccessPolicyInput: Swift.Sendable {
     /// The ID of the access policy to be deleted.
     /// This member is required.
@@ -5155,6 +7032,28 @@ public struct DeleteAccessPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteApplicationInput: Swift.Sendable {
+    /// ID of the Application to delete
+    /// This member is required.
+    public var id: Swift.String?
+    /// Name of the workspace to associate with the underlying Application
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.id = id
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct DeleteApplicationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteAssetInput: Swift.Sendable {
     /// The ID of the asset to delete. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     /// This member is required.
@@ -5172,13 +7071,17 @@ public struct DeleteAssetInput: Swift.Sendable {
 }
 
 public struct DeleteAssetOutput: Swift.Sendable {
+    /// The ID of the asset.
+    public var assetId: Swift.String?
     /// The status of the asset, which contains a state (DELETING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetStatus: IoTSiteWiseClientTypes.AssetStatus?
 
     public init(
+        assetId: Swift.String? = nil,
         assetStatus: IoTSiteWiseClientTypes.AssetStatus? = nil
     ) {
+        self.assetId = assetId
         self.assetStatus = assetStatus
     }
 }
@@ -5212,13 +7115,17 @@ public struct DeleteAssetModelInput: Swift.Sendable {
 }
 
 public struct DeleteAssetModelOutput: Swift.Sendable {
+    /// The ID of the asset model.
+    public var assetModelId: Swift.String?
     /// The status of the asset model, which contains a state (DELETING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 
     public init(
+        assetModelId: Swift.String? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
     ) {
+        self.assetModelId = assetModelId
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -5257,13 +7164,17 @@ public struct DeleteAssetModelCompositeModelInput: Swift.Sendable {
 }
 
 public struct DeleteAssetModelCompositeModelOutput: Swift.Sendable {
+    /// The ID of the asset model.
+    public var assetModelId: Swift.String?
     /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 
     public init(
+        assetModelId: Swift.String? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
     ) {
+        self.assetModelId = assetModelId
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -5371,13 +7282,17 @@ public struct DeleteDatasetInput: Swift.Sendable {
     /// The ID of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
+    /// The name of the workspace that contains the dataset.
+    public var workspaceName: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
-        datasetId: Swift.String? = nil
+        datasetId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.datasetId = datasetId
+        self.workspaceName = workspaceName
     }
 }
 
@@ -5402,6 +7317,37 @@ public struct DeleteGatewayInput: Swift.Sendable {
         gatewayId: Swift.String? = nil
     ) {
         self.gatewayId = gatewayId
+    }
+}
+
+/// Request structure for DeletePipeline operation.
+public struct DeletePipelineInput: Swift.Sendable {
+    /// The name of the pipeline to delete.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        pipelineName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.pipelineName = pipelineName
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response structure for DeletePipeline operation.
+public struct DeletePipelineOutput: Swift.Sendable {
+    /// The current lifecycle status of the pipeline.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+
+    public init(
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -5454,6 +7400,37 @@ public struct DeleteProjectOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Request structure for DeleteTask operation.
+public struct DeleteTaskInput: Swift.Sendable {
+    /// The name of the task to delete.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        taskName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.taskName = taskName
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response structure for DeleteTask operation.
+public struct DeleteTaskOutput: Swift.Sendable {
+    /// The current lifecycle status of the task.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+
+    public init(
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct DeleteTimeSeriesInput: Swift.Sendable {
     /// The alias that identifies the time series.
     public var alias: Swift.String?
@@ -5463,17 +7440,49 @@ public struct DeleteTimeSeriesInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     public var propertyId: Swift.String?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         alias: Swift.String? = nil,
         assetId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        propertyId: Swift.String? = nil
+        propertyId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.alias = alias
         self.assetId = assetId
         self.clientToken = clientToken
         self.propertyId = propertyId
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct DeleteWorkspaceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The name of the workspace to delete.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct DeleteWorkspaceOutput: Swift.Sendable {
+    /// The status of the workspace after the deletion request, which is DELETING when the operation returns.
+    /// This member is required.
+    public var workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus?
+
+    public init(
+        workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus? = nil
+    ) {
+        self.workspaceStatus = workspaceStatus
     }
 }
 
@@ -5576,6 +7585,79 @@ public struct DescribeActionOutput: Swift.Sendable {
         self.executionTime = executionTime
         self.resolveTo = resolveTo
         self.targetResource = targetResource
+    }
+}
+
+public struct DescribeApplicationInput: Swift.Sendable {
+    /// ID of the Application
+    /// This member is required.
+    public var id: Swift.String?
+    /// Name of the workspace to associate with the underlying Application
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.id = id
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct DescribeApplicationOutput: Swift.Sendable {
+    /// ARN of the application
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Timestamp when the application was created
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Description of the application
+    public var description: Swift.String?
+    /// DNS subdomain for the application
+    /// This member is required.
+    public var dnsSubdomain: Swift.String?
+    /// Unique identifier of the application
+    /// This member is required.
+    public var id: Swift.String?
+    /// Identity Center Application ARN associated with this application
+    /// This member is required.
+    public var idcApplicationArn: Swift.String?
+    /// Name of the application
+    /// This member is required.
+    public var name: Swift.String?
+    /// Current status of the application
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ApplicationStatus?
+    /// Timestamp when the application was last updated
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// Name of the workspace this application belongs to
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        dnsSubdomain: Swift.String? = nil,
+        id: Swift.String? = nil,
+        idcApplicationArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.ApplicationStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.dnsSubdomain = dnsSubdomain
+        self.id = id
+        self.idcApplicationArn = idcApplicationArn
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+        self.workspaceName = workspaceName
     }
 }
 
@@ -6190,27 +8272,36 @@ public struct DescribeBulkImportJobInput: Swift.Sendable {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
-        jobId: Swift.String? = nil
+        jobId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.jobId = jobId
+        self.workspaceName = workspaceName
     }
 }
 
 public struct DescribeBulkImportJobOutput: Swift.Sendable {
     /// If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are computed. If set to false, historical data is ingested into IoT SiteWise as is.
     public var adaptiveIngestion: Swift.Bool?
+    /// The ID of the dataset.
+    public var datasetId: Swift.String?
     /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
     public var deleteFilesAfterImport: Swift.Bool?
     /// The Amazon S3 destination where errors associated with the job creation request are saved.
     /// This member is required.
     public var errorReportLocation: IoTSiteWiseClientTypes.ErrorReportLocation?
-    /// The files in the specified Amazon S3 bucket that contain your data.
+    /// The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits:
+    ///
+    /// * Parquet files – Up to 256 MiB.
+    ///
+    /// * Other file formats – Up to 5 GiB.
     /// This member is required.
     public var files: [IoTSiteWiseClientTypes.File]?
     /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
-    /// This member is required.
     public var jobConfiguration: IoTSiteWiseClientTypes.JobConfiguration?
     /// The date the job was created, in Unix epoch TIME.
     /// This member is required.
@@ -6242,9 +8333,12 @@ public struct DescribeBulkImportJobOutput: Swift.Sendable {
     /// * COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
     /// This member is required.
     public var jobStatus: IoTSiteWiseClientTypes.JobStatus?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         adaptiveIngestion: Swift.Bool? = nil,
+        datasetId: Swift.String? = nil,
         deleteFilesAfterImport: Swift.Bool? = nil,
         errorReportLocation: IoTSiteWiseClientTypes.ErrorReportLocation? = nil,
         files: [IoTSiteWiseClientTypes.File]? = nil,
@@ -6254,9 +8348,11 @@ public struct DescribeBulkImportJobOutput: Swift.Sendable {
         jobLastUpdateDate: Foundation.Date? = nil,
         jobName: Swift.String? = nil,
         jobRoleArn: Swift.String? = nil,
-        jobStatus: IoTSiteWiseClientTypes.JobStatus? = nil
+        jobStatus: IoTSiteWiseClientTypes.JobStatus? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.adaptiveIngestion = adaptiveIngestion
+        self.datasetId = datasetId
         self.deleteFilesAfterImport = deleteFilesAfterImport
         self.errorReportLocation = errorReportLocation
         self.files = files
@@ -6267,6 +8363,7 @@ public struct DescribeBulkImportJobOutput: Swift.Sendable {
         self.jobName = jobName
         self.jobRoleArn = jobRoleArn
         self.jobStatus = jobStatus
+        self.workspaceName = workspaceName
     }
 }
 
@@ -6415,11 +8512,86 @@ public struct DescribeDatasetInput: Swift.Sendable {
     /// The ID of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
+    /// The version of the dataset.
+    public var datasetVersion: Swift.String?
+    /// The name of the workspace that contains the dataset.
+    public var workspaceName: Swift.String?
 
     public init(
-        datasetId: Swift.String? = nil
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    public enum DatasetEnrichmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullyEnriched
+        case notEnriched
+        case partiallyEnriched
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetEnrichmentStatus] {
+            return [
+                .fullyEnriched,
+                .notEnriched,
+                .partiallyEnriched
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullyEnriched: return "FULLY_ENRICHED"
+            case .notEnriched: return "NOT_ENRICHED"
+            case .partiallyEnriched: return "PARTIALLY_ENRICHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains enrichment status information for a specific data type in a dataset.
+    public struct DatasetEnrichmentEntry: Swift.Sendable {
+        /// The date the data was last enriched, in Unix epoch time.
+        public var lastEnrichedAt: Foundation.Date?
+        /// The enrichment status of the data type in the dataset.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.DatasetEnrichmentStatus?
+
+        public init(
+            lastEnrichedAt: Foundation.Date? = nil,
+            status: IoTSiteWiseClientTypes.DatasetEnrichmentStatus? = nil
+        ) {
+            self.lastEnrichedAt = lastEnrichedAt
+            self.status = status
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the enrichment status information for a dataset across data types.
+    public struct DatasetEnrichment: Swift.Sendable {
+        /// The enrichment status for video data in the dataset.
+        public var video: IoTSiteWiseClientTypes.DatasetEnrichmentEntry?
+
+        public init(
+            video: IoTSiteWiseClientTypes.DatasetEnrichmentEntry? = nil
+        ) {
+            self.video = video
+        }
     }
 }
 
@@ -6427,6 +8599,8 @@ public struct DescribeDatasetOutput: Swift.Sendable {
     /// The [ARN](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) of the dataset. The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
     /// This member is required.
     public var datasetArn: Swift.String?
+    /// The configuration for the dataset.
+    public var datasetConfig: IoTSiteWiseClientTypes.DatasetConfig?
     /// The dataset creation date, in Unix epoch time.
     /// This member is required.
     public var datasetCreationDate: Foundation.Date?
@@ -6448,11 +8622,20 @@ public struct DescribeDatasetOutput: Swift.Sendable {
     /// The status of the dataset. This contains the state and any error messages. State is CREATING after a successfull call to this API, and any associated error message. The state is ACTIVE when ready to use.
     /// This member is required.
     public var datasetStatus: IoTSiteWiseClientTypes.DatasetStatus?
+    /// The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+    public var datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum?
     /// The version of the dataset.
     public var datasetVersion: Swift.String?
+    /// The enrichment status of the dataset.
+    public var enrichmentStatus: IoTSiteWiseClientTypes.DatasetEnrichment?
+    /// The metadata for the dataset.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the workspace that contains the dataset.
+    public var workspaceName: Swift.String?
 
     public init(
         datasetArn: Swift.String? = nil,
+        datasetConfig: IoTSiteWiseClientTypes.DatasetConfig? = nil,
         datasetCreationDate: Foundation.Date? = nil,
         datasetDescription: Swift.String? = nil,
         datasetId: Swift.String? = nil,
@@ -6460,9 +8643,14 @@ public struct DescribeDatasetOutput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil,
         datasetStatus: IoTSiteWiseClientTypes.DatasetStatus? = nil,
-        datasetVersion: Swift.String? = nil
+        datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum? = nil,
+        datasetVersion: Swift.String? = nil,
+        enrichmentStatus: IoTSiteWiseClientTypes.DatasetEnrichment? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.datasetArn = datasetArn
+        self.datasetConfig = datasetConfig
         self.datasetCreationDate = datasetCreationDate
         self.datasetDescription = datasetDescription
         self.datasetId = datasetId
@@ -6470,7 +8658,115 @@ public struct DescribeDatasetOutput: Swift.Sendable {
         self.datasetName = datasetName
         self.datasetSource = datasetSource
         self.datasetStatus = datasetStatus
+        self.datasetType = datasetType
         self.datasetVersion = datasetVersion
+        self.enrichmentStatus = enrichmentStatus
+        self.metadata = metadata
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Request to describe a dataset export job.
+public struct DescribeDatasetExportJobInput: Swift.Sendable {
+    /// The unique identifier for the dataset export job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the workspace that contains the dataset export job.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The status of a dataset export job.
+    public enum DatasetExportJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithErrors
+        case failed
+        case running
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetExportJobStatus] {
+            return [
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .running,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Response for describe dataset export job request.
+public struct DescribeDatasetExportJobOutput: Swift.Sendable {
+    /// The timestamp when the job completed, or null if the job is still running.
+    public var completedAt: Foundation.Date?
+    /// The S3 URI where output clips are written.
+    /// This member is required.
+    public var destinationS3Uri: Swift.String?
+    /// The location where the error report will be written on failure.
+    /// This member is required.
+    public var errorReportLocation: IoTSiteWiseClientTypes.ExportErrorReportLocation?
+    /// The processing input that was provided in the CreateDatasetExportJob request.
+    /// This member is required.
+    public var input: IoTSiteWiseClientTypes.ProcessingInput?
+    /// The unique identifier for the dataset export job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The timestamp when the job started processing.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current status of the dataset export job.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.DatasetExportJobStatus?
+    /// The name of the workspace that contains the dataset export job.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        destinationS3Uri: Swift.String? = nil,
+        errorReportLocation: IoTSiteWiseClientTypes.ExportErrorReportLocation? = nil,
+        input: IoTSiteWiseClientTypes.ProcessingInput? = nil,
+        jobId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: IoTSiteWiseClientTypes.DatasetExportJobStatus? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.completedAt = completedAt
+        self.destinationS3Uri = destinationS3Uri
+        self.errorReportLocation = errorReportLocation
+        self.input = input
+        self.jobId = jobId
+        self.startedAt = startedAt
+        self.status = status
+        self.workspaceName = workspaceName
     }
 }
 
@@ -6552,35 +8848,6 @@ extension IoTSiteWiseClientTypes {
     }
 }
 
-extension IoTSiteWiseClientTypes {
-
-    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case kmsBasedEncryption
-        case sitewiseDefaultEncryption
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EncryptionType] {
-            return [
-                .kmsBasedEncryption,
-                .sitewiseDefaultEncryption
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .kmsBasedEncryption: return "KMS_BASED_ENCRYPTION"
-            case .sitewiseDefaultEncryption: return "SITEWISE_DEFAULT_ENCRYPTION"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct DescribeDefaultEncryptionConfigurationOutput: Swift.Sendable {
     /// The status of the account configuration. This contains the ConfigurationState. If there's an error, it also contains the ErrorDetails.
     /// This member is required.
@@ -6599,6 +8866,115 @@ public struct DescribeDefaultEncryptionConfigurationOutput: Swift.Sendable {
         self.configurationStatus = configurationStatus
         self.encryptionType = encryptionType
         self.kmsKeyArn = kmsKeyArn
+    }
+}
+
+public struct DescribeEnrichmentJobInput: Swift.Sendable {
+    /// The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The name of the IoT SiteWise workspace containing the enrichment job.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The type of enrichment job, derived from the job configuration union member
+    public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventDetection
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobType] {
+            return [
+                .eventDetection
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventDetection: return "EVENT_DETECTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeEnrichmentJobOutput: Swift.Sendable {
+    /// Timestamp when the job was cancelled in ISO 8601 format. Only present if status is CANCELLED.
+    public var cancelledAt: Foundation.Date?
+    /// Timestamp when the job completed successfully in ISO 8601 format. Only present if status is COMPLETED.
+    public var completedAt: Foundation.Date?
+    /// Timestamp when the enrichment job was created in ISO 8601 format.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Human-readable error message explaining why the job failed. Only present if status is FAILED. Use this information to diagnose configuration issues, permission problems, or data processing errors.
+    public var failureMessage: Swift.String?
+    /// The complete job configuration as originally submitted, including the analysis type and parameters. For event detection jobs, this includes the dataset ID, time series identifier, and trim settings defining the analysis time range.
+    /// This member is required.
+    public var jobConfiguration: IoTSiteWiseClientTypes.EnrichmentJobConfiguration?
+    /// The unique identifier of the enrichment job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The type of enrichment job, derived from the job configuration. Currently EVENT_DETECTION is the only supported type.
+    /// This member is required.
+    public var jobType: IoTSiteWiseClientTypes.JobType?
+    /// Current status of the enrichment job. Possible values:
+    ///
+    /// * PENDING: Job is waiting to start processing
+    ///
+    /// * RUNNING: Job is actively processing video data
+    ///
+    /// * COMPLETED: Job finished successfully; embeddings available in IoT SiteWise
+    ///
+    /// * FAILED: Job encountered an error; see failureMessage for details
+    ///
+    /// * TIMED_OUT: Job exceeded maximum processing time limit
+    ///
+    /// * CANCELLED: Job was cancelled by user request
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.EnrichmentJobStatus?
+    /// Timestamp when the job status was last updated in ISO 8601 format. Useful for tracking recent activity.
+    public var updatedAt: Foundation.Date?
+    /// The name of the IoT SiteWise workspace containing the job.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        cancelledAt: Foundation.Date? = nil,
+        completedAt: Foundation.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        failureMessage: Swift.String? = nil,
+        jobConfiguration: IoTSiteWiseClientTypes.EnrichmentJobConfiguration? = nil,
+        jobId: Swift.String? = nil,
+        jobType: IoTSiteWiseClientTypes.JobType? = nil,
+        status: IoTSiteWiseClientTypes.EnrichmentJobStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.cancelledAt = cancelledAt
+        self.completedAt = completedAt
+        self.createdAt = createdAt
+        self.failureMessage = failureMessage
+        self.jobConfiguration = jobConfiguration
+        self.jobId = jobId
+        self.jobType = jobType
+        self.status = status
+        self.updatedAt = updatedAt
+        self.workspaceName = workspaceName
     }
 }
 
@@ -6903,8 +9279,14 @@ public struct DescribeGatewayCapabilityConfigurationOutput: Swift.Sendable {
 }
 
 public struct DescribeLoggingOptionsInput: Swift.Sendable {
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
-    public init() { }
+    public init(
+        workspaceName: Swift.String? = nil
+    ) {
+        self.workspaceName = workspaceName
+    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -6965,6 +9347,524 @@ public struct DescribeLoggingOptionsOutput: Swift.Sendable {
     ) {
         self.loggingOptions = loggingOptions
     }
+}
+
+/// Request structure for DescribePipeline operation.
+public struct DescribePipelineInput: Swift.Sendable {
+    /// The name of the pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The version number of the pipeline to retrieve. If not specified, returns the latest version.
+    public var pipelineVersion: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        pipelineName: Swift.String? = nil,
+        pipelineVersion: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.pipelineName = pipelineName
+        self.pipelineVersion = pipelineVersion
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response structure for DescribePipeline operation.
+public struct DescribePipelineOutput: Swift.Sendable {
+    /// The list of compute nodes that form the pipeline DAG.
+    /// This member is required.
+    public var computations: [IoTSiteWiseClientTypes.ComputeNode]?
+    /// The time the pipeline was created, in Unix epoch time.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the pipeline.
+    public var description: Swift.String?
+    /// The environment variables shared across all compute nodes in the pipeline.
+    public var environmentVariables: [Swift.String: Swift.String]?
+    /// The ARN of the pipeline.
+    /// This member is required.
+    public var pipelineArn: Swift.String?
+    /// A unique name of the pipeline within the workspace.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The current lifecycle status of the pipeline.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+    /// The time the pipeline was last updated, in Unix epoch time.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The version of the pipeline.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        computations: [IoTSiteWiseClientTypes.ComputeNode]? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        environmentVariables: [Swift.String: Swift.String]? = nil,
+        pipelineArn: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.computations = computations
+        self.createdAt = createdAt
+        self.description = description
+        self.environmentVariables = environmentVariables
+        self.pipelineArn = pipelineArn
+        self.pipelineName = pipelineName
+        self.status = status
+        self.updatedAt = updatedAt
+        self.version = version
+        self.workspaceName = workspaceName
+    }
+}
+
+extension DescribePipelineOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribePipelineOutput(computations: \(Swift.String(describing: computations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), pipelineArn: \(Swift.String(describing: pipelineArn)), pipelineName: \(Swift.String(describing: pipelineName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), workspaceName: \(Swift.String(describing: workspaceName)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+/// Request structure for DescribePipelineExecution operation.
+public struct DescribePipelineExecutionInput: Swift.Sendable {
+    /// The maximum number of compute nodes to return per request. This is an upper bound; the actual number of results may be less. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the pipeline execution.
+    /// This member is required.
+    public var pipelineExecutionId: Swift.String?
+    /// The name of the pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pipelineExecutionId: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pipelineExecutionId = pipelineExecutionId
+        self.pipelineName = pipelineName
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The state of an individual compute node execution.
+    public enum ComputeNodeExecutionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case notStarted
+        case queued
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeNodeExecutionState] {
+            return [
+                .failed,
+                .notStarted,
+                .queued,
+                .running,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .notStarted: return "NOT_STARTED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Classification of a compute node execution failure.
+    public enum ComputeNodeErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case executionError
+        case internalFailure
+        case timedOut
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeNodeErrorCode] {
+            return [
+                .executionError,
+                .internalFailure,
+                .timedOut,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .executionError: return "EXECUTION_ERROR"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .timedOut: return "TIMED_OUT"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The error code for a detailed pipeline error entry.
+    public enum DetailedPipelineErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case executionError
+        case internalFailure
+        case timedOut
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetailedPipelineErrorCode] {
+            return [
+                .executionError,
+                .internalFailure,
+                .timedOut,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .executionError: return "EXECUTION_ERROR"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .timedOut: return "TIMED_OUT"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains a detailed error entry for granular troubleshooting of pipeline failures.
+    public struct DetailedPipelineError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: IoTSiteWiseClientTypes.DetailedPipelineErrorCode?
+        /// The associated error message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: IoTSiteWiseClientTypes.DetailedPipelineErrorCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Additional information about a compute node that has failed.
+    public struct ComputeNodeExecutionStateDetails: Swift.Sendable {
+        /// Classification of the failure.
+        /// This member is required.
+        public var code: IoTSiteWiseClientTypes.ComputeNodeErrorCode?
+        /// Detailed error entries to help diagnose the failure.
+        public var details: [IoTSiteWiseClientTypes.DetailedPipelineError]?
+        /// Human-readable description of why the compute node failed.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: IoTSiteWiseClientTypes.ComputeNodeErrorCode? = nil,
+            details: [IoTSiteWiseClientTypes.DetailedPipelineError]? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.details = details
+            self.message = message
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Current execution status of a compute node within a pipeline execution.
+    public struct ComputeNodeExecutionStatus: Swift.Sendable {
+        /// Current state of the compute node execution.
+        /// This member is required.
+        public var state: IoTSiteWiseClientTypes.ComputeNodeExecutionState?
+        /// Additional information about the compute node's failure. Populated when the compute node has failed.
+        public var stateDetails: IoTSiteWiseClientTypes.ComputeNodeExecutionStateDetails?
+
+        public init(
+            state: IoTSiteWiseClientTypes.ComputeNodeExecutionState? = nil,
+            stateDetails: IoTSiteWiseClientTypes.ComputeNodeExecutionStateDetails? = nil
+        ) {
+            self.state = state
+            self.stateDetails = stateDetails
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains detailed execution information for a compute node within a pipeline execution.
+    public struct ComputeNodeExecutionDetails: Swift.Sendable {
+        /// The name of the compute node.
+        /// This member is required.
+        public var computeNodeName: Swift.String?
+        /// A list of compute node names that this node depends on.
+        /// This member is required.
+        public var dependsOn: [Swift.String]?
+        /// The time the compute node execution completed, in Unix epoch time.
+        public var endTime: Foundation.Date?
+        /// The fully resolved environment variables used for this compute node execution.
+        public var executionEnvironmentVariables: [Swift.String: Swift.String]?
+        /// The time the compute node execution started, in Unix epoch time.
+        public var startTime: Foundation.Date?
+        /// The current execution status of the compute node.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.ComputeNodeExecutionStatus?
+        /// The ARN of the task.
+        /// This member is required.
+        public var taskArn: Swift.String?
+        /// The name of the task executed for this compute node.
+        /// This member is required.
+        public var taskName: Swift.String?
+        /// The task version that executed for this compute node.
+        /// This member is required.
+        public var taskVersion: Swift.String?
+
+        public init(
+            computeNodeName: Swift.String? = nil,
+            dependsOn: [Swift.String]? = nil,
+            endTime: Foundation.Date? = nil,
+            executionEnvironmentVariables: [Swift.String: Swift.String]? = nil,
+            startTime: Foundation.Date? = nil,
+            status: IoTSiteWiseClientTypes.ComputeNodeExecutionStatus? = nil,
+            taskArn: Swift.String? = nil,
+            taskName: Swift.String? = nil,
+            taskVersion: Swift.String? = nil
+        ) {
+            self.computeNodeName = computeNodeName
+            self.dependsOn = dependsOn
+            self.endTime = endTime
+            self.executionEnvironmentVariables = executionEnvironmentVariables
+            self.startTime = startTime
+            self.status = status
+            self.taskArn = taskArn
+            self.taskName = taskName
+            self.taskVersion = taskVersion
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputeNodeExecutionDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ComputeNodeExecutionDetails(computeNodeName: \(Swift.String(describing: computeNodeName)), dependsOn: \(Swift.String(describing: dependsOn)), endTime: \(Swift.String(describing: endTime)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), taskArn: \(Swift.String(describing: taskArn)), taskName: \(Swift.String(describing: taskName)), taskVersion: \(Swift.String(describing: taskVersion)), executionEnvironmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Environment variables provided as input for a pipeline execution.
+    public struct ExecutionEnvironmentVariables: Swift.Sendable {
+        /// Per-compute-node environment variable overrides. Each entry maps a compute node name to its environment variable overrides.
+        public var computeNodes: [Swift.String: [Swift.String: Swift.String]]?
+        /// Global environment variables that apply to all compute nodes in the pipeline execution.
+        public var global: [Swift.String: Swift.String]?
+
+        public init(
+            computeNodes: [Swift.String: [Swift.String: Swift.String]]? = nil,
+            global: [Swift.String: Swift.String]? = nil
+        ) {
+            self.computeNodes = computeNodes
+            self.global = global
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.ExecutionEnvironmentVariables: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Classification of a pipeline execution failure.
+    public enum PipelineErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case executionError
+        case internalFailure
+        case timedOut
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineErrorCode] {
+            return [
+                .executionError,
+                .internalFailure,
+                .timedOut,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .executionError: return "EXECUTION_ERROR"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .timedOut: return "TIMED_OUT"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Additional information about the current execution status. Populated when the execution has terminated.
+    public struct PipelineExecutionStateDetails: Swift.Sendable {
+        /// Classification of the failure. Present when the execution failed.
+        public var code: IoTSiteWiseClientTypes.PipelineErrorCode?
+        /// Per-step error entries to help diagnose a failed execution. Present when the execution failed.
+        public var details: [IoTSiteWiseClientTypes.DetailedPipelineError]?
+        /// Human-readable description of the outcome. For a failed execution, this describes why it failed; for a cancelled execution, this is the reason you supplied when calling CancelPipelineExecution.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: IoTSiteWiseClientTypes.PipelineErrorCode? = nil,
+            details: [IoTSiteWiseClientTypes.DetailedPipelineError]? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.details = details
+            self.message = message
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Current execution status of a pipeline.
+    public struct PipelineExecutionStatus: Swift.Sendable {
+        /// Current state of the pipeline execution.
+        /// This member is required.
+        public var state: IoTSiteWiseClientTypes.PipelineExecutionState?
+        /// Additional information about the execution outcome. Populated when the execution has terminated (failed or cancelled).
+        public var stateDetails: IoTSiteWiseClientTypes.PipelineExecutionStateDetails?
+
+        public init(
+            state: IoTSiteWiseClientTypes.PipelineExecutionState? = nil,
+            stateDetails: IoTSiteWiseClientTypes.PipelineExecutionStateDetails? = nil
+        ) {
+            self.state = state
+            self.stateDetails = stateDetails
+        }
+    }
+}
+
+/// Response structure for DescribePipelineExecution operation.
+public struct DescribePipelineExecutionOutput: Swift.Sendable {
+    /// A list of compute node execution details within this pipeline execution.
+    /// This member is required.
+    public var computeNodeExecutionDetails: [IoTSiteWiseClientTypes.ComputeNodeExecutionDetails]?
+    /// The time the pipeline execution completed, in Unix epoch time.
+    public var endTime: Foundation.Date?
+    /// Scheduling priority for the execution. When not specified, defaults to lowest priority.
+    public var executionPriority: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the pipeline execution.
+    /// This member is required.
+    public var pipelineExecutionId: Swift.String?
+    /// The name of the pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The pipeline version this execution ran against.
+    /// This member is required.
+    public var pipelineVersion: Swift.String?
+    /// The environment variables provided as input for the pipeline execution.
+    /// This member is required.
+    public var requestEnvironmentVariables: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables?
+    /// The time the pipeline execution started, in Unix epoch time.
+    public var startTime: Foundation.Date?
+    /// The current execution status of the pipeline.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.PipelineExecutionStatus?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        computeNodeExecutionDetails: [IoTSiteWiseClientTypes.ComputeNodeExecutionDetails]? = nil,
+        endTime: Foundation.Date? = nil,
+        executionPriority: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pipelineExecutionId: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        pipelineVersion: Swift.String? = nil,
+        requestEnvironmentVariables: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables? = nil,
+        startTime: Foundation.Date? = nil,
+        status: IoTSiteWiseClientTypes.PipelineExecutionStatus? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.computeNodeExecutionDetails = computeNodeExecutionDetails
+        self.endTime = endTime
+        self.executionPriority = executionPriority
+        self.nextToken = nextToken
+        self.pipelineExecutionId = pipelineExecutionId
+        self.pipelineName = pipelineName
+        self.pipelineVersion = pipelineVersion
+        self.requestEnvironmentVariables = requestEnvironmentVariables
+        self.startTime = startTime
+        self.status = status
+        self.workspaceName = workspaceName
+    }
+}
+
+extension DescribePipelineExecutionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribePipelineExecutionOutput(computeNodeExecutionDetails: \(Swift.String(describing: computeNodeExecutionDetails)), endTime: \(Swift.String(describing: endTime)), executionPriority: \(Swift.String(describing: executionPriority)), nextToken: \(Swift.String(describing: nextToken)), pipelineExecutionId: \(Swift.String(describing: pipelineExecutionId)), pipelineName: \(Swift.String(describing: pipelineName)), pipelineVersion: \(Swift.String(describing: pipelineVersion)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), workspaceName: \(Swift.String(describing: workspaceName)), requestEnvironmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribePortalInput: Swift.Sendable {
@@ -7140,6 +10040,218 @@ public struct DescribeProjectOutput: Swift.Sendable {
         self.projectLastUpdateDate = projectLastUpdateDate
         self.projectName = projectName
     }
+}
+
+public struct DescribeQueryInput: Swift.Sendable {
+    /// The unique identifier for the query execution.
+    /// This member is required.
+    public var queryId: Swift.String?
+    /// The name of the workspace associated with the query.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        queryId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.queryId = queryId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains statistics about a completed query execution.
+    public struct QueryStatistics: Swift.Sendable {
+        /// The total number of bytes scanned during query execution.
+        /// This member is required.
+        public var bytesScanned: Swift.Int?
+        /// The total query execution time, in milliseconds.
+        /// This member is required.
+        public var executionTimeInMillis: Swift.Int?
+        /// The total number of rows returned by the query.
+        /// This member is required.
+        public var rowCount: Swift.Int?
+
+        public init(
+            bytesScanned: Swift.Int? = nil,
+            executionTimeInMillis: Swift.Int? = nil,
+            rowCount: Swift.Int? = nil
+        ) {
+            self.bytesScanned = bytesScanned
+            self.executionTimeInMillis = executionTimeInMillis
+            self.rowCount = rowCount
+        }
+    }
+}
+
+/// Contains the response for the DescribeQuery operation.
+public struct DescribeQueryOutput: Swift.Sendable {
+    /// The date and time when the query reached a terminal state, in Unix epoch time. This field is present when the query status is COMPLETED, FAILED, or CANCELED.
+    public var completedAt: Foundation.Date?
+    /// A human-readable error description. This field is present when the query status is FAILED.
+    public var errorMessage: Swift.String?
+    /// The unique identifier for the query execution.
+    /// This member is required.
+    public var queryId: Swift.String?
+    /// The query execution statistics. This field is present when the query status is COMPLETED.
+    public var statistics: IoTSiteWiseClientTypes.QueryStatistics?
+    /// The current query status.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.QueryStatus?
+    /// The date and time when the query was submitted, in Unix epoch time.
+    /// This member is required.
+    public var submittedAt: Foundation.Date?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        errorMessage: Swift.String? = nil,
+        queryId: Swift.String? = nil,
+        statistics: IoTSiteWiseClientTypes.QueryStatistics? = nil,
+        status: IoTSiteWiseClientTypes.QueryStatus? = nil,
+        submittedAt: Foundation.Date? = nil
+    ) {
+        self.completedAt = completedAt
+        self.errorMessage = errorMessage
+        self.queryId = queryId
+        self.statistics = statistics
+        self.status = status
+        self.submittedAt = submittedAt
+    }
+}
+
+/// Input for the DescribeSearch operation.
+public struct DescribeSearchInput: Swift.Sendable {
+    /// The identifier of the search to describe.
+    /// This member is required.
+    public var searchId: Swift.String?
+    /// The name of the workspace the search belongs to.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        searchId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.searchId = searchId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The search strategy, which trades off latency against recall. DEEP runs the full semantic and structured search for the highest-quality matches; QUICK returns faster, lower-recall results. When searchType is omitted on a request, the search defaults to QUICK.
+    public enum SearchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deep
+        case quick
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchType] {
+            return [
+                .deep,
+                .quick
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deep: return "DEEP"
+            case .quick: return "QUICK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The lifecycle status of a search.
+    public enum SearchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case queued
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchStatus] {
+            return [
+                .failed,
+                .queued,
+                .running,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Output of the DescribeSearch operation.
+public struct DescribeSearchOutput: Swift.Sendable {
+    /// The group identifier associated with the search, if one was supplied on the request.
+    public var groupId: Swift.String?
+    /// The natural-language query that was submitted for the search.
+    /// This member is required.
+    public var queryStatement: Swift.String?
+    /// The unique identifier of the search.
+    /// This member is required.
+    public var searchId: Swift.String?
+    /// The search strategy used for the search.
+    /// This member is required.
+    public var searchType: IoTSiteWiseClientTypes.SearchType?
+    /// The time at which the search was started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the search.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.SearchStatus?
+    /// A human-readable explanation of the current status. Populated when the search has FAILED.
+    public var statusReason: Swift.String?
+    /// The name of the workspace the search runs against.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        groupId: Swift.String? = nil,
+        queryStatement: Swift.String? = nil,
+        searchId: Swift.String? = nil,
+        searchType: IoTSiteWiseClientTypes.SearchType? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: IoTSiteWiseClientTypes.SearchStatus? = nil,
+        statusReason: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.groupId = groupId
+        self.queryStatement = queryStatement
+        self.searchId = searchId
+        self.searchType = searchType
+        self.startedAt = startedAt
+        self.status = status
+        self.statusReason = statusReason
+        self.workspaceName = workspaceName
+    }
+}
+
+extension DescribeSearchOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeSearchOutput(groupId: \(Swift.String(describing: groupId)), searchId: \(Swift.String(describing: searchId)), searchType: \(Swift.String(describing: searchType)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), workspaceName: \(Swift.String(describing: workspaceName)), queryStatement: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeStorageConfigurationInput: Swift.Sendable {
@@ -7365,6 +10477,80 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for DescribeTask operation.
+public struct DescribeTaskInput: Swift.Sendable {
+    /// The name of the task.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The version number of the task to retrieve. If not specified, returns the latest version.
+    public var taskVersion: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        taskName: Swift.String? = nil,
+        taskVersion: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.taskName = taskName
+        self.taskVersion = taskVersion
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response structure for DescribeTask operation.
+public struct DescribeTaskOutput: Swift.Sendable {
+    /// The time the task was created, in Unix epoch time.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the task.
+    public var description: Swift.String?
+    /// The current lifecycle status of the task.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+    /// The ARN of the task.
+    /// This member is required.
+    public var taskArn: Swift.String?
+    /// The task execution configuration. Contains a [containerTaskConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ContainerTaskConfiguration.html) for custom container workloads.
+    /// This member is required.
+    public var taskConfiguration: IoTSiteWiseClientTypes.TaskConfiguration?
+    /// The name of the task.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The time the task was last updated, in Unix epoch time.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The version of the task.
+    /// This member is required.
+    public var version: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+        taskArn: Swift.String? = nil,
+        taskConfiguration: IoTSiteWiseClientTypes.TaskConfiguration? = nil,
+        taskName: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.status = status
+        self.taskArn = taskArn
+        self.taskConfiguration = taskConfiguration
+        self.taskName = taskName
+        self.updatedAt = updatedAt
+        self.version = version
+        self.workspaceName = workspaceName
+    }
+}
+
 public struct DescribeTimeSeriesInput: Swift.Sendable {
     /// The alias that identifies the time series.
     public var alias: Swift.String?
@@ -7372,15 +10558,19 @@ public struct DescribeTimeSeriesInput: Swift.Sendable {
     public var assetId: Swift.String?
     /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references) in the IoT SiteWise User Guide.
     public var propertyId: Swift.String?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         alias: Swift.String? = nil,
         assetId: Swift.String? = nil,
-        propertyId: Swift.String? = nil
+        propertyId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.alias = alias
         self.assetId = assetId
         self.propertyId = propertyId
+        self.workspaceName = workspaceName
     }
 }
 
@@ -7408,6 +10598,8 @@ public struct DescribeTimeSeriesOutput: Swift.Sendable {
     /// The date that the time series was last updated, in Unix epoch time.
     /// This member is required.
     public var timeSeriesLastUpdateDate: Foundation.Date?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         alias: Swift.String? = nil,
@@ -7418,7 +10610,8 @@ public struct DescribeTimeSeriesOutput: Swift.Sendable {
         timeSeriesArn: Swift.String? = nil,
         timeSeriesCreationDate: Foundation.Date? = nil,
         timeSeriesId: Swift.String? = nil,
-        timeSeriesLastUpdateDate: Foundation.Date? = nil
+        timeSeriesLastUpdateDate: Foundation.Date? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.alias = alias
         self.assetId = assetId
@@ -7429,6 +10622,79 @@ public struct DescribeTimeSeriesOutput: Swift.Sendable {
         self.timeSeriesCreationDate = timeSeriesCreationDate
         self.timeSeriesId = timeSeriesId
         self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct DescribeWorkspaceInput: Swift.Sendable {
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        workspaceName: Swift.String? = nil
+    ) {
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains the encryption configuration information for a workspace.
+    public struct WorkspaceEncryptionConfigurationInfo: Swift.Sendable {
+        /// The type of encryption used for the workspace.
+        /// This member is required.
+        public var encryptionType: IoTSiteWiseClientTypes.EncryptionType?
+        /// The key ARN of the KMS key used for KMS encryption if encryptionType is KMS_BASED_ENCRYPTION.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            encryptionType: IoTSiteWiseClientTypes.EncryptionType? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.encryptionType = encryptionType
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+public struct DescribeWorkspaceOutput: Swift.Sendable {
+    /// The date the workspace was created, in Unix epoch time.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The encryption configuration information for the workspace.
+    public var encryptionConfiguration: IoTSiteWiseClientTypes.WorkspaceEncryptionConfigurationInfo?
+    /// The date the workspace was last updated, in Unix epoch time.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The ARN of the workspace.
+    /// This member is required.
+    public var workspaceArn: Swift.String?
+    /// The description of the workspace.
+    public var workspaceDescription: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+    /// The status of the workspace, which contains the state and any error message.
+    /// This member is required.
+    public var workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        encryptionConfiguration: IoTSiteWiseClientTypes.WorkspaceEncryptionConfigurationInfo? = nil,
+        updatedAt: Foundation.Date? = nil,
+        workspaceArn: Swift.String? = nil,
+        workspaceDescription: Swift.String? = nil,
+        workspaceName: Swift.String? = nil,
+        workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.encryptionConfiguration = encryptionConfiguration
+        self.updatedAt = updatedAt
+        self.workspaceArn = workspaceArn
+        self.workspaceDescription = workspaceDescription
+        self.workspaceName = workspaceName
+        self.workspaceStatus = workspaceStatus
     }
 }
 
@@ -7600,6 +10866,11 @@ public struct ExecuteQueryInput: Swift.Sendable {
         self.nextToken = nextToken
         self.queryStatement = queryStatement
     }
+}
+
+extension ExecuteQueryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExecuteQueryInput(clientToken: \(Swift.String(describing: clientToken)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), queryStatement: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTSiteWiseClientTypes {
@@ -7842,6 +11113,104 @@ public struct GetAssetPropertyValueHistoryOutput: Swift.Sendable {
     }
 }
 
+/// Request to retrieve video data for a specific time range. Exactly one of timeSeriesId or propertyAlias must be provided.
+public struct GetCaptureDataInput: Swift.Sendable {
+    /// The end time for the video data range. Must be greater than startTime.
+    /// This member is required.
+    public var endTime: IoTSiteWiseClientTypes.TimeInNanos?
+    /// The optional format settings for the output.
+    public var formatSettings: IoTSiteWiseClientTypes.FormatSettings?
+    /// The token from a previous response used to continue retrieving data.
+    public var nextToken: Swift.String?
+    /// The property alias that identifies the capture source. Mutually exclusive with timeSeriesId.
+    public var propertyAlias: Swift.String?
+    /// The start time for the video data range.
+    /// This member is required.
+    public var startTime: IoTSiteWiseClientTypes.TimeInNanos?
+    /// The time series ID that identifies the capture source. Mutually exclusive with propertyAlias.
+    public var timeSeriesId: Swift.String?
+    /// The name of the workspace that contains the capture source.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        endTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+        formatSettings: IoTSiteWiseClientTypes.FormatSettings? = nil,
+        nextToken: Swift.String? = nil,
+        propertyAlias: Swift.String? = nil,
+        startTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+        timeSeriesId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.endTime = endTime
+        self.formatSettings = formatSettings
+        self.nextToken = nextToken
+        self.propertyAlias = propertyAlias
+        self.startTime = startTime
+        self.timeSeriesId = timeSeriesId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The allowed video data types.
+    public enum VideoDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mp4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoDataType] {
+            return [
+                .mp4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mp4: return "VIDEO-MP4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Response containing the video data.
+public struct GetCaptureDataOutput: Swift.Sendable {
+    /// The binary video data.
+    /// This member is required.
+    public var data: Foundation.Data?
+    /// The type of the returned data.
+    /// This member is required.
+    public var dataType: IoTSiteWiseClientTypes.VideoDataType?
+    /// The actual end time of the returned data.
+    /// This member is required.
+    public var endTime: IoTSiteWiseClientTypes.TimeInNanos?
+    /// The token used to retrieve the next chunk. Absent if no more data is available.
+    public var nextToken: Swift.String?
+    /// The actual start time of the returned data.
+    /// This member is required.
+    public var startTime: IoTSiteWiseClientTypes.TimeInNanos?
+
+    public init(
+        data: Foundation.Data? = nil,
+        dataType: IoTSiteWiseClientTypes.VideoDataType? = nil,
+        endTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: IoTSiteWiseClientTypes.TimeInNanos? = nil
+    ) {
+        self.data = data
+        self.dataType = dataType
+        self.endTime = endTime
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
 public struct GetInterpolatedAssetPropertyValuesInput: Swift.Sendable {
     /// The ID of the asset, in UUID format.
     public var assetId: Swift.String?
@@ -7951,6 +11320,166 @@ public struct GetInterpolatedAssetPropertyValuesOutput: Swift.Sendable {
     ) {
         self.interpolatedAssetPropertyValues = interpolatedAssetPropertyValues
         self.nextToken = nextToken
+    }
+}
+
+public struct GetQueryResultsInput: Swift.Sendable {
+    /// The maximum number of results to return for each paginated request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the query execution.
+    /// This member is required.
+    public var queryId: Swift.String?
+    /// The name of the workspace associated with the query.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        queryId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queryId = queryId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains metadata about a column in the query results.
+    public struct ColumnInformation: Swift.Sendable {
+        /// The name of the column.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The data type of the column. Valid values are STRING, DOUBLE, BOOLEAN, INTEGER, TIMESTAMP, and VARIANT.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+/// Contains the response for the GetQueryResults operation.
+public struct GetQueryResultsOutput: Swift.Sendable {
+    /// A list of column metadata for the query results. Each entry contains the column name and data type. Present when the query status is COMPLETED.
+    public var columnInfo: [IoTSiteWiseClientTypes.ColumnInformation]?
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// The result rows. Each row is a list of string column values, positional to match the columnInfo order. Present when the query status is COMPLETED.
+    public var rows: [[Swift.String?]]?
+
+    public init(
+        columnInfo: [IoTSiteWiseClientTypes.ColumnInformation]? = nil,
+        nextToken: Swift.String? = nil,
+        rows: [[Swift.String?]]? = nil
+    ) {
+        self.columnInfo = columnInfo
+        self.nextToken = nextToken
+        self.rows = rows
+    }
+}
+
+/// Input for the GetSearchResults operation.
+public struct GetSearchResultsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single page. Valid range is 1 to 10,000; if omitted, a service-defined default is used.
+    public var maxResults: Swift.Int?
+    /// The pagination token returned by a previous GetSearchResults call. Provide it to retrieve the next page of results; omit it to retrieve the first page.
+    public var nextToken: Swift.String?
+    /// The identifier of the search whose results are retrieved.
+    /// This member is required.
+    public var searchId: Swift.String?
+    /// The name of the workspace the search belongs to.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchId = searchId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// A single matching segment of time-series data returned by a search.
+    public struct SearchResult: Swift.Sendable {
+        /// The identifier of the dataset that contains the matching data.
+        /// This member is required.
+        public var datasetId: Swift.String?
+        /// The end of the matching time-series segment, in nanoseconds since the Unix epoch.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The relevance score of this result. Higher scores indicate a stronger match.
+        /// This member is required.
+        public var score: Swift.Float?
+        /// The identifier of the search that produced this result.
+        /// This member is required.
+        public var searchId: Swift.String?
+        /// The start of the matching time-series segment, in nanoseconds since the Unix epoch.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The identifier of the time series that contains the matching data.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+        /// The timestamp of the most relevant point within the matching segment, in nanoseconds since the Unix epoch.
+        /// This member is required.
+        public var topTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The name of the workspace the search ran against.
+        /// This member is required.
+        public var workspaceName: Swift.String?
+
+        public init(
+            datasetId: Swift.String? = nil,
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            score: Swift.Float? = nil,
+            searchId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil,
+            topTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            workspaceName: Swift.String? = nil
+        ) {
+            self.datasetId = datasetId
+            self.endTimestamp = endTimestamp
+            self.score = score
+            self.searchId = searchId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+            self.topTimestamp = topTimestamp
+            self.workspaceName = workspaceName
+        }
+    }
+}
+
+/// Output of the GetSearchResults operation.
+public struct GetSearchResultsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent GetSearchResults call to retrieve the next page. Absent when there are no more results.
+    public var nextToken: Swift.String?
+    /// A page of search results, ordered by descending relevance score.
+    /// This member is required.
+    public var searchResults: [IoTSiteWiseClientTypes.SearchResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        searchResults: [IoTSiteWiseClientTypes.SearchResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.searchResults = searchResults
     }
 }
 
@@ -8331,6 +11860,37 @@ public struct ListActionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.actionSummaries = actionSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListApplicationsInput: Swift.Sendable {
+    /// Maximum number of results to return
+    public var maxResults: Swift.Int?
+    /// Next Page Token
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListApplicationsOutput: Swift.Sendable {
+    /// List of applications
+    /// This member is required.
+    public var applications: [IoTSiteWiseClientTypes.ApplicationSummary]?
+    /// Next Page Token
+    public var nextToken: Swift.String?
+
+    public init(
+        applications: [IoTSiteWiseClientTypes.ApplicationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applications = applications
         self.nextToken = nextToken
     }
 }
@@ -8851,15 +12411,19 @@ public struct ListBulkImportJobsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         filter: IoTSiteWiseClientTypes.ListBulkImportJobsFilter? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workspaceName = workspaceName
     }
 }
 
@@ -9334,7 +12898,344 @@ public struct ListDashboardsOutput: Swift.Sendable {
     }
 }
 
+public struct ListDatasetDataSegmentRelationshipsInput: Swift.Sendable {
+    /// The ID of the session dataset to list data segment relationships for.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The maximum number of results to return for each paginated request. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the workspace that contains the dataset.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a data segment relationship between a source session dataset that contains the data and a curated dataset that references it, including the time series and timestamp range.
+    public struct DataSegmentRelationshipSummary: Swift.Sendable {
+        /// The nanosecond-precision end time of the data segment.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the source session dataset that contains the data segment.
+        /// This member is required.
+        public var sourceDatasetId: Swift.String?
+        /// The nanosecond-precision start time of the data segment.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the curated dataset that references the data segment.
+        /// This member is required.
+        public var targetDatasetId: Swift.String?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            sourceDatasetId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            targetDatasetId: Swift.String? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.targetDatasetId = targetDatasetId
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct ListDatasetDataSegmentRelationshipsOutput: Swift.Sendable {
+    /// A list that summarizes each data segment relationship.
+    /// This member is required.
+    public var dataSegmentRelationshipSummaries: [IoTSiteWiseClientTypes.DataSegmentRelationshipSummary]?
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataSegmentRelationshipSummaries: [IoTSiteWiseClientTypes.DataSegmentRelationshipSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataSegmentRelationshipSummaries = dataSegmentRelationshipSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDatasetDataSegmentsInput: Swift.Sendable {
+    /// The ID of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The version of the dataset to list data segments for.
+    public var datasetVersion: Swift.String?
+    /// The maximum number of results to return for each paginated request. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the workspace that contains the dataset.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        datasetVersion: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.datasetVersion = datasetVersion
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    public enum EnrichmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enriched
+        case notEnriched
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnrichmentStatus] {
+            return [
+                .enriched,
+                .notEnriched
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enriched: return "ENRICHED"
+            case .notEnriched: return "NOT_ENRICHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains enrichment status information for a data segment.
+    public struct DataSegmentEnrichment: Swift.Sendable {
+        /// The date the data segment was last enriched, in Unix epoch time.
+        public var lastEnrichedAt: Foundation.Date?
+        /// The enrichment status of the data segment.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.EnrichmentStatus?
+
+        public init(
+            lastEnrichedAt: Foundation.Date? = nil,
+            status: IoTSiteWiseClientTypes.EnrichmentStatus? = nil
+        ) {
+            self.lastEnrichedAt = lastEnrichedAt
+            self.status = status
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a data segment, including its source dataset, time series, timestamp range, and enrichment status.
+    public struct DataSegmentSummary: Swift.Sendable {
+        /// The alias of the time series.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The data type of the time series.
+        /// This member is required.
+        public var dataType: IoTSiteWiseClientTypes.PropertyDataType?
+        /// The nanosecond-precision end time of the data segment.
+        /// This member is required.
+        public var endTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The enrichment information for the data segment.
+        public var enrichment: IoTSiteWiseClientTypes.DataSegmentEnrichment?
+        /// The ID of the source dataset that contains the data segment.
+        /// This member is required.
+        public var sourceDatasetId: Swift.String?
+        /// The nanosecond-precision start time of the data segment.
+        /// This member is required.
+        public var startTimestamp: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The ID of the time series.
+        /// This member is required.
+        public var timeSeriesId: Swift.String?
+
+        public init(
+            alias: Swift.String? = nil,
+            dataType: IoTSiteWiseClientTypes.PropertyDataType? = nil,
+            endTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            enrichment: IoTSiteWiseClientTypes.DataSegmentEnrichment? = nil,
+            sourceDatasetId: Swift.String? = nil,
+            startTimestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            timeSeriesId: Swift.String? = nil
+        ) {
+            self.alias = alias
+            self.dataType = dataType
+            self.endTimestamp = endTimestamp
+            self.enrichment = enrichment
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+    }
+}
+
+public struct ListDatasetDataSegmentsOutput: Swift.Sendable {
+    /// A list that summarizes each data segment.
+    /// This member is required.
+    public var dataSegments: [IoTSiteWiseClientTypes.DataSegmentSummary]?
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataSegments: [IoTSiteWiseClientTypes.DataSegmentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataSegments = dataSegments
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Filter for ListDatasetExportJobs. ALL returns jobs in any status; otherwise returns jobs in the specified status.
+    public enum DatasetExportJobFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case completed
+        case completedWithErrors
+        case failed
+        case running
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetExportJobFilter] {
+            return [
+                .all,
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .running,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Request to list dataset export jobs for a workspace.
+public struct ListDatasetExportJobsInput: Swift.Sendable {
+    /// The optional filter that returns only jobs matching the given filter value. Defaults to ALL.
+    public var filter: IoTSiteWiseClientTypes.DatasetExportJobFilter?
+    /// The maximum number of results to return for each paginated request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the workspace whose dataset export jobs should be listed.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        filter: IoTSiteWiseClientTypes.DatasetExportJobFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a dataset export job.
+    public struct ExportJobSummary: Swift.Sendable {
+        /// The timestamp when the job completed, or null if the job is still running.
+        public var completedAt: Foundation.Date?
+        /// The S3 URI where output clips are written.
+        /// This member is required.
+        public var destinationS3Uri: Swift.String?
+        /// The unique identifier for the dataset export job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The timestamp when the job started processing.
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// The current status of the dataset export job.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.DatasetExportJobStatus?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            destinationS3Uri: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: IoTSiteWiseClientTypes.DatasetExportJobStatus? = nil
+        ) {
+            self.completedAt = completedAt
+            self.destinationS3Uri = destinationS3Uri
+            self.jobId = jobId
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+/// Response for list dataset export jobs request.
+public struct ListDatasetExportJobsOutput: Swift.Sendable {
+    /// A list of dataset export job summaries.
+    /// This member is required.
+    public var jobs: [IoTSiteWiseClientTypes.ExportJobSummary]?
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [IoTSiteWiseClientTypes.ExportJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListDatasetsInput: Swift.Sendable {
+    /// The type of dataset to filter by: a session dataset, a curated dataset, or a connection to an external datasource.
+    public var datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum?
     /// The maximum number of results to return for each paginated request.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null if there are no additional results.
@@ -9342,15 +13243,21 @@ public struct ListDatasetsInput: Swift.Sendable {
     /// The type of data source for the dataset.
     /// This member is required.
     public var sourceType: IoTSiteWiseClientTypes.DatasetSourceType?
+    /// The name of the workspace to filter datasets by.
+    public var workspaceName: Swift.String?
 
     public init(
+        datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        sourceType: IoTSiteWiseClientTypes.DatasetSourceType? = nil
+        sourceType: IoTSiteWiseClientTypes.DatasetSourceType? = nil,
+        workspaceName: Swift.String? = nil
     ) {
+        self.datasetType = datasetType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sourceType = sourceType
+        self.workspaceName = workspaceName
     }
 }
 
@@ -9364,9 +13271,13 @@ extension IoTSiteWiseClientTypes {
         /// The dataset creation date, in Unix epoch time.
         /// This member is required.
         public var creationDate: Foundation.Date?
+        /// The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+        public var datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum?
         /// A description about the dataset, and its functionality.
         /// This member is required.
         public var description: Swift.String?
+        /// The enrichment status of the dataset.
+        public var enrichmentStatus: IoTSiteWiseClientTypes.DatasetEnrichment?
         /// The ID of the dataset.
         /// This member is required.
         public var id: Swift.String?
@@ -9376,6 +13287,8 @@ extension IoTSiteWiseClientTypes {
         /// The name of the dataset.
         /// This member is required.
         public var name: Swift.String?
+        /// The data source type of the dataset.
+        public var sourceType: IoTSiteWiseClientTypes.DatasetSourceType?
         /// The status of the dataset. This contains the state and any error messages. The state is ACTIVE when ready to use.
         /// This member is required.
         public var status: IoTSiteWiseClientTypes.DatasetStatus?
@@ -9383,18 +13296,24 @@ extension IoTSiteWiseClientTypes {
         public init(
             arn: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
+            datasetType: IoTSiteWiseClientTypes.DatasetTypeEnum? = nil,
             description: Swift.String? = nil,
+            enrichmentStatus: IoTSiteWiseClientTypes.DatasetEnrichment? = nil,
             id: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            sourceType: IoTSiteWiseClientTypes.DatasetSourceType? = nil,
             status: IoTSiteWiseClientTypes.DatasetStatus? = nil
         ) {
             self.arn = arn
             self.creationDate = creationDate
+            self.datasetType = datasetType
             self.description = description
+            self.enrichmentStatus = enrichmentStatus
             self.id = id
             self.lastUpdateDate = lastUpdateDate
             self.name = name
+            self.sourceType = sourceType
             self.status = status
         }
     }
@@ -9406,12 +13325,142 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public var datasetSummaries: [IoTSiteWiseClientTypes.DatasetSummary]?
     /// The token for the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         datasetSummaries: [IoTSiteWiseClientTypes.DatasetSummary]? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.datasetSummaries = datasetSummaries
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct ListEnrichmentJobsInput: Swift.Sendable {
+    /// Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset.
+    public var datasetId: Swift.String?
+    /// The inclusive end of the date range for filtering jobs by creation time. Jobs created on or before this timestamp are included. Use ISO 8601 format (e.g., 2024-01-31T23:59:59Z).
+    public var endDate: Foundation.Date?
+    /// Filter by enrichment job type. Currently only EVENT_DETECTION is supported. Use this filter to future-proof queries when additional job types are added.
+    public var jobType: IoTSiteWiseClientTypes.JobType?
+    /// Maximum number of jobs to return per page. Defaults to 50 if not specified. Use smaller values for faster responses, larger values to reduce API calls.
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous ListEnrichmentJobs response. Include this token to retrieve the next page of results. Omit for the first request.
+    public var nextToken: Swift.String?
+    /// Filter by property alias (human-readable sensor name). Specify either propertyAlias or timeSeriesId, but not both. Returns only jobs analyzing the specified property alias.
+    public var propertyAlias: Swift.String?
+    /// The exclusive start of the date range for filtering jobs by creation time. Jobs created after this timestamp are included. Use ISO 8601 format (e.g., 2024-01-01T00:00:00Z).
+    public var startDate: Foundation.Date?
+    /// Filter by job status. Returns only jobs in the specified status. Use RUNNING to find active jobs, or FAILED to identify jobs requiring attention.
+    public var status: IoTSiteWiseClientTypes.EnrichmentJobStatus?
+    /// Filter by time series ID (system identifier). Specify either timeSeriesId or propertyAlias, but not both. Returns only jobs analyzing the specified time series.
+    public var timeSeriesId: Swift.String?
+    /// The name of the IoT SiteWise workspace to list enrichment jobs from.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        endDate: Foundation.Date? = nil,
+        jobType: IoTSiteWiseClientTypes.JobType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        propertyAlias: Swift.String? = nil,
+        startDate: Foundation.Date? = nil,
+        status: IoTSiteWiseClientTypes.EnrichmentJobStatus? = nil,
+        timeSeriesId: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.endDate = endDate
+        self.jobType = jobType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.propertyAlias = propertyAlias
+        self.startDate = startDate
+        self.status = status
+        self.timeSeriesId = timeSeriesId
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Summary information for an enrichment job returned by ListEnrichmentJobs. This lightweight representation includes identifiers, status, and key metadata without the full job configuration. Use DescribeEnrichmentJob to retrieve:
+    ///
+    /// * Complete job configuration (trim settings, full parameters)
+    ///
+    /// * Detailed timestamps (completedAt, cancelledAt)
+    ///
+    /// * Failure messages for failed jobs
+    ///
+    ///
+    /// The summary is optimized for display in lists and dashboards, providing enough information to identify and filter jobs without the overhead of full configuration details.
+    public struct EnrichmentJobSummary: Swift.Sendable {
+        /// Timestamp when the job was created in ISO 8601 format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The dataset being enriched. Useful for filtering and identifying jobs without fetching the full configuration. This allows you to quickly find all jobs related to a specific dataset.
+        /// This member is required.
+        public var datasetId: Swift.String?
+        /// Unique identifier for the enrichment job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// The type of enrichment job. Currently EVENT_DETECTION is the only supported type.
+        /// This member is required.
+        public var jobType: IoTSiteWiseClientTypes.JobType?
+        /// The property alias (human-readable sensor name) of the time series being enriched. Present when the job was created using a propertyAlias. Use this to identify which sensor the job analyzes.
+        public var propertyAlias: Swift.String?
+        /// Current status of the job: PENDING, RUNNING, COMPLETED, FAILED, TIMED_OUT, or CANCELLED. Use this to quickly identify active jobs or jobs requiring attention.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.EnrichmentJobStatus?
+        /// The system identifier of the time series being enriched. Present when the job was created using a timeSeriesId. Use this to identify which time series the job analyzes.
+        public var timeSeriesId: Swift.String?
+        /// Timestamp of the last job status change in ISO 8601 format. Use this to track recent activity and identify stale jobs. For active jobs, this shows the last time the job transitioned to a new status.
+        public var updatedAt: Foundation.Date?
+        /// The name of the IoT SiteWise workspace containing this job.
+        /// This member is required.
+        public var workspaceName: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            datasetId: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            jobType: IoTSiteWiseClientTypes.JobType? = nil,
+            propertyAlias: Swift.String? = nil,
+            status: IoTSiteWiseClientTypes.EnrichmentJobStatus? = nil,
+            timeSeriesId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            workspaceName: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.datasetId = datasetId
+            self.jobId = jobId
+            self.jobType = jobType
+            self.propertyAlias = propertyAlias
+            self.status = status
+            self.timeSeriesId = timeSeriesId
+            self.updatedAt = updatedAt
+            self.workspaceName = workspaceName
+        }
+    }
+}
+
+public struct ListEnrichmentJobsOutput: Swift.Sendable {
+    /// Array of job summaries matching the filter criteria, ordered by creation time descending (newest first). Each summary includes key identifiers (jobId, datasetId, propertyAlias/timeSeriesId) and status information without the full job configuration. Use DescribeEnrichmentJob to retrieve complete details.
+    /// This member is required.
+    public var jobs: [IoTSiteWiseClientTypes.EnrichmentJobSummary]?
+    /// Pagination token to retrieve the next page of results. If present, more jobs exist that match the filter criteria. Include this token in a subsequent ListEnrichmentJobs request to retrieve the next page. If absent, you have retrieved all matching jobs.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [IoTSiteWiseClientTypes.EnrichmentJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobs = jobs
         self.nextToken = nextToken
     }
 }
@@ -9647,6 +13696,190 @@ public struct ListInterfaceRelationshipsOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for ListPipelineExecutions operation.
+public struct ListPipelineExecutionsInput: Swift.Sendable {
+    /// Inclusive lower bound on execution end time (ISO-8601). Only executions with endTime >= endTimeAfter are returned. Cannot be combined with startTimeAfter or startTimeBefore. Only matches executions in terminal states.
+    public var endTimeAfter: Foundation.Date?
+    /// Exclusive upper bound on execution end time (ISO-8601). Only executions with endTime < endTimeBefore are returned. Cannot be combined with startTimeAfter or startTimeBefore. Only matches executions in terminal states.
+    public var endTimeBefore: Foundation.Date?
+    /// The maximum number of results to return per request. This is an upper bound; the actual number of results may be less. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// Inclusive lower bound on execution start time (ISO-8601). Only executions with startTime >= startTimeAfter are returned. Cannot be combined with endTimeAfter or endTimeBefore.
+    public var startTimeAfter: Foundation.Date?
+    /// Exclusive upper bound on execution start time (ISO-8601). Only executions with startTime < startTimeBefore are returned. Cannot be combined with endTimeAfter or endTimeBefore.
+    public var startTimeBefore: Foundation.Date?
+    /// Filter by execution state. If not specified, executions in all states are returned.
+    public var state: IoTSiteWiseClientTypes.PipelineExecutionState?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        endTimeAfter: Foundation.Date? = nil,
+        endTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        startTimeAfter: Foundation.Date? = nil,
+        startTimeBefore: Foundation.Date? = nil,
+        state: IoTSiteWiseClientTypes.PipelineExecutionState? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.endTimeAfter = endTimeAfter
+        self.endTimeBefore = endTimeBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pipelineName = pipelineName
+        self.startTimeAfter = startTimeAfter
+        self.startTimeBefore = startTimeBefore
+        self.state = state
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a pipeline execution.
+    public struct PipelineExecutionSummary: Swift.Sendable {
+        /// The time the pipeline execution completed, in Unix epoch time.
+        public var endTime: Foundation.Date?
+        /// Scheduling priority for the execution. When not specified, defaults to lowest priority.
+        public var executionPriority: Swift.Int?
+        /// The unique identifier of the pipeline execution.
+        /// This member is required.
+        public var pipelineExecutionId: Swift.String?
+        /// The pipeline version this execution ran against.
+        /// This member is required.
+        public var pipelineVersion: Swift.String?
+        /// The time the pipeline execution started, in Unix epoch time.
+        public var startTime: Foundation.Date?
+        /// The current execution status of the pipeline.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.PipelineExecutionStatus?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            executionPriority: Swift.Int? = nil,
+            pipelineExecutionId: Swift.String? = nil,
+            pipelineVersion: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: IoTSiteWiseClientTypes.PipelineExecutionStatus? = nil
+        ) {
+            self.endTime = endTime
+            self.executionPriority = executionPriority
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineVersion = pipelineVersion
+            self.startTime = startTime
+            self.status = status
+        }
+    }
+}
+
+/// Response structure for ListPipelineExecutions operation.
+public struct ListPipelineExecutionsOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// A list that summarizes each pipeline execution.
+    /// This member is required.
+    public var pipelineExecutionSummaries: [IoTSiteWiseClientTypes.PipelineExecutionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pipelineExecutionSummaries: [IoTSiteWiseClientTypes.PipelineExecutionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pipelineExecutionSummaries = pipelineExecutionSummaries
+    }
+}
+
+/// Request structure for ListPipelines operation.
+public struct ListPipelinesInput: Swift.Sendable {
+    /// The maximum number of results to return for each paginated request. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a pipeline.
+    public struct PipelineSummary: Swift.Sendable {
+        /// The time the pipeline was created, in Unix epoch time.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the pipeline.
+        public var description: Swift.String?
+        /// The ARN of the pipeline.
+        /// This member is required.
+        public var pipelineArn: Swift.String?
+        /// The name of the pipeline.
+        /// This member is required.
+        public var pipelineName: Swift.String?
+        /// The current lifecycle status of the pipeline.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.ResourceStatus?
+        /// The time the pipeline was last updated, in Unix epoch time.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The version of the pipeline.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            pipelineArn: Swift.String? = nil,
+            pipelineName: Swift.String? = nil,
+            status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.pipelineArn = pipelineArn
+            self.pipelineName = pipelineName
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+/// Response structure for ListPipelines operation.
+public struct ListPipelinesOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// A list that summarizes each pipeline in the workspace.
+    /// This member is required.
+    public var pipelineSummaries: [IoTSiteWiseClientTypes.PipelineSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pipelineSummaries: [IoTSiteWiseClientTypes.PipelineSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pipelineSummaries = pipelineSummaries
+    }
+}
+
 public struct ListPortalsInput: Swift.Sendable {
     /// The maximum number of results to return for each paginated request. Default: 50
     public var maxResults: Swift.Int?
@@ -9833,6 +14066,203 @@ public struct ListProjectsOutput: Swift.Sendable {
     }
 }
 
+public struct ListQueriesInput: Swift.Sendable {
+    /// An optional filter to return only queries with the specified status. The value must be one of the supported query statuses: SUBMITTED, RUNNING, COMPLETED, FAILED, CANCELED, or CANCELING.
+    public var filter: Swift.String?
+    /// The maximum number of results to return for each paginated request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the workspace to list queries for.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        filter: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a query.
+    public struct QuerySummary: Swift.Sendable {
+        /// The date and time when the query reached a terminal state, in Unix epoch time.
+        public var completedAt: Foundation.Date?
+        /// The unique identifier for the query execution.
+        /// This member is required.
+        public var queryId: Swift.String?
+        /// The current query status.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.QueryStatus?
+        /// The date and time when the query was submitted, in Unix epoch time.
+        /// This member is required.
+        public var submittedAt: Foundation.Date?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            queryId: Swift.String? = nil,
+            status: IoTSiteWiseClientTypes.QueryStatus? = nil,
+            submittedAt: Foundation.Date? = nil
+        ) {
+            self.completedAt = completedAt
+            self.queryId = queryId
+            self.status = status
+            self.submittedAt = submittedAt
+        }
+    }
+}
+
+/// Contains the response for the ListQueries operation.
+public struct ListQueriesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of query summaries for the workspace.
+    /// This member is required.
+    public var queries: [IoTSiteWiseClientTypes.QuerySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        queries: [IoTSiteWiseClientTypes.QuerySummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.queries = queries
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Optional filters for ListSearches. When multiple filters are set, a search must match all of them.
+    public struct ListSearchesFilters: Swift.Sendable {
+        /// Returns only searches whose groupId is one of the listed values.
+        public var groupIdFilter: [Swift.String]?
+        /// Returns only searches whose searchType is one of the listed values.
+        public var searchTypeFilter: [IoTSiteWiseClientTypes.SearchType]?
+        /// Returns only searches started at or after this time.
+        public var startedAfter: Foundation.Date?
+        /// Returns only searches started at or before this time.
+        public var startedBefore: Foundation.Date?
+        /// Returns only searches whose status is one of the listed values.
+        public var statusFilter: [IoTSiteWiseClientTypes.SearchStatus]?
+
+        public init(
+            groupIdFilter: [Swift.String]? = nil,
+            searchTypeFilter: [IoTSiteWiseClientTypes.SearchType]? = nil,
+            startedAfter: Foundation.Date? = nil,
+            startedBefore: Foundation.Date? = nil,
+            statusFilter: [IoTSiteWiseClientTypes.SearchStatus]? = nil
+        ) {
+            self.groupIdFilter = groupIdFilter
+            self.searchTypeFilter = searchTypeFilter
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+            self.statusFilter = statusFilter
+        }
+    }
+}
+
+/// Input for the ListSearches operation.
+public struct ListSearchesInput: Swift.Sendable {
+    /// Optional filters that restrict which searches are returned.
+    public var listSearchesFilters: IoTSiteWiseClientTypes.ListSearchesFilters?
+    /// The maximum number of searches to return in a single page. Valid range is 1 to 1,000; if omitted, a service-defined default is used.
+    public var maxResults: Swift.Int?
+    /// The pagination token returned by a previous ListSearches call. Provide it to retrieve the next page; omit it to retrieve the first page.
+    public var nextToken: Swift.String?
+    /// The name of the workspace whose searches are listed.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        listSearchesFilters: IoTSiteWiseClientTypes.ListSearchesFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.listSearchesFilters = listSearchesFilters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// A summary of a single search as returned by ListSearches.
+    public struct SearchSummary: Swift.Sendable {
+        /// The group identifier associated with the search, if one was supplied on the request.
+        public var groupId: Swift.String?
+        /// The natural-language query that was submitted for the search.
+        /// This member is required.
+        public var queryStatement: Swift.String?
+        /// The unique identifier of the search.
+        /// This member is required.
+        public var searchId: Swift.String?
+        /// The search strategy used for the search.
+        /// This member is required.
+        public var searchType: IoTSiteWiseClientTypes.SearchType?
+        /// The time at which the search was started.
+        public var startedAt: Foundation.Date?
+        /// The current status of the search.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.SearchStatus?
+        /// A human-readable explanation of the current status. Populated when the search has FAILED.
+        public var statusReason: Swift.String?
+        /// The name of the workspace the search runs against.
+        /// This member is required.
+        public var workspaceName: Swift.String?
+
+        public init(
+            groupId: Swift.String? = nil,
+            queryStatement: Swift.String? = nil,
+            searchId: Swift.String? = nil,
+            searchType: IoTSiteWiseClientTypes.SearchType? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: IoTSiteWiseClientTypes.SearchStatus? = nil,
+            statusReason: Swift.String? = nil,
+            workspaceName: Swift.String? = nil
+        ) {
+            self.groupId = groupId
+            self.queryStatement = queryStatement
+            self.searchId = searchId
+            self.searchType = searchType
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.workspaceName = workspaceName
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.SearchSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchSummary(groupId: \(Swift.String(describing: groupId)), searchId: \(Swift.String(describing: searchId)), searchType: \(Swift.String(describing: searchType)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), workspaceName: \(Swift.String(describing: workspaceName)), queryStatement: \"CONTENT_REDACTED\")"}
+}
+
+/// Output of the ListSearches operation.
+public struct ListSearchesOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent ListSearches call to retrieve the next page. Absent when there are no more searches.
+    public var nextToken: Swift.String?
+    /// A page of search summaries, most recently started first.
+    /// This member is required.
+    public var searchSummaries: [IoTSiteWiseClientTypes.SearchSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        searchSummaries: [IoTSiteWiseClientTypes.SearchSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.searchSummaries = searchSummaries
+    }
+}
+
 /// You are not authorized.
 public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -9880,6 +14310,89 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for ListTasks operation.
+public struct ListTasksInput: Swift.Sendable {
+    /// The maximum number of results to return for each paginated request. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceName = workspaceName
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a task.
+    public struct TaskSummary: Swift.Sendable {
+        /// The time the task was created, in Unix epoch time.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the task.
+        public var description: Swift.String?
+        /// The current lifecycle status of the task.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.ResourceStatus?
+        /// The ARN of the task.
+        /// This member is required.
+        public var taskArn: Swift.String?
+        /// The name of the task.
+        /// This member is required.
+        public var taskName: Swift.String?
+        /// The time the task was last updated, in Unix epoch time.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The version of the task.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+            taskArn: Swift.String? = nil,
+            taskName: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.status = status
+            self.taskArn = taskArn
+            self.taskName = taskName
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+    }
+}
+
+/// Response structure for ListTasks operation.
+public struct ListTasksOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+    /// A list that summarizes each task in the workspace.
+    /// This member is required.
+    public var taskSummaries: [IoTSiteWiseClientTypes.TaskSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taskSummaries: [IoTSiteWiseClientTypes.TaskSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.taskSummaries = taskSummaries
+    }
+}
+
 extension IoTSiteWiseClientTypes {
 
     public enum ListTimeSeriesType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -9924,19 +14437,23 @@ public struct ListTimeSeriesInput: Swift.Sendable {
     ///
     /// * DISASSOCIATED – The time series isn't associated with any asset property.
     public var timeSeriesType: IoTSiteWiseClientTypes.ListTimeSeriesType?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         aliasPrefix: Swift.String? = nil,
         assetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        timeSeriesType: IoTSiteWiseClientTypes.ListTimeSeriesType? = nil
+        timeSeriesType: IoTSiteWiseClientTypes.ListTimeSeriesType? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.aliasPrefix = aliasPrefix
         self.assetId = assetId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.timeSeriesType = timeSeriesType
+        self.workspaceName = workspaceName
     }
 }
 
@@ -9998,13 +14515,84 @@ public struct ListTimeSeriesOutput: Swift.Sendable {
     /// One or more time series summaries to list.
     /// This member is required.
     public var timeSeriesSummaries: [IoTSiteWiseClientTypes.TimeSeriesSummary]?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
         nextToken: Swift.String? = nil,
-        timeSeriesSummaries: [IoTSiteWiseClientTypes.TimeSeriesSummary]? = nil
+        timeSeriesSummaries: [IoTSiteWiseClientTypes.TimeSeriesSummary]? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.nextToken = nextToken
         self.timeSeriesSummaries = timeSeriesSummaries
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct ListWorkspacesInput: Swift.Sendable {
+    /// The maximum number of results to return for each paginated request. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about a workspace, including its name, ARN, status, and creation and update timestamps.
+    public struct WorkspaceSummary: Swift.Sendable {
+        /// The ARN of the workspace.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date the workspace was created, in Unix epoch time.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The name of the workspace.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the workspace.
+        /// This member is required.
+        public var status: IoTSiteWiseClientTypes.WorkspaceStatus?
+        /// The date the workspace was last updated, in Unix epoch time.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: IoTSiteWiseClientTypes.WorkspaceStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListWorkspacesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list that summarizes each workspace.
+    /// This member is required.
+    public var workspaceSummaries: [IoTSiteWiseClientTypes.WorkspaceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workspaceSummaries: [IoTSiteWiseClientTypes.WorkspaceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.workspaceSummaries = workspaceSummaries
     }
 }
 
@@ -10125,11 +14713,15 @@ public struct PutLoggingOptionsInput: Swift.Sendable {
     /// The logging options to set.
     /// This member is required.
     public var loggingOptions: IoTSiteWiseClientTypes.LoggingOptions?
+    /// The name of the workspace.
+    public var workspaceName: Swift.String?
 
     public init(
-        loggingOptions: IoTSiteWiseClientTypes.LoggingOptions? = nil
+        loggingOptions: IoTSiteWiseClientTypes.LoggingOptions? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.loggingOptions = loggingOptions
+        self.workspaceName = workspaceName
     }
 }
 
@@ -10234,6 +14826,208 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
         self.storageType = storageType
         self.warmTier = warmTier
         self.warmTierRetentionPeriod = warmTierRetentionPeriod
+    }
+}
+
+/// Request structure for StartPipelineExecution operation.
+public struct StartPipelineExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the cached result from the original successful request without performing the operation again.
+    public var clientToken: Swift.String?
+    /// Runtime environment variable overrides for the execution. Includes global variables that apply to all compute nodes and computeNodes for per-node overrides. These take the highest priority in the environment variable hierarchy.
+    public var executionEnvironmentVariableOverrides: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables?
+    /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified.
+    public var executionPriority: Swift.Int?
+    /// The name of the pipeline to execute.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The name of the workspace containing the pipeline.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        executionEnvironmentVariableOverrides: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables? = nil,
+        executionPriority: Swift.Int? = nil,
+        pipelineName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.executionEnvironmentVariableOverrides = executionEnvironmentVariableOverrides
+        self.executionPriority = executionPriority
+        self.pipelineName = pipelineName
+        self.workspaceName = workspaceName
+    }
+}
+
+extension StartPipelineExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartPipelineExecutionInput(clientToken: \(Swift.String(describing: clientToken)), executionPriority: \(Swift.String(describing: executionPriority)), pipelineName: \(Swift.String(describing: pipelineName)), workspaceName: \(Swift.String(describing: workspaceName)), executionEnvironmentVariableOverrides: \"CONTENT_REDACTED\")"}
+}
+
+/// Response structure for StartPipelineExecution operation.
+public struct StartPipelineExecutionOutput: Swift.Sendable {
+    /// The unique identifier of the created pipeline execution.
+    /// This member is required.
+    public var pipelineExecutionId: Swift.String?
+
+    public init(
+        pipelineExecutionId: Swift.String? = nil
+    ) {
+        self.pipelineExecutionId = pipelineExecutionId
+    }
+}
+
+public struct StartQueryInput: Swift.Sendable {
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The SQL query to execute against the workspace telemetry, annotations, data segment, and dataset data.
+    /// This member is required.
+    public var queryStatement: Swift.String?
+    /// The name of the workspace to query.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        queryStatement: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.queryStatement = queryStatement
+        self.workspaceName = workspaceName
+    }
+}
+
+extension StartQueryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartQueryInput(clientToken: \(Swift.String(describing: clientToken)), workspaceName: \(Swift.String(describing: workspaceName)), queryStatement: \"CONTENT_REDACTED\")"}
+}
+
+/// Contains the response for the StartQuery operation.
+public struct StartQueryOutput: Swift.Sendable {
+    /// The unique identifier for the query execution.
+    /// This member is required.
+    public var queryId: Swift.String?
+    /// The initial query status. The value is always SUBMITTED upon creation.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.QueryStatus?
+
+    public init(
+        queryId: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.QueryStatus? = nil
+    ) {
+        self.queryId = queryId
+        self.status = status
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains a time interval with a start time and an end time. Use a time interval to restrict an operation, such as a search, to a specific time range.
+    public struct TimeInterval: Swift.Sendable {
+        /// The end of the time interval.
+        /// This member is required.
+        public var endTime: IoTSiteWiseClientTypes.TimeInNanos?
+        /// The start of the time interval.
+        /// This member is required.
+        public var startTime: IoTSiteWiseClientTypes.TimeInNanos?
+
+        public init(
+            endTime: IoTSiteWiseClientTypes.TimeInNanos? = nil,
+            startTime: IoTSiteWiseClientTypes.TimeInNanos? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Optional filters that restrict a search to a subset of the workspace's data.
+    public struct SearchFilters: Swift.Sendable {
+        /// Restricts the search to these datasets.
+        public var datasetIds: [Swift.String]?
+        /// Restricts the search to these time intervals.
+        public var timeIntervals: [IoTSiteWiseClientTypes.TimeInterval]?
+        /// Restricts the search to these time series.
+        public var timeSeriesIds: [Swift.String]?
+
+        public init(
+            datasetIds: [Swift.String]? = nil,
+            timeIntervals: [IoTSiteWiseClientTypes.TimeInterval]? = nil,
+            timeSeriesIds: [Swift.String]? = nil
+        ) {
+            self.datasetIds = datasetIds
+            self.timeIntervals = timeIntervals
+            self.timeSeriesIds = timeSeriesIds
+        }
+    }
+}
+
+/// Input for the StartSearch operation.
+public struct StartSearchInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier you provide to ensure the request is idempotent. Repeating a StartSearch call with the same clientToken returns the original search rather than starting a new one. If omitted, the SDK autogenerates one.
+    public var clientToken: Swift.String?
+    /// An optional caller-supplied identifier used to group related searches together.
+    public var groupId: Swift.String?
+    /// The natural-language query describing the data to search for.
+    /// This member is required.
+    public var queryStatement: Swift.String?
+    /// Optional filters that restrict the search to a subset of the workspace's data.
+    public var searchFilters: IoTSiteWiseClientTypes.SearchFilters?
+    /// The search strategy to use. Defaults to QUICK when omitted.
+    public var searchType: IoTSiteWiseClientTypes.SearchType?
+    /// The name of the workspace whose data is searched.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        groupId: Swift.String? = nil,
+        queryStatement: Swift.String? = nil,
+        searchFilters: IoTSiteWiseClientTypes.SearchFilters? = nil,
+        searchType: IoTSiteWiseClientTypes.SearchType? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.groupId = groupId
+        self.queryStatement = queryStatement
+        self.searchFilters = searchFilters
+        self.searchType = searchType
+        self.workspaceName = workspaceName
+    }
+}
+
+extension StartSearchInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartSearchInput(clientToken: \(Swift.String(describing: clientToken)), groupId: \(Swift.String(describing: groupId)), searchFilters: \(Swift.String(describing: searchFilters)), searchType: \(Swift.String(describing: searchType)), workspaceName: \(Swift.String(describing: workspaceName)), queryStatement: \"CONTENT_REDACTED\")"}
+}
+
+/// Output of the StartSearch operation.
+public struct StartSearchOutput: Swift.Sendable {
+    /// The group identifier associated with the search, if one was supplied on the request.
+    public var groupId: Swift.String?
+    /// The unique identifier assigned to the newly started search.
+    /// This member is required.
+    public var searchId: Swift.String?
+    /// The initial status of the search. A newly started search is QUEUED.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.SearchStatus?
+    /// The name of the workspace the search runs against.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        groupId: Swift.String? = nil,
+        searchId: Swift.String? = nil,
+        status: IoTSiteWiseClientTypes.SearchStatus? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.groupId = groupId
+        self.searchId = searchId
+        self.status = status
+        self.workspaceName = workspaceName
     }
 }
 
@@ -10374,13 +15168,17 @@ public struct UpdateAssetInput: Swift.Sendable {
 }
 
 public struct UpdateAssetOutput: Swift.Sendable {
+    /// The ID of the asset.
+    public var assetId: Swift.String?
     /// The status of the asset, which contains a state (UPDATING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetStatus: IoTSiteWiseClientTypes.AssetStatus?
 
     public init(
+        assetId: Swift.String? = nil,
         assetStatus: IoTSiteWiseClientTypes.AssetStatus? = nil
     ) {
+        self.assetId = assetId
         self.assetStatus = assetStatus
     }
 }
@@ -10439,13 +15237,17 @@ public struct UpdateAssetModelInput: Swift.Sendable {
 }
 
 public struct UpdateAssetModelOutput: Swift.Sendable {
+    /// The ID of the asset model.
+    public var assetModelId: Swift.String?
     /// The status of the asset model, which contains a state (UPDATING after successfully calling this operation) and any error message.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 
     public init(
+        assetModelId: Swift.String? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
     ) {
+        self.assetModelId = assetModelId
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -10504,15 +15306,19 @@ public struct UpdateAssetModelCompositeModelOutput: Swift.Sendable {
     /// The path to the composite model listing the parent composite models.
     /// This member is required.
     public var assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]?
+    /// The ID of the asset model.
+    public var assetModelId: Swift.String?
     /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
     /// This member is required.
     public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
 
     public init(
         assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]? = nil,
+        assetModelId: Swift.String? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
     ) {
         self.assetModelCompositeModelPath = assetModelCompositeModelPath
+        self.assetModelId = assetModelId
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -10607,6 +15413,8 @@ public struct UpdateDashboardOutput: Swift.Sendable {
 public struct UpdateDatasetInput: Swift.Sendable {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
+    /// The updated configuration for the dataset.
+    public var datasetConfig: IoTSiteWiseClientTypes.DatasetConfig?
     /// A description about the dataset, and its functionality.
     public var datasetDescription: Swift.String?
     /// The ID of the dataset.
@@ -10618,19 +15426,29 @@ public struct UpdateDatasetInput: Swift.Sendable {
     /// The data source for the dataset.
     /// This member is required.
     public var datasetSource: IoTSiteWiseClientTypes.DatasetSource?
+    /// The updated metadata for the dataset.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The name of the workspace that contains the dataset.
+    public var workspaceName: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
+        datasetConfig: IoTSiteWiseClientTypes.DatasetConfig? = nil,
         datasetDescription: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         datasetName: Swift.String? = nil,
-        datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil
+        datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        workspaceName: Swift.String? = nil
     ) {
         self.clientToken = clientToken
+        self.datasetConfig = datasetConfig
         self.datasetDescription = datasetDescription
         self.datasetId = datasetId
         self.datasetName = datasetName
         self.datasetSource = datasetSource
+        self.metadata = metadata
+        self.workspaceName = workspaceName
     }
 }
 
@@ -10719,6 +15537,59 @@ public struct UpdateGatewayCapabilityConfigurationOutput: Swift.Sendable {
     ) {
         self.capabilityNamespace = capabilityNamespace
         self.capabilitySyncStatus = capabilitySyncStatus
+    }
+}
+
+/// Request structure for UpdatePipeline operation.
+public struct UpdatePipelineInput: Swift.Sendable {
+    /// Updated list of compute nodes forming the pipeline DAG.
+    public var computations: [IoTSiteWiseClientTypes.ComputeNode]?
+    /// A new description for the pipeline.
+    public var description: Swift.String?
+    /// Updated environment variables shared across all compute nodes.
+    public var environmentVariables: [Swift.String: Swift.String]?
+    /// The name of the pipeline to update.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        computations: [IoTSiteWiseClientTypes.ComputeNode]? = nil,
+        description: Swift.String? = nil,
+        environmentVariables: [Swift.String: Swift.String]? = nil,
+        pipelineName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.computations = computations
+        self.description = description
+        self.environmentVariables = environmentVariables
+        self.pipelineName = pipelineName
+        self.workspaceName = workspaceName
+    }
+}
+
+extension UpdatePipelineInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePipelineInput(computations: \(Swift.String(describing: computations)), description: \(Swift.String(describing: description)), pipelineName: \(Swift.String(describing: pipelineName)), workspaceName: \(Swift.String(describing: workspaceName)), environmentVariables: \"CONTENT_REDACTED\")"}
+}
+
+/// Response structure for UpdatePipeline operation.
+public struct UpdatePipelineOutput: Swift.Sendable {
+    /// The current lifecycle status of the pipeline.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+    /// The new version of the pipeline created by this update.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.status = status
+        self.version = version
     }
 }
 
@@ -10849,6 +15720,86 @@ public struct UpdateProjectInput: Swift.Sendable {
 public struct UpdateProjectOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Request structure for UpdateTask operation.
+public struct UpdateTaskInput: Swift.Sendable {
+    /// A new description for the task.
+    public var description: Swift.String?
+    /// The updated task execution configuration.
+    public var taskConfiguration: IoTSiteWiseClientTypes.TaskConfiguration?
+    /// The name of the task to update.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The name of the workspace.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        taskConfiguration: IoTSiteWiseClientTypes.TaskConfiguration? = nil,
+        taskName: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.description = description
+        self.taskConfiguration = taskConfiguration
+        self.taskName = taskName
+        self.workspaceName = workspaceName
+    }
+}
+
+/// Response structure for UpdateTask operation.
+public struct UpdateTaskOutput: Swift.Sendable {
+    /// The current lifecycle status of the task.
+    /// This member is required.
+    public var status: IoTSiteWiseClientTypes.ResourceStatus?
+    /// The new version of the task created by this update.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        status: IoTSiteWiseClientTypes.ResourceStatus? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.status = status
+        self.version = version
+    }
+}
+
+public struct UpdateWorkspaceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The encryption configuration for the workspace. Omit this field to leave encryption unchanged. After a customer managed key configuration becomes active, the key can't be changed; supplying the same key is accepted.
+    public var encryptionConfiguration: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration?
+    /// A new description for the workspace.
+    public var workspaceDescription: Swift.String?
+    /// The name of the workspace to update.
+    /// This member is required.
+    public var workspaceName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        encryptionConfiguration: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration? = nil,
+        workspaceDescription: Swift.String? = nil,
+        workspaceName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.encryptionConfiguration = encryptionConfiguration
+        self.workspaceDescription = workspaceDescription
+        self.workspaceName = workspaceName
+    }
+}
+
+public struct UpdateWorkspaceOutput: Swift.Sendable {
+    /// The status of the workspace after the update, which is UPDATING when the operation returns.
+    /// This member is required.
+    public var workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus?
+
+    public init(
+        workspaceStatus: IoTSiteWiseClientTypes.WorkspaceStatus? = nil
+    ) {
+        self.workspaceStatus = workspaceStatus
+    }
 }
 
 extension IoTSiteWiseClientTypes {
@@ -11109,6 +16060,16 @@ extension AssociateTimeSeriesToAssetPropertyInput {
     }
 }
 
+extension BatchAssociateDataSegmentsToDatasetInput {
+
+    static func urlPathProvider(_ value: BatchAssociateDataSegmentsToDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/data-segments/associate"
+    }
+}
+
 extension BatchAssociateProjectAssetsInput {
 
     static func urlPathProvider(_ value: BatchAssociateProjectAssetsInput) -> Swift.String? {
@@ -11116,6 +16077,26 @@ extension BatchAssociateProjectAssetsInput {
             return nil
         }
         return "/projects/\(projectId.urlPercentEncoding())/assets/associate"
+    }
+}
+
+extension BatchDeleteDatasetDataSegmentsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteDatasetDataSegmentsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/data-segments/batch-delete"
+    }
+}
+
+extension BatchDisassociateDataSegmentsFromDatasetInput {
+
+    static func urlPathProvider(_ value: BatchDisassociateDataSegmentsFromDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/data-segments/disassociate"
     }
 }
 
@@ -11157,10 +16138,59 @@ extension BatchPutAssetPropertyValueInput {
     }
 }
 
+extension CancelEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: CancelEnrichmentJobInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/enrichment-jobs/\(jobId.urlPercentEncoding())/cancel"
+    }
+}
+
+extension CancelPipelineExecutionInput {
+
+    static func urlPathProvider(_ value: CancelPipelineExecutionInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        guard let pipelineExecutionId = value.pipelineExecutionId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())/executions/\(pipelineExecutionId.urlPercentEncoding())/cancel"
+    }
+}
+
+extension CancelQueryInput {
+
+    static func urlPathProvider(_ value: CancelQueryInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/queries/\(queryId.urlPercentEncoding())/cancel"
+    }
+}
+
 extension CreateAccessPolicyInput {
 
     static func urlPathProvider(_ value: CreateAccessPolicyInput) -> Swift.String? {
         return "/access-policies"
+    }
+}
+
+extension CreateApplicationInput {
+
+    static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
+        return "/applications"
     }
 }
 
@@ -11233,10 +16263,40 @@ extension CreateDatasetInput {
     }
 }
 
+extension CreateDatasetExportJobInput {
+
+    static func urlPathProvider(_ value: CreateDatasetExportJobInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/dataset-export-jobs"
+    }
+}
+
+extension CreateEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: CreateEnrichmentJobInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/enrichment-jobs"
+    }
+}
+
 extension CreateGatewayInput {
 
     static func urlPathProvider(_ value: CreateGatewayInput) -> Swift.String? {
         return "/20200301/gateways"
+    }
+}
+
+extension CreatePipelineInput {
+
+    static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines"
     }
 }
 
@@ -11251,6 +16311,23 @@ extension CreateProjectInput {
 
     static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/projects"
+    }
+}
+
+extension CreateTaskInput {
+
+    static func urlPathProvider(_ value: CreateTaskInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/tasks"
+    }
+}
+
+extension CreateWorkspaceInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceInput) -> Swift.String? {
+        return "/workspaces"
     }
 }
 
@@ -11273,6 +16350,19 @@ extension DeleteAccessPolicyInput {
             items.append(clientTokenQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/applications/\(id.urlPercentEncoding())"
     }
 }
 
@@ -11466,6 +16556,10 @@ extension DeleteDatasetInput {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
         return items
     }
 }
@@ -11477,6 +16571,19 @@ extension DeleteGatewayInput {
             return nil
         }
         return "/20200301/gateways/\(gatewayId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePipelineInput {
+
+    static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())"
     }
 }
 
@@ -11524,6 +16631,19 @@ extension DeleteProjectInput {
     }
 }
 
+extension DeleteTaskInput {
+
+    static func urlPathProvider(_ value: DeleteTaskInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let taskName = value.taskName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/tasks/\(taskName.urlPercentEncoding())"
+    }
+}
+
 extension DeleteTimeSeriesInput {
 
     static func urlPathProvider(_ value: DeleteTimeSeriesInput) -> Swift.String? {
@@ -11543,9 +16663,35 @@ extension DeleteTimeSeriesInput {
             let aliasQueryItem = Smithy.URIQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
             items.append(aliasQueryItem)
         }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
         if let propertyId = value.propertyId {
             let propertyIdQueryItem = Smithy.URIQueryItem(name: "propertyId".urlPercentEncoding(), value: Swift.String(propertyId).urlPercentEncoding())
             items.append(propertyIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteWorkspaceInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteWorkspaceInput {
+
+    static func queryItemProvider(_ value: DeleteWorkspaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
         return items
     }
@@ -11568,6 +16714,19 @@ extension DescribeActionInput {
             return nil
         }
         return "/actions/\(actionId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeApplicationInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/applications/\(id.urlPercentEncoding())"
     }
 }
 
@@ -11693,6 +16852,18 @@ extension DescribeBulkImportJobInput {
     }
 }
 
+extension DescribeBulkImportJobInput {
+
+    static func queryItemProvider(_ value: DescribeBulkImportJobInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeComputationModelInput {
 
     static func urlPathProvider(_ value: DescribeComputationModelInput) -> Swift.String? {
@@ -11761,10 +16932,52 @@ extension DescribeDatasetInput {
     }
 }
 
+extension DescribeDatasetInput {
+
+    static func queryItemProvider(_ value: DescribeDatasetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let datasetVersion = value.datasetVersion {
+            let datasetVersionQueryItem = Smithy.URIQueryItem(name: "datasetVersion".urlPercentEncoding(), value: Swift.String(datasetVersion).urlPercentEncoding())
+            items.append(datasetVersionQueryItem)
+        }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribeDatasetExportJobInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetExportJobInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/dataset-export-jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
 extension DescribeDefaultEncryptionConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeDefaultEncryptionConfigurationInput) -> Swift.String? {
         return "/configuration/account/encryption"
+    }
+}
+
+extension DescribeEnrichmentJobInput {
+
+    static func urlPathProvider(_ value: DescribeEnrichmentJobInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/enrichment-jobs/\(jobId.urlPercentEncoding())"
     }
 }
 
@@ -11808,6 +17021,75 @@ extension DescribeLoggingOptionsInput {
     }
 }
 
+extension DescribeLoggingOptionsInput {
+
+    static func queryItemProvider(_ value: DescribeLoggingOptionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribePipelineInput {
+
+    static func urlPathProvider(_ value: DescribePipelineInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())"
+    }
+}
+
+extension DescribePipelineInput {
+
+    static func queryItemProvider(_ value: DescribePipelineInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let pipelineVersion = value.pipelineVersion {
+            let pipelineVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(pipelineVersion).urlPercentEncoding())
+            items.append(pipelineVersionQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribePipelineExecutionInput {
+
+    static func urlPathProvider(_ value: DescribePipelineExecutionInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        guard let pipelineExecutionId = value.pipelineExecutionId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())/executions/\(pipelineExecutionId.urlPercentEncoding())"
+    }
+}
+
+extension DescribePipelineExecutionInput {
+
+    static func queryItemProvider(_ value: DescribePipelineExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribePortalInput {
 
     static func urlPathProvider(_ value: DescribePortalInput) -> Swift.String? {
@@ -11828,10 +17110,61 @@ extension DescribeProjectInput {
     }
 }
 
+extension DescribeQueryInput {
+
+    static func urlPathProvider(_ value: DescribeQueryInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/queries/\(queryId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeSearchInput {
+
+    static func urlPathProvider(_ value: DescribeSearchInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let searchId = value.searchId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/searches/\(searchId.urlPercentEncoding())"
+    }
+}
+
 extension DescribeStorageConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeStorageConfigurationInput) -> Swift.String? {
         return "/configuration/account/storage"
+    }
+}
+
+extension DescribeTaskInput {
+
+    static func urlPathProvider(_ value: DescribeTaskInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let taskName = value.taskName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/tasks/\(taskName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeTaskInput {
+
+    static func queryItemProvider(_ value: DescribeTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let taskVersion = value.taskVersion {
+            let taskVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(taskVersion).urlPercentEncoding())
+            items.append(taskVersionQueryItem)
+        }
+        return items
     }
 }
 
@@ -11854,11 +17187,25 @@ extension DescribeTimeSeriesInput {
             let aliasQueryItem = Smithy.URIQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
             items.append(aliasQueryItem)
         }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
         if let propertyId = value.propertyId {
             let propertyIdQueryItem = Smithy.URIQueryItem(name: "propertyId".urlPercentEncoding(), value: Swift.String(propertyId).urlPercentEncoding())
             items.append(propertyIdQueryItem)
         }
         return items
+    }
+}
+
+extension DescribeWorkspaceInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())"
     }
 }
 
@@ -12070,6 +17417,16 @@ extension GetAssetPropertyValueHistoryInput {
     }
 }
 
+extension GetCaptureDataInput {
+
+    static func urlPathProvider(_ value: GetCaptureDataInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/get-capture-data"
+    }
+}
+
 extension GetInterpolatedAssetPropertyValuesInput {
 
     static func urlPathProvider(_ value: GetInterpolatedAssetPropertyValuesInput) -> Swift.String? {
@@ -12142,6 +17499,64 @@ extension GetInterpolatedAssetPropertyValuesInput {
         if let propertyId = value.propertyId {
             let propertyIdQueryItem = Smithy.URIQueryItem(name: "propertyId".urlPercentEncoding(), value: Swift.String(propertyId).urlPercentEncoding())
             items.append(propertyIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetQueryResultsInput {
+
+    static func urlPathProvider(_ value: GetQueryResultsInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/queries/\(queryId.urlPercentEncoding())/results"
+    }
+}
+
+extension GetQueryResultsInput {
+
+    static func queryItemProvider(_ value: GetQueryResultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetSearchResultsInput {
+
+    static func urlPathProvider(_ value: GetSearchResultsInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let searchId = value.searchId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/searches/\(searchId.urlPercentEncoding())/results"
+    }
+}
+
+extension GetSearchResultsInput {
+
+    static func queryItemProvider(_ value: GetSearchResultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
         return items
     }
@@ -12236,6 +17651,29 @@ extension ListActionsInput {
         }
         let targetResourceTypeQueryItem = Smithy.URIQueryItem(name: "targetResourceType".urlPercentEncoding(), value: Swift.String(targetResourceType.rawValue).urlPercentEncoding())
         items.append(targetResourceTypeQueryItem)
+        return items
+    }
+}
+
+extension ListApplicationsInput {
+
+    static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
+        return "/applications"
+    }
+}
+
+extension ListApplicationsInput {
+
+    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
         return items
     }
 }
@@ -12487,6 +17925,10 @@ extension ListBulkImportJobsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
         return items
     }
 }
@@ -12606,6 +18048,104 @@ extension ListDashboardsInput {
     }
 }
 
+extension ListDatasetDataSegmentRelationshipsInput {
+
+    static func urlPathProvider(_ value: ListDatasetDataSegmentRelationshipsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/data-segment-relationships"
+    }
+}
+
+extension ListDatasetDataSegmentRelationshipsInput {
+
+    static func queryItemProvider(_ value: ListDatasetDataSegmentRelationshipsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let workspaceName = value.workspaceName else {
+            let message = "Creating a URL Query Item failed. workspaceName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+        items.append(workspaceNameQueryItem)
+        return items
+    }
+}
+
+extension ListDatasetDataSegmentsInput {
+
+    static func urlPathProvider(_ value: ListDatasetDataSegmentsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/datasets/\(datasetId.urlPercentEncoding())/data-segments"
+    }
+}
+
+extension ListDatasetDataSegmentsInput {
+
+    static func queryItemProvider(_ value: ListDatasetDataSegmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let datasetVersion = value.datasetVersion {
+            let datasetVersionQueryItem = Smithy.URIQueryItem(name: "datasetVersion".urlPercentEncoding(), value: Swift.String(datasetVersion).urlPercentEncoding())
+            items.append(datasetVersionQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let workspaceName = value.workspaceName else {
+            let message = "Creating a URL Query Item failed. workspaceName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+        items.append(workspaceNameQueryItem)
+        return items
+    }
+}
+
+extension ListDatasetExportJobsInput {
+
+    static func urlPathProvider(_ value: ListDatasetExportJobsInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/dataset-export-jobs"
+    }
+}
+
+extension ListDatasetExportJobsInput {
+
+    static func queryItemProvider(_ value: ListDatasetExportJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let filter = value.filter {
+            let filterQueryItem = Smithy.URIQueryItem(name: "filter".urlPercentEncoding(), value: Swift.String(filter.rawValue).urlPercentEncoding())
+            items.append(filterQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDatasetsInput {
 
     static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
@@ -12630,6 +18170,68 @@ extension ListDatasetsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
+        if let datasetType = value.datasetType {
+            let datasetTypeQueryItem = Smithy.URIQueryItem(name: "datasetType".urlPercentEncoding(), value: Swift.String(datasetType.rawValue).urlPercentEncoding())
+            items.append(datasetTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListEnrichmentJobsInput {
+
+    static func urlPathProvider(_ value: ListEnrichmentJobsInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/enrichment-jobs"
+    }
+}
+
+extension ListEnrichmentJobsInput {
+
+    static func queryItemProvider(_ value: ListEnrichmentJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let endDate = value.endDate {
+            let endDateQueryItem = Smithy.URIQueryItem(name: "endDate".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
+            items.append(endDateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let propertyAlias = value.propertyAlias {
+            let propertyAliasQueryItem = Smithy.URIQueryItem(name: "propertyAlias".urlPercentEncoding(), value: Swift.String(propertyAlias).urlPercentEncoding())
+            items.append(propertyAliasQueryItem)
+        }
+        if let timeSeriesId = value.timeSeriesId {
+            let timeSeriesIdQueryItem = Smithy.URIQueryItem(name: "timeSeriesId".urlPercentEncoding(), value: Swift.String(timeSeriesId).urlPercentEncoding())
+            items.append(timeSeriesIdQueryItem)
+        }
+        if let datasetId = value.datasetId {
+            let datasetIdQueryItem = Smithy.URIQueryItem(name: "datasetId".urlPercentEncoding(), value: Swift.String(datasetId).urlPercentEncoding())
+            items.append(datasetIdQueryItem)
+        }
+        if let jobType = value.jobType {
+            let jobTypeQueryItem = Smithy.URIQueryItem(name: "jobType".urlPercentEncoding(), value: Swift.String(jobType.rawValue).urlPercentEncoding())
+            items.append(jobTypeQueryItem)
+        }
+        if let startDate = value.startDate {
+            let startDateQueryItem = Smithy.URIQueryItem(name: "startDate".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
+            items.append(startDateQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
         return items
     }
@@ -12731,6 +18333,81 @@ extension ListInterfaceRelationshipsInput {
     }
 }
 
+extension ListPipelineExecutionsInput {
+
+    static func urlPathProvider(_ value: ListPipelineExecutionsInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())/executions"
+    }
+}
+
+extension ListPipelineExecutionsInput {
+
+    static func queryItemProvider(_ value: ListPipelineExecutionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let endTimeAfter = value.endTimeAfter {
+            let endTimeAfterQueryItem = Smithy.URIQueryItem(name: "endTimeAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endTimeAfter)).urlPercentEncoding())
+            items.append(endTimeAfterQueryItem)
+        }
+        if let endTimeBefore = value.endTimeBefore {
+            let endTimeBeforeQueryItem = Smithy.URIQueryItem(name: "endTimeBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endTimeBefore)).urlPercentEncoding())
+            items.append(endTimeBeforeQueryItem)
+        }
+        if let startTimeAfter = value.startTimeAfter {
+            let startTimeAfterQueryItem = Smithy.URIQueryItem(name: "startTimeAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTimeAfter)).urlPercentEncoding())
+            items.append(startTimeAfterQueryItem)
+        }
+        if let startTimeBefore = value.startTimeBefore {
+            let startTimeBeforeQueryItem = Smithy.URIQueryItem(name: "startTimeBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTimeBefore)).urlPercentEncoding())
+            items.append(startTimeBeforeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPipelinesInput {
+
+    static func urlPathProvider(_ value: ListPipelinesInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines"
+    }
+}
+
+extension ListPipelinesInput {
+
+    static func queryItemProvider(_ value: ListPipelinesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPortalsInput {
 
     static func urlPathProvider(_ value: ListPortalsInput) -> Swift.String? {
@@ -12809,6 +18486,46 @@ extension ListProjectsInput {
     }
 }
 
+extension ListQueriesInput {
+
+    static func urlPathProvider(_ value: ListQueriesInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/queries"
+    }
+}
+
+extension ListQueriesInput {
+
+    static func queryItemProvider(_ value: ListQueriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let filter = value.filter {
+            let filterQueryItem = Smithy.URIQueryItem(name: "filter".urlPercentEncoding(), value: Swift.String(filter).urlPercentEncoding())
+            items.append(filterQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSearchesInput {
+
+    static func urlPathProvider(_ value: ListSearchesInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/searches/list"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -12826,6 +18543,32 @@ extension ListTagsForResourceInput {
         }
         let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
+        return items
+    }
+}
+
+extension ListTasksInput {
+
+    static func urlPathProvider(_ value: ListTasksInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/tasks"
+    }
+}
+
+extension ListTasksInput {
+
+    static func queryItemProvider(_ value: ListTasksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
         return items
     }
 }
@@ -12857,9 +18600,36 @@ extension ListTimeSeriesInput {
             let timeSeriesTypeQueryItem = Smithy.URIQueryItem(name: "timeSeriesType".urlPercentEncoding(), value: Swift.String(timeSeriesType.rawValue).urlPercentEncoding())
             items.append(timeSeriesTypeQueryItem)
         }
+        if let workspaceName = value.workspaceName {
+            let workspaceNameQueryItem = Smithy.URIQueryItem(name: "workspaceName".urlPercentEncoding(), value: Swift.String(workspaceName).urlPercentEncoding())
+            items.append(workspaceNameQueryItem)
+        }
         if let aliasPrefix = value.aliasPrefix {
             let aliasPrefixQueryItem = Smithy.URIQueryItem(name: "aliasPrefix".urlPercentEncoding(), value: Swift.String(aliasPrefix).urlPercentEncoding())
             items.append(aliasPrefixQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListWorkspacesInput {
+
+    static func urlPathProvider(_ value: ListWorkspacesInput) -> Swift.String? {
+        return "/workspaces"
+    }
+}
+
+extension ListWorkspacesInput {
+
+    static func queryItemProvider(_ value: ListWorkspacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -12896,6 +18666,39 @@ extension PutStorageConfigurationInput {
 
     static func urlPathProvider(_ value: PutStorageConfigurationInput) -> Swift.String? {
         return "/configuration/account/storage"
+    }
+}
+
+extension StartPipelineExecutionInput {
+
+    static func urlPathProvider(_ value: StartPipelineExecutionInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())/executions"
+    }
+}
+
+extension StartQueryInput {
+
+    static func urlPathProvider(_ value: StartQueryInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/queries"
+    }
+}
+
+extension StartSearchInput {
+
+    static func urlPathProvider(_ value: StartSearchInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/searches"
     }
 }
 
@@ -13089,6 +18892,19 @@ extension UpdateGatewayCapabilityConfigurationInput {
     }
 }
 
+extension UpdatePipelineInput {
+
+    static func urlPathProvider(_ value: UpdatePipelineInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let pipelineName = value.pipelineName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/pipelines/\(pipelineName.urlPercentEncoding())"
+    }
+}
+
 extension UpdatePortalInput {
 
     static func urlPathProvider(_ value: UpdatePortalInput) -> Swift.String? {
@@ -13106,6 +18922,29 @@ extension UpdateProjectInput {
             return nil
         }
         return "/projects/\(projectId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTaskInput {
+
+    static func urlPathProvider(_ value: UpdateTaskInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        guard let taskName = value.taskName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())/tasks/\(taskName.urlPercentEncoding())"
+    }
+}
+
+extension UpdateWorkspaceInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceInput) -> Swift.String? {
+        guard let workspaceName = value.workspaceName else {
+            return nil
+        }
+        return "/workspaces/\(workspaceName.urlPercentEncoding())"
     }
 }
 
@@ -13127,12 +18966,42 @@ extension AssociateTimeSeriesToAssetPropertyInput {
     }
 }
 
+extension BatchAssociateDataSegmentsToDatasetInput {
+
+    static func write(value: BatchAssociateDataSegmentsToDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associateDataSegmentEntries"].writeList(value.associateDataSegmentEntries, memberWritingClosure: IoTSiteWiseClientTypes.AssociateDataSegmentEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["workspaceName"].write(value.workspaceName)
+    }
+}
+
 extension BatchAssociateProjectAssetsInput {
 
     static func write(value: BatchAssociateProjectAssetsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["assetIds"].writeList(value.assetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
+    }
+}
+
+extension BatchDeleteDatasetDataSegmentsInput {
+
+    static func write(value: BatchDeleteDatasetDataSegmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["deleteDataSegmentEntries"].writeList(value.deleteDataSegmentEntries, memberWritingClosure: IoTSiteWiseClientTypes.DeleteDataSegmentEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["workspaceName"].write(value.workspaceName)
+    }
+}
+
+extension BatchDisassociateDataSegmentsFromDatasetInput {
+
+    static func write(value: BatchDisassociateDataSegmentsFromDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["disassociateDataSegmentEntries"].writeList(value.disassociateDataSegmentEntries, memberWritingClosure: IoTSiteWiseClientTypes.DisassociateDataSegmentEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["workspaceName"].write(value.workspaceName)
     }
 }
 
@@ -13183,6 +19052,14 @@ extension BatchPutAssetPropertyValueInput {
     }
 }
 
+extension CancelPipelineExecutionInput {
+
+    static func write(value: CancelPipelineExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["reason"].write(value.reason)
+    }
+}
+
 extension CreateAccessPolicyInput {
 
     static func write(value: CreateAccessPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -13192,6 +19069,19 @@ extension CreateAccessPolicyInput {
         try writer["accessPolicyResource"].write(value.accessPolicyResource, with: IoTSiteWiseClientTypes.Resource.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateApplicationInput {
+
+    static func write(value: CreateApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["idcInstanceArn"].write(value.idcInstanceArn)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["workspaceName"].write(value.workspaceName)
     }
 }
 
@@ -13247,12 +19137,14 @@ extension CreateBulkImportJobInput {
     static func write(value: CreateBulkImportJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["adaptiveIngestion"].write(value.adaptiveIngestion)
+        try writer["datasetId"].write(value.datasetId)
         try writer["deleteFilesAfterImport"].write(value.deleteFilesAfterImport)
         try writer["errorReportLocation"].write(value.errorReportLocation, with: IoTSiteWiseClientTypes.ErrorReportLocation.write(value:to:))
         try writer["files"].writeList(value.files, memberWritingClosure: IoTSiteWiseClientTypes.File.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["jobConfiguration"].write(value.jobConfiguration, with: IoTSiteWiseClientTypes.JobConfiguration.write(value:to:))
         try writer["jobName"].write(value.jobName)
         try writer["jobRoleArn"].write(value.jobRoleArn)
+        try writer["workspaceName"].write(value.workspaceName)
     }
 }
 
@@ -13287,11 +19179,35 @@ extension CreateDatasetInput {
     static func write(value: CreateDatasetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["datasetConfig"].write(value.datasetConfig, with: IoTSiteWiseClientTypes.DatasetConfig.write(value:to:))
         try writer["datasetDescription"].write(value.datasetDescription)
         try writer["datasetId"].write(value.datasetId)
         try writer["datasetName"].write(value.datasetName)
         try writer["datasetSource"].write(value.datasetSource, with: IoTSiteWiseClientTypes.DatasetSource.write(value:to:))
+        try writer["datasetType"].write(value.datasetType)
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["workspaceName"].write(value.workspaceName)
+    }
+}
+
+extension CreateDatasetExportJobInput {
+
+    static func write(value: CreateDatasetExportJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["destinationS3Uri"].write(value.destinationS3Uri)
+        try writer["errorReportLocation"].write(value.errorReportLocation, with: IoTSiteWiseClientTypes.ExportErrorReportLocation.write(value:to:))
+        try writer["input"].write(value.input, with: IoTSiteWiseClientTypes.ProcessingInput.write(value:to:))
+    }
+}
+
+extension CreateEnrichmentJobInput {
+
+    static func write(value: CreateEnrichmentJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["jobConfiguration"].write(value.jobConfiguration, with: IoTSiteWiseClientTypes.EnrichmentJobConfiguration.write(value:to:))
     }
 }
 
@@ -13302,6 +19218,19 @@ extension CreateGatewayInput {
         try writer["gatewayName"].write(value.gatewayName)
         try writer["gatewayPlatform"].write(value.gatewayPlatform, with: IoTSiteWiseClientTypes.GatewayPlatform.write(value:to:))
         try writer["gatewayVersion"].write(value.gatewayVersion)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreatePipelineInput {
+
+    static func write(value: CreatePipelineInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["computations"].writeList(value.computations, memberWritingClosure: IoTSiteWiseClientTypes.ComputeNode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["pipelineName"].write(value.pipelineName)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -13334,6 +19263,30 @@ extension CreateProjectInput {
         try writer["projectDescription"].write(value.projectDescription)
         try writer["projectName"].write(value.projectName)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTaskInput {
+
+    static func write(value: CreateTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["taskConfiguration"].write(value.taskConfiguration, with: IoTSiteWiseClientTypes.TaskConfiguration.write(value:to:))
+        try writer["taskName"].write(value.taskName)
+    }
+}
+
+extension CreateWorkspaceInput {
+
+    static func write(value: CreateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["workspaceDescription"].write(value.workspaceDescription)
+        try writer["workspaceName"].write(value.workspaceName)
     }
 }
 
@@ -13386,6 +19339,19 @@ extension ExecuteQueryInput {
     }
 }
 
+extension GetCaptureDataInput {
+
+    static func write(value: GetCaptureDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].write(value.endTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["formatSettings"].write(value.formatSettings, with: IoTSiteWiseClientTypes.FormatSettings.write(value:to:))
+        try writer["nextToken"].write(value.nextToken)
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["startTime"].write(value.startTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["timeSeriesId"].write(value.timeSeriesId)
+    }
+}
+
 extension InvokeAssistantInput {
 
     static func write(value: InvokeAssistantInput?, to writer: SmithyJSON.Writer) throws {
@@ -13401,6 +19367,16 @@ extension ListComputationModelDataBindingUsagesInput {
     static func write(value: ListComputationModelDataBindingUsagesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["dataBindingValueFilter"].write(value.dataBindingValueFilter, with: IoTSiteWiseClientTypes.DataBindingValueFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListSearchesInput {
+
+    static func write(value: ListSearchesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["listSearchesFilters"].write(value.listSearchesFilters, with: IoTSiteWiseClientTypes.ListSearchesFilters.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -13429,6 +19405,7 @@ extension PutLoggingOptionsInput {
     static func write(value: PutLoggingOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["loggingOptions"].write(value.loggingOptions, with: IoTSiteWiseClientTypes.LoggingOptions.write(value:to:))
+        try writer["workspaceName"].write(value.workspaceName)
     }
 }
 
@@ -13443,6 +19420,37 @@ extension PutStorageConfigurationInput {
         try writer["storageType"].write(value.storageType)
         try writer["warmTier"].write(value.warmTier)
         try writer["warmTierRetentionPeriod"].write(value.warmTierRetentionPeriod, with: IoTSiteWiseClientTypes.WarmTierRetentionPeriod.write(value:to:))
+    }
+}
+
+extension StartPipelineExecutionInput {
+
+    static func write(value: StartPipelineExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["executionEnvironmentVariableOverrides"].write(value.executionEnvironmentVariableOverrides, with: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables.write(value:to:))
+        try writer["executionPriority"].write(value.executionPriority)
+    }
+}
+
+extension StartQueryInput {
+
+    static func write(value: StartQueryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["queryStatement"].write(value.queryStatement)
+    }
+}
+
+extension StartSearchInput {
+
+    static func write(value: StartSearchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["groupId"].write(value.groupId)
+        try writer["queryStatement"].write(value.queryStatement)
+        try writer["searchFilters"].write(value.searchFilters, with: IoTSiteWiseClientTypes.SearchFilters.write(value:to:))
+        try writer["searchType"].write(value.searchType)
     }
 }
 
@@ -13541,9 +19549,12 @@ extension UpdateDatasetInput {
     static func write(value: UpdateDatasetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["datasetConfig"].write(value.datasetConfig, with: IoTSiteWiseClientTypes.DatasetConfig.write(value:to:))
         try writer["datasetDescription"].write(value.datasetDescription)
         try writer["datasetName"].write(value.datasetName)
         try writer["datasetSource"].write(value.datasetSource, with: IoTSiteWiseClientTypes.DatasetSource.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["workspaceName"].write(value.workspaceName)
     }
 }
 
@@ -13561,6 +19572,16 @@ extension UpdateGatewayCapabilityConfigurationInput {
         guard let value else { return }
         try writer["capabilityConfiguration"].write(value.capabilityConfiguration)
         try writer["capabilityNamespace"].write(value.capabilityNamespace)
+    }
+}
+
+extension UpdatePipelineInput {
+
+    static func write(value: UpdatePipelineInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computations"].writeList(value.computations, memberWritingClosure: IoTSiteWiseClientTypes.ComputeNode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -13591,6 +19612,25 @@ extension UpdateProjectInput {
     }
 }
 
+extension UpdateTaskInput {
+
+    static func write(value: UpdateTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["taskConfiguration"].write(value.taskConfiguration, with: IoTSiteWiseClientTypes.TaskConfiguration.write(value:to:))
+    }
+}
+
+extension UpdateWorkspaceInput {
+
+    static func write(value: UpdateWorkspaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration.write(value:to:))
+        try writer["workspaceDescription"].write(value.workspaceDescription)
+    }
+}
+
 extension AssociateAssetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAssetsOutput {
@@ -13605,6 +19645,20 @@ extension AssociateTimeSeriesToAssetPropertyOutput {
     }
 }
 
+extension BatchAssociateDataSegmentsToDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAssociateDataSegmentsToDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchAssociateDataSegmentsToDatasetOutput()
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.failedAssociations = try reader["failedAssociations"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.FailedDataSegmentAssociation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchAssociateProjectAssetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAssociateProjectAssetsOutput {
@@ -13613,6 +19667,34 @@ extension BatchAssociateProjectAssetsOutput {
         let reader = responseReader
         var value = BatchAssociateProjectAssetsOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchDeleteDatasetDataSegmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteDatasetDataSegmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteDatasetDataSegmentsOutput()
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.FailedDataSegmentDeletion.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchDisassociateDataSegmentsFromDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDisassociateDataSegmentsFromDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDisassociateDataSegmentsFromDatasetOutput()
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.datasetVersion = try reader["datasetVersion"].readIfPresent() ?? ""
+        value.failedDisassociations = try reader["failedDisassociations"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.FailedDataSegmentDisassociation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13686,6 +19768,44 @@ extension BatchPutAssetPropertyValueOutput {
     }
 }
 
+extension CancelEnrichmentJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelEnrichmentJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelEnrichmentJobOutput()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CancelPipelineExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelPipelineExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelPipelineExecutionOutput()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CancelQueryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelQueryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelQueryOutput()
+        value.queryId = try reader["queryId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateAccessPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAccessPolicyOutput {
@@ -13695,6 +19815,22 @@ extension CreateAccessPolicyOutput {
         var value = CreateAccessPolicyOutput()
         value.accessPolicyArn = try reader["accessPolicyArn"].readIfPresent() ?? ""
         value.accessPolicyId = try reader["accessPolicyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateApplicationOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.dnsSubdomain = try reader["dnsSubdomain"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13736,6 +19872,7 @@ extension CreateAssetModelCompositeModelOutput {
         var value = CreateAssetModelCompositeModelOutput()
         value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent() ?? ""
         value.assetModelCompositeModelPath = try reader["assetModelCompositeModelPath"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.assetModelId = try reader["assetModelId"].readIfPresent()
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         return value
     }
@@ -13796,6 +19933,33 @@ extension CreateDatasetOutput {
     }
 }
 
+extension CreateDatasetExportJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDatasetExportJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDatasetExportJobOutput()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateEnrichmentJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEnrichmentJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEnrichmentJobOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateGatewayOutput {
@@ -13805,6 +19969,21 @@ extension CreateGatewayOutput {
         var value = CreateGatewayOutput()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreatePipelineOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePipelineOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePipelineOutput()
+        value.pipelineArn = try reader["pipelineArn"].readIfPresent() ?? ""
+        value.pipelineName = try reader["pipelineName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13838,10 +20017,46 @@ extension CreateProjectOutput {
     }
 }
 
+extension CreateTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTaskOutput()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.taskArn = try reader["taskArn"].readIfPresent() ?? ""
+        value.taskName = try reader["taskName"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWorkspaceOutput()
+        value.workspaceArn = try reader["workspaceArn"].readIfPresent() ?? ""
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        value.workspaceStatus = try reader["workspaceStatus"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceStatus.read(from:))
+        return value
+    }
+}
+
 extension DeleteAccessPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccessPolicyOutput {
         return DeleteAccessPolicyOutput()
+    }
+}
+
+extension DeleteApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationOutput {
+        return DeleteApplicationOutput()
     }
 }
 
@@ -13852,6 +20067,7 @@ extension DeleteAssetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAssetOutput()
+        value.assetId = try reader["assetId"].readIfPresent()
         value.assetStatus = try reader["assetStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetStatus.read(from:))
         return value
     }
@@ -13864,6 +20080,7 @@ extension DeleteAssetModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAssetModelOutput()
+        value.assetModelId = try reader["assetModelId"].readIfPresent()
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         return value
     }
@@ -13876,6 +20093,7 @@ extension DeleteAssetModelCompositeModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAssetModelCompositeModelOutput()
+        value.assetModelId = try reader["assetModelId"].readIfPresent()
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         return value
     }
@@ -13934,6 +20152,18 @@ extension DeleteGatewayOutput {
     }
 }
 
+extension DeletePipelineOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePipelineOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePipelineOutput()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        return value
+    }
+}
+
 extension DeletePortalOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePortalOutput {
@@ -13953,10 +20183,34 @@ extension DeleteProjectOutput {
     }
 }
 
+extension DeleteTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTaskOutput()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        return value
+    }
+}
+
 extension DeleteTimeSeriesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTimeSeriesOutput {
         return DeleteTimeSeriesOutput()
+    }
+}
+
+extension DeleteWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteWorkspaceOutput()
+        value.workspaceStatus = try reader["workspaceStatus"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceStatus.read(from:))
+        return value
     }
 }
 
@@ -13991,6 +20245,27 @@ extension DescribeActionOutput {
         value.executionTime = try reader["executionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.resolveTo = try reader["resolveTo"].readIfPresent(with: IoTSiteWiseClientTypes.ResolveTo.read(from:))
         value.targetResource = try reader["targetResource"].readIfPresent(with: IoTSiteWiseClientTypes.TargetResource.read(from:))
+        return value
+    }
+}
+
+extension DescribeApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeApplicationOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.dnsSubdomain = try reader["dnsSubdomain"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.idcApplicationArn = try reader["idcApplicationArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14131,6 +20406,7 @@ extension DescribeBulkImportJobOutput {
         let reader = responseReader
         var value = DescribeBulkImportJobOutput()
         value.adaptiveIngestion = try reader["adaptiveIngestion"].readIfPresent()
+        value.datasetId = try reader["datasetId"].readIfPresent()
         value.deleteFilesAfterImport = try reader["deleteFilesAfterImport"].readIfPresent()
         value.errorReportLocation = try reader["errorReportLocation"].readIfPresent(with: IoTSiteWiseClientTypes.ErrorReportLocation.read(from:))
         value.files = try reader["files"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.File.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -14141,6 +20417,7 @@ extension DescribeBulkImportJobOutput {
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.jobRoleArn = try reader["jobRoleArn"].readIfPresent() ?? ""
         value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceName = try reader["workspaceName"].readIfPresent()
         return value
     }
 }
@@ -14208,6 +20485,7 @@ extension DescribeDatasetOutput {
         let reader = responseReader
         var value = DescribeDatasetOutput()
         value.datasetArn = try reader["datasetArn"].readIfPresent() ?? ""
+        value.datasetConfig = try reader["datasetConfig"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetConfig.read(from:))
         value.datasetCreationDate = try reader["datasetCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.datasetDescription = try reader["datasetDescription"].readIfPresent() ?? ""
         value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
@@ -14215,7 +20493,30 @@ extension DescribeDatasetOutput {
         value.datasetName = try reader["datasetName"].readIfPresent() ?? ""
         value.datasetSource = try reader["datasetSource"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetSource.read(from:))
         value.datasetStatus = try reader["datasetStatus"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetStatus.read(from:))
+        value.datasetType = try reader["datasetType"].readIfPresent()
         value.datasetVersion = try reader["datasetVersion"].readIfPresent()
+        value.enrichmentStatus = try reader["enrichmentStatus"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetEnrichment.read(from:))
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.workspaceName = try reader["workspaceName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeDatasetExportJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDatasetExportJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDatasetExportJobOutput()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.destinationS3Uri = try reader["destinationS3Uri"].readIfPresent() ?? ""
+        value.errorReportLocation = try reader["errorReportLocation"].readIfPresent(with: IoTSiteWiseClientTypes.ExportErrorReportLocation.read(from:))
+        value.input = try reader["input"].readIfPresent(with: IoTSiteWiseClientTypes.ProcessingInput.read(from:))
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14230,6 +20531,27 @@ extension DescribeDefaultEncryptionConfigurationOutput {
         value.configurationStatus = try reader["configurationStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationStatus.read(from:))
         value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeEnrichmentJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEnrichmentJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeEnrichmentJobOutput()
+        value.cancelledAt = try reader["cancelledAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.jobConfiguration = try reader["jobConfiguration"].readIfPresent(with: IoTSiteWiseClientTypes.EnrichmentJobConfiguration.read(from:))
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobType = try reader["jobType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14302,6 +20624,49 @@ extension DescribeLoggingOptionsOutput {
     }
 }
 
+extension DescribePipelineOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePipelineOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribePipelineOutput()
+        value.computations = try reader["computations"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ComputeNode.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pipelineArn = try reader["pipelineArn"].readIfPresent() ?? ""
+        value.pipelineName = try reader["pipelineName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DescribePipelineExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePipelineExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribePipelineExecutionOutput()
+        value.computeNodeExecutionDetails = try reader["computeNodeExecutionDetails"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ComputeNodeExecutionDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionPriority = try reader["executionPriority"].readIfPresent()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent() ?? ""
+        value.pipelineName = try reader["pipelineName"].readIfPresent() ?? ""
+        value.pipelineVersion = try reader["pipelineVersion"].readIfPresent() ?? ""
+        value.requestEnvironmentVariables = try reader["requestEnvironmentVariables"].readIfPresent(with: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables.read(from:))
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.PipelineExecutionStatus.read(from:))
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DescribePortalOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePortalOutput {
@@ -14348,6 +20713,42 @@ extension DescribeProjectOutput {
     }
 }
 
+extension DescribeQueryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQueryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQueryOutput()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.queryId = try reader["queryId"].readIfPresent() ?? ""
+        value.statistics = try reader["statistics"].readIfPresent(with: IoTSiteWiseClientTypes.QueryStatistics.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DescribeSearchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSearchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSearchOutput()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.queryStatement = try reader["queryStatement"].readIfPresent() ?? ""
+        value.searchId = try reader["searchId"].readIfPresent() ?? ""
+        value.searchType = try reader["searchType"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DescribeStorageConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeStorageConfigurationOutput {
@@ -14368,6 +20769,26 @@ extension DescribeStorageConfigurationOutput {
     }
 }
 
+extension DescribeTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTaskOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.taskArn = try reader["taskArn"].readIfPresent() ?? ""
+        value.taskConfiguration = try reader["taskConfiguration"].readIfPresent(with: IoTSiteWiseClientTypes.TaskConfiguration.read(from:))
+        value.taskName = try reader["taskName"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DescribeTimeSeriesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTimeSeriesOutput {
@@ -14384,6 +20805,25 @@ extension DescribeTimeSeriesOutput {
         value.timeSeriesCreationDate = try reader["timeSeriesCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
         value.timeSeriesLastUpdateDate = try reader["timeSeriesLastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceName = try reader["workspaceName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeWorkspaceOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceEncryptionConfigurationInfo.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceArn = try reader["workspaceArn"].readIfPresent() ?? ""
+        value.workspaceDescription = try reader["workspaceDescription"].readIfPresent()
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        value.workspaceStatus = try reader["workspaceStatus"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceStatus.read(from:))
         return value
     }
 }
@@ -14466,6 +20906,22 @@ extension GetAssetPropertyValueHistoryOutput {
     }
 }
 
+extension GetCaptureDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCaptureDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCaptureDataOutput()
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.endTime = try reader["endTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.startTime = try reader["startTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        return value
+    }
+}
+
 extension GetInterpolatedAssetPropertyValuesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInterpolatedAssetPropertyValuesOutput {
@@ -14475,6 +20931,33 @@ extension GetInterpolatedAssetPropertyValuesOutput {
         var value = GetInterpolatedAssetPropertyValuesOutput()
         value.interpolatedAssetPropertyValues = try reader["interpolatedAssetPropertyValues"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetQueryResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQueryResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQueryResultsOutput()
+        value.columnInfo = try reader["columnInfo"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ColumnInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.rows = try reader["rows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetSearchResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSearchResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSearchResultsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.searchResults = try reader["searchResults"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.SearchResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14517,6 +21000,19 @@ extension ListActionsOutput {
         var value = ListActionsOutput()
         value.actionSummaries = try reader["actionSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ActionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListApplicationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListApplicationsOutput()
+        value.applications = try reader["applications"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -14690,6 +21186,45 @@ extension ListDashboardsOutput {
     }
 }
 
+extension ListDatasetDataSegmentRelationshipsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetDataSegmentRelationshipsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetDataSegmentRelationshipsOutput()
+        value.dataSegmentRelationshipSummaries = try reader["dataSegmentRelationshipSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.DataSegmentRelationshipSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDatasetDataSegmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetDataSegmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetDataSegmentsOutput()
+        value.dataSegments = try reader["dataSegments"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.DataSegmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDatasetExportJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetExportJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetExportJobsOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.ExportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDatasetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetsOutput {
@@ -14698,6 +21233,20 @@ extension ListDatasetsOutput {
         let reader = responseReader
         var value = ListDatasetsOutput()
         value.datasetSummaries = try reader["datasetSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.DatasetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.workspaceName = try reader["workspaceName"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEnrichmentJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEnrichmentJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEnrichmentJobsOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.EnrichmentJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -14742,6 +21291,32 @@ extension ListInterfaceRelationshipsOutput {
     }
 }
 
+extension ListPipelineExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPipelineExecutionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.pipelineExecutionSummaries = try reader["pipelineExecutionSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.PipelineExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPipelinesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelinesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPipelinesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.pipelineSummaries = try reader["pipelineSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.PipelineSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListPortalsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPortalsOutput {
@@ -14781,6 +21356,32 @@ extension ListProjectsOutput {
     }
 }
 
+extension ListQueriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQueriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQueriesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.QuerySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListSearchesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSearchesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSearchesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.searchSummaries = try reader["searchSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.SearchSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -14789,6 +21390,19 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTasksOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.taskSummaries = try reader["taskSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.TaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14802,6 +21416,20 @@ extension ListTimeSeriesOutput {
         var value = ListTimeSeriesOutput()
         value.timeSeriesSummaries = try reader["TimeSeriesSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.TimeSeriesSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        value.workspaceName = try reader["workspaceName"].readIfPresent()
+        return value
+    }
+}
+
+extension ListWorkspacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkspacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkspacesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.workspaceSummaries = try reader["workspaceSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.WorkspaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14861,6 +21489,46 @@ extension PutStorageConfigurationOutput {
     }
 }
 
+extension StartPipelineExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartPipelineExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartPipelineExecutionOutput()
+        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartQueryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartQueryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartQueryOutput()
+        value.queryId = try reader["queryId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension StartSearchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSearchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartSearchOutput()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.searchId = try reader["searchId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -14889,6 +21557,7 @@ extension UpdateAssetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAssetOutput()
+        value.assetId = try reader["assetId"].readIfPresent()
         value.assetStatus = try reader["assetStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetStatus.read(from:))
         return value
     }
@@ -14901,6 +21570,7 @@ extension UpdateAssetModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAssetModelOutput()
+        value.assetModelId = try reader["assetModelId"].readIfPresent()
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         return value
     }
@@ -14914,6 +21584,7 @@ extension UpdateAssetModelCompositeModelOutput {
         let reader = responseReader
         var value = UpdateAssetModelCompositeModelOutput()
         value.assetModelCompositeModelPath = try reader["assetModelCompositeModelPath"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.assetModelId = try reader["assetModelId"].readIfPresent()
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         return value
     }
@@ -14979,6 +21650,19 @@ extension UpdateGatewayCapabilityConfigurationOutput {
     }
 }
 
+extension UpdatePipelineOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePipelineOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePipelineOutput()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension UpdatePortalOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePortalOutput {
@@ -14995,6 +21679,31 @@ extension UpdateProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProjectOutput {
         return UpdateProjectOutput()
+    }
+}
+
+extension UpdateTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTaskOutput()
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateWorkspaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateWorkspaceOutput()
+        value.workspaceStatus = try reader["workspaceStatus"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceStatus.read(from:))
+        return value
     }
 }
 
@@ -15036,6 +21745,25 @@ enum AssociateTimeSeriesToAssetPropertyOutputError {
     }
 }
 
+enum BatchAssociateDataSegmentsToDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchAssociateProjectAssetsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15047,6 +21775,42 @@ enum BatchAssociateProjectAssetsOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteDatasetDataSegmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDisassociateDataSegmentsFromDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15142,6 +21906,64 @@ enum BatchPutAssetPropertyValueOutputError {
     }
 }
 
+enum CancelEnrichmentJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelPipelineExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelQueryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAccessPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15150,6 +21972,26 @@ enum CreateAccessPolicyOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -15299,6 +22141,45 @@ enum CreateDatasetOutputError {
     }
 }
 
+enum CreateDatasetExportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateEnrichmentJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15311,6 +22192,26 @@ enum CreateGatewayOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePipelineOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15353,6 +22254,45 @@ enum CreateProjectOutputError {
     }
 }
 
+enum CreateTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAccessPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15361,6 +22301,25 @@ enum DeleteAccessPolicyOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15515,6 +22474,25 @@ enum DeleteGatewayOutputError {
     }
 }
 
+enum DeletePipelineOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePortalOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15550,6 +22528,25 @@ enum DeleteProjectOutputError {
     }
 }
 
+enum DeleteTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTimeSeriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15558,6 +22555,25 @@ enum DeleteTimeSeriesOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -15593,6 +22609,24 @@ enum DescribeActionOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15789,6 +22823,24 @@ enum DescribeDatasetOutputError {
     }
 }
 
+enum DescribeDatasetExportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDefaultEncryptionConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15799,6 +22851,27 @@ enum DescribeDefaultEncryptionConfigurationOutputError {
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeEnrichmentJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15873,6 +22946,42 @@ enum DescribeLoggingOptionsOutputError {
     }
 }
 
+enum DescribePipelineOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribePipelineExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribePortalOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15907,6 +23016,42 @@ enum DescribeProjectOutputError {
     }
 }
 
+enum DescribeQueryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSearchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeStorageConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15926,6 +23071,24 @@ enum DescribeStorageConfigurationOutputError {
     }
 }
 
+enum DescribeTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTimeSeriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15934,6 +23097,24 @@ enum DescribeTimeSeriesOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -16072,6 +23253,24 @@ enum GetAssetPropertyValueHistoryOutputError {
     }
 }
 
+enum GetCaptureDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInterpolatedAssetPropertyValuesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16084,6 +23283,42 @@ enum GetInterpolatedAssetPropertyValuesOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQueryResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSearchResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16143,6 +23378,24 @@ enum ListActionsOutputError {
     }
 }
 
+enum ListApplicationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAssetModelCompositeModelsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16187,6 +23440,7 @@ enum ListAssetModelsOutputError {
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16360,6 +23614,58 @@ enum ListDashboardsOutputError {
     }
 }
 
+enum ListDatasetDataSegmentRelationshipsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDatasetDataSegmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDatasetExportJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDatasetsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16370,6 +23676,27 @@ enum ListDatasetsOutputError {
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEnrichmentJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16417,6 +23744,42 @@ enum ListInterfaceRelationshipsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPipelineExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPipelinesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -16474,6 +23837,42 @@ enum ListProjectsOutputError {
     }
 }
 
+enum ListQueriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSearchesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16494,6 +23893,24 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTimeSeriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16505,6 +23922,23 @@ enum ListTimeSeriesOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListWorkspacesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16542,6 +23976,7 @@ enum PutDefaultEncryptionConfigurationOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16579,6 +24014,65 @@ enum PutStorageConfigurationOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartPipelineExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartQueryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartSearchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16772,6 +24266,7 @@ enum UpdateDatasetOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16816,6 +24311,26 @@ enum UpdateGatewayCapabilityConfigurationOutputError {
     }
 }
 
+enum UpdatePipelineOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdatePortalOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16842,6 +24357,44 @@ enum UpdateProjectOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -16959,6 +24512,19 @@ extension ServiceUnavailableException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PreconditionFailedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PreconditionFailedException {
@@ -16967,19 +24533,6 @@ extension PreconditionFailedException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -17201,6 +24754,34 @@ extension IoTSiteWiseClientTypes.Alarms {
         var value = IoTSiteWiseClientTypes.Alarms()
         value.alarmRoleArn = try reader["alarmRoleArn"].readIfPresent() ?? ""
         value.notificationLambdaArn = try reader["notificationLambdaArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.Annotation {
+
+    static func write(value: IoTSiteWiseClientTypes.Annotation?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Annotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return IoTSiteWiseClientTypes.Annotation()
+    }
+}
+
+extension IoTSiteWiseClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ApplicationSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17678,6 +25259,17 @@ extension IoTSiteWiseClientTypes.AssociatedAssetsSummary {
     }
 }
 
+extension IoTSiteWiseClientTypes.AssociateDataSegmentEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.AssociateDataSegmentEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTimestamp"].write(value.endTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["sourceDatasetId"].write(value.sourceDatasetId)
+        try writer["startTimestamp"].write(value.startTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["timeSeriesId"].write(value.timeSeriesId)
+    }
+}
+
 extension IoTSiteWiseClientTypes.Attribute {
 
     static func write(value: IoTSiteWiseClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
@@ -17919,6 +25511,17 @@ extension IoTSiteWiseClientTypes.ColumnInfo {
     }
 }
 
+extension IoTSiteWiseClientTypes.ColumnInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ColumnInformation()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.ColumnType {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ColumnType {
@@ -18076,6 +25679,68 @@ extension IoTSiteWiseClientTypes.ComputationModelSummary {
     }
 }
 
+extension IoTSiteWiseClientTypes.ComputeNode {
+
+    static func write(value: IoTSiteWiseClientTypes.ComputeNode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeNodeName"].write(value.computeNodeName)
+        try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["taskName"].write(value.taskName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputeNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputeNode()
+        value.computeNodeName = try reader["computeNodeName"].readIfPresent() ?? ""
+        value.taskName = try reader["taskName"].readIfPresent() ?? ""
+        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputeNodeExecutionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputeNodeExecutionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputeNodeExecutionDetails()
+        value.computeNodeName = try reader["computeNodeName"].readIfPresent() ?? ""
+        value.taskName = try reader["taskName"].readIfPresent() ?? ""
+        value.taskArn = try reader["taskArn"].readIfPresent() ?? ""
+        value.taskVersion = try reader["taskVersion"].readIfPresent() ?? ""
+        value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ComputeNodeExecutionStatus.read(from:))
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionEnvironmentVariables = try reader["executionEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputeNodeExecutionStateDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputeNodeExecutionStateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputeNodeExecutionStateDetails()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.details = try reader["details"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.DetailedPipelineError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ComputeNodeExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ComputeNodeExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ComputeNodeExecutionStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent(with: IoTSiteWiseClientTypes.ComputeNodeExecutionStateDetails.read(from:))
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.ConfigurationErrorDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ConfigurationErrorDetails {
@@ -18106,6 +25771,33 @@ extension ConflictingOperationException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ContainerTaskConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.ContainerTaskConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ecrUri"].write(value.ecrUri)
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["processingType"].write(value.processingType)
+        try writer["processingUnit"].write(value.processingUnit)
+        try writer["taskExecutionRole"].write(value.taskExecutionRole)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ContainerTaskConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ContainerTaskConfiguration()
+        value.ecrUri = try reader["ecrUri"].readIfPresent() ?? ""
+        value.taskExecutionRole = try reader["taskExecutionRole"].readIfPresent() ?? ""
+        value.processingType = try reader["processingType"].readIfPresent() ?? .sdkUnknown("")
+        value.processingUnit = try reader["processingUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -18188,6 +25880,102 @@ extension IoTSiteWiseClientTypes.DataBindingValueFilter {
     }
 }
 
+extension IoTSiteWiseClientTypes.DataSegmentEnrichment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataSegmentEnrichment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DataSegmentEnrichment()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastEnrichedAt = try reader["lastEnrichedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DataSegmentRelationshipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataSegmentRelationshipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DataSegmentRelationshipSummary()
+        value.targetDatasetId = try reader["targetDatasetId"].readIfPresent() ?? ""
+        value.sourceDatasetId = try reader["sourceDatasetId"].readIfPresent() ?? ""
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["startTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTimestamp = try reader["endTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DataSegmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataSegmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DataSegmentSummary()
+        value.sourceDatasetId = try reader["sourceDatasetId"].readIfPresent() ?? ""
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["startTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTimestamp = try reader["endTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.alias = try reader["alias"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.enrichment = try reader["enrichment"].readIfPresent(with: IoTSiteWiseClientTypes.DataSegmentEnrichment.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetConfig {
+
+    static func write(value: IoTSiteWiseClientTypes.DatasetConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["session"].write(value.session, with: IoTSiteWiseClientTypes.SessionConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetConfig()
+        value.session = try reader["session"].readIfPresent(with: IoTSiteWiseClientTypes.SessionConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetEnrichment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetEnrichment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetEnrichment()
+        value.video = try reader["video"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetEnrichmentEntry.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetEnrichmentEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetEnrichmentEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetEnrichmentEntry()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastEnrichedAt = try reader["lastEnrichedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DatasetItem {
+
+    static func write(value: IoTSiteWiseClientTypes.DatasetItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetId"].write(value.datasetId)
+        try writer["exportDataTypes"].writeList(value.exportDataTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.ExportDataType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["trimSettings"].write(value.trimSettings, with: IoTSiteWiseClientTypes.TrimSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DatasetItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DatasetItem()
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.trimSettings = try reader["trimSettings"].readIfPresent(with: IoTSiteWiseClientTypes.TrimSettings.read(from:))
+        value.exportDataTypes = try reader["exportDataTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IoTSiteWiseClientTypes.ExportDataType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.DataSetReference {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DataSetReference {
@@ -18238,9 +26026,12 @@ extension IoTSiteWiseClientTypes.DatasetSummary {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent() ?? ""
+        value.sourceType = try reader["sourceType"].readIfPresent()
+        value.datasetType = try reader["datasetType"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetStatus.read(from:))
+        value.enrichmentStatus = try reader["enrichmentStatus"].readIfPresent(with: IoTSiteWiseClientTypes.DatasetEnrichment.read(from:))
         return value
     }
 }
@@ -18258,6 +26049,16 @@ extension IoTSiteWiseClientTypes.Datum {
     }
 }
 
+extension IoTSiteWiseClientTypes.DeleteDataSegmentEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.DeleteDataSegmentEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTimestamp"].write(value.endTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["startTimestamp"].write(value.startTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["timeSeriesId"].write(value.timeSeriesId)
+    }
+}
+
 extension IoTSiteWiseClientTypes.DetailedError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DetailedError {
@@ -18265,6 +26066,87 @@ extension IoTSiteWiseClientTypes.DetailedError {
         var value = IoTSiteWiseClientTypes.DetailedError()
         value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DetailedPipelineError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.DetailedPipelineError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.DetailedPipelineError()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.DisassociateDataSegmentEntry {
+
+    static func write(value: IoTSiteWiseClientTypes.DisassociateDataSegmentEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTimestamp"].write(value.endTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["sourceDatasetId"].write(value.sourceDatasetId)
+        try writer["startTimestamp"].write(value.startTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["timeSeriesId"].write(value.timeSeriesId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.EnrichmentJobConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.EnrichmentJobConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .eventdetection(eventdetection):
+                try writer["eventDetection"].write(eventdetection, with: IoTSiteWiseClientTypes.EventDetection.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.EnrichmentJobConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "eventDetection":
+                return .eventdetection(try reader["eventDetection"].read(with: IoTSiteWiseClientTypes.EventDetection.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.EnrichmentJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.EnrichmentJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.EnrichmentJobSummary()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        value.jobType = try reader["jobType"].readIfPresent() ?? .sdkUnknown("")
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.EnrichmentTrimSettings {
+
+    static func write(value: IoTSiteWiseClientTypes.EnrichmentTrimSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].write(value.endTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["startTime"].write(value.startTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.EnrichmentTrimSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.EnrichmentTrimSettings()
+        value.startTime = try reader["startTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTime = try reader["endTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
         return value
     }
 }
@@ -18298,6 +26180,44 @@ extension IoTSiteWiseClientTypes.ErrorReportLocation {
     }
 }
 
+extension IoTSiteWiseClientTypes.EventDetection {
+
+    static func write(value: IoTSiteWiseClientTypes.EventDetection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetId"].write(value.datasetId)
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["timeSeriesId"].write(value.timeSeriesId)
+        try writer["trimSettings"].write(value.trimSettings, with: IoTSiteWiseClientTypes.EnrichmentTrimSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.EventDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.EventDetection()
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent()
+        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
+        value.trimSettings = try reader["trimSettings"].readIfPresent(with: IoTSiteWiseClientTypes.EnrichmentTrimSettings.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ExecutionEnvironmentVariables {
+
+    static func write(value: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeNodes"].writeMap(value.computeNodes, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["global"].writeMap(value.global, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExecutionEnvironmentVariables {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ExecutionEnvironmentVariables()
+        value.global = try reader["global"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.computeNodes = try reader["computeNodes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.ExecutionStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExecutionStatus {
@@ -18326,6 +26246,35 @@ extension IoTSiteWiseClientTypes.ExecutionSummary {
     }
 }
 
+extension IoTSiteWiseClientTypes.ExportErrorReportLocation {
+
+    static func write(value: IoTSiteWiseClientTypes.ExportErrorReportLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExportErrorReportLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ExportErrorReportLocation()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ExportJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ExportJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ExportJobSummary()
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.destinationS3Uri = try reader["destinationS3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.ExpressionVariable {
 
     static func write(value: IoTSiteWiseClientTypes.ExpressionVariable?, to writer: SmithyJSON.Writer) throws {
@@ -18343,12 +26292,59 @@ extension IoTSiteWiseClientTypes.ExpressionVariable {
     }
 }
 
+extension IoTSiteWiseClientTypes.FailedDataSegmentAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.FailedDataSegmentAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.FailedDataSegmentAssociation()
+        value.sourceDatasetId = try reader["sourceDatasetId"].readIfPresent() ?? ""
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["startTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTimestamp = try reader["endTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.FailedDataSegmentDeletion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.FailedDataSegmentDeletion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.FailedDataSegmentDeletion()
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["startTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTimestamp = try reader["endTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.FailedDataSegmentDisassociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.FailedDataSegmentDisassociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.FailedDataSegmentDisassociation()
+        value.sourceDatasetId = try reader["sourceDatasetId"].readIfPresent() ?? ""
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["startTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTimestamp = try reader["endTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.File {
 
     static func write(value: IoTSiteWiseClientTypes.File?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["alias"].write(value.alias)
         try writer["bucket"].write(value.bucket)
+        try writer["fileFormat"].write(value.fileFormat, with: IoTSiteWiseClientTypes.FileFormat.write(value:to:))
         try writer["key"].write(value.key)
+        try writer["startTime"].write(value.startTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
         try writer["versionId"].write(value.versionId)
     }
 
@@ -18358,6 +26354,9 @@ extension IoTSiteWiseClientTypes.File {
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.key = try reader["key"].readIfPresent() ?? ""
         value.versionId = try reader["versionId"].readIfPresent()
+        value.alias = try reader["alias"].readIfPresent()
+        value.startTime = try reader["startTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.fileFormat = try reader["fileFormat"].readIfPresent(with: IoTSiteWiseClientTypes.FileFormat.read(from:))
         return value
     }
 }
@@ -18366,7 +26365,9 @@ extension IoTSiteWiseClientTypes.FileFormat {
 
     static func write(value: IoTSiteWiseClientTypes.FileFormat?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["annotation"].write(value.annotation, with: IoTSiteWiseClientTypes.Annotation.write(value:to:))
         try writer["csv"].write(value.csv, with: IoTSiteWiseClientTypes.Csv.write(value:to:))
+        try writer["mp4"].write(value.mp4, with: IoTSiteWiseClientTypes.Mp4.write(value:to:))
         try writer["parquet"].write(value.parquet, with: IoTSiteWiseClientTypes.Parquet.write(value:to:))
     }
 
@@ -18375,6 +26376,27 @@ extension IoTSiteWiseClientTypes.FileFormat {
         var value = IoTSiteWiseClientTypes.FileFormat()
         value.csv = try reader["csv"].readIfPresent(with: IoTSiteWiseClientTypes.Csv.read(from:))
         value.parquet = try reader["parquet"].readIfPresent(with: IoTSiteWiseClientTypes.Parquet.read(from:))
+        value.mp4 = try reader["mp4"].readIfPresent(with: IoTSiteWiseClientTypes.Mp4.read(from:))
+        value.annotation = try reader["annotation"].readIfPresent(with: IoTSiteWiseClientTypes.Annotation.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.FormatSettings {
+
+    static func write(value: IoTSiteWiseClientTypes.FormatSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["framesPerSecond"].write(value.framesPerSecond)
+        try writer["heightInPixels"].write(value.heightInPixels)
+        try writer["widthInPixels"].write(value.widthInPixels)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.FormatSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.FormatSettings()
+        value.framesPerSecond = try reader["framesPerSecond"].readIfPresent()
+        value.widthInPixels = try reader["widthInPixels"].readIfPresent()
+        value.heightInPixels = try reader["heightInPixels"].readIfPresent()
         return value
     }
 }
@@ -18705,6 +26727,18 @@ extension LimitExceededException {
     }
 }
 
+extension IoTSiteWiseClientTypes.ListSearchesFilters {
+
+    static func write(value: IoTSiteWiseClientTypes.ListSearchesFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupIdFilter"].writeList(value.groupIdFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["searchTypeFilter"].writeList(value.searchTypeFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.SearchType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["statusFilter"].writeList(value.statusFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTSiteWiseClientTypes.SearchStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension IoTSiteWiseClientTypes.Location {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Location {
@@ -18832,6 +26866,19 @@ extension IoTSiteWiseClientTypes.MonitorErrorDetails {
     }
 }
 
+extension IoTSiteWiseClientTypes.Mp4 {
+
+    static func write(value: IoTSiteWiseClientTypes.Mp4?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Mp4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return IoTSiteWiseClientTypes.Mp4()
+    }
+}
+
 extension IoTSiteWiseClientTypes.MultiLayerStorage {
 
     static func write(value: IoTSiteWiseClientTypes.MultiLayerStorage?, to writer: SmithyJSON.Writer) throws {
@@ -18857,6 +26904,60 @@ extension IoTSiteWiseClientTypes.Parquet {
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Parquet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return IoTSiteWiseClientTypes.Parquet()
+    }
+}
+
+extension IoTSiteWiseClientTypes.PipelineExecutionStateDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PipelineExecutionStateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PipelineExecutionStateDetails()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.details = try reader["details"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.DetailedPipelineError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PipelineExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PipelineExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PipelineExecutionStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateDetails = try reader["stateDetails"].readIfPresent(with: IoTSiteWiseClientTypes.PipelineExecutionStateDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PipelineExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PipelineExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PipelineExecutionSummary()
+        value.pipelineExecutionId = try reader["pipelineExecutionId"].readIfPresent() ?? ""
+        value.pipelineVersion = try reader["pipelineVersion"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.PipelineExecutionStatus.read(from:))
+        value.executionPriority = try reader["executionPriority"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PipelineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PipelineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PipelineSummary()
+        value.pipelineName = try reader["pipelineName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.pipelineArn = try reader["pipelineArn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -18916,6 +27017,34 @@ extension IoTSiteWiseClientTypes.PortalTypeEntry {
         var value = IoTSiteWiseClientTypes.PortalTypeEntry()
         value.portalTools = try reader["portalTools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ProcessingInput {
+
+    static func write(value: IoTSiteWiseClientTypes.ProcessingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dataset(dataset):
+                try writer["dataset"].write(dataset, with: IoTSiteWiseClientTypes.DatasetItem.write(value:to:))
+            case let .timeseries(timeseries):
+                try writer["timeseries"].writeList(timeseries, memberWritingClosure: IoTSiteWiseClientTypes.TimeseriesItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ProcessingInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "timeseries":
+                return .timeseries(try reader["timeseries"].readList(memberReadingClosure: IoTSiteWiseClientTypes.TimeseriesItem.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "dataset":
+                return .dataset(try reader["dataset"].read(with: IoTSiteWiseClientTypes.DatasetItem.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -19052,6 +27181,31 @@ extension IoTSiteWiseClientTypes.PutAssetPropertyValueEntry {
     }
 }
 
+extension IoTSiteWiseClientTypes.QueryStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.QueryStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.QueryStatistics()
+        value.rowCount = try reader["rowCount"].readIfPresent() ?? 0
+        value.bytesScanned = try reader["bytesScanned"].readIfPresent() ?? 0
+        value.executionTimeInMillis = try reader["executionTimeInMillis"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.QuerySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.QuerySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.QuerySummary()
+        value.queryId = try reader["queryId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.Reference {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Reference {
@@ -19094,12 +27248,34 @@ extension IoTSiteWiseClientTypes.Resource {
     }
 }
 
+extension IoTSiteWiseClientTypes.ResourceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ResourceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ResourceError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.ResourceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.ResourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.ResourceStatus()
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceError.read(from:))
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -19127,6 +27303,67 @@ extension IoTSiteWiseClientTypes.Row {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.Row()
         value.data = try reader["data"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.SearchFilters {
+
+    static func write(value: IoTSiteWiseClientTypes.SearchFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetIds"].writeList(value.datasetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeIntervals"].writeList(value.timeIntervals, memberWritingClosure: IoTSiteWiseClientTypes.TimeInterval.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeSeriesIds"].writeList(value.timeSeriesIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTSiteWiseClientTypes.SearchResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SearchResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.SearchResult()
+        value.searchId = try reader["searchId"].readIfPresent() ?? ""
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["startTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTimestamp = try reader["endTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.topTimestamp = try reader["topTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.score = try reader["score"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.SearchSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SearchSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.SearchSummary()
+        value.searchId = try reader["searchId"].readIfPresent() ?? ""
+        value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.queryStatement = try reader["queryStatement"].readIfPresent() ?? ""
+        value.searchType = try reader["searchType"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.groupId = try reader["groupId"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.SessionConfig {
+
+    static func write(value: IoTSiteWiseClientTypes.SessionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionEndTimestamp"].write(value.sessionEndTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["sessionStartTimestamp"].write(value.sessionStartTimestamp, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.SessionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.SessionConfig()
+        value.sessionStartTimestamp = try reader["sessionStartTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.sessionEndTimestamp = try reader["sessionEndTimestamp"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
         return value
     }
 }
@@ -19189,6 +27426,46 @@ extension IoTSiteWiseClientTypes.TargetResource {
     }
 }
 
+extension IoTSiteWiseClientTypes.TaskConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.TaskConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .containertaskconfiguration(containertaskconfiguration):
+                try writer["containerTaskConfiguration"].write(containertaskconfiguration, with: IoTSiteWiseClientTypes.ContainerTaskConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TaskConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "containerTaskConfiguration":
+                return .containertaskconfiguration(try reader["containerTaskConfiguration"].read(with: IoTSiteWiseClientTypes.ContainerTaskConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes.TaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.TaskSummary()
+        value.taskName = try reader["taskName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.taskArn = try reader["taskArn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.ResourceStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
@@ -19212,6 +27489,36 @@ extension IoTSiteWiseClientTypes.TimeInNanos {
         var value = IoTSiteWiseClientTypes.TimeInNanos()
         value.timeInSeconds = try reader["timeInSeconds"].readIfPresent() ?? 0
         value.offsetInNanos = try reader["offsetInNanos"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.TimeInterval {
+
+    static func write(value: IoTSiteWiseClientTypes.TimeInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].write(value.endTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["startTime"].write(value.startTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+    }
+}
+
+extension IoTSiteWiseClientTypes.TimeseriesItem {
+
+    static func write(value: IoTSiteWiseClientTypes.TimeseriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["formatSettings"].write(value.formatSettings, with: IoTSiteWiseClientTypes.FormatSettings.write(value:to:))
+        try writer["propertyAlias"].write(value.propertyAlias)
+        try writer["timeSeriesId"].write(value.timeSeriesId)
+        try writer["trimSettings"].write(value.trimSettings, with: IoTSiteWiseClientTypes.TrimSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TimeseriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.TimeseriesItem()
+        value.timeSeriesId = try reader["timeSeriesId"].readIfPresent()
+        value.propertyAlias = try reader["propertyAlias"].readIfPresent()
+        value.trimSettings = try reader["trimSettings"].readIfPresent(with: IoTSiteWiseClientTypes.TrimSettings.read(from:))
+        value.formatSettings = try reader["formatSettings"].readIfPresent(with: IoTSiteWiseClientTypes.FormatSettings.read(from:))
         return value
     }
 }
@@ -19276,6 +27583,23 @@ extension IoTSiteWiseClientTypes.TransformProcessingConfig {
         var value = IoTSiteWiseClientTypes.TransformProcessingConfig()
         value.computeLocation = try reader["computeLocation"].readIfPresent() ?? .sdkUnknown("")
         value.forwardingConfig = try reader["forwardingConfig"].readIfPresent(with: IoTSiteWiseClientTypes.ForwardingConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.TrimSettings {
+
+    static func write(value: IoTSiteWiseClientTypes.TrimSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].write(value.endTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+        try writer["startTime"].write(value.startTime, with: IoTSiteWiseClientTypes.TimeInNanos.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.TrimSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.TrimSettings()
+        value.startTime = try reader["startTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        value.endTime = try reader["endTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
         return value
     }
 }
@@ -19367,6 +27691,62 @@ extension IoTSiteWiseClientTypes.WarmTierRetentionPeriod {
         var value = IoTSiteWiseClientTypes.WarmTierRetentionPeriod()
         value.numberOfDays = try reader["numberOfDays"].readIfPresent()
         value.unlimited = try reader["unlimited"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.WorkspaceEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.WorkspaceEncryptionConfigurationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.WorkspaceEncryptionConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.WorkspaceEncryptionConfigurationInfo()
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.WorkspaceErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.WorkspaceErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.WorkspaceErrorDetails()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.WorkspaceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.WorkspaceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.WorkspaceStatus()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.WorkspaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.WorkspaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.WorkspaceSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.WorkspaceStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
