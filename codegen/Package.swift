@@ -82,8 +82,8 @@ private var protocolTestTargets: [Target] {
     let protocolTests: [ProtocolTest] = [
         .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
         .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
-        .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
-        .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
+        .init(name: "AWSJson10TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
+        .init(name: "AWSJson11TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
         .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
         .init(name: "RestXmlWithNamespaceTestSDK", sourcePath: "\(baseDir)/rest-xml-xmlns"),
         .init(name: "Ec2QueryTestSDK", sourcePath: "\(baseDir)/ec2-query"),
@@ -100,7 +100,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
         .init(name: "RPCV2CBORTestQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-query-compat"),
         .init(name: "RPCV2CBORTestNonQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-non-query-compat"),
-        .init(name: "AWSJson1_0TestQueryCompatSDK", sourcePath: "\(baseDir)/aws-json-10-query-compat"),
+        .init(name: "AWSJson10TestQueryCompatSDK", sourcePath: "\(baseDir)/aws-json-10-query-compat"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(

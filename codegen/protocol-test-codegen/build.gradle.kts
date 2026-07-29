@@ -29,15 +29,15 @@ dependencies {
 
 val enabledProtocols = listOf(
     ProtocolTest("ec2-query", "aws.protocoltests.ec2#AwsEc2", "Ec2QueryTestSDK"),
-    ProtocolTest("aws-json-10", "aws.protocoltests.json10#JsonRpc10", "AWSJson1_0TestSDK"),
-    ProtocolTest("aws-json-11", "aws.protocoltests.json#JsonProtocol", "AWSJson1_1TestSDK"),
+    ProtocolTest("aws-json-10", "aws.protocoltests.json10#JsonRpc10", "AWSJson10TestSDK"),
+    ProtocolTest("aws-json-11", "aws.protocoltests.json#JsonProtocol", "AWSJson11TestSDK"),
     ProtocolTest("aws-restjson", "aws.protocoltests.restjson#RestJson", "AWSRestJsonTestSDK"),
     ProtocolTest("aws-restjson-validation", "aws.protocoltests.restjson.validation#RestJsonValidation", "AWSRestJsonValidationTestSDK"),
     ProtocolTest("rest-xml", "aws.protocoltests.restxml#RestXml", "RestXmlTestSDK"),
     ProtocolTest("rest-xml-xmlns", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace", "RestXmlWithNamespaceTestSDK"),
     ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
     ProtocolTest("smithy-rpcv2-cbor", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol", "RPCV2CBORTestSDK"),
-    ProtocolTest("aws-json-10-query-compat", "aws.protocoltests.json10#QueryCompatibleJsonRpc10", "AWSJson1_0TestQueryCompatSDK"),
+    ProtocolTest("aws-json-10-query-compat", "aws.protocoltests.json10#QueryCompatibleJsonRpc10", "AWSJson10TestQueryCompatSDK"),
     ProtocolTest("smithy-rpcv2-cbor-query-compat", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol", "RPCV2CBORTestQueryCompatSDK"),
     ProtocolTest("smithy-rpcv2-cbor-non-query-compat", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol", "RPCV2CBORTestNonQueryCompatSDK"),
 

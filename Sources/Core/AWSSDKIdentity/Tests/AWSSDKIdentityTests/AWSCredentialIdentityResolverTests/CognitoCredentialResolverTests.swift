@@ -41,13 +41,13 @@ class CognitoCredentialResolverTests: XCTestCase {
     func testTC1_MinimumConfigWithIdentityPoolId() async throws {
         // TC1: Minimum required configuration with IdentityPoolId provides valid credentials
         let mockClient = MockCognitoClient()
-        var resolver = try CognitoAWSCredentialIdentityResolver(
+        let resolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: "us-west-2:test-pool",
             identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
         
-        var attributes = Attributes()
+        let attributes = Attributes()
         let credentials = try await resolver.getIdentity(identityProperties: attributes)
         
         XCTAssertEqual(mockClient.getIdCalls.count, 1)
@@ -63,13 +63,13 @@ class CognitoCredentialResolverTests: XCTestCase {
     func testTC2_MinimumConfigWithIdentityId() async throws {
         // TC2: Minimum required configuration with IdentityId provides valid credentials
         let mockClient = MockCognitoClient()
-        var resolver = try CognitoAWSCredentialIdentityResolver(
+        let resolver = try CognitoAWSCredentialIdentityResolver(
             identityId: "us-west-2:example-id",
             identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
         
-        var attributes = Attributes()
+        let attributes = Attributes()
 
         let credentials = try await resolver.getIdentity(identityProperties: attributes)
         
@@ -94,7 +94,7 @@ class CognitoCredentialResolverTests: XCTestCase {
     func testTC4_ExpiredCredentialsRefreshed() async throws {
         // TC4: Expired credentials are refreshed using existing IdentityId
         let mockClient = MockCognitoClient()
-        var resolver = try CognitoAWSCredentialIdentityResolver(
+        let resolver = try CognitoAWSCredentialIdentityResolver(
             identityId: "us-west-2:12345678-1234-1234-1234-123456789012",
             identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
@@ -108,11 +108,11 @@ class CognitoCredentialResolverTests: XCTestCase {
             sessionToken: "exampleSessionToken..."
         )
         
-        var attributes = Attributes()
+        let attributes = Attributes()
 
         // First call with expired credentials
-        let credentials1 = try await resolver.getIdentity(identityProperties: attributes)
-        
+        _ = try await resolver.getIdentity(identityProperties: attributes)
+
         // Update mock to return fresh credentials
         mockClient.mockCredentials = AWSCredentialIdentity(
             accessKey: "ASIAEXAMPLEKEY",
@@ -122,8 +122,8 @@ class CognitoCredentialResolverTests: XCTestCase {
         )
         
         // Second call should refresh credentials
-        let credentials2 = try await resolver.getIdentity(identityProperties: attributes)
-        
+        _ = try await resolver.getIdentity(identityProperties: attributes)
+
         // Should call GetCredentialsForIdentity twice (no GetId since identityId provided)
         XCTAssertEqual(mockClient.getIdCalls.count, 0)
         XCTAssertEqual(mockClient.getCredentialsCalls.count, 2)
@@ -134,17 +134,17 @@ class CognitoCredentialResolverTests: XCTestCase {
     func testTC5_IdentityRefreshedWhenLoginsUpdated() async throws {
         // TC5: Identity is refreshed when logins are updated
         let mockClient = MockCognitoClient()
-        var resolver = try CognitoAWSCredentialIdentityResolver(
+        let resolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: "us-west-2:test-pool",
             identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
 
-        var attributes = Attributes()
+        let attributes = Attributes()
 
         // First call without logins
-        let credentials1 = try await resolver.getIdentity(identityProperties: attributes)
-        
+        _ = try await resolver.getIdentity(identityProperties: attributes)
+
         // Update logins
         await resolver.updateLogins(["accounts.google.com": "new-google-token"])
         
@@ -152,8 +152,8 @@ class CognitoCredentialResolverTests: XCTestCase {
         mockClient.mockIdentityId = "us-west-2:12345678-1234-1234-1234-333333333333"
         
         // Second call with updated logins
-        let credentials2 = try await resolver.getIdentity(identityProperties: attributes)
-        
+        _ = try await resolver.getIdentity(identityProperties: attributes)
+
         // Should call GetId twice (once without logins, once with logins)
         XCTAssertEqual(mockClient.getIdCalls.count, 2)
         XCTAssertNil(mockClient.getIdCalls[0].logins)
@@ -168,7 +168,7 @@ class CognitoCredentialResolverTests: XCTestCase {
     func testTC6_IdentityNotRefreshedWhenLoginsUnchanged() async throws {
         // TC6: Identity is NOT refreshed when logins remain unchanged
         let mockClient = MockCognitoClient()
-        var resolver = try CognitoAWSCredentialIdentityResolver(
+        let resolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: "us-west-2:test-pool",
             logins: ["accounts.google.com": "google-token"],
             identityPoolRegion: "us-west-2",
@@ -183,13 +183,13 @@ class CognitoCredentialResolverTests: XCTestCase {
             sessionToken: "exampleSessionToken..."
         )
         
-        var attributes = Attributes()
+        let attributes = Attributes()
 
         // First call
-        let credentials1 = try await resolver.getIdentity(identityProperties: attributes)
-        
+        _ = try await resolver.getIdentity(identityProperties: attributes)
+
         // Second call with same logins (should use cached credentials)
-        let credentials2 = try await resolver.getIdentity(identityProperties: attributes)
+        _ = try await resolver.getIdentity(identityProperties: attributes)
         
         // Should call GetId only once
         XCTAssertEqual(mockClient.getIdCalls.count, 1)
