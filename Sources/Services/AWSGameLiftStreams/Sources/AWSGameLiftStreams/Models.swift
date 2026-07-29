@@ -43,6 +43,11 @@ public struct RemoveStreamGroupLocationsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RevokeStreamUrlOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TerminateStreamSessionOutput: Swift.Sendable {
 
     public init() { }
@@ -1988,6 +1993,317 @@ extension CreateStreamSessionConnectionOutput: Swift.CustomDebugStringConvertibl
         "CreateStreamSessionConnectionOutput(signalResponse: \"CONTENT_REDACTED\")"}
 }
 
+extension GameLiftStreamsClientTypes {
+
+    /// Contains the width and height dimensions, in pixels, that define the resolution of the stream session's virtual monitor. The total number of pixels (width × height) must not exceed 2,073,600 (equivalent to 1920 × 1080).
+    public struct Resolution: Swift.Sendable {
+        /// The height of the stream session's virtual monitor, in pixels. The value must be an even number.
+        /// This member is required.
+        public var height: Swift.Int?
+        /// The width of the stream session's virtual monitor, in pixels. The value must be an even number.
+        /// This member is required.
+        public var width: Swift.Int?
+
+        public init(
+            height: Swift.Int? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.height = height
+            self.width = width
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    /// The virtual monitor settings for a stream session, including the resolution. If not specified, the stream session uses the default resolution of 1920 × 1080.
+    public struct DisplayConfiguration: Swift.Sendable {
+        /// The resolution to apply to the stream session's virtual monitor. When specified, this value overrides the default resolution of 1920 × 1080.
+        public var resolution: GameLiftStreamsClientTypes.Resolution?
+
+        public init(
+            resolution: GameLiftStreamsClientTypes.Resolution? = nil
+        ) {
+            self.resolution = resolution
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case webrtc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelProtocol] {
+            return [
+                .webrtc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .webrtc: return "WebRTC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateStreamUrlInput: Swift.Sendable {
+    /// A set of options that you can use to control the stream session runtime environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client. If you want to debug your application with environment variables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, refer to the Compatibility Guidance in the troubleshooting section of the Developer Guide. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
+    public var additionalEnvironmentVariables: [Swift.String: Swift.String]?
+    /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
+    public var additionalLaunchArgs: [Swift.String]?
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6. This application must be associated with the stream group.
+    /// This member is required.
+    public var applicationIdentifier: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure this request is idempotent. If you retry a request with the same ClientToken, Amazon GameLift Streams returns the original response without performing the operation again.
+    public var clientToken: Swift.String?
+    /// A descriptive label for the stream URL.
+    public var description: Swift.String?
+    /// The display settings, such as resolution, for stream sessions started from this stream URL.
+    public var displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration?
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4. The stream session runs in this stream group.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// A list of locations, in order of preference, where Amazon GameLift Streams can place the stream session. Specify each location by its Amazon Web Services Region code, for example us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    /// This member is required.
+    public var locations: [Swift.String]?
+    /// The data transport protocol for the stream session. Amazon GameLift Streams supports WebRTC.
+    /// This member is required.
+    public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams assumes during stream sessions started from this stream URL. For more information, see [Provide AWS credentials to your streaming application](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/session-credentials.html) in the Amazon GameLift Streams Developer Guide.
+    public var roleArn: Swift.String?
+    /// The maximum length of time, in seconds, that a stream session started from this stream URL can run. Valid values are 1-86400 seconds (1 second to 24 hours). The default is 43200 seconds (12 hours).
+    public var sessionLengthSeconds: Swift.Int?
+    /// The number of minutes after creation that the stream URL remains valid. After this period, the status of the stream URL changes to EXPIRED and it can no longer start stream sessions. The minimum is 1 minute. For the maximum, see [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    /// This member is required.
+    public var urlExpiresAfterMinutes: Swift.Int?
+    /// The maximum number of times the stream URL can start a stream session. Each successful use reduces the remaining uses by one. The minimum is 1, and the default is 1. For the maximum, see [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    public var usageLimit: Swift.Int?
+
+    public init(
+        additionalEnvironmentVariables: [Swift.String: Swift.String]? = nil,
+        additionalLaunchArgs: [Swift.String]? = nil,
+        applicationIdentifier: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration? = nil,
+        identifier: Swift.String? = nil,
+        locations: [Swift.String]? = nil,
+        `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
+        roleArn: Swift.String? = nil,
+        sessionLengthSeconds: Swift.Int? = nil,
+        urlExpiresAfterMinutes: Swift.Int? = nil,
+        usageLimit: Swift.Int? = nil
+    ) {
+        self.additionalEnvironmentVariables = additionalEnvironmentVariables
+        self.additionalLaunchArgs = additionalLaunchArgs
+        self.applicationIdentifier = applicationIdentifier
+        self.clientToken = clientToken
+        self.description = description
+        self.displayConfiguration = displayConfiguration
+        self.identifier = identifier
+        self.locations = locations
+        self.`protocol` = `protocol`
+        self.roleArn = roleArn
+        self.sessionLengthSeconds = sessionLengthSeconds
+        self.urlExpiresAfterMinutes = urlExpiresAfterMinutes
+        self.usageLimit = usageLimit
+    }
+}
+
+extension CreateStreamUrlInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateStreamUrlInput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationIdentifier: \(Swift.String(describing: applicationIdentifier)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), identifier: \(Swift.String(describing: identifier)), locations: \(Swift.String(describing: locations)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), urlExpiresAfterMinutes: \(Swift.String(describing: urlExpiresAfterMinutes)), usageLimit: \(Swift.String(describing: usageLimit)), roleArn: \"CONTENT_REDACTED\")"}
+}
+
+extension GameLiftStreamsClientTypes {
+
+    public enum StreamUrlStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case limitReached
+        case revoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamUrlStatus] {
+            return [
+                .active,
+                .expired,
+                .limitReached,
+                .revoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .expired: return "EXPIRED"
+            case .limitReached: return "LIMIT_REACHED"
+            case .revoked: return "REVOKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    public enum StreamUrlStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationDeleted
+        case revokedAndSessionsTerminated
+        case revokedAndTerminatingSessions
+        case streamGroupDeleted
+        case userRevoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamUrlStatusReason] {
+            return [
+                .applicationDeleted,
+                .revokedAndSessionsTerminated,
+                .revokedAndTerminatingSessions,
+                .streamGroupDeleted,
+                .userRevoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationDeleted: return "applicationDeleted"
+            case .revokedAndSessionsTerminated: return "revokedAndSessionsTerminated"
+            case .revokedAndTerminatingSessions: return "revokedAndTerminatingSessions"
+            case .streamGroupDeleted: return "streamGroupDeleted"
+            case .userRevoked: return "userRevoked"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateStreamUrlOutput: Swift.Sendable {
+    /// The environment variables made available to the application when a stream session starts.
+    public var additionalEnvironmentVariables: [Swift.String: Swift.String]?
+    /// The command-line arguments passed to the application when a stream session starts.
+    public var additionalLaunchArgs: [Swift.String]?
+    /// The application that runs in the stream sessions. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+    public var applicationArn: Swift.String?
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream URL across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamurl/[stream group resource ID]/[stream URL resource ID].
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var createdAt: Foundation.Date?
+    /// The descriptive label for the stream URL.
+    public var description: Swift.String?
+    /// The display settings, such as resolution, for stream sessions started from this stream URL.
+    public var displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration?
+    /// The date and time when the stream URL expires and stops accepting new stream sessions. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var expiresAt: Foundation.Date?
+    /// The list of locations, in order of preference, where Amazon GameLift Streams places the stream session. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    public var locations: [Swift.String]?
+    /// The data transport protocol used for stream sessions started from this stream URL.
+    public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
+    /// The number of times the stream URL can still be used to start a stream session.
+    public var remainingUses: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams assumes during stream sessions started from this stream URL. For more information, see [Provide AWS credentials to your streaming application](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/session-credentials.html) in the Amazon GameLift Streams Developer Guide.
+    public var roleArn: Swift.String?
+    /// The maximum length of time, in seconds, that a stream session started from this stream URL can run.
+    public var sessionLengthSeconds: Swift.Int?
+    /// The current status of the stream URL. Possible statuses include the following:
+    ///
+    /// * ACTIVE: The stream URL is valid and can start stream sessions.
+    ///
+    /// * EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.
+    ///
+    /// * REVOKED: The stream URL was revoked and can no longer start stream sessions.
+    ///
+    /// * LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+    public var status: GameLiftStreamsClientTypes.StreamUrlStatus?
+    /// Additional information about why the stream URL is in its current status. Amazon GameLift Streams populates this value when the status is REVOKED. Possible values include the following:
+    ///
+    /// * userRevoked: You revoked the stream URL.
+    ///
+    /// * revokedAndTerminatingSessions: You revoked the stream URL and Amazon GameLift Streams is ending its running stream sessions.
+    ///
+    /// * revokedAndSessionsTerminated: You revoked the stream URL and its running stream sessions have ended.
+    ///
+    /// * streamGroupDeleted: The stream group was deleted, which revoked the stream URL.
+    ///
+    /// * applicationDeleted: The application was deleted, which revoked the stream URL.
+    public var statusReason: GameLiftStreamsClientTypes.StreamUrlStatusReason?
+    /// The stream group that runs the stream sessions. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+    public var streamGroupArn: Swift.String?
+    /// The shareable stream URL. Distribute this URL to end users so that they can start and play a stream session in a hosted web player. Treat the stream URL as a secret. Anyone who has it can start a stream session until the stream URL expires, is revoked, or reaches its usage limit.
+    public var streamUrl: Swift.String?
+    /// The unique identifier for the stream URL resource, for example su-1AB2C3De4.
+    public var streamUrlId: Swift.String?
+    /// The maximum number of times the stream URL can start a stream session.
+    public var usageLimit: Swift.Int?
+
+    public init(
+        additionalEnvironmentVariables: [Swift.String: Swift.String]? = nil,
+        additionalLaunchArgs: [Swift.String]? = nil,
+        applicationArn: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration? = nil,
+        expiresAt: Foundation.Date? = nil,
+        locations: [Swift.String]? = nil,
+        `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
+        remainingUses: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        sessionLengthSeconds: Swift.Int? = nil,
+        status: GameLiftStreamsClientTypes.StreamUrlStatus? = nil,
+        statusReason: GameLiftStreamsClientTypes.StreamUrlStatusReason? = nil,
+        streamGroupArn: Swift.String? = nil,
+        streamUrl: Swift.String? = nil,
+        streamUrlId: Swift.String? = nil,
+        usageLimit: Swift.Int? = nil
+    ) {
+        self.additionalEnvironmentVariables = additionalEnvironmentVariables
+        self.additionalLaunchArgs = additionalLaunchArgs
+        self.applicationArn = applicationArn
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.displayConfiguration = displayConfiguration
+        self.expiresAt = expiresAt
+        self.locations = locations
+        self.`protocol` = `protocol`
+        self.remainingUses = remainingUses
+        self.roleArn = roleArn
+        self.sessionLengthSeconds = sessionLengthSeconds
+        self.status = status
+        self.statusReason = statusReason
+        self.streamGroupArn = streamGroupArn
+        self.streamUrl = streamUrl
+        self.streamUrlId = streamUrlId
+        self.usageLimit = usageLimit
+    }
+}
+
+extension CreateStreamUrlOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateStreamUrlOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), expiresAt: \(Swift.String(describing: expiresAt)), locations: \(Swift.String(describing: locations)), remainingUses: \(Swift.String(describing: remainingUses)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupArn: \(Swift.String(describing: streamGroupArn)), streamUrlId: \(Swift.String(describing: streamUrlId)), usageLimit: \(Swift.String(describing: usageLimit)), roleArn: \"CONTENT_REDACTED\", streamUrl: \"CONTENT_REDACTED\")"}
+}
+
 public struct DeleteStreamGroupInput: Swift.Sendable {
     /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
@@ -2029,42 +2345,6 @@ public struct DisassociateApplicationsOutput: Swift.Sendable {
     ) {
         self.applicationArns = applicationArns
         self.arn = arn
-    }
-}
-
-extension GameLiftStreamsClientTypes {
-
-    /// Contains the width and height dimensions, in pixels, that define the resolution of the stream session's virtual monitor. The total number of pixels (width × height) must not exceed 2,073,600 (equivalent to 1920 × 1080).
-    public struct Resolution: Swift.Sendable {
-        /// The height of the stream session's virtual monitor, in pixels. The value must be an even number.
-        /// This member is required.
-        public var height: Swift.Int?
-        /// The width of the stream session's virtual monitor, in pixels. The value must be an even number.
-        /// This member is required.
-        public var width: Swift.Int?
-
-        public init(
-            height: Swift.Int? = nil,
-            width: Swift.Int? = nil
-        ) {
-            self.height = height
-            self.width = width
-        }
-    }
-}
-
-extension GameLiftStreamsClientTypes {
-
-    /// The virtual monitor settings for a stream session, including the resolution. If not specified, the stream session uses the default resolution of 1920 × 1080.
-    public struct DisplayConfiguration: Swift.Sendable {
-        /// The resolution to apply to the stream session's virtual monitor. When specified, this value overrides the default resolution of 1920 × 1080.
-        public var resolution: GameLiftStreamsClientTypes.Resolution?
-
-        public init(
-            resolution: GameLiftStreamsClientTypes.Resolution? = nil
-        ) {
-            self.resolution = resolution
-        }
     }
 }
 
@@ -2178,32 +2458,6 @@ extension GameLiftStreamsClientTypes {
             sharedWithClient: Swift.Bool? = nil
         ) {
             self.sharedWithClient = sharedWithClient
-        }
-    }
-}
-
-extension GameLiftStreamsClientTypes {
-
-    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case webrtc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ModelProtocol] {
-            return [
-                .webrtc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .webrtc: return "WebRTC"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -2452,37 +2706,20 @@ extension GetStreamSessionOutput: Swift.CustomDebugStringConvertible {
         "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
-public struct ListStreamSessionsInput: Swift.Sendable {
-    /// Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status. Exported files can be in one of the following states:
-    ///
-    /// * SUCCEEDED: The exported files are successfully stored in an S3 bucket.
-    ///
-    /// * FAILED: The session ended but Amazon GameLift Streams couldn't collect and upload the files to S3.
-    ///
-    /// * PENDING: Either the stream session is still in progress, or uploading the exported files to the S3 bucket is in progress.
-    public var exportFilesStatus: GameLiftStreamsClientTypes.ExportFilesStatus?
-    /// The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
+public struct GetStreamUrlInput: Swift.Sendable {
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4. This is the stream group that owns the stream URL.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
-    public var maxResults: Swift.Int?
-    /// The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
-    public var nextToken: Swift.String?
-    /// Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.
-    public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
+    /// The unique identifier of the stream URL. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4. Example ID: su-1AB2C3De4.
+    /// This member is required.
+    public var streamUrlIdentifier: Swift.String?
 
     public init(
-        exportFilesStatus: GameLiftStreamsClientTypes.ExportFilesStatus? = nil,
         identifier: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        status: GameLiftStreamsClientTypes.StreamSessionStatus? = nil
+        streamUrlIdentifier: Swift.String? = nil
     ) {
-        self.exportFilesStatus = exportFilesStatus
         self.identifier = identifier
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.status = status
+        self.streamUrlIdentifier = streamUrlIdentifier
     }
 }
 
@@ -2583,6 +2820,259 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary: Swift.CustomDebugStri
         "StreamSessionSummary(protocol: \(Swift.String(describing: `protocol`)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), userId: \(Swift.String(describing: userId)), roleArn: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetStreamUrlOutput: Swift.Sendable {
+    /// The environment variables made available to the application when a stream session starts.
+    public var additionalEnvironmentVariables: [Swift.String: Swift.String]?
+    /// The command-line arguments passed to the application when a stream session starts.
+    public var additionalLaunchArgs: [Swift.String]?
+    /// The application that runs in the stream sessions. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+    public var applicationArn: Swift.String?
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream URL across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamurl/[stream group resource ID]/[stream URL resource ID].
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var createdAt: Foundation.Date?
+    /// The descriptive label for the stream URL.
+    public var description: Swift.String?
+    /// The display settings, such as resolution, for stream sessions started from this stream URL.
+    public var displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration?
+    /// The date and time when the stream URL expires and stops accepting new stream sessions. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var expiresAt: Foundation.Date?
+    /// The list of locations, in order of preference, where Amazon GameLift Streams places the stream session. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    public var locations: [Swift.String]?
+    /// The data transport protocol used for stream sessions started from this stream URL.
+    public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
+    /// The number of times the stream URL can still be used to start a stream session.
+    public var remainingUses: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams assumes during stream sessions started from this stream URL. For more information, see [Provide AWS credentials to your streaming application](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/session-credentials.html) in the Amazon GameLift Streams Developer Guide.
+    public var roleArn: Swift.String?
+    /// The maximum length of time, in seconds, that a stream session started from this stream URL can run.
+    public var sessionLengthSeconds: Swift.Int?
+    /// The current status of the stream URL. Possible statuses include the following:
+    ///
+    /// * ACTIVE: The stream URL is valid and can start stream sessions.
+    ///
+    /// * EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.
+    ///
+    /// * REVOKED: The stream URL was revoked and can no longer start stream sessions.
+    ///
+    /// * LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+    public var status: GameLiftStreamsClientTypes.StreamUrlStatus?
+    /// Additional information about why the stream URL is in its current status. Amazon GameLift Streams populates this value when the status is REVOKED. Possible values include the following:
+    ///
+    /// * userRevoked: You revoked the stream URL.
+    ///
+    /// * revokedAndTerminatingSessions: You revoked the stream URL and Amazon GameLift Streams is ending its running stream sessions.
+    ///
+    /// * revokedAndSessionsTerminated: You revoked the stream URL and its running stream sessions have ended.
+    ///
+    /// * streamGroupDeleted: The stream group was deleted, which revoked the stream URL.
+    ///
+    /// * applicationDeleted: The application was deleted, which revoked the stream URL.
+    public var statusReason: GameLiftStreamsClientTypes.StreamUrlStatusReason?
+    /// The stream group that runs the stream sessions. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+    public var streamGroupArn: Swift.String?
+    /// A list of the stream sessions that have been started through this stream URL.
+    public var streamSessions: [GameLiftStreamsClientTypes.StreamSessionSummary]?
+    /// The shareable stream URL. Distribute this URL to end users so that they can start and play a stream session in a hosted web player. Treat the stream URL as a secret. Anyone who has it can start a stream session until the stream URL expires, is revoked, or reaches its usage limit.
+    public var streamUrl: Swift.String?
+    /// The unique identifier for the stream URL resource, for example su-1AB2C3De4.
+    public var streamUrlId: Swift.String?
+    /// The maximum number of times the stream URL can start a stream session.
+    public var usageLimit: Swift.Int?
+
+    public init(
+        additionalEnvironmentVariables: [Swift.String: Swift.String]? = nil,
+        additionalLaunchArgs: [Swift.String]? = nil,
+        applicationArn: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayConfiguration: GameLiftStreamsClientTypes.DisplayConfiguration? = nil,
+        expiresAt: Foundation.Date? = nil,
+        locations: [Swift.String]? = nil,
+        `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
+        remainingUses: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        sessionLengthSeconds: Swift.Int? = nil,
+        status: GameLiftStreamsClientTypes.StreamUrlStatus? = nil,
+        statusReason: GameLiftStreamsClientTypes.StreamUrlStatusReason? = nil,
+        streamGroupArn: Swift.String? = nil,
+        streamSessions: [GameLiftStreamsClientTypes.StreamSessionSummary]? = nil,
+        streamUrl: Swift.String? = nil,
+        streamUrlId: Swift.String? = nil,
+        usageLimit: Swift.Int? = nil
+    ) {
+        self.additionalEnvironmentVariables = additionalEnvironmentVariables
+        self.additionalLaunchArgs = additionalLaunchArgs
+        self.applicationArn = applicationArn
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.displayConfiguration = displayConfiguration
+        self.expiresAt = expiresAt
+        self.locations = locations
+        self.`protocol` = `protocol`
+        self.remainingUses = remainingUses
+        self.roleArn = roleArn
+        self.sessionLengthSeconds = sessionLengthSeconds
+        self.status = status
+        self.statusReason = statusReason
+        self.streamGroupArn = streamGroupArn
+        self.streamSessions = streamSessions
+        self.streamUrl = streamUrl
+        self.streamUrlId = streamUrlId
+        self.usageLimit = usageLimit
+    }
+}
+
+extension GetStreamUrlOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetStreamUrlOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), expiresAt: \(Swift.String(describing: expiresAt)), locations: \(Swift.String(describing: locations)), remainingUses: \(Swift.String(describing: remainingUses)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupArn: \(Swift.String(describing: streamGroupArn)), streamSessions: \(Swift.String(describing: streamSessions)), streamUrlId: \(Swift.String(describing: streamUrlId)), usageLimit: \(Swift.String(describing: usageLimit)), roleArn: \"CONTENT_REDACTED\", streamUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListApplicationShaderCachesInput: Swift.Sendable {
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    public enum ShaderCacheStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleting
+        case error
+        case initialized
+        case processing
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShaderCacheStatus] {
+            return [
+                .deleting,
+                .error,
+                .initialized,
+                .processing,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .initialized: return "INITIALIZED"
+            case .processing: return "PROCESSING"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    /// Describes a shader cache associated with an Amazon GameLift Streams application.
+    public struct ShaderCacheSummary: Swift.Sendable {
+        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+        /// This member is required.
+        public var applicationArn: Swift.String?
+        /// The stream groups compatible with this shader cache. Compatibility is based on GPU type and GPU driver version. For more information on shader cache compatibility, see [Shader caches](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/shader-caches.html) in the Amazon GameLift Streams Developer Guide. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify stream group resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+        public var associatedStreamGroups: [Swift.String]?
+        /// A unique identifier for the shader cache, formatted as a 32-character hexadecimal string. Format is 1271e693c50b940e228582f1ccdd4e27.
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public var lastUpdatedAt: Foundation.Date?
+        /// The current status of the shader cache. Possible statuses include the following:
+        ///
+        /// * INITIALIZED: Amazon GameLift Streams received the request and is preparing the shader cache.
+        ///
+        /// * PROCESSING: Amazon GameLift Streams is replicating the shader cache to the streaming locations in the associated stream groups.
+        ///
+        /// * READY: The shader cache is replicated and available for use in stream sessions.
+        ///
+        /// * DELETING: Amazon GameLift Streams is deleting the shader cache.
+        ///
+        /// * ERROR: An error occurred during shader cache processing. Create a new shader cache to try again.
+        public var status: GameLiftStreamsClientTypes.ShaderCacheStatus?
+        /// The total storage used by all compiled shader files in this shader cache, in bytes.
+        public var storageBytes: Swift.Int?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            associatedStreamGroups: [Swift.String]? = nil,
+            identifier: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            status: GameLiftStreamsClientTypes.ShaderCacheStatus? = nil,
+            storageBytes: Swift.Int? = nil
+        ) {
+            self.applicationArn = applicationArn
+            self.associatedStreamGroups = associatedStreamGroups
+            self.identifier = identifier
+            self.lastUpdatedAt = lastUpdatedAt
+            self.status = status
+            self.storageBytes = storageBytes
+        }
+    }
+}
+
+public struct ListApplicationShaderCachesOutput: Swift.Sendable {
+    /// A collection of shader cache metadata for the specified Amazon GameLift Streams application. Each item includes the shader cache status, associated stream groups, and storage size.
+    public var items: [GameLiftStreamsClientTypes.ShaderCacheSummary]?
+
+    public init(
+        items: [GameLiftStreamsClientTypes.ShaderCacheSummary]? = nil
+    ) {
+        self.items = items
+    }
+}
+
+public struct ListStreamSessionsInput: Swift.Sendable {
+    /// Filter by the exported files status. You can specify one status in each request to retrieve only sessions that currently have that exported files status. Exported files can be in one of the following states:
+    ///
+    /// * SUCCEEDED: The exported files are successfully stored in an S3 bucket.
+    ///
+    /// * FAILED: The session ended but Amazon GameLift Streams couldn't collect and upload the files to S3.
+    ///
+    /// * PENDING: Either the stream session is still in progress, or uploading the exported files to the S3 bucket is in progress.
+    public var exportFilesStatus: GameLiftStreamsClientTypes.ExportFilesStatus?
+    /// The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
+    public var maxResults: Swift.Int?
+    /// The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+    public var nextToken: Swift.String?
+    /// Filter by the stream session status. You can specify one status in each request to retrieve only sessions that are currently in that status.
+    public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
+
+    public init(
+        exportFilesStatus: GameLiftStreamsClientTypes.ExportFilesStatus? = nil,
+        identifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: GameLiftStreamsClientTypes.StreamSessionStatus? = nil
+    ) {
+        self.exportFilesStatus = exportFilesStatus
+        self.identifier = identifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
 public struct ListStreamSessionsOutput: Swift.Sendable {
     /// A collection of Amazon GameLift Streams stream sessions that are associated with a stream group and returned in response to a list request. Each item includes stream session metadata and status.
     public var items: [GameLiftStreamsClientTypes.StreamSessionSummary]?
@@ -2636,6 +3126,139 @@ public struct ListStreamSessionsByAccountOutput: Swift.Sendable {
     }
 }
 
+public struct ListStreamUrlsInput: Swift.Sendable {
+    /// The maximum number of results to return per page. Valid values are 1-100. The default is 25.
+    public var maxResults: Swift.Int?
+    /// The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+    public var nextToken: Swift.String?
+    /// Filters the list to stream URLs with the specified status.
+    ///
+    /// * ACTIVE: The stream URL is valid and can start stream sessions.
+    ///
+    /// * EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.
+    ///
+    /// * REVOKED: The stream URL was revoked and can no longer start stream sessions.
+    ///
+    /// * LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+    public var status: GameLiftStreamsClientTypes.StreamUrlStatus?
+    /// Filters the list to stream URLs that belong to the specified stream group. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+    public var streamGroupIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: GameLiftStreamsClientTypes.StreamUrlStatus? = nil,
+        streamGroupIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+        self.streamGroupIdentifier = streamGroupIdentifier
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    /// Describes a stream URL. This is a summary view that omits the full configuration, such as launch arguments and display settings. To retrieve the complete configuration, call [GetStreamUrl](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamUrl.html).
+    public struct StreamUrlSummary: Swift.Sendable {
+        /// The application that runs in the stream sessions. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+        public var applicationArn: Swift.String?
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream URL across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamurl/[stream group resource ID]/[stream URL resource ID].
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public var createdAt: Foundation.Date?
+        /// The descriptive label for the stream URL.
+        public var description: Swift.String?
+        /// The date and time when the stream URL expires and stops accepting new stream sessions. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public var expiresAt: Foundation.Date?
+        /// The number of times the stream URL can still be used to start a stream session.
+        public var remainingUses: Swift.Int?
+        /// The maximum length of time, in seconds, that a stream session started from this stream URL can run.
+        public var sessionLengthSeconds: Swift.Int?
+        /// The current status of the stream URL. Possible statuses include the following:
+        ///
+        /// * ACTIVE: The stream URL is valid and can start stream sessions.
+        ///
+        /// * EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.
+        ///
+        /// * REVOKED: The stream URL was revoked and can no longer start stream sessions.
+        ///
+        /// * LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+        public var status: GameLiftStreamsClientTypes.StreamUrlStatus?
+        /// Additional information about why the stream URL is in its current status. Amazon GameLift Streams populates this value when the status is REVOKED. Possible values include the following:
+        ///
+        /// * userRevoked: You revoked the stream URL.
+        ///
+        /// * revokedAndTerminatingSessions: You revoked the stream URL and Amazon GameLift Streams is ending its running stream sessions.
+        ///
+        /// * revokedAndSessionsTerminated: You revoked the stream URL and its running stream sessions have ended.
+        ///
+        /// * streamGroupDeleted: The stream group was deleted, which revoked the stream URL.
+        ///
+        /// * applicationDeleted: The application was deleted, which revoked the stream URL.
+        public var statusReason: GameLiftStreamsClientTypes.StreamUrlStatusReason?
+        /// The stream group that runs the stream sessions. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+        public var streamGroupArn: Swift.String?
+        /// The shareable stream URL. Distribute this URL to end users so that they can start and play a stream session in a hosted web player. Treat the stream URL as a secret. Anyone who has it can start a stream session until the stream URL expires, is revoked, or reaches its usage limit.
+        public var streamUrl: Swift.String?
+        /// The unique identifier for the stream URL resource, for example su-1AB2C3De4.
+        public var streamUrlId: Swift.String?
+        /// The maximum number of times the stream URL can start a stream session.
+        public var usageLimit: Swift.Int?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            expiresAt: Foundation.Date? = nil,
+            remainingUses: Swift.Int? = nil,
+            sessionLengthSeconds: Swift.Int? = nil,
+            status: GameLiftStreamsClientTypes.StreamUrlStatus? = nil,
+            statusReason: GameLiftStreamsClientTypes.StreamUrlStatusReason? = nil,
+            streamGroupArn: Swift.String? = nil,
+            streamUrl: Swift.String? = nil,
+            streamUrlId: Swift.String? = nil,
+            usageLimit: Swift.Int? = nil
+        ) {
+            self.applicationArn = applicationArn
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.expiresAt = expiresAt
+            self.remainingUses = remainingUses
+            self.sessionLengthSeconds = sessionLengthSeconds
+            self.status = status
+            self.statusReason = statusReason
+            self.streamGroupArn = streamGroupArn
+            self.streamUrl = streamUrl
+            self.streamUrlId = streamUrlId
+            self.usageLimit = usageLimit
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes.StreamUrlSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StreamUrlSummary(applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), expiresAt: \(Swift.String(describing: expiresAt)), remainingUses: \(Swift.String(describing: remainingUses)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupArn: \(Swift.String(describing: streamGroupArn)), streamUrlId: \(Swift.String(describing: streamUrlId)), usageLimit: \(Swift.String(describing: usageLimit)), streamUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListStreamUrlsOutput: Swift.Sendable {
+    /// A collection of stream URL summaries. Each summary includes the identity, status, and usage of the stream URL, but not its full configuration.
+    public var items: [GameLiftStreamsClientTypes.StreamUrlSummary]?
+    /// A token that marks the start of the next sequential page of results. If an operation doesn't return a token, you've reached the end of the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GameLiftStreamsClientTypes.StreamUrlSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource.
     /// This member is required.
@@ -2673,6 +3296,60 @@ public struct RemoveStreamGroupLocationsInput: Swift.Sendable {
     ) {
         self.identifier = identifier
         self.locations = locations
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
+    public enum RevocationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case revokeAndTerminateSessions
+        case revokeUrl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RevocationMode] {
+            return [
+                .revokeAndTerminateSessions,
+                .revokeUrl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .revokeAndTerminateSessions: return "REVOKE_AND_TERMINATE_SESSIONS"
+            case .revokeUrl: return "REVOKE_URL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct RevokeStreamUrlInput: Swift.Sendable {
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4. This is the stream group that owns the stream URL.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Controls what happens to running stream sessions when you revoke the stream URL. If you do not specify a value, the default is REVOKE_URL. Possible values include the following:
+    ///
+    /// * REVOKE_URL: Stops the stream URL from starting new stream sessions. Running sessions continue until they end.
+    ///
+    /// * REVOKE_AND_TERMINATE_SESSIONS: Stops new stream sessions and ends any running stream sessions.
+    public var revocationMode: GameLiftStreamsClientTypes.RevocationMode?
+    /// The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4. Example ID: su-1AB2C3De4.
+    /// This member is required.
+    public var streamUrlIdentifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil,
+        revocationMode: GameLiftStreamsClientTypes.RevocationMode? = nil,
+        streamUrlIdentifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+        self.revocationMode = revocationMode
+        self.streamUrlIdentifier = streamUrlIdentifier
     }
 }
 
@@ -3960,6 +4637,16 @@ extension CreateStreamSessionConnectionInput {
     }
 }
 
+extension CreateStreamUrlInput {
+
+    static func urlPathProvider(_ value: CreateStreamUrlInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/streamgroups/\(identifier.urlPercentEncoding())/streamurls"
+    }
+}
+
 extension DeleteApplicationInput {
 
     static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
@@ -4036,6 +4723,19 @@ extension GetStreamSessionInput {
     }
 }
 
+extension GetStreamUrlInput {
+
+    static func urlPathProvider(_ value: GetStreamUrlInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        guard let streamUrlIdentifier = value.streamUrlIdentifier else {
+            return nil
+        }
+        return "/streamgroups/\(identifier.urlPercentEncoding())/streamurls/\(streamUrlIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension ListApplicationsInput {
 
     static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
@@ -4056,6 +4756,16 @@ extension ListApplicationsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension ListApplicationShaderCachesInput {
+
+    static func urlPathProvider(_ value: ListApplicationShaderCachesInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/applications/\(identifier.urlPercentEncoding())/shadercaches"
     }
 }
 
@@ -4147,6 +4857,37 @@ extension ListStreamSessionsByAccountInput {
     }
 }
 
+extension ListStreamUrlsInput {
+
+    static func urlPathProvider(_ value: ListStreamUrlsInput) -> Swift.String? {
+        return "/streamurls"
+    }
+}
+
+extension ListStreamUrlsInput {
+
+    static func queryItemProvider(_ value: ListStreamUrlsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let streamGroupIdentifier = value.streamGroupIdentifier {
+            let streamGroupIdentifierQueryItem = Smithy.URIQueryItem(name: "StreamGroupIdentifier".urlPercentEncoding(), value: Swift.String(streamGroupIdentifier).urlPercentEncoding())
+            items.append(streamGroupIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -4180,6 +4921,19 @@ extension RemoveStreamGroupLocationsInput {
             items.append(queryItem)
         }
         return items
+    }
+}
+
+extension RevokeStreamUrlInput {
+
+    static func urlPathProvider(_ value: RevokeStreamUrlInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        guard let streamUrlIdentifier = value.streamUrlIdentifier else {
+            return nil
+        }
+        return "/streamgroups/\(identifier.urlPercentEncoding())/streamurls/\(streamUrlIdentifier.urlPercentEncoding())/revoke"
     }
 }
 
@@ -4315,6 +5069,25 @@ extension CreateStreamSessionConnectionInput {
     }
 }
 
+extension CreateStreamUrlInput {
+
+    static func write(value: CreateStreamUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalEnvironmentVariables"].writeMap(value.additionalEnvironmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AdditionalLaunchArgs"].writeList(value.additionalLaunchArgs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ApplicationIdentifier"].write(value.applicationIdentifier)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DisplayConfiguration"].write(value.displayConfiguration, with: GameLiftStreamsClientTypes.DisplayConfiguration.write(value:to:))
+        try writer["Locations"].writeList(value.locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["SessionLengthSeconds"].write(value.sessionLengthSeconds)
+        try writer["UrlExpiresAfterMinutes"].write(value.urlExpiresAfterMinutes)
+        try writer["UsageLimit"].write(value.usageLimit)
+    }
+}
+
 extension DisassociateApplicationsInput {
 
     static func write(value: DisassociateApplicationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -4328,6 +5101,14 @@ extension ExportStreamSessionFilesInput {
     static func write(value: ExportStreamSessionFilesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["OutputUri"].write(value.outputUri)
+    }
+}
+
+extension RevokeStreamUrlInput {
+
+    static func write(value: RevokeStreamUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RevocationMode"].write(value.revocationMode)
     }
 }
 
@@ -4480,6 +5261,36 @@ extension CreateStreamSessionConnectionOutput {
     }
 }
 
+extension CreateStreamUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateStreamUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateStreamUrlOutput()
+        value.additionalEnvironmentVariables = try reader["AdditionalEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.additionalLaunchArgs = try reader["AdditionalLaunchArgs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.displayConfiguration = try reader["DisplayConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.DisplayConfiguration.read(from:))
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.locations = try reader["Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.remainingUses = try reader["RemainingUses"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.sessionLengthSeconds = try reader["SessionLengthSeconds"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.streamGroupArn = try reader["StreamGroupArn"].readIfPresent()
+        value.streamUrl = try reader["StreamUrl"].readIfPresent()
+        value.streamUrlId = try reader["StreamUrlId"].readIfPresent()
+        value.usageLimit = try reader["UsageLimit"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationOutput {
@@ -4596,6 +5407,37 @@ extension GetStreamSessionOutput {
     }
 }
 
+extension GetStreamUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetStreamUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStreamUrlOutput()
+        value.additionalEnvironmentVariables = try reader["AdditionalEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.additionalLaunchArgs = try reader["AdditionalLaunchArgs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.displayConfiguration = try reader["DisplayConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.DisplayConfiguration.read(from:))
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.locations = try reader["Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.remainingUses = try reader["RemainingUses"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.sessionLengthSeconds = try reader["SessionLengthSeconds"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.streamGroupArn = try reader["StreamGroupArn"].readIfPresent()
+        value.streamSessions = try reader["StreamSessions"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.StreamSessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamUrl = try reader["StreamUrl"].readIfPresent()
+        value.streamUrlId = try reader["StreamUrlId"].readIfPresent()
+        value.usageLimit = try reader["UsageLimit"].readIfPresent()
+        return value
+    }
+}
+
 extension ListApplicationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
@@ -4605,6 +5447,18 @@ extension ListApplicationsOutput {
         var value = ListApplicationsOutput()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListApplicationShaderCachesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationShaderCachesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListApplicationShaderCachesOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.ShaderCacheSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4648,6 +5502,19 @@ extension ListStreamSessionsByAccountOutput {
     }
 }
 
+extension ListStreamUrlsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListStreamUrlsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListStreamUrlsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.StreamUrlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -4664,6 +5531,13 @@ extension RemoveStreamGroupLocationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveStreamGroupLocationsOutput {
         return RemoveStreamGroupLocationsOutput()
+    }
+}
+
+extension RevokeStreamUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeStreamUrlOutput {
+        return RevokeStreamUrlOutput()
     }
 }
 
@@ -4885,6 +5759,26 @@ enum CreateStreamSessionConnectionOutputError {
     }
 }
 
+enum CreateStreamUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5013,6 +5907,24 @@ enum GetStreamSessionOutputError {
     }
 }
 
+enum GetStreamUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListApplicationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5023,6 +5935,24 @@ enum ListApplicationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListApplicationShaderCachesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5082,6 +6012,23 @@ enum ListStreamSessionsByAccountOutputError {
     }
 }
 
+enum ListStreamUrlsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5100,6 +6047,24 @@ enum ListTagsForResourceOutputError {
 }
 
 enum RemoveStreamGroupLocationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RevokeStreamUrlOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5477,6 +6442,21 @@ extension GameLiftStreamsClientTypes.RuntimeEnvironment {
     }
 }
 
+extension GameLiftStreamsClientTypes.ShaderCacheSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ShaderCacheSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ShaderCacheSummary()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.storageBytes = try reader["StorageBytes"].readIfPresent()
+        value.associatedStreamGroups = try reader["AssociatedStreamGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GameLiftStreamsClientTypes.StreamGroupSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.StreamGroupSummary {
@@ -5511,6 +6491,28 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary {
         value.exportFilesMetadata = try reader["ExportFilesMetadata"].readIfPresent(with: GameLiftStreamsClientTypes.ExportFilesMetadata.read(from:))
         value.location = try reader["Location"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.StreamUrlSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.StreamUrlSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.StreamUrlSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.streamUrlId = try reader["StreamUrlId"].readIfPresent()
+        value.streamUrl = try reader["StreamUrl"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.usageLimit = try reader["UsageLimit"].readIfPresent()
+        value.remainingUses = try reader["RemainingUses"].readIfPresent()
+        value.streamGroupArn = try reader["StreamGroupArn"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.sessionLengthSeconds = try reader["SessionLengthSeconds"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }

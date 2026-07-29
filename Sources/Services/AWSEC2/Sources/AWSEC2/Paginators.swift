@@ -5357,6 +5357,39 @@ extension PaginatorSequence where OperationStackInput == GetTransitGatewayPolicy
     }
 }
 extension EC2Client {
+    /// Paginate over `[GetTransitGatewayPolicyTableEntriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetTransitGatewayPolicyTableEntriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayPolicyTableEntriesOutput`
+    public func getTransitGatewayPolicyTableEntriesPaginated(input: GetTransitGatewayPolicyTableEntriesInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayPolicyTableEntriesInput, GetTransitGatewayPolicyTableEntriesOutput> {
+        return ClientRuntime.PaginatorSequence<GetTransitGatewayPolicyTableEntriesInput, GetTransitGatewayPolicyTableEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayPolicyTableEntries(input:))
+    }
+}
+
+extension GetTransitGatewayPolicyTableEntriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetTransitGatewayPolicyTableEntriesInput {
+        return GetTransitGatewayPolicyTableEntriesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayPolicyTableId: self.transitGatewayPolicyTableId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetTransitGatewayPolicyTableEntriesInput, OperationStackOutput == GetTransitGatewayPolicyTableEntriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayPolicyTableEntriesPaginated`
+    /// to access the nested member `[EC2ClientTypes.TransitGatewayPolicyTableEntry]`
+    /// - Returns: `[EC2ClientTypes.TransitGatewayPolicyTableEntry]`
+    public func transitGatewayPolicyTableEntries() async throws -> [EC2ClientTypes.TransitGatewayPolicyTableEntry] {
+        return try await self.asyncCompactMap { item in item.transitGatewayPolicyTableEntries }
+    }
+}
+extension EC2Client {
     /// Paginate over `[GetTransitGatewayPrefixListReferencesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

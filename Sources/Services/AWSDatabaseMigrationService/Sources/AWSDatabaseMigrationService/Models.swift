@@ -404,11 +404,11 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    /// Provides information about a metadata model assessment exported to SQL.
+    /// The Amazon S3 location of the ZIP archive that contains the exported data definition language (DDL) scripts.
     public struct ExportSqlDetails: Swift.Sendable {
-        /// The URL for the object containing the exported metadata model assessment.
+        /// The URL of the Amazon S3 object that contains the ZIP archive with exported DDL scripts.
         public var objectURL: Swift.String?
-        /// The Amazon S3 object key for the object containing the exported metadata model assessment.
+        /// The Amazon S3 URI of the object that contains the ZIP archive with exported DDL scripts.
         public var s3ObjectKey: Swift.String?
 
         public init(
@@ -491,7 +491,7 @@ extension DatabaseMigrationClientTypes {
     public struct SchemaConversionRequest: Swift.Sendable {
         /// Provides error information about a project.
         public var error: DatabaseMigrationClientTypes.ErrorDetails?
-        /// Provides information about a metadata model assessment exported to SQL.
+        /// The Amazon S3 location of the ZIP archive that contains the exported data definition language (DDL) scripts. DMS populates this field only for the DescribeMetadataModelExportsAsScript operation.
         public var exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails?
         /// The migration project ARN.
         public var migrationProjectArn: Swift.String?
@@ -499,7 +499,19 @@ extension DatabaseMigrationClientTypes {
         public var progress: DatabaseMigrationClientTypes.Progress?
         /// The identifier for the schema conversion action.
         public var requestIdentifier: Swift.String?
-        /// The schema conversion action status.
+        /// The schema conversion operation status. Possible values:
+        ///
+        /// * RECEIVED – The operation is received but not yet queued for processing.
+        ///
+        /// * IN_PROGRESS – The operation is queued or actively running.
+        ///
+        /// * SUCCESS – The operation completed successfully.
+        ///
+        /// * FAILED – The operation did not complete.
+        ///
+        /// * CANCELING – The operation is being canceled. The operation might still succeed or fail before cancellation takes effect.
+        ///
+        /// * CANCELED – The operation was canceled before completion.
         public var status: Swift.String?
 
         public init(
@@ -521,7 +533,7 @@ extension DatabaseMigrationClientTypes {
 }
 
 public struct CancelMetadataModelConversionOutput: Swift.Sendable {
-    /// Provides information about a schema conversion action.
+    /// The metadata model conversion request. DMS never populates the ExportSqlDetails field for this operation.
     public var request: DatabaseMigrationClientTypes.SchemaConversionRequest?
 
     public init(
@@ -549,7 +561,7 @@ public struct CancelMetadataModelCreationInput: Swift.Sendable {
 }
 
 public struct CancelMetadataModelCreationOutput: Swift.Sendable {
-    /// Provides information about a schema conversion action.
+    /// The metadata model creation request. DMS never populates the ExportSqlDetails field for this operation.
     public var request: DatabaseMigrationClientTypes.SchemaConversionRequest?
 
     public init(
@@ -1711,7 +1723,7 @@ public struct CreateDataProviderInput: Swift.Sendable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
     /// This member is required.
     public var engine: Swift.String?
     /// The settings in JSON format for a data provider.
@@ -1751,7 +1763,7 @@ extension DatabaseMigrationClientTypes {
         public var dataProviderName: Swift.String?
         /// A description of the data provider. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public var description: Swift.String?
-        /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
         public var engine: Swift.String?
         /// The settings in JSON format for a data provider.
         public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
@@ -1892,7 +1904,7 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one". Must be a positive value greater than 0. Default value is 1000.
         public var docsToInvestigate: Swift.Int?
-        /// Specifies the document ID. Use this setting when NestingLevel is set to "none". Default value is "false".
+        /// Specifies whether the document ID is added to the target table. Use this setting when NestingLevel is set to "none". Set ExtractDocId to true when using [multi-document transactions](https://www.mongodb.com/docs/manual/reference/method/Session.startTransaction/#mongodb-method-Session.startTransaction) with CDC. Default value is false.
         public var extractDocId: Swift.Bool?
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
@@ -2657,7 +2669,7 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one". Must be a positive value greater than 0. Default value is 1000.
         public var docsToInvestigate: Swift.String?
-        /// Specifies the document ID. Use this setting when NestingLevel is set to "none". Default value is "false".
+        /// Specifies whether the document ID is added to the target table. Use this setting when NestingLevel is set to "none". Set ExtractDocId to "true" when using [multi-document transactions](https://www.mongodb.com/docs/manual/reference/method/Session.startTransaction/#mongodb-method-Session.startTransaction) with CDC. Default value is "false".
         public var extractDocId: Swift.String?
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
@@ -3000,7 +3012,7 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerOracleAsmSecretId: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Oracle endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
-        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password  part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryptian setting is related to this SecurityDbEncryptionName setting. For more information, see [ Supported encryption methods for using Oracle as a source for DMS ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption) in the Database Migration Service User Guide.
+        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password  part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryption setting is related to this SecurityDbEncryptionName setting. For more information, see [ Supported encryption methods for using Oracle as a source for DMS ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption) in the Database Migration Service User Guide.
         public var securityDbEncryption: Swift.String?
         /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in [ Supported encryption methods for using Oracle as a source for DMS ](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption) in the Database Migration Service User Guide.
         public var securityDbEncryptionName: Swift.String?
@@ -5002,7 +5014,7 @@ public struct CreateMigrationProjectInput: Swift.Sendable {
     /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
     /// This member is required.
     public var targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
-    /// The settings in JSON format for migration rules. Migration rules make it possible for you to change the object names according to the rules that you specify. For example, you can change an object name to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+    /// A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see [Transformation rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html). Homogeneous data migrations do not support transformation rules.
     public var transformationRules: Swift.String?
 
     public init(
@@ -5075,7 +5087,7 @@ extension DatabaseMigrationClientTypes {
         public var sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]?
         /// Information about the target data provider, including the name or ARN, and Secrets Manager parameters.
         public var targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]?
-        /// The settings in JSON format for migration rules. Migration rules make it possible for you to change the object names according to the rules that you specify. For example, you can change an object name to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+        /// The transformation rules for the migration project in JSON format. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see [Transformation rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html). Homogeneous data migrations do not support transformation rules.
         public var transformationRules: Swift.String?
 
         public init(
@@ -6765,7 +6777,7 @@ public struct DescribeConversionConfigurationInput: Swift.Sendable {
 }
 
 public struct DescribeConversionConfigurationOutput: Swift.Sendable {
-    /// The configuration parameters for the schema conversion project.
+    /// A JSON string that contains the schema conversion settings for the migration project. For the format and available settings, see [Specifying schema conversion settings for migration projects](https://docs.aws.amazon.com/dms/latest/userguide/schema-conversion-settings.html).
     public var conversionConfiguration: Swift.String?
     /// The name or Amazon Resource Name (ARN) for the schema conversion project.
     public var migrationProjectIdentifier: Swift.String?
@@ -6822,7 +6834,9 @@ public struct DescribeDataMigrationsOutput: Swift.Sendable {
 }
 
 public struct DescribeDataProvidersInput: Swift.Sendable {
-    /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
+    /// The filters to apply to the data providers. The following filter names are supported:
+    ///
+    /// * data-provider-identifier – The data provider name or ARN.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -7382,13 +7396,17 @@ public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
 }
 
 public struct DescribeExtensionPackAssociationsInput: Swift.Sendable {
-    /// Filters applied to the extension pack associations described in the form of key-value pairs.
+    /// The filters to apply to the extension pack installation requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     public var maxRecords: Swift.Int?
-    /// The name or Amazon Resource Name (ARN) for the migration project.
+    /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
 
@@ -7408,7 +7426,7 @@ public struct DescribeExtensionPackAssociationsInput: Swift.Sendable {
 public struct DescribeExtensionPackAssociationsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of extension pack associations for the specified migration project.
+    /// A paginated list of extension pack installation requests. DMS never populates the ExportSqlDetails field for this operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8088,7 +8106,9 @@ public struct DescribeFleetAdvisorSchemasOutput: Swift.Sendable {
 }
 
 public struct DescribeInstanceProfilesInput: Swift.Sendable {
-    /// Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
+    /// The filters to apply to the instance profiles. The following filter names are supported:
+    ///
+    /// * instance-profile-identifier – The instance profile name or ARN.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8157,7 +8177,13 @@ public struct DescribeMetadataModelInput: Swift.Sendable {
     /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
     /// This member is required.
     public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
-    /// The JSON string that specifies which metadata model to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see [Selection Rules](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html) in the DMS User Guide.
+    /// A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.
+    ///
+    /// * Supports only explicit rule actions.
+    ///
+    /// * Exactly one rule is allowed.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -8178,7 +8204,9 @@ extension DatabaseMigrationClientTypes {
     public struct MetadataModelReference: Swift.Sendable {
         /// The name of the metadata model.
         public var metadataModelName: Swift.String?
-        /// The JSON string representing metadata model location.
+        /// A JSON string that identifies this metadata model in the metadata tree. For the selection rule format, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+        ///
+        /// * You can pass this value as the SelectionRules parameter to any operation that accepts selection rules, such as DescribeMetadataModel, StartMetadataModelConversion, and others.
         public var selectionRules: Swift.String?
 
         public init(
@@ -8215,13 +8243,17 @@ public struct DescribeMetadataModelOutput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelAssessmentsInput: Swift.Sendable {
-    /// Filters applied to the metadata model assessments described in the form of key-value pairs.
+    /// The filters to apply to the metadata model assessment requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     public var maxRecords: Swift.Int?
-    /// The name or Amazon Resource Name (ARN) of the migration project.
+    /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
 
@@ -8241,7 +8273,7 @@ public struct DescribeMetadataModelAssessmentsInput: Swift.Sendable {
 public struct DescribeMetadataModelAssessmentsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of metadata model assessments for the specified migration project.
+    /// A paginated list of metadata model assessment requests. DMS never populates the ExportSqlDetails field for this operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8264,7 +8296,13 @@ public struct DescribeMetadataModelChildrenInput: Swift.Sendable {
     /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
     /// This member is required.
     public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
-    /// The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see [Selection Rules](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html) in the DMS User Guide.
+    /// A JSON string that identifies the metadata model whose children to retrieve. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.
+    ///
+    /// * Supports only explicit rule actions.
+    ///
+    /// * Exactly one rule is allowed.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -8299,7 +8337,11 @@ public struct DescribeMetadataModelChildrenOutput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelConversionsInput: Swift.Sendable {
-    /// Filters applied to the metadata model conversions described in the form of key-value pairs.
+    /// The filters to apply to the metadata model conversion requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8325,7 +8367,7 @@ public struct DescribeMetadataModelConversionsInput: Swift.Sendable {
 public struct DescribeMetadataModelConversionsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of metadata model conversions.
+    /// A paginated list of metadata model conversion requests. DMS never populates the ExportSqlDetails field for this operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8338,11 +8380,15 @@ public struct DescribeMetadataModelConversionsOutput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelCreationsInput: Swift.Sendable {
-    /// Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
+    /// The filters to apply to the metadata model creation requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
-    /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     public var maxRecords: Swift.Int?
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
@@ -8362,9 +8408,9 @@ public struct DescribeMetadataModelCreationsInput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelCreationsOutput: Swift.Sendable {
-    /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned, there are more metadata model creation requests available.
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A list of metadata model creation requests. The ExportSqlDetails field will never be populated for the DescribeMetadataModelCreations operation.
+    /// A paginated list of metadata model creation requests. DMS never populates the ExportSqlDetails field for this operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8377,7 +8423,11 @@ public struct DescribeMetadataModelCreationsOutput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelExportsAsScriptInput: Swift.Sendable {
-    /// Filters applied to the metadata model exports described in the form of key-value pairs.
+    /// The filters to apply to the metadata model export requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8403,7 +8453,7 @@ public struct DescribeMetadataModelExportsAsScriptInput: Swift.Sendable {
 public struct DescribeMetadataModelExportsAsScriptOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of metadata model exports.
+    /// A paginated list of metadata model export requests.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8416,7 +8466,11 @@ public struct DescribeMetadataModelExportsAsScriptOutput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelExportsToTargetInput: Swift.Sendable {
-    /// Filters applied to the metadata model exports described in the form of key-value pairs.
+    /// The filters to apply to the metadata model export requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8442,7 +8496,7 @@ public struct DescribeMetadataModelExportsToTargetInput: Swift.Sendable {
 public struct DescribeMetadataModelExportsToTargetOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of metadata model exports.
+    /// A paginated list of metadata model export requests. DMS never populates the ExportSqlDetails field for this operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8455,11 +8509,15 @@ public struct DescribeMetadataModelExportsToTargetOutput: Swift.Sendable {
 }
 
 public struct DescribeMetadataModelImportsInput: Swift.Sendable {
-    /// Filters applied to the metadata model imports described in the form of key-value pairs.
+    /// The filters to apply to the metadata model import requests. The following filter names are supported:
+    ///
+    /// * request-id – The request identifier.
+    ///
+    /// * status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of metadata model imports.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     public var maxRecords: Swift.Int?
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
@@ -8481,7 +8539,7 @@ public struct DescribeMetadataModelImportsInput: Swift.Sendable {
 public struct DescribeMetadataModelImportsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
-    /// A paginated list of metadata model imports.
+    /// A paginated list of metadata model import requests. DMS never populates the ExportSqlDetails field for this operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -8494,13 +8552,17 @@ public struct DescribeMetadataModelImportsOutput: Swift.Sendable {
 }
 
 public struct DescribeMigrationProjectsInput: Swift.Sendable {
-    /// Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:
+    /// The filters to apply to the migration projects. The following filter names are supported:
     ///
-    /// * instance-profile-identifier, instance profile arn or name
+    /// * migration-project-identifier – The migration project name or ARN.
     ///
-    /// * data-provider-identifier, data provider arn or name
+    /// * instance-profile-identifier – The instance profile name or ARN.
     ///
-    /// * migration-project-identifier, migration project arn or name
+    /// * data-provider-identifier – The source or target data provider name or ARN.
+    ///
+    /// * source-data-provider-identifier – The source data provider name or ARN.
+    ///
+    /// * target-data-provider-identifier – The target data provider name or ARN.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -10053,7 +10115,11 @@ public struct ExportMetadataModelAssessmentInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// A value that specifies the database objects to assess.
+    /// A JSON string that identifies the metadata models to export a conversion assessment report for. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts only source selection rules, where server-name in the object locator matches the source data provider.
+    ///
+    /// * Supports only explicit rule actions.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -10108,7 +10174,15 @@ public struct GetTargetSelectionRulesInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.
+    /// A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts only source selection rules, where server-name in the object locator matches the source data provider.
+    ///
+    /// * Supports only explicit rule actions.
+    ///
+    /// * Does not support category-name in the object locator.
+    ///
+    /// * Up to 10 rules are allowed.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -10223,7 +10297,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ModifyConversionConfigurationInput: Swift.Sendable {
-    /// The new conversion configuration.
+    /// A JSON string that contains the schema conversion settings to update. For the format and available settings, see [Specifying schema conversion settings for migration projects](https://docs.aws.amazon.com/dms/latest/userguide/schema-conversion-settings.html). Usage:
+    ///
+    /// * Include only the sections and keys to change. The operation merges supplied values with the existing configuration.
     /// This member is required.
     public var conversionConfiguration: Swift.String?
     /// The migration project name or Amazon Resource Name (ARN).
@@ -10313,7 +10389,7 @@ public struct ModifyDataProviderInput: Swift.Sendable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
     public var engine: Swift.String?
     /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:
     ///
@@ -10639,7 +10715,7 @@ public struct ModifyMigrationProjectInput: Swift.Sendable {
     public var sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
     /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
     public var targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
-    /// The settings in JSON format for migration rules. Migration rules make it possible for you to change the object names according to the rules that you specify. For example, you can change an object name to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+    /// A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see [Transformation rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-transformation-rules.html). Homogeneous data migrations do not support transformation rules.
     public var transformationRules: Swift.String?
 
     public init(
@@ -11273,7 +11349,7 @@ public struct StartExtensionPackAssociationInput: Swift.Sendable {
 }
 
 public struct StartExtensionPackAssociationOutput: Swift.Sendable {
-    /// The identifier for the request operation.
+    /// The identifier for the installation request.
     public var requestIdentifier: Swift.String?
 
     public init(
@@ -11287,7 +11363,11 @@ public struct StartMetadataModelAssessmentInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// A value that specifies the database objects to assess.
+    /// A JSON string that identifies the metadata models to assess. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts only source selection rules, where server-name in the object locator matches the source data provider.
+    ///
+    /// * Supports explicit, include, and exclude rule actions.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -11301,7 +11381,7 @@ public struct StartMetadataModelAssessmentInput: Swift.Sendable {
 }
 
 public struct StartMetadataModelAssessmentOutput: Swift.Sendable {
-    /// The identifier for the assessment operation.
+    /// The identifier for the assessment request.
     public var requestIdentifier: Swift.String?
 
     public init(
@@ -11315,7 +11395,11 @@ public struct StartMetadataModelConversionInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// A value that specifies the database objects to convert.
+    /// A JSON string that identifies the metadata models to convert. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts only source selection rules, where server-name in the object locator matches the source data provider.
+    ///
+    /// * Supports explicit, include, and exclude rule actions.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -11329,7 +11413,7 @@ public struct StartMetadataModelConversionInput: Swift.Sendable {
 }
 
 public struct StartMetadataModelConversionOutput: Swift.Sendable {
-    /// The identifier for the conversion operation.
+    /// The identifier for the conversion request.
     public var requestIdentifier: Swift.String?
 
     public init(
@@ -11341,7 +11425,7 @@ public struct StartMetadataModelConversionOutput: Swift.Sendable {
 
 extension DatabaseMigrationClientTypes {
 
-    /// The properties of the statement for metadata model creation.
+    /// The properties of the SQL statement.
     public struct StatementProperties: Swift.Sendable {
         /// The SQL text of the statement.
         /// This member is required.
@@ -11357,25 +11441,31 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
-    /// The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+    /// The properties of the metadata model.
     public enum MetadataModelProperties: Swift.Sendable {
-        /// The properties of the statement.
+        /// The properties of the SQL statement.
         case statementproperties(DatabaseMigrationClientTypes.StatementProperties)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct StartMetadataModelCreationInput: Swift.Sendable {
-    /// The name of the metadata model.
+    /// The name for the metadata model to use in subsequent operations.
     /// This member is required.
     public var metadataModelName: Swift.String?
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+    /// The properties of the metadata model.
     /// This member is required.
     public var properties: DatabaseMigrationClientTypes.MetadataModelProperties?
-    /// The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.
+    /// A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts only source selection rules, where server-name in the object locator matches the source data provider.
+    ///
+    /// * Supports only explicit rule actions.
+    ///
+    /// * Exactly one rule is allowed.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -11393,7 +11483,7 @@ public struct StartMetadataModelCreationInput: Swift.Sendable {
 }
 
 public struct StartMetadataModelCreationOutput: Swift.Sendable {
-    /// The identifier for the metadata model creation operation.
+    /// The identifier for the creation request.
     public var requestIdentifier: Swift.String?
 
     public init(
@@ -11404,15 +11494,19 @@ public struct StartMetadataModelCreationOutput: Swift.Sendable {
 }
 
 public struct StartMetadataModelExportAsScriptInput: Swift.Sendable {
-    /// The name of the model file to create in the Amazon S3 bucket.
+    /// The name for the exported file. When you omit this parameter, the service generates a name from the data provider engine name and an export timestamp.
     public var fileName: Swift.String?
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// Whether to export the metadata model from the source or the target.
+    /// Specifies the metadata tree to export from.
     /// This member is required.
     public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
-    /// A value that specifies the database objects to export.
+    /// A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.
+    ///
+    /// * Supports explicit, include, and exclude rule actions.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -11430,7 +11524,7 @@ public struct StartMetadataModelExportAsScriptInput: Swift.Sendable {
 }
 
 public struct StartMetadataModelExportAsScriptOutput: Swift.Sendable {
-    /// The identifier for the export operation.
+    /// The identifier for the export request.
     public var requestIdentifier: Swift.String?
 
     public init(
@@ -11444,9 +11538,13 @@ public struct StartMetadataModelExportToTargetInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// Whether to overwrite the migration project extension pack. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Specifies whether to overwrite the extension pack if one already exists on the target database. The default value is true.
     public var overwriteExtensionPack: Swift.Bool?
-    /// A value that specifies the database objects to export.
+    /// A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts only target selection rules, where server-name in the object locator matches the target data provider.
+    ///
+    /// * Supports explicit, include, and exclude rule actions.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -11462,7 +11560,7 @@ public struct StartMetadataModelExportToTargetInput: Swift.Sendable {
 }
 
 public struct StartMetadataModelExportToTargetOutput: Swift.Sendable {
-    /// The identifier for the export operation.
+    /// The identifier for the export request.
     public var requestIdentifier: Swift.String?
 
     public init(
@@ -11476,12 +11574,16 @@ public struct StartMetadataModelImportInput: Swift.Sendable {
     /// The migration project name or Amazon Resource Name (ARN).
     /// This member is required.
     public var migrationProjectIdentifier: Swift.String?
-    /// Whether to load metadata to the source or target database.
+    /// Specifies the metadata tree to import into. You cannot import from a virtual target data provider.
     /// This member is required.
     public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
-    /// If true, DMS loads metadata for the specified objects from the source database.
+    /// Specifies whether to refresh the selected metadata models from the data provider. When true, the import reloads the selected metadata models with current definitions and removes their existing subtree. When false (default), the import loads the full subtree that has not yet been loaded into the metadata tree.
     public var refresh: Swift.Bool?
-    /// A value that specifies the database objects to import.
+    /// A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see [Selection rules in DMS Schema Conversion](https://docs.aws.amazon.com/dms/latest/userguide/sc-selection-rules.html). Usage:
+    ///
+    /// * Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.
+    ///
+    /// * Supports explicit, include, and exclude rule actions.
     /// This member is required.
     public var selectionRules: Swift.String?
 
@@ -11499,7 +11601,7 @@ public struct StartMetadataModelImportInput: Swift.Sendable {
 }
 
 public struct StartMetadataModelImportOutput: Swift.Sendable {
-    /// The identifier for the import operation.
+    /// The identifier for the import request.
     public var requestIdentifier: Swift.String?
 
     public init(
