@@ -5561,10 +5561,59 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The reasoning configuration that controls how a reasoning model allocates effort during evaluation.
+    public struct ReasoningConfiguration: Swift.Sendable {
+        /// The level of reasoning effort the model applies when generating a response. For supported values, see the model provider's documentation.
+        public var effort: Swift.String?
+
+        public init(
+            effort: Swift.String? = nil
+        ) {
+            self.effort = effort
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration for using models served through the OpenResponses API in evaluator assessments, including model selection and inference parameters.
+    public struct OpenResponsesEvaluatorModelConfig: Swift.Sendable {
+        /// The maximum number of tokens to generate in the model response, including visible output and reasoning tokens.
+        public var maxOutputTokens: Swift.Int?
+        /// The identifier of the model to use for evaluation.
+        /// This member is required.
+        public var modelId: Swift.String?
+        /// The reasoning configuration for reasoning models. Non-reasoning models ignore this configuration.
+        public var reasoning: BedrockAgentCoreControlClientTypes.ReasoningConfiguration?
+        /// The temperature value that controls randomness in the model's responses. Lower values produce more deterministic outputs.
+        public var temperature: Swift.Float?
+        /// The top-p sampling parameter that controls the diversity of the model's responses by limiting the cumulative probability of token choices.
+        public var topp: Swift.Float?
+
+        public init(
+            maxOutputTokens: Swift.Int? = nil,
+            modelId: Swift.String? = nil,
+            reasoning: BedrockAgentCoreControlClientTypes.ReasoningConfiguration? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        ) {
+            self.maxOutputTokens = maxOutputTokens
+            self.modelId = modelId
+            self.reasoning = reasoning
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The model configuration that specifies which foundation model to use for evaluation and how to configure it.
     public enum EvaluatorModelConfig: Swift.Sendable {
         /// The Amazon Bedrock model configuration for evaluation.
         case bedrockevaluatormodelconfig(BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig)
+        /// The OpenResponses model configuration for evaluation.
+        case responsesevaluatormodelconfig(BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -31454,6 +31503,8 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorModelConfig {
         switch value {
             case let .bedrockevaluatormodelconfig(bedrockevaluatormodelconfig):
                 try writer["bedrockEvaluatorModelConfig"].write(bedrockevaluatormodelconfig, with: BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig.write(value:to:))
+            case let .responsesevaluatormodelconfig(responsesevaluatormodelconfig):
+                try writer["responsesEvaluatorModelConfig"].write(responsesevaluatormodelconfig, with: BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -31465,6 +31516,8 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorModelConfig {
         switch name {
             case "bedrockEvaluatorModelConfig":
                 return .bedrockevaluatormodelconfig(try reader["bedrockEvaluatorModelConfig"].read(with: BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig.read(from:)))
+            case "responsesEvaluatorModelConfig":
+                return .responsesevaluatormodelconfig(try reader["responsesEvaluatorModelConfig"].read(with: BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -33972,6 +34025,29 @@ extension BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxOutputTokens"].write(value.maxOutputTokens)
+        try writer["modelId"].write(value.modelId)
+        try writer["reasoning"].write(value.reasoning, with: BedrockAgentCoreControlClientTypes.ReasoningConfiguration.write(value:to:))
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.maxOutputTokens = try reader["maxOutputTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.reasoning = try reader["reasoning"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ReasoningConfiguration.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.OutputConfig {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OutputConfig {
@@ -34427,6 +34503,21 @@ extension BedrockAgentCoreControlClientTypes.RatingScale {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ReasoningConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ReasoningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["effort"].write(value.effort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ReasoningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ReasoningConfiguration()
+        value.effort = try reader["effort"].readIfPresent()
+        return value
     }
 }
 

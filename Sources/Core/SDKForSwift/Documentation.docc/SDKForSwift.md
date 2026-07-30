@@ -711,6 +711,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPricing](/sdk-for-swift/latest/api/awspricing/documentation/awspricing)
 
+[AWSPricingPlanManager](/sdk-for-swift/latest/api/awspricingplanmanager/documentation/awspricingplanmanager)
+
 [AWSProton](/sdk-for-swift/latest/api/awsproton/documentation/awsproton)
 
 [AWSQApps](/sdk-for-swift/latest/api/awsqapps/documentation/awsqapps)

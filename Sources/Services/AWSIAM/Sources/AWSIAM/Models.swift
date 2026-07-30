@@ -1099,6 +1099,38 @@ public struct AttachGroupPolicyInput: Swift.Sendable {
     }
 }
 
+extension IAMClientTypes {
+
+    public enum AttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case group
+        case role
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentType] {
+            return [
+                .group,
+                .role,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .group: return "group"
+            case .role: return "role"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct AttachRolePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
@@ -7725,11 +7757,26 @@ extension IAMClientTypes {
     }
 }
 
+extension IAMClientTypes {
+
+    /// Represents one level of an Organizations hierarchy—the organization root, an organizational unit (OU), or an account—together with the service control policies (SCPs) that apply at that level. Each element in the list represents one level of the hierarchy, ordered from the organization root down to the account. For more information about SCPs, see [Service control policies (SCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html) in the Organizations User Guide.
+    public struct OrderedOrganizationPolicyType: Swift.Sendable {
+        /// A list of SCP documents that apply at this level of the Organizations hierarchy. Each document is specified as a string containing the complete, valid JSON text of an SCP.
+        public var serviceControlPolicyInputList: [Swift.String]?
+
+        public init(
+            serviceControlPolicyInputList: [Swift.String]? = nil
+        ) {
+            self.serviceControlPolicyInputList = serviceControlPolicyInputList
+        }
+    }
+}
+
 public struct SimulateCustomPolicyInput: Swift.Sendable {
     /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
     /// This member is required.
     public var actionNames: [Swift.String]?
-    /// The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
+    /// The ARN of the IAM user, group, or role that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You cannot specify the ARN of an assumed role, federated user, or a service principal.
     public var callerArn: Swift.String?
     /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
     public var contextEntries: [IAMClientTypes.ContextEntry]?
@@ -7737,6 +7784,8 @@ public struct SimulateCustomPolicyInput: Swift.Sendable {
     public var marker: Swift.String?
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
     public var maxItems: Swift.Int?
+    /// An ordered list of service control policies (SCPs) to include in the simulation. Each element represents one level of an Organizations hierarchy, from the organization root to the account. The simulator evaluates SCPs in the order that you provide, consistent with how Organizations enforces SCPs. The first element must represent the organization root, and the last element must represent the account. Any elements between them represent organizational units (OUs) in descending order. Use this parameter to simulate the effect of an SCP hierarchy without calling [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html).
+    public var orderedOrganizationPolicyInputList: [IAMClientTypes.OrderedOrganizationPolicyType]?
     /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length). The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -7786,6 +7835,7 @@ public struct SimulateCustomPolicyInput: Swift.Sendable {
         contextEntries: [IAMClientTypes.ContextEntry]? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
+        orderedOrganizationPolicyInputList: [IAMClientTypes.OrderedOrganizationPolicyType]? = nil,
         permissionsBoundaryPolicyInputList: [Swift.String]? = nil,
         policyInputList: [Swift.String]? = nil,
         resourceArns: [Swift.String]? = nil,
@@ -7798,6 +7848,7 @@ public struct SimulateCustomPolicyInput: Swift.Sendable {
         self.contextEntries = contextEntries
         self.marker = marker
         self.maxItems = maxItems
+        self.orderedOrganizationPolicyInputList = orderedOrganizationPolicyInputList
         self.permissionsBoundaryPolicyInputList = permissionsBoundaryPolicyInputList
         self.policyInputList = policyInputList
         self.resourceArns = resourceArns
@@ -7998,7 +8049,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains the results of a simulation. This data type is used by the return parameter of [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) and [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html).
+    /// Contains the results of a simulation. This data type is used by the return parameter of [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) and [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html). The simulator now returns a single EvaluationResult per action, regardless of how many resource ARNs are provided. Previously, simulating one action against N resources returned N evaluation results, each containing the same aggregate decision. The top-level fields (EvalDecision, MatchedStatements, MissingContextValues, EvalDecisionDetails) now represent the aggregate decision across all requested resources. The top-level EvalDecision reflects the most restrictive decision across all resources (for example, if any resource produces explicitDeny, the top-level decision is explicitDeny). To see the decision for each individual resource, use ResourceSpecificResults. If your application parses evaluation results per resource ARN, update your code to read per-resource decisions from ResourceSpecificResults rather than from the top-level result.
     public struct EvaluationResult: Swift.Sendable {
         /// The name of the API operation tested on the indicated resource.
         /// This member is required.
@@ -8006,15 +8057,15 @@ extension IAMClientTypes {
         /// The result of the simulation.
         /// This member is required.
         public var evalDecision: IAMClientTypes.PolicyEvaluationDecisionType?
-        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, Amazon Web Services evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see [Evaluating policies within a single account](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics). If an Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
+        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. In the top-level result, this map reports the most restrictive decision per policy type across all requested resources. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, Amazon Web Services evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see [Evaluating policies within a single account](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics). If an Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
         public var evalDecisionDetails: [Swift.String: IAMClientTypes.PolicyEvaluationDecisionType]?
-        /// The ARN of the resource that the indicated API operation was tested on.
+        /// The ARN template for the simulated resource type (for example, arn:${Partition}:s3:::${BucketName}/${KeyName}), or * if no ARN format is defined for the action. This is not a specific customer-provided resource ARN. To find the decision for a specific resource, use ResourceSpecificResults. If you previously relied on EvalResourceName to identify which specific resource a result applies to, you must now use the EvalResourceName field within individual entries in ResourceSpecificResults instead.
         public var evalResourceName: Swift.String?
-        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
+        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result. In the top-level result, this field contains the union of matched statements across all requested resources. Only statements that contributed to the reported decision are included. For per-resource matched statements, see ResourceSpecificResults. This field doesn't include statements from service control policies (SCPs). Only statements from identity-based and resource-based policies appear here.
         public var matchedStatements: [IAMClientTypes.Statement]?
-        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) or [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html).
+        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) or [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html). In the top-level result, this field contains the deduplicated set of missing context values across all requested resources. This field doesn't include context keys referenced by service control policies (SCPs). Only context keys referenced by identity-based and resource-based policies appear here.
         public var missingContextValues: [Swift.String]?
-        /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
+        /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization. For resources that don't support organization-level evaluation, this field is omitted from the top-level result. For per-resource details, see ResourceSpecificResults.
         public var organizationsDecisionDetail: IAMClientTypes.OrganizationsDecisionDetail?
         /// Contains information about the effect that a permissions boundary has on a policy simulation when the boundary is applied to an IAM entity.
         public var permissionsBoundaryDecisionDetail: IAMClientTypes.PermissionsBoundaryDecisionDetail?
@@ -8065,11 +8116,92 @@ public struct SimulateCustomPolicyOutput: Swift.Sendable {
     }
 }
 
+extension IAMClientTypes {
+
+    /// Identifies one or more inline policies that are embedded in IAM users, groups, or roles, by the name of the policy together with the type and name of the entity that it is attached to. Wildcard characters in the entity name can match multiple entities, so a single identifier can select more than one attached inline policy.
+    public struct InlinePolicyIdentifierType: Swift.Sendable {
+        /// The name of the IAM user, group, or role that the inline policy is attached to. Wildcard characters are supported to match multiple entities: use at most one * (matches any sequence of characters, including none), and any number of ? (each matches exactly one character).
+        /// This member is required.
+        public var attachmentName: Swift.String?
+        /// The type of IAM entity that the inline policy is attached to.
+        /// This member is required.
+        public var attachmentType: IAMClientTypes.AttachmentType?
+        /// The name of the inline policy.
+        /// This member is required.
+        public var policyName: Swift.String?
+
+        public init(
+            attachmentName: Swift.String? = nil,
+            attachmentType: IAMClientTypes.AttachmentType? = nil,
+            policyName: Swift.String? = nil
+        ) {
+            self.attachmentName = attachmentName
+            self.attachmentType = attachmentType
+            self.policyName = policyName
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum PolicyIdentifierPolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case inline
+        case permissionBoundary
+        case rcp
+        case scp
+        case userManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyIdentifierPolicyType] {
+            return [
+                .awsManaged,
+                .inline,
+                .permissionBoundary,
+                .rcp,
+                .scp,
+                .userManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "aws-managed"
+            case .inline: return "inline"
+            case .permissionBoundary: return "permission-boundary"
+            case .rcp: return "rcp"
+            case .scp: return "scp"
+            case .userManaged: return "user-managed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Identifies one or more policies as a union type. Specify exactly one of PolicyType, PolicyArn, or InlinePolicyIdentifier to identify policies by their type, by Amazon Resource Name (ARN), or by the name of an inline policy and the entity it is attached to.
+    public enum PolicyIdentifier: Swift.Sendable {
+        /// The policy type to identify. All policies of the specified type are matched.
+        case policytype(IAMClientTypes.PolicyIdentifierPolicyType)
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services managed policy or a customer managed policy that is attached to an IAM user, group, or role. Wildcard characters are supported in the resource name portion of the ARN to match multiple managed policies: use at most one * (matches any sequence of characters, including none), and any number of ? (each matches exactly one character). For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        case policyarn(Swift.String)
+        /// An inline policy identifier consisting of a policy name and the entity it is attached to. Wildcard characters (* and ?) in the entity name can match multiple entities.
+        case inlinepolicyidentifier(IAMClientTypes.InlinePolicyIdentifierType)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct SimulatePrincipalPolicyInput: Swift.Sendable {
     /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
     /// This member is required.
     public var actionNames: [Swift.String]?
-    /// The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal. CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// The ARN of the IAM user, group, or role that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user, group, or role that you specify in PolicySourceArn. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify the ARN of an IAM user, group, or role. You cannot specify the ARN of an assumed role, federated user, or a service principal. CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user, group, or role. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     public var callerArn: Swift.String?
     /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
     public var contextEntries: [IAMClientTypes.ContextEntry]?
@@ -8085,6 +8217,8 @@ public struct SimulatePrincipalPolicyInput: Swift.Sendable {
     ///
     /// * The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
     public var permissionsBoundaryPolicyInputList: [Swift.String]?
+    /// A list of policies to exclude from the simulation. Use this parameter to test what the simulation result would be if a policy were removed, without changing which policies are actually attached to the principal identified by PolicySourceArn. Each entry is a [PolicyIdentifier](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PolicyIdentifier.html) that identifies one or more policies to exclude by policy type, by Amazon Resource Name (ARN), or by the name of an inline policy and the entity it is attached to. Syntactically invalid identifiers, such as malformed ARNs or wildcards in disallowed positions, cause the request to fail with an InvalidInput error. Syntactically valid identifiers that don't match any attached policy are ignored. Resource control policies (RCPs) are not supported in this release; identifiers that target RCPs are also ignored.
+    public var policyExclusionList: [IAMClientTypes.PolicyIdentifier]?
     /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The [regex pattern](http://wikipedia.org/wiki/regex) used to validate this parameter is a string of characters consisting of the following:
     ///
     /// * Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range
@@ -8129,6 +8263,7 @@ public struct SimulatePrincipalPolicyInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         permissionsBoundaryPolicyInputList: [Swift.String]? = nil,
+        policyExclusionList: [IAMClientTypes.PolicyIdentifier]? = nil,
         policyInputList: [Swift.String]? = nil,
         policySourceArn: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil,
@@ -8142,6 +8277,7 @@ public struct SimulatePrincipalPolicyInput: Swift.Sendable {
         self.marker = marker
         self.maxItems = maxItems
         self.permissionsBoundaryPolicyInputList = permissionsBoundaryPolicyInputList
+        self.policyExclusionList = policyExclusionList
         self.policyInputList = policyInputList
         self.policySourceArn = policySourceArn
         self.resourceArns = resourceArns
@@ -11921,6 +12057,7 @@ extension SimulateCustomPolicyInput {
         try writer["ContextEntries"].writeList(value.contextEntries, memberWritingClosure: IAMClientTypes.ContextEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Marker"].write(value.marker)
         try writer["MaxItems"].write(value.maxItems)
+        try writer["OrderedOrganizationPolicyInputList"].writeList(value.orderedOrganizationPolicyInputList, memberWritingClosure: IAMClientTypes.OrderedOrganizationPolicyType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PermissionsBoundaryPolicyInputList"].writeList(value.permissionsBoundaryPolicyInputList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PolicyInputList"].writeList(value.policyInputList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11942,6 +12079,7 @@ extension SimulatePrincipalPolicyInput {
         try writer["Marker"].write(value.marker)
         try writer["MaxItems"].write(value.maxItems)
         try writer["PermissionsBoundaryPolicyInputList"].writeList(value.permissionsBoundaryPolicyInputList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolicyExclusionList"].writeList(value.policyExclusionList, memberWritingClosure: IAMClientTypes.PolicyIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PolicyInputList"].writeList(value.policyInputList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PolicySourceArn"].write(value.policySourceArn)
         try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -17754,6 +17892,16 @@ extension IAMClientTypes.GroupDetail {
     }
 }
 
+extension IAMClientTypes.InlinePolicyIdentifierType {
+
+    static func write(value: IAMClientTypes.InlinePolicyIdentifierType?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentName"].write(value.attachmentName)
+        try writer["AttachmentType"].write(value.attachmentType)
+        try writer["PolicyName"].write(value.policyName)
+    }
+}
+
 extension IAMClientTypes.InstanceProfile {
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.InstanceProfile {
@@ -17833,6 +17981,14 @@ extension IAMClientTypes.OpenIDConnectProviderListEntry {
         var value = IAMClientTypes.OpenIDConnectProviderListEntry()
         value.arn = try reader["Arn"].readIfPresent()
         return value
+    }
+}
+
+extension IAMClientTypes.OrderedOrganizationPolicyType {
+
+    static func write(value: IAMClientTypes.OrderedOrganizationPolicyType?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceControlPolicyInputList"].writeList(value.serviceControlPolicyInputList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -17929,6 +18085,23 @@ extension IAMClientTypes.PolicyGroup {
         value.groupName = try reader["GroupName"].readIfPresent()
         value.groupId = try reader["GroupId"].readIfPresent()
         return value
+    }
+}
+
+extension IAMClientTypes.PolicyIdentifier {
+
+    static func write(value: IAMClientTypes.PolicyIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inlinepolicyidentifier(inlinepolicyidentifier):
+                try writer["InlinePolicyIdentifier"].write(inlinepolicyidentifier, with: IAMClientTypes.InlinePolicyIdentifierType.write(value:to:))
+            case let .policyarn(policyarn):
+                try writer["PolicyArn"].write(policyarn)
+            case let .policytype(policytype):
+                try writer["PolicyType"].write(policytype)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 

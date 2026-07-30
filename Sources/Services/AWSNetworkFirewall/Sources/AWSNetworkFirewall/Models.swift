@@ -1253,13 +1253,15 @@ extension NetworkFirewallClientTypes {
         case active
         case creating
         case deleting
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContainerAssociationStatus] {
             return [
                 .active,
                 .creating,
-                .deleting
+                .deleting,
+                .updating
             ]
         }
 
@@ -1273,6 +1275,7 @@ extension NetworkFirewallClientTypes {
             case .active: return "ACTIVE"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }

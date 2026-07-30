@@ -1148,6 +1148,8 @@ extension SecurityAgentClientTypes {
 
     /// Represents a code repository that is integrated with the service through a third-party provider.
     public struct IntegratedRepository: Swift.Sendable {
+        /// An optional override for the repository branch.
+        public var branch: Swift.String?
         /// The unique identifier of the integration that provides access to the repository.
         /// This member is required.
         public var integrationId: Swift.String?
@@ -1156,9 +1158,11 @@ extension SecurityAgentClientTypes {
         public var providerResourceId: Swift.String?
 
         public init(
+            branch: Swift.String? = nil,
             integrationId: Swift.String? = nil,
             providerResourceId: Swift.String? = nil
         ) {
+            self.branch = branch
             self.integrationId = integrationId
             self.providerResourceId = providerResourceId
         }
@@ -14947,6 +14951,7 @@ extension SecurityAgentClientTypes.IntegratedRepository {
 
     static func write(value: SecurityAgentClientTypes.IntegratedRepository?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["branch"].write(value.branch)
         try writer["integrationId"].write(value.integrationId)
         try writer["providerResourceId"].write(value.providerResourceId)
     }
@@ -14956,6 +14961,7 @@ extension SecurityAgentClientTypes.IntegratedRepository {
         var value = SecurityAgentClientTypes.IntegratedRepository()
         value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
         value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.branch = try reader["branch"].readIfPresent()
         return value
     }
 }

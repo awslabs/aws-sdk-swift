@@ -84,6 +84,121 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The type of destination configured for the channel.
+    public enum ChannelDestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iceberg
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelDestinationType] {
+            return [
+                .iceberg,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iceberg: return "ICEBERG"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The lifecycle state of a channel.
+    public enum ChannelStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case suspended
+        case suspending
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .suspended,
+                .suspending,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Summary information about a channel returned by ListChannels.
+    public struct ChannelInfo: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        /// This member is required.
+        public var channelArn: Swift.String?
+        /// The name of the channel.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the in-flight cluster operation. Returned only while the channel is in CREATING, UPDATING, or DELETING.
+        public var clusterOperationArn: Swift.String?
+        /// The time when the channel was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The type of destination configured for the channel.
+        /// This member is required.
+        public var destinationType: KafkaClientTypes.ChannelDestinationType?
+        /// The current lifecycle state of the channel.
+        /// This member is required.
+        public var status: KafkaClientTypes.ChannelStatus?
+
+        public init(
+            channelArn: Swift.String? = nil,
+            channelName: Swift.String? = nil,
+            clusterOperationArn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            destinationType: KafkaClientTypes.ChannelDestinationType? = nil,
+            status: KafkaClientTypes.ChannelStatus? = nil
+        ) {
+            self.channelArn = channelArn
+            self.channelName = channelName
+            self.clusterOperationArn = clusterOperationArn
+            self.creationTime = creationTime
+            self.destinationType = destinationType
+            self.status = status
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// The state of a VPC connection.
     public enum VpcConnectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
@@ -1884,6 +1999,91 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The partitioning strategy used to partition records in the destination Apache Iceberg table.
+    public enum PartitionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case timeHour
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartitionStrategy] {
+            return [
+                .timeHour
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .timeHour: return "TIME_HOUR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// A source column used by an Apache Iceberg destination table's partition specification.
+    public struct PartitionSource: Swift.Sendable {
+        /// Source name.
+        public var sourceName: Swift.String?
+
+        public init(
+            sourceName: Swift.String? = nil
+        ) {
+            self.sourceName = sourceName
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Partition specification for an Apache Iceberg destination table.
+    public struct PartitionSpec: Swift.Sendable {
+        /// The partitioning strategy applied to records written to the table.
+        /// This member is required.
+        public var partitionStrategy: KafkaClientTypes.PartitionStrategy?
+        /// The source columns used by the partitioning strategy. For TIME_HOUR, must contain exactly one source column whose value is a timestamp.
+        public var sourceList: [KafkaClientTypes.PartitionSource]?
+
+        public init(
+            partitionStrategy: KafkaClientTypes.PartitionStrategy? = nil,
+            sourceList: [KafkaClientTypes.PartitionSource]? = nil
+        ) {
+            self.partitionStrategy = partitionStrategy
+            self.sourceList = sourceList
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration of an Apache Iceberg destination table.
+    public struct DestinationTable: Swift.Sendable {
+        /// The name of the destination namespace (database) in the AWS Glue Data Catalog.
+        public var destinationDatabaseName: Swift.String?
+        /// The name of the destination Apache Iceberg table.
+        public var destinationTableName: Swift.String?
+        /// The partition specification for the destination table.
+        public var partitionSpec: KafkaClientTypes.PartitionSpec?
+
+        public init(
+            destinationDatabaseName: Swift.String? = nil,
+            destinationTableName: Swift.String? = nil,
+            partitionSpec: KafkaClientTypes.PartitionSpec? = nil
+        ) {
+            self.destinationDatabaseName = destinationDatabaseName
+            self.destinationTableName = destinationTableName
+            self.partitionSpec = partitionSpec
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Details of an Amazon MSK Cluster.
     public struct AmazonMskCluster: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Amazon MSK cluster.
@@ -2764,6 +2964,99 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The deserialization format applied to Apache Kafka record values.
+    public enum ValueConverter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case byteArray
+        case json
+        case jsonSchemaGsr
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValueConverter] {
+            return [
+                .byteArray,
+                .json,
+                .jsonSchemaGsr,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .byteArray: return "BYTE_ARRAY"
+            case .json: return "JSON"
+            case .jsonSchemaGsr: return "JSON_SCHEMA_GSR"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration that controls how Apache Kafka record values are deserialized for the destination.
+    public struct RecordConverter: Swift.Sendable {
+        /// The deserialization format applied to Apache Kafka record values.
+        /// This member is required.
+        public var valueConverter: KafkaClientTypes.ValueConverter?
+
+        public init(
+            valueConverter: KafkaClientTypes.ValueConverter? = nil
+        ) {
+            self.valueConverter = valueConverter
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Schema configuration that controls how Apache Kafka record values are validated.
+    public struct RecordSchema: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Glue Schema Registry schema (not registry) used to validate records for the destination Apache Iceberg table.
+        /// This member is required.
+        public var gsrArn: Swift.String?
+
+        public init(
+            gsrArn: Swift.String? = nil
+        ) {
+            self.gsrArn = gsrArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration of an Apache Kafka topic that feeds a channel.
+    public struct TopicConfiguration: Swift.Sendable {
+        /// Configuration that controls how Apache Kafka record values are deserialized for the destination.
+        /// This member is required.
+        public var recordConverter: KafkaClientTypes.RecordConverter?
+        /// The schema used to validate records when the value converter requires one (for example, JSON_SCHEMA_GSR).
+        public var recordSchema: KafkaClientTypes.RecordSchema?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the topic.
+        /// This member is required.
+        public var topicArn: Swift.String?
+
+        public init(
+            recordConverter: KafkaClientTypes.RecordConverter? = nil,
+            recordSchema: KafkaClientTypes.RecordSchema? = nil,
+            topicArn: Swift.String? = nil
+        ) {
+            self.recordConverter = recordConverter
+            self.recordSchema = recordSchema
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Includes identification info about the topic.
     public struct TopicInfo: Swift.Sendable {
         /// Number of out-of-sync replicas for a topic.
@@ -3142,6 +3435,67 @@ public struct BatchDisassociateScramSecretOutput: Swift.Sendable {
     }
 }
 
+extension KafkaClientTypes {
+
+    /// Configuration of the AWS Glue Data Catalog and S3 Tables warehouse used by the Apache Iceberg destination.
+    public struct Catalog: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the federated AWS Glue Data Catalog that projects the S3 Tables bucket. If omitted, MSK derives the catalog ARN from warehouseLocation.
+        public var catalogArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the S3 Tables bucket that backs the Apache Iceberg warehouse.
+        public var warehouseLocation: Swift.String?
+
+        public init(
+            catalogArn: Swift.String? = nil,
+            warehouseLocation: Swift.String? = nil
+        ) {
+            self.catalogArn = catalogArn
+            self.warehouseLocation = warehouseLocation
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration for the destinations to which the channel publishes operational logs.
+    public struct ChannelLoggingInfo: Swift.Sendable {
+        /// Details of the CloudWatch Logs destination for Channel logs.
+        public var cloudWatchLogs: KafkaClientTypes.CloudWatchLogs?
+        /// Details of the Kinesis Data Firehose delivery stream that is the destination for Channel logs.
+        public var firehose: KafkaClientTypes.Firehose?
+        /// Details of the Amazon S3 destination for Channel logs.
+        public var s3: KafkaClientTypes.S3?
+
+        public init(
+            cloudWatchLogs: KafkaClientTypes.CloudWatchLogs? = nil,
+            firehose: KafkaClientTypes.Firehose? = nil,
+            s3: KafkaClientTypes.S3? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Additional context for the current channel state, populated when the channel is in FAILED.
+    public struct ChannelStateInfo: Swift.Sendable {
+        /// A short, machine-readable code identifying the failure cause.
+        public var code: Swift.String?
+        /// A human-readable message describing the failure.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
 /// Returns information about an error.
 public struct ClusterConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3382,6 +3736,353 @@ public struct ControllerMovedException: ClientRuntime.ModeledError, AWSClientRun
     ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The AWS KMS encryption configuration applied to data at rest.
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the data.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Compression codec for Iceberg table data files. Defaults to ZSTD.
+    public enum IcebergCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case snappy
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergCompressionType] {
+            return [
+                .snappy,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .snappy: return "SNAPPY"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration of the Amazon S3 bucket where records that fail to deliver are stored.
+    public struct DeadLetterQueueS3: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the dead-letter Amazon S3 bucket.
+        /// This member is required.
+        public var bucketArn: Swift.String?
+        /// An optional prefix prepended to every dead-letter Amazon S3 object key.
+        public var errorOutputPrefix: Swift.String?
+        /// Optional 12-digit AWS account ID expected to own the dead-letter Amazon S3 bucket.
+        public var expectedBucketOwner: Swift.String?
+
+        public init(
+            bucketArn: Swift.String? = nil,
+            errorOutputPrefix: Swift.String? = nil,
+            expectedBucketOwner: Swift.String? = nil
+        ) {
+            self.bucketArn = bucketArn
+            self.errorOutputPrefix = errorOutputPrefix
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration controlling whether the Apache Iceberg destination table's schema is evolved as incoming records change.
+    public struct SchemaEvolution: Swift.Sendable {
+        /// Whether to allow MSK to evolve the destination table's schema. Must be false for the current release.
+        public var enableSchemaEvolution: Swift.Bool?
+
+        public init(
+            enableSchemaEvolution: Swift.Bool? = nil
+        ) {
+            self.enableSchemaEvolution = enableSchemaEvolution
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration controlling whether MSK creates the destination Apache Iceberg table if it does not already exist.
+    public struct TableCreation: Swift.Sendable {
+        /// Whether MSK creates the destination table on the customer's behalf. Must be true for the current release.
+        public var enableTableCreation: Swift.Bool?
+
+        public init(
+            enableTableCreation: Swift.Bool? = nil
+        ) {
+            self.enableTableCreation = enableTableCreation
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration of an Apache Iceberg destination for a channel.
+    public struct IcebergDestinationConfiguration: Swift.Sendable {
+        /// Whether the destination is append-only. Must be true; updates and deletes are not supported.
+        /// This member is required.
+        public var appendOnly: Swift.Bool?
+        /// The AWS Glue Data Catalog and S3 Tables warehouse used by the destination.
+        public var catalog: KafkaClientTypes.Catalog?
+        /// The compression codec for Iceberg table data files. Defaults to ZSTD.
+        public var compressionType: KafkaClientTypes.IcebergCompressionType?
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900. Default: 600.
+        public var dataFreshnessInSeconds: Swift.Int?
+        /// The Amazon S3 bucket and prefix where MSK writes records that fail to deliver.
+        /// This member is required.
+        public var deadLetterQueueS3: KafkaClientTypes.DeadLetterQueueS3?
+        /// The destination Iceberg tables. Currently exactly one table must be specified.
+        /// This member is required.
+        public var destinationTableList: [KafkaClientTypes.DestinationTable]?
+        /// Configuration controlling whether the destination table's schema is evolved to match incoming records.
+        /// This member is required.
+        public var schemaEvolution: KafkaClientTypes.SchemaEvolution?
+        /// The Amazon Resource Name (ARN) of the IAM role that MSK assumes to access the destination table, the AWS Glue Data Catalog, and the dead-letter Amazon S3 bucket.
+        /// This member is required.
+        public var serviceExecutionRoleArn: Swift.String?
+        /// Configuration controlling whether MSK creates the destination table if it does not already exist.
+        /// This member is required.
+        public var tableCreation: KafkaClientTypes.TableCreation?
+
+        public init(
+            appendOnly: Swift.Bool? = nil,
+            catalog: KafkaClientTypes.Catalog? = nil,
+            compressionType: KafkaClientTypes.IcebergCompressionType? = nil,
+            dataFreshnessInSeconds: Swift.Int? = nil,
+            deadLetterQueueS3: KafkaClientTypes.DeadLetterQueueS3? = nil,
+            destinationTableList: [KafkaClientTypes.DestinationTable]? = nil,
+            schemaEvolution: KafkaClientTypes.SchemaEvolution? = nil,
+            serviceExecutionRoleArn: Swift.String? = nil,
+            tableCreation: KafkaClientTypes.TableCreation? = nil
+        ) {
+            self.appendOnly = appendOnly
+            self.catalog = catalog
+            self.compressionType = compressionType
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3 = deadLetterQueueS3
+            self.destinationTableList = destinationTableList
+            self.schemaEvolution = schemaEvolution
+            self.serviceExecutionRoleArn = serviceExecutionRoleArn
+            self.tableCreation = tableCreation
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The compression codec applied to delivered Amazon S3 objects.
+    public enum S3CompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case `none`
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3CompressionType] {
+            return [
+                .gzip,
+                .none,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The Amazon S3 storage class applied to delivered objects.
+    public enum S3StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case glacierIr
+        case intelligentTiering
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3StorageClass] {
+            return [
+                .glacierIr,
+                .intelligentTiering,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .glacierIr: return "GLACIER_IR"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Storage configuration for an Amazon S3 destination bucket.
+    public struct S3Storage: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination Amazon S3 bucket.
+        /// This member is required.
+        public var bucketArn: Swift.String?
+        /// The compression codec applied to delivered Amazon S3 objects.
+        /// This member is required.
+        public var compressionType: KafkaClientTypes.S3CompressionType?
+        /// Optional 12-digit AWS account ID expected to own the Amazon S3 bucket.
+        public var expectedBucketOwner: Swift.String?
+        /// An optional template that controls the Amazon S3 object key for each delivered record. Supports the placeholders !{partition-id}, !{sequence-number}, and !{kafka-offset}.
+        public var outputKeyTemplate: Swift.String?
+        /// An optional prefix prepended to every Amazon S3 object key written by the channel.
+        public var outputPrefix: Swift.String?
+        /// The Amazon S3 storage class for delivered objects.
+        /// This member is required.
+        public var storageClass: KafkaClientTypes.S3StorageClass?
+
+        public init(
+            bucketArn: Swift.String? = nil,
+            compressionType: KafkaClientTypes.S3CompressionType? = nil,
+            expectedBucketOwner: Swift.String? = nil,
+            outputKeyTemplate: Swift.String? = nil,
+            outputPrefix: Swift.String? = nil,
+            storageClass: KafkaClientTypes.S3StorageClass? = nil
+        ) {
+            self.bucketArn = bucketArn
+            self.compressionType = compressionType
+            self.expectedBucketOwner = expectedBucketOwner
+            self.outputKeyTemplate = outputKeyTemplate
+            self.outputPrefix = outputPrefix
+            self.storageClass = storageClass
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Configuration of an Amazon S3 destination for a channel.
+    public struct S3DestinationConfiguration: Swift.Sendable {
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900. Default: 600.
+        public var dataFreshnessInSeconds: Swift.Int?
+        /// The Amazon S3 bucket and prefix where MSK writes records that fail to deliver.
+        /// This member is required.
+        public var deadLetterQueueS3: KafkaClientTypes.DeadLetterQueueS3?
+        /// The Amazon Resource Name (ARN) of the IAM role that MSK assumes to write to the destination Amazon S3 bucket and the dead-letter bucket.
+        /// This member is required.
+        public var serviceExecutionRoleArn: Swift.String?
+        /// The Amazon S3 bucket, prefix, and storage class for delivered records.
+        /// This member is required.
+        public var storage: KafkaClientTypes.S3Storage?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil,
+            deadLetterQueueS3: KafkaClientTypes.DeadLetterQueueS3? = nil,
+            serviceExecutionRoleArn: Swift.String? = nil,
+            storage: KafkaClientTypes.S3Storage? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3 = deadLetterQueueS3
+            self.serviceExecutionRoleArn = serviceExecutionRoleArn
+            self.storage = storage
+        }
+    }
+}
+
+/// Creates a Channel that streams records from an Amazon MSK Express cluster topic to Amazon S3 or Apache Iceberg.
+public struct CreateChannelInput: Swift.Sendable {
+    /// The name of the channel. Must be unique within the cluster.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The encryption configuration applied to the channel.
+    public var encryptionConfiguration: KafkaClientTypes.EncryptionConfiguration?
+    /// The Apache Iceberg destination for the channel. Mutually exclusive with s3DestinationConfiguration.
+    public var icebergDestinationConfiguration: KafkaClientTypes.IcebergDestinationConfiguration?
+    /// The destinations to which the channel publishes operational logs.
+    public var loggingInfo: KafkaClientTypes.ChannelLoggingInfo?
+    /// The Amazon S3 destination for the channel. Mutually exclusive with icebergDestinationConfiguration.
+    public var s3DestinationConfiguration: KafkaClientTypes.S3DestinationConfiguration?
+    /// The tags attached to the channel.
+    public var tags: [Swift.String: Swift.String]?
+    /// The list of topic configurations for the channel. Currently exactly one topic must be specified.
+    /// This member is required.
+    public var topicConfigurationList: [KafkaClientTypes.TopicConfiguration]?
+
+    public init(
+        channelName: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        encryptionConfiguration: KafkaClientTypes.EncryptionConfiguration? = nil,
+        icebergDestinationConfiguration: KafkaClientTypes.IcebergDestinationConfiguration? = nil,
+        loggingInfo: KafkaClientTypes.ChannelLoggingInfo? = nil,
+        s3DestinationConfiguration: KafkaClientTypes.S3DestinationConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        topicConfigurationList: [KafkaClientTypes.TopicConfiguration]? = nil
+    ) {
+        self.channelName = channelName
+        self.clusterArn = clusterArn
+        self.encryptionConfiguration = encryptionConfiguration
+        self.icebergDestinationConfiguration = icebergDestinationConfiguration
+        self.loggingInfo = loggingInfo
+        self.s3DestinationConfiguration = s3DestinationConfiguration
+        self.tags = tags
+        self.topicConfigurationList = topicConfigurationList
+    }
+}
+
+/// Returns the channel ARN and the cluster-operation ARN that tracks the asynchronous create.
+public struct CreateChannelOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster operation.
+    public var clusterOperationArn: Swift.String?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clusterOperationArn: Swift.String? = nil
+    ) {
+        self.channelArn = channelArn
+        self.clusterOperationArn = clusterOperationArn
     }
 }
 
@@ -4161,6 +4862,40 @@ public struct CreateVpcConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteChannelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clusterArn: Swift.String? = nil
+    ) {
+        self.channelArn = channelArn
+        self.clusterArn = clusterArn
+    }
+}
+
+/// Returns the channel ARN and the cluster-operation ARN that tracks the asynchronous delete.
+public struct DeleteChannelOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster operation.
+    public var clusterOperationArn: Swift.String?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clusterOperationArn: Swift.String? = nil
+    ) {
+        self.channelArn = channelArn
+        self.clusterOperationArn = clusterOperationArn
+    }
+}
+
 public struct DeleteClusterInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
     /// This member is required.
@@ -4327,6 +5062,89 @@ public struct DeleteVpcConnectionOutput: Swift.Sendable {
     ) {
         self.state = state
         self.vpcConnectionArn = vpcConnectionArn
+    }
+}
+
+public struct DescribeChannelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clusterArn: Swift.String? = nil
+    ) {
+        self.channelArn = channelArn
+        self.clusterArn = clusterArn
+    }
+}
+
+/// Contains the current configuration and state of a channel.
+public struct DescribeChannelOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The name of the channel.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the in-flight cluster operation. Returned only while the channel is in CREATING, UPDATING, or DELETING.
+    public var clusterOperationArn: Swift.String?
+    /// The time when the channel was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The type of destination configured for the channel.
+    /// This member is required.
+    public var destinationType: KafkaClientTypes.ChannelDestinationType?
+    /// The encryption configuration applied to the channel.
+    public var encryptionConfiguration: KafkaClientTypes.EncryptionConfiguration?
+    /// The Apache Iceberg destination for the channel, if configured.
+    public var icebergDestinationConfiguration: KafkaClientTypes.IcebergDestinationConfiguration?
+    /// The destinations to which the channel publishes operational logs.
+    public var loggingInfo: KafkaClientTypes.ChannelLoggingInfo?
+    /// The Amazon S3 destination for the channel, if configured.
+    public var s3DestinationConfiguration: KafkaClientTypes.S3DestinationConfiguration?
+    /// Additional context for the current channel state, populated when the channel is in FAILED.
+    public var stateInfo: KafkaClientTypes.ChannelStateInfo?
+    /// The current lifecycle state of the channel.
+    /// This member is required.
+    public var status: KafkaClientTypes.ChannelStatus?
+    /// The tags attached to the channel.
+    public var tags: [Swift.String: Swift.String]?
+    /// The list of topic configurations for the channel.
+    /// This member is required.
+    public var topicConfigurationList: [KafkaClientTypes.TopicConfiguration]?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        clusterOperationArn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        destinationType: KafkaClientTypes.ChannelDestinationType? = nil,
+        encryptionConfiguration: KafkaClientTypes.EncryptionConfiguration? = nil,
+        icebergDestinationConfiguration: KafkaClientTypes.IcebergDestinationConfiguration? = nil,
+        loggingInfo: KafkaClientTypes.ChannelLoggingInfo? = nil,
+        s3DestinationConfiguration: KafkaClientTypes.S3DestinationConfiguration? = nil,
+        stateInfo: KafkaClientTypes.ChannelStateInfo? = nil,
+        status: KafkaClientTypes.ChannelStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        topicConfigurationList: [KafkaClientTypes.TopicConfiguration]? = nil
+    ) {
+        self.channelArn = channelArn
+        self.channelName = channelName
+        self.clusterOperationArn = clusterOperationArn
+        self.creationTime = creationTime
+        self.destinationType = destinationType
+        self.encryptionConfiguration = encryptionConfiguration
+        self.icebergDestinationConfiguration = icebergDestinationConfiguration
+        self.loggingInfo = loggingInfo
+        self.s3DestinationConfiguration = s3DestinationConfiguration
+        self.stateInfo = stateInfo
+        self.status = status
+        self.tags = tags
+        self.topicConfigurationList = topicConfigurationList
     }
 }
 
@@ -4871,6 +5689,62 @@ public struct GetCompatibleKafkaVersionsOutput: Swift.Sendable {
         compatibleKafkaVersions: [KafkaClientTypes.CompatibleKafkaVersion]? = nil
     ) {
         self.compatibleKafkaVersions = compatibleKafkaVersions
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Update payload for an Apache Iceberg destination.
+    public struct IcebergDestinationUpdate: Swift.Sendable {
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900.
+        /// This member is required.
+        public var dataFreshnessInSeconds: Swift.Int?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+    }
+}
+
+public struct ListChannelsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Maximum number of channels to return in a single response.
+    public var maxResults: Swift.Int?
+    /// If the response of ListChannels is truncated, it returns a nextToken in the response. This nextToken should be sent in the subsequent request to ListChannels.
+    public var nextToken: Swift.String?
+    /// Filters results to channels whose topic name matches the specified value.
+    public var topicNameFilter: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        topicNameFilter: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.topicNameFilter = topicNameFilter
+    }
+}
+
+/// Returns the list of channels in the cluster.
+public struct ListChannelsOutput: Swift.Sendable {
+    /// The list of channels in the cluster.
+    public var channels: [KafkaClientTypes.ChannelInfo]?
+    /// If the response from ListChannels is truncated, this token is included. Send it as the nextToken parameter on a subsequent ListChannels call to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        channels: [KafkaClientTypes.ChannelInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.channels = channels
+        self.nextToken = nextToken
     }
 }
 
@@ -5580,6 +6454,65 @@ public struct UpdateBrokerTypeOutput: Swift.Sendable {
     }
 }
 
+extension KafkaClientTypes {
+
+    /// Update payload for an Amazon S3 destination.
+    public struct S3DestinationUpdate: Swift.Sendable {
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900.
+        /// This member is required.
+        public var dataFreshnessInSeconds: Swift.Int?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+    }
+}
+
+/// Updates an existing channel's destination configuration. You must update the same destination type the channel was created with; the destination type cannot be changed.
+public struct UpdateChannelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Updates fields on an Apache Iceberg destination. Use only when the channel was created with an Iceberg destination.
+    public var icebergDestinationUpdate: KafkaClientTypes.IcebergDestinationUpdate?
+    /// Updates fields on an Amazon S3 destination. Use only when the channel was created with an Amazon S3 destination.
+    public var s3DestinationUpdate: KafkaClientTypes.S3DestinationUpdate?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        icebergDestinationUpdate: KafkaClientTypes.IcebergDestinationUpdate? = nil,
+        s3DestinationUpdate: KafkaClientTypes.S3DestinationUpdate? = nil
+    ) {
+        self.channelArn = channelArn
+        self.clusterArn = clusterArn
+        self.icebergDestinationUpdate = icebergDestinationUpdate
+        self.s3DestinationUpdate = s3DestinationUpdate
+    }
+}
+
+/// Returns the channel ARN and the cluster-operation ARN that tracks the asynchronous update.
+public struct UpdateChannelOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster operation.
+    public var clusterOperationArn: Swift.String?
+
+    public init(
+        channelArn: Swift.String? = nil,
+        clusterOperationArn: Swift.String? = nil
+    ) {
+        self.channelArn = channelArn
+        self.clusterOperationArn = clusterOperationArn
+    }
+}
+
 public struct UpdateClusterConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
     /// This member is required.
@@ -6062,6 +6995,16 @@ extension BatchDisassociateScramSecretInput {
     }
 }
 
+extension CreateChannelInput {
+
+    static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/channels"
+    }
+}
+
 extension CreateClusterInput {
 
     static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
@@ -6104,6 +7047,19 @@ extension CreateVpcConnectionInput {
 
     static func urlPathProvider(_ value: CreateVpcConnectionInput) -> Swift.String? {
         return "/v1/vpc-connection"
+    }
+}
+
+extension DeleteChannelInput {
+
+    static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let channelArn = value.channelArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/channels/\(channelArn.urlPercentEncoding())"
     }
 }
 
@@ -6191,6 +7147,19 @@ extension DeleteVpcConnectionInput {
             return nil
         }
         return "/v1/vpc-connection/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension DescribeChannelInput {
+
+    static func urlPathProvider(_ value: DescribeChannelInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let channelArn = value.channelArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/channels/\(channelArn.urlPercentEncoding())"
     }
 }
 
@@ -6353,6 +7322,36 @@ extension GetCompatibleKafkaVersionsInput {
         if let clusterArn = value.clusterArn {
             let clusterArnQueryItem = Smithy.URIQueryItem(name: "clusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
             items.append(clusterArnQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListChannelsInput {
+
+    static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/channels"
+    }
+}
+
+extension ListChannelsInput {
+
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let topicNameFilter = value.topicNameFilter {
+            let topicNameFilterQueryItem = Smithy.URIQueryItem(name: "topicNameFilter".urlPercentEncoding(), value: Swift.String(topicNameFilter).urlPercentEncoding())
+            items.append(topicNameFilterQueryItem)
         }
         return items
     }
@@ -6804,6 +7803,19 @@ extension UpdateBrokerTypeInput {
     }
 }
 
+extension UpdateChannelInput {
+
+    static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let channelArn = value.channelArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/channels/\(channelArn.urlPercentEncoding())"
+    }
+}
+
 extension UpdateClusterConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateClusterConfigurationInput) -> Swift.String? {
@@ -6920,6 +7932,20 @@ extension BatchDisassociateScramSecretInput {
     static func write(value: BatchDisassociateScramSecretInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["secretArnList"].writeList(value.secretArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateChannelInput {
+
+    static func write(value: CreateChannelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelName"].write(value.channelName)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: KafkaClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["icebergDestinationConfiguration"].write(value.icebergDestinationConfiguration, with: KafkaClientTypes.IcebergDestinationConfiguration.write(value:to:))
+        try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.ChannelLoggingInfo.write(value:to:))
+        try writer["s3DestinationConfiguration"].write(value.s3DestinationConfiguration, with: KafkaClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["topicConfigurationList"].writeList(value.topicConfigurationList, memberWritingClosure: KafkaClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7063,6 +8089,15 @@ extension UpdateBrokerTypeInput {
     }
 }
 
+extension UpdateChannelInput {
+
+    static func write(value: UpdateChannelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergDestinationUpdate"].write(value.icebergDestinationUpdate, with: KafkaClientTypes.IcebergDestinationUpdate.write(value:to:))
+        try writer["s3DestinationUpdate"].write(value.s3DestinationUpdate, with: KafkaClientTypes.S3DestinationUpdate.write(value:to:))
+    }
+}
+
 extension UpdateClusterConfigurationInput {
 
     static func write(value: UpdateClusterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -7192,6 +8227,19 @@ extension BatchDisassociateScramSecretOutput {
     }
 }
 
+extension CreateChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChannelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateChannelOutput()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClusterOutput {
@@ -7284,6 +8332,19 @@ extension CreateVpcConnectionOutput {
     }
 }
 
+extension DeleteChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChannelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteChannelOutput()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterOutput {
@@ -7353,6 +8414,30 @@ extension DeleteVpcConnectionOutput {
         var value = DeleteVpcConnectionOutput()
         value.state = try reader["state"].readIfPresent()
         value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeChannelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeChannelOutput()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: KafkaClientTypes.EncryptionConfiguration.read(from:))
+        value.icebergDestinationConfiguration = try reader["icebergDestinationConfiguration"].readIfPresent(with: KafkaClientTypes.IcebergDestinationConfiguration.read(from:))
+        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.ChannelLoggingInfo.read(from:))
+        value.s3DestinationConfiguration = try reader["s3DestinationConfiguration"].readIfPresent(with: KafkaClientTypes.S3DestinationConfiguration.read(from:))
+        value.stateInfo = try reader["stateInfo"].readIfPresent(with: KafkaClientTypes.ChannelStateInfo.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.topicConfigurationList = try reader["topicConfigurationList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7560,6 +8645,19 @@ extension GetCompatibleKafkaVersionsOutput {
         let reader = responseReader
         var value = GetCompatibleKafkaVersionsOutput()
         value.compatibleKafkaVersions = try reader["compatibleKafkaVersions"].readListIfPresent(memberReadingClosure: KafkaClientTypes.CompatibleKafkaVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListChannelsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChannelsOutput()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ChannelInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7830,6 +8928,19 @@ extension UpdateBrokerTypeOutput {
     }
 }
 
+extension UpdateChannelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChannelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateChannelOutput()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateClusterConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterConfigurationOutput {
@@ -8001,6 +9112,27 @@ enum BatchDisassociateScramSecretOutputError {
     }
 }
 
+enum CreateChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8130,6 +9262,26 @@ enum CreateVpcConnectionOutputError {
     }
 }
 
+enum DeleteChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8238,6 +9390,26 @@ enum DeleteVpcConnectionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeChannelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8466,6 +9638,26 @@ enum GetClusterPolicyOutputError {
 }
 
 enum GetCompatibleKafkaVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListChannelsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8860,6 +10052,26 @@ enum UpdateBrokerStorageOutputError {
 }
 
 enum UpdateBrokerTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateChannelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9454,6 +10666,68 @@ extension KafkaClientTypes.BrokerSoftwareInfo {
     }
 }
 
+extension KafkaClientTypes.Catalog {
+
+    static func write(value: KafkaClientTypes.Catalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["catalogArn"].write(value.catalogArn)
+        try writer["warehouseLocation"].write(value.warehouseLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Catalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Catalog()
+        value.catalogArn = try reader["catalogArn"].readIfPresent()
+        value.warehouseLocation = try reader["warehouseLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ChannelInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ChannelInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ChannelInfo()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ChannelLoggingInfo {
+
+    static func write(value: KafkaClientTypes.ChannelLoggingInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.CloudWatchLogs.write(value:to:))
+        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.Firehose.write(value:to:))
+        try writer["s3"].write(value.s3, with: KafkaClientTypes.S3.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ChannelLoggingInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ChannelLoggingInfo()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.CloudWatchLogs.read(from:))
+        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.Firehose.read(from:))
+        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.S3.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ChannelStateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ChannelStateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ChannelStateInfo()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.ClientAuthentication {
 
     static func write(value: KafkaClientTypes.ClientAuthentication?, to writer: SmithyJSON.Writer) throws {
@@ -9775,6 +11049,44 @@ extension KafkaClientTypes.ControllerNodeInfo {
     }
 }
 
+extension KafkaClientTypes.DeadLetterQueueS3 {
+
+    static func write(value: KafkaClientTypes.DeadLetterQueueS3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketArn"].write(value.bucketArn)
+        try writer["errorOutputPrefix"].write(value.errorOutputPrefix)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.DeadLetterQueueS3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.DeadLetterQueueS3()
+        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
+        value.errorOutputPrefix = try reader["errorOutputPrefix"].readIfPresent()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.DestinationTable {
+
+    static func write(value: KafkaClientTypes.DestinationTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationDatabaseName"].write(value.destinationDatabaseName)
+        try writer["destinationTableName"].write(value.destinationTableName)
+        try writer["partitionSpec"].write(value.partitionSpec, with: KafkaClientTypes.PartitionSpec.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.DestinationTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.DestinationTable()
+        value.destinationDatabaseName = try reader["destinationDatabaseName"].readIfPresent()
+        value.destinationTableName = try reader["destinationTableName"].readIfPresent()
+        value.partitionSpec = try reader["partitionSpec"].readIfPresent(with: KafkaClientTypes.PartitionSpec.read(from:))
+        return value
+    }
+}
+
 extension KafkaClientTypes.EBSStorageInfo {
 
     static func write(value: KafkaClientTypes.EBSStorageInfo?, to writer: SmithyJSON.Writer) throws {
@@ -9803,6 +11115,21 @@ extension KafkaClientTypes.EncryptionAtRest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.EncryptionAtRest()
         value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KafkaClientTypes.EncryptionConfiguration {
+
+    static func write(value: KafkaClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.EncryptionConfiguration()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9881,6 +11208,45 @@ extension KafkaClientTypes.Iam {
         var value = KafkaClientTypes.Iam()
         value.enabled = try reader["enabled"].readIfPresent()
         return value
+    }
+}
+
+extension KafkaClientTypes.IcebergDestinationConfiguration {
+
+    static func write(value: KafkaClientTypes.IcebergDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendOnly"].write(value.appendOnly)
+        try writer["catalog"].write(value.catalog, with: KafkaClientTypes.Catalog.write(value:to:))
+        try writer["compressionType"].write(value.compressionType)
+        try writer["dataFreshnessInSeconds"].write(value.dataFreshnessInSeconds)
+        try writer["deadLetterQueueS3"].write(value.deadLetterQueueS3, with: KafkaClientTypes.DeadLetterQueueS3.write(value:to:))
+        try writer["destinationTableList"].writeList(value.destinationTableList, memberWritingClosure: KafkaClientTypes.DestinationTable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["schemaEvolution"].write(value.schemaEvolution, with: KafkaClientTypes.SchemaEvolution.write(value:to:))
+        try writer["serviceExecutionRoleArn"].write(value.serviceExecutionRoleArn)
+        try writer["tableCreation"].write(value.tableCreation, with: KafkaClientTypes.TableCreation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.IcebergDestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.IcebergDestinationConfiguration()
+        value.appendOnly = try reader["appendOnly"].readIfPresent() ?? false
+        value.catalog = try reader["catalog"].readIfPresent(with: KafkaClientTypes.Catalog.read(from:))
+        value.dataFreshnessInSeconds = try reader["dataFreshnessInSeconds"].readIfPresent()
+        value.deadLetterQueueS3 = try reader["deadLetterQueueS3"].readIfPresent(with: KafkaClientTypes.DeadLetterQueueS3.read(from:))
+        value.destinationTableList = try reader["destinationTableList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.DestinationTable.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.schemaEvolution = try reader["schemaEvolution"].readIfPresent(with: KafkaClientTypes.SchemaEvolution.read(from:))
+        value.serviceExecutionRoleArn = try reader["serviceExecutionRoleArn"].readIfPresent() ?? ""
+        value.tableCreation = try reader["tableCreation"].readIfPresent(with: KafkaClientTypes.TableCreation.read(from:))
+        value.compressionType = try reader["compressionType"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.IcebergDestinationUpdate {
+
+    static func write(value: KafkaClientTypes.IcebergDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataFreshnessInSeconds"].write(value.dataFreshnessInSeconds)
     }
 }
 
@@ -10162,6 +11528,38 @@ extension KafkaClientTypes.OpenMonitoringInfo {
     }
 }
 
+extension KafkaClientTypes.PartitionSource {
+
+    static func write(value: KafkaClientTypes.PartitionSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceName"].write(value.sourceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PartitionSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.PartitionSource()
+        value.sourceName = try reader["sourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.PartitionSpec {
+
+    static func write(value: KafkaClientTypes.PartitionSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["partitionStrategy"].write(value.partitionStrategy)
+        try writer["sourceList"].writeList(value.sourceList, memberWritingClosure: KafkaClientTypes.PartitionSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PartitionSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.PartitionSpec()
+        value.partitionStrategy = try reader["partitionStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceList = try reader["sourceList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.PartitionSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension KafkaClientTypes.Prometheus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Prometheus {
@@ -10273,6 +11671,36 @@ extension KafkaClientTypes.Rebalancing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.Rebalancing()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.RecordConverter {
+
+    static func write(value: KafkaClientTypes.RecordConverter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["valueConverter"].write(value.valueConverter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.RecordConverter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.RecordConverter()
+        value.valueConverter = try reader["valueConverter"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KafkaClientTypes.RecordSchema {
+
+    static func write(value: KafkaClientTypes.RecordSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["gsrArn"].write(value.gsrArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.RecordSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.RecordSchema()
+        value.gsrArn = try reader["gsrArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10466,6 +11894,60 @@ extension KafkaClientTypes.S3 {
     }
 }
 
+extension KafkaClientTypes.S3DestinationConfiguration {
+
+    static func write(value: KafkaClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataFreshnessInSeconds"].write(value.dataFreshnessInSeconds)
+        try writer["deadLetterQueueS3"].write(value.deadLetterQueueS3, with: KafkaClientTypes.DeadLetterQueueS3.write(value:to:))
+        try writer["serviceExecutionRoleArn"].write(value.serviceExecutionRoleArn)
+        try writer["storage"].write(value.storage, with: KafkaClientTypes.S3Storage.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.S3DestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.S3DestinationConfiguration()
+        value.dataFreshnessInSeconds = try reader["dataFreshnessInSeconds"].readIfPresent()
+        value.deadLetterQueueS3 = try reader["deadLetterQueueS3"].readIfPresent(with: KafkaClientTypes.DeadLetterQueueS3.read(from:))
+        value.serviceExecutionRoleArn = try reader["serviceExecutionRoleArn"].readIfPresent() ?? ""
+        value.storage = try reader["storage"].readIfPresent(with: KafkaClientTypes.S3Storage.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.S3DestinationUpdate {
+
+    static func write(value: KafkaClientTypes.S3DestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataFreshnessInSeconds"].write(value.dataFreshnessInSeconds)
+    }
+}
+
+extension KafkaClientTypes.S3Storage {
+
+    static func write(value: KafkaClientTypes.S3Storage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketArn"].write(value.bucketArn)
+        try writer["compressionType"].write(value.compressionType)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
+        try writer["outputKeyTemplate"].write(value.outputKeyTemplate)
+        try writer["outputPrefix"].write(value.outputPrefix)
+        try writer["storageClass"].write(value.storageClass)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.S3Storage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.S3Storage()
+        value.bucketArn = try reader["bucketArn"].readIfPresent() ?? ""
+        value.compressionType = try reader["compressionType"].readIfPresent() ?? .sdkUnknown("")
+        value.outputPrefix = try reader["outputPrefix"].readIfPresent()
+        value.outputKeyTemplate = try reader["outputKeyTemplate"].readIfPresent()
+        value.storageClass = try reader["storageClass"].readIfPresent() ?? .sdkUnknown("")
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.Sasl {
 
     static func write(value: KafkaClientTypes.Sasl?, to writer: SmithyJSON.Writer) throws {
@@ -10479,6 +11961,21 @@ extension KafkaClientTypes.Sasl {
         var value = KafkaClientTypes.Sasl()
         value.scram = try reader["scram"].readIfPresent(with: KafkaClientTypes.Scram.read(from:))
         value.iam = try reader["iam"].readIfPresent(with: KafkaClientTypes.Iam.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.SchemaEvolution {
+
+    static func write(value: KafkaClientTypes.SchemaEvolution?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableSchemaEvolution"].write(value.enableSchemaEvolution)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.SchemaEvolution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.SchemaEvolution()
+        value.enableSchemaEvolution = try reader["enableSchemaEvolution"].readIfPresent()
         return value
     }
 }
@@ -10585,6 +12082,21 @@ extension KafkaClientTypes.StorageInfo {
     }
 }
 
+extension KafkaClientTypes.TableCreation {
+
+    static func write(value: KafkaClientTypes.TableCreation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableTableCreation"].write(value.enableTableCreation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TableCreation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TableCreation()
+        value.enableTableCreation = try reader["enableTableCreation"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.Tls {
 
     static func write(value: KafkaClientTypes.Tls?, to writer: SmithyJSON.Writer) throws {
@@ -10598,6 +12110,25 @@ extension KafkaClientTypes.Tls {
         var value = KafkaClientTypes.Tls()
         value.certificateAuthorityArnList = try reader["certificateAuthorityArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicConfiguration {
+
+    static func write(value: KafkaClientTypes.TopicConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordConverter"].write(value.recordConverter, with: KafkaClientTypes.RecordConverter.write(value:to:))
+        try writer["recordSchema"].write(value.recordSchema, with: KafkaClientTypes.RecordSchema.write(value:to:))
+        try writer["topicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicConfiguration()
+        value.recordConverter = try reader["recordConverter"].readIfPresent(with: KafkaClientTypes.RecordConverter.read(from:))
+        value.recordSchema = try reader["recordSchema"].readIfPresent(with: KafkaClientTypes.RecordSchema.read(from:))
+        value.topicArn = try reader["topicArn"].readIfPresent() ?? ""
         return value
     }
 }

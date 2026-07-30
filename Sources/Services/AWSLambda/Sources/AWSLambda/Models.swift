@@ -1597,6 +1597,329 @@ public struct UpdateCapacityProviderOutput: Swift.Sendable {
     }
 }
 
+extension LambdaClientTypes {
+
+    public enum CodeSigningPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enforce
+        case warn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeSigningPolicy] {
+            return [
+                .enforce,
+                .warn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enforce: return "Enforce"
+            case .warn: return "Warn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Code signing configuration [policies](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies) specify the validation failure action for signature mismatch or expiry.
+    public struct CodeSigningPolicies: Swift.Sendable {
+        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors) and also stores the warning in the CloudTrail log. Default value: Warn
+        public var untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy?
+
+        public init(
+            untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy? = nil
+        ) {
+            self.untrustedArtifactOnDeployment = untrustedArtifactOnDeployment
+        }
+    }
+}
+
+public struct CreateCodeSigningConfigInput: Swift.Sendable {
+    /// Signing profiles for this code signing configuration.
+    /// This member is required.
+    public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
+    /// The code signing policies define the actions to take if the validation checks fail.
+    public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
+    /// Descriptive name for this code signing configuration.
+    public var description: Swift.String?
+    /// A list of tags to add to the code signing configuration.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
+        codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
+        description: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.allowedPublishers = allowedPublishers
+        self.codeSigningPolicies = codeSigningPolicies
+        self.description = description
+        self.tags = tags
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [Code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html).
+    public struct CodeSigningConfig: Swift.Sendable {
+        /// List of allowed publishers.
+        /// This member is required.
+        public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
+        /// The Amazon Resource Name (ARN) of the Code signing configuration.
+        /// This member is required.
+        public var codeSigningConfigArn: Swift.String?
+        /// Unique identifer for the Code signing configuration.
+        /// This member is required.
+        public var codeSigningConfigId: Swift.String?
+        /// The code signing policy controls the validation failure action for signature mismatch or expiry.
+        /// This member is required.
+        public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
+        /// Code signing configuration description.
+        public var description: Swift.String?
+        /// The date and time that the Code signing configuration was last modified, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var lastModified: Swift.String?
+
+        public init(
+            allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
+            codeSigningConfigArn: Swift.String? = nil,
+            codeSigningConfigId: Swift.String? = nil,
+            codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
+            description: Swift.String? = nil,
+            lastModified: Swift.String? = nil
+        ) {
+            self.allowedPublishers = allowedPublishers
+            self.codeSigningConfigArn = codeSigningConfigArn
+            self.codeSigningConfigId = codeSigningConfigId
+            self.codeSigningPolicies = codeSigningPolicies
+            self.description = description
+            self.lastModified = lastModified
+        }
+    }
+}
+
+public struct CreateCodeSigningConfigOutput: Swift.Sendable {
+    /// The code signing configuration.
+    /// This member is required.
+    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+
+    public init(
+        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
+    ) {
+        self.codeSigningConfig = codeSigningConfig
+    }
+}
+
+public struct DeleteCodeSigningConfigInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+
+    public init(
+        codeSigningConfigArn: Swift.String? = nil
+    ) {
+        self.codeSigningConfigArn = codeSigningConfigArn
+    }
+}
+
+public struct DeleteCodeSigningConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetCodeSigningConfigInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+
+    public init(
+        codeSigningConfigArn: Swift.String? = nil
+    ) {
+        self.codeSigningConfigArn = codeSigningConfigArn
+    }
+}
+
+public struct GetCodeSigningConfigOutput: Swift.Sendable {
+    /// The code signing configuration
+    /// This member is required.
+    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+
+    public init(
+        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
+    ) {
+        self.codeSigningConfig = codeSigningConfig
+    }
+}
+
+public struct ListCodeSigningConfigsInput: Swift.Sendable {
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// Maximum number of items to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListCodeSigningConfigsOutput: Swift.Sendable {
+    /// The code signing configurations
+    public var codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.codeSigningConfigs = codeSigningConfigs
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct ListFunctionsByCodeSigningConfigInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// Maximum number of items to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        codeSigningConfigArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.codeSigningConfigArn = codeSigningConfigArn
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListFunctionsByCodeSigningConfigOutput: Swift.Sendable {
+    /// The function ARNs.
+    public var functionArns: [Swift.String]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        functionArns: [Swift.String]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.functionArns = functionArns
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct UpdateCodeSigningConfigInput: Swift.Sendable {
+    /// Signing profiles for this code signing configuration.
+    public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+    /// The code signing policy.
+    public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
+    /// Descriptive name for this code signing configuration.
+    public var description: Swift.String?
+
+    public init(
+        allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
+        codeSigningConfigArn: Swift.String? = nil,
+        codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
+        description: Swift.String? = nil
+    ) {
+        self.allowedPublishers = allowedPublishers
+        self.codeSigningConfigArn = codeSigningConfigArn
+        self.codeSigningPolicies = codeSigningPolicies
+        self.description = description
+    }
+}
+
+public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
+    /// The code signing configuration
+    /// This member is required.
+    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+
+    public init(
+        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
+    ) {
+        self.codeSigningConfig = codeSigningConfig
+    }
+}
+
+public struct DeleteFunctionInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function or version. Name formats
+    ///
+    /// * Function name – my-function (name-only), my-function:1 (with version).
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a version to delete. You can't delete a version that an alias references.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+public struct DeleteFunctionOutput: Swift.Sendable {
+    /// The HTTP status code returned by the operation.
+    public var statusCode: Swift.Int
+
+    public init(
+        statusCode: Swift.Int = 0
+    ) {
+        self.statusCode = statusCode
+    }
+}
+
+public struct DeleteFunctionEventInvokeConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
+    ///
+    /// * Function name - my-function (name-only), my-function:v1 (with alias).
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN - 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// A version number or alias name.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
 /// Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
 public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2293,17 +2616,62 @@ public struct CheckpointDurableExecutionOutput: Swift.Sendable {
     }
 }
 
+public struct GetDurableExecutionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The default value is set to true.
+    public var includeExecutionData: Swift.Bool?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil,
+        includeExecutionData: Swift.Bool? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+        self.includeExecutionData = includeExecutionData
+    }
+}
+
 extension LambdaClientTypes {
 
-    public enum CodeSigningPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case enforce
-        case warn
+    /// Configuration settings for [durable functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+    public struct DurableConfig: Swift.Sendable {
+        /// The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations.
+        public var executionTimeout: Swift.Int?
+        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public var kmsKeyArn: Swift.String?
+        /// The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API.
+        public var retentionPeriodInDays: Swift.Int?
+
+        public init(
+            executionTimeout: Swift.Int? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            retentionPeriodInDays: Swift.Int? = nil
+        ) {
+            self.executionTimeout = executionTimeout
+            self.kmsKeyArn = kmsKeyArn
+            self.retentionPeriodInDays = retentionPeriodInDays
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case stopped
+        case succeeded
+        case timedOut
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [CodeSigningPolicy] {
+        public static var allCases: [ExecutionStatus] {
             return [
-                .enforce,
-                .warn
+                .failed,
+                .running,
+                .stopped,
+                .succeeded,
+                .timedOut
             ]
         }
 
@@ -2314,8 +2682,11 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .enforce: return "Enforce"
-            case .warn: return "Warn"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case .timedOut: return "TIMED_OUT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2324,295 +2695,942 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// Code signing configuration [policies](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies) specify the validation failure action for signature mismatch or expiry.
-    public struct CodeSigningPolicies: Swift.Sendable {
-        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors) and also stores the warning in the CloudTrail log. Default value: Warn
-        public var untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy?
+    /// Contains trace headers for the Lambda durable execution.
+    public struct TraceHeader: Swift.Sendable {
+        /// The X-Ray trace header associated with the durable execution.
+        public var xAmznTraceId: Swift.String?
 
         public init(
-            untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy? = nil
+            xAmznTraceId: Swift.String? = nil
         ) {
-            self.untrustedArtifactOnDeployment = untrustedArtifactOnDeployment
+            self.xAmznTraceId = xAmznTraceId
         }
     }
 }
 
-public struct CreateCodeSigningConfigInput: Swift.Sendable {
-    /// Signing profiles for this code signing configuration.
+/// The response from the GetDurableExecution operation, containing detailed information about the durable execution.
+public struct GetDurableExecutionOutput: Swift.Sendable {
+    /// Configuration settings for the durable execution, including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
+    /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
-    public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
-    /// The code signing policies define the actions to take if the validation checks fail.
-    public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
-    /// Descriptive name for this code signing configuration.
-    public var description: Swift.String?
-    /// A list of tags to add to the code signing configuration.
-    public var tags: [Swift.String: Swift.String]?
+    public var durableExecutionArn: Swift.String?
+    /// The name of the durable execution. This is either the name you provided when invoking the function, or a system-generated unique identifier if no name was provided.
+    /// This member is required.
+    public var durableExecutionName: Swift.String?
+    /// The date and time when the durable execution ended, in Unix timestamp format. This field is only present if the execution has completed (status is SUCCEEDED, FAILED, TIMED_OUT, or STOPPED).
+    public var endTimestamp: Foundation.Date?
+    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
+    public var error: LambdaClientTypes.ErrorObject?
+    /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
+    public var executionDataIncluded: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
+    /// This member is required.
+    public var functionArn: Swift.String?
+    /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
+    public var inputPayload: Swift.String?
+    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. The result is limited to 256 KB.
+    public var result: Swift.String?
+    /// The date and time when the durable execution started, in Unix timestamp format.
+    /// This member is required.
+    public var startTimestamp: Foundation.Date?
+    /// The current status of the durable execution. Valid values are RUNNING, SUCCEEDED, FAILED, TIMED_OUT, and STOPPED.
+    /// This member is required.
+    public var status: LambdaClientTypes.ExecutionStatus?
+    /// The trace headers associated with the durable execution.
+    public var traceHeader: LambdaClientTypes.TraceHeader?
+    /// The version of the Lambda function that was invoked for this durable execution. This ensures that all replays during the execution use the same function version.
+    public var version: Swift.String?
 
     public init(
-        allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
-        codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
-        description: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
+        durableExecutionArn: Swift.String? = nil,
+        durableExecutionName: Swift.String? = nil,
+        endTimestamp: Foundation.Date? = nil,
+        error: LambdaClientTypes.ErrorObject? = nil,
+        executionDataIncluded: Swift.Bool? = nil,
+        functionArn: Swift.String? = nil,
+        inputPayload: Swift.String? = nil,
+        result: Swift.String? = nil,
+        startTimestamp: Foundation.Date? = nil,
+        status: LambdaClientTypes.ExecutionStatus? = nil,
+        traceHeader: LambdaClientTypes.TraceHeader? = nil,
+        version: Swift.String? = nil
     ) {
-        self.allowedPublishers = allowedPublishers
-        self.codeSigningPolicies = codeSigningPolicies
-        self.description = description
-        self.tags = tags
+        self.durableConfig = durableConfig
+        self.durableExecutionArn = durableExecutionArn
+        self.durableExecutionName = durableExecutionName
+        self.endTimestamp = endTimestamp
+        self.error = error
+        self.executionDataIncluded = executionDataIncluded
+        self.functionArn = functionArn
+        self.inputPayload = inputPayload
+        self.result = result
+        self.startTimestamp = startTimestamp
+        self.status = status
+        self.traceHeader = traceHeader
+        self.version = version
+    }
+}
+
+extension GetDurableExecutionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetDurableExecutionHistoryInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The default is true.
+    public var includeExecutionData: Swift.Bool?
+    /// If NextMarker was returned from a previous request, use this value to retrieve the next page of results. Each pagination token expires after 24 hours.
+    public var marker: Swift.String?
+    /// The maximum number of history events to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    public var maxItems: Swift.Int?
+    /// When set to true, returns the history events in reverse chronological order (newest first). By default, events are returned in chronological order (oldest first).
+    public var reverseOrder: Swift.Bool?
+
+    public init(
+        durableExecutionArn: Swift.String? = nil,
+        includeExecutionData: Swift.Bool? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = 0,
+        reverseOrder: Swift.Bool? = nil
+    ) {
+        self.durableExecutionArn = durableExecutionArn
+        self.includeExecutionData = includeExecutionData
+        self.marker = marker
+        self.maxItems = maxItems
+        self.reverseOrder = reverseOrder
     }
 }
 
 extension LambdaClientTypes {
 
-    /// Details about a [Code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html).
-    public struct CodeSigningConfig: Swift.Sendable {
-        /// List of allowed publishers.
-        /// This member is required.
-        public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
-        /// The Amazon Resource Name (ARN) of the Code signing configuration.
-        /// This member is required.
-        public var codeSigningConfigArn: Swift.String?
-        /// Unique identifer for the Code signing configuration.
-        /// This member is required.
-        public var codeSigningConfigId: Swift.String?
-        /// The code signing policy controls the validation failure action for signature mismatch or expiry.
-        /// This member is required.
-        public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
-        /// Code signing configuration description.
-        public var description: Swift.String?
-        /// The date and time that the Code signing configuration was last modified, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
-        /// This member is required.
-        public var lastModified: Swift.String?
+    /// Error information for an event.
+    public struct EventError: Swift.Sendable {
+        /// The error payload.
+        public var payload: LambdaClientTypes.ErrorObject?
+        /// Indicates if the error payload was truncated due to size limits.
+        public var truncated: Swift.Bool?
 
         public init(
-            allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
-            codeSigningConfigArn: Swift.String? = nil,
-            codeSigningConfigId: Swift.String? = nil,
-            codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
-            description: Swift.String? = nil,
-            lastModified: Swift.String? = nil
+            payload: LambdaClientTypes.ErrorObject? = nil,
+            truncated: Swift.Bool? = nil
         ) {
-            self.allowedPublishers = allowedPublishers
-            self.codeSigningConfigArn = codeSigningConfigArn
-            self.codeSigningConfigId = codeSigningConfigId
-            self.codeSigningPolicies = codeSigningPolicies
-            self.description = description
-            self.lastModified = lastModified
+            self.payload = payload
+            self.truncated = truncated
         }
     }
 }
 
-public struct CreateCodeSigningConfigOutput: Swift.Sendable {
-    /// The code signing configuration.
-    /// This member is required.
-    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+extension LambdaClientTypes {
 
-    public init(
-        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    ) {
-        self.codeSigningConfig = codeSigningConfig
+    /// Contains details about a failed callback operation, including error information and the reason for failure.
+    public struct CallbackFailedDetails: Swift.Sendable {
+        /// An error object that contains details about the failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
     }
 }
 
-public struct DeleteCodeSigningConfigInput: Swift.Sendable {
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
-    /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
+extension LambdaClientTypes {
 
-    public init(
-        codeSigningConfigArn: Swift.String? = nil
-    ) {
-        self.codeSigningConfigArn = codeSigningConfigArn
+    /// Contains details about a callback operation that has started, including timing information and callback metadata.
+    public struct CallbackStartedDetails: Swift.Sendable {
+        /// The callback ID. Callback IDs are generated by the DurableContext when a durable function calls ctx.waitForCallback.
+        /// This member is required.
+        public var callbackId: Swift.String?
+        /// The heartbeat timeout value, in seconds.
+        public var heartbeatTimeout: Swift.Int?
+        /// The timeout value, in seconds.
+        public var timeout: Swift.Int?
+
+        public init(
+            callbackId: Swift.String? = nil,
+            heartbeatTimeout: Swift.Int? = nil,
+            timeout: Swift.Int? = nil
+        ) {
+            self.callbackId = callbackId
+            self.heartbeatTimeout = heartbeatTimeout
+            self.timeout = timeout
+        }
     }
 }
 
-public struct DeleteCodeSigningConfigOutput: Swift.Sendable {
+extension LambdaClientTypes {
 
-    public init() { }
-}
+    /// Result information for an event.
+    public struct EventResult: Swift.Sendable {
+        /// The result payload.
+        public var payload: Swift.String?
+        /// Indicates if the error payload was truncated due to size limits.
+        public var truncated: Swift.Bool?
 
-public struct GetCodeSigningConfigInput: Swift.Sendable {
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
-    /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-
-    public init(
-        codeSigningConfigArn: Swift.String? = nil
-    ) {
-        self.codeSigningConfigArn = codeSigningConfigArn
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
     }
 }
 
-public struct GetCodeSigningConfigOutput: Swift.Sendable {
-    /// The code signing configuration
-    /// This member is required.
-    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+extension LambdaClientTypes.EventResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventResult(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
 
-    public init(
-        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    ) {
-        self.codeSigningConfig = codeSigningConfig
+extension LambdaClientTypes {
+
+    /// Contains details about a successfully completed callback operation, including the result data and completion timestamp.
+    public struct CallbackSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
     }
 }
 
-public struct ListCodeSigningConfigsInput: Swift.Sendable {
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+extension LambdaClientTypes {
+
+    /// Contains details about a callback operation that timed out, including timeout duration and any partial results.
+    public struct CallbackTimedOutDetails: Swift.Sendable {
+        /// Details about the callback timeout.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a failed chained function invocation, including error information and failure reason.
+    public struct ChainedInvokeFailedDetails: Swift.Sendable {
+        /// Details about the chained invocation failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Input information for an event.
+    public struct EventInput: Swift.Sendable {
+        /// The input payload.
+        public var payload: Swift.String?
+        /// Indicates if the error payload was truncated due to size limits.
+        public var truncated: Swift.Bool?
+
+        public init(
+            payload: Swift.String? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.payload = payload
+            self.truncated = truncated
+        }
+    }
+}
+
+extension LambdaClientTypes.EventInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EventInput(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Contains details about a chained function invocation that has started execution, including start time and execution context.
+    public struct ChainedInvokeStartedDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that identifies the durable execution.
+        public var durableExecutionArn: Swift.String?
+        /// The version of the function that was executed.
+        public var executedVersion: Swift.String?
+        /// The name or ARN of the Lambda function being invoked.
+        /// This member is required.
+        public var functionName: Swift.String?
+        /// The JSON input payload provided to the chained invocation.
+        public var input: LambdaClientTypes.EventInput?
+        /// The tenant identifier for the chained invocation.
+        public var tenantId: Swift.String?
+
+        public init(
+            durableExecutionArn: Swift.String? = nil,
+            executedVersion: Swift.String? = nil,
+            functionName: Swift.String? = nil,
+            input: LambdaClientTypes.EventInput? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.durableExecutionArn = durableExecutionArn
+            self.executedVersion = executedVersion
+            self.functionName = functionName
+            self.input = input
+            self.tenantId = tenantId
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a chained invocation that was stopped.
+    public struct ChainedInvokeStoppedDetails: Swift.Sendable {
+        /// Details about why the chained invocation stopped.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a chained invocation that succeeded.
+    public struct ChainedInvokeSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a chained invocation that timed out.
+    public struct ChainedInvokeTimedOutDetails: Swift.Sendable {
+        /// Details about the chained invocation timeout.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a context that failed.
+    public struct ContextFailedDetails: Swift.Sendable {
+        /// Details about the context failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a context that has started.
+    public struct ContextStartedDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a context that succeeded.
+    public struct ContextSucceededDetails: Swift.Sendable {
+        /// The JSON response payload from the successful context.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum EventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case callbackfailed
+        case callbackstarted
+        case callbacksucceeded
+        case callbacktimedout
+        case chainedinvokefailed
+        case chainedinvokestarted
+        case chainedinvokestopped
+        case chainedinvokesucceeded
+        case chainedinvoketimedout
+        case contextfailed
+        case contextstarted
+        case contextsucceeded
+        case executionfailed
+        case executionstarted
+        case executionstopped
+        case executionsucceeded
+        case executiontimedout
+        case invocationcompleted
+        case stepfailed
+        case stepstarted
+        case stepsucceeded
+        case waitcancelled
+        case waitstarted
+        case waitsucceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventType] {
+            return [
+                .callbackfailed,
+                .callbackstarted,
+                .callbacksucceeded,
+                .callbacktimedout,
+                .chainedinvokefailed,
+                .chainedinvokestarted,
+                .chainedinvokestopped,
+                .chainedinvokesucceeded,
+                .chainedinvoketimedout,
+                .contextfailed,
+                .contextstarted,
+                .contextsucceeded,
+                .executionfailed,
+                .executionstarted,
+                .executionstopped,
+                .executionsucceeded,
+                .executiontimedout,
+                .invocationcompleted,
+                .stepfailed,
+                .stepstarted,
+                .stepsucceeded,
+                .waitcancelled,
+                .waitstarted,
+                .waitsucceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .callbackfailed: return "CallbackFailed"
+            case .callbackstarted: return "CallbackStarted"
+            case .callbacksucceeded: return "CallbackSucceeded"
+            case .callbacktimedout: return "CallbackTimedOut"
+            case .chainedinvokefailed: return "ChainedInvokeFailed"
+            case .chainedinvokestarted: return "ChainedInvokeStarted"
+            case .chainedinvokestopped: return "ChainedInvokeStopped"
+            case .chainedinvokesucceeded: return "ChainedInvokeSucceeded"
+            case .chainedinvoketimedout: return "ChainedInvokeTimedOut"
+            case .contextfailed: return "ContextFailed"
+            case .contextstarted: return "ContextStarted"
+            case .contextsucceeded: return "ContextSucceeded"
+            case .executionfailed: return "ExecutionFailed"
+            case .executionstarted: return "ExecutionStarted"
+            case .executionstopped: return "ExecutionStopped"
+            case .executionsucceeded: return "ExecutionSucceeded"
+            case .executiontimedout: return "ExecutionTimedOut"
+            case .invocationcompleted: return "InvocationCompleted"
+            case .stepfailed: return "StepFailed"
+            case .stepstarted: return "StepStarted"
+            case .stepsucceeded: return "StepSucceeded"
+            case .waitcancelled: return "WaitCancelled"
+            case .waitstarted: return "WaitStarted"
+            case .waitsucceeded: return "WaitSucceeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a failed [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
+    public struct ExecutionFailedDetails: Swift.Sendable {
+        /// Details about the execution failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a durable execution that started.
+    public struct ExecutionStartedDetails: Swift.Sendable {
+        /// The maximum amount of time that the durable execution is allowed to run, in seconds.
+        /// This member is required.
+        public var executionTimeout: Swift.Int?
+        /// The input payload provided for the durable execution.
+        /// This member is required.
+        public var input: LambdaClientTypes.EventInput?
+
+        public init(
+            executionTimeout: Swift.Int? = nil,
+            input: LambdaClientTypes.EventInput? = nil
+        ) {
+            self.executionTimeout = executionTimeout
+            self.input = input
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that stopped.
+    public struct ExecutionStoppedDetails: Swift.Sendable {
+        /// Details about why the execution stopped.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that succeeded.
+    public struct ExecutionSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil
+        ) {
+            self.result = result
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that timed out.
+    public struct ExecutionTimedOutDetails: Swift.Sendable {
+        /// Details about the execution timeout.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a function invocation that completed.
+    public struct InvocationCompletedDetails: Swift.Sendable {
+        /// The date and time when the invocation ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var endTimestamp: Foundation.Date?
+        /// Details about the invocation failure.
+        public var error: LambdaClientTypes.EventError?
+        /// The request ID for the invocation.
+        /// This member is required.
+        public var requestId: Swift.String?
+        /// The date and time when the invocation started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var startTimestamp: Foundation.Date?
+
+        public init(
+            endTimestamp: Foundation.Date? = nil,
+            error: LambdaClientTypes.EventError? = nil,
+            requestId: Swift.String? = nil,
+            startTimestamp: Foundation.Date? = nil
+        ) {
+            self.endTimestamp = endTimestamp
+            self.error = error
+            self.requestId = requestId
+            self.startTimestamp = startTimestamp
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Information about retry attempts for an operation.
+    public struct RetryDetails: Swift.Sendable {
+        /// The current attempt number for this operation.
+        public var currentAttempt: Swift.Int
+        /// The delay before the next retry attempt, in seconds.
+        public var nextAttemptDelaySeconds: Swift.Int?
+
+        public init(
+            currentAttempt: Swift.Int = 0,
+            nextAttemptDelaySeconds: Swift.Int? = nil
+        ) {
+            self.currentAttempt = currentAttempt
+            self.nextAttemptDelaySeconds = nextAttemptDelaySeconds
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step that failed.
+    public struct StepFailedDetails: Swift.Sendable {
+        /// Details about the step failure.
+        /// This member is required.
+        public var error: LambdaClientTypes.EventError?
+        /// Information about retry attempts for this step operation.
+        /// This member is required.
+        public var retryDetails: LambdaClientTypes.RetryDetails?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil,
+            retryDetails: LambdaClientTypes.RetryDetails? = nil
+        ) {
+            self.error = error
+            self.retryDetails = retryDetails
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step that has started.
+    public struct StepStartedDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a step that succeeded.
+    public struct StepSucceededDetails: Swift.Sendable {
+        /// The response payload from the successful operation.
+        /// This member is required.
+        public var result: LambdaClientTypes.EventResult?
+        /// Information about retry attempts for this step operation.
+        /// This member is required.
+        public var retryDetails: LambdaClientTypes.RetryDetails?
+
+        public init(
+            result: LambdaClientTypes.EventResult? = nil,
+            retryDetails: LambdaClientTypes.RetryDetails? = nil
+        ) {
+            self.result = result
+            self.retryDetails = retryDetails
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation that was cancelled.
+    public struct WaitCancelledDetails: Swift.Sendable {
+        /// Details about why the wait operation was cancelled.
+        public var error: LambdaClientTypes.EventError?
+
+        public init(
+            error: LambdaClientTypes.EventError? = nil
+        ) {
+            self.error = error
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation that has started.
+    public struct WaitStartedDetails: Swift.Sendable {
+        /// The duration to wait, in seconds.
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// The date and time when the wait operation is scheduled to complete, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var scheduledEndTimestamp: Foundation.Date?
+
+        public init(
+            duration: Swift.Int? = nil,
+            scheduledEndTimestamp: Foundation.Date? = nil
+        ) {
+            self.duration = duration
+            self.scheduledEndTimestamp = scheduledEndTimestamp
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a wait operation that succeeded.
+    public struct WaitSucceededDetails: Swift.Sendable {
+        /// The wait duration, in seconds.
+        public var duration: Swift.Int?
+
+        public init(
+            duration: Swift.Int? = nil
+        ) {
+            self.duration = duration
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// An event that occurred during the execution of a durable function.
+    public struct Event: Swift.Sendable {
+        /// Contains details about a failed callback operation, including error information and the reason for failure.
+        public var callbackFailedDetails: LambdaClientTypes.CallbackFailedDetails?
+        /// Contains details about a callback operation that has started, including timing information and callback metadata.
+        public var callbackStartedDetails: LambdaClientTypes.CallbackStartedDetails?
+        /// Contains details about a successfully completed callback operation, including the result data and completion timestamp.
+        public var callbackSucceededDetails: LambdaClientTypes.CallbackSucceededDetails?
+        /// Contains details about a callback operation that timed out, including timeout duration and any partial results.
+        public var callbackTimedOutDetails: LambdaClientTypes.CallbackTimedOutDetails?
+        /// Contains details about a failed chained function invocation, including error information and failure reason.
+        public var chainedInvokeFailedDetails: LambdaClientTypes.ChainedInvokeFailedDetails?
+        /// Contains details about a chained function invocation that has started execution, including start time and execution context.
+        public var chainedInvokeStartedDetails: LambdaClientTypes.ChainedInvokeStartedDetails?
+        /// Details about a chained invocation that was stopped.
+        public var chainedInvokeStoppedDetails: LambdaClientTypes.ChainedInvokeStoppedDetails?
+        /// Details about a chained invocation that succeeded.
+        public var chainedInvokeSucceededDetails: LambdaClientTypes.ChainedInvokeSucceededDetails?
+        /// Details about a chained invocation that timed out.
+        public var chainedInvokeTimedOutDetails: LambdaClientTypes.ChainedInvokeTimedOutDetails?
+        /// Details about a context that failed.
+        public var contextFailedDetails: LambdaClientTypes.ContextFailedDetails?
+        /// Details about a context that started.
+        public var contextStartedDetails: LambdaClientTypes.ContextStartedDetails?
+        /// Details about a context that succeeded.
+        public var contextSucceededDetails: LambdaClientTypes.ContextSucceededDetails?
+        /// The unique identifier for this event. Event IDs increment sequentially.
+        public var eventId: Swift.Int?
+        /// The date and time when this event occurred, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        public var eventTimestamp: Foundation.Date?
+        /// The type of event that occurred.
+        public var eventType: LambdaClientTypes.EventType?
+        /// Details about an execution that failed.
+        public var executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails?
+        /// Details about an execution that started.
+        public var executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails?
+        /// Details about an execution that was stopped.
+        public var executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails?
+        /// Details about an execution that succeeded.
+        public var executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails?
+        /// Details about an execution that timed out.
+        public var executionTimedOutDetails: LambdaClientTypes.ExecutionTimedOutDetails?
+        /// The unique identifier for this operation.
+        public var id: Swift.String?
+        /// Details about a function invocation that completed.
+        public var invocationCompletedDetails: LambdaClientTypes.InvocationCompletedDetails?
+        /// The customer-provided name for this operation.
+        public var name: Swift.String?
+        /// The unique identifier of the parent operation, if this operation is running within a child context.
+        public var parentId: Swift.String?
+        /// Details about a step that failed.
+        public var stepFailedDetails: LambdaClientTypes.StepFailedDetails?
+        /// Details about a step that started.
+        public var stepStartedDetails: LambdaClientTypes.StepStartedDetails?
+        /// Details about a step that succeeded.
+        public var stepSucceededDetails: LambdaClientTypes.StepSucceededDetails?
+        /// The subtype of the event, providing additional categorization.
+        public var subType: Swift.String?
+        /// Details about a wait operation that was cancelled.
+        public var waitCancelledDetails: LambdaClientTypes.WaitCancelledDetails?
+        /// Details about a wait operation that started.
+        public var waitStartedDetails: LambdaClientTypes.WaitStartedDetails?
+        /// Details about a wait operation that succeeded.
+        public var waitSucceededDetails: LambdaClientTypes.WaitSucceededDetails?
+
+        public init(
+            callbackFailedDetails: LambdaClientTypes.CallbackFailedDetails? = nil,
+            callbackStartedDetails: LambdaClientTypes.CallbackStartedDetails? = nil,
+            callbackSucceededDetails: LambdaClientTypes.CallbackSucceededDetails? = nil,
+            callbackTimedOutDetails: LambdaClientTypes.CallbackTimedOutDetails? = nil,
+            chainedInvokeFailedDetails: LambdaClientTypes.ChainedInvokeFailedDetails? = nil,
+            chainedInvokeStartedDetails: LambdaClientTypes.ChainedInvokeStartedDetails? = nil,
+            chainedInvokeStoppedDetails: LambdaClientTypes.ChainedInvokeStoppedDetails? = nil,
+            chainedInvokeSucceededDetails: LambdaClientTypes.ChainedInvokeSucceededDetails? = nil,
+            chainedInvokeTimedOutDetails: LambdaClientTypes.ChainedInvokeTimedOutDetails? = nil,
+            contextFailedDetails: LambdaClientTypes.ContextFailedDetails? = nil,
+            contextStartedDetails: LambdaClientTypes.ContextStartedDetails? = nil,
+            contextSucceededDetails: LambdaClientTypes.ContextSucceededDetails? = nil,
+            eventId: Swift.Int? = 1,
+            eventTimestamp: Foundation.Date? = nil,
+            eventType: LambdaClientTypes.EventType? = nil,
+            executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails? = nil,
+            executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails? = nil,
+            executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails? = nil,
+            executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails? = nil,
+            executionTimedOutDetails: LambdaClientTypes.ExecutionTimedOutDetails? = nil,
+            id: Swift.String? = nil,
+            invocationCompletedDetails: LambdaClientTypes.InvocationCompletedDetails? = nil,
+            name: Swift.String? = nil,
+            parentId: Swift.String? = nil,
+            stepFailedDetails: LambdaClientTypes.StepFailedDetails? = nil,
+            stepStartedDetails: LambdaClientTypes.StepStartedDetails? = nil,
+            stepSucceededDetails: LambdaClientTypes.StepSucceededDetails? = nil,
+            subType: Swift.String? = nil,
+            waitCancelledDetails: LambdaClientTypes.WaitCancelledDetails? = nil,
+            waitStartedDetails: LambdaClientTypes.WaitStartedDetails? = nil,
+            waitSucceededDetails: LambdaClientTypes.WaitSucceededDetails? = nil
+        ) {
+            self.callbackFailedDetails = callbackFailedDetails
+            self.callbackStartedDetails = callbackStartedDetails
+            self.callbackSucceededDetails = callbackSucceededDetails
+            self.callbackTimedOutDetails = callbackTimedOutDetails
+            self.chainedInvokeFailedDetails = chainedInvokeFailedDetails
+            self.chainedInvokeStartedDetails = chainedInvokeStartedDetails
+            self.chainedInvokeStoppedDetails = chainedInvokeStoppedDetails
+            self.chainedInvokeSucceededDetails = chainedInvokeSucceededDetails
+            self.chainedInvokeTimedOutDetails = chainedInvokeTimedOutDetails
+            self.contextFailedDetails = contextFailedDetails
+            self.contextStartedDetails = contextStartedDetails
+            self.contextSucceededDetails = contextSucceededDetails
+            self.eventId = eventId
+            self.eventTimestamp = eventTimestamp
+            self.eventType = eventType
+            self.executionFailedDetails = executionFailedDetails
+            self.executionStartedDetails = executionStartedDetails
+            self.executionStoppedDetails = executionStoppedDetails
+            self.executionSucceededDetails = executionSucceededDetails
+            self.executionTimedOutDetails = executionTimedOutDetails
+            self.id = id
+            self.invocationCompletedDetails = invocationCompletedDetails
+            self.name = name
+            self.parentId = parentId
+            self.stepFailedDetails = stepFailedDetails
+            self.stepStartedDetails = stepStartedDetails
+            self.stepSucceededDetails = stepSucceededDetails
+            self.subType = subType
+            self.waitCancelledDetails = waitCancelledDetails
+            self.waitStartedDetails = waitStartedDetails
+            self.waitSucceededDetails = waitSucceededDetails
+        }
+    }
+}
+
+/// The response from the GetDurableExecutionHistory operation, containing the execution history and events.
+public struct GetDurableExecutionHistoryOutput: Swift.Sendable {
+    /// An array of execution history events, ordered chronologically unless ReverseOrder is set to true. Each event represents a significant occurrence during the execution, such as step completion or callback resolution.
+    /// This member is required.
+    public var events: [LambdaClientTypes.Event]?
+    /// If present, indicates that more history events are available. Use this value as the Marker parameter in a subsequent request to retrieve the next page of results.
+    public var nextMarker: Swift.String?
+
+    public init(
+        events: [LambdaClientTypes.Event]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct GetDurableExecutionStateInput: Swift.Sendable {
+    /// A checkpoint token that identifies the current state of the execution. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context.
+    /// This member is required.
+    public var checkpointToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the durable execution.
+    /// This member is required.
+    public var durableExecutionArn: Swift.String?
+    /// If NextMarker was returned from a previous request, use this value to retrieve the next page of operations. Each pagination token expires after 24 hours.
     public var marker: Swift.String?
-    /// Maximum number of items to return.
+    /// The maximum number of operations to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
     public var maxItems: Swift.Int?
 
     public init(
+        checkpointToken: Swift.String? = nil,
+        durableExecutionArn: Swift.String? = nil,
         marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
+        maxItems: Swift.Int? = 0
     ) {
+        self.checkpointToken = checkpointToken
+        self.durableExecutionArn = durableExecutionArn
         self.marker = marker
         self.maxItems = maxItems
     }
 }
 
-public struct ListCodeSigningConfigsOutput: Swift.Sendable {
-    /// The code signing configurations
-    public var codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]?
-    /// The pagination token that's included if more results are available.
+/// The response from the GetDurableExecutionState operation, containing the current execution state for replay.
+public struct GetDurableExecutionStateOutput: Swift.Sendable {
+    /// If present, indicates that more operations are available. Use this value as the Marker parameter in a subsequent request to retrieve the next page of results.
     public var nextMarker: Swift.String?
+    /// An array of operations that represent the current state of the durable execution. Operations are ordered by their start sequence number in ascending order and include information needed for replay processing.
+    /// This member is required.
+    public var operations: [LambdaClientTypes.Operation]?
 
     public init(
-        codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]? = nil,
-        nextMarker: Swift.String? = nil
+        nextMarker: Swift.String? = nil,
+        operations: [LambdaClientTypes.Operation]? = nil
     ) {
-        self.codeSigningConfigs = codeSigningConfigs
         self.nextMarker = nextMarker
+        self.operations = operations
     }
 }
 
-public struct ListFunctionsByCodeSigningConfigInput: Swift.Sendable {
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+public struct StopDurableExecutionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    public var marker: Swift.String?
-    /// Maximum number of items to return.
-    public var maxItems: Swift.Int?
+    public var durableExecutionArn: Swift.String?
+    /// Optional error details explaining why the execution is being stopped.
+    public var error: LambdaClientTypes.ErrorObject?
 
     public init(
-        codeSigningConfigArn: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
+        durableExecutionArn: Swift.String? = nil,
+        error: LambdaClientTypes.ErrorObject? = nil
     ) {
-        self.codeSigningConfigArn = codeSigningConfigArn
-        self.marker = marker
-        self.maxItems = maxItems
+        self.durableExecutionArn = durableExecutionArn
+        self.error = error
     }
 }
 
-public struct ListFunctionsByCodeSigningConfigOutput: Swift.Sendable {
-    /// The function ARNs.
-    public var functionArns: [Swift.String]?
-    /// The pagination token that's included if more results are available.
-    public var nextMarker: Swift.String?
-
-    public init(
-        functionArns: [Swift.String]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.functionArns = functionArns
-        self.nextMarker = nextMarker
-    }
-}
-
-public struct UpdateCodeSigningConfigInput: Swift.Sendable {
-    /// Signing profiles for this code signing configuration.
-    public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+public struct StopDurableExecutionOutput: Swift.Sendable {
+    /// The timestamp when the execution was stopped (ISO 8601 format).
     /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-    /// The code signing policy.
-    public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
-    /// Descriptive name for this code signing configuration.
-    public var description: Swift.String?
+    public var stopTimestamp: Foundation.Date?
 
     public init(
-        allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
-        codeSigningConfigArn: Swift.String? = nil,
-        codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
-        description: Swift.String? = nil
+        stopTimestamp: Foundation.Date? = nil
     ) {
-        self.allowedPublishers = allowedPublishers
-        self.codeSigningConfigArn = codeSigningConfigArn
-        self.codeSigningPolicies = codeSigningPolicies
-        self.description = description
-    }
-}
-
-public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
-    /// The code signing configuration
-    /// This member is required.
-    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
-
-    public init(
-        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    ) {
-        self.codeSigningConfig = codeSigningConfig
-    }
-}
-
-public struct DeleteFunctionInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function or version. Name formats
-    ///
-    /// * Function name – my-function (name-only), my-function:1 (with version).
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN – 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Specify a version to delete. You can't delete a version that an alias references.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
-    }
-}
-
-public struct DeleteFunctionOutput: Swift.Sendable {
-    /// The HTTP status code returned by the operation.
-    public var statusCode: Swift.Int
-
-    public init(
-        statusCode: Swift.Int = 0
-    ) {
-        self.statusCode = statusCode
-    }
-}
-
-public struct DeleteFunctionEventInvokeConfigInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function, version, or alias. Name formats
-    ///
-    /// * Function name - my-function (name-only), my-function:v1 (with alias).
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN - 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// A version number or alias name.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
+        self.stopTimestamp = stopTimestamp
     }
 }
 
@@ -4375,11 +5393,11 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// The storage mode for a function's deployment package.
+    /// The method Lambda uses to store a function's deployment package — either by copying the package into Lambda-managed storage (COPY) or by referencing it directly from the source Amazon S3 bucket (REFERENCE).
     public enum S3ObjectStorageMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// COPY (default) uploads a copy of your deployment package to Lambda.
+        /// The default storage mode. Uploads a copy of your deployment package to Lambda.
         case copy
-        /// Lambda references the deployment package from the specified Amazon S3 bucket.
+        /// The reference storage mode. Lambda references the deployment package from the specified Amazon S3 bucket without uploading a copy.
         case reference
         case sdkUnknown(Swift.String)
 
@@ -4415,7 +5433,11 @@ extension LambdaClientTypes {
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key of the deployment package.
         public var s3Key: Swift.String?
-        /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+        /// Specifies how the deployment package is stored. Valid values:
+        ///
+        /// * COPY (default) – Uploads a copy of your deployment package to Lambda.
+        ///
+        /// * REFERENCE – Lambda references the deployment package from the specified Amazon S3 bucket.
         public var s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode?
         /// For versioned objects, the version of the deployment package object to use.
         public var s3ObjectVersion: Swift.String?
@@ -4460,29 +5482,6 @@ extension LambdaClientTypes {
             targetArn: Swift.String? = nil
         ) {
             self.targetArn = targetArn
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Configuration settings for [durable functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
-    public struct DurableConfig: Swift.Sendable {
-        /// The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations.
-        public var executionTimeout: Swift.Int?
-        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
-        public var kmsKeyArn: Swift.String?
-        /// The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API.
-        public var retentionPeriodInDays: Swift.Int?
-
-        public init(
-            executionTimeout: Swift.Int? = nil,
-            kmsKeyArn: Swift.String? = nil,
-            retentionPeriodInDays: Swift.Int? = nil
-        ) {
-            self.executionTimeout = executionTimeout
-            self.kmsKeyArn = kmsKeyArn
-            self.retentionPeriodInDays = retentionPeriodInDays
         }
     }
 }
@@ -4707,6 +5706,7 @@ extension LambdaClientTypes {
         case nodejs20x
         case nodejs22x
         case nodejs24x
+        case nodejs26x
         case nodejs43
         case nodejs43edge
         case nodejs610
@@ -4720,6 +5720,7 @@ extension LambdaClientTypes {
         case python312
         case python313
         case python314
+        case python315
         case python36
         case python37
         case python38
@@ -4760,6 +5761,7 @@ extension LambdaClientTypes {
                 .nodejs20x,
                 .nodejs22x,
                 .nodejs24x,
+                .nodejs26x,
                 .nodejs43,
                 .nodejs43edge,
                 .nodejs610,
@@ -4773,6 +5775,7 @@ extension LambdaClientTypes {
                 .python312,
                 .python313,
                 .python314,
+                .python315,
                 .python36,
                 .python37,
                 .python38,
@@ -4819,6 +5822,7 @@ extension LambdaClientTypes {
             case .nodejs20x: return "nodejs20.x"
             case .nodejs22x: return "nodejs22.x"
             case .nodejs24x: return "nodejs24.x"
+            case .nodejs26x: return "nodejs26.x"
             case .nodejs43: return "nodejs4.3"
             case .nodejs43edge: return "nodejs4.3-edge"
             case .nodejs610: return "nodejs6.10"
@@ -4832,6 +5836,7 @@ extension LambdaClientTypes {
             case .python312: return "python3.12"
             case .python313: return "python3.13"
             case .python314: return "python3.14"
+            case .python315: return "python3.15"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"
@@ -6118,11 +7123,11 @@ public struct GetFunctionInput: Swift.Sendable {
 
 extension LambdaClientTypes {
 
-    /// Details about an error related to retrieving a function's deployment package.
+    /// Contains details about an error that occurred when Lambda attempted to retrieve a function's deployment package.
     public struct FunctionCodeLocationError: Swift.Sendable {
-        /// The error code for the failed retrieval.
+        /// The error code that identifies why Lambda failed to retrieve the deployment package.
         public var errorCode: Swift.String?
-        /// A description of the error.
+        /// The human-readable message that describes why Lambda failed to retrieve the deployment package.
         public var message: Swift.String?
 
         public init(
@@ -8295,6 +9300,110 @@ public struct InvokeWithResponseStreamOutput: Swift.Sendable {
     }
 }
 
+public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
+    /// Filter executions by name. Only executions with names that matches this string are returned.
+    public var durableExecutionName: Swift.String?
+    /// The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Pagination token from a previous request to continue retrieving results.
+    public var marker: Swift.String?
+    /// Maximum number of executions to return (1-1000). Default is 100.
+    public var maxItems: Swift.Int?
+    /// The function version or alias. If not specified, lists executions for the $LATEST version.
+    public var qualifier: Swift.String?
+    /// Set to true to return results in chronological order (oldest first). Default is false.
+    public var reverseOrder: Swift.Bool?
+    /// Filter executions that started after this timestamp (ISO 8601 format).
+    public var startedAfter: Foundation.Date?
+    /// Filter executions that started before this timestamp (ISO 8601 format).
+    public var startedBefore: Foundation.Date?
+    /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
+    public var statuses: [LambdaClientTypes.ExecutionStatus]?
+
+    public init(
+        durableExecutionName: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = 0,
+        qualifier: Swift.String? = nil,
+        reverseOrder: Swift.Bool? = nil,
+        startedAfter: Foundation.Date? = nil,
+        startedBefore: Foundation.Date? = nil,
+        statuses: [LambdaClientTypes.ExecutionStatus]? = nil
+    ) {
+        self.durableExecutionName = durableExecutionName
+        self.functionName = functionName
+        self.marker = marker
+        self.maxItems = maxItems
+        self.qualifier = qualifier
+        self.reverseOrder = reverseOrder
+        self.startedAfter = startedAfter
+        self.startedBefore = startedBefore
+        self.statuses = statuses
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Information about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
+    public struct Execution: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the durable execution, if this execution is a durable execution.
+        /// This member is required.
+        public var durableExecutionArn: Swift.String?
+        /// The unique name of the durable execution, if one was provided when the execution was started.
+        /// This member is required.
+        public var durableExecutionName: Swift.String?
+        /// The date and time when the durable execution ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        public var endTimestamp: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the Lambda function.
+        /// This member is required.
+        public var functionArn: Swift.String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public var kmsKeyArn: Swift.String?
+        /// The date and time when the durable execution started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+        /// This member is required.
+        public var startTimestamp: Foundation.Date?
+        /// The current status of the durable execution.
+        /// This member is required.
+        public var status: LambdaClientTypes.ExecutionStatus?
+
+        public init(
+            durableExecutionArn: Swift.String? = nil,
+            durableExecutionName: Swift.String? = nil,
+            endTimestamp: Foundation.Date? = nil,
+            functionArn: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            startTimestamp: Foundation.Date? = nil,
+            status: LambdaClientTypes.ExecutionStatus? = nil
+        ) {
+            self.durableExecutionArn = durableExecutionArn
+            self.durableExecutionName = durableExecutionName
+            self.endTimestamp = endTimestamp
+            self.functionArn = functionArn
+            self.kmsKeyArn = kmsKeyArn
+            self.startTimestamp = startTimestamp
+            self.status = status
+        }
+    }
+}
+
+/// The response from the ListDurableExecutionsByFunction operation, containing a list of durable executions and pagination information.
+public struct ListDurableExecutionsByFunctionOutput: Swift.Sendable {
+    /// List of durable execution summaries matching the filter criteria.
+    public var durableExecutions: [LambdaClientTypes.Execution]?
+    /// Pagination token for retrieving additional results. Present only if there are more results available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        durableExecutions: [LambdaClientTypes.Execution]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.durableExecutions = durableExecutions
+        self.nextMarker = nextMarker
+    }
+}
+
 extension LambdaClientTypes {
 
     public enum FunctionVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -8816,7 +9925,11 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
     public var s3Bucket: Swift.String?
     /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
     public var s3Key: Swift.String?
-    /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+    /// Specifies how the deployment package is stored. Valid values:
+    ///
+    /// * COPY (default) – Uploads a copy of your deployment package to Lambda.
+    ///
+    /// * REFERENCE – Lambda references the deployment package from the specified Amazon S3 bucket.
     public var s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode?
     /// For versioned objects, the version of the deployment package object to use.
     public var s3ObjectVersion: Swift.String?
@@ -9973,973 +11086,6 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
     }
 }
 
-public struct GetDurableExecutionInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the durable execution.
-    /// This member is required.
-    public var durableExecutionArn: Swift.String?
-    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The default value is set to true.
-    public var includeExecutionData: Swift.Bool?
-
-    public init(
-        durableExecutionArn: Swift.String? = nil,
-        includeExecutionData: Swift.Bool? = nil
-    ) {
-        self.durableExecutionArn = durableExecutionArn
-        self.includeExecutionData = includeExecutionData
-    }
-}
-
-extension LambdaClientTypes {
-
-    public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case running
-        case stopped
-        case succeeded
-        case timedOut
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExecutionStatus] {
-            return [
-                .failed,
-                .running,
-                .stopped,
-                .succeeded,
-                .timedOut
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .running: return "RUNNING"
-            case .stopped: return "STOPPED"
-            case .succeeded: return "SUCCEEDED"
-            case .timedOut: return "TIMED_OUT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Contains trace headers for the Lambda durable execution.
-    public struct TraceHeader: Swift.Sendable {
-        /// The X-Ray trace header associated with the durable execution.
-        public var xAmznTraceId: Swift.String?
-
-        public init(
-            xAmznTraceId: Swift.String? = nil
-        ) {
-            self.xAmznTraceId = xAmznTraceId
-        }
-    }
-}
-
-/// The response from the GetDurableExecution operation, containing detailed information about the durable execution.
-public struct GetDurableExecutionOutput: Swift.Sendable {
-    /// Configuration settings for the durable execution, including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
-    public var durableConfig: LambdaClientTypes.DurableConfig?
-    /// The Amazon Resource Name (ARN) of the durable execution.
-    /// This member is required.
-    public var durableExecutionArn: Swift.String?
-    /// The name of the durable execution. This is either the name you provided when invoking the function, or a system-generated unique identifier if no name was provided.
-    /// This member is required.
-    public var durableExecutionName: Swift.String?
-    /// The date and time when the durable execution ended, in Unix timestamp format. This field is only present if the execution has completed (status is SUCCEEDED, FAILED, TIMED_OUT, or STOPPED).
-    public var endTimestamp: Foundation.Date?
-    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
-    public var error: LambdaClientTypes.ErrorObject?
-    /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
-    public var executionDataIncluded: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
-    /// This member is required.
-    public var functionArn: Swift.String?
-    /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
-    public var inputPayload: Swift.String?
-    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. The result is limited to 256 KB.
-    public var result: Swift.String?
-    /// The date and time when the durable execution started, in Unix timestamp format.
-    /// This member is required.
-    public var startTimestamp: Foundation.Date?
-    /// The current status of the durable execution. Valid values are RUNNING, SUCCEEDED, FAILED, TIMED_OUT, and STOPPED.
-    /// This member is required.
-    public var status: LambdaClientTypes.ExecutionStatus?
-    /// The trace headers associated with the durable execution.
-    public var traceHeader: LambdaClientTypes.TraceHeader?
-    /// The version of the Lambda function that was invoked for this durable execution. This ensures that all replays during the execution use the same function version.
-    public var version: Swift.String?
-
-    public init(
-        durableConfig: LambdaClientTypes.DurableConfig? = nil,
-        durableExecutionArn: Swift.String? = nil,
-        durableExecutionName: Swift.String? = nil,
-        endTimestamp: Foundation.Date? = nil,
-        error: LambdaClientTypes.ErrorObject? = nil,
-        executionDataIncluded: Swift.Bool? = nil,
-        functionArn: Swift.String? = nil,
-        inputPayload: Swift.String? = nil,
-        result: Swift.String? = nil,
-        startTimestamp: Foundation.Date? = nil,
-        status: LambdaClientTypes.ExecutionStatus? = nil,
-        traceHeader: LambdaClientTypes.TraceHeader? = nil,
-        version: Swift.String? = nil
-    ) {
-        self.durableConfig = durableConfig
-        self.durableExecutionArn = durableExecutionArn
-        self.durableExecutionName = durableExecutionName
-        self.endTimestamp = endTimestamp
-        self.error = error
-        self.executionDataIncluded = executionDataIncluded
-        self.functionArn = functionArn
-        self.inputPayload = inputPayload
-        self.result = result
-        self.startTimestamp = startTimestamp
-        self.status = status
-        self.traceHeader = traceHeader
-        self.version = version
-    }
-}
-
-extension GetDurableExecutionOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
-}
-
-public struct GetDurableExecutionHistoryInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the durable execution.
-    /// This member is required.
-    public var durableExecutionArn: Swift.String?
-    /// Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The default is true.
-    public var includeExecutionData: Swift.Bool?
-    /// If NextMarker was returned from a previous request, use this value to retrieve the next page of results. Each pagination token expires after 24 hours.
-    public var marker: Swift.String?
-    /// The maximum number of history events to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
-    public var maxItems: Swift.Int?
-    /// When set to true, returns the history events in reverse chronological order (newest first). By default, events are returned in chronological order (oldest first).
-    public var reverseOrder: Swift.Bool?
-
-    public init(
-        durableExecutionArn: Swift.String? = nil,
-        includeExecutionData: Swift.Bool? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = 0,
-        reverseOrder: Swift.Bool? = nil
-    ) {
-        self.durableExecutionArn = durableExecutionArn
-        self.includeExecutionData = includeExecutionData
-        self.marker = marker
-        self.maxItems = maxItems
-        self.reverseOrder = reverseOrder
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Error information for an event.
-    public struct EventError: Swift.Sendable {
-        /// The error payload.
-        public var payload: LambdaClientTypes.ErrorObject?
-        /// Indicates if the error payload was truncated due to size limits.
-        public var truncated: Swift.Bool?
-
-        public init(
-            payload: LambdaClientTypes.ErrorObject? = nil,
-            truncated: Swift.Bool? = nil
-        ) {
-            self.payload = payload
-            self.truncated = truncated
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Contains details about a failed callback operation, including error information and the reason for failure.
-    public struct CallbackFailedDetails: Swift.Sendable {
-        /// An error object that contains details about the failure.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Contains details about a callback operation that has started, including timing information and callback metadata.
-    public struct CallbackStartedDetails: Swift.Sendable {
-        /// The callback ID. Callback IDs are generated by the DurableContext when a durable function calls ctx.waitForCallback.
-        /// This member is required.
-        public var callbackId: Swift.String?
-        /// The heartbeat timeout value, in seconds.
-        public var heartbeatTimeout: Swift.Int?
-        /// The timeout value, in seconds.
-        public var timeout: Swift.Int?
-
-        public init(
-            callbackId: Swift.String? = nil,
-            heartbeatTimeout: Swift.Int? = nil,
-            timeout: Swift.Int? = nil
-        ) {
-            self.callbackId = callbackId
-            self.heartbeatTimeout = heartbeatTimeout
-            self.timeout = timeout
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Result information for an event.
-    public struct EventResult: Swift.Sendable {
-        /// The result payload.
-        public var payload: Swift.String?
-        /// Indicates if the error payload was truncated due to size limits.
-        public var truncated: Swift.Bool?
-
-        public init(
-            payload: Swift.String? = nil,
-            truncated: Swift.Bool? = nil
-        ) {
-            self.payload = payload
-            self.truncated = truncated
-        }
-    }
-}
-
-extension LambdaClientTypes.EventResult: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "EventResult(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
-}
-
-extension LambdaClientTypes {
-
-    /// Contains details about a successfully completed callback operation, including the result data and completion timestamp.
-    public struct CallbackSucceededDetails: Swift.Sendable {
-        /// The response payload from the successful operation.
-        /// This member is required.
-        public var result: LambdaClientTypes.EventResult?
-
-        public init(
-            result: LambdaClientTypes.EventResult? = nil
-        ) {
-            self.result = result
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Contains details about a callback operation that timed out, including timeout duration and any partial results.
-    public struct CallbackTimedOutDetails: Swift.Sendable {
-        /// Details about the callback timeout.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Contains details about a failed chained function invocation, including error information and failure reason.
-    public struct ChainedInvokeFailedDetails: Swift.Sendable {
-        /// Details about the chained invocation failure.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Input information for an event.
-    public struct EventInput: Swift.Sendable {
-        /// The input payload.
-        public var payload: Swift.String?
-        /// Indicates if the error payload was truncated due to size limits.
-        public var truncated: Swift.Bool?
-
-        public init(
-            payload: Swift.String? = nil,
-            truncated: Swift.Bool? = nil
-        ) {
-            self.payload = payload
-            self.truncated = truncated
-        }
-    }
-}
-
-extension LambdaClientTypes.EventInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "EventInput(truncated: \(Swift.String(describing: truncated)), payload: \"CONTENT_REDACTED\")"}
-}
-
-extension LambdaClientTypes {
-
-    /// Contains details about a chained function invocation that has started execution, including start time and execution context.
-    public struct ChainedInvokeStartedDetails: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) that identifies the durable execution.
-        public var durableExecutionArn: Swift.String?
-        /// The version of the function that was executed.
-        public var executedVersion: Swift.String?
-        /// The name or ARN of the Lambda function being invoked.
-        /// This member is required.
-        public var functionName: Swift.String?
-        /// The JSON input payload provided to the chained invocation.
-        public var input: LambdaClientTypes.EventInput?
-        /// The tenant identifier for the chained invocation.
-        public var tenantId: Swift.String?
-
-        public init(
-            durableExecutionArn: Swift.String? = nil,
-            executedVersion: Swift.String? = nil,
-            functionName: Swift.String? = nil,
-            input: LambdaClientTypes.EventInput? = nil,
-            tenantId: Swift.String? = nil
-        ) {
-            self.durableExecutionArn = durableExecutionArn
-            self.executedVersion = executedVersion
-            self.functionName = functionName
-            self.input = input
-            self.tenantId = tenantId
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a chained invocation that was stopped.
-    public struct ChainedInvokeStoppedDetails: Swift.Sendable {
-        /// Details about why the chained invocation stopped.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a chained invocation that succeeded.
-    public struct ChainedInvokeSucceededDetails: Swift.Sendable {
-        /// The response payload from the successful operation.
-        /// This member is required.
-        public var result: LambdaClientTypes.EventResult?
-
-        public init(
-            result: LambdaClientTypes.EventResult? = nil
-        ) {
-            self.result = result
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a chained invocation that timed out.
-    public struct ChainedInvokeTimedOutDetails: Swift.Sendable {
-        /// Details about the chained invocation timeout.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a context that failed.
-    public struct ContextFailedDetails: Swift.Sendable {
-        /// Details about the context failure.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a context that has started.
-    public struct ContextStartedDetails: Swift.Sendable {
-
-        public init() { }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a context that succeeded.
-    public struct ContextSucceededDetails: Swift.Sendable {
-        /// The JSON response payload from the successful context.
-        /// This member is required.
-        public var result: LambdaClientTypes.EventResult?
-
-        public init(
-            result: LambdaClientTypes.EventResult? = nil
-        ) {
-            self.result = result
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    public enum EventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case callbackfailed
-        case callbackstarted
-        case callbacksucceeded
-        case callbacktimedout
-        case chainedinvokefailed
-        case chainedinvokestarted
-        case chainedinvokestopped
-        case chainedinvokesucceeded
-        case chainedinvoketimedout
-        case contextfailed
-        case contextstarted
-        case contextsucceeded
-        case executionfailed
-        case executionstarted
-        case executionstopped
-        case executionsucceeded
-        case executiontimedout
-        case invocationcompleted
-        case stepfailed
-        case stepstarted
-        case stepsucceeded
-        case waitcancelled
-        case waitstarted
-        case waitsucceeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EventType] {
-            return [
-                .callbackfailed,
-                .callbackstarted,
-                .callbacksucceeded,
-                .callbacktimedout,
-                .chainedinvokefailed,
-                .chainedinvokestarted,
-                .chainedinvokestopped,
-                .chainedinvokesucceeded,
-                .chainedinvoketimedout,
-                .contextfailed,
-                .contextstarted,
-                .contextsucceeded,
-                .executionfailed,
-                .executionstarted,
-                .executionstopped,
-                .executionsucceeded,
-                .executiontimedout,
-                .invocationcompleted,
-                .stepfailed,
-                .stepstarted,
-                .stepsucceeded,
-                .waitcancelled,
-                .waitstarted,
-                .waitsucceeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .callbackfailed: return "CallbackFailed"
-            case .callbackstarted: return "CallbackStarted"
-            case .callbacksucceeded: return "CallbackSucceeded"
-            case .callbacktimedout: return "CallbackTimedOut"
-            case .chainedinvokefailed: return "ChainedInvokeFailed"
-            case .chainedinvokestarted: return "ChainedInvokeStarted"
-            case .chainedinvokestopped: return "ChainedInvokeStopped"
-            case .chainedinvokesucceeded: return "ChainedInvokeSucceeded"
-            case .chainedinvoketimedout: return "ChainedInvokeTimedOut"
-            case .contextfailed: return "ContextFailed"
-            case .contextstarted: return "ContextStarted"
-            case .contextsucceeded: return "ContextSucceeded"
-            case .executionfailed: return "ExecutionFailed"
-            case .executionstarted: return "ExecutionStarted"
-            case .executionstopped: return "ExecutionStopped"
-            case .executionsucceeded: return "ExecutionSucceeded"
-            case .executiontimedout: return "ExecutionTimedOut"
-            case .invocationcompleted: return "InvocationCompleted"
-            case .stepfailed: return "StepFailed"
-            case .stepstarted: return "StepStarted"
-            case .stepsucceeded: return "StepSucceeded"
-            case .waitcancelled: return "WaitCancelled"
-            case .waitstarted: return "WaitStarted"
-            case .waitsucceeded: return "WaitSucceeded"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a failed [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
-    public struct ExecutionFailedDetails: Swift.Sendable {
-        /// Details about the execution failure.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a durable execution that started.
-    public struct ExecutionStartedDetails: Swift.Sendable {
-        /// The maximum amount of time that the durable execution is allowed to run, in seconds.
-        /// This member is required.
-        public var executionTimeout: Swift.Int?
-        /// The input payload provided for the durable execution.
-        /// This member is required.
-        public var input: LambdaClientTypes.EventInput?
-
-        public init(
-            executionTimeout: Swift.Int? = nil,
-            input: LambdaClientTypes.EventInput? = nil
-        ) {
-            self.executionTimeout = executionTimeout
-            self.input = input
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that stopped.
-    public struct ExecutionStoppedDetails: Swift.Sendable {
-        /// Details about why the execution stopped.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that succeeded.
-    public struct ExecutionSucceededDetails: Swift.Sendable {
-        /// The response payload from the successful operation.
-        /// This member is required.
-        public var result: LambdaClientTypes.EventResult?
-
-        public init(
-            result: LambdaClientTypes.EventResult? = nil
-        ) {
-            self.result = result
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html) that timed out.
-    public struct ExecutionTimedOutDetails: Swift.Sendable {
-        /// Details about the execution timeout.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a function invocation that completed.
-    public struct InvocationCompletedDetails: Swift.Sendable {
-        /// The date and time when the invocation ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        /// This member is required.
-        public var endTimestamp: Foundation.Date?
-        /// Details about the invocation failure.
-        public var error: LambdaClientTypes.EventError?
-        /// The request ID for the invocation.
-        /// This member is required.
-        public var requestId: Swift.String?
-        /// The date and time when the invocation started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        /// This member is required.
-        public var startTimestamp: Foundation.Date?
-
-        public init(
-            endTimestamp: Foundation.Date? = nil,
-            error: LambdaClientTypes.EventError? = nil,
-            requestId: Swift.String? = nil,
-            startTimestamp: Foundation.Date? = nil
-        ) {
-            self.endTimestamp = endTimestamp
-            self.error = error
-            self.requestId = requestId
-            self.startTimestamp = startTimestamp
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Information about retry attempts for an operation.
-    public struct RetryDetails: Swift.Sendable {
-        /// The current attempt number for this operation.
-        public var currentAttempt: Swift.Int
-        /// The delay before the next retry attempt, in seconds.
-        public var nextAttemptDelaySeconds: Swift.Int?
-
-        public init(
-            currentAttempt: Swift.Int = 0,
-            nextAttemptDelaySeconds: Swift.Int? = nil
-        ) {
-            self.currentAttempt = currentAttempt
-            self.nextAttemptDelaySeconds = nextAttemptDelaySeconds
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a step that failed.
-    public struct StepFailedDetails: Swift.Sendable {
-        /// Details about the step failure.
-        /// This member is required.
-        public var error: LambdaClientTypes.EventError?
-        /// Information about retry attempts for this step operation.
-        /// This member is required.
-        public var retryDetails: LambdaClientTypes.RetryDetails?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil,
-            retryDetails: LambdaClientTypes.RetryDetails? = nil
-        ) {
-            self.error = error
-            self.retryDetails = retryDetails
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a step that has started.
-    public struct StepStartedDetails: Swift.Sendable {
-
-        public init() { }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a step that succeeded.
-    public struct StepSucceededDetails: Swift.Sendable {
-        /// The response payload from the successful operation.
-        /// This member is required.
-        public var result: LambdaClientTypes.EventResult?
-        /// Information about retry attempts for this step operation.
-        /// This member is required.
-        public var retryDetails: LambdaClientTypes.RetryDetails?
-
-        public init(
-            result: LambdaClientTypes.EventResult? = nil,
-            retryDetails: LambdaClientTypes.RetryDetails? = nil
-        ) {
-            self.result = result
-            self.retryDetails = retryDetails
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a wait operation that was cancelled.
-    public struct WaitCancelledDetails: Swift.Sendable {
-        /// Details about why the wait operation was cancelled.
-        public var error: LambdaClientTypes.EventError?
-
-        public init(
-            error: LambdaClientTypes.EventError? = nil
-        ) {
-            self.error = error
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a wait operation that has started.
-    public struct WaitStartedDetails: Swift.Sendable {
-        /// The duration to wait, in seconds.
-        /// This member is required.
-        public var duration: Swift.Int?
-        /// The date and time when the wait operation is scheduled to complete, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        /// This member is required.
-        public var scheduledEndTimestamp: Foundation.Date?
-
-        public init(
-            duration: Swift.Int? = nil,
-            scheduledEndTimestamp: Foundation.Date? = nil
-        ) {
-            self.duration = duration
-            self.scheduledEndTimestamp = scheduledEndTimestamp
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a wait operation that succeeded.
-    public struct WaitSucceededDetails: Swift.Sendable {
-        /// The wait duration, in seconds.
-        public var duration: Swift.Int?
-
-        public init(
-            duration: Swift.Int? = nil
-        ) {
-            self.duration = duration
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// An event that occurred during the execution of a durable function.
-    public struct Event: Swift.Sendable {
-        /// Contains details about a failed callback operation, including error information and the reason for failure.
-        public var callbackFailedDetails: LambdaClientTypes.CallbackFailedDetails?
-        /// Contains details about a callback operation that has started, including timing information and callback metadata.
-        public var callbackStartedDetails: LambdaClientTypes.CallbackStartedDetails?
-        /// Contains details about a successfully completed callback operation, including the result data and completion timestamp.
-        public var callbackSucceededDetails: LambdaClientTypes.CallbackSucceededDetails?
-        /// Contains details about a callback operation that timed out, including timeout duration and any partial results.
-        public var callbackTimedOutDetails: LambdaClientTypes.CallbackTimedOutDetails?
-        /// Contains details about a failed chained function invocation, including error information and failure reason.
-        public var chainedInvokeFailedDetails: LambdaClientTypes.ChainedInvokeFailedDetails?
-        /// Contains details about a chained function invocation that has started execution, including start time and execution context.
-        public var chainedInvokeStartedDetails: LambdaClientTypes.ChainedInvokeStartedDetails?
-        /// Details about a chained invocation that was stopped.
-        public var chainedInvokeStoppedDetails: LambdaClientTypes.ChainedInvokeStoppedDetails?
-        /// Details about a chained invocation that succeeded.
-        public var chainedInvokeSucceededDetails: LambdaClientTypes.ChainedInvokeSucceededDetails?
-        /// Details about a chained invocation that timed out.
-        public var chainedInvokeTimedOutDetails: LambdaClientTypes.ChainedInvokeTimedOutDetails?
-        /// Details about a context that failed.
-        public var contextFailedDetails: LambdaClientTypes.ContextFailedDetails?
-        /// Details about a context that started.
-        public var contextStartedDetails: LambdaClientTypes.ContextStartedDetails?
-        /// Details about a context that succeeded.
-        public var contextSucceededDetails: LambdaClientTypes.ContextSucceededDetails?
-        /// The unique identifier for this event. Event IDs increment sequentially.
-        public var eventId: Swift.Int?
-        /// The date and time when this event occurred, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        public var eventTimestamp: Foundation.Date?
-        /// The type of event that occurred.
-        public var eventType: LambdaClientTypes.EventType?
-        /// Details about an execution that failed.
-        public var executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails?
-        /// Details about an execution that started.
-        public var executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails?
-        /// Details about an execution that was stopped.
-        public var executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails?
-        /// Details about an execution that succeeded.
-        public var executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails?
-        /// Details about an execution that timed out.
-        public var executionTimedOutDetails: LambdaClientTypes.ExecutionTimedOutDetails?
-        /// The unique identifier for this operation.
-        public var id: Swift.String?
-        /// Details about a function invocation that completed.
-        public var invocationCompletedDetails: LambdaClientTypes.InvocationCompletedDetails?
-        /// The customer-provided name for this operation.
-        public var name: Swift.String?
-        /// The unique identifier of the parent operation, if this operation is running within a child context.
-        public var parentId: Swift.String?
-        /// Details about a step that failed.
-        public var stepFailedDetails: LambdaClientTypes.StepFailedDetails?
-        /// Details about a step that started.
-        public var stepStartedDetails: LambdaClientTypes.StepStartedDetails?
-        /// Details about a step that succeeded.
-        public var stepSucceededDetails: LambdaClientTypes.StepSucceededDetails?
-        /// The subtype of the event, providing additional categorization.
-        public var subType: Swift.String?
-        /// Details about a wait operation that was cancelled.
-        public var waitCancelledDetails: LambdaClientTypes.WaitCancelledDetails?
-        /// Details about a wait operation that started.
-        public var waitStartedDetails: LambdaClientTypes.WaitStartedDetails?
-        /// Details about a wait operation that succeeded.
-        public var waitSucceededDetails: LambdaClientTypes.WaitSucceededDetails?
-
-        public init(
-            callbackFailedDetails: LambdaClientTypes.CallbackFailedDetails? = nil,
-            callbackStartedDetails: LambdaClientTypes.CallbackStartedDetails? = nil,
-            callbackSucceededDetails: LambdaClientTypes.CallbackSucceededDetails? = nil,
-            callbackTimedOutDetails: LambdaClientTypes.CallbackTimedOutDetails? = nil,
-            chainedInvokeFailedDetails: LambdaClientTypes.ChainedInvokeFailedDetails? = nil,
-            chainedInvokeStartedDetails: LambdaClientTypes.ChainedInvokeStartedDetails? = nil,
-            chainedInvokeStoppedDetails: LambdaClientTypes.ChainedInvokeStoppedDetails? = nil,
-            chainedInvokeSucceededDetails: LambdaClientTypes.ChainedInvokeSucceededDetails? = nil,
-            chainedInvokeTimedOutDetails: LambdaClientTypes.ChainedInvokeTimedOutDetails? = nil,
-            contextFailedDetails: LambdaClientTypes.ContextFailedDetails? = nil,
-            contextStartedDetails: LambdaClientTypes.ContextStartedDetails? = nil,
-            contextSucceededDetails: LambdaClientTypes.ContextSucceededDetails? = nil,
-            eventId: Swift.Int? = 1,
-            eventTimestamp: Foundation.Date? = nil,
-            eventType: LambdaClientTypes.EventType? = nil,
-            executionFailedDetails: LambdaClientTypes.ExecutionFailedDetails? = nil,
-            executionStartedDetails: LambdaClientTypes.ExecutionStartedDetails? = nil,
-            executionStoppedDetails: LambdaClientTypes.ExecutionStoppedDetails? = nil,
-            executionSucceededDetails: LambdaClientTypes.ExecutionSucceededDetails? = nil,
-            executionTimedOutDetails: LambdaClientTypes.ExecutionTimedOutDetails? = nil,
-            id: Swift.String? = nil,
-            invocationCompletedDetails: LambdaClientTypes.InvocationCompletedDetails? = nil,
-            name: Swift.String? = nil,
-            parentId: Swift.String? = nil,
-            stepFailedDetails: LambdaClientTypes.StepFailedDetails? = nil,
-            stepStartedDetails: LambdaClientTypes.StepStartedDetails? = nil,
-            stepSucceededDetails: LambdaClientTypes.StepSucceededDetails? = nil,
-            subType: Swift.String? = nil,
-            waitCancelledDetails: LambdaClientTypes.WaitCancelledDetails? = nil,
-            waitStartedDetails: LambdaClientTypes.WaitStartedDetails? = nil,
-            waitSucceededDetails: LambdaClientTypes.WaitSucceededDetails? = nil
-        ) {
-            self.callbackFailedDetails = callbackFailedDetails
-            self.callbackStartedDetails = callbackStartedDetails
-            self.callbackSucceededDetails = callbackSucceededDetails
-            self.callbackTimedOutDetails = callbackTimedOutDetails
-            self.chainedInvokeFailedDetails = chainedInvokeFailedDetails
-            self.chainedInvokeStartedDetails = chainedInvokeStartedDetails
-            self.chainedInvokeStoppedDetails = chainedInvokeStoppedDetails
-            self.chainedInvokeSucceededDetails = chainedInvokeSucceededDetails
-            self.chainedInvokeTimedOutDetails = chainedInvokeTimedOutDetails
-            self.contextFailedDetails = contextFailedDetails
-            self.contextStartedDetails = contextStartedDetails
-            self.contextSucceededDetails = contextSucceededDetails
-            self.eventId = eventId
-            self.eventTimestamp = eventTimestamp
-            self.eventType = eventType
-            self.executionFailedDetails = executionFailedDetails
-            self.executionStartedDetails = executionStartedDetails
-            self.executionStoppedDetails = executionStoppedDetails
-            self.executionSucceededDetails = executionSucceededDetails
-            self.executionTimedOutDetails = executionTimedOutDetails
-            self.id = id
-            self.invocationCompletedDetails = invocationCompletedDetails
-            self.name = name
-            self.parentId = parentId
-            self.stepFailedDetails = stepFailedDetails
-            self.stepStartedDetails = stepStartedDetails
-            self.stepSucceededDetails = stepSucceededDetails
-            self.subType = subType
-            self.waitCancelledDetails = waitCancelledDetails
-            self.waitStartedDetails = waitStartedDetails
-            self.waitSucceededDetails = waitSucceededDetails
-        }
-    }
-}
-
-/// The response from the GetDurableExecutionHistory operation, containing the execution history and events.
-public struct GetDurableExecutionHistoryOutput: Swift.Sendable {
-    /// An array of execution history events, ordered chronologically unless ReverseOrder is set to true. Each event represents a significant occurrence during the execution, such as step completion or callback resolution.
-    /// This member is required.
-    public var events: [LambdaClientTypes.Event]?
-    /// If present, indicates that more history events are available. Use this value as the Marker parameter in a subsequent request to retrieve the next page of results.
-    public var nextMarker: Swift.String?
-
-    public init(
-        events: [LambdaClientTypes.Event]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.events = events
-        self.nextMarker = nextMarker
-    }
-}
-
-public struct GetDurableExecutionStateInput: Swift.Sendable {
-    /// A checkpoint token that identifies the current state of the execution. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context.
-    /// This member is required.
-    public var checkpointToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the durable execution.
-    /// This member is required.
-    public var durableExecutionArn: Swift.String?
-    /// If NextMarker was returned from a previous request, use this value to retrieve the next page of operations. Each pagination token expires after 24 hours.
-    public var marker: Swift.String?
-    /// The maximum number of operations to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
-    public var maxItems: Swift.Int?
-
-    public init(
-        checkpointToken: Swift.String? = nil,
-        durableExecutionArn: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = 0
-    ) {
-        self.checkpointToken = checkpointToken
-        self.durableExecutionArn = durableExecutionArn
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-/// The response from the GetDurableExecutionState operation, containing the current execution state for replay.
-public struct GetDurableExecutionStateOutput: Swift.Sendable {
-    /// If present, indicates that more operations are available. Use this value as the Marker parameter in a subsequent request to retrieve the next page of results.
-    public var nextMarker: Swift.String?
-    /// An array of operations that represent the current state of the durable execution. Operations are ordered by their start sequence number in ascending order and include information needed for replay processing.
-    /// This member is required.
-    public var operations: [LambdaClientTypes.Operation]?
-
-    public init(
-        nextMarker: Swift.String? = nil,
-        operations: [LambdaClientTypes.Operation]? = nil
-    ) {
-        self.nextMarker = nextMarker
-        self.operations = operations
-    }
-}
-
 public struct GetFunctionEventInvokeConfigInput: Swift.Sendable {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -11149,7 +11295,7 @@ extension LambdaClientTypes {
         public var codeSize: Swift.Int
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public var location: Swift.String?
-        /// Details about the resolved Amazon S3 object that contains a function's deployment package.
+        /// The resolved Amazon S3 object that contains the layer archive.
         public var resolvedS3Object: LambdaClientTypes.ResolvedS3Object?
         /// The Amazon Resource Name (ARN) of a signing job.
         public var signingJobArn: Swift.String?
@@ -11355,7 +11501,11 @@ extension LambdaClientTypes {
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key of the layer archive.
         public var s3Key: Swift.String?
-        /// The storage mode for a function's deployment package.
+        /// Specifies how the layer archive is stored. Valid values:
+        ///
+        /// * COPY (default) – Uploads a copy of your layer archive to Lambda.
+        ///
+        /// * REFERENCE – Lambda references the layer archive from the specified Amazon S3 bucket.
         public var s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode?
         /// For versioned objects, the version of the layer archive object to use.
         public var s3ObjectVersion: Swift.String?
@@ -11488,110 +11638,6 @@ public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
         self.revisionId = revisionId
         self.statementId = statementId
         self.versionNumber = versionNumber
-    }
-}
-
-public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
-    /// Filter executions by name. Only executions with names that matches this string are returned.
-    public var durableExecutionName: Swift.String?
-    /// The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Pagination token from a previous request to continue retrieving results.
-    public var marker: Swift.String?
-    /// Maximum number of executions to return (1-1000). Default is 100.
-    public var maxItems: Swift.Int?
-    /// The function version or alias. If not specified, lists executions for the $LATEST version.
-    public var qualifier: Swift.String?
-    /// Set to true to return results in chronological order (oldest first). Default is false.
-    public var reverseOrder: Swift.Bool?
-    /// Filter executions that started after this timestamp (ISO 8601 format).
-    public var startedAfter: Foundation.Date?
-    /// Filter executions that started before this timestamp (ISO 8601 format).
-    public var startedBefore: Foundation.Date?
-    /// Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
-    public var statuses: [LambdaClientTypes.ExecutionStatus]?
-
-    public init(
-        durableExecutionName: Swift.String? = nil,
-        functionName: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = 0,
-        qualifier: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = nil,
-        startedAfter: Foundation.Date? = nil,
-        startedBefore: Foundation.Date? = nil,
-        statuses: [LambdaClientTypes.ExecutionStatus]? = nil
-    ) {
-        self.durableExecutionName = durableExecutionName
-        self.functionName = functionName
-        self.marker = marker
-        self.maxItems = maxItems
-        self.qualifier = qualifier
-        self.reverseOrder = reverseOrder
-        self.startedAfter = startedAfter
-        self.startedBefore = startedBefore
-        self.statuses = statuses
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Information about a [durable execution](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html).
-    public struct Execution: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the durable execution, if this execution is a durable execution.
-        /// This member is required.
-        public var durableExecutionArn: Swift.String?
-        /// The unique name of the durable execution, if one was provided when the execution was started.
-        /// This member is required.
-        public var durableExecutionName: Swift.String?
-        /// The date and time when the durable execution ended, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        public var endTimestamp: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of the Lambda function.
-        /// This member is required.
-        public var functionArn: Swift.String?
-        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
-        public var kmsKeyArn: Swift.String?
-        /// The date and time when the durable execution started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        /// This member is required.
-        public var startTimestamp: Foundation.Date?
-        /// The current status of the durable execution.
-        /// This member is required.
-        public var status: LambdaClientTypes.ExecutionStatus?
-
-        public init(
-            durableExecutionArn: Swift.String? = nil,
-            durableExecutionName: Swift.String? = nil,
-            endTimestamp: Foundation.Date? = nil,
-            functionArn: Swift.String? = nil,
-            kmsKeyArn: Swift.String? = nil,
-            startTimestamp: Foundation.Date? = nil,
-            status: LambdaClientTypes.ExecutionStatus? = nil
-        ) {
-            self.durableExecutionArn = durableExecutionArn
-            self.durableExecutionName = durableExecutionName
-            self.endTimestamp = endTimestamp
-            self.functionArn = functionArn
-            self.kmsKeyArn = kmsKeyArn
-            self.startTimestamp = startTimestamp
-            self.status = status
-        }
-    }
-}
-
-/// The response from the ListDurableExecutionsByFunction operation, containing a list of durable executions and pagination information.
-public struct ListDurableExecutionsByFunctionOutput: Swift.Sendable {
-    /// List of durable execution summaries matching the filter criteria.
-    public var durableExecutions: [LambdaClientTypes.Execution]?
-    /// Pagination token for retrieving additional results. Present only if there are more results available.
-    public var nextMarker: Swift.String?
-
-    public init(
-        durableExecutions: [LambdaClientTypes.Execution]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.durableExecutions = durableExecutions
-        self.nextMarker = nextMarker
     }
 }
 
@@ -12089,34 +12135,6 @@ extension SendDurableExecutionCallbackSuccessInput: Swift.CustomDebugStringConve
 public struct SendDurableExecutionCallbackSuccessOutput: Swift.Sendable {
 
     public init() { }
-}
-
-public struct StopDurableExecutionInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the durable execution.
-    /// This member is required.
-    public var durableExecutionArn: Swift.String?
-    /// Optional error details explaining why the execution is being stopped.
-    public var error: LambdaClientTypes.ErrorObject?
-
-    public init(
-        durableExecutionArn: Swift.String? = nil,
-        error: LambdaClientTypes.ErrorObject? = nil
-    ) {
-        self.durableExecutionArn = durableExecutionArn
-        self.error = error
-    }
-}
-
-public struct StopDurableExecutionOutput: Swift.Sendable {
-    /// The timestamp when the execution was stopped (ISO 8601 format).
-    /// This member is required.
-    public var stopTimestamp: Foundation.Date?
-
-    public init(
-        stopTimestamp: Foundation.Date? = nil
-    ) {
-        self.stopTimestamp = stopTimestamp
-    }
 }
 
 public struct TagResourceInput: Swift.Sendable {

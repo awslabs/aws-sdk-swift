@@ -3663,7 +3663,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The per-recommendation LoRA adapter details. Contains both the model package ARNs and Amazon S3 URIs for each adapter, regardless of which form was originally supplied in the request. When the customer supplies only Amazon S3 URIs, Amazon SageMaker AI creates model packages on their behalf.
+    /// The per-recommendation LoRA adapter details. Contains both the model package ARNs and Amazon S3 URIs for each adapter, regardless of which form was originally supplied in the request. When you supply only Amazon S3 URIs, Amazon SageMaker AI creates model packages on your behalf.
     public struct AIRecommendationAdapterDetails: Swift.Sendable {
         /// The list of LoRA adapters with their model package ARNs.
         /// This member is required.
@@ -3858,7 +3858,7 @@ extension SageMakerClientTypes {
         public var instanceCount: Swift.Int?
         /// The recommended instance type for the deployment.
         public var instanceType: SageMakerClientTypes.AIRecommendationInstanceType?
-        /// The minimum host (CPU) memory, in MiB, to reserve per model copy when deploying the recommendation as an Inference Component. This value maps to the base Inference Component's ComputeResourceRequirements$MinMemoryRequiredInMb and is sized so that CopyCountPerInstance copies co-place within the instance's allocatable host memory.
+        /// The minimum host (CPU) memory, in MiB, to reserve for each model copy when deploying the recommendation as an Inference Component. This value maps to the Inference Component's ComputeResourceRequirements$MinMemoryRequiredInMb field.
         public var minCpuMemoryRequiredInMb: Swift.Int?
         /// The Amazon S3 data channels for the deployment.
         public var s3: [SageMakerClientTypes.AIRecommendationDeploymentS3Channel]?
@@ -6937,6 +6937,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlGeospatialInteractive
         case mlM5d12xlarge
         case mlM5d16xlarge
@@ -7111,6 +7117,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlGeospatialInteractive,
                 .mlM5d12xlarge,
                 .mlM5d16xlarge,
@@ -7291,6 +7303,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlGeospatialInteractive: return "ml.geospatial.interactive"
             case .mlM5d12xlarge: return "ml.m5d.12xlarge"
             case .mlM5d16xlarge: return "ml.m5d.16xlarge"
@@ -29557,7 +29575,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// A list of key-value pairs associated with the optimization job. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [SageMakerClientTypes.Tag]?
-    /// The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. Currently, you can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see [Reserve capacity with training plans](https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html).
+    /// The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. You can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see [Reserve capacity with training plans](https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html).
     public var trainingPlanArns: [Swift.String]?
     /// A VPC in Amazon VPC that your optimized model has access to.
     public var vpcConfig: SageMakerClientTypes.OptimizationVpcConfig?
@@ -34252,7 +34270,7 @@ public struct DescribeAIRecommendationJobInput: Swift.Sendable {
 }
 
 public struct DescribeAIRecommendationJobOutput: Swift.Sendable {
-    /// The LoRA adapter source that was specified when the recommendation job was created. This field is absent when the job was created without LoRA adapters.
+    /// The LoRA adapter source that you specified when you created the recommendation job. This field is absent when you created the job without LoRA adapters.
     public var adapterSource: SageMakerClientTypes.AIAdapterSource?
     /// The Amazon Resource Name (ARN) of the AI recommendation job.
     /// This member is required.
