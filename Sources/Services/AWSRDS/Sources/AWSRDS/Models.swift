@@ -289,6 +289,14 @@ extension RDSClientTypes {
         public var iops: Swift.Int?
         /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume.
         public var maxAllocatedStorage: Swift.Int?
+        /// The percentage of the in-progress storage operation on the additional storage volume that has completed, from 0 to 100. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active.
+        public var storageOperationPercentProgress: Swift.Int?
+        /// The status of an in-progress storage operation on the additional storage volume. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active. Possible values:
+        ///
+        /// * Initializing - The volume is initializing from a snapshot, such as during a snapshot restore, point-in-time restore, read replica creation, or blue/green deployment. Performance can be lower than provisioned until initialization completes.
+        ///
+        /// * Optimizing - The volume is optimizing following a storage scaling or modification operation.
+        public var storageOperationStatus: Swift.String?
         /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps).
         public var storageThroughput: Swift.Int?
         /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
@@ -302,6 +310,8 @@ extension RDSClientTypes {
             allocatedStorage: Swift.Int? = nil,
             iops: Swift.Int? = nil,
             maxAllocatedStorage: Swift.Int? = nil,
+            storageOperationPercentProgress: Swift.Int? = nil,
+            storageOperationStatus: Swift.String? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             storageVolumeStatus: Swift.String? = nil,
@@ -310,6 +320,8 @@ extension RDSClientTypes {
             self.allocatedStorage = allocatedStorage
             self.iops = iops
             self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageOperationPercentProgress = storageOperationPercentProgress
+            self.storageOperationStatus = storageOperationStatus
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -7308,6 +7320,14 @@ extension RDSClientTypes {
         ///
         /// * sse-kms - The DB instance is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
         public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
+        /// The percentage of the in-progress storage operation on the DB instance that has completed, from 0 to 100. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active.
+        public var storageOperationPercentProgress: Swift.Int?
+        /// The status of an in-progress storage operation on the DB instance. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active. Possible values:
+        ///
+        /// * Initializing - The volume is initializing from a snapshot, such as during a snapshot restore, point-in-time restore, read replica creation, or blue/green deployment. Performance can be lower than provisioned until initialization completes.
+        ///
+        /// * Optimizing - The volume is optimizing following a storage scaling or modification operation.
+        public var storageOperationStatus: Swift.String?
         /// The storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
@@ -7415,6 +7435,8 @@ extension RDSClientTypes {
             statusInfos: [RDSClientTypes.DBInstanceStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
             storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
+            storageOperationPercentProgress: Swift.Int? = nil,
+            storageOperationStatus: Swift.String? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             storageVolumeStatus: Swift.String? = nil,
@@ -7507,6 +7529,8 @@ extension RDSClientTypes {
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
             self.storageEncryptionType = storageEncryptionType
+            self.storageOperationPercentProgress = storageOperationPercentProgress
+            self.storageOperationStatus = storageOperationStatus
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -33775,6 +33799,8 @@ extension RDSClientTypes.AdditionalStorageVolumeOutput {
         var value = RDSClientTypes.AdditionalStorageVolumeOutput()
         value.volumeName = try reader["VolumeName"].readIfPresent()
         value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        value.storageOperationStatus = try reader["StorageOperationStatus"].readIfPresent()
+        value.storageOperationPercentProgress = try reader["StorageOperationPercentProgress"].readIfPresent()
         value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
         value.iops = try reader["IOPS"].readIfPresent()
         value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
@@ -34415,6 +34441,8 @@ extension RDSClientTypes.DBInstance {
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
         value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolumeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        value.storageOperationStatus = try reader["StorageOperationStatus"].readIfPresent()
+        value.storageOperationPercentProgress = try reader["StorageOperationPercentProgress"].readIfPresent()
         return value
     }
 }

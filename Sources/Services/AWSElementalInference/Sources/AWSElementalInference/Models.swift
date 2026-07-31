@@ -242,10 +242,37 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
+    /// A named set of graphics-compositing templates used by the crop feature, specified in the templateGroups array of a CroppingConfig.
+    public struct TemplateGroup: Swift.Sendable {
+        /// A name for the template group.
+        /// This member is required.
+        public var name: Swift.String?
+        /// An array of Amazon S3 URIs that point to the graphics-compositing templates for this group. You can specify 1 or 2 URIs. Each URI must be in the form s3://bucket-name/key. Elemental Inference reads these templates using the IAM role that you specify in accessRoleArn.
+        /// This member is required.
+        public var templateUris: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            templateUris: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.templateUris = templateUris
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     /// A type of OutputConfig, used when the output in a feed is for the crop feature.
     public struct CroppingConfig: Swift.Sendable {
+        /// An array of template groups for the crop output. Each template group provides the graphics-compositing templates that Elemental Inference applies to the cropped video. You can specify from 1 to 4 template groups.
+        public var templateGroups: [ElementalInferenceClientTypes.TemplateGroup]?
 
-        public init() { }
+        public init(
+            templateGroups: [ElementalInferenceClientTypes.TemplateGroup]? = nil
+        ) {
+            self.templateGroups = templateGroups
+        }
     }
 }
 
@@ -620,6 +647,8 @@ public struct CreateDictionaryOutput: Swift.Sendable {
 }
 
 public struct CreateFeedInput: Swift.Sendable {
+    /// The ARN of an IAM role that Elemental Inference assumes to access resources in your account on your behalf. For example, the smart crop feature uses this role to read graphics-compositing templates from your Amazon S3 bucket. You specify one access role for each feed.
+    public var accessRoleArn: Swift.String?
     /// A user-friendly name for this feed.
     /// This member is required.
     public var name: Swift.String?
@@ -630,10 +659,12 @@ public struct CreateFeedInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        accessRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         outputs: [ElementalInferenceClientTypes.CreateOutput]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.accessRoleArn = accessRoleArn
         self.name = name
         self.outputs = outputs
         self.tags = tags
@@ -1249,6 +1280,8 @@ extension ElementalInferenceClientTypes {
 }
 
 public struct UpdateFeedInput: Swift.Sendable {
+    /// The ARN of an IAM role that Elemental Inference assumes to access resources in your account on your behalf. You can specify the existing role (to leave it unchanged) or a new role. You specify one access role for each feed.
+    public var accessRoleArn: Swift.String?
     /// The ID of the feed to update.
     /// This member is required.
     public var id: Swift.String?
@@ -1260,10 +1293,12 @@ public struct UpdateFeedInput: Swift.Sendable {
     public var outputs: [ElementalInferenceClientTypes.UpdateOutput]?
 
     public init(
+        accessRoleArn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         outputs: [ElementalInferenceClientTypes.UpdateOutput]? = nil
     ) {
+        self.accessRoleArn = accessRoleArn
         self.id = id
         self.name = name
         self.outputs = outputs
@@ -1593,6 +1628,7 @@ extension CreateFeedInput {
 
     static func write(value: CreateFeedInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessRoleArn"].write(value.accessRoleArn)
         try writer["name"].write(value.name)
         try writer["outputs"].writeList(value.outputs, memberWritingClosure: ElementalInferenceClientTypes.CreateOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -1630,6 +1666,7 @@ extension UpdateFeedInput {
 
     static func write(value: UpdateFeedInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessRoleArn"].write(value.accessRoleArn)
         try writer["name"].write(value.name)
         try writer["outputs"].writeList(value.outputs, memberWritingClosure: ElementalInferenceClientTypes.UpdateOutput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -2299,13 +2336,15 @@ extension ElementalInferenceClientTypes.CreateOutput {
 extension ElementalInferenceClientTypes.CroppingConfig {
 
     static func write(value: ElementalInferenceClientTypes.CroppingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["templateGroups"].writeList(value.templateGroups, memberWritingClosure: ElementalInferenceClientTypes.TemplateGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.CroppingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return ElementalInferenceClientTypes.CroppingConfig()
+        var value = ElementalInferenceClientTypes.CroppingConfig()
+        value.templateGroups = try reader["templateGroups"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.TemplateGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -2410,6 +2449,23 @@ extension ElementalInferenceClientTypes.SubtitlingConfig {
         value.aspectRatio = try reader["aspectRatio"].readIfPresent(with: ElementalInferenceClientTypes.AspectRatio.read(from:))
         value.dictionary = try reader["dictionary"].readIfPresent()
         value.profanityFilter = try reader["profanityFilter"].readIfPresent()
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.TemplateGroup {
+
+    static func write(value: ElementalInferenceClientTypes.TemplateGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["templateUris"].writeList(value.templateUris, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.TemplateGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.TemplateGroup()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.templateUris = try reader["templateUris"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

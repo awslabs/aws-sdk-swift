@@ -984,6 +984,37 @@ extension ListTopicsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension QuickSightClient {
+    /// Paginate over `[ListTopicsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTopicsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsV2Output`
+    public func listTopicsV2Paginated(input: ListTopicsV2Input) -> ClientRuntime.PaginatorSequence<ListTopicsV2Input, ListTopicsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListTopicsV2Input, ListTopicsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopicsV2(input:))
+    }
+}
+
+extension ListTopicsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTopicsV2Input {
+        return ListTopicsV2Input(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTopicsV2Input, OperationStackOutput == ListTopicsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listTopicsV2Paginated`
+    /// to access the nested member `[QuickSightClientTypes.TopicV2Summary]`
+    /// - Returns: `[QuickSightClientTypes.TopicV2Summary]`
+    public func topicSummaryList() async throws -> [QuickSightClientTypes.TopicV2Summary] {
+        return try await self.asyncCompactMap { item in item.topicSummaryList }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListUserGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1389,6 +1420,38 @@ extension PaginatorSequence where OperationStackInput == SearchTopicsInput, Oper
     /// to access the nested member `[QuickSightClientTypes.TopicSummary]`
     /// - Returns: `[QuickSightClientTypes.TopicSummary]`
     public func topicSummaryList() async throws -> [QuickSightClientTypes.TopicSummary] {
+        return try await self.asyncCompactMap { item in item.topicSummaryList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[SearchTopicsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchTopicsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTopicsV2Output`
+    public func searchTopicsV2Paginated(input: SearchTopicsV2Input) -> ClientRuntime.PaginatorSequence<SearchTopicsV2Input, SearchTopicsV2Output> {
+        return ClientRuntime.PaginatorSequence<SearchTopicsV2Input, SearchTopicsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTopicsV2(input:))
+    }
+}
+
+extension SearchTopicsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchTopicsV2Input {
+        return SearchTopicsV2Input(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchTopicsV2Input, OperationStackOutput == SearchTopicsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `searchTopicsV2Paginated`
+    /// to access the nested member `[QuickSightClientTypes.TopicV2Summary]`
+    /// - Returns: `[QuickSightClientTypes.TopicV2Summary]`
+    public func topicSummaryList() async throws -> [QuickSightClientTypes.TopicV2Summary] {
         return try await self.asyncCompactMap { item in item.topicSummaryList }
     }
 }

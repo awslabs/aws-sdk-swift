@@ -61,6 +61,30 @@ extension BillingClientTypes {
 
 extension BillingClientTypes {
 
+    /// An additional charge applied to an Enterprise Support contract.
+    public struct AdditionalCharge: Swift.Sendable {
+        /// The charge amount.
+        public var amount: Swift.String?
+        /// The type of additional charge.
+        public var chargeType: Swift.String?
+        /// A description of the additional charge.
+        /// This member is required.
+        public var description: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            chargeType: Swift.String? = nil,
+            description: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.chargeType = chargeType
+            self.description = description
+        }
+    }
+}
+
+extension BillingClientTypes {
+
     /// A monetary amount with a currency code. Used throughout the Billing API to represent credit balances, allocations, and adjustments.
     public struct Amount: Swift.Sendable {
         /// The amount as a decimal string (for example, "743.21"). Negative values represent credits that reduce a bill.
@@ -1416,6 +1440,317 @@ public struct GetCreditsOutput: Swift.Sendable {
     }
 }
 
+/// The request structure for GetEnterpriseSupportChargeSummary.
+public struct GetEnterpriseSupportChargeSummaryInput: Swift.Sendable {
+    /// The billing month in YYYY-MM format. This must be a month in the past.
+    /// This member is required.
+    public var billingMonth: Swift.String?
+
+    public init(
+        billingMonth: Swift.String? = nil
+    ) {
+        self.billingMonth = billingMonth
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A tier within an Enterprise Support pricing plan.
+    public struct PricingPlanTier: Swift.Sendable {
+        /// The additional percentage applied to aggregate charges in this tier.
+        /// This member is required.
+        public var additionalPercentageOfAggregateCharges: Swift.String?
+        /// The adjustment applied to aggregate charges.
+        /// This member is required.
+        public var aggregateChargesAdjustment: Swift.String?
+        /// The base charge for this tier.
+        /// This member is required.
+        public var baseCharge: Swift.String?
+        /// The increment amount for incremental tier calculations.
+        public var increment: Swift.String?
+        /// The charge per increment.
+        public var incrementCharge: Swift.String?
+        /// Whether the tier charges are calculated incrementally.
+        /// This member is required.
+        public var incremental: Swift.Bool?
+        /// The maximum spend threshold for this tier.
+        public var tierMaximum: Swift.String?
+        /// The minimum spend threshold for this tier.
+        /// This member is required.
+        public var tierMinimum: Swift.String?
+
+        public init(
+            additionalPercentageOfAggregateCharges: Swift.String? = nil,
+            aggregateChargesAdjustment: Swift.String? = nil,
+            baseCharge: Swift.String? = nil,
+            increment: Swift.String? = nil,
+            incrementCharge: Swift.String? = nil,
+            incremental: Swift.Bool? = nil,
+            tierMaximum: Swift.String? = nil,
+            tierMinimum: Swift.String? = nil
+        ) {
+            self.additionalPercentageOfAggregateCharges = additionalPercentageOfAggregateCharges
+            self.aggregateChargesAdjustment = aggregateChargesAdjustment
+            self.baseCharge = baseCharge
+            self.increment = increment
+            self.incrementCharge = incrementCharge
+            self.incremental = incremental
+            self.tierMaximum = tierMaximum
+            self.tierMinimum = tierMinimum
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A pricing plan for Enterprise Support billing.
+    public struct PricingPlan: Swift.Sendable {
+        /// A description of the pricing plan.
+        public var description: Swift.String?
+        /// Whether the discount applies to the minimum Support charge.
+        public var discountAppliesToMinimumCharge: Swift.Bool?
+        /// The end date of the pricing plan.
+        public var endDate: Foundation.Date?
+        /// The minimum Support charge amount for this pricing plan.
+        public var minimumCharge: Swift.String?
+        /// The name of the pricing plan.
+        public var name: Swift.String?
+        /// The discount percentage applied by this pricing plan.
+        public var planDiscountPercent: Swift.String?
+        /// The unique identifier for the pricing plan.
+        public var pricingPlanId: Swift.String?
+        /// The start date of the pricing plan.
+        public var startDate: Foundation.Date?
+        /// Whether the pricing plan uses tiered pricing.
+        public var tiered: Swift.String?
+        /// The pricing tiers within this plan.
+        /// This member is required.
+        public var tiers: [BillingClientTypes.PricingPlanTier]?
+
+        public init(
+            description: Swift.String? = nil,
+            discountAppliesToMinimumCharge: Swift.Bool? = nil,
+            endDate: Foundation.Date? = nil,
+            minimumCharge: Swift.String? = nil,
+            name: Swift.String? = nil,
+            planDiscountPercent: Swift.String? = nil,
+            pricingPlanId: Swift.String? = nil,
+            startDate: Foundation.Date? = nil,
+            tiered: Swift.String? = nil,
+            tiers: [BillingClientTypes.PricingPlanTier]? = nil
+        ) {
+            self.description = description
+            self.discountAppliesToMinimumCharge = discountAppliesToMinimumCharge
+            self.endDate = endDate
+            self.minimumCharge = minimumCharge
+            self.name = name
+            self.planDiscountPercent = planDiscountPercent
+            self.pricingPlanId = pricingPlanId
+            self.startDate = startDate
+            self.tiered = tiered
+            self.tiers = tiers
+        }
+    }
+}
+
+/// The response structure for GetEnterpriseSupportChargeSummary.
+public struct GetEnterpriseSupportChargeSummaryOutput: Swift.Sendable {
+    /// The date the bill was generated.
+    /// This member is required.
+    public var billDate: Foundation.Date?
+    /// The billing month in YYYY-MM format. This must be a month in the past.
+    /// This member is required.
+    public var billingMonth: Swift.String?
+    /// The end date of the billing period.
+    /// This member is required.
+    public var billingPeriodEndDate: Foundation.Date?
+    /// The start date of the billing period.
+    /// This member is required.
+    public var billingPeriodStartDate: Foundation.Date?
+    /// When true, the Support charge amount is estimated. When false, the Support charge amount is finalized.
+    /// This member is required.
+    public var isEstimated: Swift.Bool?
+    /// The payer account ID that is authorized to view Enterprise Support data for all accounts in its Support profile.
+    /// This member is required.
+    public var payerAccountId: Swift.String?
+    /// The Support charge amount for the account.
+    /// This member is required.
+    public var supportCharge: Swift.String?
+    /// The percentage applied to the total Support-eligible spend to calculate the total Support charge across all accounts in the Support profile.
+    /// This member is required.
+    public var supportChargePercentage: Swift.String?
+    /// The support discount amount.
+    /// This member is required.
+    public var supportDiscount: Swift.String?
+    /// The effective pricing plan used for the support charge calculation.
+    /// This member is required.
+    public var supportEffectivePricingPlan: BillingClientTypes.PricingPlan?
+    /// The total Support charge amount for all accounts in the Support profile.
+    /// This member is required.
+    public var totalSupportCharge: Swift.String?
+    /// The total Support-eligible Reserved Instance spend from all accounts in the Support profile.
+    /// This member is required.
+    public var totalSupportEligibleReservedInstanceSpend: Swift.String?
+    /// The total Support-eligible Savings Plan spend from all accounts in the Support profile.
+    /// This member is required.
+    public var totalSupportEligibleSavingsPlanSpend: Swift.String?
+    /// The total Support-eligible Spend from all accounts in the Support profile. This includes eligible spend from usage of Amazon Web Services, Reserved Instances, and Savings Plans.
+    /// This member is required.
+    public var totalSupportEligibleSpend: Swift.String?
+    /// The total Support-eligible spend from usage of Amazon Web Services from all accounts in the Support profile.
+    /// This member is required.
+    public var totalSupportEligibleUsageSpend: Swift.String?
+
+    public init(
+        billDate: Foundation.Date? = nil,
+        billingMonth: Swift.String? = nil,
+        billingPeriodEndDate: Foundation.Date? = nil,
+        billingPeriodStartDate: Foundation.Date? = nil,
+        isEstimated: Swift.Bool? = nil,
+        payerAccountId: Swift.String? = nil,
+        supportCharge: Swift.String? = nil,
+        supportChargePercentage: Swift.String? = nil,
+        supportDiscount: Swift.String? = nil,
+        supportEffectivePricingPlan: BillingClientTypes.PricingPlan? = nil,
+        totalSupportCharge: Swift.String? = nil,
+        totalSupportEligibleReservedInstanceSpend: Swift.String? = nil,
+        totalSupportEligibleSavingsPlanSpend: Swift.String? = nil,
+        totalSupportEligibleSpend: Swift.String? = nil,
+        totalSupportEligibleUsageSpend: Swift.String? = nil
+    ) {
+        self.billDate = billDate
+        self.billingMonth = billingMonth
+        self.billingPeriodEndDate = billingPeriodEndDate
+        self.billingPeriodStartDate = billingPeriodStartDate
+        self.isEstimated = isEstimated
+        self.payerAccountId = payerAccountId
+        self.supportCharge = supportCharge
+        self.supportChargePercentage = supportChargePercentage
+        self.supportDiscount = supportDiscount
+        self.supportEffectivePricingPlan = supportEffectivePricingPlan
+        self.totalSupportCharge = totalSupportCharge
+        self.totalSupportEligibleReservedInstanceSpend = totalSupportEligibleReservedInstanceSpend
+        self.totalSupportEligibleSavingsPlanSpend = totalSupportEligibleSavingsPlanSpend
+        self.totalSupportEligibleSpend = totalSupportEligibleSpend
+        self.totalSupportEligibleUsageSpend = totalSupportEligibleUsageSpend
+    }
+}
+
+/// The request structure for GetEnterpriseSupportContractDetails.
+public struct GetEnterpriseSupportContractDetailsInput: Swift.Sendable {
+    /// The billing month in YYYY-MM format. This must be a month in the past.
+    /// This member is required.
+    public var billingMonth: Swift.String?
+
+    public init(
+        billingMonth: Swift.String? = nil
+    ) {
+        self.billingMonth = billingMonth
+    }
+}
+
+extension BillingClientTypes {
+
+    /// An account that is charged all or a portion of the total Support charge and the percentage of the charge allocated to it.
+    public struct ChargeAccount: Swift.Sendable {
+        /// The account ID.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The percentage of the total Support charge allocated to this account. This is 0.0 when supportAllocationMethod = Proportional.
+        /// This member is required.
+        public var chargePercentage: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            chargePercentage: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.chargePercentage = chargePercentage
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// An account that is covered by the Enterprise Support contract.
+    public struct ContractAccount: Swift.Sendable {
+        /// The account ID.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// When true, Support charges are calculated on charges before private discounts. When false, they are calculated after private discounts.
+        /// This member is required.
+        public var isGdn: Swift.Bool?
+
+        public init(
+            accountId: Swift.String? = nil,
+            isGdn: Swift.Bool? = nil
+        ) {
+            self.accountId = accountId
+            self.isGdn = isGdn
+        }
+    }
+}
+
+/// The response structure for GetEnterpriseSupportContractDetails.
+public struct GetEnterpriseSupportContractDetailsOutput: Swift.Sendable {
+    /// Any Additional support charges applied to the contract.
+    public var additionalSupportCharge: [BillingClientTypes.AdditionalCharge]?
+    /// Any Additional support-eligible usage spend charges.
+    public var additionalSupportEligibleUsageSpend: [BillingClientTypes.AdditionalCharge]?
+    /// The list of payer accounts and their charge allocation percentages.
+    /// This member is required.
+    public var chargedPayerAccountIds: [BillingClientTypes.ChargeAccount]?
+    /// The list of accounts covered by the Enterprise Support contract.
+    /// This member is required.
+    public var contractPayerAccountIds: [BillingClientTypes.ContractAccount]?
+    /// When true, the Enterprise Support contract is active. When false, the Enterprise Support Contract is inactive.
+    public var isContractActive: Swift.Bool?
+    /// The pricing plans associated with this Enterprise Support contract.
+    /// This member is required.
+    public var pricingPlans: [BillingClientTypes.PricingPlan]?
+    /// The method used to distribute the total Support charge amount across each account in the Support profile. Valid values: Proportional, Fixed_Percentage. Proportional means support charges are distributed to each account in proportion to its eligible Spend. Fixed_Percentage means support charges are distributed across accounts according to pre-configured percentages from the contract.
+    /// This member is required.
+    public var supportAllocationMethod: Swift.String?
+    /// The start date for accounts subscribed or unsubscribed to Support billing during the billing month.
+    public var supportProrateStartDate: Foundation.Date?
+    /// When supportReservedInstanceTreatmentMethod = AmortizedCustom, only amortized fees for Reserved Instances purchased on or after this date are included in the calculation. This field is Null for all other treatment methods.
+    public var supportReservedInstanceAmortizationStartDate: Foundation.Date?
+    /// The method used to include Reserved Instance (RI) fees in the Enterprise Support charge calculation. Valid values: None (RI fees excluded from Support-eligible spend), Upfront (full upfront RI fees included in month of purchase), Amortized (RI fees spread over commitment term for RIs purchased on or after Support subscription start date), AmortizedCustom (same as Amortized but only for RIs purchased on or after a specified custom start date), AmortizedAll (RI fees amortized for all active RIs including those purchased before Support subscription started).
+    public var supportReservedInstanceTreatmentMethod: Swift.String?
+    /// This is applicable when supportSavingsPlansTreatmentMethod = Amortized and is Null for all other methods. It shows the start date from which Savings Plan fees are included in Support Eligible Spend.
+    public var supportSavingsPlansAmortizationStartDate: Foundation.Date?
+    /// The method used to include Savings Plans fees in Enterprise Support charge calculations. Valid values: None (Savings Plan fees excluded from Support-eligible spend), Upfront (full upfront Savings Plan fees included in month of purchase), Amortized (Savings Plan fees spread over commitment term for Savings Plans purchased on or after Support subscription start date), AmortizedCustom (same as Amortized but only for Savings Plans purchased on or after a specified custom start date), AmortizedAll (Savings Plan fees amortized for all active Savings Plans including those purchased before Support subscription started).
+    public var supportSavingsPlansTreatmentMethod: Swift.String?
+
+    public init(
+        additionalSupportCharge: [BillingClientTypes.AdditionalCharge]? = nil,
+        additionalSupportEligibleUsageSpend: [BillingClientTypes.AdditionalCharge]? = nil,
+        chargedPayerAccountIds: [BillingClientTypes.ChargeAccount]? = nil,
+        contractPayerAccountIds: [BillingClientTypes.ContractAccount]? = nil,
+        isContractActive: Swift.Bool? = nil,
+        pricingPlans: [BillingClientTypes.PricingPlan]? = nil,
+        supportAllocationMethod: Swift.String? = nil,
+        supportProrateStartDate: Foundation.Date? = nil,
+        supportReservedInstanceAmortizationStartDate: Foundation.Date? = nil,
+        supportReservedInstanceTreatmentMethod: Swift.String? = nil,
+        supportSavingsPlansAmortizationStartDate: Foundation.Date? = nil,
+        supportSavingsPlansTreatmentMethod: Swift.String? = nil
+    ) {
+        self.additionalSupportCharge = additionalSupportCharge
+        self.additionalSupportEligibleUsageSpend = additionalSupportEligibleUsageSpend
+        self.chargedPayerAccountIds = chargedPayerAccountIds
+        self.contractPayerAccountIds = contractPayerAccountIds
+        self.isContractActive = isContractActive
+        self.pricingPlans = pricingPlans
+        self.supportAllocationMethod = supportAllocationMethod
+        self.supportProrateStartDate = supportProrateStartDate
+        self.supportReservedInstanceAmortizationStartDate = supportReservedInstanceAmortizationStartDate
+        self.supportReservedInstanceTreatmentMethod = supportReservedInstanceTreatmentMethod
+        self.supportSavingsPlansAmortizationStartDate = supportSavingsPlansAmortizationStartDate
+        self.supportSavingsPlansTreatmentMethod = supportSavingsPlansTreatmentMethod
+    }
+}
+
 public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the billing view resource to which the policy is attached to.
     /// This member is required.
@@ -1581,6 +1916,152 @@ public struct ListBillingViewsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.billingViews = billingViews
+        self.nextToken = nextToken
+    }
+}
+
+/// The request structure for ListEnterpriseSupportLinkedAccountCharges.
+public struct ListEnterpriseSupportLinkedAccountChargesInput: Swift.Sendable {
+    /// An optional linked account ID to filter results to a specific account.
+    public var accountId: Swift.String?
+    /// The billing month in YYYY-MM format. This must be a month in the past.
+    /// This member is required.
+    public var billingMonth: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        billingMonth: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.billingMonth = billingMonth
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A time period for Enterprise Support billing.
+    public struct EnterpriseSupportTimePeriod: Swift.Sendable {
+        /// The begin date of the time period.
+        /// This member is required.
+        public var beginDate: Foundation.Date?
+        /// The end date of the time period.
+        public var endDate: Foundation.Date?
+
+        public init(
+            beginDate: Foundation.Date? = nil,
+            endDate: Foundation.Date? = nil
+        ) {
+            self.beginDate = beginDate
+            self.endDate = endDate
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// Service-level usage details by account.
+    public struct ServiceLevelAccountUsage: Swift.Sendable {
+        /// The service code for which to return Support-eligible spend data.
+        public var serviceCode: Swift.String?
+        /// The total support-eligible spend for the service.
+        public var totalSupportEligibleSpend: Swift.String?
+
+        public init(
+            serviceCode: Swift.String? = nil,
+            totalSupportEligibleSpend: Swift.String? = nil
+        ) {
+            self.serviceCode = serviceCode
+            self.totalSupportEligibleSpend = totalSupportEligibleSpend
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// Enterprise Support charges for a linked account.
+    public struct LinkedAccountCharge: Swift.Sendable {
+        /// The linked account ID.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The type of account.
+        public var accountType: Swift.String?
+        /// The number of billable seconds in the billing period based on when the account was subscribed to Enterprise Support.
+        /// This member is required.
+        public var billableSeconds: Swift.Int?
+        /// The time periods during which this account was linked.
+        public var linkedTimePeriods: [BillingClientTypes.EnterpriseSupportTimePeriod]?
+        /// The payer account ID that is authorized to view Enterprise Support data for all accounts in its Support profile.
+        /// This member is required.
+        public var payerAccountId: Swift.String?
+        /// The prorated total support-eligible spend based on when the account was subscribed to Enterprise Support.
+        /// This member is required.
+        public var proratedTotalSupportEligibleSpend: Swift.String?
+        /// The subscription time periods for this account.
+        public var subscriptionTimePeriods: [BillingClientTypes.EnterpriseSupportTimePeriod]?
+        /// The support-eligible spend broken down by service.
+        public var supportEligibleSpendByService: [BillingClientTypes.ServiceLevelAccountUsage]?
+        /// The total number of seconds in the billing period.
+        /// This member is required.
+        public var totalSeconds: Swift.Int?
+        /// The total support-eligible Reserved Instance spend for this account.
+        public var totalSupportEligibleReservedInstanceSpend: Swift.String?
+        /// The total support-eligible Savings Plan spend for this account.
+        public var totalSupportEligibleSavingsPlanSpend: Swift.String?
+        /// The total support-eligible spend for this account.
+        /// This member is required.
+        public var totalSupportEligibleSpend: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            accountType: Swift.String? = nil,
+            billableSeconds: Swift.Int? = nil,
+            linkedTimePeriods: [BillingClientTypes.EnterpriseSupportTimePeriod]? = nil,
+            payerAccountId: Swift.String? = nil,
+            proratedTotalSupportEligibleSpend: Swift.String? = nil,
+            subscriptionTimePeriods: [BillingClientTypes.EnterpriseSupportTimePeriod]? = nil,
+            supportEligibleSpendByService: [BillingClientTypes.ServiceLevelAccountUsage]? = nil,
+            totalSeconds: Swift.Int? = nil,
+            totalSupportEligibleReservedInstanceSpend: Swift.String? = nil,
+            totalSupportEligibleSavingsPlanSpend: Swift.String? = nil,
+            totalSupportEligibleSpend: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.accountType = accountType
+            self.billableSeconds = billableSeconds
+            self.linkedTimePeriods = linkedTimePeriods
+            self.payerAccountId = payerAccountId
+            self.proratedTotalSupportEligibleSpend = proratedTotalSupportEligibleSpend
+            self.subscriptionTimePeriods = subscriptionTimePeriods
+            self.supportEligibleSpendByService = supportEligibleSpendByService
+            self.totalSeconds = totalSeconds
+            self.totalSupportEligibleReservedInstanceSpend = totalSupportEligibleReservedInstanceSpend
+            self.totalSupportEligibleSavingsPlanSpend = totalSupportEligibleSavingsPlanSpend
+            self.totalSupportEligibleSpend = totalSupportEligibleSpend
+        }
+    }
+}
+
+/// The response structure for ListEnterpriseSupportLinkedAccountCharges.
+public struct ListEnterpriseSupportLinkedAccountChargesOutput: Swift.Sendable {
+    /// The list of Enterprise Support charges per linked account.
+    /// This member is required.
+    public var linkedAccount: [BillingClientTypes.LinkedAccountCharge]?
+    /// The pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        linkedAccount: [BillingClientTypes.LinkedAccountCharge]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.linkedAccount = linkedAccount
         self.nextToken = nextToken
     }
 }

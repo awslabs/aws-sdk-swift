@@ -1873,8 +1873,9 @@ public struct CreateLookupTableInput: Swift.Sendable {
     /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long.
     /// This member is required.
     public var lookupTableName: Swift.String?
-    /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
-    /// This member is required.
+    /// The ID of a completed CloudWatch Logs query whose results populate the lookup table. You must specify either tableBody or queryId, but not both.
+    public var queryId: Swift.String?
+    /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
     public var tableBody: Swift.String?
     /// A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources.
     public var tags: [Swift.String: Swift.String]?
@@ -1883,12 +1884,14 @@ public struct CreateLookupTableInput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lookupTableName: Swift.String? = nil,
+        queryId: Swift.String? = nil,
         tableBody: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
         self.kmsKeyId = kmsKeyId
         self.lookupTableName = lookupTableName
+        self.queryId = queryId
         self.tableBody = tableBody
         self.tags = tags
     }
@@ -1906,6 +1909,39 @@ public struct CreateLookupTableOutput: Swift.Sendable {
     ) {
         self.createdAt = createdAt
         self.lookupTableArn = lookupTableArn
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Configuration for a lookup table destination. Use it to automatically refresh a lookup table with query results on a schedule.
+    public struct LookupTableConfiguration: Swift.Sendable {
+        /// A description of the lookup table.
+        public var description: Swift.String?
+        /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key.
+        public var kmsKeyId: Swift.String?
+        /// The ARN of the IAM role that grants permissions to create or update the lookup table with query results.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The name of the lookup table to create or update with query results. The name can contain only alphanumeric characters and underscores.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// Key-value pairs to associate with the lookup table for resource management and cost allocation. The service applies tags only during initial table creation.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            description: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.roleArn = roleArn
+            self.tableName = tableName
+            self.tags = tags
+        }
     }
 }
 
@@ -1942,13 +1978,16 @@ extension CloudWatchLogsClientTypes {
 
     /// Configuration for where to deliver scheduled query results. Specifies the destination type and associated settings for result delivery.
     public struct DestinationConfiguration: Swift.Sendable {
+        /// Configuration for delivering query results to a lookup table. The query results automatically populate or refresh the specified lookup table on each scheduled execution.
+        public var lookupTableConfiguration: CloudWatchLogsClientTypes.LookupTableConfiguration?
         /// Configuration for delivering query results to Amazon S3.
-        /// This member is required.
         public var s3Configuration: CloudWatchLogsClientTypes.S3Configuration?
 
         public init(
+            lookupTableConfiguration: CloudWatchLogsClientTypes.LookupTableConfiguration? = nil,
             s3Configuration: CloudWatchLogsClientTypes.S3Configuration? = nil
         ) {
+            self.lookupTableConfiguration = lookupTableConfiguration
             self.s3Configuration = s3Configuration
         }
     }
@@ -2018,7 +2057,7 @@ extension CloudWatchLogsClientTypes {
 public struct CreateScheduledQueryInput: Swift.Sendable {
     /// An optional description for the scheduled query to help identify its purpose and functionality.
     public var description: Swift.String?
-    /// Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
+    /// Configuration for where to deliver query results. Supports Amazon S3 destinations for storing query output and lookup table destinations for automatically refreshing lookup tables with query results. You can configure one or both destination types.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
     /// The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset, this determines the time window relative to the execution time over which the query runs.
     public var endTimeOffset: Swift.Int?
@@ -6034,11 +6073,13 @@ public struct GetScheduledQueryHistoryInput: Swift.Sendable {
 extension CloudWatchLogsClientTypes {
 
     public enum ScheduledQueryDestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lookupTable
         case s3
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScheduledQueryDestinationType] {
             return [
+                .lookupTable,
                 .s3
             ]
         }
@@ -6050,6 +6091,7 @@ extension CloudWatchLogsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .lookupTable: return "LOOKUP_TABLE"
             case .s3: return "S3"
             case let .sdkUnknown(s): return s
             }
@@ -6177,7 +6219,7 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct GetStorageTierPolicyOutput: Swift.Sendable {
-    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after January 1, 1970 00:00:00 UTC.
     public var lastUpdatedTime: Swift.Int?
     /// The current storage tier for the account.
     public var storageTier: CloudWatchLogsClientTypes.StorageTier?
@@ -8512,7 +8554,7 @@ public struct PutRetentionPolicyInput: Swift.Sendable {
 }
 
 public struct PutStorageTierPolicyInput: Swift.Sendable {
-    /// The storage tier to set for the account. Valid values are STANDARD and INTELLIGENT_TIERING.
+    /// The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the appropriate tier based on access frequency.
     /// This member is required.
     public var storageTier: CloudWatchLogsClientTypes.StorageTier?
 
@@ -8524,9 +8566,9 @@ public struct PutStorageTierPolicyInput: Swift.Sendable {
 }
 
 public struct PutStorageTierPolicyOutput: Swift.Sendable {
-    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after January 1, 1970 00:00:00 UTC.
     public var lastUpdatedTime: Swift.Int?
-    /// The storage tier that was set.
+    /// The storage tier for the account.
     public var storageTier: CloudWatchLogsClientTypes.StorageTier?
 
     public init(
@@ -8554,7 +8596,7 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
     public var destinationArn: Swift.String?
     /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
     public var distribution: CloudWatchLogsClientTypes.Distribution?
-    /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account and @aws.region. These fields provide source information for centralized log data in the forwarded payload.
+    /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account, @aws.region, and @source.log. These fields provide source information for centralized log data in the forwarded payload.
     public var emitSystemFields: [Swift.String]?
     /// A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1". Maximum length: 2000 characters.
     public var fieldSelectionCriteria: Swift.String?
@@ -9237,19 +9279,22 @@ public struct UpdateLookupTableInput: Swift.Sendable {
     /// The ARN of the lookup table to update.
     /// This member is required.
     public var lookupTableArn: Swift.String?
-    /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
-    /// This member is required.
+    /// The ID of a completed CloudWatch Logs query whose results replace the lookup table content. You must specify either tableBody or queryId, but not both.
+    public var queryId: Swift.String?
+    /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
     public var tableBody: Swift.String?
 
     public init(
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lookupTableArn: Swift.String? = nil,
+        queryId: Swift.String? = nil,
         tableBody: Swift.String? = nil
     ) {
         self.description = description
         self.kmsKeyId = kmsKeyId
         self.lookupTableArn = lookupTableArn
+        self.queryId = queryId
         self.tableBody = tableBody
     }
 }

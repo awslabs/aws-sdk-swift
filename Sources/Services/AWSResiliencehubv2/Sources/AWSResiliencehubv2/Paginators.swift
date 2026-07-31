@@ -229,7 +229,8 @@ extension ListReportsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             reportType: self.reportType,
-            serviceArn: self.serviceArn
+            serviceArn: self.serviceArn,
+            testRunId: self.testRunId
         )}
 }
 
@@ -239,6 +240,38 @@ extension PaginatorSequence where OperationStackInput == ListReportsInput, Opera
     /// - Returns: `[Resiliencehubv2ClientTypes.ReportGenerationResult]`
     public func reportGenerationResults() async throws -> [Resiliencehubv2ClientTypes.ReportGenerationResult] {
         return try await self.asyncCompactMap { item in item.reportGenerationResults }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListResolvedTestRunTargetResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResolvedTestRunTargetResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResolvedTestRunTargetResourcesOutput`
+    public func listResolvedTestRunTargetResourcesPaginated(input: ListResolvedTestRunTargetResourcesInput) -> ClientRuntime.PaginatorSequence<ListResolvedTestRunTargetResourcesInput, ListResolvedTestRunTargetResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResolvedTestRunTargetResourcesInput, ListResolvedTestRunTargetResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResolvedTestRunTargetResources(input:))
+    }
+}
+
+extension ListResolvedTestRunTargetResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResolvedTestRunTargetResourcesInput {
+        return ListResolvedTestRunTargetResourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testRunId: self.testRunId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResolvedTestRunTargetResourcesInput, OperationStackOutput == ListResolvedTestRunTargetResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResolvedTestRunTargetResourcesPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.ResolvedTargetResource]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.ResolvedTargetResource]`
+    public func resolvedTargetResources() async throws -> [Resiliencehubv2ClientTypes.ResolvedTargetResource] {
+        return try await self.asyncCompactMap { item in item.resolvedTargetResources }
     }
 }
 extension Resiliencehubv2Client {
@@ -471,6 +504,169 @@ extension PaginatorSequence where OperationStackInput == ListSystemsInput, Opera
     /// - Returns: `[Resiliencehubv2ClientTypes.SystemSummary]`
     public func systemSummaries() async throws -> [Resiliencehubv2ClientTypes.SystemSummary] {
         return try await self.asyncCompactMap { item in item.systemSummaries }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListTestRunEventsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestRunEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestRunEventsOutput`
+    public func listTestRunEventsPaginated(input: ListTestRunEventsInput) -> ClientRuntime.PaginatorSequence<ListTestRunEventsInput, ListTestRunEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestRunEventsInput, ListTestRunEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestRunEvents(input:))
+    }
+}
+
+extension ListTestRunEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestRunEventsInput {
+        return ListTestRunEventsInput(
+            endedAt: self.endedAt,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            startedAt: self.startedAt,
+            testRunId: self.testRunId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTestRunEventsInput, OperationStackOutput == ListTestRunEventsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTestRunEventsPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.TestRunEvent]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.TestRunEvent]`
+    public func events() async throws -> [Resiliencehubv2ClientTypes.TestRunEvent] {
+        return try await self.asyncCompactMap { item in item.events }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListTestRunsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestRunsOutput`
+    public func listTestRunsPaginated(input: ListTestRunsInput) -> ClientRuntime.PaginatorSequence<ListTestRunsInput, ListTestRunsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestRunsInput, ListTestRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestRuns(input:))
+    }
+}
+
+extension ListTestRunsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestRunsInput {
+        return ListTestRunsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testId: self.testId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTestRunsInput, OperationStackOutput == ListTestRunsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTestRunsPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.TestRunSummary]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.TestRunSummary]`
+    public func testRuns() async throws -> [Resiliencehubv2ClientTypes.TestRunSummary] {
+        return try await self.asyncCompactMap { item in item.testRuns }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListTestRunSourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestRunSourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestRunSourcesOutput`
+    public func listTestRunSourcesPaginated(input: ListTestRunSourcesInput) -> ClientRuntime.PaginatorSequence<ListTestRunSourcesInput, ListTestRunSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestRunSourcesInput, ListTestRunSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestRunSources(input:))
+    }
+}
+
+extension ListTestRunSourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestRunSourcesInput {
+        return ListTestRunSourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testRunId: self.testRunId,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTestRunSourcesInput, OperationStackOutput == ListTestRunSourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTestRunSourcesPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.TestRunSourceSummary]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.TestRunSourceSummary]`
+    public func testRunSources() async throws -> [Resiliencehubv2ClientTypes.TestRunSourceSummary] {
+        return try await self.asyncCompactMap { item in item.testRunSources }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListTestsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestsOutput`
+    public func listTestsPaginated(input: ListTestsInput) -> ClientRuntime.PaginatorSequence<ListTestsInput, ListTestsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestsInput, ListTestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTests(input:))
+    }
+}
+
+extension ListTestsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestsInput {
+        return ListTestsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTestsInput, OperationStackOutput == ListTestsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTestsPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.TestSummary]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.TestSummary]`
+    public func tests() async throws -> [Resiliencehubv2ClientTypes.TestSummary] {
+        return try await self.asyncCompactMap { item in item.tests }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListTestSourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTestSourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTestSourcesOutput`
+    public func listTestSourcesPaginated(input: ListTestSourcesInput) -> ClientRuntime.PaginatorSequence<ListTestSourcesInput, ListTestSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTestSourcesInput, ListTestSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestSources(input:))
+    }
+}
+
+extension ListTestSourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTestSourcesInput {
+        return ListTestSourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testId: self.testId,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTestSourcesInput, OperationStackOutput == ListTestSourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTestSourcesPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.TestSourceSummary]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.TestSourceSummary]`
+    public func testSources() async throws -> [Resiliencehubv2ClientTypes.TestSourceSummary] {
+        return try await self.asyncCompactMap { item in item.testSources }
     }
 }
 extension Resiliencehubv2Client {

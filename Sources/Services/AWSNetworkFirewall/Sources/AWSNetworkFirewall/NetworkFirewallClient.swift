@@ -1037,7 +1037,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `CreateContainerAssociation` operation on the `NetworkFirewall` service.
     ///
-    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about container associations, use [ListContainerAssociations] and [DescribeContainerAssociation].
+    /// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateContainerAssociationInput`)
     ///
@@ -1878,7 +1878,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `DeleteContainerAssociation` operation on the `NetworkFirewall` service.
     ///
-    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    /// Deletes a container association. The resource transitions to a DELETING state. Deletion is asynchronous - Network Firewall returns immediately while cleanup proceeds in the background. You can't delete a container association while a rule group references it.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteContainerAssociationInput`)
     ///
@@ -2885,7 +2885,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `DescribeContainerAssociation` operation on the `NetworkFirewall` service.
     ///
-    /// Returns the properties of a container association.
+    /// Retrieves the configuration and status of a container association.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeContainerAssociationInput`)
     ///
@@ -4632,7 +4632,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `ListContainerAssociations` operation on the `NetworkFirewall` service.
     ///
-    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    /// Lists the container associations in your account and Region. Use the NextToken parameter in subsequent requests to retrieve additional results.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListContainerAssociationsInput`)
     ///
@@ -6295,7 +6295,7 @@ extension NetworkFirewallClient {
 
     /// Performs the `UpdateContainerAssociation` operation on the `NetworkFirewall` service.
     ///
-    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Provide an update token to enable optimistic concurrency control.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateContainerAssociationInput`)
     ///

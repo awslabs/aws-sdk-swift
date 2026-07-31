@@ -1230,7 +1230,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// High-level information about a container association, returned by the [ListContainerAssociations] operation. You can use this information to retrieve the full details of a container association using [DescribeContainerAssociation].
+    /// The metadata for a container association returned by ListContainerAssociations. Contains the ARN and name that you use to identify the container association in other operations.
     public struct ContainerAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the container association.
         public var arn: Swift.String?
@@ -1284,12 +1284,12 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// A key-value pair that defines a container attribute filter for a container monitoring configuration.
+    /// A key-value filter pair used in container association monitoring configurations to narrow which containers are tracked.
     public struct ContainerAttribute: Swift.Sendable {
-        /// The key of the container attribute to filter on.
+        /// The attribute key to filter on.
         /// This member is required.
         public var key: Swift.String?
-        /// The value of the container attribute to filter on.
+        /// The attribute value to match.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1305,11 +1305,11 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Defines a container cluster to monitor, along with optional attribute filters that narrow the scope of monitored containers within the cluster.
+    /// Contains the monitoring configuration for a single cluster in a container association. Specifies the cluster ARN and optional attribute filters to narrow which containers are tracked.
     public struct ContainerMonitoringConfiguration: Swift.Sendable {
-        /// A list of key-value pairs that filter which containers within the cluster are monitored. Only containers that match the specified attributes are included.
+        /// Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only).
         public var attributeFilters: [NetworkFirewallClientTypes.ContainerAttribute]?
-        /// The Amazon Resource Name (ARN) of the container cluster to monitor.
+        /// The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association.
         /// This member is required.
         public var clusterArn: Swift.String?
 
@@ -1379,14 +1379,18 @@ public struct CreateContainerAssociationInput: Swift.Sendable {
     /// The descriptive name of the container association. You can't change the name of a container association after you create it.
     /// This member is required.
     public var containerAssociationName: Swift.String?
-    /// The list of container monitoring configurations that define which clusters and container attributes to monitor.
+    /// The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters to narrow which containers are tracked.
     /// This member is required.
     public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
     /// A description of the container association.
     public var description: Swift.String?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The type of container orchestration platform for the clusters in this association. Valid values are ECS and EKS. You can't change the type after creation.
+    /// The type of containers to monitor. You can't change the container type after creation. Valid values:
+    ///
+    /// * ECS - Amazon Elastic Container Service
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     /// This member is required.
     public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
 
@@ -1410,17 +1414,21 @@ public struct CreateContainerAssociationOutput: Swift.Sendable {
     public var containerAssociationArn: Swift.String?
     /// The descriptive name of the container association.
     public var containerAssociationName: Swift.String?
-    /// The container monitoring configurations for this container association.
+    /// The monitoring configurations for the container association.
     public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
     /// A description of the container association.
     public var description: Swift.String?
-    /// The current status of the container association.
+    /// The current status of the container association. For a new container association, the status is CREATING.
     public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
-    /// The key:value pairs associated with the resource.
+    /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The type of container orchestration platform. Either ECS or EKS.
+    /// The container type. Valid values:
+    ///
+    /// * ECS - Amazon Elastic Container Service
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init(
@@ -1979,7 +1987,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Configuration settings for the handling of the stateful rule groups in a firewall policy.
+    /// Configuration settings for the handling of the stateful rule groups in a firewall policy. Updating any setting in StatefulEngineOptions may require a restart of the stateful engine in order to apply the changes. When this occurs, existing connections will be treated according to your stream exception policy configuration.
     public struct StatefulEngineOptions: Swift.Sendable {
         /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
         public var flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts?
@@ -2138,6 +2146,14 @@ extension NetworkFirewallClientTypes {
         /// * aws:alert_strict
         ///
         /// * aws:alert_established
+        ///
+        /// * aws:drop_established_app_layer
+        ///
+        /// * aws:alert_established_app_layer
+        ///
+        /// * aws:drop_established_app_layer_to_server
+        ///
+        /// * aws:alert_established_app_layer_to_server
         ///
         ///
         /// For more information, see [Strict evaluation order](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html#suricata-strict-rule-evaluation-order.html) in the Network Firewall Developer Guide.
@@ -3314,10 +3330,10 @@ extension NetworkFirewallClientTypes {
 
     /// Additional settings for a stateful rule. This is part of the [StatefulRule] configuration.
     public struct RuleOption: Swift.Sendable {
-        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options) in the Suricata documentation.
+        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html#rule-options) in the Suricata documentation.
         /// This member is required.
         public var keyword: Swift.String?
-        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options).
+        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html#rule-options).
         public var settings: [Swift.String]?
 
         public init(
@@ -3332,7 +3348,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
+    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html).
     public struct StatefulRule: Swift.Sendable {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow. The actions for a stateful rule are defined as follows:
         ///
@@ -3570,7 +3586,7 @@ extension NetworkFirewallClientTypes {
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting. You can't use the priority keyword if the RuleOrder option in [StatefulRuleOptions] is set to STRICT_ORDER.
         public var rulesString: Swift.String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.8/rules/intro.html).
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public var statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?
@@ -4275,7 +4291,7 @@ public struct DeleteContainerAssociationOutput: Swift.Sendable {
     public var containerAssociationArn: Swift.String?
     /// The descriptive name of the container association.
     public var containerAssociationName: Swift.String?
-    /// The current status of the container association.
+    /// The current status of the container association. After deletion is initiated, the status is DELETING.
     public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
 
     public init(
@@ -4668,21 +4684,25 @@ public struct DescribeContainerAssociationOutput: Swift.Sendable {
     public var containerAssociationArn: Swift.String?
     /// The descriptive name of the container association.
     public var containerAssociationName: Swift.String?
-    /// The container monitoring configurations for this container association.
+    /// The monitoring configurations for the container association.
     public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
     /// A description of the container association.
     public var description: Swift.String?
-    /// The last time that the container association was updated or resolved new container IP addresses.
+    /// The most recent time that Network Firewall updated the container association.
     public var lastUpdatedTime: Foundation.Date?
-    /// The number of CIDR blocks that have been resolved from the monitored containers for this container association.
+    /// The number of CIDR blocks resolved from the monitored containers.
     public var resolvedCidrCount: Swift.Int?
     /// The current status of the container association.
     public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
-    /// The key:value pairs associated with the resource.
+    /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The type of container orchestration platform. Either ECS or EKS.
+    /// The container type. Valid values:
+    ///
+    /// * ECS - Amazon Elastic Container Service
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init(
@@ -6024,7 +6044,7 @@ public struct ListContainerAssociationsInput: Swift.Sendable {
 }
 
 public struct ListContainerAssociationsOutput: Swift.Sendable {
-    /// The container association metadata objects.
+    /// The container association metadata objects for the account and Region.
     public var containerAssociations: [NetworkFirewallClientTypes.ContainerAssociationSummary]?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
     public var nextToken: Swift.String?
@@ -7054,17 +7074,21 @@ public struct UpdateContainerAssociationInput: Swift.Sendable {
     public var containerAssociationArn: Swift.String?
     /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
     public var containerAssociationName: Swift.String?
-    /// The updated list of container monitoring configurations that define which clusters and container attributes to monitor.
+    /// The updated monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters.
     /// This member is required.
     public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
-    /// A description of the container association.
+    /// A description of the container association. When omitted, the existing description remains unchanged. To clear the description, pass an empty string.
     public var description: Swift.String?
-    /// The key:value pairs associated with the resource.
+    /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The type of container orchestration platform. This must match the type specified when the container association was created.
+    /// The container type. This value must match the existing type and can't be changed. Valid values:
+    ///
+    /// * ECS - Amazon Elastic Container Service
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     /// This member is required.
     public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     /// This member is required.
     public var updateToken: Swift.String?
 
@@ -7092,17 +7116,21 @@ public struct UpdateContainerAssociationOutput: Swift.Sendable {
     public var containerAssociationArn: Swift.String?
     /// The descriptive name of the container association.
     public var containerAssociationName: Swift.String?
-    /// The container monitoring configurations for this container association.
+    /// The monitoring configurations for the container association.
     public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
     /// A description of the container association.
     public var description: Swift.String?
     /// The current status of the container association.
     public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
-    /// The key:value pairs associated with the resource.
+    /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The type of container orchestration platform. Either ECS or EKS.
+    /// The container type. Valid values:
+    ///
+    /// * ECS - Amazon Elastic Container Service
+    ///
+    /// * EKS - Amazon Elastic Kubernetes Service
     public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
-    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init(

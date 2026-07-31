@@ -2084,15 +2084,18 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var columnName: Swift.String?
         /// The data set that the column belongs to.
-        /// This member is required.
         public var dataSetIdentifier: Swift.String?
+        /// The topic that the column belongs to.
+        public var topicIdentifier: Swift.String?
 
         public init(
             columnName: Swift.String? = nil,
-            dataSetIdentifier: Swift.String? = nil
+            dataSetIdentifier: Swift.String? = "",
+            topicIdentifier: Swift.String? = nil
         ) {
             self.columnName = columnName
             self.dataSetIdentifier = dataSetIdentifier
+            self.topicIdentifier = topicIdentifier
         }
     }
 }
@@ -3019,6 +3022,8 @@ extension QuickSightClientTypes {
         public var status: QuickSightClientTypes.ResourceStatus?
         /// The ARN of the theme of the analysis.
         public var themeArn: Swift.String?
+        /// The ARNs of the topics associated with the analysis.
+        public var topicArns: [Swift.String]?
 
         public init(
             analysisId: Swift.String? = nil,
@@ -3030,7 +3035,8 @@ extension QuickSightClientTypes {
             name: Swift.String? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
-            themeArn: Swift.String? = nil
+            themeArn: Swift.String? = nil,
+            topicArns: [Swift.String]? = nil
         ) {
             self.analysisId = analysisId
             self.arn = arn
@@ -3042,6 +3048,7 @@ extension QuickSightClientTypes {
             self.sheets = sheets
             self.status = status
             self.themeArn = themeArn
+            self.topicArns = topicArns
         }
     }
 }
@@ -3454,7 +3461,6 @@ extension QuickSightClientTypes {
     /// The calculated field of an analysis.
     public struct CalculatedField: Swift.Sendable {
         /// The data set that is used in this calculated field.
-        /// This member is required.
         public var dataSetIdentifier: Swift.String?
         /// The expression of the calculated field.
         /// This member is required.
@@ -3462,22 +3468,26 @@ extension QuickSightClientTypes {
         /// The name of the calculated field.
         /// This member is required.
         public var name: Swift.String?
+        /// The topic that is used in this calculated field.
+        public var topicIdentifier: Swift.String?
 
         public init(
-            dataSetIdentifier: Swift.String? = nil,
+            dataSetIdentifier: Swift.String? = "",
             expression: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            topicIdentifier: Swift.String? = nil
         ) {
             self.dataSetIdentifier = dataSetIdentifier
             self.expression = expression
             self.name = name
+            self.topicIdentifier = topicIdentifier
         }
     }
 }
 
 extension QuickSightClientTypes.CalculatedField: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculatedField(dataSetIdentifier: \(Swift.String(describing: dataSetIdentifier)), name: \(Swift.String(describing: name)), expression: \"CONTENT_REDACTED\")"}
+        "CalculatedField(dataSetIdentifier: \(Swift.String(describing: dataSetIdentifier)), name: \(Swift.String(describing: name)), topicIdentifier: \(Swift.String(describing: topicIdentifier)), expression: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -6448,6 +6458,64 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The configuration for a customizable message displayed on a visual. Supports parameter substitution in text fields.
+    public struct VisualMessageConfiguration: Swift.Sendable {
+        /// The description text of the message that is displayed on the visual.
+        public var description: Swift.String?
+        /// Specifies whether the description of the message is displayed.
+        public var descriptionVisibility: QuickSightClientTypes.Visibility?
+        /// Specifies whether the custom message is displayed on the visual. When set to true, the custom message appears in place of the default message. When set to false or omitted, the default message is displayed.
+        public var enabled: Swift.Bool
+        /// The display text of the hyperlink that is shown in the message.
+        public var linkText: Swift.String?
+        /// The destination URL of the hyperlink that is shown in the message. Only valid http, https, and mailto URLs are supported.
+        public var linkUrl: Swift.String?
+        /// Specifies whether the hyperlink in the message is displayed.
+        public var linkVisibility: QuickSightClientTypes.Visibility?
+        /// The title text of the message that is displayed on the visual.
+        public var title: Swift.String?
+        /// Specifies whether the title of the message is displayed.
+        public var titleVisibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            description: Swift.String? = nil,
+            descriptionVisibility: QuickSightClientTypes.Visibility? = nil,
+            enabled: Swift.Bool = false,
+            linkText: Swift.String? = nil,
+            linkUrl: Swift.String? = nil,
+            linkVisibility: QuickSightClientTypes.Visibility? = nil,
+            title: Swift.String? = nil,
+            titleVisibility: QuickSightClientTypes.Visibility? = nil
+        ) {
+            self.description = description
+            self.descriptionVisibility = descriptionVisibility
+            self.enabled = enabled
+            self.linkText = linkText
+            self.linkUrl = linkUrl
+            self.linkVisibility = linkVisibility
+            self.title = title
+            self.titleVisibility = titleVisibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The messages that are displayed on a visual under specific conditions, such as when the visual returns no data.
+    public struct VisualMessages: Swift.Sendable {
+        /// The message that is displayed on a visual when there is no data to display.
+        public var noDataMessage: QuickSightClientTypes.VisualMessageConfiguration?
+
+        public init(
+            noDataMessage: QuickSightClientTypes.VisualMessageConfiguration? = nil
+        ) {
+            self.noDataMessage = noDataMessage
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum DayOfTheWeek: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case friday
         case monday
@@ -6502,6 +6570,8 @@ extension QuickSightClientTypes {
         public var qBusinessInsightsStatus: QuickSightClientTypes.QBusinessInsightsStatus?
         /// Determines the timezone for the analysis.
         public var timezone: Swift.String?
+        /// The configuration options for the messages that are displayed on visuals in the analysis.
+        public var visualMessages: QuickSightClientTypes.VisualMessages?
         /// Determines the week start day for an analysis.
         public var weekStart: QuickSightClientTypes.DayOfTheWeek?
 
@@ -6510,12 +6580,14 @@ extension QuickSightClientTypes {
             excludedDataSetArns: [Swift.String]? = nil,
             qBusinessInsightsStatus: QuickSightClientTypes.QBusinessInsightsStatus? = nil,
             timezone: Swift.String? = nil,
+            visualMessages: QuickSightClientTypes.VisualMessages? = nil,
             weekStart: QuickSightClientTypes.DayOfTheWeek? = nil
         ) {
             self.customActionDefaults = customActionDefaults
             self.excludedDataSetArns = excludedDataSetArns
             self.qBusinessInsightsStatus = qBusinessInsightsStatus
             self.timezone = timezone
+            self.visualMessages = visualMessages
             self.weekStart = weekStart
         }
     }
@@ -12620,13 +12692,14 @@ extension QuickSightClientTypes {
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The configuration of a CustomContentVisual.
         public var chartConfiguration: QuickSightClientTypes.CustomContentConfiguration?
-        /// The dataset that is used to create the custom content visual. You can't create a visual without a dataset.
-        /// This member is required.
+        /// The dataset that is used to create the custom content visual. You can't create a visual without a dataset or a topic.
         public var dataSetIdentifier: Swift.String?
         /// The subtitle that is displayed on the visual.
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The topic that is used in the custom content visual. You can't create a visual without a dataset or a topic.
+        public var topicIdentifier: Swift.String?
         /// The alt text for the visual.
         public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
@@ -12636,9 +12709,10 @@ extension QuickSightClientTypes {
         public init(
             actions: [QuickSightClientTypes.VisualCustomAction]? = nil,
             chartConfiguration: QuickSightClientTypes.CustomContentConfiguration? = nil,
-            dataSetIdentifier: Swift.String? = nil,
+            dataSetIdentifier: Swift.String? = "",
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            topicIdentifier: Swift.String? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         ) {
@@ -12647,6 +12721,7 @@ extension QuickSightClientTypes {
             self.dataSetIdentifier = dataSetIdentifier
             self.subtitle = subtitle
             self.title = title
+            self.topicIdentifier = topicIdentifier
             self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
@@ -12659,20 +12734,23 @@ extension QuickSightClientTypes {
     public struct EmptyVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
-        /// The data set that is used in the empty visual. Every visual requires a dataset to render.
-        /// This member is required.
+        /// The data set that is used in the empty visual. Every visual requires a dataset or a topic to render.
         public var dataSetIdentifier: Swift.String?
+        /// The topic that is used in the empty visual. Every visual requires a dataset or a topic to render.
+        public var topicIdentifier: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
 
         public init(
             actions: [QuickSightClientTypes.VisualCustomAction]? = nil,
-            dataSetIdentifier: Swift.String? = nil,
+            dataSetIdentifier: Swift.String? = "",
+            topicIdentifier: Swift.String? = nil,
             visualId: Swift.String? = nil
         ) {
             self.actions = actions
             self.dataSetIdentifier = dataSetIdentifier
+            self.topicIdentifier = topicIdentifier
             self.visualId = visualId
         }
     }
@@ -15409,7 +15487,6 @@ extension QuickSightClientTypes {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
         /// The dataset that is used in the insight visual.
-        /// This member is required.
         public var dataSetIdentifier: Swift.String?
         /// The configuration of an insight visual.
         public var insightConfiguration: QuickSightClientTypes.InsightConfiguration?
@@ -15417,6 +15494,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The topic that is used in the insight visual.
+        public var topicIdentifier: Swift.String?
         /// The alt text for the visual.
         public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
@@ -15425,10 +15504,11 @@ extension QuickSightClientTypes {
 
         public init(
             actions: [QuickSightClientTypes.VisualCustomAction]? = nil,
-            dataSetIdentifier: Swift.String? = nil,
+            dataSetIdentifier: Swift.String? = "",
             insightConfiguration: QuickSightClientTypes.InsightConfiguration? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            topicIdentifier: Swift.String? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         ) {
@@ -15437,6 +15517,7 @@ extension QuickSightClientTypes {
             self.insightConfiguration = insightConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.topicIdentifier = topicIdentifier
             self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
@@ -16680,13 +16761,14 @@ extension QuickSightClientTypes {
     public struct LayerMapVisual: Swift.Sendable {
         /// The configuration settings of the visual.
         public var chartConfiguration: QuickSightClientTypes.GeospatialLayerMapConfiguration?
-        /// The dataset that is used to create the layer map visual. You can't create a visual without a dataset.
-        /// This member is required.
+        /// The dataset that is used to create the layer map visual. You can't create a visual without a dataset or a topic.
         public var dataSetIdentifier: Swift.String?
         /// The subtitle label options for a visual.
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title label options for a visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The topic that is used in the layer map visual. You can't create a visual without a dataset or a topic.
+        public var topicIdentifier: Swift.String?
         /// The alt text for the visual.
         public var visualContentAltText: Swift.String?
         /// The ID of the visual.
@@ -16695,9 +16777,10 @@ extension QuickSightClientTypes {
 
         public init(
             chartConfiguration: QuickSightClientTypes.GeospatialLayerMapConfiguration? = nil,
-            dataSetIdentifier: Swift.String? = nil,
+            dataSetIdentifier: Swift.String? = "",
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            topicIdentifier: Swift.String? = nil,
             visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         ) {
@@ -16705,6 +16788,7 @@ extension QuickSightClientTypes {
             self.dataSetIdentifier = dataSetIdentifier
             self.subtitle = subtitle
             self.title = title
+            self.topicIdentifier = topicIdentifier
             self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
@@ -21420,6 +21504,27 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A topic.
+    public struct TopicIdentifierDeclaration: Swift.Sendable {
+        /// The identifier of the topic, typically the topic's name.
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// The Amazon Resource Name (ARN) of the topic.
+        /// This member is required.
+        public var topicArn: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil,
+            topicArn: Swift.String? = nil
+        ) {
+            self.identifier = identifier
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The definition of an analysis.
     public struct AnalysisDefinition: Swift.Sendable {
         /// The configuration for default analysis settings.
@@ -21445,6 +21550,8 @@ extension QuickSightClientTypes {
         public var staticFiles: [QuickSightClientTypes.StaticFile]?
         /// An array of tooltip sheet definitions for an analysis. Each TooltipSheetDefinition provides detailed information about a tooltip sheet within this analysis.
         public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
+        /// An array of topic identifier declarations. This mapping allows the usage of topic identifiers instead of topic ARNs throughout analysis sub-structures.
+        public var topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -21457,7 +21564,8 @@ extension QuickSightClientTypes {
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
             staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
-            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
+            topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]? = nil
         ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -21470,6 +21578,7 @@ extension QuickSightClientTypes {
             self.sheets = sheets
             self.staticFiles = staticFiles
             self.tooltipSheets = tooltipSheets
+            self.topicIdentifierDeclarations = topicIdentifierDeclarations
         }
     }
 }
@@ -21576,6 +21685,27 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Topic reference.
+    public struct TopicReference: Swift.Sendable {
+        /// Topic Amazon Resource Name (ARN).
+        /// This member is required.
+        public var topicArn: Swift.String?
+        /// Topic placeholder.
+        /// This member is required.
+        public var topicPlaceholder: Swift.String?
+
+        public init(
+            topicArn: Swift.String? = nil,
+            topicPlaceholder: Swift.String? = nil
+        ) {
+            self.topicArn = topicArn
+            self.topicPlaceholder = topicPlaceholder
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The source template of an analysis.
     public struct AnalysisSourceTemplate: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the source template of an analysis.
@@ -21584,13 +21714,17 @@ extension QuickSightClientTypes {
         /// The dataset references of the source template of an analysis.
         /// This member is required.
         public var dataSetReferences: [QuickSightClientTypes.DataSetReference]?
+        /// The topic references of the source template of an analysis.
+        public var topicReferences: [QuickSightClientTypes.TopicReference]?
 
         public init(
             arn: Swift.String? = nil,
-            dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil
+            dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil,
+            topicReferences: [QuickSightClientTypes.TopicReference]? = nil
         ) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
+            self.topicReferences = topicReferences
         }
     }
 }
@@ -26261,6 +26395,7 @@ extension QuickSightClientTypes {
 
     public enum FilterClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case conditionalValueFilter
+        case dashboardDefaultFilter
         case enforcedValueFilter
         case namedValueFilter
         case sdkUnknown(Swift.String)
@@ -26268,6 +26403,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FilterClass] {
             return [
                 .conditionalValueFilter,
+                .dashboardDefaultFilter,
                 .enforcedValueFilter,
                 .namedValueFilter
             ]
@@ -26281,6 +26417,7 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .conditionalValueFilter: return "CONDITIONAL_VALUE_FILTER"
+            case .dashboardDefaultFilter: return "DASHBOARD_DEFAULT_FILTER"
             case .enforcedValueFilter: return "ENFORCED_VALUE_FILTER"
             case .namedValueFilter: return "NAMED_VALUE_FILTER"
             case let .sdkUnknown(s): return s
@@ -27949,8 +28086,20 @@ extension QuickSightClientTypes {
         public var automate: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using BambooHR connectors.
         public var bambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var bedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Box Agent connectors.
         public var boxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var boxKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to Build Calculation with AI
         public var buildCalculatedFieldWithQ: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Canva Agent connectors.
@@ -27963,6 +28112,12 @@ extension QuickSightClientTypes {
         public var comprehendMedicalAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Atlassian Confluence Cloud connectors.
         public var confluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var confluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Bedrock Agent actions.
         public var createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Bedrock Runtime actions.
@@ -27977,8 +28132,20 @@ extension QuickSightClientTypes {
         public var createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update BambooHR actions.
         public var createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Box Agent actions.
         public var createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateBoxKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Canva Agent actions.
         public var createAndUpdateCanvaAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Comprehend actions.
@@ -27987,6 +28154,12 @@ extension QuickSightClientTypes {
         public var createAndUpdateComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Atlassian Confluence Cloud actions.
         public var createAndUpdateConfluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update email reports.
         public var createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update data sources.
@@ -28001,14 +28174,32 @@ extension QuickSightClientTypes {
         public var createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Google Calendar actions.
         public var createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Hubspot actions.
         public var createAndUpdateHubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update HuggingFace actions.
         public var createAndUpdateHuggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateIDCKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Intercom actions.
         public var createAndUpdateIntercomAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Jira actions.
         public var createAndUpdateJiraAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateKnowledgeBases: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Linear actions.
         public var createAndUpdateLinearAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Model Context Protocol actions.
@@ -28025,10 +28216,28 @@ extension QuickSightClientTypes {
         public var createAndUpdateNotionAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Microsoft OneDrive actions.
         public var createAndUpdateOneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update OpenAPI Specification actions.
         public var createAndUpdateOpenAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update PagerDuty Advance actions.
         public var createAndUpdatePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateS3KnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update SAP Bill of Materials actions.
         public var createAndUpdateSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update SAP Business Partner actions.
@@ -28049,6 +28258,12 @@ extension QuickSightClientTypes {
         public var createAndUpdateServiceNowAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Microsoft SharePoint Online actions.
         public var createAndUpdateSharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Slack actions.
         public var createAndUpdateSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Smartsheet actions.
@@ -28059,6 +28274,12 @@ extension QuickSightClientTypes {
         public var createAndUpdateThemes: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update threshold alerts.
         public var createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var createAndUpdateWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Zendesk actions.
         public var createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create chat agents.
@@ -28101,10 +28322,22 @@ extension QuickSightClientTypes {
         public var githubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Calendar connectors.
         public var googleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var googleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Hubspot connectors.
         public var hubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using HuggingFace connectors.
         public var huggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var idcKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.
         public var inboundEmailTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to include content in scheduled email reports.
@@ -28135,6 +28368,12 @@ extension QuickSightClientTypes {
         public var notionAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft OneDrive connectors.
         public var oneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var oneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using OpenAPI Specification connectors.
         public var openAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using PagerDuty Advance connectors.
@@ -28145,12 +28384,24 @@ extension QuickSightClientTypes {
         public var printReports: QuickSightClientTypes.CapabilityState?
         /// The ability to enable approvals for flow share.
         public var publishWithoutApproval: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var qBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.
         public var quickEventTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to rename shared folders.
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to perform research-related actions.
         public var research: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var s3KnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Salesforce connectors.
         public var salesforceAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using S&P Global Market Intelligence connectors.
@@ -28191,8 +28442,20 @@ extension QuickSightClientTypes {
         public var shareAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share BambooHR actions.
         public var shareBambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share Box Agent actions.
         public var shareBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareBoxKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share Canva Agent actions.
         public var shareCanvaAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share chat agents with other users and groups.
@@ -28203,6 +28466,12 @@ extension QuickSightClientTypes {
         public var shareComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Atlassian Confluence Cloud actions.
         public var shareConfluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share dashboards.
         public var shareDashboards: QuickSightClientTypes.CapabilityState?
         /// The ability to share data sources.
@@ -28217,14 +28486,32 @@ extension QuickSightClientTypes {
         public var shareGithubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Calendar actions.
         public var shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share Hubspot actions.
         public var shareHubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share HuggingFace actions.
         public var shareHuggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareIDCKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share Intercom actions.
         public var shareIntercomAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Jira actions.
         public var shareJiraAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareKnowledgeBases: QuickSightClientTypes.CapabilityState?
         /// The ability to share Linear actions.
         public var shareLinearAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Model Context Protocol actions.
@@ -28241,12 +28528,36 @@ extension QuickSightClientTypes {
         public var shareNotionAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Microsoft OneDrive actions.
         public var shareOneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share OpenAPI Specification actions.
         public var shareOpenAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share PagerDuty Advance actions.
         public var sharePagerDutyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft SharePoint Online connectors.
         public var sharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var sharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareS3KnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share SAP Bill of Materials actions.
         public var shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share SAP Business Partner actions.
@@ -28267,6 +28578,12 @@ extension QuickSightClientTypes {
         public var shareServiceNowAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Microsoft SharePoint Online actions.
         public var shareSharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share Slack actions.
         public var shareSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Smartsheet actions.
@@ -28275,6 +28592,12 @@ extension QuickSightClientTypes {
         public var shareSpaces: QuickSightClientTypes.CapabilityState?
         /// The ability to share Textract actions.
         public var shareTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var shareWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share Zendesk actions.
         public var shareZendeskAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Slack connectors.
@@ -28307,10 +28630,22 @@ extension QuickSightClientTypes {
         public var useAsanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use BambooHR actions.
         public var useBambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Bedrock models for general knowledge step in flows.
         public var useBedrockModels: QuickSightClientTypes.CapabilityState?
         /// The ability to use Box Agent actions.
         public var useBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useBoxKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the browser extension for Chrome, Firefox, and Edge.
         public var useBrowserExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use Canva Agent actions.
@@ -28321,6 +28656,12 @@ extension QuickSightClientTypes {
         public var useComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Atlassian Confluence Cloud actions.
         public var useConfluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft Excel add-in.
         public var useExcelAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use FactSet actions.
@@ -28331,10 +28672,22 @@ extension QuickSightClientTypes {
         public var useGithubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Google Calendar actions.
         public var useGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Hubspot actions.
         public var useHubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use HuggingFace actions.
         public var useHuggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useIDCKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Intercom actions.
         public var useIntercomAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Jira actions.
@@ -28355,6 +28708,12 @@ extension QuickSightClientTypes {
         public var useNotionAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Microsoft OneDrive actions.
         public var useOneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use OpenAPI Specification actions.
         public var useOpenAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft Outlook add-in.
@@ -28363,6 +28722,18 @@ extension QuickSightClientTypes {
         public var usePagerDutyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft PowerPoint add-in.
         public var usePowerpointAddInExtension: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useS3KnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use SAP Bill of Materials actions.
         public var useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use SAP Business Partner actions.
@@ -28383,18 +28754,36 @@ extension QuickSightClientTypes {
         public var useServiceNowAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Microsoft SharePoint Online actions.
         public var useSharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Slack actions.
         public var useSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Smartsheet actions.
         public var useSmartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Textract actions.
         public var useTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var useWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft Word add-in.
         public var useWordAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use Zendesk actions.
         public var useZendeskAction: QuickSightClientTypes.CapabilityState?
         /// The ability to view account SPICE capacity.
         public var viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState?
+        /// The permission state of a capability in a custom permissions profile. Valid values:
+        ///
+        /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
+        ///
+        /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
+        public var webCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Zendesk connectors.
         public var zendeskAction: QuickSightClientTypes.CapabilityState?
 
@@ -28412,13 +28801,16 @@ extension QuickSightClientTypes {
             asanaAction: QuickSightClientTypes.CapabilityState? = nil,
             automate: QuickSightClientTypes.CapabilityState? = nil,
             bambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            bedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             boxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            boxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             buildCalculatedFieldWithQ: QuickSightClientTypes.CapabilityState? = nil,
             canvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             chatAgent: QuickSightClientTypes.CapabilityState? = nil,
             comprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             comprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             confluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            confluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28426,11 +28818,14 @@ extension QuickSightClientTypes {
             createAndUpdateApps: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateBoxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDataSources: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDatasets: QuickSightClientTypes.CapabilityState? = nil,
@@ -28438,10 +28833,13 @@ extension QuickSightClientTypes {
             createAndUpdateGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateJiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateKnowledgeBases: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateLinearAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateMCPAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28450,8 +28848,11 @@ extension QuickSightClientTypes {
             createAndUpdateNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdatePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28462,11 +28863,13 @@ extension QuickSightClientTypes {
             createAndUpdateSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateTextractAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThemes: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             createChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             createDashboardExecutiveSummaryWithQ: QuickSightClientTypes.CapabilityState? = nil,
@@ -28488,8 +28891,10 @@ extension QuickSightClientTypes {
             genericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             githubAction: QuickSightClientTypes.CapabilityState? = nil,
             googleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             hubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            idcKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             inboundEmailTrigger: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
             intercomAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28505,14 +28910,17 @@ extension QuickSightClientTypes {
             newRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             notionAction: QuickSightClientTypes.CapabilityState? = nil,
             oneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            oneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             openAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             pagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
             performFlowUiTask: QuickSightClientTypes.CapabilityState? = nil,
             printReports: QuickSightClientTypes.CapabilityState? = nil,
             publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
+            qBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             quickEventTrigger: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             research: QuickSightClientTypes.CapabilityState? = nil,
+            s3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             salesforceAction: QuickSightClientTypes.CapabilityState? = nil,
             sandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
             sandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28533,12 +28941,15 @@ extension QuickSightClientTypes {
             shareApps: QuickSightClientTypes.CapabilityState? = nil,
             shareAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareBoxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             shareChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             shareComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             shareComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             shareConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
             shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
             shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
@@ -28546,10 +28957,13 @@ extension QuickSightClientTypes {
             shareGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGithubAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             shareHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
             shareJiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareKnowledgeBases: QuickSightClientTypes.CapabilityState? = nil,
             shareLinearAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMCPAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28558,9 +28972,13 @@ extension QuickSightClientTypes {
             shareNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             shareNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            sharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28571,10 +28989,12 @@ extension QuickSightClientTypes {
             shareSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
             shareServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSpaces: QuickSightClientTypes.CapabilityState? = nil,
             shareTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             slackAction: QuickSightClientTypes.CapabilityState? = nil,
             smartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28591,20 +29011,25 @@ extension QuickSightClientTypes {
             useAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             useAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             useBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            useBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useBedrockModels: QuickSightClientTypes.CapabilityState? = nil,
             useBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            useBoxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useBrowserExtension: QuickSightClientTypes.CapabilityState? = nil,
             useCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             useComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             useComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             useConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            useConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useExcelAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
             useGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             useGithubAction: QuickSightClientTypes.CapabilityState? = nil,
             useGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             useHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            useIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
             useJiraAction: QuickSightClientTypes.CapabilityState? = nil,
             useLinearAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28615,10 +29040,13 @@ extension QuickSightClientTypes {
             useNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             useNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             useOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            useOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             useOutlookAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             usePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
             usePowerpointAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
+            useQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             useSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
             useSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -28629,12 +29057,15 @@ extension QuickSightClientTypes {
             useSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
             useServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             useSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             useSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             useTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            useWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useWordAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil,
+            webCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             zendeskAction: QuickSightClientTypes.CapabilityState? = nil
         ) {
             self.accessAppsNativeDataStore = accessAppsNativeDataStore
@@ -28650,13 +29081,16 @@ extension QuickSightClientTypes {
             self.asanaAction = asanaAction
             self.automate = automate
             self.bambooHRAction = bambooHRAction
+            self.bedrockManagedKnowledgeBase = bedrockManagedKnowledgeBase
             self.boxAgentAction = boxAgentAction
+            self.boxKnowledgeBase = boxKnowledgeBase
             self.buildCalculatedFieldWithQ = buildCalculatedFieldWithQ
             self.canvaAgentAction = canvaAgentAction
             self.chatAgent = chatAgent
             self.comprehendAction = comprehendAction
             self.comprehendMedicalAction = comprehendMedicalAction
             self.confluenceAction = confluenceAction
+            self.confluenceKnowledgeBase = confluenceKnowledgeBase
             self.createAndUpdateAmazonBedrockARSAction = createAndUpdateAmazonBedrockARSAction
             self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
             self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
@@ -28664,11 +29098,14 @@ extension QuickSightClientTypes {
             self.createAndUpdateApps = createAndUpdateApps
             self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
             self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
+            self.createAndUpdateBedrockManagedKnowledgeBase = createAndUpdateBedrockManagedKnowledgeBase
             self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
+            self.createAndUpdateBoxKnowledgeBase = createAndUpdateBoxKnowledgeBase
             self.createAndUpdateCanvaAgentAction = createAndUpdateCanvaAgentAction
             self.createAndUpdateComprehendAction = createAndUpdateComprehendAction
             self.createAndUpdateComprehendMedicalAction = createAndUpdateComprehendMedicalAction
             self.createAndUpdateConfluenceAction = createAndUpdateConfluenceAction
+            self.createAndUpdateConfluenceKnowledgeBase = createAndUpdateConfluenceKnowledgeBase
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDataSources = createAndUpdateDataSources
             self.createAndUpdateDatasets = createAndUpdateDatasets
@@ -28676,10 +29113,13 @@ extension QuickSightClientTypes {
             self.createAndUpdateGenericHTTPAction = createAndUpdateGenericHTTPAction
             self.createAndUpdateGithubAction = createAndUpdateGithubAction
             self.createAndUpdateGoogleCalendarAction = createAndUpdateGoogleCalendarAction
+            self.createAndUpdateGoogleDriveKnowledgeBase = createAndUpdateGoogleDriveKnowledgeBase
             self.createAndUpdateHubspotAction = createAndUpdateHubspotAction
             self.createAndUpdateHuggingFaceAction = createAndUpdateHuggingFaceAction
+            self.createAndUpdateIDCKnowledgeBase = createAndUpdateIDCKnowledgeBase
             self.createAndUpdateIntercomAction = createAndUpdateIntercomAction
             self.createAndUpdateJiraAction = createAndUpdateJiraAction
+            self.createAndUpdateKnowledgeBases = createAndUpdateKnowledgeBases
             self.createAndUpdateLinearAction = createAndUpdateLinearAction
             self.createAndUpdateMCPAction = createAndUpdateMCPAction
             self.createAndUpdateMSExchangeAction = createAndUpdateMSExchangeAction
@@ -28688,8 +29128,11 @@ extension QuickSightClientTypes {
             self.createAndUpdateNewRelicAction = createAndUpdateNewRelicAction
             self.createAndUpdateNotionAction = createAndUpdateNotionAction
             self.createAndUpdateOneDriveAction = createAndUpdateOneDriveAction
+            self.createAndUpdateOneDriveKnowledgeBase = createAndUpdateOneDriveKnowledgeBase
             self.createAndUpdateOpenAPIAction = createAndUpdateOpenAPIAction
             self.createAndUpdatePagerDutyAction = createAndUpdatePagerDutyAction
+            self.createAndUpdateQBusinessKnowledgeBase = createAndUpdateQBusinessKnowledgeBase
+            self.createAndUpdateS3KnowledgeBase = createAndUpdateS3KnowledgeBase
             self.createAndUpdateSAPBillOfMaterialAction = createAndUpdateSAPBillOfMaterialAction
             self.createAndUpdateSAPBusinessPartnerAction = createAndUpdateSAPBusinessPartnerAction
             self.createAndUpdateSAPMaterialStockAction = createAndUpdateSAPMaterialStockAction
@@ -28700,11 +29143,13 @@ extension QuickSightClientTypes {
             self.createAndUpdateSandPGlobalEnergyAction = createAndUpdateSandPGlobalEnergyAction
             self.createAndUpdateServiceNowAction = createAndUpdateServiceNowAction
             self.createAndUpdateSharePointAction = createAndUpdateSharePointAction
+            self.createAndUpdateSharePointKnowledgeBase = createAndUpdateSharePointKnowledgeBase
             self.createAndUpdateSlackAction = createAndUpdateSlackAction
             self.createAndUpdateSmartsheetAction = createAndUpdateSmartsheetAction
             self.createAndUpdateTextractAction = createAndUpdateTextractAction
             self.createAndUpdateThemes = createAndUpdateThemes
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createAndUpdateWebCrawlerKnowledgeBase = createAndUpdateWebCrawlerKnowledgeBase
             self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
             self.createChatAgents = createChatAgents
             self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
@@ -28726,8 +29171,10 @@ extension QuickSightClientTypes {
             self.genericHTTPAction = genericHTTPAction
             self.githubAction = githubAction
             self.googleCalendarAction = googleCalendarAction
+            self.googleDriveKnowledgeBase = googleDriveKnowledgeBase
             self.hubspotAction = hubspotAction
             self.huggingFaceAction = huggingFaceAction
+            self.idcKnowledgeBase = idcKnowledgeBase
             self.inboundEmailTrigger = inboundEmailTrigger
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
@@ -28743,14 +29190,17 @@ extension QuickSightClientTypes {
             self.newRelicAction = newRelicAction
             self.notionAction = notionAction
             self.oneDriveAction = oneDriveAction
+            self.oneDriveKnowledgeBase = oneDriveKnowledgeBase
             self.openAPIAction = openAPIAction
             self.pagerDutyAction = pagerDutyAction
             self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
+            self.qBusinessKnowledgeBase = qBusinessKnowledgeBase
             self.quickEventTrigger = quickEventTrigger
             self.renameSharedFolders = renameSharedFolders
             self.research = research
+            self.s3KnowledgeBase = s3KnowledgeBase
             self.salesforceAction = salesforceAction
             self.sandPGMIAction = sandPGMIAction
             self.sandPGlobalEnergyAction = sandPGlobalEnergyAction
@@ -28771,12 +29221,15 @@ extension QuickSightClientTypes {
             self.shareApps = shareApps
             self.shareAsanaAction = shareAsanaAction
             self.shareBambooHRAction = shareBambooHRAction
+            self.shareBedrockManagedKnowledgeBase = shareBedrockManagedKnowledgeBase
             self.shareBoxAgentAction = shareBoxAgentAction
+            self.shareBoxKnowledgeBase = shareBoxKnowledgeBase
             self.shareCanvaAgentAction = shareCanvaAgentAction
             self.shareChatAgents = shareChatAgents
             self.shareComprehendAction = shareComprehendAction
             self.shareComprehendMedicalAction = shareComprehendMedicalAction
             self.shareConfluenceAction = shareConfluenceAction
+            self.shareConfluenceKnowledgeBase = shareConfluenceKnowledgeBase
             self.shareDashboards = shareDashboards
             self.shareDataSources = shareDataSources
             self.shareDatasets = shareDatasets
@@ -28784,10 +29237,13 @@ extension QuickSightClientTypes {
             self.shareGenericHTTPAction = shareGenericHTTPAction
             self.shareGithubAction = shareGithubAction
             self.shareGoogleCalendarAction = shareGoogleCalendarAction
+            self.shareGoogleDriveKnowledgeBase = shareGoogleDriveKnowledgeBase
             self.shareHubspotAction = shareHubspotAction
             self.shareHuggingFaceAction = shareHuggingFaceAction
+            self.shareIDCKnowledgeBase = shareIDCKnowledgeBase
             self.shareIntercomAction = shareIntercomAction
             self.shareJiraAction = shareJiraAction
+            self.shareKnowledgeBases = shareKnowledgeBases
             self.shareLinearAction = shareLinearAction
             self.shareMCPAction = shareMCPAction
             self.shareMSExchangeAction = shareMSExchangeAction
@@ -28796,9 +29252,13 @@ extension QuickSightClientTypes {
             self.shareNewRelicAction = shareNewRelicAction
             self.shareNotionAction = shareNotionAction
             self.shareOneDriveAction = shareOneDriveAction
+            self.shareOneDriveKnowledgeBase = shareOneDriveKnowledgeBase
             self.shareOpenAPIAction = shareOpenAPIAction
             self.sharePagerDutyAction = sharePagerDutyAction
             self.sharePointAction = sharePointAction
+            self.sharePointKnowledgeBase = sharePointKnowledgeBase
+            self.shareQBusinessKnowledgeBase = shareQBusinessKnowledgeBase
+            self.shareS3KnowledgeBase = shareS3KnowledgeBase
             self.shareSAPBillOfMaterialAction = shareSAPBillOfMaterialAction
             self.shareSAPBusinessPartnerAction = shareSAPBusinessPartnerAction
             self.shareSAPMaterialStockAction = shareSAPMaterialStockAction
@@ -28809,10 +29269,12 @@ extension QuickSightClientTypes {
             self.shareSandPGlobalEnergyAction = shareSandPGlobalEnergyAction
             self.shareServiceNowAction = shareServiceNowAction
             self.shareSharePointAction = shareSharePointAction
+            self.shareSharePointKnowledgeBase = shareSharePointKnowledgeBase
             self.shareSlackAction = shareSlackAction
             self.shareSmartsheetAction = shareSmartsheetAction
             self.shareSpaces = shareSpaces
             self.shareTextractAction = shareTextractAction
+            self.shareWebCrawlerKnowledgeBase = shareWebCrawlerKnowledgeBase
             self.shareZendeskAction = shareZendeskAction
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
@@ -28829,20 +29291,25 @@ extension QuickSightClientTypes {
             self.useAmazonSThreeAction = useAmazonSThreeAction
             self.useAsanaAction = useAsanaAction
             self.useBambooHRAction = useBambooHRAction
+            self.useBedrockManagedKnowledgeBase = useBedrockManagedKnowledgeBase
             self.useBedrockModels = useBedrockModels
             self.useBoxAgentAction = useBoxAgentAction
+            self.useBoxKnowledgeBase = useBoxKnowledgeBase
             self.useBrowserExtension = useBrowserExtension
             self.useCanvaAgentAction = useCanvaAgentAction
             self.useComprehendAction = useComprehendAction
             self.useComprehendMedicalAction = useComprehendMedicalAction
             self.useConfluenceAction = useConfluenceAction
+            self.useConfluenceKnowledgeBase = useConfluenceKnowledgeBase
             self.useExcelAddInExtension = useExcelAddInExtension
             self.useFactSetAction = useFactSetAction
             self.useGenericHTTPAction = useGenericHTTPAction
             self.useGithubAction = useGithubAction
             self.useGoogleCalendarAction = useGoogleCalendarAction
+            self.useGoogleDriveKnowledgeBase = useGoogleDriveKnowledgeBase
             self.useHubspotAction = useHubspotAction
             self.useHuggingFaceAction = useHuggingFaceAction
+            self.useIDCKnowledgeBase = useIDCKnowledgeBase
             self.useIntercomAction = useIntercomAction
             self.useJiraAction = useJiraAction
             self.useLinearAction = useLinearAction
@@ -28853,10 +29320,13 @@ extension QuickSightClientTypes {
             self.useNewRelicAction = useNewRelicAction
             self.useNotionAction = useNotionAction
             self.useOneDriveAction = useOneDriveAction
+            self.useOneDriveKnowledgeBase = useOneDriveKnowledgeBase
             self.useOpenAPIAction = useOpenAPIAction
             self.useOutlookAddInExtension = useOutlookAddInExtension
             self.usePagerDutyAction = usePagerDutyAction
             self.usePowerpointAddInExtension = usePowerpointAddInExtension
+            self.useQBusinessKnowledgeBase = useQBusinessKnowledgeBase
+            self.useS3KnowledgeBase = useS3KnowledgeBase
             self.useSAPBillOfMaterialAction = useSAPBillOfMaterialAction
             self.useSAPBusinessPartnerAction = useSAPBusinessPartnerAction
             self.useSAPMaterialStockAction = useSAPMaterialStockAction
@@ -28867,12 +29337,15 @@ extension QuickSightClientTypes {
             self.useSandPGlobalEnergyAction = useSandPGlobalEnergyAction
             self.useServiceNowAction = useServiceNowAction
             self.useSharePointAction = useSharePointAction
+            self.useSharePointKnowledgeBase = useSharePointKnowledgeBase
             self.useSlackAction = useSlackAction
             self.useSmartsheetAction = useSmartsheetAction
             self.useTextractAction = useTextractAction
+            self.useWebCrawlerKnowledgeBase = useWebCrawlerKnowledgeBase
             self.useWordAddInExtension = useWordAddInExtension
             self.useZendeskAction = useZendeskAction
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
+            self.webCrawlerKnowledgeBase = webCrawlerKnowledgeBase
             self.zendeskAction = zendeskAction
         }
     }
@@ -29094,6 +29567,11 @@ extension QuickSightClientTypes {
             self.synonyms = synonyms
         }
     }
+}
+
+extension QuickSightClientTypes.CellValueSynonym: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CellValueSynonym(cellValue: \"CONTENT_REDACTED\", synonyms: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -30300,7 +30778,7 @@ public struct CreateAnalysisInput: Swift.Sendable {
     public var parameters: QuickSightClientTypes.Parameters?
     /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN). To specify no permissions, omit Permissions.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets or topics. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -30883,6 +31361,8 @@ extension QuickSightClientTypes {
         public var staticFiles: [QuickSightClientTypes.StaticFile]?
         /// An array of tooltip sheet definitions for a dashboard.
         public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
+        /// An array of topic identifier declarations. With this mapping, you can use topic identifiers instead of topic Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
+        public var topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -30894,7 +31374,8 @@ extension QuickSightClientTypes {
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
             staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
-            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
+            topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]? = nil
         ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -30906,6 +31387,7 @@ extension QuickSightClientTypes {
             self.sheets = sheets
             self.staticFiles = staticFiles
             self.tooltipSheets = tooltipSheets
+            self.topicIdentifierDeclarations = topicIdentifierDeclarations
         }
     }
 }
@@ -30935,13 +31417,17 @@ extension QuickSightClientTypes {
         /// Dataset references.
         /// This member is required.
         public var dataSetReferences: [QuickSightClientTypes.DataSetReference]?
+        /// The topic references for the source template of a dashboard.
+        public var topicReferences: [QuickSightClientTypes.TopicReference]?
 
         public init(
             arn: Swift.String? = nil,
-            dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil
+            dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil,
+            topicReferences: [QuickSightClientTypes.TopicReference]? = nil
         ) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
+            self.topicReferences = topicReferences
         }
     }
 }
@@ -30997,7 +31483,7 @@ public struct CreateDashboardInput: Swift.Sendable {
     public var parameters: QuickSightClientTypes.Parameters?
     /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN. To specify no permissions, omit the permissions list.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -35662,6 +36148,29 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The configuration of a topic.
+    public struct TopicConfiguration: Swift.Sendable {
+        /// The list of column group schemas in the topic configuration.
+        public var columnGroupSchemaList: [QuickSightClientTypes.ColumnGroupSchema]?
+        /// Topic schema.
+        public var dataSetSchema: QuickSightClientTypes.DataSetSchema?
+        /// The placeholder for the topic configuration.
+        public var placeholder: Swift.String?
+
+        public init(
+            columnGroupSchemaList: [QuickSightClientTypes.ColumnGroupSchema]? = nil,
+            dataSetSchema: QuickSightClientTypes.DataSetSchema? = nil,
+            placeholder: Swift.String? = nil
+        ) {
+            self.columnGroupSchemaList = columnGroupSchemaList
+            self.dataSetSchema = dataSetSchema
+            self.placeholder = placeholder
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The detailed definition of a template.
     public struct TemplateVersionDefinition: Swift.Sendable {
         /// The configuration for default analysis settings.
@@ -35687,6 +36196,8 @@ extension QuickSightClientTypes {
         public var staticFiles: [QuickSightClientTypes.StaticFile]?
         /// An array of tooltip sheet definitions for a template.
         public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
+        /// An array of topic configurations. These configurations define the required columns for each topic used within a template.
+        public var topicConfigurations: [QuickSightClientTypes.TopicConfiguration]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -35699,7 +36210,8 @@ extension QuickSightClientTypes {
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
             sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
             staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
-            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
+            topicConfigurations: [QuickSightClientTypes.TopicConfiguration]? = nil
         ) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -35712,6 +36224,7 @@ extension QuickSightClientTypes {
             self.sheets = sheets
             self.staticFiles = staticFiles
             self.tooltipSheets = tooltipSheets
+            self.topicConfigurations = topicConfigurations
         }
     }
 }
@@ -35726,13 +36239,17 @@ extension QuickSightClientTypes {
         /// A structure containing information about the dataset references used as placeholders in the template.
         /// This member is required.
         public var dataSetReferences: [QuickSightClientTypes.DataSetReference]?
+        /// A structure containing information about the topic references used as placeholders in the template.
+        public var topicReferences: [QuickSightClientTypes.TopicReference]?
 
         public init(
             arn: Swift.String? = nil,
-            dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil
+            dataSetReferences: [QuickSightClientTypes.DataSetReference]? = nil,
+            topicReferences: [QuickSightClientTypes.TopicReference]? = nil
         ) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
+            self.topicReferences = topicReferences
         }
     }
 }
@@ -35782,7 +36299,7 @@ public struct CreateTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of resource permissions to be set on the template.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -36676,7 +37193,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.TopicCalculatedField: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicCalculatedField(aggregation: \(Swift.String(describing: aggregation)), allowedAggregations: \(Swift.String(describing: allowedAggregations)), calculatedFieldDescription: \(Swift.String(describing: calculatedFieldDescription)), calculatedFieldName: \(Swift.String(describing: calculatedFieldName)), calculatedFieldSynonyms: \(Swift.String(describing: calculatedFieldSynonyms)), cellValueSynonyms: \(Swift.String(describing: cellValueSynonyms)), columnDataRole: \(Swift.String(describing: columnDataRole)), comparativeOrder: \(Swift.String(describing: comparativeOrder)), defaultFormatting: \(Swift.String(describing: defaultFormatting)), disableIndexing: \(Swift.String(describing: disableIndexing)), isIncludedInTopic: \(Swift.String(describing: isIncludedInTopic)), neverAggregateInFilter: \(Swift.String(describing: neverAggregateInFilter)), nonAdditive: \(Swift.String(describing: nonAdditive)), notAllowedAggregations: \(Swift.String(describing: notAllowedAggregations)), semanticType: \(Swift.String(describing: semanticType)), timeGranularity: \(Swift.String(describing: timeGranularity)), expression: \"CONTENT_REDACTED\")"}
+        "TopicCalculatedField(aggregation: \(Swift.String(describing: aggregation)), allowedAggregations: \(Swift.String(describing: allowedAggregations)), cellValueSynonyms: \(Swift.String(describing: cellValueSynonyms)), columnDataRole: \(Swift.String(describing: columnDataRole)), comparativeOrder: \(Swift.String(describing: comparativeOrder)), defaultFormatting: \(Swift.String(describing: defaultFormatting)), disableIndexing: \(Swift.String(describing: disableIndexing)), isIncludedInTopic: \(Swift.String(describing: isIncludedInTopic)), neverAggregateInFilter: \(Swift.String(describing: neverAggregateInFilter)), nonAdditive: \(Swift.String(describing: nonAdditive)), notAllowedAggregations: \(Swift.String(describing: notAllowedAggregations)), semanticType: \(Swift.String(describing: semanticType)), timeGranularity: \(Swift.String(describing: timeGranularity)), calculatedFieldDescription: \"CONTENT_REDACTED\", calculatedFieldName: \"CONTENT_REDACTED\", calculatedFieldSynonyms: \"CONTENT_REDACTED\", expression: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -36759,6 +37276,11 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.TopicColumn: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicColumn(aggregation: \(Swift.String(describing: aggregation)), allowedAggregations: \(Swift.String(describing: allowedAggregations)), cellValueSynonyms: \(Swift.String(describing: cellValueSynonyms)), columnDataRole: \(Swift.String(describing: columnDataRole)), columnName: \(Swift.String(describing: columnName)), comparativeOrder: \(Swift.String(describing: comparativeOrder)), defaultFormatting: \(Swift.String(describing: defaultFormatting)), disableIndexing: \(Swift.String(describing: disableIndexing)), isIncludedInTopic: \(Swift.String(describing: isIncludedInTopic)), neverAggregateInFilter: \(Swift.String(describing: neverAggregateInFilter)), nonAdditive: \(Swift.String(describing: nonAdditive)), notAllowedAggregations: \(Swift.String(describing: notAllowedAggregations)), semanticType: \(Swift.String(describing: semanticType)), timeGranularity: \(Swift.String(describing: timeGranularity)), columnDescription: \"CONTENT_REDACTED\", columnFriendlyName: \"CONTENT_REDACTED\", columnSynonyms: \"CONTENT_REDACTED\")"}
+}
+
 extension QuickSightClientTypes {
 
     /// A structure that represents a data aggregation.
@@ -36809,6 +37331,38 @@ extension QuickSightClientTypes.TopicCategoryFilterConstant: Swift.CustomDebugSt
 
 extension QuickSightClientTypes {
 
+    public enum NullFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allValues
+        case nonNullsOnly
+        case nullsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NullFilterType] {
+            return [
+                .allValues,
+                .nonNullsOnly,
+                .nullsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allValues: return "ALL_VALUES"
+            case .nonNullsOnly: return "NON_NULLS_ONLY"
+            case .nullsOnly: return "NULLS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A structure that represents a category filter.
     public struct TopicCategoryFilter: Swift.Sendable {
         /// The category filter function. Valid values for this structure are EXACT and CONTAINS.
@@ -36819,24 +37373,28 @@ extension QuickSightClientTypes {
         public var constant: QuickSightClientTypes.TopicCategoryFilterConstant?
         /// A Boolean value that indicates if the filter is inverse.
         public var inverse: Swift.Bool
+        /// The null filter that is applied to the category filter.
+        public var nullFilter: QuickSightClientTypes.NullFilterType?
 
         public init(
             categoryFilterFunction: QuickSightClientTypes.CategoryFilterFunction? = nil,
             categoryFilterType: QuickSightClientTypes.CategoryFilterType? = nil,
             constant: QuickSightClientTypes.TopicCategoryFilterConstant? = nil,
-            inverse: Swift.Bool = false
+            inverse: Swift.Bool = false,
+            nullFilter: QuickSightClientTypes.NullFilterType? = nil
         ) {
             self.categoryFilterFunction = categoryFilterFunction
             self.categoryFilterType = categoryFilterType
             self.constant = constant
             self.inverse = inverse
+            self.nullFilter = nullFilter
         }
     }
 }
 
 extension QuickSightClientTypes.TopicCategoryFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicCategoryFilter(categoryFilterFunction: \(Swift.String(describing: categoryFilterFunction)), categoryFilterType: \(Swift.String(describing: categoryFilterType)), inverse: \(Swift.String(describing: inverse)), constant: \"CONTENT_REDACTED\")"}
+        "TopicCategoryFilter(categoryFilterFunction: \(Swift.String(describing: categoryFilterFunction)), categoryFilterType: \(Swift.String(describing: categoryFilterType)), inverse: \(Swift.String(describing: inverse)), nullFilter: \(Swift.String(describing: nullFilter)), constant: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -36856,6 +37414,11 @@ extension QuickSightClientTypes {
             self.minimum = minimum
         }
     }
+}
+
+extension QuickSightClientTypes.RangeConstant: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RangeConstant(maximum: \"CONTENT_REDACTED\", minimum: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -36891,20 +37454,24 @@ extension QuickSightClientTypes {
         public var constant: QuickSightClientTypes.TopicRangeFilterConstant?
         /// A Boolean value that indicates whether the date range filter should include the boundary values. If set to true, the filter includes the start and end dates. If set to false, the filter excludes them.
         public var inclusive: Swift.Bool
+        /// The null filter that is applied to the date range filter.
+        public var nullFilter: QuickSightClientTypes.NullFilterType?
 
         public init(
             constant: QuickSightClientTypes.TopicRangeFilterConstant? = nil,
-            inclusive: Swift.Bool = false
+            inclusive: Swift.Bool = false,
+            nullFilter: QuickSightClientTypes.NullFilterType? = nil
         ) {
             self.constant = constant
             self.inclusive = inclusive
+            self.nullFilter = nullFilter
         }
     }
 }
 
 extension QuickSightClientTypes.TopicDateRangeFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicDateRangeFilter(inclusive: \(Swift.String(describing: inclusive)), constant: \"CONTENT_REDACTED\")"}
+        "TopicDateRangeFilter(inclusive: \(Swift.String(describing: inclusive)), nullFilter: \(Swift.String(describing: nullFilter)), constant: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -36970,38 +37537,6 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.TopicSingularFilterConstant: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum NullFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allValues
-        case nonNullsOnly
-        case nullsOnly
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [NullFilterType] {
-            return [
-                .allValues,
-                .nonNullsOnly,
-                .nullsOnly
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allValues: return "ALL_VALUES"
-            case .nonNullsOnly: return "NON_NULLS_ONLY"
-            case .nullsOnly: return "NULLS_ONLY"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -37100,20 +37635,28 @@ extension QuickSightClientTypes {
         public var aggregation: QuickSightClientTypes.NamedFilterAggType?
         /// The constant used in a numeric equality filter.
         public var constant: QuickSightClientTypes.TopicSingularFilterConstant?
+        /// A Boolean value that indicates if the filter is inverse.
+        public var inverse: Swift.Bool
+        /// The null filter that is applied to the numeric equality filter.
+        public var nullFilter: QuickSightClientTypes.NullFilterType?
 
         public init(
             aggregation: QuickSightClientTypes.NamedFilterAggType? = nil,
-            constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil
+            constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil,
+            inverse: Swift.Bool = false,
+            nullFilter: QuickSightClientTypes.NullFilterType? = nil
         ) {
             self.aggregation = aggregation
             self.constant = constant
+            self.inverse = inverse
+            self.nullFilter = nullFilter
         }
     }
 }
 
 extension QuickSightClientTypes.TopicNumericEqualityFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicNumericEqualityFilter(aggregation: \(Swift.String(describing: aggregation)), constant: \"CONTENT_REDACTED\")"}
+        "TopicNumericEqualityFilter(aggregation: \(Swift.String(describing: aggregation)), inverse: \(Swift.String(describing: inverse)), nullFilter: \(Swift.String(describing: nullFilter)), constant: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -37126,22 +37669,30 @@ extension QuickSightClientTypes {
         public var constant: QuickSightClientTypes.TopicRangeFilterConstant?
         /// A Boolean value that indicates whether the endpoints of the numeric range are included in the filter. If set to true, topics whose numeric field value is equal to the endpoint values will be included in the filter. If set to false, topics whose numeric field value is equal to the endpoint values will be excluded from the filter.
         public var inclusive: Swift.Bool
+        /// A Boolean value that indicates if the filter is inverse.
+        public var inverse: Swift.Bool
+        /// The null filter that is applied to the numeric range filter.
+        public var nullFilter: QuickSightClientTypes.NullFilterType?
 
         public init(
             aggregation: QuickSightClientTypes.NamedFilterAggType? = nil,
             constant: QuickSightClientTypes.TopicRangeFilterConstant? = nil,
-            inclusive: Swift.Bool = false
+            inclusive: Swift.Bool = false,
+            inverse: Swift.Bool = false,
+            nullFilter: QuickSightClientTypes.NullFilterType? = nil
         ) {
             self.aggregation = aggregation
             self.constant = constant
             self.inclusive = inclusive
+            self.inverse = inverse
+            self.nullFilter = nullFilter
         }
     }
 }
 
 extension QuickSightClientTypes.TopicNumericRangeFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicNumericRangeFilter(aggregation: \(Swift.String(describing: aggregation)), inclusive: \(Swift.String(describing: inclusive)), constant: \"CONTENT_REDACTED\")"}
+        "TopicNumericRangeFilter(aggregation: \(Swift.String(describing: aggregation)), inclusive: \(Swift.String(describing: inclusive)), inverse: \(Swift.String(describing: inverse)), nullFilter: \(Swift.String(describing: nullFilter)), constant: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -37188,6 +37739,8 @@ extension QuickSightClientTypes {
     public struct TopicRelativeDateFilter: Swift.Sendable {
         /// The constant used in a relative date filter.
         public var constant: QuickSightClientTypes.TopicSingularFilterConstant?
+        /// The null filter that is applied to the relative date filter.
+        public var nullFilter: QuickSightClientTypes.NullFilterType?
         /// The function to be used in a relative date filter to determine the range of dates to include in the results. Valid values for this structure are BEFORE, AFTER, and BETWEEN.
         public var relativeDateFilterFunction: QuickSightClientTypes.TopicRelativeDateFilterFunction?
         /// The level of time precision that is used to aggregate DateTime values.
@@ -37195,10 +37748,12 @@ extension QuickSightClientTypes {
 
         public init(
             constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil,
+            nullFilter: QuickSightClientTypes.NullFilterType? = nil,
             relativeDateFilterFunction: QuickSightClientTypes.TopicRelativeDateFilterFunction? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
         ) {
             self.constant = constant
+            self.nullFilter = nullFilter
             self.relativeDateFilterFunction = relativeDateFilterFunction
             self.timeGranularity = timeGranularity
         }
@@ -37207,7 +37762,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.TopicRelativeDateFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicRelativeDateFilter(relativeDateFilterFunction: \(Swift.String(describing: relativeDateFilterFunction)), timeGranularity: \(Swift.String(describing: timeGranularity)), constant: \"CONTENT_REDACTED\")"}
+        "TopicRelativeDateFilter(nullFilter: \(Swift.String(describing: nullFilter)), relativeDateFilterFunction: \(Swift.String(describing: relativeDateFilterFunction)), timeGranularity: \(Swift.String(describing: timeGranularity)), constant: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -37269,6 +37824,11 @@ extension QuickSightClientTypes {
             self.relativeDateFilter = relativeDateFilter
         }
     }
+}
+
+extension QuickSightClientTypes.TopicFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicFilter(categoryFilter: \(Swift.String(describing: categoryFilter)), dateRangeFilter: \(Swift.String(describing: dateRangeFilter)), filterClass: \(Swift.String(describing: filterClass)), filterName: \(Swift.String(describing: filterName)), filterType: \(Swift.String(describing: filterType)), nullFilter: \(Swift.String(describing: nullFilter)), numericEqualityFilter: \(Swift.String(describing: numericEqualityFilter)), numericRangeFilter: \(Swift.String(describing: numericRangeFilter)), operandFieldName: \(Swift.String(describing: operandFieldName)), relativeDateFilter: \(Swift.String(describing: relativeDateFilter)), filterDescription: \"CONTENT_REDACTED\", filterSynonyms: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -37419,27 +37979,39 @@ extension QuickSightClientTypes {
     public struct NamedEntityDefinition: Swift.Sendable {
         /// The name of the entity.
         public var fieldName: Swift.String?
+        /// A Boolean value that indicates whether the named entity definition is hidden.
+        public var isHidden: Swift.Bool?
         /// The definition of a metric.
         public var metric: QuickSightClientTypes.NamedEntityDefinitionMetric?
+        /// The presentation order of the named entity definition.
+        public var presentationOrder: Swift.Int?
         /// The property name to be used for the named entity.
         public var propertyName: Swift.String?
         /// The property role. Valid values for this structure are PRIMARY and ID.
         public var propertyRole: QuickSightClientTypes.PropertyRole?
         /// The property usage. Valid values for this structure are INHERIT, DIMENSION, and MEASURE.
         public var propertyUsage: QuickSightClientTypes.PropertyUsage?
+        /// The rank order of the named entity definition.
+        public var rankOrder: Swift.Int?
 
         public init(
             fieldName: Swift.String? = nil,
+            isHidden: Swift.Bool? = nil,
             metric: QuickSightClientTypes.NamedEntityDefinitionMetric? = nil,
+            presentationOrder: Swift.Int? = nil,
             propertyName: Swift.String? = nil,
             propertyRole: QuickSightClientTypes.PropertyRole? = nil,
-            propertyUsage: QuickSightClientTypes.PropertyUsage? = nil
+            propertyUsage: QuickSightClientTypes.PropertyUsage? = nil,
+            rankOrder: Swift.Int? = nil
         ) {
             self.fieldName = fieldName
+            self.isHidden = isHidden
             self.metric = metric
+            self.presentationOrder = presentationOrder
             self.propertyName = propertyName
             self.propertyRole = propertyRole
             self.propertyUsage = propertyUsage
+            self.rankOrder = rankOrder
         }
     }
 }
@@ -37469,6 +38041,27 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A structure that represents a sort for a named entity.
+    public struct NamedEntitySort: Swift.Sendable {
+        /// The direction of the sort. Valid values are ASCENDING and DESCENDING.
+        /// This member is required.
+        public var direction: QuickSightClientTypes.TopicSortDirection?
+        /// The name of the field that is used for the sort.
+        /// This member is required.
+        public var fieldName: Swift.String?
+
+        public init(
+            direction: QuickSightClientTypes.TopicSortDirection? = nil,
+            fieldName: Swift.String? = nil
+        ) {
+            self.direction = direction
+            self.fieldName = fieldName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A structure that represents a named entity.
     public struct TopicNamedEntity: Swift.Sendable {
         /// The definition of a named entity.
@@ -37480,23 +38073,40 @@ extension QuickSightClientTypes {
         public var entityName: Swift.String?
         /// The other names or aliases for the named entity.
         public var entitySynonyms: [Swift.String]?
+        /// The presentation order of the named entity.
+        public var presentationOrder: Swift.Int?
+        /// The rank order of the named entity.
+        public var rankOrder: Swift.Int?
         /// The type of named entity that a topic represents.
         public var semanticEntityType: QuickSightClientTypes.SemanticEntityType?
+        /// The sort configuration of the named entity.
+        public var sort: [QuickSightClientTypes.NamedEntitySort]?
 
         public init(
             definition: [QuickSightClientTypes.NamedEntityDefinition]? = nil,
             entityDescription: Swift.String? = nil,
             entityName: Swift.String? = nil,
             entitySynonyms: [Swift.String]? = nil,
-            semanticEntityType: QuickSightClientTypes.SemanticEntityType? = nil
+            presentationOrder: Swift.Int? = nil,
+            rankOrder: Swift.Int? = nil,
+            semanticEntityType: QuickSightClientTypes.SemanticEntityType? = nil,
+            sort: [QuickSightClientTypes.NamedEntitySort]? = nil
         ) {
             self.definition = definition
             self.entityDescription = entityDescription
             self.entityName = entityName
             self.entitySynonyms = entitySynonyms
+            self.presentationOrder = presentationOrder
+            self.rankOrder = rankOrder
             self.semanticEntityType = semanticEntityType
+            self.sort = sort
         }
     }
+}
+
+extension QuickSightClientTypes.TopicNamedEntity: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicNamedEntity(definition: \(Swift.String(describing: definition)), entityName: \(Swift.String(describing: entityName)), presentationOrder: \(Swift.String(describing: presentationOrder)), rankOrder: \(Swift.String(describing: rankOrder)), semanticEntityType: \(Swift.String(describing: semanticEntityType)), sort: \(Swift.String(describing: sort)), entityDescription: \"CONTENT_REDACTED\", entitySynonyms: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -37790,6 +38400,153 @@ public struct CreateTopicRefreshScheduleOutput: Swift.Sendable {
         self.requestId = requestId
         self.status = status
         self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that represents an endpoint of a data set relation of a topic.
+    public struct TopicV2DataSetRelationEndpoint: Swift.Sendable {
+        /// The names of the columns that are used in the data set relation.
+        /// This member is required.
+        public var columnNames: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the data set at this endpoint of the relation.
+        /// This member is required.
+        public var dataSetArn: Swift.String?
+
+        public init(
+            columnNames: [Swift.String]? = nil,
+            dataSetArn: Swift.String? = nil
+        ) {
+            self.columnNames = columnNames
+            self.dataSetArn = dataSetArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that represents a relation between two data sets of a topic.
+    public struct TopicV2DataSetRelation: Swift.Sendable {
+        /// The left endpoint of the data set relation.
+        /// This member is required.
+        public var `left`: QuickSightClientTypes.TopicV2DataSetRelationEndpoint?
+        /// The right endpoint of the data set relation.
+        /// This member is required.
+        public var `right`: QuickSightClientTypes.TopicV2DataSetRelationEndpoint?
+
+        public init(
+            `left`: QuickSightClientTypes.TopicV2DataSetRelationEndpoint? = nil,
+            `right`: QuickSightClientTypes.TopicV2DataSetRelationEndpoint? = nil
+        ) {
+            self.`left` = `left`
+            self.`right` = `right`
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that represents a data set reference of a topic.
+    public struct TopicV2DataSetReference: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the data set.
+        /// This member is required.
+        public var dataSetArn: Swift.String?
+        /// The name of the data set.
+        public var dataSetName: Swift.String?
+
+        public init(
+            dataSetArn: Swift.String? = nil,
+            dataSetName: Swift.String? = nil
+        ) {
+            self.dataSetArn = dataSetArn
+            self.dataSetName = dataSetName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition of a topic.
+    public struct TopicV2Details: Swift.Sendable {
+        /// The relations between the data sets that the topic is associated with.
+        public var dataSetRelations: [QuickSightClientTypes.TopicV2DataSetRelation]?
+        /// The data sets that the topic is associated with.
+        public var dataSets: [QuickSightClientTypes.TopicV2DataSetReference]?
+        /// The description of the topic.
+        public var description: Swift.String?
+        /// The name of the topic.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            dataSetRelations: [QuickSightClientTypes.TopicV2DataSetRelation]? = nil,
+            dataSets: [QuickSightClientTypes.TopicV2DataSetReference]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.dataSetRelations = dataSetRelations
+            self.dataSets = dataSets
+            self.description = description
+            self.name = name
+        }
+    }
+}
+
+public struct CreateTopicV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that you want to create a topic in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Instructions that provide additional guidance and context for response generation.
+    public var customInstructions: QuickSightClientTypes.CustomInstructions?
+    /// The Amazon Resource Names (ARNs) of the folders that you want the topic to reside in.
+    public var folderArns: [Swift.String]?
+    /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the topic.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// The definition of a topic to create.
+    /// This member is required.
+    public var topic: QuickSightClientTypes.TopicV2Details?
+    /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customInstructions: QuickSightClientTypes.CustomInstructions? = nil,
+        folderArns: [Swift.String]? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        topic: QuickSightClientTypes.TopicV2Details? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.customInstructions = customInstructions
+        self.folderArns = folderArns
+        self.tags = tags
+        self.topic = topic
+        self.topicId = topicId
+    }
+}
+
+public struct CreateTopicV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
         self.topicId = topicId
     }
 }
@@ -38095,7 +38852,7 @@ extension QuickSightClientTypes {
         public var arn: Swift.String?
         /// The time that this dashboard version was created.
         public var createdTime: Foundation.Date?
-        /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with this version of the dashboard.
+        /// The Amazon Resource Names (ARNs) for the datasets that are associated with this version of the dashboard.
         public var dataSetArns: [Swift.String]?
         /// Description.
         public var description: Swift.String?
@@ -38109,6 +38866,8 @@ extension QuickSightClientTypes {
         public var status: QuickSightClientTypes.ResourceStatus?
         /// The ARN of the theme associated with a version of the dashboard.
         public var themeArn: Swift.String?
+        /// The Amazon Resource Names (ARNs) for the topics that are associated with this version of the dashboard.
+        public var topicArns: [Swift.String]?
         /// Version number for this version of the dashboard.
         public var versionNumber: Swift.Int?
 
@@ -38122,6 +38881,7 @@ extension QuickSightClientTypes {
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil,
+            topicArns: [Swift.String]? = nil,
             versionNumber: Swift.Int? = nil
         ) {
             self.arn = arn
@@ -38133,6 +38893,7 @@ extension QuickSightClientTypes {
             self.sourceEntityArn = sourceEntityArn
             self.status = status
             self.themeArn = themeArn
+            self.topicArns = topicArns
             self.versionNumber = versionNumber
         }
     }
@@ -40226,6 +40987,46 @@ public struct DeleteTopicRefreshScheduleOutput: Swift.Sendable {
         self.requestId = requestId
         self.status = status
         self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+public struct DeleteTopicV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to delete.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+public struct DeleteTopicV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
         self.topicId = topicId
     }
 }
@@ -44316,6 +45117,8 @@ extension QuickSightClientTypes {
         public var status: QuickSightClientTypes.ResourceStatus?
         /// The ARN of the theme associated with this version of the template.
         public var themeArn: Swift.String?
+        /// Schema of the topic identified by the placeholder. Any dashboard created from this template should be bound to new topics matching the same schema described through this API operation.
+        public var topicConfigurations: [QuickSightClientTypes.TopicConfiguration]?
         /// The version number of the template version.
         public var versionNumber: Swift.Int?
 
@@ -44328,6 +45131,7 @@ extension QuickSightClientTypes {
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil,
+            topicConfigurations: [QuickSightClientTypes.TopicConfiguration]? = nil,
             versionNumber: Swift.Int? = nil
         ) {
             self.createdTime = createdTime
@@ -44338,6 +45142,7 @@ extension QuickSightClientTypes {
             self.sourceEntityArn = sourceEntityArn
             self.status = status
             self.themeArn = themeArn
+            self.topicConfigurations = topicConfigurations
             self.versionNumber = versionNumber
         }
     }
@@ -44940,6 +45745,50 @@ public struct DescribeTopicPermissionsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTopicPermissionsV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+public struct DescribeTopicPermissionsV2Output: Swift.Sendable {
+    /// A list of resource permissions that are configured to the topic.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
 public struct DescribeTopicRefreshInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the topic whose refresh you want to describe.
     /// This member is required.
@@ -45091,6 +45940,54 @@ public struct DescribeTopicRefreshScheduleOutput: Swift.Sendable {
         self.requestId = requestId
         self.status = status
         self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+public struct DescribeTopicV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to describe.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+public struct DescribeTopicV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// Instructions that provide additional guidance and context for response generation.
+    public var customInstructions: QuickSightClientTypes.CustomInstructions?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The definition of a topic.
+    public var topic: QuickSightClientTypes.TopicV2Details?
+    /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        customInstructions: QuickSightClientTypes.CustomInstructions? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topic: QuickSightClientTypes.TopicV2Details? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.customInstructions = customInstructions
+        self.requestId = requestId
+        self.status = status
+        self.topic = topic
         self.topicId = topicId
     }
 }
@@ -49454,6 +50351,72 @@ public struct ListTopicsOutput: Swift.Sendable {
     }
 }
 
+public struct ListTopicsV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topics that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of the topic.
+    public struct TopicV2Summary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the topic.
+        public var arn: Swift.String?
+        /// The name of the topic.
+        public var name: Swift.String?
+        /// The ID of the topic. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public var topicId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            topicId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+            self.topicId = topicId
+        }
+    }
+}
+
+public struct ListTopicsV2Output: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// A list of topic summaries.
+    public var topicSummaryList: [QuickSightClientTypes.TopicV2Summary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicSummaryList: [QuickSightClientTypes.TopicV2Summary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+        self.topicSummaryList = topicSummaryList
+    }
+}
+
 public struct ListUserGroupsInput: Swift.Sendable {
     /// The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
@@ -50997,6 +51960,11 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.TopicSearchFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicSearchFilter(operator: \(Swift.String(describing: `operator`)), name: \(Swift.String(describing: name)), value: \"CONTENT_REDACTED\")"}
+}
+
 public struct SearchTopicsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the topic that you want to find.
     /// This member is required.
@@ -51037,6 +52005,54 @@ public struct SearchTopicsOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topicSummaryList: [QuickSightClientTypes.TopicSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+        self.topicSummaryList = topicSummaryList
+    }
+}
+
+public struct SearchTopicsV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to search.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters that you want to use to search for the topic.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.TopicSearchFilter]?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.TopicSearchFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchTopicsV2Output: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// A list of topic summaries that is returned by the search topic request.
+    public var topicSummaryList: [QuickSightClientTypes.TopicV2Summary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicSummaryList: [QuickSightClientTypes.TopicV2Summary]? = nil
     ) {
         self.nextToken = nextToken
         self.requestId = requestId
@@ -51858,7 +52874,7 @@ public struct UpdateAnalysisInput: Swift.Sendable {
     public var name: Swift.String?
     /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
     public var parameters: QuickSightClientTypes.Parameters?
-    /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
+    /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets or topics.
     public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
     /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     public var themeArn: Swift.String?
@@ -52178,7 +53194,7 @@ public struct UpdateDashboardInput: Swift.Sendable {
     public var name: Swift.String?
     /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
     public var parameters: QuickSightClientTypes.Parameters?
-    /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
     public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
     /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
     public var themeArn: Swift.String?
@@ -53952,7 +54968,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
     public var definition: QuickSightClientTypes.TemplateVersionDefinition?
     /// The name for the template.
     public var name: Swift.String?
-    /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region;. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region;. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
     public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
     /// The ID for the template.
     /// This member is required.
@@ -54378,6 +55394,58 @@ public struct UpdateTopicPermissionsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTopicPermissionsV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to update the permissions for.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The resource permissions that you want to grant to the topic.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The resource permissions that you want to revoke from the topic.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+        self.topicId = topicId
+    }
+}
+
+public struct UpdateTopicPermissionsV2Output: Swift.Sendable {
+    /// A list of resource permissions on the topic.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
 public struct UpdateTopicRefreshScheduleInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the topic whose refresh schedule you want to update.
     /// This member is required.
@@ -54428,6 +55496,88 @@ public struct UpdateTopicRefreshScheduleOutput: Swift.Sendable {
         self.requestId = requestId
         self.status = status
         self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicV2PublishOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case draft
+        case publish
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicV2PublishOption] {
+            return [
+                .draft,
+                .publish
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .draft: return "DRAFT"
+            case .publish: return "PUBLISH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateTopicV2Input: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Instructions that provide additional guidance and context for response generation.
+    public var customInstructions: QuickSightClientTypes.CustomInstructions?
+    /// The publish option for the topic that you want to update.
+    public var publishOption: QuickSightClientTypes.TopicV2PublishOption?
+    /// The definition of the topic that you want to update.
+    /// This member is required.
+    public var topic: QuickSightClientTypes.TopicV2Details?
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customInstructions: QuickSightClientTypes.CustomInstructions? = nil,
+        publishOption: QuickSightClientTypes.TopicV2PublishOption? = nil,
+        topic: QuickSightClientTypes.TopicV2Details? = nil,
+        topicId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.customInstructions = customInstructions
+        self.publishOption = publishOption
+        self.topic = topic
+        self.topicId = topicId
+    }
+}
+
+public struct UpdateTopicV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
         self.topicId = topicId
     }
 }
@@ -54714,6 +55864,11 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.CreateTopicReviewedAnswer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTopicReviewedAnswer(answerId: \(Swift.String(describing: answerId)), datasetArn: \(Swift.String(describing: datasetArn)), mir: \(Swift.String(describing: mir)), primaryVisual: \(Swift.String(describing: primaryVisual)), template: \(Swift.String(describing: template)), question: \"CONTENT_REDACTED\")"}
+}
+
 extension QuickSightClientTypes {
 
     /// The deinition for a TopicReviewedAnswer.
@@ -54754,6 +55909,11 @@ extension QuickSightClientTypes {
             self.template = template
         }
     }
+}
+
+extension QuickSightClientTypes.TopicReviewedAnswer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicReviewedAnswer(answerId: \(Swift.String(describing: answerId)), arn: \(Swift.String(describing: arn)), datasetArn: \(Swift.String(describing: datasetArn)), mir: \(Swift.String(describing: mir)), primaryVisual: \(Swift.String(describing: primaryVisual)), template: \(Swift.String(describing: template)), question: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchCreateTopicReviewedAnswerInput: Swift.Sendable {
@@ -55231,6 +56391,16 @@ extension CreateTopicRefreshScheduleInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules"
+    }
+}
+
+extension CreateTopicV2Input {
+
+    static func urlPathProvider(_ value: CreateTopicV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2"
     }
 }
 
@@ -55783,6 +56953,19 @@ extension DeleteTopicRefreshScheduleInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTopicV2Input {
+
+    static func urlPathProvider(_ value: DeleteTopicV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2/\(topicId.urlPercentEncoding())"
     }
 }
 
@@ -56847,6 +58030,19 @@ extension DescribeTopicPermissionsInput {
     }
 }
 
+extension DescribeTopicPermissionsV2Input {
+
+    static func urlPathProvider(_ value: DescribeTopicPermissionsV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2/\(topicId.urlPercentEncoding())/permissions"
+    }
+}
+
 extension DescribeTopicRefreshInput {
 
     static func urlPathProvider(_ value: DescribeTopicRefreshInput) -> Swift.String? {
@@ -56876,6 +58072,19 @@ extension DescribeTopicRefreshScheduleInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeTopicV2Input {
+
+    static func urlPathProvider(_ value: DescribeTopicV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2/\(topicId.urlPercentEncoding())"
     }
 }
 
@@ -58066,6 +59275,32 @@ extension ListTopicsInput {
     }
 }
 
+extension ListTopicsV2Input {
+
+    static func urlPathProvider(_ value: ListTopicsV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2"
+    }
+}
+
+extension ListTopicsV2Input {
+
+    static func queryItemProvider(_ value: ListTopicsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListUserGroupsInput {
 
     static func urlPathProvider(_ value: ListUserGroupsInput) -> Swift.String? {
@@ -58392,6 +59627,16 @@ extension SearchTopicsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/topics"
+    }
+}
+
+extension SearchTopicsV2Input {
+
+    static func urlPathProvider(_ value: SearchTopicsV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/search/topicsV2"
     }
 }
 
@@ -59228,6 +60473,19 @@ extension UpdateTopicPermissionsInput {
     }
 }
 
+extension UpdateTopicPermissionsV2Input {
+
+    static func urlPathProvider(_ value: UpdateTopicPermissionsV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2/\(topicId.urlPercentEncoding())/permissions"
+    }
+}
+
 extension UpdateTopicRefreshScheduleInput {
 
     static func urlPathProvider(_ value: UpdateTopicRefreshScheduleInput) -> Swift.String? {
@@ -59241,6 +60499,19 @@ extension UpdateTopicRefreshScheduleInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/schedules/\(datasetId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTopicV2Input {
+
+    static func urlPathProvider(_ value: UpdateTopicV2Input) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topicsV2/\(topicId.urlPercentEncoding())"
     }
 }
 
@@ -59659,6 +60930,18 @@ extension CreateTopicRefreshScheduleInput {
     }
 }
 
+extension CreateTopicV2Input {
+
+    static func write(value: CreateTopicV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomInstructions"].write(value.customInstructions, with: QuickSightClientTypes.CustomInstructions.write(value:to:))
+        try writer["FolderArns"].writeList(value.folderArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Topic"].write(value.topic, with: QuickSightClientTypes.TopicV2Details.write(value:to:))
+        try writer["TopicId"].write(value.topicId)
+    }
+}
+
 extension CreateVPCConnectionInput {
 
     static func write(value: CreateVPCConnectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -59876,6 +61159,16 @@ extension SearchSpacesInput {
 extension SearchTopicsInput {
 
     static func write(value: SearchTopicsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.TopicSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension SearchTopicsV2Input {
+
+    static func write(value: SearchTopicsV2Input?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.TopicSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
@@ -60454,11 +61747,30 @@ extension UpdateTopicPermissionsInput {
     }
 }
 
+extension UpdateTopicPermissionsV2Input {
+
+    static func write(value: UpdateTopicPermissionsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateTopicRefreshScheduleInput {
 
     static func write(value: UpdateTopicRefreshScheduleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["RefreshSchedule"].write(value.refreshSchedule, with: QuickSightClientTypes.TopicRefreshSchedule.write(value:to:))
+    }
+}
+
+extension UpdateTopicV2Input {
+
+    static func write(value: UpdateTopicV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomInstructions"].write(value.customInstructions, with: QuickSightClientTypes.CustomInstructions.write(value:to:))
+        try writer["PublishOption"].write(value.publishOption)
+        try writer["Topic"].write(value.topic, with: QuickSightClientTypes.TopicV2Details.write(value:to:))
     }
 }
 
@@ -61009,6 +62321,21 @@ extension CreateTopicRefreshScheduleOutput {
     }
 }
 
+extension CreateTopicV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTopicV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTopicV2Output()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension CreateVPCConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVPCConnectionOutput {
@@ -61496,6 +62823,21 @@ extension DeleteTopicRefreshScheduleOutput {
         value.datasetArn = try reader["DatasetArn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteTopicV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTopicV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTopicV2Output()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         value.topicId = try reader["TopicId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -62501,6 +63843,22 @@ extension DescribeTopicPermissionsOutput {
     }
 }
 
+extension DescribeTopicPermissionsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicPermissionsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicPermissionsV2Output()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeTopicRefreshOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicRefreshOutput {
@@ -62526,6 +63884,23 @@ extension DescribeTopicRefreshScheduleOutput {
         value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: QuickSightClientTypes.TopicRefreshSchedule.read(from:))
         value.requestId = try reader["RequestId"].readIfPresent()
         value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeTopicV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicV2Output()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.customInstructions = try reader["CustomInstructions"].readIfPresent(with: QuickSightClientTypes.CustomInstructions.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topic = try reader["Topic"].readIfPresent(with: QuickSightClientTypes.TopicV2Details.read(from:))
         value.topicId = try reader["TopicId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -63266,6 +64641,21 @@ extension ListTopicsOutput {
     }
 }
 
+extension ListTopicsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTopicsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTopicsV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicSummaryList = try reader["TopicSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicV2Summary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension ListUserGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUserGroupsOutput {
@@ -63559,6 +64949,21 @@ extension SearchTopicsOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.topicSummaryList = try reader["TopicSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension SearchTopicsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchTopicsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchTopicsV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicSummaryList = try reader["TopicSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicV2Summary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -64486,6 +65891,22 @@ extension UpdateTopicPermissionsOutput {
     }
 }
 
+extension UpdateTopicPermissionsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTopicPermissionsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTopicPermissionsV2Output()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateTopicRefreshScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTopicRefreshScheduleOutput {
@@ -64496,6 +65917,21 @@ extension UpdateTopicRefreshScheduleOutput {
         value.datasetArn = try reader["DatasetArn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateTopicV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTopicV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTopicV2Output()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         value.topicId = try reader["TopicId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -65233,6 +66669,27 @@ enum CreateTopicRefreshScheduleOutputError {
     }
 }
 
+enum CreateTopicV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateVPCConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -65908,6 +67365,25 @@ enum DeleteTopicRefreshScheduleOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTopicV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -67130,6 +68606,24 @@ enum DescribeTopicPermissionsOutputError {
     }
 }
 
+enum DescribeTopicPermissionsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTopicRefreshOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -67162,6 +68656,24 @@ enum DescribeTopicRefreshScheduleOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTopicV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -68118,6 +69630,24 @@ enum ListTopicsOutputError {
     }
 }
 
+enum ListTopicsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListUserGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68495,12 +70025,32 @@ enum SearchTopicsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchTopicsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -69737,7 +71287,49 @@ enum UpdateTopicPermissionsOutputError {
     }
 }
 
+enum UpdateTopicPermissionsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTopicRefreshScheduleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTopicV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -70549,6 +72141,7 @@ extension QuickSightClientTypes.Analysis {
         value.status = try reader["Status"].readIfPresent()
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AnalysisError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataSetArns = try reader["DataSetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicArns = try reader["TopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.themeArn = try reader["ThemeArn"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -70587,12 +72180,14 @@ extension QuickSightClientTypes.AnalysisDefinition {
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TooltipSheets"].writeList(value.tooltipSheets, memberWritingClosure: QuickSightClientTypes.TooltipSheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicIdentifierDeclarations"].writeList(value.topicIdentifierDeclarations, memberWritingClosure: QuickSightClientTypes.TopicIdentifierDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AnalysisDefinition()
         value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.topicIdentifierDeclarations = try reader["TopicIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tooltipSheets = try reader["TooltipSheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TooltipSheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -70643,6 +72238,7 @@ extension QuickSightClientTypes.AnalysisSourceTemplate {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
         try writer["DataSetReferences"].writeList(value.dataSetReferences, memberWritingClosure: QuickSightClientTypes.DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicReferences"].writeList(value.topicReferences, memberWritingClosure: QuickSightClientTypes.TopicReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -71756,6 +73352,7 @@ extension QuickSightClientTypes.AssetOptions {
         try writer["ExcludedDataSetArns"].writeList(value.excludedDataSetArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QBusinessInsightsStatus"].write(value.qBusinessInsightsStatus)
         try writer["Timezone"].write(value.timezone)
+        try writer["VisualMessages"].write(value.visualMessages, with: QuickSightClientTypes.VisualMessages.write(value:to:))
         try writer["WeekStart"].write(value.weekStart)
     }
 
@@ -71767,6 +73364,7 @@ extension QuickSightClientTypes.AssetOptions {
         value.qBusinessInsightsStatus = try reader["QBusinessInsightsStatus"].readIfPresent()
         value.excludedDataSetArns = try reader["ExcludedDataSetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customActionDefaults = try reader["CustomActionDefaults"].readIfPresent(with: QuickSightClientTypes.VisualCustomActionDefaults.read(from:))
+        value.visualMessages = try reader["VisualMessages"].readIfPresent(with: QuickSightClientTypes.VisualMessages.read(from:))
         return value
     }
 }
@@ -72865,12 +74463,14 @@ extension QuickSightClientTypes.CalculatedField {
         try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
         try writer["Expression"].write(value.expression)
         try writer["Name"].write(value.name)
+        try writer["TopicIdentifier"].write(value.topicIdentifier)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.CalculatedField()
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.topicIdentifier = try reader["TopicIdentifier"].readIfPresent()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.expression = try reader["Expression"].readIfPresent() ?? ""
         return value
@@ -72911,13 +74511,16 @@ extension QuickSightClientTypes.Capabilities {
         try writer["AsanaAction"].write(value.asanaAction)
         try writer["Automate"].write(value.automate)
         try writer["BambooHRAction"].write(value.bambooHRAction)
+        try writer["BedrockManagedKnowledgeBase"].write(value.bedrockManagedKnowledgeBase)
         try writer["BoxAgentAction"].write(value.boxAgentAction)
+        try writer["BoxKnowledgeBase"].write(value.boxKnowledgeBase)
         try writer["BuildCalculatedFieldWithQ"].write(value.buildCalculatedFieldWithQ)
         try writer["CanvaAgentAction"].write(value.canvaAgentAction)
         try writer["ChatAgent"].write(value.chatAgent)
         try writer["ComprehendAction"].write(value.comprehendAction)
         try writer["ComprehendMedicalAction"].write(value.comprehendMedicalAction)
         try writer["ConfluenceAction"].write(value.confluenceAction)
+        try writer["ConfluenceKnowledgeBase"].write(value.confluenceKnowledgeBase)
         try writer["CreateAndUpdateAmazonBedrockARSAction"].write(value.createAndUpdateAmazonBedrockARSAction)
         try writer["CreateAndUpdateAmazonBedrockFSAction"].write(value.createAndUpdateAmazonBedrockFSAction)
         try writer["CreateAndUpdateAmazonBedrockKRSAction"].write(value.createAndUpdateAmazonBedrockKRSAction)
@@ -72925,11 +74528,14 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateApps"].write(value.createAndUpdateApps)
         try writer["CreateAndUpdateAsanaAction"].write(value.createAndUpdateAsanaAction)
         try writer["CreateAndUpdateBambooHRAction"].write(value.createAndUpdateBambooHRAction)
+        try writer["CreateAndUpdateBedrockManagedKnowledgeBase"].write(value.createAndUpdateBedrockManagedKnowledgeBase)
         try writer["CreateAndUpdateBoxAgentAction"].write(value.createAndUpdateBoxAgentAction)
+        try writer["CreateAndUpdateBoxKnowledgeBase"].write(value.createAndUpdateBoxKnowledgeBase)
         try writer["CreateAndUpdateCanvaAgentAction"].write(value.createAndUpdateCanvaAgentAction)
         try writer["CreateAndUpdateComprehendAction"].write(value.createAndUpdateComprehendAction)
         try writer["CreateAndUpdateComprehendMedicalAction"].write(value.createAndUpdateComprehendMedicalAction)
         try writer["CreateAndUpdateConfluenceAction"].write(value.createAndUpdateConfluenceAction)
+        try writer["CreateAndUpdateConfluenceKnowledgeBase"].write(value.createAndUpdateConfluenceKnowledgeBase)
         try writer["CreateAndUpdateDashboardEmailReports"].write(value.createAndUpdateDashboardEmailReports)
         try writer["CreateAndUpdateDataSources"].write(value.createAndUpdateDataSources)
         try writer["CreateAndUpdateDatasets"].write(value.createAndUpdateDatasets)
@@ -72937,10 +74543,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateGenericHTTPAction"].write(value.createAndUpdateGenericHTTPAction)
         try writer["CreateAndUpdateGithubAction"].write(value.createAndUpdateGithubAction)
         try writer["CreateAndUpdateGoogleCalendarAction"].write(value.createAndUpdateGoogleCalendarAction)
+        try writer["CreateAndUpdateGoogleDriveKnowledgeBase"].write(value.createAndUpdateGoogleDriveKnowledgeBase)
         try writer["CreateAndUpdateHubspotAction"].write(value.createAndUpdateHubspotAction)
         try writer["CreateAndUpdateHuggingFaceAction"].write(value.createAndUpdateHuggingFaceAction)
+        try writer["CreateAndUpdateIDCKnowledgeBase"].write(value.createAndUpdateIDCKnowledgeBase)
         try writer["CreateAndUpdateIntercomAction"].write(value.createAndUpdateIntercomAction)
         try writer["CreateAndUpdateJiraAction"].write(value.createAndUpdateJiraAction)
+        try writer["CreateAndUpdateKnowledgeBases"].write(value.createAndUpdateKnowledgeBases)
         try writer["CreateAndUpdateLinearAction"].write(value.createAndUpdateLinearAction)
         try writer["CreateAndUpdateMCPAction"].write(value.createAndUpdateMCPAction)
         try writer["CreateAndUpdateMSExchangeAction"].write(value.createAndUpdateMSExchangeAction)
@@ -72949,8 +74558,11 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateNewRelicAction"].write(value.createAndUpdateNewRelicAction)
         try writer["CreateAndUpdateNotionAction"].write(value.createAndUpdateNotionAction)
         try writer["CreateAndUpdateOneDriveAction"].write(value.createAndUpdateOneDriveAction)
+        try writer["CreateAndUpdateOneDriveKnowledgeBase"].write(value.createAndUpdateOneDriveKnowledgeBase)
         try writer["CreateAndUpdateOpenAPIAction"].write(value.createAndUpdateOpenAPIAction)
         try writer["CreateAndUpdatePagerDutyAction"].write(value.createAndUpdatePagerDutyAction)
+        try writer["CreateAndUpdateQBusinessKnowledgeBase"].write(value.createAndUpdateQBusinessKnowledgeBase)
+        try writer["CreateAndUpdateS3KnowledgeBase"].write(value.createAndUpdateS3KnowledgeBase)
         try writer["CreateAndUpdateSAPBillOfMaterialAction"].write(value.createAndUpdateSAPBillOfMaterialAction)
         try writer["CreateAndUpdateSAPBusinessPartnerAction"].write(value.createAndUpdateSAPBusinessPartnerAction)
         try writer["CreateAndUpdateSAPMaterialStockAction"].write(value.createAndUpdateSAPMaterialStockAction)
@@ -72961,11 +74573,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateSandPGlobalEnergyAction"].write(value.createAndUpdateSandPGlobalEnergyAction)
         try writer["CreateAndUpdateServiceNowAction"].write(value.createAndUpdateServiceNowAction)
         try writer["CreateAndUpdateSharePointAction"].write(value.createAndUpdateSharePointAction)
+        try writer["CreateAndUpdateSharePointKnowledgeBase"].write(value.createAndUpdateSharePointKnowledgeBase)
         try writer["CreateAndUpdateSlackAction"].write(value.createAndUpdateSlackAction)
         try writer["CreateAndUpdateSmartsheetAction"].write(value.createAndUpdateSmartsheetAction)
         try writer["CreateAndUpdateTextractAction"].write(value.createAndUpdateTextractAction)
         try writer["CreateAndUpdateThemes"].write(value.createAndUpdateThemes)
         try writer["CreateAndUpdateThresholdAlerts"].write(value.createAndUpdateThresholdAlerts)
+        try writer["CreateAndUpdateWebCrawlerKnowledgeBase"].write(value.createAndUpdateWebCrawlerKnowledgeBase)
         try writer["CreateAndUpdateZendeskAction"].write(value.createAndUpdateZendeskAction)
         try writer["CreateChatAgents"].write(value.createChatAgents)
         try writer["CreateDashboardExecutiveSummaryWithQ"].write(value.createDashboardExecutiveSummaryWithQ)
@@ -72987,8 +74601,10 @@ extension QuickSightClientTypes.Capabilities {
         try writer["GenericHTTPAction"].write(value.genericHTTPAction)
         try writer["GithubAction"].write(value.githubAction)
         try writer["GoogleCalendarAction"].write(value.googleCalendarAction)
+        try writer["GoogleDriveKnowledgeBase"].write(value.googleDriveKnowledgeBase)
         try writer["HubspotAction"].write(value.hubspotAction)
         try writer["HuggingFaceAction"].write(value.huggingFaceAction)
+        try writer["IDCKnowledgeBase"].write(value.idcKnowledgeBase)
         try writer["InboundEmailTrigger"].write(value.inboundEmailTrigger)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
         try writer["IntercomAction"].write(value.intercomAction)
@@ -73004,14 +74620,17 @@ extension QuickSightClientTypes.Capabilities {
         try writer["NewRelicAction"].write(value.newRelicAction)
         try writer["NotionAction"].write(value.notionAction)
         try writer["OneDriveAction"].write(value.oneDriveAction)
+        try writer["OneDriveKnowledgeBase"].write(value.oneDriveKnowledgeBase)
         try writer["OpenAPIAction"].write(value.openAPIAction)
         try writer["PagerDutyAction"].write(value.pagerDutyAction)
         try writer["PerformFlowUiTask"].write(value.performFlowUiTask)
         try writer["PrintReports"].write(value.printReports)
         try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
+        try writer["QBusinessKnowledgeBase"].write(value.qBusinessKnowledgeBase)
         try writer["QuickEventTrigger"].write(value.quickEventTrigger)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["Research"].write(value.research)
+        try writer["S3KnowledgeBase"].write(value.s3KnowledgeBase)
         try writer["SAPBillOfMaterialAction"].write(value.sapBillOfMaterialAction)
         try writer["SAPBusinessPartnerAction"].write(value.sapBusinessPartnerAction)
         try writer["SAPMaterialStockAction"].write(value.sapMaterialStockAction)
@@ -73032,12 +74651,15 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareApps"].write(value.shareApps)
         try writer["ShareAsanaAction"].write(value.shareAsanaAction)
         try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
+        try writer["ShareBedrockManagedKnowledgeBase"].write(value.shareBedrockManagedKnowledgeBase)
         try writer["ShareBoxAgentAction"].write(value.shareBoxAgentAction)
+        try writer["ShareBoxKnowledgeBase"].write(value.shareBoxKnowledgeBase)
         try writer["ShareCanvaAgentAction"].write(value.shareCanvaAgentAction)
         try writer["ShareChatAgents"].write(value.shareChatAgents)
         try writer["ShareComprehendAction"].write(value.shareComprehendAction)
         try writer["ShareComprehendMedicalAction"].write(value.shareComprehendMedicalAction)
         try writer["ShareConfluenceAction"].write(value.shareConfluenceAction)
+        try writer["ShareConfluenceKnowledgeBase"].write(value.shareConfluenceKnowledgeBase)
         try writer["ShareDashboards"].write(value.shareDashboards)
         try writer["ShareDataSources"].write(value.shareDataSources)
         try writer["ShareDatasets"].write(value.shareDatasets)
@@ -73045,10 +74667,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareGenericHTTPAction"].write(value.shareGenericHTTPAction)
         try writer["ShareGithubAction"].write(value.shareGithubAction)
         try writer["ShareGoogleCalendarAction"].write(value.shareGoogleCalendarAction)
+        try writer["ShareGoogleDriveKnowledgeBase"].write(value.shareGoogleDriveKnowledgeBase)
         try writer["ShareHubspotAction"].write(value.shareHubspotAction)
         try writer["ShareHuggingFaceAction"].write(value.shareHuggingFaceAction)
+        try writer["ShareIDCKnowledgeBase"].write(value.shareIDCKnowledgeBase)
         try writer["ShareIntercomAction"].write(value.shareIntercomAction)
         try writer["ShareJiraAction"].write(value.shareJiraAction)
+        try writer["ShareKnowledgeBases"].write(value.shareKnowledgeBases)
         try writer["ShareLinearAction"].write(value.shareLinearAction)
         try writer["ShareMCPAction"].write(value.shareMCPAction)
         try writer["ShareMSExchangeAction"].write(value.shareMSExchangeAction)
@@ -73057,9 +74682,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareNewRelicAction"].write(value.shareNewRelicAction)
         try writer["ShareNotionAction"].write(value.shareNotionAction)
         try writer["ShareOneDriveAction"].write(value.shareOneDriveAction)
+        try writer["ShareOneDriveKnowledgeBase"].write(value.shareOneDriveKnowledgeBase)
         try writer["ShareOpenAPIAction"].write(value.shareOpenAPIAction)
         try writer["SharePagerDutyAction"].write(value.sharePagerDutyAction)
         try writer["SharePointAction"].write(value.sharePointAction)
+        try writer["SharePointKnowledgeBase"].write(value.sharePointKnowledgeBase)
+        try writer["ShareQBusinessKnowledgeBase"].write(value.shareQBusinessKnowledgeBase)
+        try writer["ShareS3KnowledgeBase"].write(value.shareS3KnowledgeBase)
         try writer["ShareSAPBillOfMaterialAction"].write(value.shareSAPBillOfMaterialAction)
         try writer["ShareSAPBusinessPartnerAction"].write(value.shareSAPBusinessPartnerAction)
         try writer["ShareSAPMaterialStockAction"].write(value.shareSAPMaterialStockAction)
@@ -73070,10 +74699,12 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareSandPGlobalEnergyAction"].write(value.shareSandPGlobalEnergyAction)
         try writer["ShareServiceNowAction"].write(value.shareServiceNowAction)
         try writer["ShareSharePointAction"].write(value.shareSharePointAction)
+        try writer["ShareSharePointKnowledgeBase"].write(value.shareSharePointKnowledgeBase)
         try writer["ShareSlackAction"].write(value.shareSlackAction)
         try writer["ShareSmartsheetAction"].write(value.shareSmartsheetAction)
         try writer["ShareSpaces"].write(value.shareSpaces)
         try writer["ShareTextractAction"].write(value.shareTextractAction)
+        try writer["ShareWebCrawlerKnowledgeBase"].write(value.shareWebCrawlerKnowledgeBase)
         try writer["ShareZendeskAction"].write(value.shareZendeskAction)
         try writer["SlackAction"].write(value.slackAction)
         try writer["SmartsheetAction"].write(value.smartsheetAction)
@@ -73090,20 +74721,25 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseAmazonSThreeAction"].write(value.useAmazonSThreeAction)
         try writer["UseAsanaAction"].write(value.useAsanaAction)
         try writer["UseBambooHRAction"].write(value.useBambooHRAction)
+        try writer["UseBedrockManagedKnowledgeBase"].write(value.useBedrockManagedKnowledgeBase)
         try writer["UseBedrockModels"].write(value.useBedrockModels)
         try writer["UseBoxAgentAction"].write(value.useBoxAgentAction)
+        try writer["UseBoxKnowledgeBase"].write(value.useBoxKnowledgeBase)
         try writer["UseBrowserExtension"].write(value.useBrowserExtension)
         try writer["UseCanvaAgentAction"].write(value.useCanvaAgentAction)
         try writer["UseComprehendAction"].write(value.useComprehendAction)
         try writer["UseComprehendMedicalAction"].write(value.useComprehendMedicalAction)
         try writer["UseConfluenceAction"].write(value.useConfluenceAction)
+        try writer["UseConfluenceKnowledgeBase"].write(value.useConfluenceKnowledgeBase)
         try writer["UseExcelAddInExtension"].write(value.useExcelAddInExtension)
         try writer["UseFactSetAction"].write(value.useFactSetAction)
         try writer["UseGenericHTTPAction"].write(value.useGenericHTTPAction)
         try writer["UseGithubAction"].write(value.useGithubAction)
         try writer["UseGoogleCalendarAction"].write(value.useGoogleCalendarAction)
+        try writer["UseGoogleDriveKnowledgeBase"].write(value.useGoogleDriveKnowledgeBase)
         try writer["UseHubspotAction"].write(value.useHubspotAction)
         try writer["UseHuggingFaceAction"].write(value.useHuggingFaceAction)
+        try writer["UseIDCKnowledgeBase"].write(value.useIDCKnowledgeBase)
         try writer["UseIntercomAction"].write(value.useIntercomAction)
         try writer["UseJiraAction"].write(value.useJiraAction)
         try writer["UseLinearAction"].write(value.useLinearAction)
@@ -73114,10 +74750,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseNewRelicAction"].write(value.useNewRelicAction)
         try writer["UseNotionAction"].write(value.useNotionAction)
         try writer["UseOneDriveAction"].write(value.useOneDriveAction)
+        try writer["UseOneDriveKnowledgeBase"].write(value.useOneDriveKnowledgeBase)
         try writer["UseOpenAPIAction"].write(value.useOpenAPIAction)
         try writer["UseOutlookAddInExtension"].write(value.useOutlookAddInExtension)
         try writer["UsePagerDutyAction"].write(value.usePagerDutyAction)
         try writer["UsePowerpointAddInExtension"].write(value.usePowerpointAddInExtension)
+        try writer["UseQBusinessKnowledgeBase"].write(value.useQBusinessKnowledgeBase)
+        try writer["UseS3KnowledgeBase"].write(value.useS3KnowledgeBase)
         try writer["UseSAPBillOfMaterialAction"].write(value.useSAPBillOfMaterialAction)
         try writer["UseSAPBusinessPartnerAction"].write(value.useSAPBusinessPartnerAction)
         try writer["UseSAPMaterialStockAction"].write(value.useSAPMaterialStockAction)
@@ -73128,12 +74767,15 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseSandPGlobalEnergyAction"].write(value.useSandPGlobalEnergyAction)
         try writer["UseServiceNowAction"].write(value.useServiceNowAction)
         try writer["UseSharePointAction"].write(value.useSharePointAction)
+        try writer["UseSharePointKnowledgeBase"].write(value.useSharePointKnowledgeBase)
         try writer["UseSlackAction"].write(value.useSlackAction)
         try writer["UseSmartsheetAction"].write(value.useSmartsheetAction)
         try writer["UseTextractAction"].write(value.useTextractAction)
+        try writer["UseWebCrawlerKnowledgeBase"].write(value.useWebCrawlerKnowledgeBase)
         try writer["UseWordAddInExtension"].write(value.useWordAddInExtension)
         try writer["UseZendeskAction"].write(value.useZendeskAction)
         try writer["ViewAccountSPICECapacity"].write(value.viewAccountSPICECapacity)
+        try writer["WebCrawlerKnowledgeBase"].write(value.webCrawlerKnowledgeBase)
         try writer["ZendeskAction"].write(value.zendeskAction)
     }
 
@@ -73178,6 +74820,48 @@ extension QuickSightClientTypes.Capabilities {
         value.approveFlowShareRequests = try reader["ApproveFlowShareRequests"].readIfPresent()
         value.useAgentWebSearch = try reader["UseAgentWebSearch"].readIfPresent()
         value.knowledgeBase = try reader["KnowledgeBase"].readIfPresent()
+        value.createAndUpdateKnowledgeBases = try reader["CreateAndUpdateKnowledgeBases"].readIfPresent()
+        value.shareKnowledgeBases = try reader["ShareKnowledgeBases"].readIfPresent()
+        value.sharePointKnowledgeBase = try reader["SharePointKnowledgeBase"].readIfPresent()
+        value.createAndUpdateSharePointKnowledgeBase = try reader["CreateAndUpdateSharePointKnowledgeBase"].readIfPresent()
+        value.shareSharePointKnowledgeBase = try reader["ShareSharePointKnowledgeBase"].readIfPresent()
+        value.useSharePointKnowledgeBase = try reader["UseSharePointKnowledgeBase"].readIfPresent()
+        value.googleDriveKnowledgeBase = try reader["GoogleDriveKnowledgeBase"].readIfPresent()
+        value.createAndUpdateGoogleDriveKnowledgeBase = try reader["CreateAndUpdateGoogleDriveKnowledgeBase"].readIfPresent()
+        value.shareGoogleDriveKnowledgeBase = try reader["ShareGoogleDriveKnowledgeBase"].readIfPresent()
+        value.useGoogleDriveKnowledgeBase = try reader["UseGoogleDriveKnowledgeBase"].readIfPresent()
+        value.webCrawlerKnowledgeBase = try reader["WebCrawlerKnowledgeBase"].readIfPresent()
+        value.createAndUpdateWebCrawlerKnowledgeBase = try reader["CreateAndUpdateWebCrawlerKnowledgeBase"].readIfPresent()
+        value.shareWebCrawlerKnowledgeBase = try reader["ShareWebCrawlerKnowledgeBase"].readIfPresent()
+        value.useWebCrawlerKnowledgeBase = try reader["UseWebCrawlerKnowledgeBase"].readIfPresent()
+        value.s3KnowledgeBase = try reader["S3KnowledgeBase"].readIfPresent()
+        value.createAndUpdateS3KnowledgeBase = try reader["CreateAndUpdateS3KnowledgeBase"].readIfPresent()
+        value.shareS3KnowledgeBase = try reader["ShareS3KnowledgeBase"].readIfPresent()
+        value.useS3KnowledgeBase = try reader["UseS3KnowledgeBase"].readIfPresent()
+        value.confluenceKnowledgeBase = try reader["ConfluenceKnowledgeBase"].readIfPresent()
+        value.createAndUpdateConfluenceKnowledgeBase = try reader["CreateAndUpdateConfluenceKnowledgeBase"].readIfPresent()
+        value.shareConfluenceKnowledgeBase = try reader["ShareConfluenceKnowledgeBase"].readIfPresent()
+        value.useConfluenceKnowledgeBase = try reader["UseConfluenceKnowledgeBase"].readIfPresent()
+        value.oneDriveKnowledgeBase = try reader["OneDriveKnowledgeBase"].readIfPresent()
+        value.createAndUpdateOneDriveKnowledgeBase = try reader["CreateAndUpdateOneDriveKnowledgeBase"].readIfPresent()
+        value.shareOneDriveKnowledgeBase = try reader["ShareOneDriveKnowledgeBase"].readIfPresent()
+        value.useOneDriveKnowledgeBase = try reader["UseOneDriveKnowledgeBase"].readIfPresent()
+        value.qBusinessKnowledgeBase = try reader["QBusinessKnowledgeBase"].readIfPresent()
+        value.createAndUpdateQBusinessKnowledgeBase = try reader["CreateAndUpdateQBusinessKnowledgeBase"].readIfPresent()
+        value.shareQBusinessKnowledgeBase = try reader["ShareQBusinessKnowledgeBase"].readIfPresent()
+        value.useQBusinessKnowledgeBase = try reader["UseQBusinessKnowledgeBase"].readIfPresent()
+        value.bedrockManagedKnowledgeBase = try reader["BedrockManagedKnowledgeBase"].readIfPresent()
+        value.createAndUpdateBedrockManagedKnowledgeBase = try reader["CreateAndUpdateBedrockManagedKnowledgeBase"].readIfPresent()
+        value.shareBedrockManagedKnowledgeBase = try reader["ShareBedrockManagedKnowledgeBase"].readIfPresent()
+        value.useBedrockManagedKnowledgeBase = try reader["UseBedrockManagedKnowledgeBase"].readIfPresent()
+        value.boxKnowledgeBase = try reader["BoxKnowledgeBase"].readIfPresent()
+        value.createAndUpdateBoxKnowledgeBase = try reader["CreateAndUpdateBoxKnowledgeBase"].readIfPresent()
+        value.shareBoxKnowledgeBase = try reader["ShareBoxKnowledgeBase"].readIfPresent()
+        value.useBoxKnowledgeBase = try reader["UseBoxKnowledgeBase"].readIfPresent()
+        value.idcKnowledgeBase = try reader["IDCKnowledgeBase"].readIfPresent()
+        value.createAndUpdateIDCKnowledgeBase = try reader["CreateAndUpdateIDCKnowledgeBase"].readIfPresent()
+        value.shareIDCKnowledgeBase = try reader["ShareIDCKnowledgeBase"].readIfPresent()
+        value.useIDCKnowledgeBase = try reader["UseIDCKnowledgeBase"].readIfPresent()
         value.action = try reader["Action"].readIfPresent()
         value.genericHTTPAction = try reader["GenericHTTPAction"].readIfPresent()
         value.createAndUpdateGenericHTTPAction = try reader["CreateAndUpdateGenericHTTPAction"].readIfPresent()
@@ -73855,12 +75539,14 @@ extension QuickSightClientTypes.ColumnIdentifier {
         guard let value else { return }
         try writer["ColumnName"].write(value.columnName)
         try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
+        try writer["TopicIdentifier"].write(value.topicIdentifier)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ColumnIdentifier()
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.topicIdentifier = try reader["TopicIdentifier"].readIfPresent()
         value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
         return value
     }
@@ -74799,6 +76485,7 @@ extension QuickSightClientTypes.CustomContentVisual {
         try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["TopicIdentifier"].write(value.topicIdentifier)
         try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
@@ -74812,6 +76499,7 @@ extension QuickSightClientTypes.CustomContentVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomContentConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.topicIdentifier = try reader["TopicIdentifier"].readIfPresent()
         value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
@@ -75152,6 +76840,7 @@ extension QuickSightClientTypes.DashboardSourceTemplate {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
         try writer["DataSetReferences"].writeList(value.dataSetReferences, memberWritingClosure: QuickSightClientTypes.DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicReferences"].writeList(value.topicReferences, memberWritingClosure: QuickSightClientTypes.TopicReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -75183,6 +76872,7 @@ extension QuickSightClientTypes.DashboardVersion {
         value.arn = try reader["Arn"].readIfPresent()
         value.sourceEntityArn = try reader["SourceEntityArn"].readIfPresent()
         value.dataSetArns = try reader["DataSetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicArns = try reader["TopicArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.themeArn = try reader["ThemeArn"].readIfPresent()
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Sheet.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -75204,12 +76894,14 @@ extension QuickSightClientTypes.DashboardVersionDefinition {
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TooltipSheets"].writeList(value.tooltipSheets, memberWritingClosure: QuickSightClientTypes.TooltipSheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicIdentifierDeclarations"].writeList(value.topicIdentifierDeclarations, memberWritingClosure: QuickSightClientTypes.TopicIdentifierDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVersionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DashboardVersionDefinition()
         value.dataSetIdentifierDeclarations = try reader["DataSetIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.topicIdentifierDeclarations = try reader["TopicIdentifierDeclarations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicIdentifierDeclaration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tooltipSheets = try reader["TooltipSheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TooltipSheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -77354,6 +79046,7 @@ extension QuickSightClientTypes.EmptyVisual {
         guard let value else { return }
         try writer["Actions"].writeList(value.actions, memberWritingClosure: QuickSightClientTypes.VisualCustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
+        try writer["TopicIdentifier"].write(value.topicIdentifier)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -77362,6 +79055,7 @@ extension QuickSightClientTypes.EmptyVisual {
         var value = QuickSightClientTypes.EmptyVisual()
         value.visualId = try reader["VisualId"].readIfPresent() ?? ""
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.topicIdentifier = try reader["TopicIdentifier"].readIfPresent()
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -80801,6 +82495,7 @@ extension QuickSightClientTypes.InsightVisual {
         try writer["InsightConfiguration"].write(value.insightConfiguration, with: QuickSightClientTypes.InsightConfiguration.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["TopicIdentifier"].write(value.topicIdentifier)
         try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
@@ -80814,6 +82509,7 @@ extension QuickSightClientTypes.InsightVisual {
         value.insightConfiguration = try reader["InsightConfiguration"].readIfPresent(with: QuickSightClientTypes.InsightConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.topicIdentifier = try reader["TopicIdentifier"].readIfPresent()
         value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
@@ -81515,6 +83211,7 @@ extension QuickSightClientTypes.LayerMapVisual {
         try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["TopicIdentifier"].write(value.topicIdentifier)
         try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
@@ -81527,6 +83224,7 @@ extension QuickSightClientTypes.LayerMapVisual {
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.GeospatialLayerMapConfiguration.read(from:))
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.topicIdentifier = try reader["TopicIdentifier"].readIfPresent()
         value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
@@ -82291,10 +83989,13 @@ extension QuickSightClientTypes.NamedEntityDefinition {
     static func write(value: QuickSightClientTypes.NamedEntityDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
+        try writer["IsHidden"].write(value.isHidden)
         try writer["Metric"].write(value.metric, with: QuickSightClientTypes.NamedEntityDefinitionMetric.write(value:to:))
+        try writer["PresentationOrder"].write(value.presentationOrder)
         try writer["PropertyName"].write(value.propertyName)
         try writer["PropertyRole"].write(value.propertyRole)
         try writer["PropertyUsage"].write(value.propertyUsage)
+        try writer["RankOrder"].write(value.rankOrder)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NamedEntityDefinition {
@@ -82305,6 +84006,9 @@ extension QuickSightClientTypes.NamedEntityDefinition {
         value.propertyRole = try reader["PropertyRole"].readIfPresent()
         value.propertyUsage = try reader["PropertyUsage"].readIfPresent()
         value.metric = try reader["Metric"].readIfPresent(with: QuickSightClientTypes.NamedEntityDefinitionMetric.read(from:))
+        value.rankOrder = try reader["RankOrder"].readIfPresent()
+        value.presentationOrder = try reader["PresentationOrder"].readIfPresent()
+        value.isHidden = try reader["IsHidden"].readIfPresent()
         return value
     }
 }
@@ -82337,6 +84041,23 @@ extension QuickSightClientTypes.NamedEntityRef {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.NamedEntityRef()
         value.namedEntityName = try reader["NamedEntityName"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.NamedEntitySort {
+
+    static func write(value: QuickSightClientTypes.NamedEntitySort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Direction"].write(value.direction)
+        try writer["FieldName"].write(value.fieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NamedEntitySort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.NamedEntitySort()
+        value.fieldName = try reader["FieldName"].readIfPresent() ?? ""
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -88101,6 +89822,7 @@ extension QuickSightClientTypes.TemplateSourceAnalysis {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
         try writer["DataSetReferences"].writeList(value.dataSetReferences, memberWritingClosure: QuickSightClientTypes.DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicReferences"].writeList(value.topicReferences, memberWritingClosure: QuickSightClientTypes.TopicReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -88146,6 +89868,7 @@ extension QuickSightClientTypes.TemplateVersion {
         value.versionNumber = try reader["VersionNumber"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.dataSetConfigurations = try reader["DataSetConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicConfigurations = try reader["TopicConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.sourceEntityArn = try reader["SourceEntityArn"].readIfPresent()
         value.themeArn = try reader["ThemeArn"].readIfPresent()
@@ -88169,12 +89892,14 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TooltipSheets"].writeList(value.tooltipSheets, memberWritingClosure: QuickSightClientTypes.TooltipSheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicConfigurations"].writeList(value.topicConfigurations, memberWritingClosure: QuickSightClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateVersionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TemplateVersionDefinition()
         value.dataSetConfigurations = try reader["DataSetConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.topicConfigurations = try reader["TopicConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sheets = try reader["Sheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tooltipSheets = try reader["TooltipSheets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TooltipSheetDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.calculatedFields = try reader["CalculatedFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -88819,6 +90544,7 @@ extension QuickSightClientTypes.TopicCategoryFilter {
         try writer["CategoryFilterType"].write(value.categoryFilterType)
         try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicCategoryFilterConstant.write(value:to:))
         try writer["Inverse"].write(value.inverse)
+        try writer["NullFilter"].write(value.nullFilter)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicCategoryFilter {
@@ -88828,6 +90554,7 @@ extension QuickSightClientTypes.TopicCategoryFilter {
         value.categoryFilterType = try reader["CategoryFilterType"].readIfPresent()
         value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicCategoryFilterConstant.read(from:))
         value.inverse = try reader["Inverse"].readIfPresent() ?? false
+        value.nullFilter = try reader["NullFilter"].readIfPresent()
         return value
     }
 }
@@ -88913,6 +90640,25 @@ extension QuickSightClientTypes.TopicConfigOptions {
     }
 }
 
+extension QuickSightClientTypes.TopicConfiguration {
+
+    static func write(value: QuickSightClientTypes.TopicConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnGroupSchemaList"].writeList(value.columnGroupSchemaList, memberWritingClosure: QuickSightClientTypes.ColumnGroupSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSetSchema"].write(value.dataSetSchema, with: QuickSightClientTypes.DataSetSchema.write(value:to:))
+        try writer["Placeholder"].write(value.placeholder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicConfiguration()
+        value.placeholder = try reader["Placeholder"].readIfPresent()
+        value.dataSetSchema = try reader["DataSetSchema"].readIfPresent(with: QuickSightClientTypes.DataSetSchema.read(from:))
+        value.columnGroupSchemaList = try reader["ColumnGroupSchemaList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnGroupSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension QuickSightClientTypes.TopicConstantValue {
 
     static func write(value: QuickSightClientTypes.TopicConstantValue?, to writer: SmithyJSON.Writer) throws {
@@ -88942,6 +90688,7 @@ extension QuickSightClientTypes.TopicDateRangeFilter {
         guard let value else { return }
         try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicRangeFilterConstant.write(value:to:))
         try writer["Inclusive"].write(value.inclusive)
+        try writer["NullFilter"].write(value.nullFilter)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicDateRangeFilter {
@@ -88949,6 +90696,7 @@ extension QuickSightClientTypes.TopicDateRangeFilter {
         var value = QuickSightClientTypes.TopicDateRangeFilter()
         value.inclusive = try reader["Inclusive"].readIfPresent() ?? false
         value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicRangeFilterConstant.read(from:))
+        value.nullFilter = try reader["NullFilter"].readIfPresent()
         return value
     }
 }
@@ -89009,6 +90757,23 @@ extension QuickSightClientTypes.TopicFilter {
         value.dateRangeFilter = try reader["DateRangeFilter"].readIfPresent(with: QuickSightClientTypes.TopicDateRangeFilter.read(from:))
         value.relativeDateFilter = try reader["RelativeDateFilter"].readIfPresent(with: QuickSightClientTypes.TopicRelativeDateFilter.read(from:))
         value.nullFilter = try reader["NullFilter"].readIfPresent(with: QuickSightClientTypes.TopicNullFilter.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIdentifierDeclaration {
+
+    static func write(value: QuickSightClientTypes.TopicIdentifierDeclaration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifier"].write(value.identifier)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIdentifierDeclaration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIdentifierDeclaration()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -89191,7 +90956,10 @@ extension QuickSightClientTypes.TopicNamedEntity {
         try writer["EntityDescription"].write(value.entityDescription)
         try writer["EntityName"].write(value.entityName)
         try writer["EntitySynonyms"].writeList(value.entitySynonyms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PresentationOrder"].write(value.presentationOrder)
+        try writer["RankOrder"].write(value.rankOrder)
         try writer["SemanticEntityType"].write(value.semanticEntityType, with: QuickSightClientTypes.SemanticEntityType.write(value:to:))
+        try writer["Sort"].writeList(value.sort, memberWritingClosure: QuickSightClientTypes.NamedEntitySort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicNamedEntity {
@@ -89202,6 +90970,9 @@ extension QuickSightClientTypes.TopicNamedEntity {
         value.entitySynonyms = try reader["EntitySynonyms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.semanticEntityType = try reader["SemanticEntityType"].readIfPresent(with: QuickSightClientTypes.SemanticEntityType.read(from:))
         value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.NamedEntityDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sort = try reader["Sort"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.NamedEntitySort.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rankOrder = try reader["RankOrder"].readIfPresent()
+        value.presentationOrder = try reader["PresentationOrder"].readIfPresent()
         return value
     }
 }
@@ -89231,6 +91002,8 @@ extension QuickSightClientTypes.TopicNumericEqualityFilter {
         guard let value else { return }
         try writer["Aggregation"].write(value.aggregation)
         try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicSingularFilterConstant.write(value:to:))
+        try writer["Inverse"].write(value.inverse)
+        try writer["NullFilter"].write(value.nullFilter)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicNumericEqualityFilter {
@@ -89238,6 +91011,8 @@ extension QuickSightClientTypes.TopicNumericEqualityFilter {
         var value = QuickSightClientTypes.TopicNumericEqualityFilter()
         value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicSingularFilterConstant.read(from:))
         value.aggregation = try reader["Aggregation"].readIfPresent()
+        value.inverse = try reader["Inverse"].readIfPresent() ?? false
+        value.nullFilter = try reader["NullFilter"].readIfPresent()
         return value
     }
 }
@@ -89249,6 +91024,8 @@ extension QuickSightClientTypes.TopicNumericRangeFilter {
         try writer["Aggregation"].write(value.aggregation)
         try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicRangeFilterConstant.write(value:to:))
         try writer["Inclusive"].write(value.inclusive)
+        try writer["Inverse"].write(value.inverse)
+        try writer["NullFilter"].write(value.nullFilter)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicNumericRangeFilter {
@@ -89257,6 +91034,8 @@ extension QuickSightClientTypes.TopicNumericRangeFilter {
         value.inclusive = try reader["Inclusive"].readIfPresent() ?? false
         value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicRangeFilterConstant.read(from:))
         value.aggregation = try reader["Aggregation"].readIfPresent()
+        value.inverse = try reader["Inverse"].readIfPresent() ?? false
+        value.nullFilter = try reader["NullFilter"].readIfPresent()
         return value
     }
 }
@@ -89275,6 +91054,15 @@ extension QuickSightClientTypes.TopicRangeFilterConstant {
         value.constantType = try reader["ConstantType"].readIfPresent()
         value.rangeConstant = try reader["RangeConstant"].readIfPresent(with: QuickSightClientTypes.RangeConstant.read(from:))
         return value
+    }
+}
+
+extension QuickSightClientTypes.TopicReference {
+
+    static func write(value: QuickSightClientTypes.TopicReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TopicArn"].write(value.topicArn)
+        try writer["TopicPlaceholder"].write(value.topicPlaceholder)
     }
 }
 
@@ -89333,6 +91121,7 @@ extension QuickSightClientTypes.TopicRelativeDateFilter {
     static func write(value: QuickSightClientTypes.TopicRelativeDateFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicSingularFilterConstant.write(value:to:))
+        try writer["NullFilter"].write(value.nullFilter)
         try writer["RelativeDateFilterFunction"].write(value.relativeDateFilterFunction)
         try writer["TimeGranularity"].write(value.timeGranularity)
     }
@@ -89343,6 +91132,7 @@ extension QuickSightClientTypes.TopicRelativeDateFilter {
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         value.relativeDateFilterFunction = try reader["RelativeDateFilterFunction"].readIfPresent()
         value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicSingularFilterConstant.read(from:))
+        value.nullFilter = try reader["NullFilter"].readIfPresent()
         return value
     }
 }
@@ -89433,6 +91223,90 @@ extension QuickSightClientTypes.TopicTemplate {
         var value = QuickSightClientTypes.TopicTemplate()
         value.templateType = try reader["TemplateType"].readIfPresent()
         value.slots = try reader["Slots"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Slot.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicV2DataSetReference {
+
+    static func write(value: QuickSightClientTypes.TopicV2DataSetReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSetArn"].write(value.dataSetArn)
+        try writer["DataSetName"].write(value.dataSetName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicV2DataSetReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicV2DataSetReference()
+        value.dataSetArn = try reader["DataSetArn"].readIfPresent() ?? ""
+        value.dataSetName = try reader["DataSetName"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicV2DataSetRelation {
+
+    static func write(value: QuickSightClientTypes.TopicV2DataSetRelation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Left"].write(value.`left`, with: QuickSightClientTypes.TopicV2DataSetRelationEndpoint.write(value:to:))
+        try writer["Right"].write(value.`right`, with: QuickSightClientTypes.TopicV2DataSetRelationEndpoint.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicV2DataSetRelation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicV2DataSetRelation()
+        value.`left` = try reader["Left"].readIfPresent(with: QuickSightClientTypes.TopicV2DataSetRelationEndpoint.read(from:))
+        value.`right` = try reader["Right"].readIfPresent(with: QuickSightClientTypes.TopicV2DataSetRelationEndpoint.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicV2DataSetRelationEndpoint {
+
+    static func write(value: QuickSightClientTypes.TopicV2DataSetRelationEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSetArn"].write(value.dataSetArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicV2DataSetRelationEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicV2DataSetRelationEndpoint()
+        value.dataSetArn = try reader["DataSetArn"].readIfPresent() ?? ""
+        value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicV2Details {
+
+    static func write(value: QuickSightClientTypes.TopicV2Details?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSetRelations"].writeList(value.dataSetRelations, memberWritingClosure: QuickSightClientTypes.TopicV2DataSetRelation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSets"].writeList(value.dataSets, memberWritingClosure: QuickSightClientTypes.TopicV2DataSetReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicV2Details {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicV2Details()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.dataSets = try reader["DataSets"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicV2DataSetReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSetRelations = try reader["DataSetRelations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicV2DataSetRelation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicV2Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicV2Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicV2Summary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -90362,6 +92236,50 @@ extension QuickSightClientTypes.VisualMenuOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.VisualMenuOption()
         value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualMessageConfiguration {
+
+    static func write(value: QuickSightClientTypes.VisualMessageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["DescriptionVisibility"].write(value.descriptionVisibility)
+        try writer["Enabled"].write(value.enabled)
+        try writer["LinkText"].write(value.linkText)
+        try writer["LinkUrl"].write(value.linkUrl)
+        try writer["LinkVisibility"].write(value.linkVisibility)
+        try writer["Title"].write(value.title)
+        try writer["TitleVisibility"].write(value.titleVisibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualMessageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualMessageConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.title = try reader["Title"].readIfPresent()
+        value.titleVisibility = try reader["TitleVisibility"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.descriptionVisibility = try reader["DescriptionVisibility"].readIfPresent()
+        value.linkText = try reader["LinkText"].readIfPresent()
+        value.linkUrl = try reader["LinkUrl"].readIfPresent()
+        value.linkVisibility = try reader["LinkVisibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualMessages {
+
+    static func write(value: QuickSightClientTypes.VisualMessages?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NoDataMessage"].write(value.noDataMessage, with: QuickSightClientTypes.VisualMessageConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualMessages {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualMessages()
+        value.noDataMessage = try reader["NoDataMessage"].readIfPresent(with: QuickSightClientTypes.VisualMessageConfiguration.read(from:))
         return value
     }
 }
