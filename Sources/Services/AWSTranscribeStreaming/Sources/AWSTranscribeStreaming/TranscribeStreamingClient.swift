@@ -625,7 +625,7 @@ extension TranscribeStreamingClient {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used unsupported values. Check the specified parameters and try your request again.
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
     /// - `ResourceNotFoundException` : The request references a resource which doesn't exist.
     public func getMedicalScribeStream(input: GetMedicalScribeStreamInput) async throws -> GetMedicalScribeStreamOutput {
         let context = Smithy.ContextBuilder()
@@ -703,7 +703,7 @@ extension TranscribeStreamingClient {
     /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used unsupported values. Check the specified parameters and try your request again.
     /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
     public func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput {
         let context = Smithy.ContextBuilder()
@@ -786,7 +786,7 @@ extension TranscribeStreamingClient {
     /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used unsupported values. Check the specified parameters and try your request again.
     /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
     public func startMedicalScribeStream(input: StartMedicalScribeStreamInput) async throws -> StartMedicalScribeStreamOutput {
         let context = Smithy.ContextBuilder()
@@ -869,7 +869,7 @@ extension TranscribeStreamingClient {
     /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used unsupported values. Check the specified parameters and try your request again.
     /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
     public func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput {
         let context = Smithy.ContextBuilder()
@@ -952,7 +952,7 @@ extension TranscribeStreamingClient {
     /// - `BadRequestException` : One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used unsupported values. Check the specified parameters and try your request again.
     /// - `ConflictException` : A new stream started with the same session ID. The current stream has been terminated.
     /// - `InternalFailureException` : A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
     public func startStreamTranscription(input: StartStreamTranscriptionInput) async throws -> StartStreamTranscriptionOutput {
         let context = Smithy.ContextBuilder()

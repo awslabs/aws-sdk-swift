@@ -1406,12 +1406,14 @@ extension CloudFormationClientTypes {
 
     public enum DriftIgnoredReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case managedByAws
+        case sensitiveProperty
         case writeOnlyProperty
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DriftIgnoredReason] {
             return [
                 .managedByAws,
+                .sensitiveProperty,
                 .writeOnlyProperty
             ]
         }
@@ -1424,6 +1426,7 @@ extension CloudFormationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .managedByAws: return "MANAGED_BY_AWS"
+            case .sensitiveProperty: return "SENSITIVE_PROPERTY"
             case .writeOnlyProperty: return "WRITE_ONLY_PROPERTY"
             case let .sdkUnknown(s): return s
             }
@@ -1437,11 +1440,13 @@ extension CloudFormationClientTypes {
     public struct ResourceDriftIgnoredAttribute: Swift.Sendable {
         /// Path of the resource attribute for which drift was ignored.
         public var path: Swift.String?
-        /// Reason why drift was ignored for the attribute, can have 2 possible values:
+        /// Reason why drift was ignored for the attribute, can have 3 possible values:
         ///
-        /// * WRITE_ONLY_PROPERTY - Property is not included in read response for the resource’s live state.
+        /// * WRITE_ONLY_PROPERTY – Property is not included in read response for the resource’s live state.
         ///
-        /// * MANAGED_BY_AWS - Property is managed by an Amazon Web Services service and is expected to be dynamically modified.
+        /// * MANAGED_BY_AWS – Property is managed by an Amazon Web Services service and is expected to be dynamically modified.
+        ///
+        /// * SENSITIVE_PROPERTY – Property has a sensitive value, such as an Amazon Web Services Secrets Manager value.
         public var reason: CloudFormationClientTypes.DriftIgnoredReason?
 
         public init(

@@ -3910,6 +3910,61 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// A reference to a tool in the tool configuration. Used with ToolAdditionBlock and ToolRemovalBlock to identify which tool to add or remove mid-conversation.
+    public struct ToolReference: Swift.Sendable {
+        /// The name of the tool. Must match the name of a tool declared in the top-level tool configuration.
+        public var name: Swift.String?
+        /// The name of the MCP server that provides the tool. Required when referencing an MCP tool.
+        public var serverName: Swift.String?
+        /// The type of tool reference.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            serverName: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.serverName = serverName
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A content block for adding a tool to the available tool set mid-conversation. Each block references a single tool via its tool field. Use within a system role message to make a tool available without re-sending the full tool configuration.
+    public struct ToolAdditionBlock: Swift.Sendable {
+        /// A reference to the tool to add to the available tool set.
+        /// This member is required.
+        public var tool: BedrockRuntimeClientTypes.ToolReference?
+
+        public init(
+            tool: BedrockRuntimeClientTypes.ToolReference? = nil
+        ) {
+            self.tool = tool
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A content block for removing a tool from the available tool set mid-conversation. Each block references a single tool via its tool field. Use within a system role message to remove a tool without re-sending the full tool configuration.
+    public struct ToolRemovalBlock: Swift.Sendable {
+        /// A reference to the tool to remove from the available tool set.
+        /// This member is required.
+        public var tool: BedrockRuntimeClientTypes.ToolReference?
+
+        public init(
+            tool: BedrockRuntimeClientTypes.ToolReference? = nil
+        ) {
+            self.tool = tool
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum VideoFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case flv
         case mkv
@@ -4153,6 +4208,10 @@ extension BedrockRuntimeClientTypes {
         case citationscontent(BedrockRuntimeClientTypes.CitationsContentBlock)
         /// Search result to include in the message.
         case searchresult(BedrockRuntimeClientTypes.SearchResultBlock)
+        /// A content block for adding a tool to the available tool set mid-conversation. Each block references a single tool via its tool field. Use within a system role message to make a tool available without re-sending the full tool configuration.
+        case tooladdition(BedrockRuntimeClientTypes.ToolAdditionBlock)
+        /// A content block for removing a tool from the available tool set mid-conversation. Each block references a single tool via its tool field. Use within a system role message to remove a tool without re-sending the full tool configuration.
+        case toolremoval(BedrockRuntimeClientTypes.ToolRemovalBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4309,12 +4368,16 @@ extension BedrockRuntimeClientTypes {
 
     /// Output configuration for a model response in a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html).
     public struct OutputConfig: Swift.Sendable {
+        /// The effort level for the model to use when generating a response. Higher effort levels allow the model to spend more time reasoning before responding. Supported values are low, medium, high, xhigh, and max. When extended thinking is disabled, the effort level is capped at high. Use effort high or below, or enable thinking to use higher effort levels.
+        public var effort: Swift.String?
         /// Structured output parameters to control the model's text response.
         public var textFormat: BedrockRuntimeClientTypes.OutputFormat?
 
         public init(
+            effort: Swift.String? = nil,
             textFormat: BedrockRuntimeClientTypes.OutputFormat? = nil
         ) {
+            self.effort = effort
             self.textFormat = textFormat
         }
     }
@@ -7317,6 +7380,10 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 try writer["searchResult"].write(searchresult, with: BedrockRuntimeClientTypes.SearchResultBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text)
+            case let .tooladdition(tooladdition):
+                try writer["toolAddition"].write(tooladdition, with: BedrockRuntimeClientTypes.ToolAdditionBlock.write(value:to:))
+            case let .toolremoval(toolremoval):
+                try writer["toolRemoval"].write(toolremoval, with: BedrockRuntimeClientTypes.ToolRemovalBlock.write(value:to:))
             case let .toolresult(toolresult):
                 try writer["toolResult"].write(toolresult, with: BedrockRuntimeClientTypes.ToolResultBlock.write(value:to:))
             case let .tooluse(tooluse):
@@ -7356,6 +7423,10 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 return .citationscontent(try reader["citationsContent"].read(with: BedrockRuntimeClientTypes.CitationsContentBlock.read(from:)))
             case "searchResult":
                 return .searchresult(try reader["searchResult"].read(with: BedrockRuntimeClientTypes.SearchResultBlock.read(from:)))
+            case "toolAddition":
+                return .tooladdition(try reader["toolAddition"].read(with: BedrockRuntimeClientTypes.ToolAdditionBlock.read(from:)))
+            case "toolRemoval":
+                return .toolremoval(try reader["toolRemoval"].read(with: BedrockRuntimeClientTypes.ToolRemovalBlock.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -8652,6 +8723,7 @@ extension BedrockRuntimeClientTypes.OutputConfig {
 
     static func write(value: BedrockRuntimeClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["effort"].write(value.effort)
         try writer["textFormat"].write(value.textFormat, with: BedrockRuntimeClientTypes.OutputFormat.write(value:to:))
     }
 }
@@ -8970,6 +9042,21 @@ extension BedrockRuntimeClientTypes.Tool {
     }
 }
 
+extension BedrockRuntimeClientTypes.ToolAdditionBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.ToolAdditionBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tool"].write(value.tool, with: BedrockRuntimeClientTypes.ToolReference.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolAdditionBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ToolAdditionBlock()
+        value.tool = try reader["tool"].readIfPresent(with: BedrockRuntimeClientTypes.ToolReference.read(from:))
+        return value
+    }
+}
+
 extension BedrockRuntimeClientTypes.ToolChoice {
 
     static func write(value: BedrockRuntimeClientTypes.ToolChoice?, to writer: SmithyJSON.Writer) throws {
@@ -9006,6 +9093,40 @@ extension BedrockRuntimeClientTypes.ToolInputSchema {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ToolReference {
+
+    static func write(value: BedrockRuntimeClientTypes.ToolReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["serverName"].write(value.serverName)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ToolReference()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.serverName = try reader["serverName"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.ToolRemovalBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.ToolRemovalBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tool"].write(value.tool, with: BedrockRuntimeClientTypes.ToolReference.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolRemovalBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ToolRemovalBlock()
+        value.tool = try reader["tool"].readIfPresent(with: BedrockRuntimeClientTypes.ToolReference.read(from:))
+        return value
     }
 }
 

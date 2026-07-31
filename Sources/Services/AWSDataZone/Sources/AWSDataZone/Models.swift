@@ -4795,6 +4795,32 @@ extension DataZoneClientTypes.ConnectionCredentials: Swift.CustomDebugStringConv
 
 extension DataZoneClientTypes {
 
+    /// Contains the Git connection properties that you specify when creating a Git connection.
+    public struct GitPropertiesInput: Swift.Sendable {
+        /// The ARN of the CodeConnections connection used to connect to the Git repository.
+        /// This member is required.
+        public var codeConnectionArn: Swift.String?
+        /// The default branch of the Git repository.
+        /// This member is required.
+        public var defaultBranch: Swift.String?
+        /// The ID of the Git repository. This is the owner and repository name, for example, owner/repo-name.
+        /// This member is required.
+        public var repositoryId: Swift.String?
+
+        public init(
+            codeConnectionArn: Swift.String? = nil,
+            defaultBranch: Swift.String? = nil,
+            repositoryId: Swift.String? = nil
+        ) {
+            self.codeConnectionArn = codeConnectionArn
+            self.defaultBranch = defaultBranch
+            self.repositoryId = repositoryId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum GlueConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigquery
         case documentdb
@@ -5693,6 +5719,8 @@ extension DataZoneClientTypes {
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesInput)
         /// The VPC properties of a connection.
         case vpcproperties(DataZoneClientTypes.VpcPropertiesInput)
+        /// The Git properties of a connection.
+        case gitproperties(DataZoneClientTypes.GitPropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5740,6 +5768,40 @@ extension DataZoneClientTypes {
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The properties of a Git connection returned by get and list operations, including connection status and any error details.
+    public struct GitPropertiesOutput: Swift.Sendable {
+        /// The ARN of the CodeConnections connection used to connect to the Git repository.
+        /// This member is required.
+        public var codeConnectionArn: Swift.String?
+        /// The default branch of the Git repository.
+        /// This member is required.
+        public var defaultBranch: Swift.String?
+        /// The error message that describes why the Git connection failed. This member is populated when the connection status is CREATE_FAILED or UPDATE_FAILED.
+        public var errorMessage: Swift.String?
+        /// The ID of the Git repository. This is the owner and repository name, for example, owner/repo-name.
+        /// This member is required.
+        public var repositoryId: Swift.String?
+        /// The status of the Git connection.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+
+        public init(
+            codeConnectionArn: Swift.String? = nil,
+            defaultBranch: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            repositoryId: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil
+        ) {
+            self.codeConnectionArn = codeConnectionArn
+            self.defaultBranch = defaultBranch
+            self.errorMessage = errorMessage
+            self.repositoryId = repositoryId
+            self.status = status
         }
     }
 }
@@ -6299,7 +6361,28 @@ extension DataZoneClientTypes {
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesOutput)
         /// The VPC properties of a connection.
         case vpcproperties(DataZoneClientTypes.VpcPropertiesOutput)
+        /// The Git properties of a connection.
+        case gitproperties(DataZoneClientTypes.GitPropertiesOutput)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The properties used to update an existing Git connection, such as the CodeConnections ARN or the default branch.
+    public struct GitPropertiesPatch: Swift.Sendable {
+        /// The ARN of the CodeConnections connection used to connect to the Git repository.
+        public var codeConnectionArn: Swift.String?
+        /// The default branch of the Git repository.
+        public var defaultBranch: Swift.String?
+
+        public init(
+            codeConnectionArn: Swift.String? = nil,
+            defaultBranch: Swift.String? = nil
+        ) {
+            self.codeConnectionArn = codeConnectionArn
+            self.defaultBranch = defaultBranch
+        }
     }
 }
 
@@ -6588,6 +6671,8 @@ extension DataZoneClientTypes {
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesPatch)
         /// The VPC properties of a connection properties patch.
         case vpcproperties(DataZoneClientTypes.VpcPropertiesPatch)
+        /// The Git properties of a connection properties patch.
+        case gitproperties(DataZoneClientTypes.GitPropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6630,6 +6715,8 @@ extension DataZoneClientTypes {
         case databricks
         case documentdb
         case dynamodb
+        /// A Git connection type.
+        case git
         case hyperpod
         case iam
         case mlflow
@@ -6657,6 +6744,7 @@ extension DataZoneClientTypes {
                 .databricks,
                 .documentdb,
                 .dynamodb,
+                .git,
                 .hyperpod,
                 .iam,
                 .mlflow,
@@ -6690,6 +6778,7 @@ extension DataZoneClientTypes {
             case .databricks: return "DATABRICKS"
             case .documentdb: return "DOCUMENTDB"
             case .dynamodb: return "DYNAMODB"
+            case .git: return "GIT"
             case .hyperpod: return "HYPERPOD"
             case .iam: return "IAM"
             case .mlflow: return "MLFLOW"
@@ -39079,6 +39168,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesInput.write(value:to:))
             case let .athenaproperties(athenaproperties):
                 try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesInput.write(value:to:))
+            case let .gitproperties(gitproperties):
+                try writer["gitProperties"].write(gitproperties, with: DataZoneClientTypes.GitPropertiesInput.write(value:to:))
             case let .glueproperties(glueproperties):
                 try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesInput.write(value:to:))
             case let .hyperpodproperties(hyperpodproperties):
@@ -39147,6 +39238,8 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .lakehouseproperties(try reader["lakehouseProperties"].read(with: DataZoneClientTypes.LakehousePropertiesOutput.read(from:)))
             case "vpcProperties":
                 return .vpcproperties(try reader["vpcProperties"].read(with: DataZoneClientTypes.VpcPropertiesOutput.read(from:)))
+            case "gitProperties":
+                return .gitproperties(try reader["gitProperties"].read(with: DataZoneClientTypes.GitPropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -39162,6 +39255,8 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesPatch.write(value:to:))
             case let .athenaproperties(athenaproperties):
                 try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesPatch.write(value:to:))
+            case let .gitproperties(gitproperties):
+                try writer["gitProperties"].write(gitproperties, with: DataZoneClientTypes.GitPropertiesPatch.write(value:to:))
             case let .glueproperties(glueproperties):
                 try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
             case let .iamproperties(iamproperties):
@@ -40284,6 +40379,39 @@ extension DataZoneClientTypes.GitMetadata {
         value.committedAt = try reader["committedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.commitMessage = try reader["commitMessage"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.GitPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.GitPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeConnectionArn"].write(value.codeConnectionArn)
+        try writer["defaultBranch"].write(value.defaultBranch)
+        try writer["repositoryId"].write(value.repositoryId)
+    }
+}
+
+extension DataZoneClientTypes.GitPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GitPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GitPropertiesOutput()
+        value.codeConnectionArn = try reader["codeConnectionArn"].readIfPresent() ?? ""
+        value.repositoryId = try reader["repositoryId"].readIfPresent() ?? ""
+        value.defaultBranch = try reader["defaultBranch"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GitPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.GitPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeConnectionArn"].write(value.codeConnectionArn)
+        try writer["defaultBranch"].write(value.defaultBranch)
     }
 }
 

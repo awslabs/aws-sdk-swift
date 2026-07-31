@@ -153,6 +153,73 @@ public struct UpdateCampaignSourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Reference point against which the connection threshold is measured.
+    public enum ConnectionStartPoint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Threshold measured from when the contact connects to the telephony system.
+        case connectedToSystem
+        /// Threshold measured from when the customer-side greeting ends.
+        case greetingEnd
+        /// Threshold measured from when the customer-side greeting begins.
+        case greetingStart
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionStartPoint] {
+            return [
+                .connectedToSystem,
+                .greetingEnd,
+                .greetingStart
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectedToSystem: return "CONNECTED_TO_SYSTEM"
+            case .greetingEnd: return "GREETING_END"
+            case .greetingStart: return "GREETING_START"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Configuration for abandonment-rate-based dialer throttling.
+    public struct AbandonmentRatePacingConfig: Swift.Sendable {
+        /// Event from which connectionThresholdSeconds is measured.
+        /// This member is required.
+        public var connectionStartPoint: ConnectCampaignsV2ClientTypes.ConnectionStartPoint?
+        /// Seconds after connectionStartPoint before a contact counts as abandoned.
+        /// This member is required.
+        public var connectionThresholdSeconds: Swift.Int?
+        /// Rolling window over which abandonmentRate is computed.
+        /// This member is required.
+        public var evaluationWindow: Swift.String?
+        /// Target abandonment rate.
+        /// This member is required.
+        public var targetRate: Swift.Double?
+
+        public init(
+            connectionStartPoint: ConnectCampaignsV2ClientTypes.ConnectionStartPoint? = nil,
+            connectionThresholdSeconds: Swift.Int? = nil,
+            evaluationWindow: Swift.String? = nil,
+            targetRate: Swift.Double? = nil
+        ) {
+            self.connectionStartPoint = connectionStartPoint
+            self.connectionThresholdSeconds = connectionThresholdSeconds
+            self.evaluationWindow = evaluationWindow
+            self.targetRate = targetRate
+        }
+    }
+}
+
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -556,16 +623,30 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Pacing constraint the dialer may enforce.
+    public enum PacingStrategy: Swift.Sendable {
+        /// Configuration for abandonment-rate-based dialer throttling.
+        case abandonmentrate(ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Predictive config
     public struct PredictiveConfig: Swift.Sendable {
         /// The bandwidth allocation of a queue resource.
         /// This member is required.
         public var bandwidthAllocation: Swift.Double?
+        /// Pacing strategies the dialer enforces simultaneously.
+        public var pacingStrategies: [ConnectCampaignsV2ClientTypes.PacingStrategy]?
 
         public init(
-            bandwidthAllocation: Swift.Double? = nil
+            bandwidthAllocation: Swift.Double? = nil,
+            pacingStrategies: [ConnectCampaignsV2ClientTypes.PacingStrategy]? = nil
         ) {
             self.bandwidthAllocation = bandwidthAllocation
+            self.pacingStrategies = pacingStrategies
         }
     }
 }
@@ -5161,6 +5242,27 @@ extension InvalidStateException {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionStartPoint"].write(value.connectionStartPoint)
+        try writer["connectionThresholdSeconds"].write(value.connectionThresholdSeconds)
+        try writer["evaluationWindow"].write(value.evaluationWindow)
+        try writer["targetRate"].write(value.targetRate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig()
+        value.targetRate = try reader["targetRate"].readIfPresent() ?? 0.0
+        value.connectionStartPoint = try reader["connectionStartPoint"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionThresholdSeconds = try reader["connectionThresholdSeconds"].readIfPresent() ?? 0
+        value.evaluationWindow = try reader["evaluationWindow"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.AgentlessConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.AgentlessConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5745,17 +5847,43 @@ extension ConnectCampaignsV2ClientTypes.OutboundRequest {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.PacingStrategy {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.PacingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .abandonmentrate(abandonmentrate):
+                try writer["abandonmentRate"].write(abandonmentrate, with: ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PacingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "abandonmentRate":
+                return .abandonmentrate(try reader["abandonmentRate"].read(with: ConnectCampaignsV2ClientTypes.AbandonmentRatePacingConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.PredictiveConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.PredictiveConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+        try writer["pacingStrategies"].writeList(value.pacingStrategies, memberWritingClosure: ConnectCampaignsV2ClientTypes.PacingStrategy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PredictiveConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCampaignsV2ClientTypes.PredictiveConfig()
         value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        value.pacingStrategies = try reader["pacingStrategies"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.PacingStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -82,6 +82,38 @@ extension PaginatorSequence where OperationStackInput == ListBillingViewsInput, 
     }
 }
 extension BillingClient {
+    /// Paginate over `[ListEnterpriseSupportLinkedAccountChargesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEnterpriseSupportLinkedAccountChargesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnterpriseSupportLinkedAccountChargesOutput`
+    public func listEnterpriseSupportLinkedAccountChargesPaginated(input: ListEnterpriseSupportLinkedAccountChargesInput) -> ClientRuntime.PaginatorSequence<ListEnterpriseSupportLinkedAccountChargesInput, ListEnterpriseSupportLinkedAccountChargesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnterpriseSupportLinkedAccountChargesInput, ListEnterpriseSupportLinkedAccountChargesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnterpriseSupportLinkedAccountCharges(input:))
+    }
+}
+
+extension ListEnterpriseSupportLinkedAccountChargesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEnterpriseSupportLinkedAccountChargesInput {
+        return ListEnterpriseSupportLinkedAccountChargesInput(
+            accountId: self.accountId,
+            billingMonth: self.billingMonth,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEnterpriseSupportLinkedAccountChargesInput, OperationStackOutput == ListEnterpriseSupportLinkedAccountChargesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEnterpriseSupportLinkedAccountChargesPaginated`
+    /// to access the nested member `[BillingClientTypes.LinkedAccountCharge]`
+    /// - Returns: `[BillingClientTypes.LinkedAccountCharge]`
+    public func linkedAccount() async throws -> [BillingClientTypes.LinkedAccountCharge] {
+        return try await self.asyncCompactMap { item in item.linkedAccount }
+    }
+}
+extension BillingClient {
     /// Paginate over `[ListSourceViewsForBillingViewOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

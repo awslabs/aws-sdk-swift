@@ -114,6 +114,12 @@ extension OutpostsClientTypes {
     }
 }
 
+extension OutpostsClientTypes.Address: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension OutpostsClientTypes {
 
     public enum AddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -327,6 +333,7 @@ extension OutpostsClientTypes {
     public enum AWSServiceName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aws
         case ec2
+        case eks
         case elasticache
         case elb
         case rds
@@ -337,6 +344,7 @@ extension OutpostsClientTypes {
             return [
                 .aws,
                 .ec2,
+                .eks,
                 .elasticache,
                 .elb,
                 .rds,
@@ -353,6 +361,7 @@ extension OutpostsClientTypes {
             switch self {
             case .aws: return "AWS"
             case .ec2: return "EC2"
+            case .eks: return "EKS"
             case .elasticache: return "ELASTICACHE"
             case .elb: return "ELB"
             case .rds: return "RDS"
@@ -2906,6 +2915,11 @@ public struct CreateSiteInput: Swift.Sendable {
     }
 }
 
+extension CreateSiteInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSiteInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), notes: \(Swift.String(describing: notes)), rackPhysicalProperties: \(Swift.String(describing: rackPhysicalProperties)), tags: \(Swift.String(describing: tags)), operatingAddress: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension OutpostsClientTypes {
 
     /// Information about a site.
@@ -3844,6 +3858,11 @@ public struct GetSiteAddressOutput: Swift.Sendable {
     }
 }
 
+extension GetSiteAddressOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSiteAddressOutput(addressType: \(Swift.String(describing: addressType)), siteId: \(Swift.String(describing: siteId)), address: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListAssetInstancesInput: Swift.Sendable {
     /// Filters the results by account ID.
     public var accountIdFilter: [Swift.String]?
@@ -4773,6 +4792,11 @@ public struct UpdateSiteAddressInput: Swift.Sendable {
     }
 }
 
+extension UpdateSiteAddressInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSiteAddressInput(addressType: \(Swift.String(describing: addressType)), siteId: \(Swift.String(describing: siteId)), address: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateSiteAddressOutput: Swift.Sendable {
     /// Information about an address.
     public var address: OutpostsClientTypes.Address?
@@ -4786,6 +4810,11 @@ public struct UpdateSiteAddressOutput: Swift.Sendable {
         self.address = address
         self.addressType = addressType
     }
+}
+
+extension UpdateSiteAddressOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSiteAddressOutput(addressType: \(Swift.String(describing: addressType)), address: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSiteRackPhysicalPropertiesInput: Swift.Sendable {

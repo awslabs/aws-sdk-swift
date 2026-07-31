@@ -610,7 +610,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+/// Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1706,6 +1706,9 @@ extension TranscribeStreamingClientTypes {
 
     public enum MediaEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case flac
+        case g711Alaw
+        case g711Ulaw
+        case g729
         case oggOpus
         case pcm
         case sdkUnknown(Swift.String)
@@ -1713,6 +1716,9 @@ extension TranscribeStreamingClientTypes {
         public static var allCases: [MediaEncoding] {
             return [
                 .flac,
+                .g711Alaw,
+                .g711Ulaw,
+                .g729,
                 .oggOpus,
                 .pcm
             ]
@@ -1726,6 +1732,9 @@ extension TranscribeStreamingClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .flac: return "flac"
+            case .g711Alaw: return "g711-alaw"
+            case .g711Ulaw: return "g711-ulaw"
+            case .g729: return "g729"
             case .oggOpus: return "ogg-opus"
             case .pcm: return "pcm"
             case let .sdkUnknown(s): return s
@@ -2803,6 +2812,35 @@ public struct StartMedicalStreamTranscriptionOutput: Swift.Sendable {
     }
 }
 
+extension TranscribeStreamingClientTypes {
+
+    public enum TranscriptFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case spoken
+        case written
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TranscriptFormat] {
+            return [
+                .spoken,
+                .written
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .spoken: return "spoken"
+            case .written: return "written"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct StartStreamTranscriptionInput: Swift.Sendable {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
@@ -2854,6 +2892,15 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
     public var sessionResumeWindow: Swift.Int?
     /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
     public var showSpeakerLabel: Swift.Bool?
+    /// Specify how numbers, dates, and other alphanumeric entities are rendered in your transcription results.
+    ///
+    /// * WRITTEN renders these entities in their standard written form (for example, $50, 10:30 AM, and 101).
+    ///
+    /// * SPOKEN renders these entities as words, exactly as they were spoken (for example, fifty dollars, ten thirty a m, and one oh one).
+    ///
+    ///
+    /// If you don't specify a value, Amazon Transcribe uses WRITTEN by default.
+    public var transcriptFormat: TranscribeStreamingClientTypes.TranscriptFormat?
     /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
     /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription. This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
@@ -2885,6 +2932,7 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         sessionResumeWindow: Swift.Int? = nil,
         showSpeakerLabel: Swift.Bool? = false,
+        transcriptFormat: TranscribeStreamingClientTypes.TranscriptFormat? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
         vocabularyFilterNames: Swift.String? = nil,
@@ -2910,6 +2958,7 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
         self.sessionId = sessionId
         self.sessionResumeWindow = sessionResumeWindow
         self.showSpeakerLabel = showSpeakerLabel
+        self.transcriptFormat = transcriptFormat
         self.vocabularyFilterMethod = vocabularyFilterMethod
         self.vocabularyFilterName = vocabularyFilterName
         self.vocabularyFilterNames = vocabularyFilterNames
@@ -2997,6 +3046,8 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
     public var sessionResumeWindow: Swift.Int?
     /// Shows whether speaker partitioning was enabled for your transcription.
     public var showSpeakerLabel: Swift.Bool
+    /// Provides the transcript format that you specified in your request.
+    public var transcriptFormat: TranscribeStreamingClientTypes.TranscriptFormat?
     /// Provides detailed information about your streaming session.
     public var transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.TranscriptResultStream, Swift.Error>?
     /// Provides the vocabulary filtering method used in your transcription.
@@ -3030,6 +3081,7 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         sessionResumeWindow: Swift.Int? = nil,
         showSpeakerLabel: Swift.Bool = false,
+        transcriptFormat: TranscribeStreamingClientTypes.TranscriptFormat? = nil,
         transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.TranscriptResultStream, Swift.Error>? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
@@ -3056,6 +3108,7 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
         self.sessionId = sessionId
         self.sessionResumeWindow = sessionResumeWindow
         self.showSpeakerLabel = showSpeakerLabel
+        self.transcriptFormat = transcriptFormat
         self.transcriptResultStream = transcriptResultStream
         self.vocabularyFilterMethod = vocabularyFilterMethod
         self.vocabularyFilterName = vocabularyFilterName
@@ -3283,6 +3336,9 @@ extension StartStreamTranscriptionInput {
         }
         if let showSpeakerLabel = value.showSpeakerLabel {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-show-speaker-label", value: Swift.String(showSpeakerLabel)))
+        }
+        if let transcriptFormat = value.transcriptFormat {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-transcript-format", value: Swift.String(transcriptFormat.rawValue)))
         }
         if let vocabularyFilterMethod = value.vocabularyFilterMethod {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-vocabulary-filter-method", value: Swift.String(vocabularyFilterMethod.rawValue)))
@@ -3522,6 +3578,9 @@ extension StartStreamTranscriptionOutput {
         }
         if let showSpeakerLabelHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-show-speaker-label") {
             value.showSpeakerLabel = Swift.Bool(showSpeakerLabelHeaderValue) ?? false
+        }
+        if let transcriptFormatHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-transcript-format") {
+            value.transcriptFormat = TranscribeStreamingClientTypes.TranscriptFormat(rawValue: transcriptFormatHeaderValue)
         }
         if let vocabularyFilterMethodHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-filter-method") {
             value.vocabularyFilterMethod = TranscribeStreamingClientTypes.VocabularyFilterMethod(rawValue: vocabularyFilterMethodHeaderValue)

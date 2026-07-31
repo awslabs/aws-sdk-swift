@@ -1460,7 +1460,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `CreateLookupTable` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates a lookup table by uploading CSV data. You can use lookup tables to enrich log data in CloudWatch Logs Insights queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. The CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB.
+    /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in CloudWatch Logs queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId, but not both. If you use tableBody, the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLookupTableInput`)
     ///
@@ -6202,7 +6202,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetStorageTierPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns the storage tier policy for your account.
+    /// Returns the storage tier policy for the account.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetStorageTierPolicyInput`)
     ///
@@ -8649,7 +8649,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutStorageTierPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Sets the storage tier policy for your account. When you set the storage tier to INTELLIGENT_TIERING, CloudWatch Logs automatically moves your log data between storage tiers based on access patterns to optimize costs.
+    /// Sets the storage tier policy for the account. When you set the storage tier to INTELLIGENT_TIERING, the service automatically moves log data to the most cost-effective storage tier based on access frequency.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutStorageTierPolicyInput`)
     ///
@@ -9914,7 +9914,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `UpdateLookupTable` operation on the `CloudWatchLogs` service.
     ///
-    /// Updates an existing lookup table by replacing all of its CSV content. After the update completes, queries that use this table will use the new data. This is a full replacement operation. All existing content is replaced with the new CSV data.
+    /// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update completes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId, but not both.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLookupTableInput`)
     ///

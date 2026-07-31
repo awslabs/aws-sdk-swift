@@ -671,6 +671,32 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
+    /// The configuration for exporting metrics to an Amazon OpenSearch Service domain.
+    public struct OpenSearchExporterConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain.
+        /// This member is required.
+        public var domainArn: Swift.String?
+
+        public init(
+            domainArn: Swift.String? = nil
+        ) {
+            self.domainArn = domainArn
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Contains the configuration for an exporter managed by the scraper.
+    public enum ExporterConfiguration: Swift.Sendable {
+        /// The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain.
+        case opensearchconfiguration(AmpClientTypes.OpenSearchExporterConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AmpClientTypes {
+
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public struct RoleConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see [Cross-account setup](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#cross-account-remote-write).
@@ -765,6 +791,8 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
+    /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the scraper is created without an exporter configuration.
+    public var exporters: [AmpClientTypes.ExporterConfiguration]?
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
@@ -780,6 +808,7 @@ public struct CreateScraperInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         destination: AmpClientTypes.Destination? = nil,
+        exporters: [AmpClientTypes.ExporterConfiguration]? = nil,
         roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
         scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
         source: AmpClientTypes.Source? = nil,
@@ -788,6 +817,7 @@ public struct CreateScraperInput: Swift.Sendable {
         self.alias = alias
         self.clientToken = clientToken
         self.destination = destination
+        self.exporters = exporters
         self.roleConfiguration = roleConfiguration
         self.scrapeConfiguration = scrapeConfiguration
         self.source = source
@@ -953,6 +983,8 @@ extension AmpClientTypes {
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        public var exporters: [AmpClientTypes.ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         /// This member is required.
         public var lastModifiedAt: Foundation.Date?
@@ -983,6 +1015,7 @@ extension AmpClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             destination: AmpClientTypes.Destination? = nil,
+            exporters: [AmpClientTypes.ExporterConfiguration]? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
@@ -997,6 +1030,7 @@ extension AmpClientTypes {
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
+            self.exporters = exporters
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
             self.roleConfiguration = roleConfiguration
@@ -1058,6 +1092,8 @@ extension AmpClientTypes {
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        public var exporters: [AmpClientTypes.ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         /// This member is required.
         public var lastModifiedAt: Foundation.Date?
@@ -1085,6 +1121,7 @@ extension AmpClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             destination: AmpClientTypes.Destination? = nil,
+            exporters: [AmpClientTypes.ExporterConfiguration]? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
@@ -1098,6 +1135,7 @@ extension AmpClientTypes {
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
+            self.exporters = exporters
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
             self.roleConfiguration = roleConfiguration
@@ -1390,6 +1428,8 @@ public struct UpdateScraperInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     public var destination: AmpClientTypes.Destination?
+    /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged.
+    public var exporters: [AmpClientTypes.ExporterConfiguration]?
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// Contains the base-64 encoded YAML configuration for the scraper. For more information about configuring a scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
@@ -1402,6 +1442,7 @@ public struct UpdateScraperInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         destination: AmpClientTypes.Destination? = nil,
+        exporters: [AmpClientTypes.ExporterConfiguration]? = nil,
         roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
         scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
         scraperId: Swift.String? = nil
@@ -1409,6 +1450,7 @@ public struct UpdateScraperInput: Swift.Sendable {
         self.alias = alias
         self.clientToken = clientToken
         self.destination = destination
+        self.exporters = exporters
         self.roleConfiguration = roleConfiguration
         self.scrapeConfiguration = scrapeConfiguration
         self.scraperId = scraperId
@@ -4115,6 +4157,7 @@ extension CreateScraperInput {
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["exporters"].writeList(value.exporters, memberWritingClosure: AmpClientTypes.ExporterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
         try writer["source"].write(value.source, with: AmpClientTypes.Source.write(value:to:))
@@ -4206,6 +4249,7 @@ extension UpdateScraperInput {
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["exporters"].writeList(value.exporters, memberWritingClosure: AmpClientTypes.ExporterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
     }
@@ -5898,6 +5942,30 @@ extension AmpClientTypes.EksConfiguration {
     }
 }
 
+extension AmpClientTypes.ExporterConfiguration {
+
+    static func write(value: AmpClientTypes.ExporterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .opensearchconfiguration(opensearchconfiguration):
+                try writer["openSearchConfiguration"].write(opensearchconfiguration, with: AmpClientTypes.OpenSearchExporterConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ExporterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "openSearchConfiguration":
+                return .opensearchconfiguration(try reader["openSearchConfiguration"].read(with: AmpClientTypes.OpenSearchExporterConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension AmpClientTypes.IgnoreNearExpected {
 
     static func write(value: AmpClientTypes.IgnoreNearExpected?, to writer: SmithyJSON.Writer) throws {
@@ -6011,6 +6079,21 @@ extension AmpClientTypes.LoggingFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.LoggingFilter()
         value.qspThreshold = try reader["qspThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AmpClientTypes.OpenSearchExporterConfiguration {
+
+    static func write(value: AmpClientTypes.OpenSearchExporterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainArn"].write(value.domainArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.OpenSearchExporterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.OpenSearchExporterConfiguration()
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6181,6 +6264,7 @@ extension AmpClientTypes.ScraperDescription {
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
         value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
+        value.exporters = try reader["exporters"].readListIfPresent(memberReadingClosure: AmpClientTypes.ExporterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6247,6 +6331,7 @@ extension AmpClientTypes.ScraperSummary {
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
         value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
+        value.exporters = try reader["exporters"].readListIfPresent(memberReadingClosure: AmpClientTypes.ExporterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
