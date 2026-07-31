@@ -20,11 +20,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
-import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -49,7 +49,6 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -59,10 +58,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
+@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
-@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -629,7 +628,7 @@ extension BCMRecommendedActionsClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listRecommendedActions(input: ListRecommendedActionsInput) async throws -> ListRecommendedActionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -648,7 +647,7 @@ extension BCMRecommendedActionsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -657,20 +656,17 @@ extension BCMRecommendedActionsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("BCM Recommended Actions", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendedActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/cbor"))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(overrides: ["X-Amz-Target": "AWSBillingAndCostManagementRecommendedActions.ListRecommendedActions"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendedActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
