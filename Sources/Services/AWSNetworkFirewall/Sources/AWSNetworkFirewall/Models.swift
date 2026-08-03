@@ -791,6 +791,8 @@ extension NetworkFirewallClientTypes {
     ///
     /// * For VpcEndpointAssociation, this Attachment is part of the VpcEndpointAssociationStatus sync states information. You define these subnets using CreateVpcEndpointAssociation.
     public struct Attachment: Swift.Sendable {
+        /// The DNS name that resolves to the firewall endpoint in the subnet. This is populated for proxy mode firewalls, where clients direct traffic to the firewall's proxy using this name.
+        public var dnsName: Swift.String?
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public var endpointId: Swift.String?
         /// The current status of the firewall endpoint instantiation in the subnet. When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
@@ -801,11 +803,13 @@ extension NetworkFirewallClientTypes {
         public var subnetId: Swift.String?
 
         public init(
+            dnsName: Swift.String? = nil,
             endpointId: Swift.String? = nil,
             status: NetworkFirewallClientTypes.AttachmentStatus? = nil,
             statusMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
         ) {
+            self.dnsName = dnsName
             self.endpointId = endpointId
             self.status = status
             self.statusMessage = statusMessage
@@ -1501,6 +1505,107 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    /// A NAT gateway that a proxy mode firewall uses to proxy traffic. This is used in [CreateFirewall] when NoSourcePreservation is TRUE.
+    public struct NatGatewayMapping: Swift.Sendable {
+        /// A unique identifier for the NAT gateway to use with proxy resources.
+        /// This member is required.
+        public var natGatewayId: Swift.String?
+
+        public init(
+            natGatewayId: Swift.String? = nil
+        ) {
+            self.natGatewayId = natGatewayId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ListenerPropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListenerPropertyType] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Open port for taking HTTP or HTTPS traffic.
+    public struct ListenerProperty: Swift.Sendable {
+        /// Port for processing traffic.
+        public var port: Swift.Int?
+        /// Selection of HTTP or HTTPS traffic.
+        public var type: NetworkFirewallClientTypes.ListenerPropertyType?
+
+        public init(
+            port: Swift.Int? = nil,
+            type: NetworkFirewallClientTypes.ListenerPropertyType? = nil
+        ) {
+            self.port = port
+            self.type = type
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The listener configuration for a proxy mode firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    public struct ProxySettings: Swift.Sendable {
+        /// Listener properties for HTTP and HTTPS traffic.
+        /// This member is required.
+        public var listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]?
+
+        public init(
+            listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]? = nil
+        ) {
+            self.listenerProperties = listenerProperties
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The VPC and subnets for a proxy mode firewall endpoint. This is used in [CreateFirewall] when NoSourcePreservation is TRUE, to specify where Network Firewall creates the firewall endpoint. This differs from [VpcEndpointAssociation], which defines additional secondary endpoints for a firewall in other VPCs.
+    public struct VpcEndpoint: Swift.Sendable {
+        /// The subnets in which Network Firewall creates the firewall endpoint for a proxy mode firewall. Each subnet must belong to a different Availability Zone in the VPC.
+        /// This member is required.
+        public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
+        /// The unique identifier of the VPC where Network Firewall creates the proxy mode firewall endpoint.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.subnetMappings = subnetMappings
+            self.vpcId = vpcId
+        }
+    }
+}
+
 public struct CreateFirewallInput: Swift.Sendable {
     /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using [UpdateAvailabilityZoneChangeProtection]. Default value: FALSE
     public var availabilityZoneChangeProtection: Swift.Bool?
@@ -1522,6 +1627,12 @@ public struct CreateFirewallInput: Swift.Sendable {
     public var firewallPolicyArn: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var firewallPolicyChangeProtection: Swift.Bool?
+    /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE. Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway.
+    public var natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]?
+    /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE, the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source. When you set this to TRUE, you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings. You can't change this setting after you create the firewall. Default value: FALSE
+    public var noSourcePreservation: Swift.Bool?
+    /// The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var subnetChangeProtection: Swift.Bool?
     /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
@@ -1530,6 +1641,8 @@ public struct CreateFirewallInput: Swift.Sendable {
     public var tags: [NetworkFirewallClientTypes.Tag]?
     /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager. After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall. For information about creating firewalls, see [CreateFirewall]. For specific guidance about transit gateway-attached firewalls, see [Considerations for transit gateway-attached firewalls](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tgw-firewall-considerations.html) in the Network Firewall Developer Guide.
     public var transitGatewayId: Swift.String?
+    /// The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE. Network Firewall creates the firewall endpoint in the subnets that you specify here. For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings.
+    public var vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint?
     /// The unique identifier of the VPC where Network Firewall should create the firewall. You can't change this setting after you create the firewall.
     public var vpcId: Swift.String?
 
@@ -1543,10 +1656,14 @@ public struct CreateFirewallInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
         firewallPolicyChangeProtection: Swift.Bool? = false,
+        natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]? = nil,
+        noSourcePreservation: Swift.Bool? = false,
+        proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
         subnetChangeProtection: Swift.Bool? = false,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         transitGatewayId: Swift.String? = nil,
+        vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint? = nil,
         vpcId: Swift.String? = nil
     ) {
         self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
@@ -1558,10 +1675,14 @@ public struct CreateFirewallInput: Swift.Sendable {
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
         self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+        self.natGatewayMappings = natGatewayMappings
+        self.noSourcePreservation = noSourcePreservation
+        self.proxySettings = proxySettings
         self.subnetChangeProtection = subnetChangeProtection
         self.subnetMappings = subnetMappings
         self.tags = tags
         self.transitGatewayId = transitGatewayId
+        self.vpcEndpoint = vpcEndpoint
         self.vpcId = vpcId
     }
 }
@@ -1594,8 +1715,14 @@ extension NetworkFirewallClientTypes {
         public var firewallPolicyArn: Swift.String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var firewallPolicyChangeProtection: Swift.Bool
+        /// The NAT gateways that the firewall uses to proxy traffic. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        public var natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]?
+        /// Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When this value is TRUE, the firewall proxies traffic through a NAT gateway and uses the NAT gateway's IP address as the source for traffic reaching the destination.
+        public var noSourcePreservation: Swift.Bool
         /// The number of VpcEndpointAssociation resources that use this firewall.
         public var numberOfAssociations: Swift.Int?
+        /// The listener configuration for the firewall's proxy. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var subnetChangeProtection: Swift.Bool
         /// The primary public subnets that Network Firewall is using for the firewall. Network Firewall creates a firewall endpoint in each subnet. Create a subnet mapping for each Availability Zone where you want to use the firewall. These subnets are all defined for a single, primary VPC, and each must belong to a different Availability Zone. Each of these subnets establishes the availability of the firewall in its Availability Zone. In addition to these subnets, you can define other endpoints for the firewall in VpcEndpointAssociation resources. You can define these additional endpoints for any VPC, and for any of the Availability Zones where the firewall resource already has a subnet mapping. VPC endpoint associations give you the ability to protect multiple VPCs using a single firewall, and to define multiple firewall endpoints for a VPC in a single Availability Zone.
@@ -1607,6 +1734,8 @@ extension NetworkFirewallClientTypes {
         public var transitGatewayId: Swift.String?
         /// The Amazon Web Services account ID that owns the transit gateway. This may be different from the firewall owner's account ID when using a shared transit gateway.
         public var transitGatewayOwnerAccountId: Swift.String?
+        /// The VPC and subnets for the firewall endpoint. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        public var vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint?
         /// The unique identifier of the VPC where the firewall is in use.
         /// This member is required.
         public var vpcId: Swift.String?
@@ -1623,12 +1752,16 @@ extension NetworkFirewallClientTypes {
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
             firewallPolicyChangeProtection: Swift.Bool = false,
+            natGatewayMappings: [NetworkFirewallClientTypes.NatGatewayMapping]? = nil,
+            noSourcePreservation: Swift.Bool = false,
             numberOfAssociations: Swift.Int? = nil,
+            proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
             subnetChangeProtection: Swift.Bool = false,
             subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             transitGatewayId: Swift.String? = nil,
             transitGatewayOwnerAccountId: Swift.String? = nil,
+            vpcEndpoint: NetworkFirewallClientTypes.VpcEndpoint? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
@@ -1642,12 +1775,16 @@ extension NetworkFirewallClientTypes {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.natGatewayMappings = natGatewayMappings
+            self.noSourcePreservation = noSourcePreservation
             self.numberOfAssociations = numberOfAssociations
+            self.proxySettings = proxySettings
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
             self.transitGatewayId = transitGatewayId
             self.transitGatewayOwnerAccountId = transitGatewayOwnerAccountId
+            self.vpcEndpoint = vpcEndpoint
             self.vpcId = vpcId
         }
     }
@@ -1744,6 +1881,73 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    public enum NatGatewayAttachmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case ready
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NatGatewayAttachmentStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .ready,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .ready: return "READY"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The definition and status of the attachment between a proxy mode firewall and a NAT gateway that proxies its traffic.
+    public struct NatGatewayAttachment: Swift.Sendable {
+        /// The DNS name that resolves to the firewall's proxy for traffic sent through this NAT gateway attachment.
+        public var dnsName: Swift.String?
+        /// A unique identifier for the NAT gateway to use with proxy resources.
+        /// This member is required.
+        public var natGatewayId: Swift.String?
+        /// The current status of the NAT gateway attachment. When this value is READY, the attachment is available to proxy traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
+        /// This member is required.
+        public var status: NetworkFirewallClientTypes.NatGatewayAttachmentStatus?
+        /// If Network Firewall encounters an issue with the NAT gateway attachment, it populates this with an explanation of the problem.
+        public var statusMessage: Swift.String?
+
+        public init(
+            dnsName: Swift.String? = nil,
+            natGatewayId: Swift.String? = nil,
+            status: NetworkFirewallClientTypes.NatGatewayAttachmentStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.dnsName = dnsName
+            self.natGatewayId = natGatewayId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     /// The status of the firewall endpoint and firewall policy configuration for a single VPC subnet. This is part of the [FirewallStatus]. For each VPC subnet that you associate with a firewall, Network Firewall does the following:
     ///
     /// * Instantiates a firewall endpoint in the subnet, ready to take traffic.
@@ -1757,13 +1961,17 @@ extension NetworkFirewallClientTypes {
         public var attachment: NetworkFirewallClientTypes.Attachment?
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public var config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]?
+        /// The status of the NAT gateway attachments for a proxy mode firewall in the Availability Zone. This reflects the attachment of the firewall to each NAT gateway that proxies its traffic.
+        public var natGatewayAttachments: [NetworkFirewallClientTypes.NatGatewayAttachment]?
 
         public init(
             attachment: NetworkFirewallClientTypes.Attachment? = nil,
-            config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]? = nil
+            config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]? = nil,
+            natGatewayAttachments: [NetworkFirewallClientTypes.NatGatewayAttachment]? = nil
         ) {
             self.attachment = attachment
             self.config = config
+            self.natGatewayAttachments = natGatewayAttachments
         }
     }
 }
@@ -2370,35 +2578,6 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
 extension NetworkFirewallClientTypes {
 
-    public enum ListenerPropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case http
-        case https
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ListenerPropertyType] {
-            return [
-                .http,
-                .https
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .http: return "HTTP"
-            case .https: return "HTTPS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
     /// This data type is used specifically for the [CreateProxy] and [UpdateProxy] APIs. Open port for taking HTTP or HTTPS traffic.
     public struct ListenerPropertyRequest: Swift.Sendable {
         /// Port for processing traffic.
@@ -2501,25 +2680,6 @@ public struct CreateProxyInput: Swift.Sendable {
         self.proxyName = proxyName
         self.tags = tags
         self.tlsInterceptProperties = tlsInterceptProperties
-    }
-}
-
-extension NetworkFirewallClientTypes {
-
-    /// Open port for taking HTTP or HTTPS traffic.
-    public struct ListenerProperty: Swift.Sendable {
-        /// Port for processing traffic.
-        public var port: Swift.Int?
-        /// Selection of HTTP or HTTPS traffic.
-        public var type: NetworkFirewallClientTypes.ListenerPropertyType?
-
-        public init(
-            port: Swift.Int? = nil,
-            type: NetworkFirewallClientTypes.ListenerPropertyType? = nil
-        ) {
-            self.port = port
-            self.type = type
-        }
     }
 }
 
@@ -7820,6 +7980,52 @@ public struct UpdateProxyRulePrioritiesOutput: Swift.Sendable {
         self.proxyRuleGroupName = proxyRuleGroupName
         self.ruleGroupRequestPhase = ruleGroupRequestPhase
         self.rules = rules
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxySettingsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// The proxy listener configuration to set on the firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.proxySettings = proxySettings
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxySettingsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+    public var firewallName: Swift.String?
+    /// The updated proxy listener configuration on the firewall.
+    public var proxySettings: NetworkFirewallClientTypes.ProxySettings?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        proxySettings: NetworkFirewallClientTypes.ProxySettings? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.proxySettings = proxySettings
         self.updateToken = updateToken
     }
 }

@@ -256,22 +256,34 @@ public struct AssumeRoleForPodIdentityInput: Swift.Sendable {
     /// The name of the cluster for the request.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The Kubernetes node name of the worker node where the pod is running.
+    public var eksNodeName: Swift.String?
+    /// The Amazon EC2 instance ID of the worker node where the pod is running.
+    public var instanceId: Swift.String?
     /// The token of the Kubernetes service account for the pod.
     /// This member is required.
     public var token: Swift.String?
+    /// The Availability Zone ID of the worker node where the pod is running.
+    public var zone: Swift.String?
 
     public init(
         clusterName: Swift.String? = nil,
-        token: Swift.String? = nil
+        eksNodeName: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        token: Swift.String? = nil,
+        zone: Swift.String? = nil
     ) {
         self.clusterName = clusterName
+        self.eksNodeName = eksNodeName
+        self.instanceId = instanceId
         self.token = token
+        self.zone = zone
     }
 }
 
 extension AssumeRoleForPodIdentityInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssumeRoleForPodIdentityInput(clusterName: \(Swift.String(describing: clusterName)), token: \"CONTENT_REDACTED\")"}
+        "AssumeRoleForPodIdentityInput(clusterName: \(Swift.String(describing: clusterName)), eksNodeName: \(Swift.String(describing: eksNodeName)), instanceId: \(Swift.String(describing: instanceId)), zone: \(Swift.String(describing: zone)), token: \"CONTENT_REDACTED\")"}
 }
 
 extension EKSAuthClientTypes {
@@ -404,7 +416,10 @@ extension AssumeRoleForPodIdentityInput {
 
     static func write(value: AssumeRoleForPodIdentityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["eksNodeName"].write(value.eksNodeName)
+        try writer["instanceId"].write(value.instanceId)
         try writer["token"].write(value.token)
+        try writer["zone"].write(value.zone)
     }
 }
 

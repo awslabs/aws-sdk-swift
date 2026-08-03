@@ -251,6 +251,54 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct CreateDbBackupInput: Swift.Sendable {
+    /// The id of the DB instance or DB cluster to back up.
+    /// This member is required.
+    public var dbResourceId: Swift.String?
+    /// The name of the backup. Must be unique within the account and region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of days to retain the backup. Valid values are 1 to 3650.
+    public var retentionDays: Swift.Int?
+    /// A list of key-value pairs to associate with the backup.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        dbResourceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        retentionDays: Swift.Int? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.dbResourceId = dbResourceId
+        self.name = name
+        self.retentionDays = retentionDays
+        self.tags = tags
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Configuration for node modes in the DbCluster.
+    public struct ClusterConfiguration: Swift.Sendable {
+        /// Indicates if the compactor instance is a standalone instance or not.
+        public var dedicatedCompactor: Swift.Bool?
+        /// The number of instances in the DbCluster which can both ingest and query.
+        public var ingestQueryInstances: Swift.Int?
+        /// The number of instances in the DbCluster which can only query.
+        public var queryOnlyInstances: Swift.Int?
+
+        public init(
+            dedicatedCompactor: Swift.Bool? = nil,
+            ingestQueryInstances: Swift.Int? = nil,
+            queryOnlyInstances: Swift.Int? = nil
+        ) {
+            self.dedicatedCompactor = dedicatedCompactor
+            self.ingestQueryInstances = ingestQueryInstances
+            self.queryOnlyInstances = queryOnlyInstances
+        }
+    }
+}
+
 extension TimestreamInfluxDBClientTypes {
 
     public enum DbInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -335,13 +383,17 @@ extension TimestreamInfluxDBClientTypes {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum ClusterDeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceDeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case multiNodeReadReplicas
+        case singleAz
+        case withMultiazStandby
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ClusterDeploymentType] {
+        public static var allCases: [ResourceDeploymentType] {
             return [
-                .multiNodeReadReplicas
+                .multiNodeReadReplicas,
+                .singleAz,
+                .withMultiazStandby
             ]
         }
 
@@ -353,6 +405,40 @@ extension TimestreamInfluxDBClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .multiNodeReadReplicas: return "MULTI_NODE_READ_REPLICAS"
+            case .singleAz: return "SINGLE_AZ"
+            case .withMultiazStandby: return "WITH_MULTIAZ_STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum EngineType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case influxdbV2
+        case influxdbV3Core
+        case influxdbV3Enterprise
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngineType] {
+            return [
+                .influxdbV2,
+                .influxdbV3Core,
+                .influxdbV3Enterprise
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .influxdbV2: return "INFLUXDB_V2"
+            case .influxdbV3Core: return "INFLUXDB_V3_CORE"
+            case .influxdbV3Enterprise: return "INFLUXDB_V3_ENTERPRISE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -475,11 +561,815 @@ extension TimestreamInfluxDBClientTypes {
     }
 }
 
+extension TimestreamInfluxDBClientTypes {
+
+    public enum DbBackupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleted
+        case deleting
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DbBackupStatus] {
+            return [
+                .completed,
+                .deleted,
+                .deleting,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum DbBackupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continuous
+        case customSchedule
+        case daily
+        case hourly
+        case monthly
+        case onDemand
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DbBackupType] {
+            return [
+                .continuous,
+                .customSchedule,
+                .daily,
+                .hourly,
+                .monthly,
+                .onDemand,
+                .weekly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .customSchedule: return "CUSTOM_SCHEDULE"
+            case .daily: return "DAILY"
+            case .hourly: return "HOURLY"
+            case .monthly: return "MONTHLY"
+            case .onDemand: return "ON_DEMAND"
+            case .weekly: return "WEEKLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDbBackupOutput: Swift.Sendable {
+    /// The allocated storage of the resource at the time of backup, in GiB.
+    public var allocatedStorage: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the backup.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The cluster configuration of the resource at the time of backup.
+    public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
+    /// The time when the backup was created.
+    public var createdAt: Foundation.Date?
+    /// The DB instance type of the resource at the time of backup.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// The identifier of the DB parameter group associated with the backup.
+    public var dbParameterGroupId: Swift.String?
+    /// The identifier of the DB resource that the backup was created from.
+    public var dbResourceId: Swift.String?
+    /// The storage type of the resource at the time of backup.
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The deployment type of the resource that the backup was created from.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
+    /// The engine type of the resource that the backup was created from.
+    public var engineType: TimestreamInfluxDBClientTypes.EngineType?
+    /// The date after which the backup will be automatically deleted.
+    public var expiresAfter: Swift.String?
+    /// The failover mode of the resource at the time of backup.
+    public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// Service-generated unique identifier of the backup.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ARN of the Secrets Manager secret containing the InfluxDB auth parameters.
+    public var influxAuthParametersSecretArn: Swift.String?
+    /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+    public var kmsKeyId: Swift.String?
+    /// The log delivery configuration of the resource at the time of backup.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The maintenance schedule of the resource at the time of backup.
+    public var maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule?
+    /// The customer-provided name of the backup.
+    public var name: Swift.String?
+    /// The network type of the resource at the time of backup.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The port number of the resource at the time of backup.
+    public var port: Swift.Int?
+    /// Indicates whether the resource was publicly accessible at the time of backup.
+    public var publiclyAccessible: Swift.Bool?
+    /// The current status of the backup.
+    public var status: TimestreamInfluxDBClientTypes.DbBackupStatus?
+    /// The type of backup.
+    public var type: TimestreamInfluxDBClientTypes.DbBackupType?
+    /// The VPC security group IDs associated with the resource at the time of backup.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// The VPC subnet IDs associated with the resource at the time of backup.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        allocatedStorage: Swift.Int? = nil,
+        arn: Swift.String? = nil,
+        clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupId: Swift.String? = nil,
+        dbResourceId: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
+        engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
+        expiresAfter: Swift.String? = nil,
+        failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        id: Swift.String? = nil,
+        influxAuthParametersSecretArn: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: TimestreamInfluxDBClientTypes.DbBackupStatus? = nil,
+        type: TimestreamInfluxDBClientTypes.DbBackupType? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.allocatedStorage = allocatedStorage
+        self.arn = arn
+        self.clusterConfiguration = clusterConfiguration
+        self.createdAt = createdAt
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupId = dbParameterGroupId
+        self.dbResourceId = dbResourceId
+        self.dbStorageType = dbStorageType
+        self.deploymentType = deploymentType
+        self.engineType = engineType
+        self.expiresAfter = expiresAfter
+        self.failoverMode = failoverMode
+        self.id = id
+        self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.kmsKeyId = kmsKeyId
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.maintenanceSchedule = maintenanceSchedule
+        self.name = name
+        self.networkType = networkType
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+        self.type = type
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+public struct DeleteDbBackupInput: Swift.Sendable {
+    /// The identifier of the backup to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteDbBackupOutput: Swift.Sendable {
+    /// The allocated storage of the resource at the time of backup, in GiB.
+    public var allocatedStorage: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the deleted backup.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The cluster configuration of the resource at the time of backup.
+    public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
+    /// The time when the backup was created.
+    public var createdAt: Foundation.Date?
+    /// The DB instance type of the resource at the time of backup.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// The identifier of the DB parameter group associated with the backup.
+    public var dbParameterGroupId: Swift.String?
+    /// The identifier of the DB resource that the backup was created from.
+    public var dbResourceId: Swift.String?
+    /// The storage type of the resource at the time of backup.
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The deployment type of the resource that the backup was created from.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
+    /// The engine type of the resource that the backup was created from.
+    public var engineType: TimestreamInfluxDBClientTypes.EngineType?
+    /// The date after which the backup was set to be automatically deleted.
+    public var expiresAfter: Swift.String?
+    /// The failover mode of the resource at the time of backup.
+    public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// Service-generated unique identifier of the deleted backup.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ARN of the Secrets Manager secret containing the InfluxDB auth parameters.
+    public var influxAuthParametersSecretArn: Swift.String?
+    /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+    public var kmsKeyId: Swift.String?
+    /// The log delivery configuration of the resource at the time of backup.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The maintenance schedule of the resource at the time of backup.
+    public var maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule?
+    /// The customer-provided name of the deleted backup.
+    public var name: Swift.String?
+    /// The network type of the resource at the time of backup.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The port number of the resource at the time of backup.
+    public var port: Swift.Int?
+    /// Indicates whether the resource was publicly accessible at the time of backup.
+    public var publiclyAccessible: Swift.Bool?
+    /// The current status of the backup.
+    public var status: TimestreamInfluxDBClientTypes.DbBackupStatus?
+    /// The type of backup.
+    public var type: TimestreamInfluxDBClientTypes.DbBackupType?
+    /// The VPC security group IDs associated with the resource at the time of backup.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// The VPC subnet IDs associated with the resource at the time of backup.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        allocatedStorage: Swift.Int? = nil,
+        arn: Swift.String? = nil,
+        clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupId: Swift.String? = nil,
+        dbResourceId: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
+        engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
+        expiresAfter: Swift.String? = nil,
+        failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        id: Swift.String? = nil,
+        influxAuthParametersSecretArn: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: TimestreamInfluxDBClientTypes.DbBackupStatus? = nil,
+        type: TimestreamInfluxDBClientTypes.DbBackupType? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.allocatedStorage = allocatedStorage
+        self.arn = arn
+        self.clusterConfiguration = clusterConfiguration
+        self.createdAt = createdAt
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupId = dbParameterGroupId
+        self.dbResourceId = dbResourceId
+        self.dbStorageType = dbStorageType
+        self.deploymentType = deploymentType
+        self.engineType = engineType
+        self.expiresAfter = expiresAfter
+        self.failoverMode = failoverMode
+        self.id = id
+        self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.kmsKeyId = kmsKeyId
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.maintenanceSchedule = maintenanceSchedule
+        self.name = name
+        self.networkType = networkType
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+        self.type = type
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+public struct GetDbBackupInput: Swift.Sendable {
+    /// The identifier of the backup to retrieve information for.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetDbBackupOutput: Swift.Sendable {
+    /// The allocated storage of the resource at the time of backup, in GiB.
+    public var allocatedStorage: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the backup.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The cluster configuration of the resource at the time of backup.
+    public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
+    /// The time when the backup was created.
+    public var createdAt: Foundation.Date?
+    /// The DB instance type of the resource at the time of backup.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// The identifier of the DB parameter group associated with the backup.
+    public var dbParameterGroupId: Swift.String?
+    /// The identifier of the DB resource that the backup was created from.
+    public var dbResourceId: Swift.String?
+    /// The storage type of the resource at the time of backup.
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The deployment type of the resource that the backup was created from.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
+    /// The engine type of the resource that the backup was created from.
+    public var engineType: TimestreamInfluxDBClientTypes.EngineType?
+    /// The date after which the backup will be automatically deleted.
+    public var expiresAfter: Swift.String?
+    /// The failover mode of the resource at the time of backup.
+    public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// Service-generated unique identifier of the backup.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ARN of the Secrets Manager secret containing the InfluxDB auth parameters.
+    public var influxAuthParametersSecretArn: Swift.String?
+    /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+    public var kmsKeyId: Swift.String?
+    /// The log delivery configuration of the resource at the time of backup.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The maintenance schedule of the resource at the time of backup.
+    public var maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule?
+    /// The customer-provided name of the backup.
+    public var name: Swift.String?
+    /// The network type of the resource at the time of backup.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The port number of the resource at the time of backup.
+    public var port: Swift.Int?
+    /// Indicates whether the resource was publicly accessible at the time of backup.
+    public var publiclyAccessible: Swift.Bool?
+    /// The current status of the backup.
+    public var status: TimestreamInfluxDBClientTypes.DbBackupStatus?
+    /// The type of backup.
+    public var type: TimestreamInfluxDBClientTypes.DbBackupType?
+    /// The VPC security group IDs associated with the resource at the time of backup.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// The VPC subnet IDs associated with the resource at the time of backup.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        allocatedStorage: Swift.Int? = nil,
+        arn: Swift.String? = nil,
+        clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupId: Swift.String? = nil,
+        dbResourceId: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
+        engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
+        expiresAfter: Swift.String? = nil,
+        failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        id: Swift.String? = nil,
+        influxAuthParametersSecretArn: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: TimestreamInfluxDBClientTypes.DbBackupStatus? = nil,
+        type: TimestreamInfluxDBClientTypes.DbBackupType? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.allocatedStorage = allocatedStorage
+        self.arn = arn
+        self.clusterConfiguration = clusterConfiguration
+        self.createdAt = createdAt
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupId = dbParameterGroupId
+        self.dbResourceId = dbResourceId
+        self.dbStorageType = dbStorageType
+        self.deploymentType = deploymentType
+        self.engineType = engineType
+        self.expiresAfter = expiresAfter
+        self.failoverMode = failoverMode
+        self.id = id
+        self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.kmsKeyId = kmsKeyId
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.maintenanceSchedule = maintenanceSchedule
+        self.name = name
+        self.networkType = networkType
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+        self.type = type
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+public struct ListDbBackupsInput: Swift.Sendable {
+    /// The identifier of the DB instance or DB cluster to list backups for. If not specified, returns all backups in the account and region.
+    public var dbResourceId: Swift.String?
+    /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    public var maxResults: Swift.Int?
+    /// The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    public var nextToken: Swift.String?
+
+    public init(
+        dbResourceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dbResourceId = dbResourceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Contains a summary of a Timestream for InfluxDB backup.
+    public struct DbBackupSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the backup.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The time when the backup was created.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the DB resource that the backup was created from.
+        public var dbResourceId: Swift.String?
+        /// The deployment type of the resource that the backup was created from.
+        public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
+        /// The engine type of the resource that the backup was created from.
+        public var engineType: TimestreamInfluxDBClientTypes.EngineType?
+        /// The date after which the backup will be automatically deleted.
+        public var expiresAfter: Swift.String?
+        /// Service-generated unique identifier of the backup.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+        public var kmsKeyId: Swift.String?
+        /// The customer-provided name of the backup.
+        public var name: Swift.String?
+        /// The status of the backup. Valid values are IN_PROGRESS, COMPLETED, FAILED, DELETING, and DELETED.
+        public var status: TimestreamInfluxDBClientTypes.DbBackupStatus?
+        /// The type of backup. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, ON_DEMAND, and CONTINUOUS.
+        public var type: TimestreamInfluxDBClientTypes.DbBackupType?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dbResourceId: Swift.String? = nil,
+            deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
+            engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
+            expiresAfter: Swift.String? = nil,
+            id: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: TimestreamInfluxDBClientTypes.DbBackupStatus? = nil,
+            type: TimestreamInfluxDBClientTypes.DbBackupType? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dbResourceId = dbResourceId
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.id = id
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ListDbBackupsOutput: Swift.Sendable {
+    /// A list of Timestream for InfluxDB backup summaries.
+    /// This member is required.
+    public var items: [TimestreamInfluxDBClientTypes.DbBackupSummary]?
+    /// Token from a previous call of the operation. When this value is provided, the service returns results from where the previous response left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [TimestreamInfluxDBClientTypes.DbBackupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum AutomatedDbBackupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continuous
+        case customSchedule
+        case daily
+        case hourly
+        case monthly
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomatedDbBackupType] {
+            return [
+                .continuous,
+                .customSchedule,
+                .daily,
+                .hourly,
+                .monthly,
+                .weekly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .customSchedule: return "CUSTOM_SCHEDULE"
+            case .daily: return "DAILY"
+            case .hourly: return "HOURLY"
+            case .monthly: return "MONTHLY"
+            case .weekly: return "WEEKLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Specifies the configuration for an automated backup schedule.
+    public struct DbBackupConfiguration: Swift.Sendable {
+        /// A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE.
+        public var customSchedule: Swift.String?
+        /// Specifies whether this backup configuration is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The number of days to retain automated backups. Valid values are 1 to 365.
+        /// This member is required.
+        public var retentionDays: Swift.Int?
+        /// The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINUOUS.
+        /// This member is required.
+        public var type: TimestreamInfluxDBClientTypes.AutomatedDbBackupType?
+
+        public init(
+            customSchedule: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            retentionDays: Swift.Int? = nil,
+            type: TimestreamInfluxDBClientTypes.AutomatedDbBackupType? = nil
+        ) {
+            self.customSchedule = customSchedule
+            self.enabled = enabled
+            self.retentionDays = retentionDays
+            self.type = type
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum RestoreMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case newResource
+        case replaceExisting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreMode] {
+            return [
+                .newResource,
+                .replaceExisting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .newResource: return "NEW_RESOURCE"
+            case .replaceExisting: return "REPLACE_EXISTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct RestoreFromDbBackupInput: Swift.Sendable {
+    /// A list of backup configurations to apply to the restored resource.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]?
+    /// The identifier of the backup to restore from.
+    /// This member is required.
+    public var dbBackupId: Swift.String?
+    /// Specifies the deployment type of the restored resource. Valid values are SINGLE_AZ, WITH_MULTIAZ_STANDBY, and MULTI_NODE_READ_REPLICAS.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
+    /// The Amazon Web Services KMS key identifier to use for encryption of the restored resource. Can be a key ID, key ARN, alias name, or alias ARN.
+    public var kmsKeyId: Swift.String?
+    /// Configuration for sending InfluxDB engine logs to the specified S3 bucket for the restored resource.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The maintenance schedule for the restored resource.
+    public var maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule?
+    /// The name of the new resource to create from the restore. If restoring to an existing resource, the name must match the existing resource name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies the network type of the restored resource. Valid values are IPV4 and DUAL.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The port number on which the restored InfluxDB resource accepts connections.
+    public var port: Swift.Int?
+    /// Specifies whether the restored resource is publicly accessible.
+    public var publiclyAccessible: Swift.Bool?
+    /// Specifies whether to restore to a new resource or replace the existing resource. Valid values are NEW_RESOURCE (default) and REPLACE_EXISTING.
+    public var restoreMode: TimestreamInfluxDBClientTypes.RestoreMode?
+    /// The point in time to restore to, for continuous backups. Must be within the backup's retention window.
+    public var restoreToTime: Foundation.Date?
+    /// A list of key-value pairs to associate with the restored resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// A list of VPC security group IDs for the restored resource. If not specified, the restored resource uses the same security groups as the backup.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// A list of VPC subnet IDs for the restored resource. If not specified, the restored resource uses the same subnets as the backup.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]? = nil,
+        dbBackupId: Swift.String? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
+        kmsKeyId: Swift.String? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        restoreMode: TimestreamInfluxDBClientTypes.RestoreMode? = nil,
+        restoreToTime: Foundation.Date? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.dbBackupConfigurations = dbBackupConfigurations
+        self.dbBackupId = dbBackupId
+        self.deploymentType = deploymentType
+        self.kmsKeyId = kmsKeyId
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.maintenanceSchedule = maintenanceSchedule
+        self.name = name
+        self.networkType = networkType
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.restoreMode = restoreMode
+        self.restoreToTime = restoreToTime
+        self.tags = tags
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dbCluster
+        case dbInstance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .dbCluster,
+                .dbInstance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dbCluster: return "DB_CLUSTER"
+            case .dbInstance: return "DB_INSTANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum RestoreStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case restoring
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestoreStatus] {
+            return [
+                .restoring
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .restoring: return "RESTORING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct RestoreFromDbBackupOutput: Swift.Sendable {
+    /// The deployment type of the restored resource.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
+    /// The engine type of the restored resource.
+    public var engineType: TimestreamInfluxDBClientTypes.EngineType?
+    /// The type of the restored resource. Valid values are DB_INSTANCE and DB_CLUSTER.
+    public var resourceType: TimestreamInfluxDBClientTypes.ResourceType?
+    /// The status of the restore operation.
+    public var restoreStatus: TimestreamInfluxDBClientTypes.RestoreStatus?
+    /// The identifier of the restored DB resource.
+    public var restoredDbResourceId: Swift.String?
+
+    public init(
+        deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
+        engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
+        resourceType: TimestreamInfluxDBClientTypes.ResourceType? = nil,
+        restoreStatus: TimestreamInfluxDBClientTypes.RestoreStatus? = nil,
+        restoredDbResourceId: Swift.String? = nil
+    ) {
+        self.deploymentType = deploymentType
+        self.engineType = engineType
+        self.resourceType = resourceType
+        self.restoreStatus = restoreStatus
+        self.restoredDbResourceId = restoredDbResourceId
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum ClusterDeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multiNodeReadReplicas
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterDeploymentType] {
+            return [
+                .multiNodeReadReplicas
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiNodeReadReplicas: return "MULTI_NODE_READ_REPLICAS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDbClusterInput: Swift.Sendable {
     /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
     public var bucket: Swift.String?
+    /// A list of backup configurations to enable automated backups for the DB cluster.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]?
     /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
     /// This member is required.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
@@ -497,6 +1387,8 @@ public struct CreateDbClusterInput: Swift.Sendable {
     public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
     /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
     public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// The Amazon Web Services KMS key identifier to use for encryption of the DB cluster. Can be a key ID, key ARN, alias name, or alias ARN.
+    public var kmsKeyId: Swift.String?
     /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
@@ -528,11 +1420,13 @@ public struct CreateDbClusterInput: Swift.Sendable {
     public init(
         allocatedStorage: Swift.Int? = nil,
         bucket: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
         failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        kmsKeyId: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
         name: Swift.String? = nil,
@@ -548,11 +1442,13 @@ public struct CreateDbClusterInput: Swift.Sendable {
     ) {
         self.allocatedStorage = allocatedStorage
         self.bucket = bucket
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
         self.deploymentType = deploymentType
         self.failoverMode = failoverMode
+        self.kmsKeyId = kmsKeyId
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
         self.name = name
@@ -580,6 +1476,8 @@ extension TimestreamInfluxDBClientTypes {
         case partiallyAvailable
         case rebooting
         case rebootFailed
+        case restoreFailed
+        case restoring
         case updating
         case updatingInstanceType
         case sdkUnknown(Swift.String)
@@ -595,6 +1493,8 @@ extension TimestreamInfluxDBClientTypes {
                 .partiallyAvailable,
                 .rebooting,
                 .rebootFailed,
+                .restoreFailed,
+                .restoring,
                 .updating,
                 .updatingInstanceType
             ]
@@ -616,6 +1516,8 @@ extension TimestreamInfluxDBClientTypes {
             case .partiallyAvailable: return "PARTIALLY_AVAILABLE"
             case .rebooting: return "REBOOTING"
             case .rebootFailed: return "REBOOT_FAILED"
+            case .restoreFailed: return "RESTORE_FAILED"
+            case .restoring: return "RESTORING"
             case .updating: return "UPDATING"
             case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
             case let .sdkUnknown(s): return s
@@ -643,11 +1545,15 @@ public struct DeleteDbClusterInput: Swift.Sendable {
     /// Service-generated unique identifier of the DB cluster.
     /// This member is required.
     public var dbClusterId: Swift.String?
+    /// Specifies whether to retain automated backups after the DB cluster is deleted. If set to true, automated backups are not deleted and can be restored later.
+    public var retainAutomatedBackups: Swift.Bool?
 
     public init(
-        dbClusterId: Swift.String? = nil
+        dbClusterId: Swift.String? = nil,
+        retainAutomatedBackups: Swift.Bool? = nil
     ) {
         self.dbClusterId = dbClusterId
+        self.retainAutomatedBackups = retainAutomatedBackups
     }
 }
 
@@ -676,55 +1582,34 @@ public struct GetDbClusterInput: Swift.Sendable {
 
 extension TimestreamInfluxDBClientTypes {
 
-    /// Configuration for node modes in the DbCluster.
-    public struct ClusterConfiguration: Swift.Sendable {
-        /// Indicates if the compactor instance is a standalone instance or not.
-        public var dedicatedCompactor: Swift.Bool?
-        /// The number of instances in the DbCluster which can both ingest and query.
-        public var ingestQueryInstances: Swift.Int?
-        /// The number of instances in the DbCluster which can only query.
-        public var queryOnlyInstances: Swift.Int?
+    /// Contains the configuration and status for an automated backup schedule.
+    public struct DbBackupConfigurationOutput: Swift.Sendable {
+        /// The custom cron schedule expression for the backup, if applicable.
+        public var customSchedule: Swift.String?
+        /// Indicates whether this backup configuration is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The next scheduled time for an automated backup to be taken.
+        public var nextAutomatedBackupTime: Foundation.Date?
+        /// The number of days automated backups are retained.
+        /// This member is required.
+        public var retentionDays: Swift.Int?
+        /// The type of automated backup schedule.
+        /// This member is required.
+        public var type: TimestreamInfluxDBClientTypes.AutomatedDbBackupType?
 
         public init(
-            dedicatedCompactor: Swift.Bool? = nil,
-            ingestQueryInstances: Swift.Int? = nil,
-            queryOnlyInstances: Swift.Int? = nil
+            customSchedule: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            nextAutomatedBackupTime: Foundation.Date? = nil,
+            retentionDays: Swift.Int? = nil,
+            type: TimestreamInfluxDBClientTypes.AutomatedDbBackupType? = nil
         ) {
-            self.dedicatedCompactor = dedicatedCompactor
-            self.ingestQueryInstances = ingestQueryInstances
-            self.queryOnlyInstances = queryOnlyInstances
-        }
-    }
-}
-
-extension TimestreamInfluxDBClientTypes {
-
-    public enum EngineType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case influxdbV2
-        case influxdbV3Core
-        case influxdbV3Enterprise
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EngineType] {
-            return [
-                .influxdbV2,
-                .influxdbV3Core,
-                .influxdbV3Enterprise
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .influxdbV2: return "INFLUXDB_V2"
-            case .influxdbV3Core: return "INFLUXDB_V3_CORE"
-            case .influxdbV3Enterprise: return "INFLUXDB_V3_ENTERPRISE"
-            case let .sdkUnknown(s): return s
-            }
+            self.customSchedule = customSchedule
+            self.enabled = enabled
+            self.nextAutomatedBackupTime = nextAutomatedBackupTime
+            self.retentionDays = retentionDays
+            self.type = type
         }
     }
 }
@@ -737,6 +1622,8 @@ public struct GetDbClusterOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// Configuration for node modes in the DbCluster.
     public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
+    /// The backup configurations for the DB cluster.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The ID of the DB parameter group assigned to your DB cluster.
@@ -756,6 +1643,8 @@ public struct GetDbClusterOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
+    /// The Amazon Web Services KMS key ARN used for encryption of the DB cluster.
+    public var kmsKeyId: Swift.String?
     /// The timestamp of the last completed maintenance operation on the DB cluster.
     public var lastMaintenanceTime: Foundation.Date?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -786,6 +1675,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
@@ -795,6 +1685,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastMaintenanceTime: Foundation.Date? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -811,6 +1702,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.clusterConfiguration = clusterConfiguration
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
@@ -820,6 +1712,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         self.failoverMode = failoverMode
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.kmsKeyId = kmsKeyId
         self.lastMaintenanceTime = lastMaintenanceTime
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -1037,6 +1930,8 @@ extension TimestreamInfluxDBClientTypes {
         case modifying
         case rebooting
         case rebootFailed
+        case restoreFailed
+        case restoring
         case updating
         case updatingDeploymentType
         case updatingInstanceType
@@ -1053,6 +1948,8 @@ extension TimestreamInfluxDBClientTypes {
                 .modifying,
                 .rebooting,
                 .rebootFailed,
+                .restoreFailed,
+                .restoring,
                 .updating,
                 .updatingDeploymentType,
                 .updatingInstanceType
@@ -1075,6 +1972,8 @@ extension TimestreamInfluxDBClientTypes {
             case .modifying: return "MODIFYING"
             case .rebooting: return "REBOOTING"
             case .rebootFailed: return "REBOOT_FAILED"
+            case .restoreFailed: return "RESTORE_FAILED"
+            case .restoring: return "RESTORING"
             case .updating: return "UPDATING"
             case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"
             case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
@@ -1194,6 +2093,8 @@ public struct RebootDbClusterOutput: Swift.Sendable {
 }
 
 public struct UpdateDbClusterInput: Swift.Sendable {
+    /// A list of backup configurations to update for the DB cluster.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]?
     /// Service-generated unique identifier of the DB cluster to update.
     /// This member is required.
     public var dbClusterId: Swift.String?
@@ -1211,6 +2112,7 @@ public struct UpdateDbClusterInput: Swift.Sendable {
     public var port: Swift.Int?
 
     public init(
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]? = nil,
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
@@ -1219,6 +2121,7 @@ public struct UpdateDbClusterInput: Swift.Sendable {
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
         port: Swift.Int? = nil
     ) {
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1246,6 +2149,8 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     public var allocatedStorage: Swift.Int?
     /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
     public var bucket: Swift.String?
+    /// A list of backup configurations to enable automated backups for the DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]?
     /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
     /// This member is required.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
@@ -1261,6 +2166,8 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
     /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     public var deploymentType: TimestreamInfluxDBClientTypes.DeploymentType?
+    /// The Amazon Web Services KMS key identifier to use for encryption of the DB instance. Can be a key ID, key ARN, alias name, or alias ARN.
+    public var kmsKeyId: Swift.String?
     /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
@@ -1293,10 +2200,12 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     public init(
         allocatedStorage: Swift.Int? = nil,
         bucket: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
+        kmsKeyId: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
         name: Swift.String? = nil,
@@ -1312,10 +2221,12 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     ) {
         self.allocatedStorage = allocatedStorage
         self.bucket = bucket
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
         self.deploymentType = deploymentType
+        self.kmsKeyId = kmsKeyId
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
         self.name = name
@@ -1339,6 +2250,8 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// The backup configurations for the DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
     /// Specifies the DbCluster to which this DbInstance belongs to.
     public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1360,6 +2273,8 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Specifies the DbInstance's roles in the cluster.
     public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+    /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+    public var kmsKeyId: Swift.String?
     /// The timestamp of the last completed maintenance operation on the DB instance.
     public var lastMaintenanceTime: Foundation.Date?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1391,6 +2306,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]? = nil,
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
@@ -1401,6 +2317,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastMaintenanceTime: Foundation.Date? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -1417,6 +2334,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1427,6 +2345,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
         self.instanceModes = instanceModes
+        self.kmsKeyId = kmsKeyId
         self.lastMaintenanceTime = lastMaintenanceTime
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -1446,11 +2365,15 @@ public struct DeleteDbInstanceInput: Swift.Sendable {
     /// The id of the DB instance.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to retain automated backups after the DB instance is deleted. If set to true, automated backups are not deleted and can be restored later.
+    public var retainAutomatedBackups: Swift.Bool?
 
     public init(
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        retainAutomatedBackups: Swift.Bool? = nil
     ) {
         self.identifier = identifier
+        self.retainAutomatedBackups = retainAutomatedBackups
     }
 }
 
@@ -1462,6 +2385,8 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// The backup configurations that were associated with the deleted DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
     /// Specifies the DbCluster to which this DbInstance belongs to.
     public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1483,6 +2408,8 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Specifies the DbInstance's roles in the cluster.
     public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+    /// The Amazon Web Services KMS key ARN that was used for encryption of the deleted DB instance.
+    public var kmsKeyId: Swift.String?
     /// The timestamp of the last completed maintenance operation on the DB instance.
     public var lastMaintenanceTime: Foundation.Date?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1514,6 +2441,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]? = nil,
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
@@ -1524,6 +2452,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastMaintenanceTime: Foundation.Date? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -1540,6 +2469,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1550,6 +2480,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
         self.instanceModes = instanceModes
+        self.kmsKeyId = kmsKeyId
         self.lastMaintenanceTime = lastMaintenanceTime
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -1585,6 +2516,8 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// The backup configurations for the DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
     /// Specifies the DbCluster to which this DbInstance belongs to.
     public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1606,6 +2539,8 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Specifies the DbInstance's roles in the cluster.
     public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+    /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+    public var kmsKeyId: Swift.String?
     /// The timestamp of the last completed maintenance operation on the DB instance.
     public var lastMaintenanceTime: Foundation.Date?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1637,6 +2572,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]? = nil,
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
@@ -1647,6 +2583,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastMaintenanceTime: Foundation.Date? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -1663,6 +2600,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1673,6 +2611,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
         self.instanceModes = instanceModes
+        self.kmsKeyId = kmsKeyId
         self.lastMaintenanceTime = lastMaintenanceTime
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -1797,6 +2736,8 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// The backup configurations for the DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
     /// Specifies the DbCluster to which this DbInstance belongs to.
     public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1818,6 +2759,8 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Specifies the DbInstance's roles in the cluster.
     public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+    /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+    public var kmsKeyId: Swift.String?
     /// The timestamp of the last completed maintenance operation on the DB instance.
     public var lastMaintenanceTime: Foundation.Date?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1849,6 +2792,7 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]? = nil,
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
@@ -1859,6 +2803,7 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastMaintenanceTime: Foundation.Date? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -1875,6 +2820,7 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1885,6 +2831,7 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
         self.instanceModes = instanceModes
+        self.kmsKeyId = kmsKeyId
         self.lastMaintenanceTime = lastMaintenanceTime
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -1903,6 +2850,8 @@ public struct RebootDbInstanceOutput: Swift.Sendable {
 public struct UpdateDbInstanceInput: Swift.Sendable {
     /// The amount of storage to allocate for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
+    /// A list of backup configurations to update for the DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]?
     /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
@@ -1923,6 +2872,7 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
 
     public init(
         allocatedStorage: Swift.Int? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
@@ -1933,6 +2883,7 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
         port: Swift.Int? = nil
     ) {
         self.allocatedStorage = allocatedStorage
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
@@ -1952,6 +2903,8 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// The backup configurations for the DB instance.
+    public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
     /// Specifies the DbCluster to which this DbInstance belongs to.
     public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1973,6 +2926,8 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Specifies the DbInstance's roles in the cluster.
     public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+    /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+    public var kmsKeyId: Swift.String?
     /// The timestamp of the last completed maintenance operation on the DB instance.
     public var lastMaintenanceTime: Foundation.Date?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -2004,6 +2959,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]? = nil,
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
@@ -2014,6 +2970,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastMaintenanceTime: Foundation.Date? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -2030,6 +2987,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbBackupConfigurations = dbBackupConfigurations
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -2040,6 +2998,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
         self.instanceModes = instanceModes
+        self.kmsKeyId = kmsKeyId
         self.lastMaintenanceTime = lastMaintenanceTime
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -2210,7 +3169,7 @@ extension TimestreamInfluxDBClientTypes {
         public var queryConcurrency: Swift.Int?
         /// Initial bytes of memory allocated for a query. Default: 0
         public var queryInitialMemoryBytes: Swift.Int?
-        /// Maximum number of queries allowed in execution queue. When queue limit is reached, new queries are rejected. Setting to 0 allows an unlimited number of queries in the queue. Default: 0
+        /// Maximum total bytes of memory allowed for all running queries. When this limit is reached, new queries are rejected. Setting to 0 allows unlimited memory usage. Default: 0
         public var queryMaxMemoryBytes: Swift.Int?
         /// Maximum bytes of memory allowed for a single query. Must be greater or equal to queryInitialMemoryBytes. Default: 0
         public var queryMemoryBytes: Swift.Int?

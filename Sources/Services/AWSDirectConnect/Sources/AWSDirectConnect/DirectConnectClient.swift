@@ -4636,6 +4636,85 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListVirtualInterfaceRoutes` operation on the `DirectConnect` service.
+    ///
+    /// Lists the routes for the specified virtual interface. Use the routeDirection filter to control which routes are returned:
+    ///
+    /// * accepted: routes received from the customer network over the virtual interface.
+    ///
+    /// * advertised: routes advertised to the customer network over the virtual interface.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualInterfaceRoutesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListVirtualInterfaceRoutesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func listVirtualInterfaceRoutes(input: ListVirtualInterfaceRoutesInput) async throws -> ListVirtualInterfaceRoutesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.listVirtualInterfaceRoutesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listVirtualInterfaceRoutes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualInterfaceRoutesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVirtualInterfaceRoutesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>(overrides: ["X-Amz-Target": "OvertureService.ListVirtualInterfaceRoutes"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVirtualInterfaceRoutesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVirtualInterfaceRoutesInput, ListVirtualInterfaceRoutesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListVirtualInterfaceRoutes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListVirtualInterfaceTestHistory` operation on the `DirectConnect` service.
     ///
     /// Lists the virtual interface failover test history.
