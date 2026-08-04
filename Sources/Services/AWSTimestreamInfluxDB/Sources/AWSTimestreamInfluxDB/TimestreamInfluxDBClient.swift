@@ -612,6 +612,86 @@ extension TimestreamInfluxDBClient {
 }
 
 extension TimestreamInfluxDBClient {
+    /// Performs the `CreateDbBackup` operation on the `TimestreamInfluxDB` service.
+    ///
+    /// Creates a new on-demand backup of a Timestream for InfluxDB resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDbBackupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDbBackupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource in Timestream for InfluxDB.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The requested resource was not found or does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Timestream for InfluxDB.
+    public func createDbBackup(input: CreateDbBackupInput) async throws -> CreateDbBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TimestreamInfluxDBClient.createDbBackupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDbBackup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "timestream-influxdb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDbBackupInput, CreateDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDbBackupInput, CreateDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDbBackupInput, CreateDbBackupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDbBackupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDbBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDbBackupInput, CreateDbBackupOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.CreateDbBackup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDbBackupInput, CreateDbBackupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDbBackupInput, CreateDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDbBackupInput, CreateDbBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Timestream InfluxDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDbBackupInput, CreateDbBackupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDbBackup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateDbCluster` operation on the `TimestreamInfluxDB` service.
     ///
     /// Creates a new Timestream for InfluxDB cluster.
@@ -852,6 +932,85 @@ extension TimestreamInfluxDBClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteDbBackup` operation on the `TimestreamInfluxDB` service.
+    ///
+    /// Deletes a Timestream for InfluxDB backup.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteDbBackupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteDbBackupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource in Timestream for InfluxDB.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The requested resource was not found or does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Timestream for InfluxDB.
+    public func deleteDbBackup(input: DeleteDbBackupInput) async throws -> DeleteDbBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TimestreamInfluxDBClient.deleteDbBackupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDbBackup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "timestream-influxdb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDbBackupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDbBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.DeleteDbBackup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Timestream InfluxDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDbBackupInput, DeleteDbBackupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDbBackup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteDbCluster` operation on the `TimestreamInfluxDB` service.
     ///
     /// Deletes a Timestream for InfluxDB cluster.
@@ -998,6 +1157,84 @@ extension TimestreamInfluxDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDbInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDbBackup` operation on the `TimestreamInfluxDB` service.
+    ///
+    /// Returns information about a specific Timestream for InfluxDB backup.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDbBackupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDbBackupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The requested resource was not found or does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Timestream for InfluxDB.
+    public func getDbBackup(input: GetDbBackupInput) async throws -> GetDbBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TimestreamInfluxDBClient.getDbBackupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDbBackup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "timestream-influxdb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDbBackupInput, GetDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbBackupInput, GetDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbBackupInput, GetDbBackupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDbBackupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDbBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDbBackupInput, GetDbBackupOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.GetDbBackup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDbBackupInput, GetDbBackupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDbBackupInput, GetDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDbBackupInput, GetDbBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Timestream InfluxDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDbBackupInput, GetDbBackupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDbBackup")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1232,6 +1469,84 @@ extension TimestreamInfluxDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDbParameterGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDbBackups` operation on the `TimestreamInfluxDB` service.
+    ///
+    /// Returns a list of Timestream for InfluxDB backups.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDbBackupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDbBackupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The requested resource was not found or does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Timestream for InfluxDB.
+    public func listDbBackups(input: ListDbBackupsInput) async throws -> ListDbBackupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TimestreamInfluxDBClient.listDbBackupsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDbBackups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "timestream-influxdb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDbBackupsInput, ListDbBackupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbBackupsInput, ListDbBackupsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbBackupsInput, ListDbBackupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDbBackupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDbBackupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDbBackupsInput, ListDbBackupsOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.ListDbBackups"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDbBackupsInput, ListDbBackupsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDbBackupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDbBackupsInput, ListDbBackupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDbBackupsInput, ListDbBackupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Timestream InfluxDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDbBackupsInput, ListDbBackupsOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDbBackups")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1776,6 +2091,86 @@ extension TimestreamInfluxDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RebootDbInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RestoreFromDbBackup` operation on the `TimestreamInfluxDB` service.
+    ///
+    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestoreFromDbBackupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestoreFromDbBackupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource in Timestream for InfluxDB.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The requested resource was not found or does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Timestream for InfluxDB.
+    public func restoreFromDbBackup(input: RestoreFromDbBackupInput) async throws -> RestoreFromDbBackupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = TimestreamInfluxDBClient.restoreFromDbBackupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restoreFromDbBackup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "timestream-influxdb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestoreFromDbBackupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Timestream InfluxDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreFromDbBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>(overrides: ["X-Amz-Target": "AmazonTimestreamInfluxDB.RestoreFromDbBackup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreFromDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Timestream InfluxDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreFromDbBackupInput, RestoreFromDbBackupOutput>(serviceID: serviceName, version: TimestreamInfluxDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TimestreamInfluxDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreFromDbBackup")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

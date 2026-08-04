@@ -1904,6 +1904,54 @@ public struct AllocateTransitVirtualInterfaceOutput: Swift.Sendable {
     }
 }
 
+extension DirectConnectClientTypes {
+
+    public enum AsPathType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case seq
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AsPathType] {
+            return [
+                .seq,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .seq: return "seq"
+            case .set: return "set"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// A segment of an autonomous system (AS) path.
+    public struct AsPathSegment: Swift.Sendable {
+        /// The autonomous system (AS) numbers in the segment.
+        public var path: [Swift.Int]?
+        /// The type of the AS path segment. The valid values are seq (an ordered AS_SEQUENCE) and set (an unordered AS_SET).
+        public var pathType: DirectConnectClientTypes.AsPathType?
+
+        public init(
+            path: [Swift.Int]? = nil,
+            pathType: DirectConnectClientTypes.AsPathType? = nil
+        ) {
+            self.path = path
+            self.pathType = pathType
+        }
+    }
+}
+
 public struct AssociateConnectionWithLagInput: Swift.Sendable {
     /// The ID of the connection.
     /// This member is required.
@@ -5949,6 +5997,147 @@ public struct DisassociateMacSecKeyOutput: Swift.Sendable {
     ) {
         self.connectionId = connectionId
         self.macSecKeys = macSecKeys
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    public enum RouteDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case advertised
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouteDirection] {
+            return [
+                .accepted,
+                .advertised
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "accepted"
+            case .advertised: return "advertised"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// The filters used to limit the routes returned by [ListVirtualInterfaceRoutes].
+    public struct RouteFilters: Swift.Sendable {
+        /// The address family of the routes to return. The valid values are ipv4 and ipv6.
+        public var addressFamily: DirectConnectClientTypes.AddressFamily?
+        /// The autonomous system (AS) numbers used to filter the routes by their AS path.
+        public var asPath: [Swift.Int]?
+        /// The CIDRs (prefixes) used to filter the routes. You can specify up to 10 CIDRs.
+        public var cidrs: [Swift.String]?
+        /// The BGP communities used to filter the routes.
+        public var communities: [Swift.String]?
+        /// The direction of the routes to return. The valid values are accepted (routes received from the customer network) and advertised (routes advertised to the customer network).
+        public var routeDirection: DirectConnectClientTypes.RouteDirection?
+
+        public init(
+            addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
+            asPath: [Swift.Int]? = nil,
+            cidrs: [Swift.String]? = nil,
+            communities: [Swift.String]? = nil,
+            routeDirection: DirectConnectClientTypes.RouteDirection? = nil
+        ) {
+            self.addressFamily = addressFamily
+            self.asPath = asPath
+            self.cidrs = cidrs
+            self.communities = communities
+            self.routeDirection = routeDirection
+        }
+    }
+}
+
+public struct ListVirtualInterfaceRoutesInput: Swift.Sendable {
+    /// The filters to apply to the routes returned.
+    public var filters: DirectConnectClientTypes.RouteFilters?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the virtual interface.
+    public var virtualInterfaceId: Swift.String?
+
+    public init(
+        filters: DirectConnectClientTypes.RouteFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        virtualInterfaceId: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.virtualInterfaceId = virtualInterfaceId
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// Information about a route for a virtual interface.
+    public struct Route: Swift.Sendable {
+        /// The address family of the route. The valid values are ipv4 and ipv6.
+        public var addressFamily: DirectConnectClientTypes.AddressFamily?
+        /// The autonomous system (AS) path of the route.
+        public var asPath: [DirectConnectClientTypes.AsPathSegment]?
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
+        public var awsLogicalDeviceId: Swift.String?
+        /// The CIDR (prefix) of the route.
+        public var cidr: Swift.String?
+        /// The BGP communities associated with the route.
+        public var communities: [Swift.String]?
+        /// The direction of the route. The valid values are accepted (received from the customer network) and advertised (advertised to the customer network).
+        public var routeDirection: DirectConnectClientTypes.RouteDirection?
+        /// The time when the route was installed. The value is displayed in UTC format.
+        public var routeInstalledAt: Foundation.Date?
+
+        public init(
+            addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
+            asPath: [DirectConnectClientTypes.AsPathSegment]? = nil,
+            awsLogicalDeviceId: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            communities: [Swift.String]? = nil,
+            routeDirection: DirectConnectClientTypes.RouteDirection? = nil,
+            routeInstalledAt: Foundation.Date? = nil
+        ) {
+            self.addressFamily = addressFamily
+            self.asPath = asPath
+            self.awsLogicalDeviceId = awsLogicalDeviceId
+            self.cidr = cidr
+            self.communities = communities
+            self.routeDirection = routeDirection
+            self.routeInstalledAt = routeInstalledAt
+        }
+    }
+}
+
+public struct ListVirtualInterfaceRoutesOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The routes for the virtual interface.
+    public var routes: [DirectConnectClientTypes.Route]?
+    /// The ID of the virtual interface.
+    public var virtualInterfaceId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        routes: [DirectConnectClientTypes.Route]? = nil,
+        virtualInterfaceId: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+        self.routes = routes
+        self.virtualInterfaceId = virtualInterfaceId
     }
 }
 

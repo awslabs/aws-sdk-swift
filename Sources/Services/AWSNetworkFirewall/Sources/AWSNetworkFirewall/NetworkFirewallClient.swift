@@ -7394,6 +7394,92 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateProxySettings` operation on the `NetworkFirewall` service.
+    ///
+    /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with NoSourcePreservation set to TRUE. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxySettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProxySettingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateProxySettings(input: UpdateProxySettingsInput) async throws -> UpdateProxySettingsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.updateProxySettingsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProxySettings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxySettingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxySettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxySettings"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxySettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProxySettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateRuleGroup` operation on the `NetworkFirewall` service.
     ///
     /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group. To update a rule group, first call [DescribeRuleGroup] to retrieve the current [RuleGroup] object, update the object as needed, and then provide the updated object to this call.
