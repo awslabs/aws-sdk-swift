@@ -9491,6 +9491,28 @@ extension Inspector2ClientTypes {
     public struct ResourceFilterCriteria: Swift.Sendable {
         /// The account IDs used as resource filter criteria.
         public var accountId: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud container image tags used as resource filter criteria.
+        public var cloudContainerImageTags: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud container registry names used as resource filter criteria.
+        public var cloudContainerRegistryName: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud container repository names used as resource filter criteria.
+        public var cloudContainerRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud providers used as resource filter criteria.
+        public var cloudProvider: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud provider account IDs used as resource filter criteria.
+        public var cloudProviderAccountId: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud provider organization IDs used as resource filter criteria.
+        public var cloudProviderOrgId: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud provider regions used as resource filter criteria.
+        public var cloudProviderRegion: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud serverless function names used as resource filter criteria.
+        public var cloudServerlessFunctionName: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud serverless function runtimes used as resource filter criteria.
+        public var cloudServerlessFunctionRuntime: [Inspector2ClientTypes.ResourceStringFilter]?
+        /// The cloud serverless function tags used as resource filter criteria.
+        public var cloudServerlessFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]?
+        /// The cloud VM instance tags used as resource filter criteria.
+        public var cloudVmInstanceTags: [Inspector2ClientTypes.ResourceMapFilter]?
         /// The EC2 instance tags used as resource filter criteria.
         public var ec2InstanceTags: [Inspector2ClientTypes.ResourceMapFilter]?
         /// The ECR image tags used as resource filter criteria.
@@ -9508,6 +9530,17 @@ extension Inspector2ClientTypes {
 
         public init(
             accountId: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudContainerImageTags: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudContainerRegistryName: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudContainerRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudProvider: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudProviderAccountId: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudProviderOrgId: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudProviderRegion: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudServerlessFunctionName: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudServerlessFunctionRuntime: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
+            cloudServerlessFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]? = nil,
+            cloudVmInstanceTags: [Inspector2ClientTypes.ResourceMapFilter]? = nil,
             ec2InstanceTags: [Inspector2ClientTypes.ResourceMapFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
             ecrRepositoryName: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
@@ -9517,6 +9550,17 @@ extension Inspector2ClientTypes {
             resourceType: [Inspector2ClientTypes.ResourceStringFilter]? = nil
         ) {
             self.accountId = accountId
+            self.cloudContainerImageTags = cloudContainerImageTags
+            self.cloudContainerRegistryName = cloudContainerRegistryName
+            self.cloudContainerRepositoryName = cloudContainerRepositoryName
+            self.cloudProvider = cloudProvider
+            self.cloudProviderAccountId = cloudProviderAccountId
+            self.cloudProviderOrgId = cloudProviderOrgId
+            self.cloudProviderRegion = cloudProviderRegion
+            self.cloudServerlessFunctionName = cloudServerlessFunctionName
+            self.cloudServerlessFunctionRuntime = cloudServerlessFunctionRuntime
+            self.cloudServerlessFunctionTags = cloudServerlessFunctionTags
+            self.cloudVmInstanceTags = cloudVmInstanceTags
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
@@ -20713,6 +20757,17 @@ extension Inspector2ClientTypes.ResourceFilterCriteria {
     static func write(value: Inspector2ClientTypes.ResourceFilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountId"].writeList(value.accountId, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudContainerImageTags"].writeList(value.cloudContainerImageTags, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudContainerRegistryName"].writeList(value.cloudContainerRegistryName, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudContainerRepositoryName"].writeList(value.cloudContainerRepositoryName, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProvider"].writeList(value.cloudProvider, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderAccountId"].writeList(value.cloudProviderAccountId, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderOrgId"].writeList(value.cloudProviderOrgId, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudProviderRegion"].writeList(value.cloudProviderRegion, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionName"].writeList(value.cloudServerlessFunctionName, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionRuntime"].writeList(value.cloudServerlessFunctionRuntime, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudServerlessFunctionTags"].writeList(value.cloudServerlessFunctionTags, memberWritingClosure: Inspector2ClientTypes.ResourceMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cloudVmInstanceTags"].writeList(value.cloudVmInstanceTags, memberWritingClosure: Inspector2ClientTypes.ResourceMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2InstanceTags"].writeList(value.ec2InstanceTags, memberWritingClosure: Inspector2ClientTypes.ResourceMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageTags"].writeList(value.ecrImageTags, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrRepositoryName"].writeList(value.ecrRepositoryName, memberWritingClosure: Inspector2ClientTypes.ResourceStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -20733,6 +20788,17 @@ extension Inspector2ClientTypes.ResourceFilterCriteria {
         value.ecrImageTags = try reader["ecrImageTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ec2InstanceTags = try reader["ec2InstanceTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lambdaFunctionTags = try reader["lambdaFunctionTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProvider = try reader["cloudProvider"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProviderAccountId = try reader["cloudProviderAccountId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProviderOrgId = try reader["cloudProviderOrgId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudProviderRegion = try reader["cloudProviderRegion"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudVmInstanceTags = try reader["cloudVmInstanceTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudContainerImageTags = try reader["cloudContainerImageTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudContainerRepositoryName = try reader["cloudContainerRepositoryName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudContainerRegistryName = try reader["cloudContainerRegistryName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionName = try reader["cloudServerlessFunctionName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionRuntime = try reader["cloudServerlessFunctionRuntime"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudServerlessFunctionTags = try reader["cloudServerlessFunctionTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ResourceMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

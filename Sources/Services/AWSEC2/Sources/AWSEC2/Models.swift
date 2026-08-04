@@ -521,6 +521,7 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationStatusCheck
         case capacityBlock
         case capacityManagerDataExport
         case capacityReservation
@@ -634,6 +635,7 @@ extension EC2ClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .applicationStatusCheck,
                 .capacityBlock,
                 .capacityManagerDataExport,
                 .capacityReservation,
@@ -753,6 +755,7 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .applicationStatusCheck: return "application-status-check"
             case .capacityBlock: return "capacity-block"
             case .capacityManagerDataExport: return "capacity-manager-data-export"
             case .capacityReservation: return "capacity-reservation"
@@ -4307,6 +4310,35 @@ extension EC2ClientTypes {
     }
 }
 
+extension EC2ClientTypes {
+
+    public enum AggregationStatusEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggregationStatusEnum] {
+            return [
+                .excluded,
+                .included
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct AllocateAddressInput: Swift.Sendable {
     /// The Elastic IP address to recover or an IPv4 address from an address pool.
     public var address: Swift.String?
@@ -5339,6 +5371,118 @@ public struct AssociateAddressOutput: Swift.Sendable {
         associationId: Swift.String? = nil
     ) {
         self.associationId = associationId
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a tag key-value pair for an application status check association request.
+    public struct CustomTagKeyValueRequestPair: Swift.Sendable {
+        /// The key of the tag.
+        public var key: Swift.String?
+        /// The value of the tag.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct AssociateApplicationStatusCheckInput: Swift.Sendable {
+    /// The ID of the application status check to associate.
+    /// This member is required.
+    public var applicationStatusCheckId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the instances to associate with the application status check.
+    public var instanceIds: [Swift.String]?
+    /// The [tags](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) to associate the application status check with. Each tag is a key-value pair. When you associate tags, the application status check automatically monitors all instances that have the specified tags.
+    public var targetTagAssociations: [EC2ClientTypes.CustomTagKeyValueRequestPair]?
+
+    public init(
+        applicationStatusCheckId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceIds: [Swift.String]? = nil,
+        targetTagAssociations: [EC2ClientTypes.CustomTagKeyValueRequestPair]? = nil
+    ) {
+        self.applicationStatusCheckId = applicationStatusCheckId
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.instanceIds = instanceIds
+        self.targetTagAssociations = targetTagAssociations
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a successful application status check association.
+    public struct SuccessfulAssociationResponseObject: Swift.Sendable {
+        /// The ID of the application status check.
+        public var applicationStatusCheckId: Swift.String?
+        /// The type of association. Valid values: EC2TAG and INSTANCE_ID.
+        public var associationType: Swift.String?
+        /// The association value. For EC2TAG, the value is formatted as key=value. For INSTANCE_ID, the value is the instance ID.
+        public var associationValue: Swift.String?
+
+        public init(
+            applicationStatusCheckId: Swift.String? = nil,
+            associationType: Swift.String? = nil,
+            associationValue: Swift.String? = nil
+        ) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.associationType = associationType
+            self.associationValue = associationValue
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an unsuccessful application status check association.
+    public struct UnsuccessfulAssociationResponseObject: Swift.Sendable {
+        /// The ID of the application status check.
+        public var applicationStatusCheckId: Swift.String?
+        /// The type of association. Valid values: EC2TAG and INSTANCE_ID.
+        public var associationType: Swift.String?
+        /// The association value. For EC2TAG, the value is formatted as key=value. For INSTANCE_ID, the value is the instance ID.
+        public var associationValue: Swift.String?
+        /// The reason the association failed.
+        public var reason: Swift.String?
+
+        public init(
+            applicationStatusCheckId: Swift.String? = nil,
+            associationType: Swift.String? = nil,
+            associationValue: Swift.String? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.associationType = associationType
+            self.associationValue = associationValue
+            self.reason = reason
+        }
+    }
+}
+
+public struct AssociateApplicationStatusCheckOutput: Swift.Sendable {
+    /// The associations that were successfully created.
+    public var successfulResults: [EC2ClientTypes.SuccessfulAssociationResponseObject]?
+    /// The associations that failed to be created.
+    public var unsuccessfulResults: [EC2ClientTypes.UnsuccessfulAssociationResponseObject]?
+
+    public init(
+        successfulResults: [EC2ClientTypes.SuccessfulAssociationResponseObject]? = nil,
+        unsuccessfulResults: [EC2ClientTypes.UnsuccessfulAssociationResponseObject]? = nil
+    ) {
+        self.successfulResults = successfulResults
+        self.unsuccessfulResults = unsuccessfulResults
     }
 }
 
@@ -10030,6 +10174,406 @@ public struct CopyVolumesOutput: Swift.Sendable {
         volumes: [EC2ClientTypes.Volume]? = nil
     ) {
         self.volumes = volumes
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a destination for a health check path in a request. Destinations can be in a different Availability Zone than the source (cross-AZ) or in a Local Zone (AZ to Local Zone), enabling remote health validation of your application.
+    public struct HealthCheckPathDestinationRequestObject: Swift.Sendable {
+        /// The ID of the security group for the destination.
+        public var securityGroupId: Swift.String?
+        /// The ID of the subnet for the destination.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the source for a health check path in a request. The source defines the subnet and security group where a health check elastic network interface (ENI) is created to originate health check traffic.
+    public struct HealthCheckPathSourceRequestObject: Swift.Sendable {
+        /// The ID of the security group for the source.
+        public var securityGroupId: Swift.String?
+        /// The ID of the subnet for the source.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a health check path for an application status check request.
+    public struct HealthCheckPathRequestObject: Swift.Sendable {
+        /// The destinations for the health check path.
+        public var destinations: [EC2ClientTypes.HealthCheckPathDestinationRequestObject]?
+        /// The source for the health check path.
+        public var source: EC2ClientTypes.HealthCheckPathSourceRequestObject?
+
+        public init(
+            destinations: [EC2ClientTypes.HealthCheckPathDestinationRequestObject]? = nil,
+            source: EC2ClientTypes.HealthCheckPathSourceRequestObject? = nil
+        ) {
+            self.destinations = destinations
+            self.source = source
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum IpScopeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpScopeEnum] {
+            return [
+                .private
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "private"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum IpVersionEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpVersionEnum] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum NetworkProtocolEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkProtocolEnum] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "http"
+            case .https: return "https"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateApplicationStatusCheckInput: Swift.Sendable {
+    /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
+    public var aggregation: EC2ClientTypes.AggregationStatusEnum?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The index of the network device to use for the health check. The value must be greater than or equal to 0.
+    public var deviceIndex: Swift.Int?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+    public var failureThreshold: Swift.Int?
+    /// The health check paths to use for the application status check. Health check paths define the network path from a source subnet to one or more destination subnets for cross-Availability Zone or Availability Zone to Local Zone health checking. If omitted, health checks are performed in the same subnet as the instance.
+    public var healthCheckPaths: [EC2ClientTypes.HealthCheckPathRequestObject]?
+    /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+    public var initializationGracePeriodSeconds: Swift.Int?
+    /// The interval, in seconds, between health checks. Valid value: 60.
+    public var interval: Swift.Int?
+    /// The IP scope to use for the health check. Valid value: private.
+    public var ipScope: EC2ClientTypes.IpScopeEnum?
+    /// The IP version to use for the health check. Valid values: ipv4 and ipv6.
+    public var ipVersion: EC2ClientTypes.IpVersionEnum?
+    /// The URL path to use for the health check HTTP request (for example, /health or /status).
+    public var path: Swift.String?
+    /// The port to use for the health check. Valid values: 1 to 65535.
+    /// This member is required.
+    public var port: Swift.Int?
+    /// The protocol to use for the health check. Valid values: http | https.
+    /// This member is required.
+    public var `protocol`: EC2ClientTypes.NetworkProtocolEnum?
+    /// The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399. For a range, the first value must be less than the second value. Maximum length: 64 characters. Default: 200.
+    public var statusCodeMatcher: Swift.String?
+    /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+    public var successThreshold: Swift.Int?
+    /// The tags to apply to the application status check.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+    /// The amount of time, in seconds, to wait for a health check response before considering it failed. Valid values: 1 to 30. The value must be less than Interval.
+    public var timeout: Swift.Int?
+
+    public init(
+        aggregation: EC2ClientTypes.AggregationStatusEnum? = nil,
+        clientToken: Swift.String? = nil,
+        deviceIndex: Swift.Int? = nil,
+        dryRun: Swift.Bool? = nil,
+        failureThreshold: Swift.Int? = nil,
+        healthCheckPaths: [EC2ClientTypes.HealthCheckPathRequestObject]? = nil,
+        initializationGracePeriodSeconds: Swift.Int? = nil,
+        interval: Swift.Int? = nil,
+        ipScope: EC2ClientTypes.IpScopeEnum? = nil,
+        ipVersion: EC2ClientTypes.IpVersionEnum? = nil,
+        path: Swift.String? = nil,
+        port: Swift.Int? = nil,
+        `protocol`: EC2ClientTypes.NetworkProtocolEnum? = nil,
+        statusCodeMatcher: Swift.String? = nil,
+        successThreshold: Swift.Int? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
+        timeout: Swift.Int? = nil
+    ) {
+        self.aggregation = aggregation
+        self.clientToken = clientToken
+        self.deviceIndex = deviceIndex
+        self.dryRun = dryRun
+        self.failureThreshold = failureThreshold
+        self.healthCheckPaths = healthCheckPaths
+        self.initializationGracePeriodSeconds = initializationGracePeriodSeconds
+        self.interval = interval
+        self.ipScope = ipScope
+        self.ipVersion = ipVersion
+        self.path = path
+        self.port = port
+        self.`protocol` = `protocol`
+        self.statusCodeMatcher = statusCodeMatcher
+        self.successThreshold = successThreshold
+        self.tagSpecifications = tagSpecifications
+        self.timeout = timeout
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a destination for a health check path.
+    public struct HealthCheckPathDestinationResponseObject: Swift.Sendable {
+        /// The ID of the security group for the destination.
+        public var securityGroupId: Swift.String?
+        /// The ID of the subnet for the destination.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the source for a health check path.
+    public struct HealthCheckPathSourceResponseObject: Swift.Sendable {
+        /// The ID of the security group for the source.
+        public var securityGroupId: Swift.String?
+        /// The ID of the subnet for the source.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a health check path for an application status check.
+    public struct HealthCheckPathResponseObject: Swift.Sendable {
+        /// The destinations for the health check path.
+        public var destinations: [EC2ClientTypes.HealthCheckPathDestinationResponseObject]?
+        /// The source for the health check path.
+        public var source: EC2ClientTypes.HealthCheckPathSourceResponseObject?
+
+        public init(
+            destinations: [EC2ClientTypes.HealthCheckPathDestinationResponseObject]? = nil,
+            source: EC2ClientTypes.HealthCheckPathSourceResponseObject? = nil
+        ) {
+            self.destinations = destinations
+            self.source = source
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a tag key-value pair for an application status check association.
+    public struct CustomTagKeyValueResponsePair: Swift.Sendable {
+        /// The key of the tag.
+        public var key: Swift.String?
+        /// The value of the tag.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an application status check.
+    public struct ApplicationStatusCheckResponseObject: Swift.Sendable {
+        /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status. When set to excluded, the check runs independently and does not affect the instance-level status.
+        public var aggregation: EC2ClientTypes.AggregationStatusEnum?
+        /// The ID of the application status check.
+        public var applicationStatusCheckId: Swift.String?
+        /// The date and time when the application status check was created.
+        public var creationTime: Foundation.Date?
+        /// The date and time when the application status check was deleted.
+        public var deletionTime: Foundation.Date?
+        /// The index of the network device used for the health check. The value is greater than or equal to 0.
+        public var deviceIndex: Swift.Int?
+        /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+        public var failureThreshold: Swift.Int?
+        /// The health check paths for the application status check.
+        public var healthCheckPaths: [EC2ClientTypes.HealthCheckPathResponseObject]?
+        /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+        public var initializationGracePeriodSeconds: Swift.Int?
+        /// The interval, in seconds, between health checks. Valid value: 60.
+        public var interval: Swift.Int?
+        /// The IP scope used for the health check.
+        public var ipScope: EC2ClientTypes.IpScopeEnum?
+        /// The IP version used for the health check.
+        public var ipVersion: EC2ClientTypes.IpVersionEnum?
+        /// The date and time when the application status check was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The date and time when the application status check was last modified.
+        public var modifyTime: Foundation.Date?
+        /// The URL path used for the health check HTTP request.
+        public var path: Swift.String?
+        /// The port used for the health check.
+        public var port: Swift.Int?
+        /// The protocol used for the health check.
+        public var `protocol`: EC2ClientTypes.NetworkProtocolEnum?
+        /// The comma-separated list of individual HTTP status codes or ranges that indicate a successful health check response.
+        public var statusCodeMatcher: Swift.String?
+        /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+        public var successThreshold: Swift.Int?
+        /// The tags assigned to the application status check.
+        public var tags: [EC2ClientTypes.Tag]?
+        /// The [tags](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) associated with the application status check. Instances with these tags are automatically monitored by this check.
+        public var targetTagAssociations: [EC2ClientTypes.CustomTagKeyValueResponsePair]?
+        /// The amount of time, in seconds, to wait for a health check response. Valid values: 1 to 30.
+        public var timeout: Swift.Int?
+
+        public init(
+            aggregation: EC2ClientTypes.AggregationStatusEnum? = nil,
+            applicationStatusCheckId: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            deletionTime: Foundation.Date? = nil,
+            deviceIndex: Swift.Int? = nil,
+            failureThreshold: Swift.Int? = nil,
+            healthCheckPaths: [EC2ClientTypes.HealthCheckPathResponseObject]? = nil,
+            initializationGracePeriodSeconds: Swift.Int? = nil,
+            interval: Swift.Int? = nil,
+            ipScope: EC2ClientTypes.IpScopeEnum? = nil,
+            ipVersion: EC2ClientTypes.IpVersionEnum? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            modifyTime: Foundation.Date? = nil,
+            path: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: EC2ClientTypes.NetworkProtocolEnum? = nil,
+            statusCodeMatcher: Swift.String? = nil,
+            successThreshold: Swift.Int? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil,
+            targetTagAssociations: [EC2ClientTypes.CustomTagKeyValueResponsePair]? = nil,
+            timeout: Swift.Int? = nil
+        ) {
+            self.aggregation = aggregation
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.creationTime = creationTime
+            self.deletionTime = deletionTime
+            self.deviceIndex = deviceIndex
+            self.failureThreshold = failureThreshold
+            self.healthCheckPaths = healthCheckPaths
+            self.initializationGracePeriodSeconds = initializationGracePeriodSeconds
+            self.interval = interval
+            self.ipScope = ipScope
+            self.ipVersion = ipVersion
+            self.lastUpdatedAt = lastUpdatedAt
+            self.modifyTime = modifyTime
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.statusCodeMatcher = statusCodeMatcher
+            self.successThreshold = successThreshold
+            self.tags = tags
+            self.targetTagAssociations = targetTagAssociations
+            self.timeout = timeout
+        }
+    }
+}
+
+public struct CreateApplicationStatusCheckOutput: Swift.Sendable {
+    /// Information about the application status check.
+    public var applicationStatusCheck: EC2ClientTypes.ApplicationStatusCheckResponseObject?
+
+    public init(
+        applicationStatusCheck: EC2ClientTypes.ApplicationStatusCheckResponseObject? = nil
+    ) {
+        self.applicationStatusCheck = applicationStatusCheck
     }
 }
 
@@ -20201,7 +20745,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var logGroupName: Swift.String?
     /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     public var maxAggregationInterval: Swift.Int?
-    /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 1000 for the other resource types.
+    /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
     /// This member is required.
     public var resourceIds: [Swift.String]?
     /// The type of resource to monitor.
@@ -30702,7 +31246,6 @@ public struct CreateSecondaryNetworkInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// The IPv4 CIDR block for the secondary network. The CIDR block size must be between /12 and /28.
-    /// This member is required.
     public var ipv4CidrBlock: Swift.String?
     /// The type of secondary network.
     /// This member is required.
@@ -38732,6 +39275,37 @@ public struct CreateVpnGatewayOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteApplicationStatusCheckInput: Swift.Sendable {
+    /// The ID of the application status check to delete.
+    /// This member is required.
+    public var applicationStatusCheckId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        applicationStatusCheckId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.applicationStatusCheckId = applicationStatusCheckId
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+    }
+}
+
+public struct DeleteApplicationStatusCheckOutput: Swift.Sendable {
+    /// Information about the deleted application status check.
+    public var applicationStatusCheck: EC2ClientTypes.ApplicationStatusCheckResponseObject?
+
+    public init(
+        applicationStatusCheck: EC2ClientTypes.ApplicationStatusCheckResponseObject? = nil
+    ) {
+        self.applicationStatusCheck = applicationStatusCheck
+    }
+}
+
 public struct DeleteCapacityManagerDataExportInput: Swift.Sendable {
     /// The unique identifier of the data export configuration to delete.
     /// This member is required.
@@ -42457,6 +43031,469 @@ public struct DescribeAggregateIdFormatOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeApplicationStatusInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The filters.
+    ///
+    /// * availability-zone-id – The ID of the Availability Zone.
+    ///
+    /// * status – The instance-level application status. For valid values and their meanings, see ApplicationStatus.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The IDs of the instances for which to describe application status.
+    public var instanceIds: [Swift.String]?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        instanceIds: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.instanceIds = instanceIds
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the reason for an application status check result.
+    public struct ApplicationStatusReason: Swift.Sendable {
+        /// The reason code for the application status check result. Possible values:
+        ///
+        /// * ResponseCodeMatched – The HTTP status code returned by the health check matched the configured StatusCodeMatcher.
+        ///
+        /// * ResponseCodeMismatch – The HTTP status code returned by the health check did not match the configured StatusCodeMatcher.
+        ///
+        /// * ConnectionTimeout – The connection to the target timed out.
+        ///
+        /// * ResponseTimeout – The health check timed out while waiting for a response from the target.
+        ///
+        /// * ConnectionRefused – The target refused the health check connection.
+        ///
+        /// * ConnectionReset – The target reset the health check connection before returning a response.
+        ///
+        ///
+        /// Current health check results use the values in the preceding list. Legacy results that do not contain structured reason metadata can instead contain a producer error type, such as Http Status Code or HttpConnectTimeoutException. For ResponseCodeMatched and ResponseCodeMismatch, the statusCode field contains the returned HTTP status code. The protocol field contains the protocol used for the health check.
+        public var code: Swift.String?
+        /// The protocol used for the health check. Possible values: HTTP and HTTPS.
+        public var `protocol`: Swift.String?
+        /// The HTTP status code returned by the health check.
+        public var statusCode: Swift.Int?
+
+        public init(
+            code: Swift.String? = nil,
+            `protocol`: Swift.String? = nil,
+            statusCode: Swift.Int? = nil
+        ) {
+            self.code = code
+            self.`protocol` = `protocol`
+            self.statusCode = statusCode
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum ApplicationStatusCheckEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case initializing
+        case insufficientData
+        case notApplicable
+        case passed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationStatusCheckEnum] {
+            return [
+                .failed,
+                .initializing,
+                .insufficientData,
+                .notApplicable,
+                .passed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .notApplicable: return "not-applicable"
+            case .passed: return "passed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the details of an application status check for an instance.
+    public struct ApplicationStatusDetail: Swift.Sendable {
+        /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status. When set to excluded, the check runs independently and does not affect the instance-level status.
+        public var aggregation: EC2ClientTypes.AggregationStatusEnum?
+        /// The ID of the application status check.
+        public var applicationStatusCheckId: Swift.String?
+        /// The date and time when the check was last updated.
+        public var checkUpdateTime: Foundation.Date?
+        /// The reason for the current status.
+        public var reason: EC2ClientTypes.ApplicationStatusReason?
+        /// The status of the individual application status check. Possible values:
+        ///
+        /// * passed – The check reached its success threshold.
+        ///
+        /// * failed – The check reached its failure threshold.
+        ///
+        /// * initializing – The check is initializing or has not reached a success or failure threshold.
+        ///
+        /// * insufficient-data – The check does not have enough data to determine a result.
+        ///
+        /// * not-applicable – The check does not apply to the instance.
+        ///
+        ///
+        /// This value reflects the check result and is not affected by aggregation or suppression.
+        public var status: EC2ClientTypes.ApplicationStatusCheckEnum?
+        /// The date and time when the current status started for this check.
+        public var statusSince: Foundation.Date?
+        /// The date and time of the last status update for this check.
+        public var statusTimeStamp: Foundation.Date?
+
+        public init(
+            aggregation: EC2ClientTypes.AggregationStatusEnum? = nil,
+            applicationStatusCheckId: Swift.String? = nil,
+            checkUpdateTime: Foundation.Date? = nil,
+            reason: EC2ClientTypes.ApplicationStatusReason? = nil,
+            status: EC2ClientTypes.ApplicationStatusCheckEnum? = nil,
+            statusSince: Foundation.Date? = nil,
+            statusTimeStamp: Foundation.Date? = nil
+        ) {
+            self.aggregation = aggregation
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.checkUpdateTime = checkUpdateTime
+            self.reason = reason
+            self.status = status
+            self.statusSince = statusSince
+            self.statusTimeStamp = statusTimeStamp
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum ApplicationStatusEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case initializing
+        case insufficientData
+        case notApplicable
+        case ok
+        case suppressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationStatusEnum] {
+            return [
+                .impaired,
+                .initializing,
+                .insufficientData,
+                .notApplicable,
+                .ok,
+                .suppressed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "impaired"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .notApplicable: return "not-applicable"
+            case .ok: return "ok"
+            case .suppressed: return "suppressed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the application-level health status for an instance.
+    public struct ApplicationStatus: Swift.Sendable {
+        /// Details about the application status checks for the instance.
+        public var details: [EC2ClientTypes.ApplicationStatusDetail]?
+        /// The date and time when application status reporting resumes after suppression.
+        public var resumeAt: Foundation.Date?
+        /// The current instance-level application status. This status is derived from application status checks with Aggregation set to included. Possible values:
+        ///
+        /// * ok – All included checks passed.
+        ///
+        /// * impaired – At least one included check failed.
+        ///
+        /// * initializing – At least one included check is initializing, and no included check is impaired.
+        ///
+        /// * insufficient-data – At least one included check has insufficient data, and no included check is impaired or initializing.
+        ///
+        /// * not-applicable – No checks with Aggregation set to included apply to the instance.
+        ///
+        /// * suppressed – Application status reporting is suppressed for the instance.
+        ///
+        ///
+        /// Checks with Aggregation set to excluded do not affect this value.
+        public var status: EC2ClientTypes.ApplicationStatusEnum?
+        /// The date and time when the current status started.
+        public var statusSince: Foundation.Date?
+        /// The date and time of the last status update.
+        public var statusTimeStamp: Foundation.Date?
+
+        public init(
+            details: [EC2ClientTypes.ApplicationStatusDetail]? = nil,
+            resumeAt: Foundation.Date? = nil,
+            status: EC2ClientTypes.ApplicationStatusEnum? = nil,
+            statusSince: Foundation.Date? = nil,
+            statusTimeStamp: Foundation.Date? = nil
+        ) {
+            self.details = details
+            self.resumeAt = resumeAt
+            self.status = status
+            self.statusSince = statusSince
+            self.statusTimeStamp = statusTimeStamp
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the application status for an instance.
+    public struct InstanceApplicationStatus: Swift.Sendable {
+        /// The application status for the instance.
+        public var applicationStatus: EC2ClientTypes.ApplicationStatus?
+        /// The Availability Zone of the instance.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone of the instance.
+        public var availabilityZoneId: Swift.String?
+        /// The ID of the instance.
+        public var instanceId: Swift.String?
+        /// The tags assigned to the instance.
+        public var tags: [EC2ClientTypes.Tag]?
+
+        public init(
+            applicationStatus: EC2ClientTypes.ApplicationStatus? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil
+        ) {
+            self.applicationStatus = applicationStatus
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceId = instanceId
+            self.tags = tags
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the application statuses for instances.
+    public struct ApplicationStatusesResponseType: Swift.Sendable {
+        /// The application status information for the instances.
+        public var instances: [EC2ClientTypes.InstanceApplicationStatus]?
+
+        public init(
+            instances: [EC2ClientTypes.InstanceApplicationStatus]? = nil
+        ) {
+            self.instances = instances
+        }
+    }
+}
+
+public struct DescribeApplicationStatusOutput: Swift.Sendable {
+    /// The application statuses for the specified instances.
+    public var applicationStatuses: EC2ClientTypes.ApplicationStatusesResponseType?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationStatuses: EC2ClientTypes.ApplicationStatusesResponseType? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationStatuses = applicationStatuses
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeApplicationStatusCheckAssociationsInput: Swift.Sendable {
+    /// The IDs of the application status checks for which to describe associations.
+    public var applicationStatusCheckIds: [Swift.String]?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The filters to use to limit the results.
+    ///
+    /// * association-type – The type of association. Valid values: tag and instance-id.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationStatusCheckIds: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationStatusCheckIds = applicationStatusCheckIds
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum AssociationTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instanceId
+        case tag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationTypeEnum] {
+            return [
+                .instanceId,
+                .tag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instanceId: return "instance-id"
+            case .tag: return "tag"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Information about an application status check association. Each item in the associationSet of a DescribeApplicationStatusCheckAssociations response is of this type.
+    public struct ApplicationStatusCheckAssociationObject: Swift.Sendable {
+        /// The ID of the application status check.
+        public var applicationStatusCheckId: Swift.String?
+        /// The type of target that the application status check is associated with. Possible values:
+        ///
+        /// * tag – The check applies to current and future instances with a matching tag key-value pair.
+        ///
+        /// * instance-id – The check applies to a specific instance.
+        public var associationType: EC2ClientTypes.AssociationTypeEnum?
+        /// The key for the association. This value is present only for tag-based associations, where it contains the tag key. For instance-based associations, this value is absent.
+        public var key: Swift.String?
+        /// The value for the association target. For tag-based associations, this is the tag value. For instance-based associations, this is the instance ID (for example, i-0123456789abcdef0).
+        public var value: Swift.String?
+
+        public init(
+            applicationStatusCheckId: Swift.String? = nil,
+            associationType: EC2ClientTypes.AssociationTypeEnum? = nil,
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.associationType = associationType
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct DescribeApplicationStatusCheckAssociationsOutput: Swift.Sendable {
+    /// The associations for the specified application status checks.
+    public var associations: [EC2ClientTypes.ApplicationStatusCheckAssociationObject]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+    /// The tags associated with the application status checks.
+    public var tags: [EC2ClientTypes.Tag]?
+
+    public init(
+        associations: [EC2ClientTypes.ApplicationStatusCheckAssociationObject]? = nil,
+        nextToken: Swift.String? = nil,
+        tags: [EC2ClientTypes.Tag]? = nil
+    ) {
+        self.associations = associations
+        self.nextToken = nextToken
+        self.tags = tags
+    }
+}
+
+public struct DescribeApplicationStatusChecksInput: Swift.Sendable {
+    /// The IDs of the application status checks to describe.
+    public var applicationStatusCheckIds: [Swift.String]?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The filters.
+    ///
+    /// * aggregation – The aggregation setting. Valid values: included and excluded.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// Specifies whether to include recently deleted application status checks that remain available during the deletion grace period. If you omit this parameter or set it to false, the response includes only active checks.
+    public var includeAll: Swift.Bool?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationStatusCheckIds: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        includeAll: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationStatusCheckIds = applicationStatusCheckIds
+        self.dryRun = dryRun
+        self.filters = filters
+        self.includeAll = includeAll
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeApplicationStatusChecksOutput: Swift.Sendable {
+    /// Information about the application status checks.
+    public var applicationStatusChecks: [EC2ClientTypes.ApplicationStatusCheckResponseObject]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationStatusChecks: [EC2ClientTypes.ApplicationStatusCheckResponseObject]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationStatusChecks = applicationStatusChecks
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeAvailabilityZonesInput: Swift.Sendable {
     /// Include all Availability Zones, Local Zones, and Wavelength Zones regardless of your opt-in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
     public var allAvailabilityZones: Swift.Bool?
@@ -44255,7 +45292,7 @@ public struct DescribeCapacityReservationsOutput: Swift.Sendable {
 }
 
 public struct DescribeCapacityReservationTopologyInput: Swift.Sendable {
-    /// The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 100 explicitly specified Capacity Reservation IDs.
+    /// The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 10 explicitly specified Capacity Reservation IDs.
     public var capacityReservationIds: [Swift.String]?
     /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -52637,6 +53674,8 @@ public struct DescribeInstanceStatusInput: Swift.Sendable {
     /// * system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
     ///
     /// * attached-ebs-status.status - The status of the attached EBS volume for the instance (ok | impaired | initializing | insufficient-data | not-applicable).
+    ///
+    /// * application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
     public var filters: [EC2ClientTypes.Filter]?
     /// When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
     public var includeAllInstances: Swift.Bool?
@@ -52665,6 +53704,63 @@ public struct DescribeInstanceStatusInput: Swift.Sendable {
         self.instanceIds = instanceIds
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum SummaryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case initializing
+        case insufficientData
+        case notApplicable
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryStatus] {
+            return [
+                .impaired,
+                .initializing,
+                .insufficientData,
+                .notApplicable,
+                .ok
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "impaired"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .notApplicable: return "not-applicable"
+            case .ok: return "ok"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Provides a summary of the application-level health status for an instance.
+    public struct ApplicationStatusSummary: Swift.Sendable {
+        /// The date and time when the application status became impaired.
+        public var impairedSince: Foundation.Date?
+        /// The current status.
+        public var status: EC2ClientTypes.SummaryStatus?
+
+        public init(
+            impairedSince: Foundation.Date? = nil,
+            status: EC2ClientTypes.SummaryStatus? = nil
+        ) {
+            self.impairedSince = impairedSince
+            self.status = status
+        }
     }
 }
 
@@ -52748,44 +53844,6 @@ extension EC2ClientTypes {
             self.impairedSince = impairedSince
             self.name = name
             self.status = status
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum SummaryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case impaired
-        case initializing
-        case insufficientData
-        case notApplicable
-        case ok
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SummaryStatus] {
-            return [
-                .impaired,
-                .initializing,
-                .insufficientData,
-                .notApplicable,
-                .ok
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .impaired: return "impaired"
-            case .initializing: return "initializing"
-            case .insufficientData: return "insufficient-data"
-            case .notApplicable: return "not-applicable"
-            case .ok: return "ok"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -52926,8 +53984,10 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    /// Describes the status of an instance.
+    /// Describes the status of an instance, including system status, instance status, attached EBS status, and application status.
     public struct InstanceStatus: Swift.Sendable {
+        /// Reports impaired functionality that stems from issues with applications running on the instance.
+        public var applicationStatus: EC2ClientTypes.ApplicationStatusSummary?
         /// Reports impaired functionality that stems from an attached Amazon EBS volume that is unreachable and unable to complete I/O operations.
         public var attachedEbsStatus: EC2ClientTypes.EbsStatusSummary?
         /// The Availability Zone of the instance.
@@ -52950,6 +54010,7 @@ extension EC2ClientTypes {
         public var systemStatus: EC2ClientTypes.InstanceStatusSummary?
 
         public init(
+            applicationStatus: EC2ClientTypes.ApplicationStatusSummary? = nil,
             attachedEbsStatus: EC2ClientTypes.EbsStatusSummary? = nil,
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil,
@@ -52961,6 +54022,7 @@ extension EC2ClientTypes {
             outpostArn: Swift.String? = nil,
             systemStatus: EC2ClientTypes.InstanceStatusSummary? = nil
         ) {
+            self.applicationStatus = applicationStatus
             self.attachedEbsStatus = attachedEbsStatus
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -65840,6 +66902,90 @@ public struct DisableAllowedImagesSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct DisableApplicationStatusCheckSuppressionInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the instances for which to disable application status check suppression.
+    public var instanceIds: [Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceIds: [Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.instanceIds = instanceIds
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a successful application status check suppression.
+    public struct SuccessfulSuppressionResponseObject: Swift.Sendable {
+        /// The ID of the instance.
+        public var instanceId: Swift.String?
+        /// The date and time when suppression ends and health checks resume.
+        public var resumeAt: Foundation.Date?
+        /// The date and time when suppression started.
+        public var suppressAt: Foundation.Date?
+
+        public init(
+            instanceId: Swift.String? = nil,
+            resumeAt: Foundation.Date? = nil,
+            suppressAt: Foundation.Date? = nil
+        ) {
+            self.instanceId = instanceId
+            self.resumeAt = resumeAt
+            self.suppressAt = suppressAt
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an unsuccessful application status check suppression.
+    public struct UnsuccessfulSuppressionResponseObject: Swift.Sendable {
+        /// The ID of the instance.
+        public var instanceId: Swift.String?
+        /// The reason the suppression failed.
+        public var reason: Swift.String?
+        /// The date and time when health checks would have resumed.
+        public var resumeAt: Foundation.Date?
+        /// The date and time when suppression was attempted.
+        public var suppressAt: Foundation.Date?
+
+        public init(
+            instanceId: Swift.String? = nil,
+            reason: Swift.String? = nil,
+            resumeAt: Foundation.Date? = nil,
+            suppressAt: Foundation.Date? = nil
+        ) {
+            self.instanceId = instanceId
+            self.reason = reason
+            self.resumeAt = resumeAt
+            self.suppressAt = suppressAt
+        }
+    }
+}
+
+public struct DisableApplicationStatusCheckSuppressionOutput: Swift.Sendable {
+    /// The instances for which suppression was successfully disabled.
+    public var successfulResults: [EC2ClientTypes.SuccessfulSuppressionResponseObject]?
+    /// The instances for which suppression failed to be disabled.
+    public var unsuccessfulResults: [EC2ClientTypes.UnsuccessfulSuppressionResponseObject]?
+
+    public init(
+        successfulResults: [EC2ClientTypes.SuccessfulSuppressionResponseObject]? = nil,
+        unsuccessfulResults: [EC2ClientTypes.UnsuccessfulSuppressionResponseObject]? = nil
+    ) {
+        self.successfulResults = successfulResults
+        self.unsuccessfulResults = unsuccessfulResults
+    }
+}
+
 public struct DisableAwsNetworkPerformanceMetricSubscriptionInput: Swift.Sendable {
     /// The target Region or Availability Zone that the metric subscription is disabled for. For example, eu-north-1.
     public var destination: Swift.String?
@@ -66757,6 +67903,49 @@ public struct DisassociateAddressInput: Swift.Sendable {
     }
 }
 
+public struct DisassociateApplicationStatusCheckInput: Swift.Sendable {
+    /// The ID of the application status check to disassociate.
+    /// This member is required.
+    public var applicationStatusCheckId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the instances to disassociate from the application status check.
+    public var instanceIds: [Swift.String]?
+    /// The [tags](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) to disassociate from the application status check. Specify the same key-value pairs that were used during association.
+    public var targetTagAssociations: [EC2ClientTypes.CustomTagKeyValueRequestPair]?
+
+    public init(
+        applicationStatusCheckId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceIds: [Swift.String]? = nil,
+        targetTagAssociations: [EC2ClientTypes.CustomTagKeyValueRequestPair]? = nil
+    ) {
+        self.applicationStatusCheckId = applicationStatusCheckId
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.instanceIds = instanceIds
+        self.targetTagAssociations = targetTagAssociations
+    }
+}
+
+public struct DisassociateApplicationStatusCheckOutput: Swift.Sendable {
+    /// The associations that were successfully removed.
+    public var successfulResults: [EC2ClientTypes.SuccessfulAssociationResponseObject]?
+    /// The associations that failed to be removed.
+    public var unsuccessfulResults: [EC2ClientTypes.UnsuccessfulAssociationResponseObject]?
+
+    public init(
+        successfulResults: [EC2ClientTypes.SuccessfulAssociationResponseObject]? = nil,
+        unsuccessfulResults: [EC2ClientTypes.UnsuccessfulAssociationResponseObject]? = nil
+    ) {
+        self.successfulResults = successfulResults
+        self.unsuccessfulResults = unsuccessfulResults
+    }
+}
+
 public struct DisassociateCapacityReservationBillingOwnerInput: Swift.Sendable {
     /// The ID of the Capacity Reservation.
     /// This member is required.
@@ -67364,6 +68553,44 @@ public struct EnableAllowedImagesSettingsOutput: Swift.Sendable {
         allowedImagesSettingsState: EC2ClientTypes.AllowedImagesSettingsEnabledState? = nil
     ) {
         self.allowedImagesSettingsState = allowedImagesSettingsState
+    }
+}
+
+public struct EnableApplicationStatusCheckSuppressionInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The duration, in seconds, for which to suppress application status checks. If omitted, the application status check is suppressed indefinitely until you call DisableApplicationStatusCheckSuppression.
+    public var durationSeconds: Swift.Int?
+    /// The IDs of the instances for which to suppress application status checks.
+    public var instanceIds: [Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        durationSeconds: Swift.Int? = nil,
+        instanceIds: [Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.durationSeconds = durationSeconds
+        self.instanceIds = instanceIds
+    }
+}
+
+public struct EnableApplicationStatusCheckSuppressionOutput: Swift.Sendable {
+    /// The instances for which suppression was successfully enabled.
+    public var successfulResults: [EC2ClientTypes.SuccessfulSuppressionResponseObject]?
+    /// The instances for which suppression failed to be enabled.
+    public var unsuccessfulResults: [EC2ClientTypes.UnsuccessfulSuppressionResponseObject]?
+
+    public init(
+        successfulResults: [EC2ClientTypes.SuccessfulSuppressionResponseObject]? = nil,
+        unsuccessfulResults: [EC2ClientTypes.UnsuccessfulSuppressionResponseObject]? = nil
+    ) {
+        self.successfulResults = successfulResults
+        self.unsuccessfulResults = unsuccessfulResults
     }
 }
 
@@ -75864,6 +77091,93 @@ public struct ModifyAddressAttributeOutput: Swift.Sendable {
         address: EC2ClientTypes.AddressAttribute? = nil
     ) {
         self.address = address
+    }
+}
+
+public struct ModifyApplicationStatusCheckInput: Swift.Sendable {
+    /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
+    public var aggregation: EC2ClientTypes.AggregationStatusEnum?
+    /// The ID of the application status check to modify.
+    /// This member is required.
+    public var applicationStatusCheckId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The index of the network device to use for the health check. The value must be greater than or equal to 0.
+    public var deviceIndex: Swift.Int?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+    public var failureThreshold: Swift.Int?
+    /// The health check paths to use for the application status check.
+    public var healthCheckPaths: [EC2ClientTypes.HealthCheckPathRequestObject]?
+    /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+    public var initializationGracePeriodSeconds: Swift.Int?
+    /// The interval, in seconds, between health checks. Valid value: 60.
+    public var interval: Swift.Int?
+    /// The IP scope to use for the health check. Valid value: private.
+    public var ipScope: EC2ClientTypes.IpScopeEnum?
+    /// The IP version to use for the health check. Valid values: ipv4 and ipv6.
+    public var ipVersion: EC2ClientTypes.IpVersionEnum?
+    /// The URL path to use for the health check HTTP request (for example, /health or /status).
+    public var path: Swift.String?
+    /// The port to use for the health check. Valid values: 1 to 65535.
+    public var port: Swift.Int?
+    /// The protocol to use for the health check. Valid values: http | https.
+    public var `protocol`: EC2ClientTypes.NetworkProtocolEnum?
+    /// The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399. For a range, the first value must be less than the second value. Maximum length: 64 characters.
+    public var statusCodeMatcher: Swift.String?
+    /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+    public var successThreshold: Swift.Int?
+    /// The amount of time, in seconds, to wait for a health check response before considering it failed. Valid values: 1 to 30. The value must be less than Interval.
+    public var timeout: Swift.Int?
+
+    public init(
+        aggregation: EC2ClientTypes.AggregationStatusEnum? = nil,
+        applicationStatusCheckId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        deviceIndex: Swift.Int? = nil,
+        dryRun: Swift.Bool? = nil,
+        failureThreshold: Swift.Int? = nil,
+        healthCheckPaths: [EC2ClientTypes.HealthCheckPathRequestObject]? = nil,
+        initializationGracePeriodSeconds: Swift.Int? = nil,
+        interval: Swift.Int? = nil,
+        ipScope: EC2ClientTypes.IpScopeEnum? = nil,
+        ipVersion: EC2ClientTypes.IpVersionEnum? = nil,
+        path: Swift.String? = nil,
+        port: Swift.Int? = nil,
+        `protocol`: EC2ClientTypes.NetworkProtocolEnum? = nil,
+        statusCodeMatcher: Swift.String? = nil,
+        successThreshold: Swift.Int? = nil,
+        timeout: Swift.Int? = nil
+    ) {
+        self.aggregation = aggregation
+        self.applicationStatusCheckId = applicationStatusCheckId
+        self.clientToken = clientToken
+        self.deviceIndex = deviceIndex
+        self.dryRun = dryRun
+        self.failureThreshold = failureThreshold
+        self.healthCheckPaths = healthCheckPaths
+        self.initializationGracePeriodSeconds = initializationGracePeriodSeconds
+        self.interval = interval
+        self.ipScope = ipScope
+        self.ipVersion = ipVersion
+        self.path = path
+        self.port = port
+        self.`protocol` = `protocol`
+        self.statusCodeMatcher = statusCodeMatcher
+        self.successThreshold = successThreshold
+        self.timeout = timeout
+    }
+}
+
+public struct ModifyApplicationStatusCheckOutput: Swift.Sendable {
+    /// Information about the modified application status check.
+    public var applicationStatusCheck: EC2ClientTypes.ApplicationStatusCheckResponseObject?
+
+    public init(
+        applicationStatusCheck: EC2ClientTypes.ApplicationStatusCheckResponseObject? = nil
+    ) {
+        self.applicationStatusCheck = applicationStatusCheck
     }
 }
 
@@ -85641,6 +86955,13 @@ extension AssociateAddressInput {
     }
 }
 
+extension AssociateApplicationStatusCheckInput {
+
+    static func urlPathProvider(_ value: AssociateApplicationStatusCheckInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssociateCapacityReservationBillingOwnerInput {
 
     static func urlPathProvider(_ value: AssociateCapacityReservationBillingOwnerInput) -> Swift.String? {
@@ -85952,6 +87273,13 @@ extension CopySnapshotInput {
 extension CopyVolumesInput {
 
     static func urlPathProvider(_ value: CopyVolumesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateApplicationStatusCheckInput {
+
+    static func urlPathProvider(_ value: CreateApplicationStatusCheckInput) -> Swift.String? {
         return "/"
     }
 }
@@ -86694,6 +88022,13 @@ extension CreateVpnConnectionRouteInput {
 extension CreateVpnGatewayInput {
 
     static func urlPathProvider(_ value: CreateVpnGatewayInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteApplicationStatusCheckInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationStatusCheckInput) -> Swift.String? {
         return "/"
     }
 }
@@ -87450,6 +88785,27 @@ extension DescribeAddressTransfersInput {
 extension DescribeAggregateIdFormatInput {
 
     static func urlPathProvider(_ value: DescribeAggregateIdFormatInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeApplicationStatusInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationStatusInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeApplicationStatusCheckAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationStatusCheckAssociationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeApplicationStatusChecksInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationStatusChecksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -88791,6 +90147,13 @@ extension DisableAllowedImagesSettingsInput {
     }
 }
 
+extension DisableApplicationStatusCheckSuppressionInput {
+
+    static func urlPathProvider(_ value: DisableApplicationStatusCheckSuppressionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisableAwsNetworkPerformanceMetricSubscriptionInput {
 
     static func urlPathProvider(_ value: DisableAwsNetworkPerformanceMetricSubscriptionInput) -> Swift.String? {
@@ -88931,6 +90294,13 @@ extension DisassociateAddressInput {
     }
 }
 
+extension DisassociateApplicationStatusCheckInput {
+
+    static func urlPathProvider(_ value: DisassociateApplicationStatusCheckInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisassociateCapacityReservationBillingOwnerInput {
 
     static func urlPathProvider(_ value: DisassociateCapacityReservationBillingOwnerInput) -> Swift.String? {
@@ -89060,6 +90430,13 @@ extension EnableAddressTransferInput {
 extension EnableAllowedImagesSettingsInput {
 
     static func urlPathProvider(_ value: EnableAllowedImagesSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableApplicationStatusCheckSuppressionInput {
+
+    static func urlPathProvider(_ value: EnableApplicationStatusCheckSuppressionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -89816,6 +91193,13 @@ extension ModifyAccountVpcEncryptionControlInput {
 extension ModifyAddressAttributeInput {
 
     static func urlPathProvider(_ value: ModifyAddressAttributeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyApplicationStatusCheckInput {
+
+    static func urlPathProvider(_ value: ModifyApplicationStatusCheckInput) -> Swift.String? {
         return "/"
     }
 }
@@ -91220,6 +92604,24 @@ extension AssociateAddressInput {
     }
 }
 
+extension AssociateApplicationStatusCheckInput {
+
+    static func write(value: AssociateApplicationStatusCheckInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationStatusCheckId"].write(value.applicationStatusCheckId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.instanceIds?.isEmpty ?? true) {
+            try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.targetTagAssociations?.isEmpty ?? true) {
+            try writer["TargetTagAssociation"].writeList(value.targetTagAssociations, memberWritingClosure: EC2ClientTypes.CustomTagKeyValueRequestPair.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("AssociateApplicationStatusCheck")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension AssociateCapacityReservationBillingOwnerInput {
 
     static func write(value: AssociateCapacityReservationBillingOwnerInput?, to writer: SmithyFormURL.Writer) throws {
@@ -91855,6 +93257,36 @@ extension CopyVolumesInput {
         try writer["Throughput"].write(value.throughput)
         try writer["VolumeType"].write(value.volumeType)
         try writer["Action"].write("CopyVolumes")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension CreateApplicationStatusCheckInput {
+
+    static func write(value: CreateApplicationStatusCheckInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Aggregation"].write(value.aggregation)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DeviceIndex"].write(value.deviceIndex)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FailureThreshold"].write(value.failureThreshold)
+        if !(value.healthCheckPaths?.isEmpty ?? true) {
+            try writer["HealthCheckPath"].writeList(value.healthCheckPaths, memberWritingClosure: EC2ClientTypes.HealthCheckPathRequestObject.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["InitializationGracePeriodSeconds"].write(value.initializationGracePeriodSeconds)
+        try writer["Interval"].write(value.interval)
+        try writer["IpScope"].write(value.ipScope)
+        try writer["IpVersion"].write(value.ipVersion)
+        try writer["Path"].write(value.path)
+        try writer["Port"].write(value.port)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["StatusCodeMatcher"].write(value.statusCodeMatcher)
+        try writer["SuccessThreshold"].write(value.successThreshold)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Timeout"].write(value.timeout)
+        try writer["Action"].write("CreateApplicationStatusCheck")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -93825,6 +95257,18 @@ extension CreateVpnGatewayInput {
     }
 }
 
+extension DeleteApplicationStatusCheckInput {
+
+    static func write(value: DeleteApplicationStatusCheckInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationStatusCheckId"].write(value.applicationStatusCheckId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Action"].write("DeleteApplicationStatusCheck")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DeleteCapacityManagerDataExportInput {
 
     static func write(value: DeleteCapacityManagerDataExportInput?, to writer: SmithyFormURL.Writer) throws {
@@ -95087,6 +96531,61 @@ extension DescribeAggregateIdFormatInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("DescribeAggregateIdFormat")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeApplicationStatusInput {
+
+    static func write(value: DescribeApplicationStatusInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        if !(value.instanceIds?.isEmpty ?? true) {
+            try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeApplicationStatus")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeApplicationStatusCheckAssociationsInput {
+
+    static func write(value: DescribeApplicationStatusCheckAssociationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.applicationStatusCheckIds?.isEmpty ?? true) {
+            try writer["ApplicationStatusCheckId"].writeList(value.applicationStatusCheckIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeApplicationStatusCheckAssociations")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeApplicationStatusChecksInput {
+
+    static func write(value: DescribeApplicationStatusChecksInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.applicationStatusCheckIds?.isEmpty ?? true) {
+            try writer["ApplicationStatusCheckId"].writeList(value.applicationStatusCheckIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["IncludeAll"].write(value.includeAll)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeApplicationStatusChecks")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -98376,6 +99875,20 @@ extension DisableAllowedImagesSettingsInput {
     }
 }
 
+extension DisableApplicationStatusCheckSuppressionInput {
+
+    static func write(value: DisableApplicationStatusCheckSuppressionInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.instanceIds?.isEmpty ?? true) {
+            try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DisableApplicationStatusCheckSuppression")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DisableAwsNetworkPerformanceMetricSubscriptionInput {
 
     static func write(value: DisableAwsNetworkPerformanceMetricSubscriptionInput?, to writer: SmithyFormURL.Writer) throws {
@@ -98611,6 +100124,24 @@ extension DisassociateAddressInput {
     }
 }
 
+extension DisassociateApplicationStatusCheckInput {
+
+    static func write(value: DisassociateApplicationStatusCheckInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationStatusCheckId"].write(value.applicationStatusCheckId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.instanceIds?.isEmpty ?? true) {
+            try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.targetTagAssociations?.isEmpty ?? true) {
+            try writer["TargetTagAssociation"].writeList(value.targetTagAssociations, memberWritingClosure: EC2ClientTypes.CustomTagKeyValueRequestPair.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DisassociateApplicationStatusCheck")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DisassociateCapacityReservationBillingOwnerInput {
 
     static func write(value: DisassociateCapacityReservationBillingOwnerInput?, to writer: SmithyFormURL.Writer) throws {
@@ -98832,6 +100363,21 @@ extension EnableAllowedImagesSettingsInput {
         try writer["AllowedImagesSettingsState"].write(value.allowedImagesSettingsState)
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("EnableAllowedImagesSettings")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension EnableApplicationStatusCheckSuppressionInput {
+
+    static func write(value: EnableApplicationStatusCheckSuppressionInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["DurationSeconds"].write(value.durationSeconds)
+        if !(value.instanceIds?.isEmpty ?? true) {
+            try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("EnableApplicationStatusCheckSuppression")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -100334,6 +101880,34 @@ extension ModifyAddressAttributeInput {
         try writer["DomainName"].write(value.domainName)
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("ModifyAddressAttribute")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyApplicationStatusCheckInput {
+
+    static func write(value: ModifyApplicationStatusCheckInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Aggregation"].write(value.aggregation)
+        try writer["ApplicationStatusCheckId"].write(value.applicationStatusCheckId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DeviceIndex"].write(value.deviceIndex)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FailureThreshold"].write(value.failureThreshold)
+        if !(value.healthCheckPaths?.isEmpty ?? true) {
+            try writer["HealthCheckPath"].writeList(value.healthCheckPaths, memberWritingClosure: EC2ClientTypes.HealthCheckPathRequestObject.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["InitializationGracePeriodSeconds"].write(value.initializationGracePeriodSeconds)
+        try writer["Interval"].write(value.interval)
+        try writer["IpScope"].write(value.ipScope)
+        try writer["IpVersion"].write(value.ipVersion)
+        try writer["Path"].write(value.path)
+        try writer["Port"].write(value.port)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["StatusCodeMatcher"].write(value.statusCodeMatcher)
+        try writer["SuccessThreshold"].write(value.successThreshold)
+        try writer["Timeout"].write(value.timeout)
+        try writer["Action"].write("ModifyApplicationStatusCheck")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -103092,6 +104666,19 @@ extension AssociateAddressOutput {
     }
 }
 
+extension AssociateApplicationStatusCheckOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateApplicationStatusCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateApplicationStatusCheckOutput()
+        value.successfulResults = try reader["successfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.SuccessfulAssociationResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.unsuccessfulResults = try reader["unsuccessfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.UnsuccessfulAssociationResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension AssociateCapacityReservationBillingOwnerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateCapacityReservationBillingOwnerOutput {
@@ -103635,6 +105222,18 @@ extension CopyVolumesOutput {
         let reader = responseReader
         var value = CopyVolumesOutput()
         value.volumes = try reader["volumeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Volume.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateApplicationStatusCheckOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationStatusCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateApplicationStatusCheckOutput()
+        value.applicationStatusCheck = try reader["applicationStatusCheck"].readIfPresent(with: EC2ClientTypes.ApplicationStatusCheckResponseObject.read(from:))
         return value
     }
 }
@@ -104984,6 +106583,18 @@ extension CreateVpnGatewayOutput {
     }
 }
 
+extension DeleteApplicationStatusCheckOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationStatusCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteApplicationStatusCheckOutput()
+        value.applicationStatusCheck = try reader["applicationStatusCheck"].readIfPresent(with: EC2ClientTypes.ApplicationStatusCheckResponseObject.read(from:))
+        return value
+    }
+}
+
 extension DeleteCapacityManagerDataExportOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCapacityManagerDataExportOutput {
@@ -106198,6 +107809,46 @@ extension DescribeAggregateIdFormatOutput {
         var value = DescribeAggregateIdFormatOutput()
         value.statuses = try reader["statusSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IdFormat.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.useLongIdsAggregated = try reader["useLongIdsAggregated"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeApplicationStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApplicationStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeApplicationStatusOutput()
+        value.applicationStatuses = try reader["applicationStatusesResponseType"].readIfPresent(with: EC2ClientTypes.ApplicationStatusesResponseType.read(from:))
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeApplicationStatusCheckAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApplicationStatusCheckAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeApplicationStatusCheckAssociationsOutput()
+        value.associations = try reader["associationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ApplicationStatusCheckAssociationObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeApplicationStatusChecksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApplicationStatusChecksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeApplicationStatusChecksOutput()
+        value.applicationStatusChecks = try reader["applicationStatusCheckSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ApplicationStatusCheckResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -108695,6 +110346,19 @@ extension DisableAllowedImagesSettingsOutput {
     }
 }
 
+extension DisableApplicationStatusCheckSuppressionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableApplicationStatusCheckSuppressionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisableApplicationStatusCheckSuppressionOutput()
+        value.successfulResults = try reader["successfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.SuccessfulSuppressionResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.unsuccessfulResults = try reader["unsuccessfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.UnsuccessfulSuppressionResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension DisableAwsNetworkPerformanceMetricSubscriptionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableAwsNetworkPerformanceMetricSubscriptionOutput {
@@ -108935,6 +110599,19 @@ extension DisassociateAddressOutput {
     }
 }
 
+extension DisassociateApplicationStatusCheckOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateApplicationStatusCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateApplicationStatusCheckOutput()
+        value.successfulResults = try reader["successfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.SuccessfulAssociationResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.unsuccessfulResults = try reader["unsuccessfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.UnsuccessfulAssociationResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension DisassociateCapacityReservationBillingOwnerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateCapacityReservationBillingOwnerOutput {
@@ -109160,6 +110837,19 @@ extension EnableAllowedImagesSettingsOutput {
         let reader = responseReader
         var value = EnableAllowedImagesSettingsOutput()
         value.allowedImagesSettingsState = try reader["allowedImagesSettingsState"].readIfPresent()
+        return value
+    }
+}
+
+extension EnableApplicationStatusCheckSuppressionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableApplicationStatusCheckSuppressionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = EnableApplicationStatusCheckSuppressionOutput()
+        value.successfulResults = try reader["successfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.SuccessfulSuppressionResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.unsuccessfulResults = try reader["unsuccessfulResultSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.UnsuccessfulSuppressionResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -110605,6 +112295,18 @@ extension ModifyAddressAttributeOutput {
         let reader = responseReader
         var value = ModifyAddressAttributeOutput()
         value.address = try reader["address"].readIfPresent(with: EC2ClientTypes.AddressAttribute.read(from:))
+        return value
+    }
+}
+
+extension ModifyApplicationStatusCheckOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyApplicationStatusCheckOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyApplicationStatusCheckOutput()
+        value.applicationStatusCheck = try reader["applicationStatusCheck"].readIfPresent(with: EC2ClientTypes.ApplicationStatusCheckResponseObject.read(from:))
         return value
     }
 }
@@ -112728,6 +114430,19 @@ enum AssociateAddressOutputError {
     }
 }
 
+enum AssociateApplicationStatusCheckOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateCapacityReservationBillingOwnerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -113301,6 +115016,19 @@ enum CopySnapshotOutputError {
 }
 
 enum CopyVolumesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateApplicationStatusCheckOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -114679,6 +116407,19 @@ enum CreateVpnConnectionRouteOutputError {
 }
 
 enum CreateVpnGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteApplicationStatusCheckOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -116083,6 +117824,45 @@ enum DescribeAddressTransfersOutputError {
 }
 
 enum DescribeAggregateIdFormatOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeApplicationStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeApplicationStatusCheckAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeApplicationStatusChecksOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -118578,6 +120358,19 @@ enum DisableAllowedImagesSettingsOutputError {
     }
 }
 
+enum DisableApplicationStatusCheckSuppressionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisableAwsNetworkPerformanceMetricSubscriptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -118838,6 +120631,19 @@ enum DisassociateAddressOutputError {
     }
 }
 
+enum DisassociateApplicationStatusCheckOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateCapacityReservationBillingOwnerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -119073,6 +120879,19 @@ enum EnableAddressTransferOutputError {
 }
 
 enum EnableAllowedImagesSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableApplicationStatusCheckSuppressionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -120477,6 +122296,19 @@ enum ModifyAccountVpcEncryptionControlOutputError {
 }
 
 enum ModifyAddressAttributeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyApplicationStatusCheckOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -122978,6 +124810,112 @@ extension EC2ClientTypes.AnalysisSecurityGroupRule {
     }
 }
 
+extension EC2ClientTypes.ApplicationStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatus()
+        value.status = try reader["status"].readIfPresent()
+        value.statusTimeStamp = try reader["statusTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusSince = try reader["statusSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resumeAt = try reader["resumeAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.details = try reader["detailSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ApplicationStatusDetail.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ApplicationStatusCheckAssociationObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatusCheckAssociationObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatusCheckAssociationObject()
+        value.applicationStatusCheckId = try reader["applicationStatusCheckId"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ApplicationStatusCheckResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatusCheckResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatusCheckResponseObject()
+        value.applicationStatusCheckId = try reader["applicationStatusCheckId"].readIfPresent()
+        value.aggregation = try reader["aggregation"].readIfPresent()
+        value.healthCheckPaths = try reader["healthCheckPathSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.HealthCheckPathResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.deviceIndex = try reader["deviceIndex"].readIfPresent()
+        value.ipVersion = try reader["ipVersion"].readIfPresent()
+        value.ipScope = try reader["ipScope"].readIfPresent()
+        value.interval = try reader["interval"].readIfPresent()
+        value.timeout = try reader["timeout"].readIfPresent()
+        value.failureThreshold = try reader["failureThreshold"].readIfPresent()
+        value.successThreshold = try reader["successThreshold"].readIfPresent()
+        value.statusCodeMatcher = try reader["statusCodeMatcher"].readIfPresent()
+        value.initializationGracePeriodSeconds = try reader["initializationGracePeriodSeconds"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetTagAssociations = try reader["targetTagAssociationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CustomTagKeyValueResponsePair.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modifyTime = try reader["modifyTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deletionTime = try reader["deletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ApplicationStatusDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatusDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatusDetail()
+        value.applicationStatusCheckId = try reader["applicationStatusCheckId"].readIfPresent()
+        value.checkUpdateTime = try reader["checkUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.aggregation = try reader["aggregation"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusTimeStamp = try reader["statusTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusSince = try reader["statusSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.reason = try reader["reason"].readIfPresent(with: EC2ClientTypes.ApplicationStatusReason.read(from:))
+        return value
+    }
+}
+
+extension EC2ClientTypes.ApplicationStatusesResponseType {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatusesResponseType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatusesResponseType()
+        value.instances = try reader["instanceSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.InstanceApplicationStatus.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ApplicationStatusReason {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatusReason()
+        value.code = try reader["code"].readIfPresent()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ApplicationStatusSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ApplicationStatusSummary()
+        value.status = try reader["status"].readIfPresent()
+        value.impairedSince = try reader["impairedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension EC2ClientTypes.AsnAssociation {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AsnAssociation {
@@ -124717,6 +126655,26 @@ extension EC2ClientTypes.CustomerGateway {
     }
 }
 
+extension EC2ClientTypes.CustomTagKeyValueRequestPair {
+
+    static func write(value: EC2ClientTypes.CustomTagKeyValueRequestPair?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension EC2ClientTypes.CustomTagKeyValueResponsePair {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CustomTagKeyValueResponsePair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CustomTagKeyValueResponsePair()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.DataQuery {
 
     static func write(value: EC2ClientTypes.DataQuery?, to writer: SmithyFormURL.Writer) throws {
@@ -126286,6 +128244,68 @@ extension EC2ClientTypes.GroupIdentifier {
     }
 }
 
+extension EC2ClientTypes.HealthCheckPathDestinationRequestObject {
+
+    static func write(value: EC2ClientTypes.HealthCheckPathDestinationRequestObject?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupId"].write(value.securityGroupId)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+}
+
+extension EC2ClientTypes.HealthCheckPathDestinationResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.HealthCheckPathDestinationResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.HealthCheckPathDestinationResponseObject()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.securityGroupId = try reader["securityGroupId"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.HealthCheckPathRequestObject {
+
+    static func write(value: EC2ClientTypes.HealthCheckPathRequestObject?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.destinations?.isEmpty ?? true) {
+            try writer["Destination"].writeList(value.destinations, memberWritingClosure: EC2ClientTypes.HealthCheckPathDestinationRequestObject.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Source"].write(value.source, with: EC2ClientTypes.HealthCheckPathSourceRequestObject.write(value:to:))
+    }
+}
+
+extension EC2ClientTypes.HealthCheckPathResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.HealthCheckPathResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.HealthCheckPathResponseObject()
+        value.source = try reader["source"].readIfPresent(with: EC2ClientTypes.HealthCheckPathSourceResponseObject.read(from:))
+        value.destinations = try reader["destinationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.HealthCheckPathDestinationResponseObject.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.HealthCheckPathSourceRequestObject {
+
+    static func write(value: EC2ClientTypes.HealthCheckPathSourceRequestObject?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupId"].write(value.securityGroupId)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+}
+
+extension EC2ClientTypes.HealthCheckPathSourceResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.HealthCheckPathSourceResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.HealthCheckPathSourceResponseObject()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.securityGroupId = try reader["securityGroupId"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.HibernationOptions {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.HibernationOptions {
@@ -127037,6 +129057,20 @@ extension EC2ClientTypes.Instance {
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
         value.publicIpAddress = try reader["ipAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.InstanceApplicationStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceApplicationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceApplicationStatus()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.applicationStatus = try reader["applicationStatus"].readIfPresent(with: EC2ClientTypes.ApplicationStatus.read(from:))
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -127834,6 +129868,7 @@ extension EC2ClientTypes.InstanceStatus {
         value.instanceStatus = try reader["instanceStatus"].readIfPresent(with: EC2ClientTypes.InstanceStatusSummary.read(from:))
         value.systemStatus = try reader["systemStatus"].readIfPresent(with: EC2ClientTypes.InstanceStatusSummary.read(from:))
         value.attachedEbsStatus = try reader["attachedEbsStatus"].readIfPresent(with: EC2ClientTypes.EbsStatusSummary.read(from:))
+        value.applicationStatus = try reader["applicationStatus"].readIfPresent(with: EC2ClientTypes.ApplicationStatusSummary.read(from:))
         return value
     }
 }
@@ -133603,6 +135638,18 @@ extension EC2ClientTypes.Subscription {
     }
 }
 
+extension EC2ClientTypes.SuccessfulAssociationResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.SuccessfulAssociationResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.SuccessfulAssociationResponseObject()
+        value.applicationStatusCheckId = try reader["applicationStatusCheckId"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.associationValue = try reader["associationValue"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.SuccessfulInstanceCreditSpecificationItem {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.SuccessfulInstanceCreditSpecificationItem {
@@ -133619,6 +135666,18 @@ extension EC2ClientTypes.SuccessfulQueuedPurchaseDeletion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.SuccessfulQueuedPurchaseDeletion()
         value.reservedInstancesId = try reader["reservedInstancesId"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.SuccessfulSuppressionResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.SuccessfulSuppressionResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.SuccessfulSuppressionResponseObject()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.suppressAt = try reader["suppressAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resumeAt = try reader["resumeAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -134706,6 +136765,19 @@ extension EC2ClientTypes.TunnelOption {
     }
 }
 
+extension EC2ClientTypes.UnsuccessfulAssociationResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.UnsuccessfulAssociationResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.UnsuccessfulAssociationResponseObject()
+        value.applicationStatusCheckId = try reader["applicationStatusCheckId"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.associationValue = try reader["associationValue"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.UnsuccessfulInstanceCreditSpecificationItem {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.UnsuccessfulInstanceCreditSpecificationItem {
@@ -134746,6 +136818,19 @@ extension EC2ClientTypes.UnsuccessfulItemError {
         var value = EC2ClientTypes.UnsuccessfulItemError()
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.UnsuccessfulSuppressionResponseObject {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.UnsuccessfulSuppressionResponseObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.UnsuccessfulSuppressionResponseObject()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.suppressAt = try reader["suppressAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resumeAt = try reader["resumeAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.reason = try reader["reason"].readIfPresent()
         return value
     }
 }

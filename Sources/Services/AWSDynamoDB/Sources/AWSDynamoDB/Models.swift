@@ -974,6 +974,143 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum VectorDistanceFunction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cosine
+        case dotProduct
+        case euclidean
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VectorDistanceFunction] {
+            return [
+                .cosine,
+                .dotProduct,
+                .euclidean
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cosine: return "COSINE"
+            case .dotProduct: return "DOT_PRODUCT"
+            case .euclidean: return "EUCLIDEAN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    public enum SearchSchemaElementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hash
+        case inlineFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchSchemaElementType] {
+            return [
+                .hash,
+                .inlineFilter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hash: return "HASH"
+            case .inlineFilter: return "INLINE_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// An element in the search schema of a vector index.
+    public struct SearchSchemaElement: Swift.Sendable {
+        /// The name of the attribute.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The role of the attribute in the search schema. Valid values:
+        ///
+        /// * HASH - A partition key that partitions the vector index for independent scaling. When specified, you must provide this attribute's value in the SearchConditionExpression.
+        ///
+        /// * INLINE_FILTER - An attribute projected into the vector index for filtering at the storage layer during search. Inline filters are optional in the SearchConditionExpression.
+        /// This member is required.
+        public var searchSchemaElementType: DynamoDBClientTypes.SearchSchemaElementType?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            searchSchemaElementType: DynamoDBClientTypes.SearchSchemaElementType? = nil
+        ) {
+            self.attributeName = attributeName
+            self.searchSchemaElementType = searchSchemaElementType
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// The definition of a vector attribute for a vector index.
+    public struct VectorAttributeDefinition: Swift.Sendable {
+        /// The name of the vector attribute.
+        /// This member is required.
+        public var attributeName: Swift.String?
+
+        public init(
+            attributeName: Swift.String? = nil
+        ) {
+            self.attributeName = attributeName
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Contains the configuration of a vector index as it existed at the time a backup was created.
+    public struct VectorIndexInfo: Swift.Sendable {
+        /// The number of dimensions in each vector.
+        public var dimensions: Swift.Int?
+        /// The distance function used to calculate similarity between vectors.
+        public var distanceFunction: DynamoDBClientTypes.VectorDistanceFunction?
+        /// The name of the vector index.
+        public var indexName: Swift.String?
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        public var projection: DynamoDBClientTypes.Projection?
+        /// The search schema that defines partition key and inline filter attributes for the vector index.
+        public var searchSchema: [DynamoDBClientTypes.SearchSchemaElement]?
+        /// The vector attribute configuration for the index.
+        public var vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition?
+
+        public init(
+            dimensions: Swift.Int? = nil,
+            distanceFunction: DynamoDBClientTypes.VectorDistanceFunction? = nil,
+            indexName: Swift.String? = nil,
+            projection: DynamoDBClientTypes.Projection? = nil,
+            searchSchema: [DynamoDBClientTypes.SearchSchemaElement]? = nil,
+            vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition? = nil
+        ) {
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexName = indexName
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Contains the details of the features enabled on the table when the backup was created. For example, LSIs, GSIs, streams, TTL.
     public struct SourceTableFeatureDetails: Swift.Sendable {
         /// Represents the GSI properties for the table when the backup was created. It includes the IndexName, KeySchema, Projection, and ProvisionedThroughput for the GSIs on the table at the time of backup.
@@ -986,19 +1123,23 @@ extension DynamoDBClientTypes {
         public var streamDescription: DynamoDBClientTypes.StreamSpecification?
         /// Time to Live settings on the table when the backup was created.
         public var timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription?
+        /// The vector index properties for the table at the time the backup was created, including the index name, vector attribute, dimensions, distance function, search schema, and projection.
+        public var vectorIndexes: [DynamoDBClientTypes.VectorIndexInfo]?
 
         public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexInfo]? = nil,
             localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexInfo]? = nil,
             sseDescription: DynamoDBClientTypes.SSEDescription? = nil,
             streamDescription: DynamoDBClientTypes.StreamSpecification? = nil,
-            timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil
+            timeToLiveDescription: DynamoDBClientTypes.TimeToLiveDescription? = nil,
+            vectorIndexes: [DynamoDBClientTypes.VectorIndexInfo]? = nil
         ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
             self.sseDescription = sseDescription
             self.streamDescription = streamDescription
             self.timeToLiveDescription = timeToLiveDescription
+            self.vectorIndexes = vectorIndexes
         }
     }
 }
@@ -1381,6 +1522,25 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    /// The consumed capacity for vector index operations, including vector search request bytes and vector write request bytes.
+    public struct VectorCapacity: Swift.Sendable {
+        /// The number of vector search request bytes consumed by a SearchVectors operation.
+        public var vectorSearchRequestBytes: Swift.Double?
+        /// The number of vector write request bytes consumed when writing to a vector index. Reported for write operations that modify attributes indexed by a vector index.
+        public var vectorWriteRequestBytes: Swift.Double?
+
+        public init(
+            vectorSearchRequestBytes: Swift.Double? = nil,
+            vectorWriteRequestBytes: Swift.Double? = nil
+        ) {
+            self.vectorSearchRequestBytes = vectorSearchRequestBytes
+            self.vectorWriteRequestBytes = vectorWriteRequestBytes
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// The capacity units consumed by an operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the request asked for it. For more information, see [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) in the Amazon DynamoDB Developer Guide.
     public struct ConsumedCapacity: Swift.Sendable {
         /// The total number of capacity units consumed by the operation.
@@ -1395,6 +1555,8 @@ extension DynamoDBClientTypes {
         public var table: DynamoDBClientTypes.Capacity?
         /// The name of the table that was affected by the operation. If you had specified the Amazon Resource Name (ARN) of a table in the input, you'll see the table ARN in the response.
         public var tableName: Swift.String?
+        /// The amount of throughput consumed on each vector index affected by the operation. Each entry contains VectorWriteRequestBytes (for write operations) or VectorSearchRequestBytes (for search operations).
+        public var vectorIndexes: [Swift.String: DynamoDBClientTypes.VectorCapacity]?
         /// The total number of write capacity units consumed by the operation.
         public var writeCapacityUnits: Swift.Double?
 
@@ -1405,6 +1567,7 @@ extension DynamoDBClientTypes {
             readCapacityUnits: Swift.Double? = nil,
             table: DynamoDBClientTypes.Capacity? = nil,
             tableName: Swift.String? = nil,
+            vectorIndexes: [Swift.String: DynamoDBClientTypes.VectorCapacity]? = nil,
             writeCapacityUnits: Swift.Double? = nil
         ) {
             self.capacityUnits = capacityUnits
@@ -1413,6 +1576,7 @@ extension DynamoDBClientTypes {
             self.readCapacityUnits = readCapacityUnits
             self.table = table
             self.tableName = tableName
+            self.vectorIndexes = vectorIndexes
             self.writeCapacityUnits = writeCapacityUnits
         }
     }
@@ -2942,6 +3106,46 @@ extension DynamoDBClientTypes {
     }
 }
 
+extension DynamoDBClientTypes {
+
+    /// Contains the configuration settings for a vector index, including the index name, vector attribute, dimensions, distance function, search schema, and projection.
+    public struct VectorIndex: Swift.Sendable {
+        /// The number of dimensions in each vector.
+        /// This member is required.
+        public var dimensions: Swift.Int?
+        /// The distance function used to calculate similarity between vectors. Valid values: COSINE, EUCLIDEAN, DOT_PRODUCT.
+        /// This member is required.
+        public var distanceFunction: DynamoDBClientTypes.VectorDistanceFunction?
+        /// The name of the vector index.
+        /// This member is required.
+        public var indexName: Swift.String?
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        /// This member is required.
+        public var projection: DynamoDBClientTypes.Projection?
+        /// The search schema that defines partition key and inline filter attributes for the vector index.
+        public var searchSchema: [DynamoDBClientTypes.SearchSchemaElement]?
+        /// The vector attribute configuration for the index.
+        /// This member is required.
+        public var vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition?
+
+        public init(
+            dimensions: Swift.Int? = nil,
+            distanceFunction: DynamoDBClientTypes.VectorDistanceFunction? = nil,
+            indexName: Swift.String? = nil,
+            projection: DynamoDBClientTypes.Projection? = nil,
+            searchSchema: [DynamoDBClientTypes.SearchSchemaElement]? = nil,
+            vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition? = nil
+        ) {
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexName = indexName
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+    }
+}
+
 /// Represents the input of a CreateTable operation.
 public struct CreateTableInput: Swift.Sendable {
     /// An array of attributes that describe the key schema for the table and indexes.
@@ -3050,6 +3254,20 @@ public struct CreateTableInput: Swift.Sendable {
     public var tableName: Swift.String?
     /// A list of key-value pairs to label the table. For more information, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html).
     public var tags: [DynamoDBClientTypes.Tag]?
+    /// One or more vector indexes to be created on the table. Each vector index enables similarity search on a vector attribute. Each element in the list consists of:
+    ///
+    /// * IndexName - The name of the vector index. Must be unique within the table.
+    ///
+    /// * VectorAttribute - The attribute that contains vector embeddings. If multiple vector indexes reference the same attribute, they must all use the same number of dimensions.
+    ///
+    /// * Dimensions - The number of dimensions in each vector.
+    ///
+    /// * DistanceFunction - The distance function used to calculate similarity. Valid values: COSINE, EUCLIDEAN, DOT_PRODUCT.
+    ///
+    /// * Projection - Specifies attributes that are copied (projected) from the table into the vector index. The total number of projected non-key attributes is shared across the vector attribute (counts as 1) and INLINE_FILTER search schema elements (each counts as 1). HASH search schema elements do not count toward this limit.
+    ///
+    /// * SearchSchema - (Optional) Defines the partition key (HASH) and inline filter (INLINE_FILTER) attributes for the vector index.
+    public var vectorIndexes: [DynamoDBClientTypes.VectorIndex]?
     /// Represents the warm throughput (in read units per second and write units per second) for creating a table.
     public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
@@ -3070,6 +3288,7 @@ public struct CreateTableInput: Swift.Sendable {
         tableClass: DynamoDBClientTypes.TableClass? = nil,
         tableName: Swift.String? = nil,
         tags: [DynamoDBClientTypes.Tag]? = nil,
+        vectorIndexes: [DynamoDBClientTypes.VectorIndex]? = nil,
         warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
     ) {
         self.attributeDefinitions = attributeDefinitions
@@ -3088,6 +3307,7 @@ public struct CreateTableInput: Swift.Sendable {
         self.tableClass = tableClass
         self.tableName = tableName
         self.tags = tags
+        self.vectorIndexes = vectorIndexes
         self.warmThroughput = warmThroughput
     }
 }
@@ -3102,9 +3322,9 @@ extension DynamoDBClientTypes {
         public var lastIncreaseDateTime: Foundation.Date?
         /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var numberOfDecreasesToday: Swift.Int?
-        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second. For a table or global secondary index that uses on-demand capacity mode (PAY_PER_REQUEST), this value is 0, because on-demand mode does not use provisioned throughput.
         public var readCapacityUnits: Swift.Int?
-        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For a table or global secondary index that uses on-demand capacity mode (PAY_PER_REQUEST), this value is 0, because on-demand mode does not use provisioned throughput.
         public var writeCapacityUnits: Swift.Int?
 
         public init(
@@ -3346,6 +3566,67 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    /// Contains the current state and configuration of a vector index, including its status, size, item count, and the settings specified when the index was created.
+    public struct VectorIndexDescription: Swift.Sendable {
+        /// Specifies whether the index is currently backfilling. During backfill, SearchVectors operations might return incomplete results.
+        public var backfilling: Swift.Bool?
+        /// The number of dimensions in each vector.
+        public var dimensions: Swift.Int?
+        /// The distance function used to calculate similarity between vectors.
+        public var distanceFunction: DynamoDBClientTypes.VectorDistanceFunction?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the vector index.
+        public var indexArn: Swift.String?
+        /// The name of the vector index.
+        public var indexName: Swift.String?
+        /// The total size of the vector index, in bytes. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        public var indexSizeBytes: Swift.Int?
+        /// The current state of the vector index:
+        ///
+        /// * CREATING - The index is being created.
+        ///
+        /// * ACTIVE - The index is ready for use.
+        ///
+        /// * DELETING - The index is being deleted.
+        public var indexStatus: DynamoDBClientTypes.IndexStatus?
+        /// The number of items indexed in the vector index. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        public var itemCount: Swift.Int?
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        public var projection: DynamoDBClientTypes.Projection?
+        /// The search schema that defines partition key and inline filter attributes for the vector index.
+        public var searchSchema: [DynamoDBClientTypes.SearchSchemaElement]?
+        /// The vector attribute configuration for the index.
+        public var vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition?
+
+        public init(
+            backfilling: Swift.Bool? = nil,
+            dimensions: Swift.Int? = nil,
+            distanceFunction: DynamoDBClientTypes.VectorDistanceFunction? = nil,
+            indexArn: Swift.String? = nil,
+            indexName: Swift.String? = nil,
+            indexSizeBytes: Swift.Int? = nil,
+            indexStatus: DynamoDBClientTypes.IndexStatus? = nil,
+            itemCount: Swift.Int? = nil,
+            projection: DynamoDBClientTypes.Projection? = nil,
+            searchSchema: [DynamoDBClientTypes.SearchSchemaElement]? = nil,
+            vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition? = nil
+        ) {
+            self.backfilling = backfilling
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexArn = indexArn
+            self.indexName = indexName
+            self.indexSizeBytes = indexSizeBytes
+            self.indexStatus = indexStatus
+            self.itemCount = itemCount
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents the properties of a table.
     public struct TableDescription: Swift.Sendable {
         /// Contains information about the table archive.
@@ -3506,7 +3787,7 @@ extension DynamoDBClientTypes {
         public var tableArn: Swift.String?
         /// Contains details of the table class.
         public var tableClassSummary: DynamoDBClientTypes.TableClassSummary?
-        /// Unique identifier for the table for which the backup was created.
+        /// A unique identifier for the table, in UUID format, generated by DynamoDB when the table is created.
         public var tableId: Swift.String?
         /// The name of the table.
         public var tableName: Swift.String?
@@ -3528,6 +3809,30 @@ extension DynamoDBClientTypes {
         ///
         /// * ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public var tableStatus: DynamoDBClientTypes.TableStatus?
+        /// The vector indexes, if any, on the table. Each element is composed of:
+        ///
+        /// * IndexName - The name of the vector index.
+        ///
+        /// * IndexStatus - The current status of the vector index: CREATING, ACTIVE, or DELETING.
+        ///
+        /// * Backfilling - Specifies whether the index is currently backfilling. During backfill, SearchVectors operations might return incomplete results.
+        ///
+        /// * VectorAttribute - The attribute that contains vector embeddings.
+        ///
+        /// * Dimensions - The number of dimensions in each vector.
+        ///
+        /// * DistanceFunction - The distance function used to calculate similarity (COSINE, EUCLIDEAN, or DOT_PRODUCT).
+        ///
+        /// * SearchSchema - The partition key and inline filter attributes for the vector index.
+        ///
+        /// * Projection - Specifies attributes that are copied (projected) from the table into the vector index.
+        ///
+        /// * IndexArn - The Amazon Resource Name (ARN) that uniquely identifies the index.
+        ///
+        /// * IndexSizeBytes - The total size of the vector index, in bytes. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        ///
+        /// * ItemCount - The number of items indexed in the vector index. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        public var vectorIndexes: [DynamoDBClientTypes.VectorIndexDescription]?
         /// Describes the warm throughput value of the base table.
         public var warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription?
 
@@ -3559,6 +3864,7 @@ extension DynamoDBClientTypes {
             tableName: Swift.String? = nil,
             tableSizeBytes: Swift.Int? = nil,
             tableStatus: DynamoDBClientTypes.TableStatus? = nil,
+            vectorIndexes: [DynamoDBClientTypes.VectorIndexDescription]? = nil,
             warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription? = nil
         ) {
             self.archivalSummary = archivalSummary
@@ -3588,6 +3894,7 @@ extension DynamoDBClientTypes {
             self.tableName = tableName
             self.tableSizeBytes = tableSizeBytes
             self.tableStatus = tableStatus
+            self.vectorIndexes = vectorIndexes
             self.warmThroughput = warmThroughput
         }
     }
@@ -3602,6 +3909,46 @@ public struct CreateTableOutput: Swift.Sendable {
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     ) {
         self.tableDescription = tableDescription
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// A new vector index to be added to a table.
+    public struct CreateVectorIndexAction: Swift.Sendable {
+        /// The number of dimensions in each vector.
+        /// This member is required.
+        public var dimensions: Swift.Int?
+        /// The distance function used to calculate similarity. Valid values: COSINE, EUCLIDEAN, DOT_PRODUCT.
+        /// This member is required.
+        public var distanceFunction: DynamoDBClientTypes.VectorDistanceFunction?
+        /// The name of the vector index. Must be unique within the table.
+        /// This member is required.
+        public var indexName: Swift.String?
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        /// This member is required.
+        public var projection: DynamoDBClientTypes.Projection?
+        /// The partition key and inline filter attribute definitions for the vector index.
+        public var searchSchema: [DynamoDBClientTypes.SearchSchemaElement]?
+        /// The attribute that contains vector embeddings. If multiple vector indexes reference the same attribute, they must all use the same number of dimensions.
+        /// This member is required.
+        public var vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition?
+
+        public init(
+            dimensions: Swift.Int? = nil,
+            distanceFunction: DynamoDBClientTypes.VectorDistanceFunction? = nil,
+            indexName: Swift.String? = nil,
+            projection: DynamoDBClientTypes.Projection? = nil,
+            searchSchema: [DynamoDBClientTypes.SearchSchemaElement]? = nil,
+            vectorAttribute: DynamoDBClientTypes.VectorAttributeDefinition? = nil
+        ) {
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexName = indexName
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
     }
 }
 
@@ -3844,6 +4191,22 @@ public struct DeleteTableOutput: Swift.Sendable {
         tableDescription: DynamoDBClientTypes.TableDescription? = nil
     ) {
         self.tableDescription = tableDescription
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// A vector index to be removed from a table.
+    public struct DeleteVectorIndexAction: Swift.Sendable {
+        /// The name of the vector index to delete.
+        /// This member is required.
+        public var indexName: Swift.String?
+
+        public init(
+            indexName: Swift.String? = nil
+        ) {
+            self.indexName = indexName
+        }
     }
 }
 
@@ -4171,7 +4534,7 @@ extension DynamoDBClientTypes {
         public var exportFromTime: Foundation.Date?
         /// Time in the past which provides the exclusive end range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state just prior to this point in time. If this is not provided, the latest time with data available will be used.
         public var exportToTime: Foundation.Date?
-        /// The view type that was chosen for the export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES. The default value is NEW_AND_OLD_IMAGES.
+        /// The view type that was chosen for the export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES. The default value is NEW_AND_OLD_IMAGES. NEW_AND_OLD_IMAGES exports both the new and old images of each changed item, while NEW_IMAGES exports only the new (latest) image. The view type you choose determines the structure of each item in the output for insert, update, and delete operations. For details and examples of how each view type shapes the export output, see [DynamoDB table export output format](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/S3DataExport.Output.html) in the Amazon DynamoDB Developer Guide.
         public var exportViewType: DynamoDBClientTypes.ExportViewType?
 
         public init(
@@ -4697,6 +5060,8 @@ extension DynamoDBClientTypes {
         /// The name of the table created as part of the import operation.
         /// This member is required.
         public var tableName: Swift.String?
+        /// The vector indexes of the table to be created as part of the import operation.
+        public var vectorIndexes: [DynamoDBClientTypes.VectorIndex]?
 
         public init(
             attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
@@ -4706,7 +5071,8 @@ extension DynamoDBClientTypes {
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
             sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
-            tableName: Swift.String? = nil
+            tableName: Swift.String? = nil,
+            vectorIndexes: [DynamoDBClientTypes.VectorIndex]? = nil
         ) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
@@ -4716,6 +5082,7 @@ extension DynamoDBClientTypes {
             self.provisionedThroughput = provisionedThroughput
             self.sseSpecification = sseSpecification
             self.tableName = tableName
+            self.vectorIndexes = vectorIndexes
         }
     }
 }
@@ -5771,7 +6138,7 @@ extension DynamoDBClientTypes {
     public struct ImportSummary: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with this import task.
         public var cloudWatchLogGroupArn: Swift.String?
-        /// The time at which this import task ended. (Does this include the successful complete creation of the table it was imported to?)
+        /// The time at which this import task ended.
         public var endTime: Foundation.Date?
         /// The Amazon Resource Number (ARN) corresponding to the import request.
         public var importArn: Swift.String?
@@ -6006,6 +6373,8 @@ public struct RestoreTableFromBackupInput: Swift.Sendable {
     /// The name of the new table to which the backup must be restored.
     /// This member is required.
     public var targetTableName: Swift.String?
+    /// The vector indexes for the restored table. If not specified, all vector indexes from the backup are restored. The indexes provided must match existing vector indexes from the backup. You can choose to exclude some or all of the vector indexes at the time of restore.
+    public var vectorIndexOverride: [DynamoDBClientTypes.VectorIndex]?
 
     public init(
         backupArn: Swift.String? = nil,
@@ -6015,7 +6384,8 @@ public struct RestoreTableFromBackupInput: Swift.Sendable {
         onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
-        targetTableName: Swift.String? = nil
+        targetTableName: Swift.String? = nil,
+        vectorIndexOverride: [DynamoDBClientTypes.VectorIndex]? = nil
     ) {
         self.backupArn = backupArn
         self.billingModeOverride = billingModeOverride
@@ -6025,6 +6395,7 @@ public struct RestoreTableFromBackupInput: Swift.Sendable {
         self.provisionedThroughputOverride = provisionedThroughputOverride
         self.sseSpecificationOverride = sseSpecificationOverride
         self.targetTableName = targetTableName
+        self.vectorIndexOverride = vectorIndexOverride
     }
 }
 
@@ -6065,7 +6436,7 @@ public struct InvalidRestoreTimeException: ClientRuntime.ModeledError, AWSClient
 public struct RestoreTableToPointInTimeInput: Swift.Sendable {
     /// The billing mode of the restored table.
     public var billingModeOverride: DynamoDBClientTypes.BillingMode?
-    /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+    /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore. The WarmThroughput setting is not supported on global secondary indexes when you use RestoreTableToPointInTime. Although WarmThroughput appears in the shared index definition, including it in a GlobalSecondaryIndexOverride entry causes the request to fail with a validation error.
     public var globalSecondaryIndexOverride: [DynamoDBClientTypes.GlobalSecondaryIndex]?
     /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
     public var localSecondaryIndexOverride: [DynamoDBClientTypes.LocalSecondaryIndex]?
@@ -6086,6 +6457,8 @@ public struct RestoreTableToPointInTimeInput: Swift.Sendable {
     public var targetTableName: Swift.String?
     /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
     public var useLatestRestorableTime: Swift.Bool?
+    /// The vector indexes for the restored table. If not specified, all vector indexes from the source table are restored. The indexes provided must match existing vector indexes from the source table. You can choose to exclude some or all of the vector indexes at the time of restore.
+    public var vectorIndexOverride: [DynamoDBClientTypes.VectorIndex]?
 
     public init(
         billingModeOverride: DynamoDBClientTypes.BillingMode? = nil,
@@ -6098,7 +6471,8 @@ public struct RestoreTableToPointInTimeInput: Swift.Sendable {
         sourceTableName: Swift.String? = nil,
         sseSpecificationOverride: DynamoDBClientTypes.SSESpecification? = nil,
         targetTableName: Swift.String? = nil,
-        useLatestRestorableTime: Swift.Bool? = nil
+        useLatestRestorableTime: Swift.Bool? = nil,
+        vectorIndexOverride: [DynamoDBClientTypes.VectorIndex]? = nil
     ) {
         self.billingModeOverride = billingModeOverride
         self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
@@ -6111,6 +6485,7 @@ public struct RestoreTableToPointInTimeInput: Swift.Sendable {
         self.sseSpecificationOverride = sseSpecificationOverride
         self.targetTableName = targetTableName
         self.useLatestRestorableTime = useLatestRestorableTime
+        self.vectorIndexOverride = vectorIndexOverride
     }
 }
 
@@ -6728,6 +7103,25 @@ extension DynamoDBClientTypes {
     }
 }
 
+extension DynamoDBClientTypes {
+
+    /// A vector index to be added to or removed from a table.
+    public struct VectorIndexUpdate: Swift.Sendable {
+        /// The configuration for creating a new vector index on the table.
+        public var create: DynamoDBClientTypes.CreateVectorIndexAction?
+        /// The configuration for deleting an existing vector index from the table.
+        public var delete: DynamoDBClientTypes.DeleteVectorIndexAction?
+
+        public init(
+            create: DynamoDBClientTypes.CreateVectorIndexAction? = nil,
+            delete: DynamoDBClientTypes.DeleteVectorIndexAction? = nil
+        ) {
+            self.create = create
+            self.delete = delete
+        }
+    }
+}
+
 /// Represents the input of an UpdateTable operation.
 public struct UpdateTableInput: Swift.Sendable {
     /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
@@ -6790,6 +7184,8 @@ public struct UpdateTableInput: Swift.Sendable {
     /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
+    /// A list of vector indexes to be added to or removed from the table. You can add or remove one vector index for each UpdateTable operation. To add a vector index, specify IndexName, VectorAttribute, Dimensions, DistanceFunction, and Projection. To remove a vector index, specify only the IndexName.
+    public var vectorIndexUpdates: [DynamoDBClientTypes.VectorIndexUpdate]?
     /// Represents the warm throughput (in read units per second and write units per second) for updating a table.
     public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
@@ -6808,6 +7204,7 @@ public struct UpdateTableInput: Swift.Sendable {
         streamSpecification: DynamoDBClientTypes.StreamSpecification? = nil,
         tableClass: DynamoDBClientTypes.TableClass? = nil,
         tableName: Swift.String? = nil,
+        vectorIndexUpdates: [DynamoDBClientTypes.VectorIndexUpdate]? = nil,
         warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
     ) {
         self.attributeDefinitions = attributeDefinitions
@@ -6824,6 +7221,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.streamSpecification = streamSpecification
         self.tableClass = tableClass
         self.tableName = tableName
+        self.vectorIndexUpdates = vectorIndexUpdates
         self.warmThroughput = warmThroughput
     }
 }
@@ -7330,6 +7728,25 @@ extension DynamoDBClientTypes {
     }
 }
 
+extension DynamoDBClientTypes {
+
+    /// A single result from a SearchVectors operation.
+    public struct SearchResultItem: Swift.Sendable {
+        /// A map of attribute names to AttributeValue objects, representing the projected attributes of the item returned by the vector search.
+        public var item: [Swift.String: DynamoDBClientTypes.AttributeValue]?
+        /// The similarity score for this item relative to the search vector. The interpretation depends on the distance function configured for the vector index.
+        public var score: Swift.Double
+
+        public init(
+            item: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
+            score: Swift.Double = 0.0
+        ) {
+            self.item = item
+            self.score = score
+        }
+    }
+}
+
 public struct ExecuteStatementInput: Swift.Sendable {
     /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
     public var consistentRead: Swift.Bool?
@@ -7556,7 +7973,7 @@ extension DynamoDBClientTypes {
 /// * There is a user error, such as an invalid data format.
 ///
 ///
-/// DynamoDB lists the cancellation reasons on the CancellationReasons property. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message. Cancellation reason codes and possible error messages:
+/// DynamoDB lists the cancellation reasons on the CancellationReasons property. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message. The None code is returned as the literal string "None", not a null or absent value; the message field is omitted entirely for an item that has no error. This is important to note when using an SDK that surfaces the code as an optional or nullable type. Cancellation reason codes and possible error messages:
 ///
 /// * No Errors:
 ///
@@ -7734,6 +8151,21 @@ public struct ExecuteTransactionOutput: Swift.Sendable {
     }
 }
 
+public struct SearchVectorsOutput: Swift.Sendable {
+    /// The capacity units consumed by the SearchVectors operation. Contains VectorSearchRequestBytes, which represents the vector search capacity consumed.
+    public var consumedCapacity: DynamoDBClientTypes.VectorCapacity?
+    /// A list of items returned by the vector similarity search, sorted by similarity with the most similar item first. Each item contains the projected attributes and a similarity score.
+    public var searchResults: [DynamoDBClientTypes.SearchResultItem]?
+
+    public init(
+        consumedCapacity: DynamoDBClientTypes.VectorCapacity? = nil,
+        searchResults: [DynamoDBClientTypes.SearchResultItem]? = nil
+    ) {
+        self.consumedCapacity = consumedCapacity
+        self.searchResults = searchResults
+    }
+}
+
 public struct TransactGetItemsOutput: Swift.Sendable {
     /// If the ReturnConsumedCapacity value was TOTAL, this is an array of ConsumedCapacity objects, one for each table addressed by TransactGetItem objects in the TransactItems parameter. These ConsumedCapacity objects report the read-capacity units consumed by the TransactGetItems call in that table.
     public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
@@ -7894,7 +8326,7 @@ public struct TransactGetItemsInput: Swift.Sendable {
 }
 
 public struct TransactWriteItemsOutput: Swift.Sendable {
-    /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter.
+    /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter. If the table has vector indexes, each element also includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
     public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
     /// A list of tables that were processed by TransactWriteItems and, for each table, information about any item collections that were affected by individual UpdateItem, PutItem, or DeleteItem operations.
     public var itemCollectionMetrics: [Swift.String: [DynamoDBClientTypes.ItemCollectionMetrics]]?
@@ -8062,6 +8494,59 @@ extension DynamoDBClientTypes {
     }
 }
 
+public struct SearchVectorsInput: Swift.Sendable {
+    /// One or more substitution tokens for attribute names in an expression. Use the # character in an expression to dereference an attribute name.
+    public var expressionAttributeNames: [Swift.String: Swift.String]?
+    /// One or more values that can be substituted in an expression. Use the : character in an expression to dereference an attribute value.
+    public var expressionAttributeValues: [Swift.String: DynamoDBClientTypes.AttributeValue]?
+    /// The name of the vector index to search. The index must be in the ACTIVE state.
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// A string that identifies one or more attributes to retrieve from the index. Separate attribute names with commas. If not specified, the operation returns all attributes projected into the vector index. Only attributes projected into the vector index can be retrieved.
+    public var projectionExpression: Swift.String?
+    /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
+    ///
+    /// * INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem, do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
+    ///
+    /// * TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
+    ///
+    /// * NONE - No ConsumedCapacity details are included in the response.
+    public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
+    /// A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. Only the equality operator (=) is supported for HASH attributes. Comparison and range operators are supported for INLINE_FILTER attributes. Only top-level attributes from the search schema can be referenced.
+    public var searchConditionExpression: Swift.String?
+    /// The search vector to compare against the indexed vectors. Each element is a 32-bit IEEE-754 floating point number, provided in DynamoDB list format. The number of dimensions must match the number of dimensions configured for the vector index.
+    /// This member is required.
+    public var searchVector: [DynamoDBClientTypes.AttributeValue]?
+    /// The name or Amazon Resource Name (ARN) of the table containing the vector index.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// The number of most similar results to return.
+    /// This member is required.
+    public var topk: Swift.Int?
+
+    public init(
+        expressionAttributeNames: [Swift.String: Swift.String]? = nil,
+        expressionAttributeValues: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
+        indexName: Swift.String? = nil,
+        projectionExpression: Swift.String? = nil,
+        returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity? = nil,
+        searchConditionExpression: Swift.String? = nil,
+        searchVector: [DynamoDBClientTypes.AttributeValue]? = nil,
+        tableName: Swift.String? = nil,
+        topk: Swift.Int? = nil
+    ) {
+        self.expressionAttributeNames = expressionAttributeNames
+        self.expressionAttributeValues = expressionAttributeValues
+        self.indexName = indexName
+        self.projectionExpression = projectionExpression
+        self.returnConsumedCapacity = returnConsumedCapacity
+        self.searchConditionExpression = searchConditionExpression
+        self.searchVector = searchVector
+        self.tableName = tableName
+        self.topk = topk
+    }
+}
+
 extension DynamoDBClientTypes {
 
     /// A PartiQL batch statement response..
@@ -8089,7 +8574,7 @@ extension DynamoDBClientTypes {
 public struct DeleteItemOutput: Swift.Sendable {
     /// A map of attribute names to AttributeValue objects, representing the item as it appeared before the DeleteItem operation. This map appears in the response only if ReturnValues was specified as ALL_OLD in the request.
     public var attributes: [Swift.String: DynamoDBClientTypes.AttributeValue]?
-    /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) in the Amazon DynamoDB Developer Guide.
+    /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) in the Amazon DynamoDB Developer Guide. If the table has vector indexes, the response includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
     public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
     /// Information about item collections, if any, that were affected by the DeleteItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
     ///
@@ -8136,7 +8621,7 @@ public struct ExecuteStatementOutput: Swift.Sendable {
 public struct PutItemOutput: Swift.Sendable {
     /// The attribute values as they appeared before the PutItem operation, but only if ReturnValues is specified as ALL_OLD in the request. Each element consists of an attribute name and an attribute value.
     public var attributes: [Swift.String: DynamoDBClientTypes.AttributeValue]?
-    /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Capacity unity consumption for write operations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption) in the Amazon DynamoDB Developer Guide.
+    /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Capacity unity consumption for write operations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption) in the Amazon DynamoDB Developer Guide. If the table has vector indexes, the response includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
     public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
     /// Information about item collections, if any, that were affected by the PutItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
     ///
@@ -8216,7 +8701,7 @@ public struct ScanOutput: Swift.Sendable {
 public struct UpdateItemOutput: Swift.Sendable {
     /// A map of attribute values as they appear before or after the UpdateItem operation, as determined by the ReturnValues parameter. The Attributes map is only present if the update was successful and ReturnValues was specified as something other than NONE in the request. Each element represents one attribute.
     public var attributes: [Swift.String: DynamoDBClientTypes.AttributeValue]?
-    /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Capacity unity consumption for write operations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption) in the Amazon DynamoDB Developer Guide.
+    /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see [Capacity unity consumption for write operations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption) in the Amazon DynamoDB Developer Guide. If the table has vector indexes, the response includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
     public var consumedCapacity: DynamoDBClientTypes.ConsumedCapacity?
     /// Information about item collections, if any, that were affected by the UpdateItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:
     ///
@@ -8607,7 +9092,16 @@ public struct PutItemInput: Swift.Sendable {
     public var expressionAttributeNames: [Swift.String: Swift.String]?
     /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following: Available | Backordered | Discontinued You would first need to specify ExpressionAttributeValues as follows: { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} } You could then use these values in an expression, such as this: ProductStatus IN (:avail, :back, :disc) For more information on expression attribute values, see [Condition Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html) in the Amazon DynamoDB Developer Guide.
     public var expressionAttributeValues: [Swift.String: DynamoDBClientTypes.AttributeValue]?
-    /// A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. For more information about primary keys, see [Primary Key](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.PrimaryKey) in the Amazon DynamoDB Developer Guide. Each element in the Item map is an AttributeValue object.
+    /// A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. If the table has vector indexes, the following validations apply to write operations. A violation of any of these constraints results in a ValidationException:
+    ///
+    /// * The vector attribute must be a list of numbers with dimensions matching the index configuration.
+    ///
+    /// * Vector values must fit in 32-bit IEEE-754 floating point format (f32).
+    ///
+    /// * Partition key and inline filter attributes defined in the search schema must have data types matching the index schema definition.
+    ///
+    ///
+    /// Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. For more information about primary keys, see [Primary Key](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.PrimaryKey) in the Amazon DynamoDB Developer Guide. Each element in the Item map is an AttributeValue object.
     /// This member is required.
     public var item: [Swift.String: DynamoDBClientTypes.AttributeValue]?
     /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response:
@@ -8829,6 +9323,9 @@ public struct BatchWriteItemOutput: Swift.Sendable {
     /// * TableName - The table that consumed the provisioned throughput.
     ///
     /// * CapacityUnits - The total number of capacity units consumed.
+    ///
+    ///
+    /// If the table has vector indexes, each element also includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
     public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
     /// A list of tables that were processed by BatchWriteItem and, for each table, information about any item collections that were affected by individual DeleteItem or PutItem operations. Each entry consists of the following subelements:
     ///
