@@ -9068,6 +9068,7 @@ extension MediaConvertClientTypes {
     public enum S3StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
+        case glacierIr
         case intelligentTiering
         case onezoneIa
         case reducedRedundancy
@@ -9079,6 +9080,7 @@ extension MediaConvertClientTypes {
             return [
                 .deepArchive,
                 .glacier,
+                .glacierIr,
                 .intelligentTiering,
                 .onezoneIa,
                 .reducedRedundancy,
@@ -9096,6 +9098,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .glacier: return "GLACIER"
+            case .glacierIr: return "GLACIER_IR"
             case .intelligentTiering: return "INTELLIGENT_TIERING"
             case .onezoneIa: return "ONEZONE_IA"
             case .reducedRedundancy: return "REDUCED_REDUNDANCY"
@@ -13484,6 +13487,8 @@ extension MediaConvertClientTypes {
 
     /// These settings relate to your QuickTime MOV output container.
     public struct MovSettings: Swift.Sendable {
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public var audioDuration: MediaConvertClientTypes.CmfcAudioDuration?
         /// When enabled, include 'clap' atom if appropriate for the video output settings.
         public var clapAtom: MediaConvertClientTypes.MovClapAtom?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
@@ -13496,12 +13501,14 @@ extension MediaConvertClientTypes {
         public var reference: MediaConvertClientTypes.MovReference?
 
         public init(
+            audioDuration: MediaConvertClientTypes.CmfcAudioDuration? = nil,
             clapAtom: MediaConvertClientTypes.MovClapAtom? = nil,
             cslgAtom: MediaConvertClientTypes.MovCslgAtom? = nil,
             mpeg2FourCCControl: MediaConvertClientTypes.MovMpeg2FourCCControl? = nil,
             paddingControl: MediaConvertClientTypes.MovPaddingControl? = nil,
             reference: MediaConvertClientTypes.MovReference? = nil
         ) {
+            self.audioDuration = audioDuration
             self.clapAtom = clapAtom
             self.cslgAtom = cslgAtom
             self.mpeg2FourCCControl = mpeg2FourCCControl
@@ -23699,6 +23706,8 @@ extension MediaConvertClientTypes {
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
         /// Content light level information (CTA-861.3). Describes the light level characteristics of the content.
         public var contentLightLevel: MediaConvertClientTypes.ContentLightLevel?
+        /// The field order of interlaced video, which indicates whether the top or bottom field is displayed first. Use this to select the correct deinterlacing behavior. One of "TopFieldFirst" or "BottomFieldFirst". This field is present only for interlaced video; it is omitted for progressive video and when the field order is not indicated by the source.
+        public var fieldOrder: Swift.String?
         /// The height in pixels as coded by the codec. This represents the actual encoded video height as specified in the video stream headers.
         public var height: Swift.Int?
         /// The codec level or tier that specifies the maximum processing requirements and capabilities. Levels define constraints such as maximum bit rate, frame rate, and resolution.
@@ -23722,6 +23731,7 @@ extension MediaConvertClientTypes {
             codedFrameRate: MediaConvertClientTypes.FrameRate? = nil,
             colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
             contentLightLevel: MediaConvertClientTypes.ContentLightLevel? = nil,
+            fieldOrder: Swift.String? = nil,
             height: Swift.Int? = nil,
             level: Swift.String? = nil,
             matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
@@ -23736,6 +23746,7 @@ extension MediaConvertClientTypes {
             self.codedFrameRate = codedFrameRate
             self.colorPrimaries = colorPrimaries
             self.contentLightLevel = contentLightLevel
+            self.fieldOrder = fieldOrder
             self.height = height
             self.level = level
             self.matrixCoefficients = matrixCoefficients
@@ -23916,6 +23927,8 @@ extension MediaConvertClientTypes {
 
     /// The container of your media file. This information helps you understand the overall structure and details of your media, including format, duration, and track layout.
     public struct Container: Swift.Sendable {
+        /// The overall bit rate of your media file, in bits per second. This is derived from the file size and duration as (file size in bytes * 8) / duration in seconds.
+        public var bitRate: Swift.Int?
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
         /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, or MP3. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
@@ -23926,11 +23939,13 @@ extension MediaConvertClientTypes {
         public var tracks: [MediaConvertClientTypes.Track]?
 
         public init(
+            bitRate: Swift.Int? = nil,
             duration: Swift.Double? = nil,
             format: MediaConvertClientTypes.Format? = nil,
             startTimecode: Swift.String? = nil,
             tracks: [MediaConvertClientTypes.Track]? = nil
         ) {
+            self.bitRate = bitRate
             self.duration = duration
             self.format = format
             self.startTimecode = startTimecode
@@ -28627,6 +28642,7 @@ extension MediaConvertClientTypes.CodecMetadata {
         value.codedFrameRate = try reader["codedFrameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
         value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
         value.contentLightLevel = try reader["contentLightLevel"].readIfPresent(with: MediaConvertClientTypes.ContentLightLevel.read(from:))
+        value.fieldOrder = try reader["fieldOrder"].readIfPresent()
         value.height = try reader["height"].readIfPresent()
         value.level = try reader["level"].readIfPresent()
         value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
@@ -28702,6 +28718,7 @@ extension MediaConvertClientTypes.Container {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Container {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Container()
+        value.bitRate = try reader["bitRate"].readIfPresent()
         value.duration = try reader["duration"].readIfPresent()
         value.format = try reader["format"].readIfPresent()
         value.startTimecode = try reader["startTimecode"].readIfPresent()
@@ -30972,6 +30989,7 @@ extension MediaConvertClientTypes.MovSettings {
 
     static func write(value: MediaConvertClientTypes.MovSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioDuration"].write(value.audioDuration)
         try writer["clapAtom"].write(value.clapAtom)
         try writer["cslgAtom"].write(value.cslgAtom)
         try writer["mpeg2FourCCControl"].write(value.mpeg2FourCCControl)
@@ -30982,6 +31000,7 @@ extension MediaConvertClientTypes.MovSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.MovSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.MovSettings()
+        value.audioDuration = try reader["audioDuration"].readIfPresent()
         value.clapAtom = try reader["clapAtom"].readIfPresent()
         value.cslgAtom = try reader["cslgAtom"].readIfPresent()
         value.mpeg2FourCCControl = try reader["mpeg2FourCCControl"].readIfPresent()

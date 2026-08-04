@@ -368,6 +368,38 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Determines which newly created destination log groups are encrypted with the configured KMS key.
+    public enum EncryptionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Only destination log groups whose source log group is encrypted with a customer managed KMS key use the configured KmsKeyArn. This is the default behavior.
+        case encryptedSourceOnly
+        /// Every new destination log group created by this rule uses the configured KmsKeyArn, regardless of whether the source log group is encrypted with a customer managed key or Amazon Web Services owned encryption.
+        case newDestinationLogGroups
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionScope] {
+            return [
+                .encryptedSourceOnly,
+                .newDestinationLogGroups
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .encryptedSourceOnly: return "ENCRYPTED_SOURCE_ONLY"
+            case .newDestinationLogGroups: return "NEW_DESTINATION_LOG_GROUPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum EncryptionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsOwned
         case customerManaged
@@ -397,10 +429,12 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
-    /// Configuration for encrypting centralized log groups. This configuration is only applied to destination log groups for which the corresponding source log groups are encrypted using Customer Managed KMS Keys.
+    /// Configuration for encrypting centralized destination log groups. By default, this configuration applies only to destination log groups whose corresponding source log groups are encrypted using customer managed KMS keys. To encrypt all destination log groups created by the rule, set EncryptionScope to NEW_DESTINATION_LOG_GROUPS.
     public struct LogsEncryptionConfiguration: Swift.Sendable {
         /// Conflict resolution strategy for centralization if the encryption strategy is set to CUSTOMER_MANAGED and the destination log group is encrypted with an AWS_OWNED KMS Key. ALLOW lets centralization go through while SKIP prevents centralization into the destination log group.
         public var encryptionConflictResolutionStrategy: ObservabilityAdminClientTypes.EncryptionConflictResolutionStrategy?
+        /// Determines which newly created destination log groups are encrypted with the configured KmsKeyArn when EncryptionStrategy is CUSTOMER_MANAGED. If you set this to ENCRYPTED_SOURCE_ONLY (the default), only destination log groups whose source log group is encrypted with a customer managed KMS key use the configured KmsKeyArn. Destination log groups derived from Amazon Web Services owned encrypted source log groups remain Amazon Web Services owned encrypted. If you set this to NEW_DESTINATION_LOG_GROUPS, every new destination log group created by this rule uses the configured KmsKeyArn, regardless of the source log group's encryption posture. This field is not valid when EncryptionStrategy is AWS_OWNED.
+        public var encryptionScope: ObservabilityAdminClientTypes.EncryptionScope?
         /// Configuration that determines the encryption strategy of the destination log groups. CUSTOMER_MANAGED uses the configured KmsKeyArn to encrypt newly created destination log groups.
         /// This member is required.
         public var encryptionStrategy: ObservabilityAdminClientTypes.EncryptionStrategy?
@@ -409,10 +443,12 @@ extension ObservabilityAdminClientTypes {
 
         public init(
             encryptionConflictResolutionStrategy: ObservabilityAdminClientTypes.EncryptionConflictResolutionStrategy? = nil,
+            encryptionScope: ObservabilityAdminClientTypes.EncryptionScope? = nil,
             encryptionStrategy: ObservabilityAdminClientTypes.EncryptionStrategy? = nil,
             kmsKeyArn: Swift.String? = nil
         ) {
             self.encryptionConflictResolutionStrategy = encryptionConflictResolutionStrategy
+            self.encryptionScope = encryptionScope
             self.encryptionStrategy = encryptionStrategy
             self.kmsKeyArn = kmsKeyArn
         }
@@ -1243,6 +1279,19 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// The following log types are supported for log delivery configuration:
+    ///
+    /// * APPLICATION_LOGS – Application-level logs.
+    ///
+    /// * USAGE_LOGS – Resource usage logs.
+    ///
+    /// * SECURITY_FINDING_LOGS – Security finding logs.
+    ///
+    /// * ACCESS_LOGS – Access logs (such as Elastic Load Balancing access logs).
+    ///
+    /// * CONNECTION_LOGS – Connection logs.
+    ///
+    /// * S3_SERVER_ACCESS_LOGS – Amazon S3 server access logs.
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
         case albAccess
@@ -1293,9 +1342,9 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
-    /// Configuration parameters for Amazon Bedrock AgentCore logging, including logType settings.
+    /// The configuration parameters for log delivery, including logType settings. Applies to resource types that support configurable log delivery, such as Amazon Bedrock Knowledge Bases and Elastic Load Balancing Application Load Balancers.
     public struct LogDeliveryParameters: Swift.Sendable {
-        /// The type of log that the source is sending.
+        /// The types of logs to collect from the resource.
         public var logTypes: [ObservabilityAdminClientTypes.LogType]?
 
         public init(
@@ -1586,7 +1635,9 @@ extension ObservabilityAdminClientTypes {
         public var destinationType: ObservabilityAdminClientTypes.DestinationType?
         /// Configuration parameters specific to ELB load balancer logging when ELB is the resource type.
         public var elbLoadBalancerLoggingParameters: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters?
-        /// Configuration parameters specific to Amazon Bedrock AgentCore logging when Amazon Bedrock AgentCore is the resource type.
+        /// The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation.
+        public var kmsKeyArn: Swift.String?
+        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases or Elastic Load Balancing Application Load Balancers.
         public var logDeliveryParameters: ObservabilityAdminClientTypes.LogDeliveryParameters?
         /// Configuration parameters specific to MSK monitoring when MSK is the resource type.
         public var mskMonitoringParameters: ObservabilityAdminClientTypes.MskMonitoringParameters?
@@ -1602,6 +1653,7 @@ extension ObservabilityAdminClientTypes {
             destinationPattern: Swift.String? = nil,
             destinationType: ObservabilityAdminClientTypes.DestinationType? = nil,
             elbLoadBalancerLoggingParameters: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters? = nil,
+            kmsKeyArn: Swift.String? = nil,
             logDeliveryParameters: ObservabilityAdminClientTypes.LogDeliveryParameters? = nil,
             mskMonitoringParameters: ObservabilityAdminClientTypes.MskMonitoringParameters? = nil,
             retentionInDays: Swift.Int? = nil,
@@ -1612,6 +1664,7 @@ extension ObservabilityAdminClientTypes {
             self.destinationPattern = destinationPattern
             self.destinationType = destinationType
             self.elbLoadBalancerLoggingParameters = elbLoadBalancerLoggingParameters
+            self.kmsKeyArn = kmsKeyArn
             self.logDeliveryParameters = logDeliveryParameters
             self.mskMonitoringParameters = mskMonitoringParameters
             self.retentionInDays = retentionInDays
@@ -1796,7 +1849,7 @@ extension ObservabilityAdminClientTypes {
         public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
         /// An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public var regions: [Swift.String]?
-        /// The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL").
+        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, or AWS::Bedrock::KnowledgeBase).
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The organizational scope to which the rule applies, specified using accounts or organizational units.
         public var scope: Swift.String?
@@ -5642,6 +5695,7 @@ extension ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
     static func write(value: ObservabilityAdminClientTypes.LogsEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EncryptionConflictResolutionStrategy"].write(value.encryptionConflictResolutionStrategy)
+        try writer["EncryptionScope"].write(value.encryptionScope)
         try writer["EncryptionStrategy"].write(value.encryptionStrategy)
         try writer["KmsKeyArn"].write(value.kmsKeyArn)
     }
@@ -5652,6 +5706,7 @@ extension ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
         value.encryptionStrategy = try reader["EncryptionStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.encryptionConflictResolutionStrategy = try reader["EncryptionConflictResolutionStrategy"].readIfPresent()
+        value.encryptionScope = try reader["EncryptionScope"].readIfPresent()
         return value
     }
 }
@@ -5820,6 +5875,7 @@ extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
         try writer["DestinationPattern"].write(value.destinationPattern)
         try writer["DestinationType"].write(value.destinationType)
         try writer["ELBLoadBalancerLoggingParameters"].write(value.elbLoadBalancerLoggingParameters, with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.write(value:to:))
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["LogDeliveryParameters"].write(value.logDeliveryParameters, with: ObservabilityAdminClientTypes.LogDeliveryParameters.write(value:to:))
         try writer["MskMonitoringParameters"].write(value.mskMonitoringParameters, with: ObservabilityAdminClientTypes.MskMonitoringParameters.write(value:to:))
         try writer["RetentionInDays"].write(value.retentionInDays)
@@ -5839,6 +5895,7 @@ extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
         value.wafLoggingParameters = try reader["WAFLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.WAFLoggingParameters.read(from:))
         value.logDeliveryParameters = try reader["LogDeliveryParameters"].readIfPresent(with: ObservabilityAdminClientTypes.LogDeliveryParameters.read(from:))
         value.mskMonitoringParameters = try reader["MskMonitoringParameters"].readIfPresent(with: ObservabilityAdminClientTypes.MskMonitoringParameters.read(from:))
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         return value
     }
 }
