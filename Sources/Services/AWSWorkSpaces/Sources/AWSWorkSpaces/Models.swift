@@ -1862,15 +1862,19 @@ extension WorkSpacesClientTypes {
 
     /// Describes an Amazon WorkSpaces client.
     public struct ClientProperties: Swift.Sendable {
+        /// The client experience policy that determines which client experience the user sees. Administrators can set this policy to control the client experience for users in a directory. Valid values include FORCE_CLASSIC, FORCE_UI_2026, and USER_CHOICE.
+        public var clientExperiencePolicy: Swift.String?
         /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces client directly to WorkSpaces to troubleshoot issues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be applied to all users in the specified directory.
         public var logUploadEnabled: WorkSpacesClientTypes.LogUploadEnum?
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials.
         public var reconnectEnabled: WorkSpacesClientTypes.ReconnectEnum?
 
         public init(
+            clientExperiencePolicy: Swift.String? = nil,
             logUploadEnabled: WorkSpacesClientTypes.LogUploadEnum? = nil,
             reconnectEnabled: WorkSpacesClientTypes.ReconnectEnum? = nil
         ) {
+            self.clientExperiencePolicy = clientExperiencePolicy
             self.logUploadEnabled = logUploadEnabled
             self.reconnectEnabled = reconnectEnabled
         }

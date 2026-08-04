@@ -1700,13 +1700,16 @@ extension DSQLClient {
     /// * Each peer cluster: exact ARN of each specified peer cluster
     ///
     ///
-    /// dsql:RemovePeerCluster Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/* dsql:PutWitnessRegion Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  Condition Keys: dsql:WitnessRegion (matching the specified witness Region) This permission is checked both in the cluster Region and in the witness Region.
+    /// dsql:RemovePeerCluster Permission to remove peer clusters. When you list peer clusters in multiRegionProperties.clusters, you need this permission for each current peer cluster that your list omits. Resources:
     ///
-    /// * The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    /// * Each removed peer cluster: exact ARN of each removed peer cluster, in its own Region
     ///
-    /// * When updating clusters with peer relationships, permissions are checked for both adding and removing peers.
     ///
-    /// * The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
+    /// dsql:PutWitnessRegion Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  Condition Keys: dsql:WitnessRegion (matching the specified witness Region) This permission is checked both in the cluster Region and in the witness Region.
+    ///
+    /// * The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    ///
+    /// * When you list peer clusters in multiRegionProperties.clusters, you need dsql:AddPeerCluster for every peer cluster in your request. You need dsql:RemovePeerCluster only for the peer clusters that the update removes.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///

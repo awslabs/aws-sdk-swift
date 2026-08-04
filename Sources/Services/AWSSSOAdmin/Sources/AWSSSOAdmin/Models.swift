@@ -2613,6 +2613,8 @@ public struct DescribeInstanceOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The identifier of the Amazon Web Services account for which the instance was created.
     public var ownerAccountId: Swift.String?
+    /// Indicates whether permission sets are enabled for this Identity Center instance.
+    public var permissionSetsEnabled: Swift.Bool?
     /// The status of the instance.
     public var status: SSOAdminClientTypes.InstanceStatus?
     /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance fails to create or update, this field contains information about the cause, which may include issues with KMS key configuration, permission problems with the specified KMS key, or service-related errors.
@@ -2625,6 +2627,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
+        permissionSetsEnabled: Swift.Bool? = nil,
         status: SSOAdminClientTypes.InstanceStatus? = nil,
         statusReason: Swift.String? = nil
     ) {
@@ -2634,6 +2637,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
         self.instanceArn = instanceArn
         self.name = name
         self.ownerAccountId = ownerAccountId
+        self.permissionSetsEnabled = permissionSetsEnabled
         self.status = status
         self.statusReason = statusReason
     }
@@ -4330,15 +4334,19 @@ public struct UpdateInstanceInput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// Updates the instance name.
     public var name: Swift.String?
+    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled. You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+    public var permissionSetsEnabled: Swift.Bool?
 
     public init(
         encryptionConfiguration: SSOAdminClientTypes.EncryptionConfiguration? = nil,
         instanceArn: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        permissionSetsEnabled: Swift.Bool? = nil
     ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.instanceArn = instanceArn
         self.name = name
+        self.permissionSetsEnabled = permissionSetsEnabled
     }
 }
 

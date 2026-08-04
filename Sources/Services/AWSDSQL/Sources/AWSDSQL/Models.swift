@@ -869,7 +869,7 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// The ID of the cluster you want to update.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+    /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you. To switch to the key owned by Amazon Web Services, specify the reserved value AWS_OWNED_KMS_KEY.
     public var kmsEncryptionKey: Swift.String?
     /// The new multi-Region cluster configuration settings to be applied during an update operation.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?

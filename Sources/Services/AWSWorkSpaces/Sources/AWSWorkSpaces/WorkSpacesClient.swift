@@ -1885,7 +1885,7 @@ extension WorkSpacesClient {
 
     /// Performs the `CreateWorkspacesPool` operation on the `WorkSpaces` service.
     ///
-    /// Creates a pool of WorkSpaces.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Creates a pool of WorkSpaces.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWorkspacesPoolInput`)
     ///
@@ -4396,7 +4396,7 @@ extension WorkSpacesClient {
 
     /// Performs the `DescribeWorkspacesPoolSessions` operation on the `WorkSpaces` service.
     ///
-    /// Retrieves a list that describes the streaming sessions for a specified pool.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Retrieves a list that describes the streaming sessions for a specified pool.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeWorkspacesPoolSessionsInput`)
     ///
@@ -4472,7 +4472,7 @@ extension WorkSpacesClient {
 
     /// Performs the `DescribeWorkspacesPools` operation on the `WorkSpaces` service.
     ///
-    /// Describes the specified WorkSpaces Pools.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Describes the specified WorkSpaces Pools.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeWorkspacesPoolsInput`)
     ///
@@ -6717,7 +6717,7 @@ extension WorkSpacesClient {
 
     /// Performs the `StartWorkspacesPool` operation on the `WorkSpaces` service.
     ///
-    /// Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop and a state of STOPPED.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop and a state of STOPPED.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartWorkspacesPoolInput`)
     ///
@@ -6866,7 +6866,7 @@ extension WorkSpacesClient {
 
     /// Performs the `StopWorkspacesPool` operation on the `WorkSpaces` service.
     ///
-    /// Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopWorkspacesPoolInput`)
     ///
@@ -7013,7 +7013,7 @@ extension WorkSpacesClient {
 
     /// Performs the `TerminateWorkspacesPool` operation on the `WorkSpaces` service.
     ///
-    /// Terminates the specified pool.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Terminates the specified pool.
     ///
     /// - Parameter input: [no documentation found] (Type: `TerminateWorkspacesPoolInput`)
     ///
@@ -7091,7 +7091,7 @@ extension WorkSpacesClient {
 
     /// Performs the `TerminateWorkspacesPoolSession` operation on the `WorkSpaces` service.
     ///
-    /// Terminates the pool session.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Terminates the pool session.
     ///
     /// - Parameter input: [no documentation found] (Type: `TerminateWorkspacesPoolSessionInput`)
     ///
@@ -7567,7 +7567,7 @@ extension WorkSpacesClient {
 
     /// Performs the `UpdateWorkspacesPool` operation on the `WorkSpaces` service.
     ///
-    /// Updates the specified pool.
+    /// End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see [Amazon WorkSpaces Pools end of support](https://docs.aws.amazon.com/workspaces/latest/adminguide/wsp-pools-end-of-support.html). Updates the specified pool.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateWorkspacesPoolInput`)
     ///

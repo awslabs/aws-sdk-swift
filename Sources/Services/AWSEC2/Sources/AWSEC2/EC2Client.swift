@@ -1760,6 +1760,82 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateApplicationStatusCheck` operation on the `EC2` service.
+    ///
+    /// Associates an application status check with instances or [tags](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html). Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply:
+    ///
+    /// * You must specify either TargetTagAssociations or InstanceIds, but not both. Specifying both results in an InvalidParameterCombination error.
+    ///
+    /// * The application status check must already exist and belong to your account.
+    ///
+    /// * Tag keys must not be blank.
+    ///
+    /// * Maximum 50 tag associations per application status check.
+    ///
+    /// * Use DisassociateApplicationStatusCheck to remove associations.
+    ///
+    /// * When you associate [tags](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html), the application status check automatically monitors all current and future instances that have the specified tags.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationStatusCheckInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationStatusCheckOutput`)
+    public func associateApplicationStatusCheck(input: AssociateApplicationStatusCheckInput) async throws -> AssociateApplicationStatusCheckOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateApplicationStatusCheck")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>(AssociateApplicationStatusCheckInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApplicationStatusCheckOutput>(AssociateApplicationStatusCheckOutput.httpOutput(from:), AssociateApplicationStatusCheckOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationStatusCheckOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateApplicationStatusCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateApplicationStatusCheckInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateApplicationStatusCheckInput, AssociateApplicationStatusCheckOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateApplicationStatusCheck")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateCapacityReservationBillingOwner` operation on the `EC2` service.
     ///
     /// Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
@@ -3552,7 +3628,7 @@ extension EC2Client {
 
     /// Performs the `BundleInstance` operation on the `EC2` service.
     ///
-    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved. This action is no longer supported. To create an AMI, use [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html). For more information, see [ Create an Amazon EBS-backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon EC2 User Guide.
+    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved. BundleInstance is no longer supported. To create an AMI, use [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html) instead. For more information about creating an Amazon EBS-backed AMI, see [ Create an Amazon EBS-backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter input: Contains the parameters for BundleInstance. (Type: `BundleInstanceInput`)
     ///
@@ -3615,7 +3691,7 @@ extension EC2Client {
 
     /// Performs the `CancelBundleTask` operation on the `EC2` service.
     ///
-    /// Cancels a bundling operation for an instance store-backed Windows instance.
+    /// Cancels a bundling operation for an instance store-backed Windows instance. CancelBundleTask is no longer supported because [BundleInstance](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_BundleInstance.html), the operation it cancels, is no longer supported.
     ///
     /// - Parameter input: Contains the parameters for CancelBundleTask. (Type: `CancelBundleTaskInput`)
     ///
@@ -4689,6 +4765,84 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyVolumes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateApplicationStatusCheck` operation on the `EC2` service.
+    ///
+    /// Creates an application status check for monitoring the health of applications running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply:
+    ///
+    /// * You can create a maximum of 50 application status checks per account.
+    ///
+    /// * Health checks do not start until you associate the check with instances or tags using AssociateApplicationStatusCheck.
+    ///
+    /// * The Timeout value must be less than the Interval value.
+    ///
+    /// * The Path must start with a forward slash (/). Default: /.
+    ///
+    /// * If you do not specify Aggregation, it defaults to included, which means the check contributes to the instance-level application status.
+    ///
+    /// * Default values: Interval is 60 seconds, Timeout is 6 seconds, FailureThreshold is 2, SuccessThreshold is 5, StatusCodeMatcher is 200, InitializationGracePeriodSeconds is 300 seconds.
+    ///
+    /// * You can tag the application status check during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationStatusCheckInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateApplicationStatusCheckOutput`)
+    public func createApplicationStatusCheck(input: CreateApplicationStatusCheckInput) async throws -> CreateApplicationStatusCheckOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createApplicationStatusCheck")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>(CreateApplicationStatusCheckInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationStatusCheckOutput>(CreateApplicationStatusCheckOutput.httpOutput(from:), CreateApplicationStatusCheckOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationStatusCheckOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateApplicationStatusCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateApplicationStatusCheckInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateApplicationStatusCheckInput, CreateApplicationStatusCheckOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApplicationStatusCheck")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -11501,6 +11655,74 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpnGateway")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteApplicationStatusCheck` operation on the `EC2` service.
+    ///
+    /// Deletes an application status check. The following rules apply:
+    ///
+    /// * Deleting a check automatically removes all of its associations.
+    ///
+    /// * Use DescribeApplicationStatusChecks to view existing checks before deleting.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationStatusCheckInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationStatusCheckOutput`)
+    public func deleteApplicationStatusCheck(input: DeleteApplicationStatusCheckInput) async throws -> DeleteApplicationStatusCheckOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteApplicationStatusCheck")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>(DeleteApplicationStatusCheckInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationStatusCheckOutput>(DeleteApplicationStatusCheckOutput.httpOutput(from:), DeleteApplicationStatusCheckOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationStatusCheckOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteApplicationStatusCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteApplicationStatusCheckInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteApplicationStatusCheckInput, DeleteApplicationStatusCheckOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApplicationStatusCheck")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -18373,6 +18595,205 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeApplicationStatus` operation on the `EC2` service.
+    ///
+    /// Describes the application status for the specified instances. Returns the aggregated application health status for each instance. The following rules apply:
+    ///
+    /// * The instance-level status is derived from all application status checks with the aggregation setting set to included.
+    ///
+    /// * Use DescribeApplicationStatusChecks to view the configuration of individual checks.
+    ///
+    /// * Use EnableApplicationStatusCheckSuppression to temporarily suppress health check results from affecting the instance-level status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationStatusOutput`)
+    public func describeApplicationStatus(input: DescribeApplicationStatusInput) async throws -> DescribeApplicationStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeApplicationStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationStatusInput, DescribeApplicationStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>(DescribeApplicationStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationStatusOutput>(DescribeApplicationStatusOutput.httpOutput(from:), DescribeApplicationStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApplicationStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationStatusInput, DescribeApplicationStatusOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeApplicationStatusCheckAssociations` operation on the `EC2` service.
+    ///
+    /// Describes the associations for one or more application status checks. For more information, see [Application status checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-application-status-checks.html). To avoid timeouts and retrieve complete results, use the pagination parameters. The order of the elements in the response, including those within nested structures, might vary.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationStatusCheckAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationStatusCheckAssociationsOutput`)
+    public func describeApplicationStatusCheckAssociations(input: DescribeApplicationStatusCheckAssociationsInput) async throws -> DescribeApplicationStatusCheckAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeApplicationStatusCheckAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>(DescribeApplicationStatusCheckAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationStatusCheckAssociationsOutput>(DescribeApplicationStatusCheckAssociationsOutput.httpOutput(from:), DescribeApplicationStatusCheckAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationStatusCheckAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApplicationStatusCheckAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationStatusCheckAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationStatusCheckAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationStatusCheckAssociationsInput, DescribeApplicationStatusCheckAssociationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationStatusCheckAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeApplicationStatusChecks` operation on the `EC2` service.
+    ///
+    /// Describes one or more application status checks. Returns configuration details for your application status checks, including protocol, port, path, thresholds, and associations. The following rules apply:
+    ///
+    /// * If you do not specify any application status check IDs, all checks in your account are returned.
+    ///
+    /// * Use DescribeApplicationStatus to see the actual health status of instances.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationStatusChecksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationStatusChecksOutput`)
+    public func describeApplicationStatusChecks(input: DescribeApplicationStatusChecksInput) async throws -> DescribeApplicationStatusChecksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeApplicationStatusChecks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>(DescribeApplicationStatusChecksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationStatusChecksOutput>(DescribeApplicationStatusChecksOutput.httpOutput(from:), DescribeApplicationStatusChecksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationStatusChecksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeApplicationStatusChecksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeApplicationStatusChecksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeApplicationStatusChecksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeApplicationStatusChecksInput, DescribeApplicationStatusChecksOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationStatusChecks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeAvailabilityZones` operation on the `EC2` service.
     ///
     /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wavelength Zones, see [Regions and zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
@@ -22158,6 +22579,8 @@ extension EC2Client {
     /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:
     ///
     /// * Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see [Status checks for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html) and [Troubleshoot instances with failed status checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html) in the Amazon EC2 User Guide.
+    ///
+    /// * Application status checks - Amazon EC2 reports application-level health status for instances, indicating whether applications running on the instance are functioning properly.
     ///
     /// * Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see [Scheduled events for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html) in the Amazon EC2 User Guide.
     ///
@@ -30443,6 +30866,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableApplicationStatusCheckSuppression` operation on the `EC2` service.
+    ///
+    /// Disables suppression of application status checks for the specified instances. After suppression is disabled, health check results resume affecting the instance-level application status. You can specify a maximum of 100 instance IDs per request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisableApplicationStatusCheckSuppressionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisableApplicationStatusCheckSuppressionOutput`)
+    public func disableApplicationStatusCheckSuppression(input: DisableApplicationStatusCheckSuppressionInput) async throws -> DisableApplicationStatusCheckSuppressionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableApplicationStatusCheckSuppression")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>(DisableApplicationStatusCheckSuppressionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableApplicationStatusCheckSuppressionOutput>(DisableApplicationStatusCheckSuppressionOutput.httpOutput(from:), DisableApplicationStatusCheckSuppressionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableApplicationStatusCheckSuppressionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableApplicationStatusCheckSuppressionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableApplicationStatusCheckSuppressionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableApplicationStatusCheckSuppressionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableApplicationStatusCheckSuppressionInput, DisableApplicationStatusCheckSuppressionOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableApplicationStatusCheckSuppression")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisableAwsNetworkPerformanceMetricSubscription` operation on the `EC2` service.
     ///
     /// Disables Infrastructure Performance metric subscriptions.
@@ -31719,6 +32206,76 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateApplicationStatusCheck` operation on the `EC2` service.
+    ///
+    /// Disassociates an application status check from instances or [tags](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html). After disassociation, health monitoring stops for the affected instances. The following rules apply:
+    ///
+    /// * You must specify either TargetTagAssociations or InstanceIds, but not both. Specifying both results in an InvalidParameterCombination error.
+    ///
+    /// * The application status check must already exist and belong to your account.
+    ///
+    /// * Tag keys must not be blank.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationStatusCheckInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationStatusCheckOutput`)
+    public func disassociateApplicationStatusCheck(input: DisassociateApplicationStatusCheckInput) async throws -> DisassociateApplicationStatusCheckOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateApplicationStatusCheck")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>(DisassociateApplicationStatusCheckInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApplicationStatusCheckOutput>(DisassociateApplicationStatusCheckOutput.httpOutput(from:), DisassociateApplicationStatusCheckOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationStatusCheckOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateApplicationStatusCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateApplicationStatusCheckInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateApplicationStatusCheckInput, DisassociateApplicationStatusCheckOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateApplicationStatusCheck")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateCapacityReservationBillingOwner` operation on the `EC2` service.
     ///
     /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
@@ -32920,6 +33477,76 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableAllowedImagesSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableApplicationStatusCheckSuppression` operation on the `EC2` service.
+    ///
+    /// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the instance-level application status. The following rules apply:
+    ///
+    /// * Maximum 100 instance IDs per request.
+    ///
+    /// * Use DisableApplicationStatusCheckSuppression to resume normal health check reporting.
+    ///
+    /// * If you do not specify DurationSeconds, suppression continues indefinitely until you call DisableApplicationStatusCheckSuppression.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EnableApplicationStatusCheckSuppressionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EnableApplicationStatusCheckSuppressionOutput`)
+    public func enableApplicationStatusCheckSuppression(input: EnableApplicationStatusCheckSuppressionInput) async throws -> EnableApplicationStatusCheckSuppressionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableApplicationStatusCheckSuppression")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>(EnableApplicationStatusCheckSuppressionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableApplicationStatusCheckSuppressionOutput>(EnableApplicationStatusCheckSuppressionOutput.httpOutput(from:), EnableApplicationStatusCheckSuppressionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableApplicationStatusCheckSuppressionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableApplicationStatusCheckSuppressionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableApplicationStatusCheckSuppressionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableApplicationStatusCheckSuppressionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableApplicationStatusCheckSuppressionInput, EnableApplicationStatusCheckSuppressionOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableApplicationStatusCheckSuppression")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -39785,6 +40412,74 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyApplicationStatusCheck` operation on the `EC2` service.
+    ///
+    /// Modifies an existing application status check. You can update the protocol, port, path, thresholds, and other configuration settings. The following rules apply:
+    ///
+    /// * The application status check must exist and belong to your account.
+    ///
+    /// * Changes take effect on the next health check interval.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyApplicationStatusCheckInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyApplicationStatusCheckOutput`)
+    public func modifyApplicationStatusCheck(input: ModifyApplicationStatusCheckInput) async throws -> ModifyApplicationStatusCheckOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyApplicationStatusCheck")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>(ModifyApplicationStatusCheckInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyApplicationStatusCheckOutput>(ModifyApplicationStatusCheckOutput.httpOutput(from:), ModifyApplicationStatusCheckOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyApplicationStatusCheckOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyApplicationStatusCheckOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyApplicationStatusCheckInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyApplicationStatusCheckInput, ModifyApplicationStatusCheckOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyApplicationStatusCheck")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyAvailabilityZoneGroup` operation on the `EC2` service.
     ///
     /// Changes the opt-in status of the specified zone group for your account.
@@ -45153,7 +45848,7 @@ extension EC2Client {
 
     /// Performs the `ProvisionByoipCidr` operation on the `EC2` service.
     ///
-    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see [Onboard your address range](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/byoip-onboard.html).
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For the Amazon Web Services GovCloud (US) Regions, authorize only ASN 8987. For the Amazon Web Services European Sovereign Cloud, authorize ASNs 16509 and 214101. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see [Onboard your address range](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/byoip-onboard.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ProvisionByoipCidrInput`)
     ///

@@ -3167,38 +3167,27 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    public enum MarketSegment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case enterprise
-        case large
-        case medium
-        case micro
-        case small
-        case sdkUnknown(Swift.String)
+    /// The address information for a lead customer, including city, state or region, postal code, and country code.
+    public struct LeadAddress: Swift.Sendable {
+        /// The city of the lead customer's address.
+        public var city: Swift.String?
+        /// The country code of the lead customer's address.
+        public var countryCode: Swift.String?
+        /// The postal code of the lead customer's address.
+        public var postalCode: Swift.String?
+        /// The state or region of the lead customer's address.
+        public var stateOrRegion: Swift.String?
 
-        public static var allCases: [MarketSegment] {
-            return [
-                .enterprise,
-                .large,
-                .medium,
-                .micro,
-                .small
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .enterprise: return "Enterprise"
-            case .large: return "Large"
-            case .medium: return "Medium"
-            case .micro: return "Micro"
-            case .small: return "Small"
-            case let .sdkUnknown(s): return s
-            }
+        public init(
+            city: Swift.String? = nil,
+            countryCode: Swift.String? = nil,
+            postalCode: Swift.String? = nil,
+            stateOrRegion: Swift.String? = nil
+        ) {
+            self.city = city
+            self.countryCode = countryCode
+            self.postalCode = postalCode
+            self.stateOrRegion = stateOrRegion
         }
     }
 }
@@ -3207,27 +3196,26 @@ extension PartnerCentralSellingClientTypes {
 
     /// Contains detailed information about the customer associated with the lead, including company details, industry classification, and AWS maturity level. This information helps qualify and categorize the lead for appropriate engagement strategies.
     public struct LeadCustomer: Swift.Sendable {
-        /// An object that contains an Address object's subset of fields.
-        /// This member is required.
-        public var address: PartnerCentralSellingClientTypes.AddressSummary?
+        /// The address information for the lead customer.
+        public var address: PartnerCentralSellingClientTypes.LeadAddress?
         /// Indicates the customer's level of experience and adoption with AWS services. This assessment helps determine the appropriate engagement approach and solution complexity.
         public var awsMaturity: Swift.String?
         /// The name of the lead customer's company. This field is essential for identifying and tracking the customer organization associated with the lead.
         /// This member is required.
         public var companyName: Swift.String?
         /// Specifies the industry sector to which the lead customer's company belongs. This categorization helps in understanding the customer's business context and tailoring appropriate solutions.
-        public var industry: PartnerCentralSellingClientTypes.Industry?
+        public var industry: Swift.String?
         /// Specifies the market segment classification of the lead customer, such as enterprise, mid-market, or small business. This segmentation helps in targeting appropriate solutions and engagement strategies.
-        public var marketSegment: PartnerCentralSellingClientTypes.MarketSegment?
+        public var marketSegment: Swift.String?
         /// The website URL of the lead customer's company. This provides additional context about the customer organization and helps verify company legitimacy and size.
         public var websiteUrl: Swift.String?
 
         public init(
-            address: PartnerCentralSellingClientTypes.AddressSummary? = nil,
+            address: PartnerCentralSellingClientTypes.LeadAddress? = nil,
             awsMaturity: Swift.String? = nil,
             companyName: Swift.String? = nil,
-            industry: PartnerCentralSellingClientTypes.Industry? = nil,
-            marketSegment: PartnerCentralSellingClientTypes.MarketSegment? = nil,
+            industry: Swift.String? = nil,
+            marketSegment: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
         ) {
             self.address = address
@@ -3300,18 +3288,14 @@ extension PartnerCentralSellingClientTypes {
         /// This member is required.
         public var contact: PartnerCentralSellingClientTypes.LeadContact?
         /// Describes the action taken by the customer during or as a result of the interaction, such as requesting information, scheduling a meeting, or expressing interest in a solution.
-        /// This member is required.
         public var customerAction: Swift.String?
         /// The date and time when the lead interaction occurred, in ISO 8601 format (UTC). This timestamp helps track the chronology of lead engagement activities.
         public var interactionDate: Foundation.Date?
         /// The unique identifier of the specific source that generated the lead interaction. This ID provides traceability back to the original lead generation activity.
-        /// This member is required.
         public var sourceId: Swift.String?
         /// The descriptive name of the source that generated the lead interaction, providing a human-readable identifier for the lead generation channel or activity.
-        /// This member is required.
         public var sourceName: Swift.String?
         /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", "Referral", or "Campaign". This categorization helps track lead generation effectiveness across different channels.
-        /// This member is required.
         public var sourceType: Swift.String?
         /// Describes the specific use case or business scenario discussed during the lead interaction. This helps categorize the customer's interests and potential solutions.
         public var usecase: Swift.String?
@@ -3319,11 +3303,11 @@ extension PartnerCentralSellingClientTypes {
         public init(
             businessProblem: Swift.String? = nil,
             contact: PartnerCentralSellingClientTypes.LeadContact? = nil,
-            customerAction: Swift.String? = nil,
+            customerAction: Swift.String? = "",
             interactionDate: Foundation.Date? = nil,
-            sourceId: Swift.String? = nil,
-            sourceName: Swift.String? = nil,
-            sourceType: Swift.String? = nil,
+            sourceId: Swift.String? = "",
+            sourceName: Swift.String? = "",
+            sourceType: Swift.String? = "",
             usecase: Swift.String? = nil
         ) {
             self.businessProblem = businessProblem
@@ -3638,10 +3622,8 @@ public struct CreateEngagementInput: Swift.Sendable {
     /// The Contexts field is a required array of objects, with a maximum of 5 contexts allowed, specifying detailed information about customer projects associated with the Engagement. Each context object contains a Type field indicating the context type, which must be CustomerProject in this version, and a Payload field containing the CustomerProject details. The CustomerProject object is composed of two main components: Customer and Project. The Customer object includes information such as CompanyName, WebsiteUrl, Industry, and CountryCode, providing essential details about the customer. The Project object contains Title, BusinessProblem, and TargetCompletionDate, offering insights into the specific project associated with the customer. This structure allows comprehensive context to be included within the Engagement, facilitating effective collaboration between parties by providing relevant customer and project information.
     public var contexts: [PartnerCentralSellingClientTypes.EngagementContextDetails]?
     /// Provides a description of the Engagement.
-    /// This member is required.
     public var description: Swift.String?
     /// Specifies the title of the Engagement.
-    /// This member is required.
     public var title: Swift.String?
 
     public init(
@@ -4571,21 +4553,20 @@ extension PartnerCentralSellingClientTypes {
         /// This member is required.
         public var companyName: Swift.String?
         /// The country code indicating the geographic location of the customer company. This information helps partners understand regional requirements and assess their ability to serve the customer effectively.
-        /// This member is required.
-        public var countryCode: PartnerCentralSellingClientTypes.CountryCode?
+        public var countryCode: Swift.String?
         /// Specifies the industry sector of the customer company associated with the lead invitation. This categorization helps partners understand the customer's business context and assess solution fit.
-        public var industry: PartnerCentralSellingClientTypes.Industry?
+        public var industry: Swift.String?
         /// Specifies the market segment classification of the customer, such as enterprise, mid-market, or small business. This segmentation helps partners determine the appropriate solution complexity and engagement strategy.
-        public var marketSegment: PartnerCentralSellingClientTypes.MarketSegment?
+        public var marketSegment: Swift.String?
         /// The website URL of the customer company. This provides additional context about the customer organization and helps partners verify company details and assess business size and legitimacy.
         public var websiteUrl: Swift.String?
 
         public init(
             awsMaturity: Swift.String? = nil,
             companyName: Swift.String? = nil,
-            countryCode: PartnerCentralSellingClientTypes.CountryCode? = nil,
-            industry: PartnerCentralSellingClientTypes.Industry? = nil,
-            marketSegment: PartnerCentralSellingClientTypes.MarketSegment? = nil,
+            countryCode: Swift.String? = "",
+            industry: Swift.String? = nil,
+            marketSegment: Swift.String? = nil,
             websiteUrl: Swift.String? = nil
         ) {
             self.awsMaturity = awsMaturity
@@ -4606,22 +4587,19 @@ extension PartnerCentralSellingClientTypes {
         /// This member is required.
         public var contactBusinessTitle: Swift.String?
         /// The unique identifier of the specific source that generated the lead interaction. This provides traceability to the original lead generation activity for reference and follow-up purposes.
-        /// This member is required.
         public var sourceId: Swift.String?
         /// The descriptive name of the source that generated the lead interaction. This human-readable identifier helps partners understand the specific lead generation channel or campaign that created the opportunity.
-        /// This member is required.
         public var sourceName: Swift.String?
         /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", or "Campaign". This helps partners understand the lead generation channel and assess lead quality based on the source type.
-        /// This member is required.
         public var sourceType: Swift.String?
         /// Describes the specific use case or business scenario associated with the lead interaction. This information helps partners understand the customer's interests and potential solution requirements.
         public var usecase: Swift.String?
 
         public init(
             contactBusinessTitle: Swift.String? = nil,
-            sourceId: Swift.String? = nil,
-            sourceName: Swift.String? = nil,
-            sourceType: Swift.String? = nil,
+            sourceId: Swift.String? = "",
+            sourceName: Swift.String? = "",
+            sourceType: Swift.String? = "",
             usecase: Swift.String? = nil
         ) {
             self.contactBusinessTitle = contactBusinessTitle
@@ -4908,6 +4886,44 @@ public struct GetEngagementInvitationInput: Swift.Sendable {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// A subset of prospecting result data visible to invitation receivers. It includes customer account details and AI-generated insights.
+    public struct InvitationProspectingResultAws: Swift.Sendable {
+        /// The prospected customer account details, including geographic classification, industry segmentation, company size, and program eligibility.
+        public var customer: PartnerCentralSellingClientTypes.ProspectingResultCustomer?
+        /// The AI-generated insights from the prospecting analysis, including marketplace engagement scoring, solution fit assessments, and solution categorization.
+        public var insights: PartnerCentralSellingClientTypes.ProspectingInsights?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.ProspectingResultCustomer? = nil,
+            insights: PartnerCentralSellingClientTypes.ProspectingInsights? = nil
+        ) {
+            self.customer = customer
+            self.insights = insights
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains enrichment data for engagement invitations. You can view propensity scores, program eligibility, and lead readiness insights directly in the invitation, before you take action on the invitation.
+    public struct EnrichmentContext: Swift.Sendable {
+        /// The AI-generated lead readiness score for this lead. Use this score to assess lead quality and prioritize engagement efforts.
+        public var leadInsights: PartnerCentralSellingClientTypes.LeadInsights?
+        /// The customer account data and propensity insights for the prospected account. It includes geographic, industry, and segment classifications, along with engagement and solution scoring.
+        public var prospectingResultAws: PartnerCentralSellingClientTypes.InvitationProspectingResultAws?
+
+        public init(
+            leadInsights: PartnerCentralSellingClientTypes.LeadInsights? = nil,
+            prospectingResultAws: PartnerCentralSellingClientTypes.InvitationProspectingResultAws? = nil
+        ) {
+            self.leadInsights = leadInsights
+            self.prospectingResultAws = prospectingResultAws
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// The EngagementMemberSummary provides a snapshot of essential information about participants in an AWS Partner Central Engagement. This compact data structure encapsulates key details of each member, facilitating efficient collaboration and management within the Engagement.
     public struct EngagementMemberSummary: Swift.Sendable {
         /// The official name of the member's company or organization.
@@ -5001,6 +5017,8 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
     public var engagementId: Swift.String?
     /// The title of the engagement invitation, summarizing the purpose or objectives of the opportunity shared by AWS.
     public var engagementTitle: Swift.String?
+    /// The enrichment data for the engagement associated with this invitation. You can view propensity scores, program eligibility, and lead readiness assessments before taking action on the invitation.
+    public var enrichmentContext: PartnerCentralSellingClientTypes.EnrichmentContext?
     /// A list of active members currently part of the Engagement. This array contains a maximum of 10 members, each represented by an object with the following properties.
     ///
     /// * CompanyName: The name of the member's company.
@@ -5037,6 +5055,7 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
         engagementDescription: Swift.String? = nil,
         engagementId: Swift.String? = nil,
         engagementTitle: Swift.String? = nil,
+        enrichmentContext: PartnerCentralSellingClientTypes.EnrichmentContext? = nil,
         existingMembers: [PartnerCentralSellingClientTypes.EngagementMemberSummary]? = nil,
         expirationDate: Foundation.Date? = nil,
         id: Swift.String? = nil,
@@ -5055,6 +5074,7 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
         self.engagementDescription = engagementDescription
         self.engagementId = engagementId
         self.engagementTitle = engagementTitle
+        self.enrichmentContext = enrichmentContext
         self.existingMembers = existingMembers
         self.expirationDate = expirationDate
         self.id = id
