@@ -8173,6 +8173,42 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The source identifying the HTTP connector integration.
+    public struct HttpConnectorSource: Swift.Sendable {
+        /// The identifier for the HTTP connector integration.
+        /// This member is required.
+        public var connectorId: Swift.String?
+
+        public init(
+            connectorId: Swift.String? = nil
+        ) {
+            self.connectorId = connectorId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration for an HTTP connector target. Use this configuration when you want to route HTTP requests through a managed connector.
+    public struct HttpConnectorTargetConfiguration: Swift.Sendable {
+        /// The resource parameters for this connector (for example, memoryId). The service validates these parameters against the request path at runtime.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The source configuration identifying which HTTP connector to use.
+        /// This member is required.
+        public var source: BedrockAgentCoreControlClientTypes.HttpConnectorSource?
+
+        public init(
+            parameters: [Swift.String: Swift.String]? = nil,
+            source: BedrockAgentCoreControlClientTypes.HttpConnectorSource? = nil
+        ) {
+            self.parameters = parameters
+            self.source = source
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum PassthroughProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case a2a
         case custom
@@ -8271,6 +8307,8 @@ extension BedrockAgentCoreControlClientTypes {
         case agentcoreruntime(BedrockAgentCoreControlClientTypes.RuntimeTargetConfiguration)
         /// The passthrough configuration for the HTTP target. A passthrough target forwards requests directly to an external HTTP endpoint.
         case passthrough(BedrockAgentCoreControlClientTypes.PassthroughTargetConfiguration)
+        /// The connector-based configuration for the HTTP target. Use this configuration when you want to route HTTP requests through a managed connector.
+        case connector(BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8988,6 +9026,7 @@ extension BedrockAgentCoreControlClientTypes {
         case agentcoreRuntime
         case apiGateway
         case connector
+        case httpConnector
         case lambda
         case mcpServer
         case openApiSchema
@@ -9001,6 +9040,7 @@ extension BedrockAgentCoreControlClientTypes {
                 .agentcoreRuntime,
                 .apiGateway,
                 .connector,
+                .httpConnector,
                 .lambda,
                 .mcpServer,
                 .openApiSchema,
@@ -9020,6 +9060,7 @@ extension BedrockAgentCoreControlClientTypes {
             case .agentcoreRuntime: return "AGENTCORE_RUNTIME"
             case .apiGateway: return "API_GATEWAY"
             case .connector: return "CONNECTOR"
+            case .httpConnector: return "HTTP_CONNECTOR"
             case .lambda: return "LAMBDA"
             case .mcpServer: return "MCP_SERVER"
             case .openApiSchema: return "OPEN_API_SCHEMA"
@@ -32719,6 +32760,38 @@ extension BedrockAgentCoreControlClientTypes.HttpApiSchemaConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.HttpConnectorSource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HttpConnectorSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorId"].write(value.connectorId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HttpConnectorSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HttpConnectorSource()
+        value.connectorId = try reader["connectorId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["source"].write(value.source, with: BedrockAgentCoreControlClientTypes.HttpConnectorSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration()
+        value.source = try reader["source"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HttpConnectorSource.read(from:))
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.HttpTargetConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HttpTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -32726,6 +32799,8 @@ extension BedrockAgentCoreControlClientTypes.HttpTargetConfiguration {
         switch value {
             case let .agentcoreruntime(agentcoreruntime):
                 try writer["agentcoreRuntime"].write(agentcoreruntime, with: BedrockAgentCoreControlClientTypes.RuntimeTargetConfiguration.write(value:to:))
+            case let .connector(connector):
+                try writer["connector"].write(connector, with: BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration.write(value:to:))
             case let .passthrough(passthrough):
                 try writer["passthrough"].write(passthrough, with: BedrockAgentCoreControlClientTypes.PassthroughTargetConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -32741,6 +32816,8 @@ extension BedrockAgentCoreControlClientTypes.HttpTargetConfiguration {
                 return .agentcoreruntime(try reader["agentcoreRuntime"].read(with: BedrockAgentCoreControlClientTypes.RuntimeTargetConfiguration.read(from:)))
             case "passthrough":
                 return .passthrough(try reader["passthrough"].read(with: BedrockAgentCoreControlClientTypes.PassthroughTargetConfiguration.read(from:)))
+            case "connector":
+                return .connector(try reader["connector"].read(with: BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

@@ -537,10 +537,13 @@ extension ACMPCAClientTypes {
         case mlDsa87
         case sha256withecdsa
         case sha256withrsa
+        case sha256withrsaPss
         case sha384withecdsa
         case sha384withrsa
+        case sha384withrsaPss
         case sha512withecdsa
         case sha512withrsa
+        case sha512withrsaPss
         case sm3withsm2
         case sdkUnknown(Swift.String)
 
@@ -551,10 +554,13 @@ extension ACMPCAClientTypes {
                 .mlDsa87,
                 .sha256withecdsa,
                 .sha256withrsa,
+                .sha256withrsaPss,
                 .sha384withecdsa,
                 .sha384withrsa,
+                .sha384withrsaPss,
                 .sha512withecdsa,
                 .sha512withrsa,
+                .sha512withrsaPss,
                 .sm3withsm2
             ]
         }
@@ -571,10 +577,13 @@ extension ACMPCAClientTypes {
             case .mlDsa87: return "ML_DSA_87"
             case .sha256withecdsa: return "SHA256WITHECDSA"
             case .sha256withrsa: return "SHA256WITHRSA"
+            case .sha256withrsaPss: return "SHA256WITHRSA_PSS"
             case .sha384withecdsa: return "SHA384WITHECDSA"
             case .sha384withrsa: return "SHA384WITHRSA"
+            case .sha384withrsaPss: return "SHA384WITHRSA_PSS"
             case .sha512withecdsa: return "SHA512WITHECDSA"
             case .sha512withrsa: return "SHA512WITHRSA"
+            case .sha512withrsaPss: return "SHA512WITHRSA_PSS"
             case .sm3withsm2: return "SM3WITHSM2"
             case let .sdkUnknown(s): return s
             }
@@ -591,7 +600,7 @@ extension ACMPCAClientTypes {
         /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates when it issues a certificate. When you create a subordinate CA, you must use a key algorithm supported by the parent CA.
         /// This member is required.
         public var keyAlgorithm: ACMPCAClientTypes.KeyAlgorithm?
-        /// Name of the algorithm your private CA uses to sign certificate requests. This parameter should not be confused with the SigningAlgorithm parameter used to sign certificates when they are issued.
+        /// Name of the algorithm your private CA uses to sign certificate requests. This parameter should not be confused with the SigningAlgorithm parameter of the IssueCertificate API action, which is used to sign certificates when they are issued.
         /// This member is required.
         public var signingAlgorithm: ACMPCAClientTypes.SigningAlgorithm?
         /// Structure that contains X.500 distinguished name information for your private CA.
@@ -677,7 +686,7 @@ extension ACMPCAClientTypes {
 
     /// Contains configuration information for the default behavior of the CRL Distribution Point (CDP) extension in certificates issued by your CA. This extension contains a link to download the CRL, so you can check whether a certificate has been revoked. To choose whether you want this extension omitted or not in certificates issued by your CA, you can set the OmitExtension parameter.
     public struct CrlDistributionPointExtensionConfiguration: Swift.Sendable {
-        /// Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true, then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough. Only set this if you have another way to distribute the CRL Distribution Points ffor certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
+        /// Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true, then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough. Only set this if you have another way to distribute the CRL Distribution Points for certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
         /// This member is required.
         public var omitExtension: Swift.Bool?
 
@@ -795,7 +804,7 @@ extension ACMPCAClientTypes {
     public struct CrlConfiguration: Swift.Sendable {
         /// Configures the behavior of the CRL Distribution Point extension for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL.
         public var crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration?
-        /// Specifies whether to create a complete or partitioned CRL. This setting determines the maximum number of certificates that the certificate authority can issue and revoke. For more information, see [Amazon Web Services Private CA quotas].
+        /// Specifies whether to create a complete or partitioned CRL. This setting determines the maximum number of certificates that the certificate authority can issue and revoke. For more information, see [Amazon Web Services Private CA quotas](https://docs.aws.amazon.com/general/latest/gr/pca.html#limits_pca).
         ///
         /// * COMPLETE - The default setting. Amazon Web Services Private CA maintains a single CRL ﬁle for all unexpired certiﬁcates issued by a CA that have been revoked for any reason. Each certiﬁcate that Amazon Web Services Private CA issues is bound to a speciﬁc CRL through its CRL distribution point (CDP) extension, deﬁned in [ RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9).
         ///
@@ -810,9 +819,9 @@ extension ACMPCAClientTypes {
         public var enabled: Swift.Bool?
         /// Validity period of the CRL in days.
         public var expirationInDays: Swift.Int?
-        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) operation. You must specify a [bucket policy](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-policies) that allows Amazon Web Services Private CA to write the CRL to your bucket. The S3BucketName parameter must conform to the [S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
+        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) operation. You must specify a [bucket policy](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies) that allows Amazon Web Services Private CA to write the CRL to your bucket. The S3BucketName parameter must conform to the [S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
         public var s3BucketName: Swift.String?
-        /// Determines whether the CRL will be publicly readable or privately held in the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access. If no value is specified, the default is PUBLIC_READ. Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see [Blocking public access to the S3 bucket](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa).
+        /// Determines whether the CRL will be publicly readable or privately held in the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access. If no value is specified, the default is PUBLIC_READ. Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see [Blocking public access to the S3 bucket](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-bpa).
         public var s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl?
 
         public init(

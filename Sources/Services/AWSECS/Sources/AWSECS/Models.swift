@@ -2705,6 +2705,7 @@ extension ECSClientTypes {
 
     public enum InstanceHealthCheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case acceleratedCompute
+        case agentConnectivity
         case containerRuntime
         case daemon
         case sdkUnknown(Swift.String)
@@ -2712,6 +2713,7 @@ extension ECSClientTypes {
         public static var allCases: [InstanceHealthCheckType] {
             return [
                 .acceleratedCompute,
+                .agentConnectivity,
                 .containerRuntime,
                 .daemon
             ]
@@ -2725,6 +2727,7 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .acceleratedCompute: return "ACCELERATED_COMPUTE"
+            case .agentConnectivity: return "AGENT_CONNECTIVITY"
             case .containerRuntime: return "CONTAINER_RUNTIME"
             case .daemon: return "DAEMON"
             case let .sdkUnknown(s): return s
@@ -13770,6 +13773,7 @@ extension ECSClientTypes {
 
     public enum TaskStopCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case essentialContainerExited
+        case infrastructureHealth
         case serviceSchedulerInitiated
         case spotInterruption
         case taskFailedToStart
@@ -13780,6 +13784,7 @@ extension ECSClientTypes {
         public static var allCases: [TaskStopCode] {
             return [
                 .essentialContainerExited,
+                .infrastructureHealth,
                 .serviceSchedulerInitiated,
                 .spotInterruption,
                 .taskFailedToStart,
@@ -13796,6 +13801,7 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .essentialContainerExited: return "EssentialContainerExited"
+            case .infrastructureHealth: return "InfrastructureHealth"
             case .serviceSchedulerInitiated: return "ServiceSchedulerInitiated"
             case .spotInterruption: return "SpotInterruption"
             case .taskFailedToStart: return "TaskFailedToStart"

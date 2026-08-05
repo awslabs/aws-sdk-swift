@@ -21175,6 +21175,130 @@ public struct GetDataCatalogEncryptionSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct GetDataCatalogExportConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension GlueClientTypes {
+
+    /// The encryption configuration for exported data catalog metadata.
+    public struct ExportEncryptionConfiguration: Swift.Sendable {
+        /// The ARN of the KMS key used to encrypt the exported data.
+        public var kmsKeyArn: Swift.String?
+        /// The server-side encryption algorithm used for the exported data. Valid values are AES256 and aws:kms.
+        public var sseAlgorithm: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            sseAlgorithm: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The export setting for the data catalog.
+    public enum ExportSetting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportSetting] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The current status of the data catalog export.
+    public enum ExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDataCatalogExportConfigurationOutput: Swift.Sendable {
+    /// The timestamp at which the export configuration was created.
+    public var createdAt: Foundation.Date?
+    /// The encryption configuration for the exported data.
+    public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
+    /// The export setting for the data catalog. Valid values are ENABLED and DISABLED.
+    public var exportSetting: GlueClientTypes.ExportSetting?
+    /// The ARN of the S3 Tables bucket where catalog metadata is exported.
+    public var s3TableBucketArn: Swift.String?
+    /// The current status of the export. Valid values are ENABLING, ENABLED, DISABLING, DISABLED, and FAILED.
+    public var status: GlueClientTypes.ExportStatus?
+    /// The timestamp at which the export configuration was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
+        exportSetting: GlueClientTypes.ExportSetting? = nil,
+        s3TableBucketArn: Swift.String? = nil,
+        status: GlueClientTypes.ExportStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.encryptionConfiguration = encryptionConfiguration
+        self.exportSetting = exportSetting
+        self.s3TableBucketArn = s3TableBucketArn
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetDataflowGraphInput: Swift.Sendable {
     /// The Python script to transform.
     public var pythonScript: Swift.String?
@@ -28119,6 +28243,41 @@ public struct PutDataCatalogEncryptionSettingsInput: Swift.Sendable {
 public struct PutDataCatalogEncryptionSettingsOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct PutDataCatalogExportConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The encryption configuration for the exported data. If not specified, the default encryption settings are used.
+    public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
+    /// The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop exporting. This field is required.
+    /// This member is required.
+    public var exportSetting: GlueClientTypes.ExportSetting?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
+        exportSetting: GlueClientTypes.ExportSetting? = nil
+    ) {
+        self.clientToken = clientToken
+        self.encryptionConfiguration = encryptionConfiguration
+        self.exportSetting = exportSetting
+    }
+}
+
+public struct PutDataCatalogExportConfigurationOutput: Swift.Sendable {
+    /// The encryption configuration for the exported data.
+    public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
+    /// The export setting for the data catalog.
+    public var exportSetting: GlueClientTypes.ExportSetting?
+
+    public init(
+        encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration? = nil,
+        exportSetting: GlueClientTypes.ExportSetting? = nil
+    ) {
+        self.encryptionConfiguration = encryptionConfiguration
+        self.exportSetting = exportSetting
+    }
 }
 
 public struct PutDataQualityProfileAnnotationInput: Swift.Sendable {

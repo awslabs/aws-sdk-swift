@@ -2094,8 +2094,8 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The job attachment settings. These are the Amazon S3 bucket name and the Amazon S3 prefix.
-    public struct JobAttachmentSettings: Swift.Sendable {
+    /// The job attachment settings returned to workers for a job. These are the Amazon S3 bucket name and the Amazon S3 prefix.
+    public struct JobDetailsJobAttachmentSettings: Swift.Sendable {
         /// The root prefix.
         /// This member is required.
         public var rootPrefix: Swift.String?
@@ -2245,7 +2245,7 @@ extension DeadlineClientTypes {
     /// The job details for a specific job.
     public struct JobDetailsEntity: Swift.Sendable {
         /// The job attachment settings.
-        public var jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings?
+        public var jobAttachmentSettings: DeadlineClientTypes.JobDetailsJobAttachmentSettings?
         /// The job ID.
         /// This member is required.
         public var jobId: Swift.String?
@@ -2265,7 +2265,7 @@ extension DeadlineClientTypes {
         public var schemaVersion: Swift.String?
 
         public init(
-            jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings? = nil,
+            jobAttachmentSettings: DeadlineClientTypes.JobDetailsJobAttachmentSettings? = nil,
             jobId: Swift.String? = nil,
             jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
             logGroupName: Swift.String? = nil,
@@ -6411,6 +6411,27 @@ extension DeadlineClientTypes {
             case .stopSchedulingAndCompleteTasks: return "STOP_SCHEDULING_AND_COMPLETE_TASKS"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The job attachment settings. These are the Amazon S3 bucket name and the Amazon S3 prefix.
+    public struct JobAttachmentSettings: Swift.Sendable {
+        /// The root prefix.
+        /// This member is required.
+        public var rootPrefix: Swift.String?
+        /// The Amazon S3 bucket name.
+        /// This member is required.
+        public var s3BucketName: Swift.String?
+
+        public init(
+            rootPrefix: Swift.String? = nil,
+            s3BucketName: Swift.String? = nil
+        ) {
+            self.rootPrefix = rootPrefix
+            self.s3BucketName = s3BucketName
         }
     }
 }
@@ -11976,12 +11997,14 @@ extension DeadlineClientTypes {
     public enum UsageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compute
         case license
+        case persistentVolume
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UsageType] {
             return [
                 .compute,
-                .license
+                .license,
+                .persistentVolume
             ]
         }
 
@@ -11994,6 +12017,7 @@ extension DeadlineClientTypes {
             switch self {
             case .compute: return "COMPUTE"
             case .license: return "LICENSE"
+            case .persistentVolume: return "PERSISTENT_VOLUME"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22235,7 +22259,7 @@ extension DeadlineClientTypes.JobDetailsEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.JobDetailsEntity()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
-        value.jobAttachmentSettings = try reader["jobAttachmentSettings"].readIfPresent(with: DeadlineClientTypes.JobAttachmentSettings.read(from:))
+        value.jobAttachmentSettings = try reader["jobAttachmentSettings"].readIfPresent(with: DeadlineClientTypes.JobDetailsJobAttachmentSettings.read(from:))
         value.jobRunAsUser = try reader["jobRunAsUser"].readIfPresent(with: DeadlineClientTypes.JobRunAsUser.read(from:))
         value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         value.queueRoleArn = try reader["queueRoleArn"].readIfPresent()
@@ -22263,6 +22287,17 @@ extension DeadlineClientTypes.JobDetailsIdentifiers {
     static func write(value: DeadlineClientTypes.JobDetailsIdentifiers?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobId"].write(value.jobId)
+    }
+}
+
+extension DeadlineClientTypes.JobDetailsJobAttachmentSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.JobDetailsJobAttachmentSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.JobDetailsJobAttachmentSettings()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
+        value.rootPrefix = try reader["rootPrefix"].readIfPresent() ?? ""
+        return value
     }
 }
 
