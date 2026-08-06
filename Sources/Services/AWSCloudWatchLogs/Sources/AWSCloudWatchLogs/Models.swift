@@ -1873,7 +1873,7 @@ public struct CreateLookupTableInput: Swift.Sendable {
     /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long.
     /// This member is required.
     public var lookupTableName: Swift.String?
-    /// The ID of a completed CloudWatch Logs query whose results populate the lookup table. You must specify either tableBody or queryId, but not both.
+    /// The ID of a completed or cancelled CloudWatch Logs query whose results populate the lookup table. A cancelled query populates the table with the partial results that were available when the query was stopped. You must specify either tableBody or queryId, but not both.
     public var queryId: Swift.String?
     /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
     public var tableBody: Swift.String?
@@ -3207,7 +3207,55 @@ public struct DescribeExportTasksOutput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    public enum IndexCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case custom
+        case `default`
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndexCategory] {
+            return [
+                .auto,
+                .custom,
+                .default,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .custom: return "CUSTOM"
+            case .default: return "DEFAULT"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeFieldIndexesInput: Swift.Sendable {
+    /// The index categories to return. The following values are supported:
+    ///
+    /// * DEFAULT: Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format.
+    ///
+    /// * CUSTOM: Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group.
+    ///
+    /// * AUTO: Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy.
+    ///
+    /// * INACTIVE: Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries.
+    ///
+    ///
+    /// If you omit this parameter, the response includes the DEFAULT, CUSTOM, and INACTIVE categories. For more information about automatically indexed fields and using the AUTO category, see [Automatically indexed fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Automatic.html).
+    public var indexCategories: [CloudWatchLogsClientTypes.IndexCategory]?
     /// An array containing the names or ARNs of the log groups that you want to retrieve field indexes for.
     /// This member is required.
     public var logGroupIdentifiers: [Swift.String]?
@@ -3215,9 +3263,11 @@ public struct DescribeFieldIndexesInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
+        indexCategories: [CloudWatchLogsClientTypes.IndexCategory]? = nil,
         logGroupIdentifiers: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.indexCategories = indexCategories
         self.logGroupIdentifiers = logGroupIdentifiers
         self.nextToken = nextToken
     }
@@ -3260,6 +3310,19 @@ extension CloudWatchLogsClientTypes {
         public var fieldIndexName: Swift.String?
         /// The time and date of the earliest log event that matches this field index, after the index policy that contains it was created.
         public var firstEventTime: Swift.Int?
+        /// The category of the field index:
+        ///
+        /// * DEFAULT: Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format.
+        ///
+        /// * CUSTOM: Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group.
+        ///
+        /// * AUTO: Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy.
+        ///
+        /// * INACTIVE: Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries.
+        ///
+        ///
+        /// For more information about automatically indexed fields, see [Automatically indexed fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Automatic.html).
+        public var indexCategory: CloudWatchLogsClientTypes.IndexCategory?
         /// The time and date of the most recent log event that matches this field index.
         public var lastEventTime: Swift.Int?
         /// The most recent time that CloudWatch Logs scanned ingested log events to search for this field index to improve the speed of future CloudWatch Logs Insights queries that search for this field index.
@@ -3272,6 +3335,7 @@ extension CloudWatchLogsClientTypes {
         public init(
             fieldIndexName: Swift.String? = nil,
             firstEventTime: Swift.Int? = nil,
+            indexCategory: CloudWatchLogsClientTypes.IndexCategory? = nil,
             lastEventTime: Swift.Int? = nil,
             lastScanTime: Swift.Int? = nil,
             logGroupIdentifier: Swift.String? = nil,
@@ -3279,6 +3343,7 @@ extension CloudWatchLogsClientTypes {
         ) {
             self.fieldIndexName = fieldIndexName
             self.firstEventTime = firstEventTime
+            self.indexCategory = indexCategory
             self.lastEventTime = lastEventTime
             self.lastScanTime = lastScanTime
             self.logGroupIdentifier = logGroupIdentifier
@@ -4860,7 +4925,7 @@ public struct FilterLogEventsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used. Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
     public var startFromHead: Swift.Bool?
-    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned. Set startTime explicitly to reduce the chances of empty pages in the response.
     public var startTime: Swift.Int?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
     public var unmask: Swift.Bool?
@@ -5531,7 +5596,7 @@ public struct GetLogEventsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead.
     public var startFromHead: Swift.Bool?
-    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
+    /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included. Set startTime explicitly to reduce the chances of empty pages in the response.
     public var startTime: Swift.Int?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
     public var unmask: Swift.Bool?
@@ -8022,6 +8087,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     public var deliverySourceConfiguration: [Swift.String: Swift.String]?
     /// Defines the type of log that the source is sending.
     ///
+    /// * For Application Load Balancer, the valid values are ALB_ACCESS_LOGS, ALB_CONNECTION_LOGS, and ALB_HEALTH_CHECK_LOGS.
+    ///
     /// * For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.
     ///
     /// * For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.
@@ -9279,7 +9346,7 @@ public struct UpdateLookupTableInput: Swift.Sendable {
     /// The ARN of the lookup table to update.
     /// This member is required.
     public var lookupTableArn: Swift.String?
-    /// The ID of a completed CloudWatch Logs query whose results replace the lookup table content. You must specify either tableBody or queryId, but not both.
+    /// The ID of a completed or cancelled CloudWatch Logs query whose results replace the lookup table content. A cancelled query replaces the content with the partial results that were available when the query was stopped. You must specify either tableBody or queryId, but not both.
     public var queryId: Swift.String?
     /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
     public var tableBody: Swift.String?

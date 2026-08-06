@@ -36,6 +36,11 @@ public struct AssociateBackupVaultMpaApprovalTeamOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteBackupAccessPointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBackupSelectionOutput: Swift.Sendable {
 
     public init() { }
@@ -154,6 +159,50 @@ public struct UpdateGlobalSettingsOutput: Swift.Sendable {
 public struct UpdateRegionSettingsOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension BackupClientTypes {
+
+    public enum AccessPointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleting
+        case disassociated
+        case disassociating
+        case expired
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessPointStatus] {
+            return [
+                .available,
+                .creating,
+                .deleting,
+                .disassociated,
+                .disassociating,
+                .expired,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .disassociated: return "DISASSOCIATED"
+            case .disassociating: return "DISASSOCIATING"
+            case .expired: return "EXPIRED"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension BackupClientTypes {
@@ -492,6 +541,75 @@ public struct AssociateBackupVaultMpaApprovalTeamInput: Swift.Sendable {
 extension AssociateBackupVaultMpaApprovalTeamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "AssociateBackupVaultMpaApprovalTeamInput(backupVaultName: \(Swift.String(describing: backupVaultName)), mpaApprovalTeamArn: \(Swift.String(describing: mpaApprovalTeamArn)), requesterComment: \"CONTENT_REDACTED\")"}
+}
+
+extension BackupClientTypes {
+
+    /// Contains metadata about a backup access point.
+    public struct ListAccessPointsMember: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the backup access point.
+        /// This member is required.
+        public var accessPointArn: Swift.String?
+        /// Metadata for the backup access point. After the backup access point reaches the AVAILABLE status, this map contains S3AccessPointArn and S3AccessPointAlias, which you use with standard Amazon S3 read APIs to access the backup data. For continuous recovery points, this map also contains AccessPointInTime (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time.
+        /// This member is required.
+        public var accessPointMetadata: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the backup vault that contains the recovery point.
+        public var backupVaultArn: Swift.String?
+        /// The name of the backup vault that contains the recovery point.
+        /// This member is required.
+        public var backupVaultName: Swift.String?
+        /// The date and time that the backup access point was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The name of the backup access point.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the recovery point that the backup access point provides access to.
+        /// This member is required.
+        public var recoveryPointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resource that was backed up, such as an Amazon S3 bucket.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The type of Amazon Web Services resource associated with the recovery point. For example, S3 for Amazon Simple Storage Service.
+        /// This member is required.
+        public var resourceType: Swift.String?
+        /// The current status of the backup access point.
+        /// This member is required.
+        public var status: BackupClientTypes.AccessPointStatus?
+        /// A message that provides additional detail about the status of the backup access point, such as the reason a creation or deletion attempt failed.
+        public var statusMessage: Swift.String?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            accessPointMetadata: [Swift.String: Swift.String]? = nil,
+            backupVaultArn: Swift.String? = nil,
+            backupVaultName: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            recoveryPointArn: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            status: BackupClientTypes.AccessPointStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.accessPointMetadata = accessPointMetadata
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.name = name
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension BackupClientTypes.ListAccessPointsMember: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListAccessPointsMember(accessPointArn: \(Swift.String(describing: accessPointArn)), backupVaultArn: \(Swift.String(describing: backupVaultArn)), backupVaultName: \(Swift.String(describing: backupVaultName)), creationTime: \(Swift.String(describing: creationTime)), name: \(Swift.String(describing: name)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceArn: \(Swift.String(describing: resourceArn)), resourceType: \(Swift.String(describing: resourceType)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), accessPointMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -1467,6 +1585,12 @@ extension BackupClientTypes {
 extension BackupClientTypes {
 
     public enum BackupVaultEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessPointAvailable
+        case accessPointCreationFailed
+        case accessPointDeleted
+        case accessPointDeletionFailed
+        case accessPointDisassociated
+        case accessPointExpired
         case backupJobCompleted
         case backupJobExpired
         case backupJobFailed
@@ -1495,6 +1619,12 @@ extension BackupClientTypes {
 
         public static var allCases: [BackupVaultEvent] {
             return [
+                .accessPointAvailable,
+                .accessPointCreationFailed,
+                .accessPointDeleted,
+                .accessPointDeletionFailed,
+                .accessPointDisassociated,
+                .accessPointExpired,
                 .backupJobCompleted,
                 .backupJobExpired,
                 .backupJobFailed,
@@ -1529,6 +1659,12 @@ extension BackupClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessPointAvailable: return "ACCESS_POINT_AVAILABLE"
+            case .accessPointCreationFailed: return "ACCESS_POINT_CREATION_FAILED"
+            case .accessPointDeleted: return "ACCESS_POINT_DELETED"
+            case .accessPointDeletionFailed: return "ACCESS_POINT_DELETION_FAILED"
+            case .accessPointDisassociated: return "ACCESS_POINT_DISASSOCIATED"
+            case .accessPointExpired: return "ACCESS_POINT_EXPIRED"
             case .backupJobCompleted: return "BACKUP_JOB_COMPLETED"
             case .backupJobExpired: return "BACKUP_JOB_EXPIRED"
             case .backupJobFailed: return "BACKUP_JOB_FAILED"
@@ -1676,7 +1812,7 @@ extension BackupClientTypes {
         public var maxRetentionDays: Swift.Int?
         /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
         public var minRetentionDays: Swift.Int?
-        /// The number of recovery points that are stored in a backup vault.
+        /// The number of recovery points that are stored in a backup vault. Recovery point count value displayed in the console can be an approximation.
         public var numberOfRecoveryPoints: Swift.Int
         /// The current state of the vault.
         public var vaultState: BackupClientTypes.VaultState?
@@ -2157,6 +2293,57 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         self.properties.context = context
         self.properties.message = message
         self.properties.type = type
+    }
+}
+
+public struct CreateBackupAccessPointInput: Swift.Sendable {
+    /// Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime.
+    public var accessPointMetadata: [Swift.String: Swift.String]?
+    /// An optional resource-based policy, in JSON format, to apply to the underlying Amazon S3 access point. The policy controls how backup data can be accessed through the access point. If you do not specify a policy, access is governed by the caller's IAM permissions. For more information, see [Configuring IAM policies for using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html) in the Amazon S3 User Guide.
+    public var accessPointPolicy: Swift.String?
+    /// The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your account and Region and cannot conflict with an existing Amazon S3 access point. For more information about access point naming, see [Access points naming rules, restrictions, and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-restrictions-limitations-naming-rules.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE, STOPPED, or COMPLETED state.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+    /// The tags to assign to the backup access point.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accessPointMetadata: [Swift.String: Swift.String]? = nil,
+        accessPointPolicy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.accessPointMetadata = accessPointMetadata
+        self.accessPointPolicy = accessPointPolicy
+        self.name = name
+        self.recoveryPointArn = recoveryPointArn
+        self.tags = tags
+    }
+}
+
+extension CreateBackupAccessPointInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBackupAccessPointInput(accessPointPolicy: \(Swift.String(describing: accessPointPolicy)), name: \(Swift.String(describing: name)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), accessPointMetadata: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateBackupAccessPointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the created backup access point.
+    /// This member is required.
+    public var accessPointArn: Swift.String?
+    /// The current status of the backup access point. A newly created backup access point begins in the CREATING state and becomes usable when it reaches AVAILABLE.
+    /// This member is required.
+    public var status: BackupClientTypes.AccessPointStatus?
+
+    public init(
+        accessPointArn: Swift.String? = nil,
+        status: BackupClientTypes.AccessPointStatus? = nil
+    ) {
+        self.accessPointArn = accessPointArn
+        self.status = status
     }
 }
 
@@ -3182,6 +3369,18 @@ public struct CreateTieringConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteBackupAccessPointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the backup access point to delete.
+    /// This member is required.
+    public var accessPointArn: Swift.String?
+
+    public init(
+        accessPointArn: Swift.String? = nil
+    ) {
+        self.accessPointArn = accessPointArn
+    }
+}
+
 public struct DeleteBackupPlanInput: Swift.Sendable {
     /// Uniquely identifies a backup plan.
     /// This member is required.
@@ -3367,6 +3566,82 @@ public struct DeleteTieringConfigurationInput: Swift.Sendable {
 public struct DeleteTieringConfigurationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DescribeBackupAccessPointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the backup access point to describe.
+    /// This member is required.
+    public var accessPointArn: Swift.String?
+
+    public init(
+        accessPointArn: Swift.String? = nil
+    ) {
+        self.accessPointArn = accessPointArn
+    }
+}
+
+public struct DescribeBackupAccessPointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the backup access point.
+    /// This member is required.
+    public var accessPointArn: Swift.String?
+    /// Metadata for the backup access point. After the backup access point reaches the AVAILABLE status, this map contains S3AccessPointArn and S3AccessPointAlias, which you use with standard Amazon S3 read APIs to access the backup data. For continuous recovery points, this map also contains AccessPointInTime (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time.
+    public var accessPointMetadata: [Swift.String: Swift.String]?
+    /// The Amazon Resource Name (ARN) of the backup vault that contains the recovery point.
+    public var backupVaultArn: Swift.String?
+    /// The name of the backup vault that contains the recovery point.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The date and time that the backup access point was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The name of the backup access point.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the recovery point that the backup access point provides access to.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource that was backed up, such as an Amazon S3 bucket.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The type of Amazon Web Services resource associated with the recovery point. For example, S3 for Amazon Simple Storage Service.
+    /// This member is required.
+    public var resourceType: Swift.String?
+    /// The current status of the backup access point.
+    /// This member is required.
+    public var status: BackupClientTypes.AccessPointStatus?
+    /// A message that provides additional detail about the status of the backup access point, such as the reason a creation or deletion attempt failed.
+    public var statusMessage: Swift.String?
+
+    public init(
+        accessPointArn: Swift.String? = nil,
+        accessPointMetadata: [Swift.String: Swift.String]? = nil,
+        backupVaultArn: Swift.String? = nil,
+        backupVaultName: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        status: BackupClientTypes.AccessPointStatus? = nil,
+        statusMessage: Swift.String? = nil
+    ) {
+        self.accessPointArn = accessPointArn
+        self.accessPointMetadata = accessPointMetadata
+        self.backupVaultArn = backupVaultArn
+        self.backupVaultName = backupVaultName
+        self.creationTime = creationTime
+        self.name = name
+        self.recoveryPointArn = recoveryPointArn
+        self.resourceArn = resourceArn
+        self.resourceType = resourceType
+        self.status = status
+        self.statusMessage = statusMessage
+    }
+}
+
+extension DescribeBackupAccessPointOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeBackupAccessPointOutput(accessPointArn: \(Swift.String(describing: accessPointArn)), backupVaultArn: \(Swift.String(describing: backupVaultArn)), backupVaultName: \(Swift.String(describing: backupVaultName)), creationTime: \(Swift.String(describing: creationTime)), name: \(Swift.String(describing: name)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceArn: \(Swift.String(describing: resourceArn)), resourceType: \(Swift.String(describing: resourceType)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), accessPointMetadata: \"CONTENT_REDACTED\")"}
 }
 
 /// A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
@@ -5815,6 +6090,109 @@ public struct GetTieringConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct ListBackupAccessPointsInput: Swift.Sendable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBackupAccessPointsOutput: Swift.Sendable {
+    /// A list of backup access points, each containing metadata such as its name, ARN, status, and associated recovery point.
+    /// This member is required.
+    public var backupAccessPoints: [BackupClientTypes.ListAccessPointsMember]?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        backupAccessPoints: [BackupClientTypes.ListAccessPointsMember]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.backupAccessPoints = backupAccessPoints
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBackupAccessPointsByRecoveryPointInput: Swift.Sendable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the recovery point whose backup access points you want to list.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recoveryPointArn = recoveryPointArn
+    }
+}
+
+public struct ListBackupAccessPointsByRecoveryPointOutput: Swift.Sendable {
+    /// A list of backup access points, each containing metadata such as its name, ARN, status, and associated recovery point.
+    /// This member is required.
+    public var backupAccessPoints: [BackupClientTypes.ListAccessPointsMember]?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        backupAccessPoints: [BackupClientTypes.ListAccessPointsMember]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.backupAccessPoints = backupAccessPoints
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBackupAccessPointsByResourceInput: Swift.Sendable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource whose backup access points you want to list.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListBackupAccessPointsByResourceOutput: Swift.Sendable {
+    /// A list of backup access points, each containing metadata such as its name, ARN, status, and associated recovery point.
+    /// This member is required.
+    public var backupAccessPoints: [BackupClientTypes.ListAccessPointsMember]?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        backupAccessPoints: [BackupClientTypes.ListAccessPointsMember]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.backupAccessPoints = backupAccessPoints
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListBackupJobsInput: Swift.Sendable {
     /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Organizations management account, passing * returns all jobs across the organization.
     public var byAccountId: Swift.String?
@@ -6965,7 +7343,7 @@ public struct ListRecoveryPointsByLegalHoldOutput: Swift.Sendable {
 }
 
 public struct ListRecoveryPointsByResourceInput: Swift.Sendable {
-    /// This attribute filters recovery points based on ownership. If this is set to TRUE, the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all recovery points associated with the selected resource. Type: Boolean
+    /// This attribute filters recovery points based on ownership. If this is set to TRUE, the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all recovery points associated with the selected resource, except for EBS snapshots copied within the same Region and account. Type: Boolean
     public var managedByAWSBackupOnly: Swift.Bool?
     /// The maximum number of items to be returned. Amazon RDS requires a value of at least 20.
     public var maxResults: Swift.Int?
@@ -9357,6 +9735,13 @@ extension CancelLegalHoldInput {
     }
 }
 
+extension CreateBackupAccessPointInput {
+
+    static func urlPathProvider(_ value: CreateBackupAccessPointInput) -> Swift.String? {
+        return "/backup-access-point/create"
+    }
+}
+
 extension CreateBackupPlanInput {
 
     static func urlPathProvider(_ value: CreateBackupPlanInput) -> Swift.String? {
@@ -9443,6 +9828,16 @@ extension CreateTieringConfigurationInput {
 
     static func urlPathProvider(_ value: CreateTieringConfigurationInput) -> Swift.String? {
         return "/tiering-configurations"
+    }
+}
+
+extension DeleteBackupAccessPointInput {
+
+    static func urlPathProvider(_ value: DeleteBackupAccessPointInput) -> Swift.String? {
+        guard let accessPointArn = value.accessPointArn else {
+            return nil
+        }
+        return "/backup-access-point/delete/\(accessPointArn.urlPercentEncoding())"
     }
 }
 
@@ -9572,6 +9967,16 @@ extension DeleteTieringConfigurationInput {
             return nil
         }
         return "/tiering-configurations/\(tieringConfigurationName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeBackupAccessPointInput {
+
+    static func urlPathProvider(_ value: DescribeBackupAccessPointInput) -> Swift.String? {
+        guard let accessPointArn = value.accessPointArn else {
+            return nil
+        }
+        return "/backup-access-point/\(accessPointArn.urlPercentEncoding())"
     }
 }
 
@@ -10012,6 +10417,81 @@ extension GetTieringConfigurationInput {
             return nil
         }
         return "/tiering-configurations/\(tieringConfigurationName.urlPercentEncoding())"
+    }
+}
+
+extension ListBackupAccessPointsInput {
+
+    static func urlPathProvider(_ value: ListBackupAccessPointsInput) -> Swift.String? {
+        return "/backup-access-point"
+    }
+}
+
+extension ListBackupAccessPointsInput {
+
+    static func queryItemProvider(_ value: ListBackupAccessPointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListBackupAccessPointsByRecoveryPointInput {
+
+    static func urlPathProvider(_ value: ListBackupAccessPointsByRecoveryPointInput) -> Swift.String? {
+        guard let recoveryPointArn = value.recoveryPointArn else {
+            return nil
+        }
+        return "/backup-access-point/recovery-point/\(recoveryPointArn.urlPercentEncoding())"
+    }
+}
+
+extension ListBackupAccessPointsByRecoveryPointInput {
+
+    static func queryItemProvider(_ value: ListBackupAccessPointsByRecoveryPointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListBackupAccessPointsByResourceInput {
+
+    static func urlPathProvider(_ value: ListBackupAccessPointsByResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/backup-access-point/resource/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListBackupAccessPointsByResourceInput {
+
+    static func queryItemProvider(_ value: ListBackupAccessPointsByResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -11301,6 +11781,18 @@ extension AssociateBackupVaultMpaApprovalTeamInput {
     }
 }
 
+extension CreateBackupAccessPointInput {
+
+    static func write(value: CreateBackupAccessPointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessPointMetadata"].writeMap(value.accessPointMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AccessPointPolicy"].write(value.accessPointPolicy)
+        try writer["Name"].write(value.name)
+        try writer["RecoveryPointArn"].write(value.recoveryPointArn)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateBackupPlanInput {
 
     static func write(value: CreateBackupPlanInput?, to writer: SmithyJSON.Writer) throws {
@@ -11657,6 +12149,19 @@ extension CancelLegalHoldOutput {
     }
 }
 
+extension CreateBackupAccessPointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBackupAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateBackupAccessPointOutput()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateBackupPlanOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBackupPlanOutput {
@@ -11819,6 +12324,13 @@ extension CreateTieringConfigurationOutput {
     }
 }
 
+extension DeleteBackupAccessPointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBackupAccessPointOutput {
+        return DeleteBackupAccessPointOutput()
+    }
+}
+
 extension DeleteBackupPlanOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBackupPlanOutput {
@@ -11908,6 +12420,28 @@ extension DeleteTieringConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTieringConfigurationOutput {
         return DeleteTieringConfigurationOutput()
+    }
+}
+
+extension DescribeBackupAccessPointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeBackupAccessPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeBackupAccessPointOutput()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent() ?? ""
+        value.accessPointMetadata = try reader["AccessPointMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
     }
 }
 
@@ -12454,6 +12988,45 @@ extension GetTieringConfigurationOutput {
         let reader = responseReader
         var value = GetTieringConfigurationOutput()
         value.tieringConfiguration = try reader["TieringConfiguration"].readIfPresent(with: BackupClientTypes.TieringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ListBackupAccessPointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBackupAccessPointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBackupAccessPointsOutput()
+        value.backupAccessPoints = try reader["BackupAccessPoints"].readListIfPresent(memberReadingClosure: BackupClientTypes.ListAccessPointsMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListBackupAccessPointsByRecoveryPointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBackupAccessPointsByRecoveryPointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBackupAccessPointsByRecoveryPointOutput()
+        value.backupAccessPoints = try reader["BackupAccessPoints"].readListIfPresent(memberReadingClosure: BackupClientTypes.ListAccessPointsMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListBackupAccessPointsByResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBackupAccessPointsByResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBackupAccessPointsByResourceOutput()
+        value.backupAccessPoints = try reader["BackupAccessPoints"].readListIfPresent(memberReadingClosure: BackupClientTypes.ListAccessPointsMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -13132,6 +13705,27 @@ enum CancelLegalHoldOutputError {
     }
 }
 
+enum CreateBackupAccessPointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateBackupPlanOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13329,6 +13923,24 @@ enum CreateTieringConfigurationOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBackupAccessPointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13534,6 +14146,24 @@ enum DeleteTieringConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeBackupAccessPointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -14074,6 +14704,51 @@ enum GetTieringConfigurationOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBackupAccessPointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBackupAccessPointsByRecoveryPointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBackupAccessPointsByResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15069,11 +15744,11 @@ extension AlreadyExistsException {
     }
 }
 
-extension LimitExceededException {
+extension ConflictException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ConflictException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -15085,11 +15760,11 @@ extension LimitExceededException {
     }
 }
 
-extension ConflictException {
+extension LimitExceededException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = LimitExceededException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -15696,6 +16371,26 @@ extension BackupClientTypes.Lifecycle {
         value.deleteAfterDays = try reader["DeleteAfterDays"].readIfPresent()
         value.optInToArchiveForSupportedResources = try reader["OptInToArchiveForSupportedResources"].readIfPresent()
         value.deleteAfterEvent = try reader["DeleteAfterEvent"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.ListAccessPointsMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ListAccessPointsMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ListAccessPointsMember()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent() ?? ""
+        value.accessPointMetadata = try reader["AccessPointMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }

@@ -571,6 +571,30 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+public struct CreateWhatsAppDatasetInput: Swift.Sendable {
+    /// The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct CreateWhatsAppDatasetOutput: Swift.Sendable {
+    /// The Meta-generated dataset ID, a numeric string of 10 to 20 digits.
+    /// This member is required.
+    public var datasetId: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+    }
+}
+
 extension SocialMessagingClientTypes {
 
     /// The category that classifies the business purpose of a WhatsApp Flow.
@@ -1095,6 +1119,8 @@ extension SocialMessagingClientTypes {
         /// The ARN of the linked WhatsApp Business Account.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
+        public var datasetId: Swift.String?
         /// The event destinations for the linked WhatsApp Business Account.
         /// This member is required.
         public var eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]?
@@ -1121,6 +1147,7 @@ extension SocialMessagingClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            datasetId: Swift.String? = nil,
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
@@ -1131,6 +1158,7 @@ extension SocialMessagingClientTypes {
             wabaName: Swift.String? = nil
         ) {
             self.arn = arn
+            self.datasetId = datasetId
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -1591,6 +1619,8 @@ extension SocialMessagingClientTypes {
         /// The ARN of the linked WhatsApp Business Account.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
+        public var datasetId: Swift.String?
         /// The event destinations for the linked WhatsApp Business Account.
         /// This member is required.
         public var eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]?
@@ -1614,6 +1644,7 @@ extension SocialMessagingClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            datasetId: Swift.String? = nil,
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
@@ -1623,6 +1654,7 @@ extension SocialMessagingClientTypes {
             wabaName: Swift.String? = nil
         ) {
             self.arn = arn
+            self.datasetId = datasetId
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -1996,6 +2028,45 @@ public struct PutWhatsAppBusinessAccountEventDestinationsOutput: Swift.Sendable 
     public init() { }
 }
 
+public struct SendWhatsAppConversionEventInput: Swift.Sendable {
+    /// The Meta-generated dataset ID to send the event to.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The raw Meta Conversions API event payload as a JSON blob. See [Meta's server event parameters](https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/server-event) for the supported format.
+    /// This member is required.
+    public var eventData: Foundation.Data?
+    /// The ID of the WhatsApp Business Account associated with the dataset, formatted as waba-01234567890123456789012345678901.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        eventData: Foundation.Data? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.eventData = eventData
+        self.id = id
+    }
+}
+
+extension SendWhatsAppConversionEventInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendWhatsAppConversionEventInput(datasetId: \(Swift.String(describing: datasetId)), id: \(Swift.String(describing: id)), eventData: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendWhatsAppConversionEventOutput: Swift.Sendable {
+    /// The unique identifier for the conversion event request.
+    /// This member is required.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+    }
+}
+
 public struct UpdateWhatsAppFlowInput: Swift.Sendable {
     /// The updated categories for the Flow.
     public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
@@ -2288,6 +2359,13 @@ extension AssociateWhatsAppBusinessAccountInput {
 
     static func urlPathProvider(_ value: AssociateWhatsAppBusinessAccountInput) -> Swift.String? {
         return "/v1/whatsapp/signup"
+    }
+}
+
+extension CreateWhatsAppDatasetInput {
+
+    static func urlPathProvider(_ value: CreateWhatsAppDatasetInput) -> Swift.String? {
+        return "/v1/whatsapp/waba/dataset"
     }
 }
 
@@ -2755,6 +2833,13 @@ extension PutWhatsAppBusinessAccountEventDestinationsInput {
     }
 }
 
+extension SendWhatsAppConversionEventInput {
+
+    static func urlPathProvider(_ value: SendWhatsAppConversionEventInput) -> Swift.String? {
+        return "/v1/whatsapp/waba/dataset/events"
+    }
+}
+
 extension SendWhatsAppMessageInput {
 
     static func urlPathProvider(_ value: SendWhatsAppMessageInput) -> Swift.String? {
@@ -2803,6 +2888,14 @@ extension AssociateWhatsAppBusinessAccountInput {
         guard let value else { return }
         try writer["setupFinalization"].write(value.setupFinalization, with: SocialMessagingClientTypes.WhatsAppSetupFinalization.write(value:to:))
         try writer["signupCallback"].write(value.signupCallback, with: SocialMessagingClientTypes.WhatsAppSignupCallback.write(value:to:))
+    }
+}
+
+extension CreateWhatsAppDatasetInput {
+
+    static func write(value: CreateWhatsAppDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
     }
 }
 
@@ -2905,6 +2998,16 @@ extension PutWhatsAppBusinessAccountEventDestinationsInput {
     }
 }
 
+extension SendWhatsAppConversionEventInput {
+
+    static func write(value: SendWhatsAppConversionEventInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetId"].write(value.datasetId)
+        try writer["eventData"].write(value.eventData)
+        try writer["id"].write(value.id)
+    }
+}
+
 extension SendWhatsAppMessageInput {
 
     static func write(value: SendWhatsAppMessageInput?, to writer: SmithyJSON.Writer) throws {
@@ -2979,6 +3082,18 @@ extension AssociateWhatsAppBusinessAccountOutput {
         value.linkedWhatsAppBusinessAccountId = try reader["linkedWhatsAppBusinessAccountId"].readIfPresent()
         value.signupCallbackResult = try reader["signupCallbackResult"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppSignupCallbackResult.read(from:))
         value.statusCode = try reader["statusCode"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateWhatsAppDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWhatsAppDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWhatsAppDatasetOutput()
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3266,6 +3381,18 @@ extension PutWhatsAppBusinessAccountEventDestinationsOutput {
     }
 }
 
+extension SendWhatsAppConversionEventOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendWhatsAppConversionEventOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendWhatsAppConversionEventOutput()
+        value.requestId = try reader["requestId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SendWhatsAppMessageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendWhatsAppMessageOutput {
@@ -3348,6 +3475,26 @@ enum AssociateWhatsAppBusinessAccountOutputError {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateWhatsAppDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3822,6 +3969,26 @@ enum PutWhatsAppBusinessAccountEventDestinationsOutputError {
     }
 }
 
+enum SendWhatsAppConversionEventOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SendWhatsAppMessageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4106,6 +4273,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
+        value.datasetId = try reader["datasetId"].readIfPresent()
         value.phoneNumbers = try reader["phoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -4137,6 +4305,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
+        value.datasetId = try reader["datasetId"].readIfPresent()
         return value
     }
 }

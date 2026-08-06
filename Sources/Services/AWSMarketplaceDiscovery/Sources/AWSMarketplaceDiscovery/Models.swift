@@ -1356,6 +1356,7 @@ extension MarketplaceDiscoveryClientTypes {
         case fixedUpfrontPricingTerm
         case freeTrialPricingTerm
         case legalTerm
+        case netPaymentTerm
         case paymentScheduleTerm
         case recurringPaymentTerm
         case renewalTerm
@@ -1372,6 +1373,7 @@ extension MarketplaceDiscoveryClientTypes {
                 .fixedUpfrontPricingTerm,
                 .freeTrialPricingTerm,
                 .legalTerm,
+                .netPaymentTerm,
                 .paymentScheduleTerm,
                 .recurringPaymentTerm,
                 .renewalTerm,
@@ -1394,6 +1396,7 @@ extension MarketplaceDiscoveryClientTypes {
             case .fixedUpfrontPricingTerm: return "FixedUpfrontPricingTerm"
             case .freeTrialPricingTerm: return "FreeTrialPricingTerm"
             case .legalTerm: return "LegalTerm"
+            case .netPaymentTerm: return "NetPaymentTerm"
             case .paymentScheduleTerm: return "PaymentScheduleTerm"
             case .recurringPaymentTerm: return "RecurringPaymentTerm"
             case .renewalTerm: return "RenewalTerm"
@@ -1873,6 +1876,32 @@ extension MarketplaceDiscoveryClientTypes {
 
 extension MarketplaceDiscoveryClientTypes {
 
+    /// Defines a net payment term that sets how many days after the invoice date the payment is due.
+    public struct NetPaymentTerm: Swift.Sendable {
+        /// The unique identifier of the term.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The duration after invoice date by which payment is due.
+        /// This member is required.
+        public var paymentDuePeriod: Swift.String?
+        /// The category of the term.
+        /// This member is required.
+        public var type: MarketplaceDiscoveryClientTypes.TermType?
+
+        public init(
+            id: Swift.String? = nil,
+            paymentDuePeriod: Swift.String? = nil,
+            type: MarketplaceDiscoveryClientTypes.TermType? = nil
+        ) {
+            self.id = id
+            self.paymentDuePeriod = paymentDuePeriod
+            self.type = type
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
     /// A payment installment within a payment schedule term.
     public struct ScheduleItem: Swift.Sendable {
         /// The amount to be charged on the charge date.
@@ -2171,6 +2200,8 @@ extension MarketplaceDiscoveryClientTypes {
         case validityterm(MarketplaceDiscoveryClientTypes.ValidityTerm)
         /// Defines a variable payment term with a maximum total charge amount.
         case variablepaymentterm(MarketplaceDiscoveryClientTypes.VariablePaymentTerm)
+        /// A net payment term.
+        case netpaymentterm(MarketplaceDiscoveryClientTypes.NetPaymentTerm)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4597,11 +4628,11 @@ extension MarketplaceDiscoveryClientTypes.ListingSummary {
         value.listingId = try reader["listingId"].readIfPresent() ?? ""
         value.listingName = try reader["listingName"].readIfPresent() ?? ""
         value.publisher = try reader["publisher"].readIfPresent(with: MarketplaceDiscoveryClientTypes.SellerInformation.read(from:))
+        value.fulfillmentOptionSummaries = try reader["fulfillmentOptionSummaries"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.FulfillmentOptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.catalog = try reader["catalog"].readIfPresent() ?? ""
         value.shortDescription = try reader["shortDescription"].readIfPresent() ?? ""
         value.logoThumbnailUrl = try reader["logoThumbnailUrl"].readIfPresent() ?? ""
         value.categories = try reader["categories"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.fulfillmentOptionSummaries = try reader["fulfillmentOptionSummaries"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.FulfillmentOptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.badges = try reader["badges"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.ListingBadge.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.reviewSummary = try reader["reviewSummary"].readIfPresent(with: MarketplaceDiscoveryClientTypes.ReviewSummary.read(from:))
         value.pricingModels = try reader["pricingModels"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.PricingModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -4617,6 +4648,18 @@ extension MarketplaceDiscoveryClientTypes.ListingSummaryAssociatedEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceDiscoveryClientTypes.ListingSummaryAssociatedEntity()
         value.product = try reader["product"].readIfPresent(with: MarketplaceDiscoveryClientTypes.ProductInformation.read(from:))
+        return value
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes.NetPaymentTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.NetPaymentTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.NetPaymentTerm()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.paymentDuePeriod = try reader["paymentDuePeriod"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4696,6 +4739,8 @@ extension MarketplaceDiscoveryClientTypes.OfferTerm {
                 return .validityterm(try reader["validityTerm"].read(with: MarketplaceDiscoveryClientTypes.ValidityTerm.read(from:)))
             case "variablePaymentTerm":
                 return .variablepaymentterm(try reader["variablePaymentTerm"].read(with: MarketplaceDiscoveryClientTypes.VariablePaymentTerm.read(from:)))
+            case "netPaymentTerm":
+                return .netpaymentterm(try reader["netPaymentTerm"].read(with: MarketplaceDiscoveryClientTypes.NetPaymentTerm.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

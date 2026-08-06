@@ -31246,6 +31246,7 @@ public struct CreateSecondaryNetworkInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// The IPv4 CIDR block for the secondary network. The CIDR block size must be between /12 and /28.
+    /// This member is required.
     public var ipv4CidrBlock: Swift.String?
     /// The type of secondary network.
     /// This member is required.
@@ -74946,6 +74947,8 @@ extension EC2ClientTypes {
 public struct GetSpotPlacementScoresInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
+    /// Specify true so that the response returns scores that include Local Zones. Otherwise, the response ignores Local Zones. When you request regional scores, Local Zone capacity counts toward its parent Region.
+    public var includeLocalZones: Swift.Bool?
     /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
     public var instanceRequirementsWithMetadata: EC2ClientTypes.InstanceRequirementsWithMetadataRequest?
     /// The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low. If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
@@ -74966,6 +74969,7 @@ public struct GetSpotPlacementScoresInput: Swift.Sendable {
 
     public init(
         dryRun: Swift.Bool? = nil,
+        includeLocalZones: Swift.Bool? = nil,
         instanceRequirementsWithMetadata: EC2ClientTypes.InstanceRequirementsWithMetadataRequest? = nil,
         instanceTypes: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
@@ -74976,6 +74980,7 @@ public struct GetSpotPlacementScoresInput: Swift.Sendable {
         targetCapacityUnitType: EC2ClientTypes.TargetCapacityUnitType? = nil
     ) {
         self.dryRun = dryRun
+        self.includeLocalZones = includeLocalZones
         self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
         self.instanceTypes = instanceTypes
         self.maxResults = maxResults
@@ -101437,6 +101442,7 @@ extension GetSpotPlacementScoresInput {
     static func write(value: GetSpotPlacementScoresInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
+        try writer["IncludeLocalZones"].write(value.includeLocalZones)
         try writer["InstanceRequirementsWithMetadata"].write(value.instanceRequirementsWithMetadata, with: EC2ClientTypes.InstanceRequirementsWithMetadataRequest.write(value:to:))
         if !(value.instanceTypes?.isEmpty ?? true) {
             try writer["InstanceType"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Member", isFlattened: true)

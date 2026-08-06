@@ -915,6 +915,29 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The authorizer logs configuration for this MSK cluster.
+    public struct AuthorizerLogs: Swift.Sendable {
+        /// Details of the CloudWatch Logs destination for authorizer logs.
+        public var cloudWatchLogs: KafkaClientTypes.CloudWatchLogs?
+        /// Details of the Kinesis Data Firehose delivery stream that is the destination for authorizer logs.
+        public var firehose: KafkaClientTypes.Firehose?
+        /// Details of the Amazon S3 destination for authorizer logs.
+        public var s3: KafkaClientTypes.S3?
+
+        public init(
+            cloudWatchLogs: KafkaClientTypes.CloudWatchLogs? = nil,
+            firehose: KafkaClientTypes.Firehose? = nil,
+            s3: KafkaClientTypes.S3? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     public struct BrokerLogs: Swift.Sendable {
         public var cloudWatchLogs: KafkaClientTypes.CloudWatchLogs?
         public var firehose: KafkaClientTypes.Firehose?
@@ -935,12 +958,16 @@ extension KafkaClientTypes {
 extension KafkaClientTypes {
 
     public struct LoggingInfo: Swift.Sendable {
+        /// You can configure your MSK cluster to send authorizer logs to different destination types.
+        public var authorizerLogs: KafkaClientTypes.AuthorizerLogs?
         /// This member is required.
         public var brokerLogs: KafkaClientTypes.BrokerLogs?
 
         public init(
+            authorizerLogs: KafkaClientTypes.AuthorizerLogs? = nil,
             brokerLogs: KafkaClientTypes.BrokerLogs? = nil
         ) {
+            self.authorizerLogs = authorizerLogs
             self.brokerLogs = brokerLogs
         }
     }
@@ -10563,6 +10590,25 @@ extension KafkaClientTypes.ApacheKafkaCluster {
     }
 }
 
+extension KafkaClientTypes.AuthorizerLogs {
+
+    static func write(value: KafkaClientTypes.AuthorizerLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.CloudWatchLogs.write(value:to:))
+        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.Firehose.write(value:to:))
+        try writer["s3"].write(value.s3, with: KafkaClientTypes.S3.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AuthorizerLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.AuthorizerLogs()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.CloudWatchLogs.read(from:))
+        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.Firehose.read(from:))
+        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.S3.read(from:))
+        return value
+    }
+}
+
 extension KafkaClientTypes.BrokerCountUpdateInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
@@ -11427,12 +11473,14 @@ extension KafkaClientTypes.LoggingInfo {
 
     static func write(value: KafkaClientTypes.LoggingInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["authorizerLogs"].write(value.authorizerLogs, with: KafkaClientTypes.AuthorizerLogs.write(value:to:))
         try writer["brokerLogs"].write(value.brokerLogs, with: KafkaClientTypes.BrokerLogs.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LoggingInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.LoggingInfo()
+        value.authorizerLogs = try reader["authorizerLogs"].readIfPresent(with: KafkaClientTypes.AuthorizerLogs.read(from:))
         value.brokerLogs = try reader["brokerLogs"].readIfPresent(with: KafkaClientTypes.BrokerLogs.read(from:))
         return value
     }
