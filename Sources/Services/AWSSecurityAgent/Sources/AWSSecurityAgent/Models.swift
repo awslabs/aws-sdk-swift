@@ -160,23 +160,36 @@ extension SecurityAgentClientTypes {
         public var authentication: SecurityAgentClientTypes.Authentication?
         /// A description of the actor.
         public var description: Swift.String?
+        /// Whether email-based MFA is enabled for this actor.
+        public var enableEmailMfa: Swift.Bool?
         /// The unique identifier for the actor.
         public var identifier: Swift.String?
+        /// Server-generated email forwarding address for receiving MFA codes.
+        public var mfaForwardingAddress: Swift.String?
         /// The list of URIs that the actor targets during testing.
         public var uris: [Swift.String]?
 
         public init(
             authentication: SecurityAgentClientTypes.Authentication? = nil,
             description: Swift.String? = nil,
+            enableEmailMfa: Swift.Bool? = nil,
             identifier: Swift.String? = nil,
+            mfaForwardingAddress: Swift.String? = nil,
             uris: [Swift.String]? = nil
         ) {
             self.authentication = authentication
             self.description = description
+            self.enableEmailMfa = enableEmailMfa
             self.identifier = identifier
+            self.mfaForwardingAddress = mfaForwardingAddress
             self.uris = uris
         }
     }
+}
+
+extension SecurityAgentClientTypes.Actor: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Actor(authentication: \(Swift.String(describing: authentication)), description: \(Swift.String(describing: description)), enableEmailMfa: \(Swift.String(describing: enableEmailMfa)), identifier: \(Swift.String(describing: identifier)), uris: \(Swift.String(describing: uris)), mfaForwardingAddress: \"CONTENT_REDACTED\")"}
 }
 
 /// An unexpected error occurred during the processing of your request.
@@ -14070,7 +14083,9 @@ extension SecurityAgentClientTypes.Actor {
         guard let value else { return }
         try writer["authentication"].write(value.authentication, with: SecurityAgentClientTypes.Authentication.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["enableEmailMfa"].write(value.enableEmailMfa)
         try writer["identifier"].write(value.identifier)
+        try writer["mfaForwardingAddress"].write(value.mfaForwardingAddress)
         try writer["uris"].writeList(value.uris, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -14081,6 +14096,8 @@ extension SecurityAgentClientTypes.Actor {
         value.uris = try reader["uris"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.authentication = try reader["authentication"].readIfPresent(with: SecurityAgentClientTypes.Authentication.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.enableEmailMfa = try reader["enableEmailMfa"].readIfPresent()
+        value.mfaForwardingAddress = try reader["mfaForwardingAddress"].readIfPresent()
         return value
     }
 }

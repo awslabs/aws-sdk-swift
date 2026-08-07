@@ -1387,15 +1387,69 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum AdSequencingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followAdSequence
+        case followAdSequenceOnlyLive
+        case followAdSequenceOnlyVod
+        case ignoreAdSequence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdSequencingMode] {
+            return [
+                .followAdSequence,
+                .followAdSequenceOnlyLive,
+                .followAdSequenceOnlyVod,
+                .ignoreAdSequence
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followAdSequence: return "FOLLOW_AD_SEQUENCE"
+            case .followAdSequenceOnlyLive: return "FOLLOW_AD_SEQUENCE_ONLY_LIVE"
+            case .followAdSequenceOnlyVod: return "FOLLOW_AD_SEQUENCE_ONLY_VOD"
+            case .ignoreAdSequence: return "IGNORE_AD_SEQUENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The settings that control how MediaTailor processes VAST responses from the ad decision server.
+    public struct VastResponse: Swift.Sendable {
+        /// The ad sequencing mode that controls how MediaTailor handles sequenced and standalone ads in VAST responses. FOLLOW_AD_SEQUENCE inserts sequenced ads in increasing order for both live and VOD workflows, using standalone ads only as replacements when a sequenced ad fails. FOLLOW_AD_SEQUENCE_ONLY_LIVE enables ad sequencing for live workflows only. FOLLOW_AD_SEQUENCE_ONLY_VOD enables ad sequencing for VOD workflows only. IGNORE_AD_SEQUENCE inserts ads in the order they appear in the VAST response, regardless of sequence attributes. The default behavior is IGNORE_AD_SEQUENCE.
+        public var adSequencingMode: MediaTailorClientTypes.AdSequencingMode?
+
+        public init(
+            adSequencingMode: MediaTailorClientTypes.AdSequencingMode? = nil
+        ) {
+            self.adSequencingMode = adSequencingMode
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// Configuration parameters for customizing HTTP requests sent to the ad decision server (ADS). This allows you to specify the HTTP method, headers, request body, and compression settings for ADS requests.
     public struct AdDecisionServerConfiguration: Swift.Sendable {
         /// The HTTP request configuration parameters for the ad decision server.
         public var httpRequest: MediaTailorClientTypes.HttpRequest?
+        /// The settings that control how MediaTailor processes VAST responses from the ad decision server.
+        public var vastResponse: MediaTailorClientTypes.VastResponse?
 
         public init(
-            httpRequest: MediaTailorClientTypes.HttpRequest? = nil
+            httpRequest: MediaTailorClientTypes.HttpRequest? = nil,
+            vastResponse: MediaTailorClientTypes.VastResponse? = nil
         ) {
             self.httpRequest = httpRequest
+            self.vastResponse = vastResponse
         }
     }
 }
@@ -1708,17 +1762,80 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum PreRollAdSequencingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followAdSequence
+        case ignoreAdSequence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreRollAdSequencingMode] {
+            return [
+                .followAdSequence,
+                .ignoreAdSequence
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followAdSequence: return "FOLLOW_AD_SEQUENCE"
+            case .ignoreAdSequence: return "IGNORE_AD_SEQUENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The settings that control how MediaTailor processes VAST responses from the ad decision server for live pre-roll ad breaks.
+    public struct PreRollVastResponse: Swift.Sendable {
+        /// The ad sequencing mode for live pre-roll ads. FOLLOW_AD_SEQUENCE inserts sequenced ads in increasing order and uses standalone ads only as replacements when a sequenced ad fails. IGNORE_AD_SEQUENCE inserts ads in the order they appear in the VAST response, regardless of sequence attributes. The default behavior is IGNORE_AD_SEQUENCE.
+        public var adSequencingMode: MediaTailorClientTypes.PreRollAdSequencingMode?
+
+        public init(
+            adSequencingMode: MediaTailorClientTypes.PreRollAdSequencingMode? = nil
+        ) {
+            self.adSequencingMode = adSequencingMode
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The ad decision server configuration for live pre-roll ads. It contains settings that control how MediaTailor processes VAST responses for pre-roll ad breaks.
+    public struct PreRollAdDecisionServerConfiguration: Swift.Sendable {
+        /// The settings that control how MediaTailor processes VAST responses for live pre-roll ad breaks.
+        public var vastResponse: MediaTailorClientTypes.PreRollVastResponse?
+
+        public init(
+            vastResponse: MediaTailorClientTypes.PreRollVastResponse? = nil
+        ) {
+            self.vastResponse = vastResponse
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// The configuration for pre-roll ad insertion.
     public struct LivePreRollConfiguration: Swift.Sendable {
+        /// The configuration for the ad decision server (ADS) for live pre-roll ads. The configuration contains settings that control how MediaTailor processes VAST responses for pre-roll ad breaks.
+        public var adDecisionServerConfiguration: MediaTailorClientTypes.PreRollAdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public var adDecisionServerUrl: Swift.String?
         /// The maximum allowed duration for the pre-roll ad avail. AWS Elemental MediaTailor won't play pre-roll ads to exceed this duration, regardless of the total duration of ads that the ADS returns.
         public var maxDurationSeconds: Swift.Int?
 
         public init(
+            adDecisionServerConfiguration: MediaTailorClientTypes.PreRollAdDecisionServerConfiguration? = nil,
             adDecisionServerUrl: Swift.String? = nil,
             maxDurationSeconds: Swift.Int? = nil
         ) {
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.maxDurationSeconds = maxDurationSeconds
         }
@@ -7770,12 +7887,14 @@ extension MediaTailorClientTypes.AdDecisionServerConfiguration {
     static func write(value: MediaTailorClientTypes.AdDecisionServerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["HttpRequest"].write(value.httpRequest, with: MediaTailorClientTypes.HttpRequest.write(value:to:))
+        try writer["VastResponse"].write(value.vastResponse, with: MediaTailorClientTypes.VastResponse.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdDecisionServerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.AdDecisionServerConfiguration()
         value.httpRequest = try reader["HttpRequest"].readIfPresent(with: MediaTailorClientTypes.HttpRequest.read(from:))
+        value.vastResponse = try reader["VastResponse"].readIfPresent(with: MediaTailorClientTypes.VastResponse.read(from:))
         return value
     }
 }
@@ -8285,6 +8404,7 @@ extension MediaTailorClientTypes.LivePreRollConfiguration {
 
     static func write(value: MediaTailorClientTypes.LivePreRollConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdDecisionServerConfiguration"].write(value.adDecisionServerConfiguration, with: MediaTailorClientTypes.PreRollAdDecisionServerConfiguration.write(value:to:))
         try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
         try writer["MaxDurationSeconds"].write(value.maxDurationSeconds)
     }
@@ -8294,6 +8414,7 @@ extension MediaTailorClientTypes.LivePreRollConfiguration {
         var value = MediaTailorClientTypes.LivePreRollConfiguration()
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.maxDurationSeconds = try reader["MaxDurationSeconds"].readIfPresent()
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.PreRollAdDecisionServerConfiguration.read(from:))
         return value
     }
 }
@@ -8463,6 +8584,36 @@ extension MediaTailorClientTypes.PrefetchSchedule {
         value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.streamId = try reader["StreamId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.PreRollAdDecisionServerConfiguration {
+
+    static func write(value: MediaTailorClientTypes.PreRollAdDecisionServerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VastResponse"].write(value.vastResponse, with: MediaTailorClientTypes.PreRollVastResponse.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PreRollAdDecisionServerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.PreRollAdDecisionServerConfiguration()
+        value.vastResponse = try reader["VastResponse"].readIfPresent(with: MediaTailorClientTypes.PreRollVastResponse.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.PreRollVastResponse {
+
+    static func write(value: MediaTailorClientTypes.PreRollVastResponse?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdSequencingMode"].write(value.adSequencingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PreRollVastResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.PreRollVastResponse()
+        value.adSequencingMode = try reader["AdSequencingMode"].readIfPresent()
         return value
     }
 }
@@ -8827,6 +8978,21 @@ extension MediaTailorClientTypes.UpdateProgramTransition {
         guard let value else { return }
         try writer["DurationMillis"].write(value.durationMillis)
         try writer["ScheduledStartTimeMillis"].write(value.scheduledStartTimeMillis)
+    }
+}
+
+extension MediaTailorClientTypes.VastResponse {
+
+    static func write(value: MediaTailorClientTypes.VastResponse?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdSequencingMode"].write(value.adSequencingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.VastResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.VastResponse()
+        value.adSequencingMode = try reader["AdSequencingMode"].readIfPresent()
+        return value
     }
 }
 

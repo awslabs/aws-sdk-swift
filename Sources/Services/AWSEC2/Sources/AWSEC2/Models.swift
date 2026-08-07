@@ -552,6 +552,7 @@ extension EC2ClientTypes {
         case internetGateway
         case ipam
         case ipamExternalResourceVerificationToken
+        case ipamInternetRegistryAssociation
         case ipamPolicy
         case ipamPool
         case ipamPoolAllocation
@@ -666,6 +667,7 @@ extension EC2ClientTypes {
                 .internetGateway,
                 .ipam,
                 .ipamExternalResourceVerificationToken,
+                .ipamInternetRegistryAssociation,
                 .ipamPolicy,
                 .ipamPool,
                 .ipamPoolAllocation,
@@ -786,6 +788,7 @@ extension EC2ClientTypes {
             case .internetGateway: return "internet-gateway"
             case .ipam: return "ipam"
             case .ipamExternalResourceVerificationToken: return "ipam-external-resource-verification-token"
+            case .ipamInternetRegistryAssociation: return "ipam-internet-registry-association"
             case .ipamPolicy: return "ipam-policy"
             case .ipamPool: return "ipam-pool"
             case .ipamPoolAllocation: return "ipam-pool-allocation"
@@ -4218,6 +4221,8 @@ extension EC2ClientTypes {
         public var cidr: Swift.String?
         /// The description of the address range.
         public var description: Swift.String?
+        /// The ID of the IPAM pool associated with the CIDR.
+        public var ipamPoolId: Swift.String?
         /// If you have [Local Zones](https://docs.aws.amazon.com/local-zones/latest/ug/how-local-zones-work.html) enabled, you can choose a network border group for Local Zones when you provision and advertise a BYOIPv4 CIDR. Choose the network border group carefully as the EIP and the Amazon Web Services resource it is associated with must reside in the same network border group. You can provision BYOIP address ranges to and advertise them in the following Local Zone network border groups:
         ///
         /// * us-east-1-dfw-2
@@ -4229,6 +4234,8 @@ extension EC2ClientTypes {
         ///
         /// You cannot provision or advertise BYOIPv6 address ranges in Local Zones at this time.
         public var networkBorderGroup: Swift.String?
+        /// The ID of the address pool associated with the CIDR.
+        public var poolId: Swift.String?
         /// The state of the address range.
         ///
         /// * advertised: The address range is being advertised to the internet by Amazon Web Services.
@@ -4255,7 +4262,9 @@ extension EC2ClientTypes {
             asnAssociations: [EC2ClientTypes.AsnAssociation]? = nil,
             cidr: Swift.String? = nil,
             description: Swift.String? = nil,
+            ipamPoolId: Swift.String? = nil,
             networkBorderGroup: Swift.String? = nil,
+            poolId: Swift.String? = nil,
             state: EC2ClientTypes.ByoipCidrState? = nil,
             statusMessage: Swift.String? = nil
         ) {
@@ -4263,7 +4272,9 @@ extension EC2ClientTypes {
             self.asnAssociations = asnAssociations
             self.cidr = cidr
             self.description = description
+            self.ipamPoolId = ipamPoolId
             self.networkBorderGroup = networkBorderGroup
+            self.poolId = poolId
             self.state = state
             self.statusMessage = statusMessage
         }
@@ -8515,6 +8526,106 @@ public struct AuthorizeSecurityGroupIngressOutput: Swift.Sendable {
     ) {
         self.`return` = `return`
         self.securityGroupRules = securityGroupRules
+    }
+}
+
+public struct BatchModifyIpamRoutingPolicyRegistrationsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The batch modifications to apply, in JSON format.
+    /// This member is required.
+    public var deltaJson: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// Forces the batch modification even if individual changes conflict with announced routes. Default: false.
+    public var force: Swift.Bool?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        deltaJson: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        force: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.deltaJson = deltaJson
+        self.dryRun = dryRun
+        self.force = force
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The state of a routing policy registration delta.
+    public enum IpamRoutingPolicyRegistrationDeltaState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case published
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamRoutingPolicyRegistrationDeltaState] {
+            return [
+                .failed,
+                .pending,
+                .published
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .pending: return "pending"
+            case .published: return "published"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a routing policy registration change, including the changes applied and their publication state.
+    public struct IpamRoutingPolicyRegistrationDelta: Swift.Sendable {
+        /// The unique identifier of the delta.
+        public var deltaId: Swift.String?
+        /// The JSON specification describing the changes applied in this delta.
+        public var deltaJson: Swift.String?
+        /// The state of the delta. Valid values: pending | published | failed.
+        public var state: EC2ClientTypes.IpamRoutingPolicyRegistrationDeltaState?
+        /// A message describing the current state, including error information if the delta failed.
+        public var stateMessage: Swift.String?
+
+        public init(
+            deltaId: Swift.String? = nil,
+            deltaJson: Swift.String? = nil,
+            state: EC2ClientTypes.IpamRoutingPolicyRegistrationDeltaState? = nil,
+            stateMessage: Swift.String? = nil
+        ) {
+            self.deltaId = deltaId
+            self.deltaJson = deltaJson
+            self.state = state
+            self.stateMessage = stateMessage
+        }
+    }
+}
+
+public struct BatchModifyIpamRoutingPolicyRegistrationsOutput: Swift.Sendable {
+    /// Information about the routing policy registration delta created by this batch operation.
+    public var ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta?
+
+    public init(
+        ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta? = nil
+    ) {
+        self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
     }
 }
 
@@ -22371,6 +22482,213 @@ public struct CreateIpamExternalResourceVerificationTokenOutput: Swift.Sendable 
     }
 }
 
+extension EC2ClientTypes {
+
+    /// The Regional Internet Registry (RIR).
+    public enum Rir: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apnic
+        case arin
+        case lacnic
+        case ripe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Rir] {
+            return [
+                .apnic,
+                .arin,
+                .lacnic,
+                .ripe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apnic: return "apnic"
+            case .arin: return "arin"
+            case .lacnic: return "lacnic"
+            case .ripe: return "ripe"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateIpamInternetRegistryAssociationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// A description for the internet registry association.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the IPAM to associate with the internet registry.
+    /// This member is required.
+    public var ipamId: Swift.String?
+    /// The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).
+    /// This member is required.
+    public var organizationHandle: Swift.String?
+    /// The Regional Internet Registry to associate with. Possible values:
+    ///
+    /// * ripe - RIPE NCC (Europe, the Middle East, and Central Asia).
+    ///
+    /// * apnic - APNIC (Asia Pacific).
+    ///
+    /// * arin - ARIN (North America).
+    ///
+    /// * lacnic - LACNIC (Latin America and the Caribbean).
+    /// This member is required.
+    public var rir: EC2ClientTypes.Rir?
+    /// The tags to assign to the internet registry association.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        ipamId: Swift.String? = nil,
+        organizationHandle: Swift.String? = nil,
+        rir: EC2ClientTypes.Rir? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.ipamId = ipamId
+        self.organizationHandle = organizationHandle
+        self.rir = rir
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The state of an IPAM internet registry association.
+    public enum IpamInternetRegistryAssociationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case createInProgress
+        case deleteComplete
+        case deleteFailed
+        case deleteInProgress
+        case enableComplete
+        case enableFailed
+        case enableInProgress
+        case pendingEnable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamInternetRegistryAssociationState] {
+            return [
+                .createFailed,
+                .createInProgress,
+                .deleteComplete,
+                .deleteFailed,
+                .deleteInProgress,
+                .enableComplete,
+                .enableFailed,
+                .enableInProgress,
+                .pendingEnable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "create-failed"
+            case .createInProgress: return "create-in-progress"
+            case .deleteComplete: return "delete-complete"
+            case .deleteFailed: return "delete-failed"
+            case .deleteInProgress: return "delete-in-progress"
+            case .enableComplete: return "enable-complete"
+            case .enableFailed: return "enable-failed"
+            case .enableInProgress: return "enable-in-progress"
+            case .pendingEnable: return "pending-enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about an association between an IPAM and a Regional Internet Registry (RIR) for delegated RPKI management.
+    public struct IpamInternetRegistryAssociation: Swift.Sendable {
+        /// The XML content for the child request to be submitted to the internet registry to complete the BPKI setup.
+        public var childRequestXml: Swift.String?
+        /// The description of the internet registry association.
+        public var description: Swift.String?
+        /// The ID of the associated IPAM.
+        public var ipamId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the internet registry association.
+        public var ipamInternetRegistryAssociationArn: Swift.String?
+        /// The ID of the internet registry association.
+        public var ipamInternetRegistryAssociationId: Swift.String?
+        /// The Amazon Web Services Region of the IPAM.
+        public var ipamRegion: Swift.String?
+        /// The organization handle at the internet registry.
+        public var organizationHandle: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the internet registry association.
+        public var ownerId: Swift.String?
+        /// The Regional Internet Registry. Possible values:
+        ///
+        /// * ripe - RIPE NCC (Europe, the Middle East, and Central Asia).
+        ///
+        /// * apnic - APNIC (Asia Pacific).
+        ///
+        /// * arin - ARIN (North America).
+        ///
+        /// * lacnic - LACNIC (Latin America and the Caribbean).
+        public var rir: EC2ClientTypes.Rir?
+        /// The state of the internet registry association. Valid values: pending-activation | pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | delete-in-progress | delete-complete | delete-failed.
+        public var state: EC2ClientTypes.IpamInternetRegistryAssociationState?
+        /// The tags assigned to the internet registry association.
+        public var tags: [EC2ClientTypes.Tag]?
+
+        public init(
+            childRequestXml: Swift.String? = nil,
+            description: Swift.String? = nil,
+            ipamId: Swift.String? = nil,
+            ipamInternetRegistryAssociationArn: Swift.String? = nil,
+            ipamInternetRegistryAssociationId: Swift.String? = nil,
+            ipamRegion: Swift.String? = nil,
+            organizationHandle: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
+            rir: EC2ClientTypes.Rir? = nil,
+            state: EC2ClientTypes.IpamInternetRegistryAssociationState? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil
+        ) {
+            self.childRequestXml = childRequestXml
+            self.description = description
+            self.ipamId = ipamId
+            self.ipamInternetRegistryAssociationArn = ipamInternetRegistryAssociationArn
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.ipamRegion = ipamRegion
+            self.organizationHandle = organizationHandle
+            self.ownerId = ownerId
+            self.rir = rir
+            self.state = state
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateIpamInternetRegistryAssociationOutput: Swift.Sendable {
+    /// Information about the internet registry association.
+    public var ipamInternetRegistryAssociation: EC2ClientTypes.IpamInternetRegistryAssociation?
+
+    public init(
+        ipamInternetRegistryAssociation: EC2ClientTypes.IpamInternetRegistryAssociation? = nil
+    ) {
+        self.ipamInternetRegistryAssociation = ipamInternetRegistryAssociation
+    }
+}
+
 public struct CreateIpamPolicyInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -23828,6 +24146,63 @@ public struct CreateIpamResourceDiscoveryOutput: Swift.Sendable {
         ipamResourceDiscovery: EC2ClientTypes.IpamResourceDiscovery? = nil
     ) {
         self.ipamResourceDiscovery = ipamResourceDiscovery
+    }
+}
+
+public struct CreateIpamRoutingPolicyRegistrationInput: Swift.Sendable {
+    /// The Autonomous System Numbers (ASNs) authorized to originate the prefix.
+    /// This member is required.
+    public var asns: [Swift.String]?
+    /// The IP address prefix in CIDR notation to authorize in the ROA.
+    /// This member is required.
+    public var cidr: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// A description for the routing policy registration.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// Forces the creation of the routing policy registration even if it conflicts with an announced route. Default: false.
+    public var force: Swift.Bool?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR. If not specified, defaults to the prefix length of the CIDR (exact match only).
+    public var maxLength: Swift.Int?
+    /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
+    public var permitMoreSpecificAnnouncements: Swift.Bool?
+
+    public init(
+        asns: [Swift.String]? = nil,
+        cidr: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        force: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxLength: Swift.Int? = nil,
+        permitMoreSpecificAnnouncements: Swift.Bool? = nil
+    ) {
+        self.asns = asns
+        self.cidr = cidr
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.force = force
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxLength = maxLength
+        self.permitMoreSpecificAnnouncements = permitMoreSpecificAnnouncements
+    }
+}
+
+public struct CreateIpamRoutingPolicyRegistrationOutput: Swift.Sendable {
+    /// Information about the routing policy registration delta created by this operation.
+    public var ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta?
+
+    public init(
+        ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta? = nil
+    ) {
+        self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
     }
 }
 
@@ -39961,6 +40336,33 @@ public struct DeleteIpamExternalResourceVerificationTokenOutput: Swift.Sendable 
     }
 }
 
+public struct DeleteIpamInternetRegistryAssociationInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the IPAM internet registry association to delete.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+    }
+}
+
+public struct DeleteIpamInternetRegistryAssociationOutput: Swift.Sendable {
+    /// Information about the deleted internet registry association.
+    public var ipamInternetRegistryAssociation: EC2ClientTypes.IpamInternetRegistryAssociation?
+
+    public init(
+        ipamInternetRegistryAssociation: EC2ClientTypes.IpamInternetRegistryAssociation? = nil
+    ) {
+        self.ipamInternetRegistryAssociation = ipamInternetRegistryAssociation
+    }
+}
+
 public struct DeleteIpamPolicyInput: Swift.Sendable {
     /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -40097,6 +40499,46 @@ public struct DeleteIpamResourceDiscoveryOutput: Swift.Sendable {
         ipamResourceDiscovery: EC2ClientTypes.IpamResourceDiscovery? = nil
     ) {
         self.ipamResourceDiscovery = ipamResourceDiscovery
+    }
+}
+
+public struct DeleteIpamRoutingPolicyRegistrationInput: Swift.Sendable {
+    /// The IP address prefix in CIDR notation identifying the routing policy registration to delete.
+    /// This member is required.
+    public var cidr: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// Forces the deletion even if it conflicts with an announced route. Default: false.
+    public var force: Swift.Bool?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+
+    public init(
+        cidr: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        force: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil
+    ) {
+        self.cidr = cidr
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.force = force
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+    }
+}
+
+public struct DeleteIpamRoutingPolicyRegistrationOutput: Swift.Sendable {
+    /// Information about the routing policy registration delta created by this deletion.
+    public var ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta?
+
+    public init(
+        ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta? = nil
+    ) {
+        self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
     }
 }
 
@@ -56122,6 +56564,48 @@ public struct DescribeIpamExternalResourceVerificationTokensOutput: Swift.Sendab
     }
 }
 
+public struct DescribeIpamInternetRegistryAssociationsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters to apply to the results.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The IDs of the internet registry associations to describe.
+    public var ipamInternetRegistryAssociationIds: [Swift.String]?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        ipamInternetRegistryAssociationIds: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.ipamInternetRegistryAssociationIds = ipamInternetRegistryAssociationIds
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeIpamInternetRegistryAssociationsOutput: Swift.Sendable {
+    /// The internet registry associations.
+    public var ipamInternetRegistryAssociations: [EC2ClientTypes.IpamInternetRegistryAssociation]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamInternetRegistryAssociations: [EC2ClientTypes.IpamInternetRegistryAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamInternetRegistryAssociations = ipamInternetRegistryAssociations
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeIpamPoliciesInput: Swift.Sendable {
     /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -69140,6 +69624,62 @@ public struct EnableInstanceSqlHaStandbyDetectionsOutput: Swift.Sendable {
     }
 }
 
+public struct EnableIpamInternetRegistryAssociationInput: Swift.Sendable {
+    /// The child handle for the BPKI certificate hierarchy from the Parent Response XML.
+    /// This member is required.
+    public var childHandle: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the IPAM internet registry association to enable.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The parent BPKI Trust Anchor certificate in PEM format from the Parent Response XML.
+    /// This member is required.
+    public var parentBpkiTa: Swift.String?
+    /// The parent handle for the BPKI certificate hierarchy from the Parent Response XML.
+    /// This member is required.
+    public var parentHandle: Swift.String?
+    /// The RPKI version to use from the Parent Response XML.
+    /// This member is required.
+    public var rpkiVersion: Swift.String?
+    /// The RPKI service URI for the publication point from the Parent Response XML.
+    /// This member is required.
+    public var serviceUri: Swift.String?
+
+    public init(
+        childHandle: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        parentBpkiTa: Swift.String? = nil,
+        parentHandle: Swift.String? = nil,
+        rpkiVersion: Swift.String? = nil,
+        serviceUri: Swift.String? = nil
+    ) {
+        self.childHandle = childHandle
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.parentBpkiTa = parentBpkiTa
+        self.parentHandle = parentHandle
+        self.rpkiVersion = rpkiVersion
+        self.serviceUri = serviceUri
+    }
+}
+
+public struct EnableIpamInternetRegistryAssociationOutput: Swift.Sendable {
+    /// Information about the enabled internet registry association.
+    public var ipamInternetRegistryAssociation: EC2ClientTypes.IpamInternetRegistryAssociation?
+
+    public init(
+        ipamInternetRegistryAssociation: EC2ClientTypes.IpamInternetRegistryAssociation? = nil
+    ) {
+        self.ipamInternetRegistryAssociation = ipamInternetRegistryAssociation
+    }
+}
+
 public struct EnableIpamOrganizationAdminAccountInput: Swift.Sendable {
     /// The Organizations member account ID that you want to enable as the IPAM account.
     /// This member is required.
@@ -73310,6 +73850,337 @@ public struct GetIpamDiscoveredResourceCidrsOutput: Swift.Sendable {
     }
 }
 
+public struct GetIpamDiscoveredRoutesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters to apply to the results.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The ID of the IPAM resource discovery.
+    /// This member is required.
+    public var ipamResourceDiscoveryId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services Region to retrieve discovered routes for.
+    /// This member is required.
+    public var resourceRegion: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        ipamResourceDiscoveryId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceRegion: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceRegion = resourceRegion
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The advertisement type of a BYOIP route.
+    public enum IpamByoipAdvertisementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamByoipAdvertisementType] {
+            return [
+                .global,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "global"
+            case .regional: return "regional"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The state of a BYOIP CIDR.
+    public enum IpamByoipCidrState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advertised
+        case deprovisioned
+        case failedDeprovision
+        case failedProvision
+        case pendingAdvertising
+        case pendingDeprovision
+        case pendingProvision
+        case pendingWithdrawal
+        case provisioned
+        case provisionedNotPubliclyAdvertisable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamByoipCidrState] {
+            return [
+                .advertised,
+                .deprovisioned,
+                .failedDeprovision,
+                .failedProvision,
+                .pendingAdvertising,
+                .pendingDeprovision,
+                .pendingProvision,
+                .pendingWithdrawal,
+                .provisioned,
+                .provisionedNotPubliclyAdvertisable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advertised: return "advertised"
+            case .deprovisioned: return "deprovisioned"
+            case .failedDeprovision: return "failed-deprovision"
+            case .failedProvision: return "failed-provision"
+            case .pendingAdvertising: return "pending-advertising"
+            case .pendingDeprovision: return "pending-deprovision"
+            case .pendingProvision: return "pending-provision"
+            case .pendingWithdrawal: return "pending-withdrawal"
+            case .provisioned: return "provisioned"
+            case .provisionedNotPubliclyAdvertisable: return "provisioned-not-publicly-advertisable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a BGP route discovered by IPAM resource discovery.
+    public struct IpamDiscoveredRoute: Swift.Sendable {
+        /// The advertisement type of the route. Possible values:
+        ///
+        /// * regional - The IP address is advertised from a single location (regional services such as Amazon EC2).
+        ///
+        /// * global - The IP address is advertised from multiple global locations simultaneously (global services such as Amazon CloudFront).
+        public var advertisementType: EC2ClientTypes.IpamByoipAdvertisementType?
+        /// The Autonomous System Number (ASN) that originates the route.
+        public var asn: Swift.String?
+        /// The IP address prefix of the discovered route in CIDR notation.
+        public var cidr: Swift.String?
+        /// The ID of the IPAM pool associated with the route.
+        public var ipamPoolId: Swift.String?
+        /// The ID of the IPAM resource discovery that discovered the route.
+        public var ipamResourceDiscoveryId: Swift.String?
+        /// The network border group for the route.
+        public var networkBorderGroup: Swift.String?
+        /// The ID of the BYOIP pool associated with the route.
+        public var poolId: Swift.String?
+        /// The ID of the resource owner.
+        public var resourceOwnerId: Swift.String?
+        /// The Amazon Web Services Region where the route was discovered.
+        public var resourceRegion: Swift.String?
+        /// The time when the route was last sampled.
+        public var sampleTime: Foundation.Date?
+        /// The state of the BYOIP CIDR. Possible values:
+        ///
+        /// * advertised - The CIDR is being advertised.
+        ///
+        /// * deprovisioned - The CIDR has been deprovisioned.
+        ///
+        /// * failed-deprovision - Deprovisioning failed.
+        ///
+        /// * failed-provision - Provisioning failed.
+        ///
+        /// * pending-deprovision - Deprovisioning is in progress.
+        ///
+        /// * pending-provision - Provisioning is in progress.
+        ///
+        /// * provisioned - The CIDR is provisioned.
+        ///
+        /// * provisioned-not-publicly-advertisable - The CIDR is provisioned but not publicly advertisable.
+        public var state: EC2ClientTypes.IpamByoipCidrState?
+
+        public init(
+            advertisementType: EC2ClientTypes.IpamByoipAdvertisementType? = nil,
+            asn: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            ipamPoolId: Swift.String? = nil,
+            ipamResourceDiscoveryId: Swift.String? = nil,
+            networkBorderGroup: Swift.String? = nil,
+            poolId: Swift.String? = nil,
+            resourceOwnerId: Swift.String? = nil,
+            resourceRegion: Swift.String? = nil,
+            sampleTime: Foundation.Date? = nil,
+            state: EC2ClientTypes.IpamByoipCidrState? = nil
+        ) {
+            self.advertisementType = advertisementType
+            self.asn = asn
+            self.cidr = cidr
+            self.ipamPoolId = ipamPoolId
+            self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
+            self.networkBorderGroup = networkBorderGroup
+            self.poolId = poolId
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceRegion = resourceRegion
+            self.sampleTime = sampleTime
+            self.state = state
+        }
+    }
+}
+
+public struct GetIpamDiscoveredRoutesOutput: Swift.Sendable {
+    /// The discovered BGP routes.
+    public var ipamDiscoveredRoutes: [EC2ClientTypes.IpamDiscoveredRoute]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamDiscoveredRoutes: [EC2ClientTypes.IpamDiscoveredRoute]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamDiscoveredRoutes = ipamDiscoveredRoutes
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetIpamInternetRegistryAssociationAsnsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters to apply to the results.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about an Autonomous System Number (ASN) registered at an internet registry and associated with an IPAM.
+    public struct IpamInternetRegistryAssociationAsn: Swift.Sendable {
+        /// The Autonomous System Number.
+        public var asn: Swift.String?
+        /// The time when the ASN was last observed at the internet registry.
+        public var lastObservedAt: Foundation.Date?
+
+        public init(
+            asn: Swift.String? = nil,
+            lastObservedAt: Foundation.Date? = nil
+        ) {
+            self.asn = asn
+            self.lastObservedAt = lastObservedAt
+        }
+    }
+}
+
+public struct GetIpamInternetRegistryAssociationAsnsOutput: Swift.Sendable {
+    /// The ASNs registered with the internet registry.
+    public var ipamInternetRegistryAssociationAsns: [EC2ClientTypes.IpamInternetRegistryAssociationAsn]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamInternetRegistryAssociationAsns: [EC2ClientTypes.IpamInternetRegistryAssociationAsn]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamInternetRegistryAssociationAsns = ipamInternetRegistryAssociationAsns
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetIpamInternetRegistryAssociationCidrsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters to apply to the results.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about an IP address CIDR registered at an internet registry and associated with an IPAM.
+    public struct IpamInternetRegistryAssociationCidr: Swift.Sendable {
+        /// The IP address prefix in CIDR notation.
+        public var cidr: Swift.String?
+        /// The time when the CIDR was last observed at the internet registry.
+        public var lastObservedAt: Foundation.Date?
+
+        public init(
+            cidr: Swift.String? = nil,
+            lastObservedAt: Foundation.Date? = nil
+        ) {
+            self.cidr = cidr
+            self.lastObservedAt = lastObservedAt
+        }
+    }
+}
+
+public struct GetIpamInternetRegistryAssociationCidrsOutput: Swift.Sendable {
+    /// The CIDRs registered with the internet registry.
+    public var ipamInternetRegistryAssociationCidrs: [EC2ClientTypes.IpamInternetRegistryAssociationCidr]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamInternetRegistryAssociationCidrs: [EC2ClientTypes.IpamInternetRegistryAssociationCidr]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamInternetRegistryAssociationCidrs = ipamInternetRegistryAssociationCidrs
+        self.nextToken = nextToken
+    }
+}
+
 extension EC2ClientTypes {
 
     public enum IpamPolicyResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -74062,6 +74933,552 @@ public struct GetIpamResourceCidrsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.ipamResourceCidrs = ipamResourceCidrs
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetIpamRouteOriginAuthorizationsInput: Swift.Sendable {
+    /// Filter results to a specific CIDR prefix.
+    public var cidr: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        cidr: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cidr = cidr
+        self.dryRun = dryRun
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a Route Origin Authorization (ROA) currently published in the RPKI.
+    public struct IpamRouteOriginAuthorizationInfo: Swift.Sendable {
+        /// The Autonomous System Number (ASN) authorized to originate the prefix.
+        public var asn: Swift.String?
+        /// The IP address prefix in CIDR notation authorized by the ROA.
+        public var cidr: Swift.String?
+        /// The maximum prefix length that the ASN is authorized to announce.
+        public var maxLength: Swift.Int?
+
+        public init(
+            asn: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            maxLength: Swift.Int? = nil
+        ) {
+            self.asn = asn
+            self.cidr = cidr
+            self.maxLength = maxLength
+        }
+    }
+}
+
+public struct GetIpamRouteOriginAuthorizationsOutput: Swift.Sendable {
+    /// The Route Origin Authorizations published to the RPKI.
+    public var ipamRouteOriginAuthorizations: [EC2ClientTypes.IpamRouteOriginAuthorizationInfo]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamRouteOriginAuthorizations: [EC2ClientTypes.IpamRouteOriginAuthorizationInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamRouteOriginAuthorizations = ipamRouteOriginAuthorizations
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetIpamRouteProtectionFindingsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters to apply to the results.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The ID of the IPAM to retrieve route protection findings for.
+    /// This member is required.
+    public var ipamId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        ipamId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.ipamId = ipamId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a Route Origin Authorization (ROA) published in the RPKI. A ROA cryptographically attests that a specific ASN is authorized to originate a specific IP address prefix.
+    public struct IpamRouteOriginAuthorization: Swift.Sendable {
+        /// The Autonomous System Number (ASN) authorized by the ROA.
+        public var asn: Swift.String?
+        /// The expiration date of the ROA.
+        public var expiration: Foundation.Date?
+        /// Specifies whether the ROA matches the route announcement.
+        public var match: Swift.Bool?
+        /// The maximum prefix length that the ASN is authorized to announce.
+        public var maxLength: Swift.Int?
+        /// The IP address prefix authorized by the ROA in CIDR notation.
+        public var `prefix`: Swift.String?
+
+        public init(
+            asn: Swift.String? = nil,
+            expiration: Foundation.Date? = nil,
+            match: Swift.Bool? = nil,
+            maxLength: Swift.Int? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.asn = asn
+            self.expiration = expiration
+            self.match = match
+            self.maxLength = maxLength
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about an overlapping route detected for a BYOIP prefix.
+    public struct IpamRouteOverlap: Swift.Sendable {
+        /// The ASN originating the overlapping route.
+        public var asn: Swift.String?
+        /// The time when the overlap was detected.
+        public var detectedAt: Foundation.Date?
+        /// The overlapping IP address prefix in CIDR notation.
+        public var `prefix`: Swift.String?
+
+        public init(
+            asn: Swift.String? = nil,
+            detectedAt: Foundation.Date? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.asn = asn
+            self.detectedAt = detectedAt
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The RPKI validation status of a BGP route.
+    public enum IpamRpkiStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalid
+        case unknown
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamRpkiStatus] {
+            return [
+                .invalid,
+                .unknown,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "invalid"
+            case .unknown: return "unknown"
+            case .valid: return "valid"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The RPKI enforcement strength for route protection.
+    public enum IpamRpkiStrength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case permissive
+        case strict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamRpkiStrength] {
+            return [
+                .permissive,
+                .strict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .permissive: return "permissive"
+            case .strict: return "strict"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a route protection finding, including the RPKI validation status of a BYOIP route announcement.
+    public struct IpamRouteProtectionFinding: Swift.Sendable {
+        /// The advertisement type. Possible values:
+        ///
+        /// * regional - The IP address is advertised from a single location (regional services such as Amazon EC2).
+        ///
+        /// * global - The IP address is advertised from multiple global locations simultaneously (global services such as Amazon CloudFront).
+        public var advertisementType: EC2ClientTypes.IpamByoipAdvertisementType?
+        /// The Autonomous System Number (ASN) that originates the route.
+        public var asn: Swift.String?
+        /// The IP address prefix in CIDR notation.
+        public var cidr: Swift.String?
+        /// The ID of the IPAM pool associated with the finding.
+        public var ipamPoolId: Swift.String?
+        /// The network border group.
+        public var networkBorderGroup: Swift.String?
+        /// The ID of the BYOIP pool.
+        public var poolId: Swift.String?
+        /// The ID of the resource owner.
+        public var resourceOwnerId: Swift.String?
+        /// The Amazon Web Services Region of the resource.
+        public var resourceRegion: Swift.String?
+        /// The time when the ROA data was last sampled.
+        public var roaSampleTime: Foundation.Date?
+        /// The Route Origin Authorizations (ROAs) that cover the prefix.
+        public var roas: [EC2ClientTypes.IpamRouteOriginAuthorization]?
+        /// The overlapping routes detected for this prefix.
+        public var routeOverlaps: [EC2ClientTypes.IpamRouteOverlap]?
+        /// The RPKI validation status of the route. Possible values:
+        ///
+        /// * valid - The route has a matching ROA that covers the prefix and origin ASN.
+        ///
+        /// * invalid - The route has a ROA for the prefix, but the origin ASN or prefix length does not match.
+        ///
+        /// * unknown - No ROA exists for the prefix, so RPKI validation cannot be performed.
+        public var rpkiStatus: EC2ClientTypes.IpamRpkiStatus?
+        /// The RPKI enforcement strength for the route. Possible values:
+        ///
+        /// * strict - Invalid routes are rejected.
+        ///
+        /// * permissive - Invalid routes are accepted but flagged.
+        public var rpkiStrength: EC2ClientTypes.IpamRpkiStrength?
+        /// The time when the route was last sampled.
+        public var sampleTime: Foundation.Date?
+        /// The state of the BYOIP CIDR. Possible values:
+        ///
+        /// * advertised - The CIDR is being advertised.
+        ///
+        /// * deprovisioned - The CIDR has been deprovisioned.
+        ///
+        /// * failed-deprovision - Deprovisioning failed.
+        ///
+        /// * failed-provision - Provisioning failed.
+        ///
+        /// * pending-deprovision - Deprovisioning is in progress.
+        ///
+        /// * pending-provision - Provisioning is in progress.
+        ///
+        /// * provisioned - The CIDR is provisioned.
+        ///
+        /// * provisioned-not-publicly-advertisable - The CIDR is provisioned but not publicly advertisable.
+        public var state: EC2ClientTypes.IpamByoipCidrState?
+
+        public init(
+            advertisementType: EC2ClientTypes.IpamByoipAdvertisementType? = nil,
+            asn: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            ipamPoolId: Swift.String? = nil,
+            networkBorderGroup: Swift.String? = nil,
+            poolId: Swift.String? = nil,
+            resourceOwnerId: Swift.String? = nil,
+            resourceRegion: Swift.String? = nil,
+            roaSampleTime: Foundation.Date? = nil,
+            roas: [EC2ClientTypes.IpamRouteOriginAuthorization]? = nil,
+            routeOverlaps: [EC2ClientTypes.IpamRouteOverlap]? = nil,
+            rpkiStatus: EC2ClientTypes.IpamRpkiStatus? = nil,
+            rpkiStrength: EC2ClientTypes.IpamRpkiStrength? = nil,
+            sampleTime: Foundation.Date? = nil,
+            state: EC2ClientTypes.IpamByoipCidrState? = nil
+        ) {
+            self.advertisementType = advertisementType
+            self.asn = asn
+            self.cidr = cidr
+            self.ipamPoolId = ipamPoolId
+            self.networkBorderGroup = networkBorderGroup
+            self.poolId = poolId
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceRegion = resourceRegion
+            self.roaSampleTime = roaSampleTime
+            self.roas = roas
+            self.routeOverlaps = routeOverlaps
+            self.rpkiStatus = rpkiStatus
+            self.rpkiStrength = rpkiStrength
+            self.sampleTime = sampleTime
+            self.state = state
+        }
+    }
+}
+
+public struct GetIpamRouteProtectionFindingsOutput: Swift.Sendable {
+    /// The ID of the IPAM.
+    public var ipamId: Swift.String?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The route protection findings.
+    public var routeProtectionFindings: [EC2ClientTypes.IpamRouteProtectionFinding]?
+
+    public init(
+        ipamId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        routeProtectionFindings: [EC2ClientTypes.IpamRouteProtectionFinding]? = nil
+    ) {
+        self.ipamId = ipamId
+        self.nextToken = nextToken
+        self.routeProtectionFindings = routeProtectionFindings
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The chronological order for returning results.
+    public enum ChronologicalOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forward
+        case reverse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChronologicalOrder] {
+            return [
+                .forward,
+                .reverse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .forward: return "forward"
+            case .reverse: return "reverse"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetIpamRoutingPolicyRegistrationDeltasInput: Swift.Sendable {
+    /// The chronological order to return results in. Valid values: forward | reverse.
+    public var chronologicalOrder: EC2ClientTypes.ChronologicalOrder?
+    /// Filter results to a specific delta ID.
+    public var deltaId: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The end of the time range to filter deltas by.
+    public var endTime: Foundation.Date?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The start of the time range to filter deltas by.
+    public var startTime: Foundation.Date?
+
+    public init(
+        chronologicalOrder: EC2ClientTypes.ChronologicalOrder? = nil,
+        deltaId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        endTime: Foundation.Date? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.chronologicalOrder = chronologicalOrder
+        self.deltaId = deltaId
+        self.dryRun = dryRun
+        self.endTime = endTime
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
+public struct GetIpamRoutingPolicyRegistrationDeltasOutput: Swift.Sendable {
+    /// The routing policy registration deltas.
+    public var ipamRoutingPolicyRegistrationDeltas: [EC2ClientTypes.IpamRoutingPolicyRegistrationDelta]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamRoutingPolicyRegistrationDeltas: [EC2ClientTypes.IpamRoutingPolicyRegistrationDelta]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamRoutingPolicyRegistrationDeltas = ipamRoutingPolicyRegistrationDeltas
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetIpamRoutingPolicyRegistrationsInput: Swift.Sendable {
+    /// Filter results to a specific CIDR prefix.
+    public var cidr: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        cidr: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cidr = cidr
+        self.dryRun = dryRun
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The state of a routing policy registration.
+    public enum IpamRoutingPolicyRegistrationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activateFailed
+        case createComplete
+        case createInProgress
+        case deleteComplete
+        case deleteInProgress
+        case pendingActivate
+        case updateComplete
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamRoutingPolicyRegistrationState] {
+            return [
+                .activateFailed,
+                .createComplete,
+                .createInProgress,
+                .deleteComplete,
+                .deleteInProgress,
+                .pendingActivate,
+                .updateComplete,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activateFailed: return "activate-failed"
+            case .createComplete: return "create-complete"
+            case .createInProgress: return "create-in-progress"
+            case .deleteComplete: return "delete-complete"
+            case .deleteInProgress: return "delete-in-progress"
+            case .pendingActivate: return "pending-activate"
+            case .updateComplete: return "update-complete"
+            case .updateInProgress: return "update-in-progress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a routing policy registration that represents a Route Origin Authorization (ROA) managed through IPAM.
+    public struct IpamRoutingPolicyRegistration: Swift.Sendable {
+        /// The Autonomous System Numbers (ASNs) authorized to originate the prefix.
+        public var asns: [Swift.String]?
+        /// The IP address prefix in CIDR notation authorized by the ROA.
+        public var cidr: Swift.String?
+        /// The description of the routing policy registration.
+        public var description: Swift.String?
+        /// The ID of the most recent delta that modified this registration.
+        public var latestDeltaId: Swift.String?
+        /// The maximum prefix length that the ASNs are authorized to announce.
+        public var maxLength: Swift.Int?
+        /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
+        public var permitMoreSpecificAnnouncements: Swift.Bool?
+        /// The state of the routing policy registration. Valid values: pending-activate | activate-failed | create-in-progress | create-complete | update-in-progress | update-complete | delete-in-progress | delete-complete.
+        public var state: EC2ClientTypes.IpamRoutingPolicyRegistrationState?
+
+        public init(
+            asns: [Swift.String]? = nil,
+            cidr: Swift.String? = nil,
+            description: Swift.String? = nil,
+            latestDeltaId: Swift.String? = nil,
+            maxLength: Swift.Int? = nil,
+            permitMoreSpecificAnnouncements: Swift.Bool? = nil,
+            state: EC2ClientTypes.IpamRoutingPolicyRegistrationState? = nil
+        ) {
+            self.asns = asns
+            self.cidr = cidr
+            self.description = description
+            self.latestDeltaId = latestDeltaId
+            self.maxLength = maxLength
+            self.permitMoreSpecificAnnouncements = permitMoreSpecificAnnouncements
+            self.state = state
+        }
+    }
+}
+
+public struct GetIpamRoutingPolicyRegistrationsOutput: Swift.Sendable {
+    /// The routing policy registrations.
+    public var ipamRoutingPolicyRegistrations: [EC2ClientTypes.IpamRoutingPolicyRegistration]?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ipamRoutingPolicyRegistrations: [EC2ClientTypes.IpamRoutingPolicyRegistration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ipamRoutingPolicyRegistrations = ipamRoutingPolicyRegistrations
         self.nextToken = nextToken
     }
 }
@@ -79244,6 +80661,63 @@ public struct ModifyIpamResourceDiscoveryOutput: Swift.Sendable {
         ipamResourceDiscovery: EC2ClientTypes.IpamResourceDiscovery? = nil
     ) {
         self.ipamResourceDiscovery = ipamResourceDiscovery
+    }
+}
+
+public struct ModifyIpamRoutingPolicyRegistrationInput: Swift.Sendable {
+    /// The updated list of Autonomous System Numbers (ASNs) authorized to originate the prefix.
+    /// This member is required.
+    public var asns: [Swift.String]?
+    /// The IP address prefix in CIDR notation identifying the routing policy registration to modify.
+    /// This member is required.
+    public var cidr: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// A new description for the routing policy registration.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// Forces the modification even if it conflicts with an announced route. Default: false.
+    public var force: Swift.Bool?
+    /// The ID of the IPAM internet registry association.
+    /// This member is required.
+    public var ipamInternetRegistryAssociationId: Swift.String?
+    /// The new maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR.
+    public var maxLength: Swift.Int?
+    /// Specifies whether to permit more specific route announcements than the CIDR prefix. Default: false.
+    public var permitMoreSpecificAnnouncements: Swift.Bool?
+
+    public init(
+        asns: [Swift.String]? = nil,
+        cidr: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        force: Swift.Bool? = nil,
+        ipamInternetRegistryAssociationId: Swift.String? = nil,
+        maxLength: Swift.Int? = nil,
+        permitMoreSpecificAnnouncements: Swift.Bool? = nil
+    ) {
+        self.asns = asns
+        self.cidr = cidr
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.force = force
+        self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        self.maxLength = maxLength
+        self.permitMoreSpecificAnnouncements = permitMoreSpecificAnnouncements
+    }
+}
+
+public struct ModifyIpamRoutingPolicyRegistrationOutput: Swift.Sendable {
+    /// Information about the routing policy registration delta created by this modification.
+    public var ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta?
+
+    public init(
+        ipamRoutingPolicyRegistrationDelta: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta? = nil
+    ) {
+        self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
     }
 }
 
@@ -87163,6 +88637,13 @@ extension AuthorizeSecurityGroupIngressInput {
     }
 }
 
+extension BatchModifyIpamRoutingPolicyRegistrationsInput {
+
+    static func urlPathProvider(_ value: BatchModifyIpamRoutingPolicyRegistrationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BundleInstanceInput {
 
     static func urlPathProvider(_ value: BundleInstanceInput) -> Swift.String? {
@@ -87485,6 +88966,13 @@ extension CreateIpamExternalResourceVerificationTokenInput {
     }
 }
 
+extension CreateIpamInternetRegistryAssociationInput {
+
+    static func urlPathProvider(_ value: CreateIpamInternetRegistryAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateIpamPolicyInput {
 
     static func urlPathProvider(_ value: CreateIpamPolicyInput) -> Swift.String? {
@@ -87516,6 +89004,13 @@ extension CreateIpamPrefixListResolverTargetInput {
 extension CreateIpamResourceDiscoveryInput {
 
     static func urlPathProvider(_ value: CreateIpamResourceDiscoveryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIpamRoutingPolicyRegistrationInput {
+
+    static func urlPathProvider(_ value: CreateIpamRoutingPolicyRegistrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -88164,6 +89659,13 @@ extension DeleteIpamExternalResourceVerificationTokenInput {
     }
 }
 
+extension DeleteIpamInternetRegistryAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteIpamInternetRegistryAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteIpamPolicyInput {
 
     static func urlPathProvider(_ value: DeleteIpamPolicyInput) -> Swift.String? {
@@ -88195,6 +89697,13 @@ extension DeleteIpamPrefixListResolverTargetInput {
 extension DeleteIpamResourceDiscoveryInput {
 
     static func urlPathProvider(_ value: DeleteIpamResourceDiscoveryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIpamRoutingPolicyRegistrationInput {
+
+    static func urlPathProvider(_ value: DeleteIpamRoutingPolicyRegistrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -89287,6 +90796,13 @@ extension DescribeIpamByoasnInput {
 extension DescribeIpamExternalResourceVerificationTokensInput {
 
     static func urlPathProvider(_ value: DescribeIpamExternalResourceVerificationTokensInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeIpamInternetRegistryAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeIpamInternetRegistryAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -90516,6 +92032,13 @@ extension EnableInstanceSqlHaStandbyDetectionsInput {
     }
 }
 
+extension EnableIpamInternetRegistryAssociationInput {
+
+    static func urlPathProvider(_ value: EnableIpamInternetRegistryAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableIpamOrganizationAdminAccountInput {
 
     static func urlPathProvider(_ value: EnableIpamOrganizationAdminAccountInput) -> Swift.String? {
@@ -90845,6 +92368,27 @@ extension GetIpamDiscoveredResourceCidrsInput {
     }
 }
 
+extension GetIpamDiscoveredRoutesInput {
+
+    static func urlPathProvider(_ value: GetIpamDiscoveredRoutesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIpamInternetRegistryAssociationAsnsInput {
+
+    static func urlPathProvider(_ value: GetIpamInternetRegistryAssociationAsnsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIpamInternetRegistryAssociationCidrsInput {
+
+    static func urlPathProvider(_ value: GetIpamInternetRegistryAssociationCidrsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetIpamPolicyAllocationRulesInput {
 
     static func urlPathProvider(_ value: GetIpamPolicyAllocationRulesInput) -> Swift.String? {
@@ -90897,6 +92441,34 @@ extension GetIpamPrefixListResolverVersionsInput {
 extension GetIpamResourceCidrsInput {
 
     static func urlPathProvider(_ value: GetIpamResourceCidrsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIpamRouteOriginAuthorizationsInput {
+
+    static func urlPathProvider(_ value: GetIpamRouteOriginAuthorizationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIpamRouteProtectionFindingsInput {
+
+    static func urlPathProvider(_ value: GetIpamRouteProtectionFindingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIpamRoutingPolicyRegistrationDeltasInput {
+
+    static func urlPathProvider(_ value: GetIpamRoutingPolicyRegistrationDeltasInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIpamRoutingPolicyRegistrationsInput {
+
+    static func urlPathProvider(_ value: GetIpamRoutingPolicyRegistrationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -91429,6 +93001,13 @@ extension ModifyIpamResourceCidrInput {
 extension ModifyIpamResourceDiscoveryInput {
 
     static func urlPathProvider(_ value: ModifyIpamResourceDiscoveryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyIpamRoutingPolicyRegistrationInput {
+
+    static func urlPathProvider(_ value: ModifyIpamRoutingPolicyRegistrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -93029,6 +94608,20 @@ extension AuthorizeSecurityGroupIngressInput {
     }
 }
 
+extension BatchModifyIpamRoutingPolicyRegistrationsInput {
+
+    static func write(value: BatchModifyIpamRoutingPolicyRegistrationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DeltaJson"].write(value.deltaJson)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Force"].write(value.force)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["Action"].write("BatchModifyIpamRoutingPolicyRegistrations")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension BundleInstanceInput {
 
     static func write(value: BundleInstanceInput?, to writer: SmithyFormURL.Writer) throws {
@@ -93820,6 +95413,24 @@ extension CreateIpamExternalResourceVerificationTokenInput {
     }
 }
 
+extension CreateIpamInternetRegistryAssociationInput {
+
+    static func write(value: CreateIpamInternetRegistryAssociationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["IpamId"].write(value.ipamId)
+        try writer["OrganizationHandle"].write(value.organizationHandle)
+        try writer["Rir"].write(value.rir)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateIpamInternetRegistryAssociation")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateIpamPolicyInput {
 
     static func write(value: CreateIpamPolicyInput?, to writer: SmithyFormURL.Writer) throws {
@@ -93918,6 +95529,26 @@ extension CreateIpamResourceDiscoveryInput {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("CreateIpamResourceDiscovery")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension CreateIpamRoutingPolicyRegistrationInput {
+
+    static func write(value: CreateIpamRoutingPolicyRegistrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.asns?.isEmpty ?? true) {
+            try writer["Asn"].writeList(value.asns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Cidr"].write(value.cidr)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Force"].write(value.force)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxLength"].write(value.maxLength)
+        try writer["PermitMoreSpecificAnnouncements"].write(value.permitMoreSpecificAnnouncements)
+        try writer["Action"].write("CreateIpamRoutingPolicyRegistration")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -95482,6 +97113,17 @@ extension DeleteIpamExternalResourceVerificationTokenInput {
     }
 }
 
+extension DeleteIpamInternetRegistryAssociationInput {
+
+    static func write(value: DeleteIpamInternetRegistryAssociationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["Action"].write("DeleteIpamInternetRegistryAssociation")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DeleteIpamPolicyInput {
 
     static func write(value: DeleteIpamPolicyInput?, to writer: SmithyFormURL.Writer) throws {
@@ -95534,6 +97176,20 @@ extension DeleteIpamResourceDiscoveryInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["IpamResourceDiscoveryId"].write(value.ipamResourceDiscoveryId)
         try writer["Action"].write("DeleteIpamResourceDiscovery")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteIpamRoutingPolicyRegistrationInput {
+
+    static func write(value: DeleteIpamRoutingPolicyRegistrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Cidr"].write(value.cidr)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Force"].write(value.force)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["Action"].write("DeleteIpamRoutingPolicyRegistration")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -97753,6 +99409,24 @@ extension DescribeIpamExternalResourceVerificationTokensInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeIpamExternalResourceVerificationTokens")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeIpamInternetRegistryAssociationsInput {
+
+    static func write(value: DescribeIpamInternetRegistryAssociationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        if !(value.ipamInternetRegistryAssociationIds?.isEmpty ?? true) {
+            try writer["IpamInternetRegistryAssociationId"].writeList(value.ipamInternetRegistryAssociationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeIpamInternetRegistryAssociations")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -100517,6 +102191,23 @@ extension EnableInstanceSqlHaStandbyDetectionsInput {
     }
 }
 
+extension EnableIpamInternetRegistryAssociationInput {
+
+    static func write(value: EnableIpamInternetRegistryAssociationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ChildHandle"].write(value.childHandle)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["ParentBpkiTa"].write(value.parentBpkiTa)
+        try writer["ParentHandle"].write(value.parentHandle)
+        try writer["RpkiVersion"].write(value.rpkiVersion)
+        try writer["ServiceUri"].write(value.serviceUri)
+        try writer["Action"].write("EnableIpamInternetRegistryAssociation")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension EnableIpamOrganizationAdminAccountInput {
 
     static func write(value: EnableIpamOrganizationAdminAccountInput?, to writer: SmithyFormURL.Writer) throws {
@@ -101126,6 +102817,55 @@ extension GetIpamDiscoveredResourceCidrsInput {
     }
 }
 
+extension GetIpamDiscoveredRoutesInput {
+
+    static func write(value: GetIpamDiscoveredRoutesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["IpamResourceDiscoveryId"].write(value.ipamResourceDiscoveryId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ResourceRegion"].write(value.resourceRegion)
+        try writer["Action"].write("GetIpamDiscoveredRoutes")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetIpamInternetRegistryAssociationAsnsInput {
+
+    static func write(value: GetIpamInternetRegistryAssociationAsnsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetIpamInternetRegistryAssociationAsns")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetIpamInternetRegistryAssociationCidrsInput {
+
+    static func write(value: GetIpamInternetRegistryAssociationCidrsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetIpamInternetRegistryAssociationCidrs")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetIpamPolicyAllocationRulesInput {
 
     static func write(value: GetIpamPolicyAllocationRulesInput?, to writer: SmithyFormURL.Writer) throws {
@@ -101259,6 +102999,67 @@ extension GetIpamResourceCidrsInput {
         try writer["ResourceTag"].write(value.resourceTag, with: EC2ClientTypes.RequestIpamResourceTag.write(value:to:))
         try writer["ResourceType"].write(value.resourceType)
         try writer["Action"].write("GetIpamResourceCidrs")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetIpamRouteOriginAuthorizationsInput {
+
+    static func write(value: GetIpamRouteOriginAuthorizationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Cidr"].write(value.cidr)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetIpamRouteOriginAuthorizations")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetIpamRouteProtectionFindingsInput {
+
+    static func write(value: GetIpamRouteProtectionFindingsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["IpamId"].write(value.ipamId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetIpamRouteProtectionFindings")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetIpamRoutingPolicyRegistrationDeltasInput {
+
+    static func write(value: GetIpamRoutingPolicyRegistrationDeltasInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ChronologicalOrder"].write(value.chronologicalOrder)
+        try writer["DeltaId"].write(value.deltaId)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Action"].write("GetIpamRoutingPolicyRegistrationDeltas")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetIpamRoutingPolicyRegistrationsInput {
+
+    static func write(value: GetIpamRoutingPolicyRegistrationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Cidr"].write(value.cidr)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetIpamRoutingPolicyRegistrations")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -102452,6 +104253,26 @@ extension ModifyIpamResourceDiscoveryInput {
             try writer["RemoveOrganizationalUnitExclusion"].writeList(value.removeOrganizationalUnitExclusions, memberWritingClosure: EC2ClientTypes.RemoveIpamOrganizationalUnitExclusion.write(value:to:), memberNodeInfo: "Member", isFlattened: true)
         }
         try writer["Action"].write("ModifyIpamResourceDiscovery")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyIpamRoutingPolicyRegistrationInput {
+
+    static func write(value: ModifyIpamRoutingPolicyRegistrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.asns?.isEmpty ?? true) {
+            try writer["Asn"].writeList(value.asns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Cidr"].write(value.cidr)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Force"].write(value.force)
+        try writer["IpamInternetRegistryAssociationId"].write(value.ipamInternetRegistryAssociationId)
+        try writer["MaxLength"].write(value.maxLength)
+        try writer["PermitMoreSpecificAnnouncements"].write(value.permitMoreSpecificAnnouncements)
+        try writer["Action"].write("ModifyIpamRoutingPolicyRegistration")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -105032,6 +106853,18 @@ extension AuthorizeSecurityGroupIngressOutput {
     }
 }
 
+extension BatchModifyIpamRoutingPolicyRegistrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchModifyIpamRoutingPolicyRegistrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchModifyIpamRoutingPolicyRegistrationsOutput()
+        value.ipamRoutingPolicyRegistrationDelta = try reader["ipamRoutingPolicyRegistrationDelta"].readIfPresent(with: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta.read(from:))
+        return value
+    }
+}
+
 extension BundleInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BundleInstanceOutput {
@@ -105604,6 +107437,18 @@ extension CreateIpamExternalResourceVerificationTokenOutput {
     }
 }
 
+extension CreateIpamInternetRegistryAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIpamInternetRegistryAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIpamInternetRegistryAssociationOutput()
+        value.ipamInternetRegistryAssociation = try reader["ipamInternetRegistryAssociation"].readIfPresent(with: EC2ClientTypes.IpamInternetRegistryAssociation.read(from:))
+        return value
+    }
+}
+
 extension CreateIpamPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIpamPolicyOutput {
@@ -105660,6 +107505,18 @@ extension CreateIpamResourceDiscoveryOutput {
         let reader = responseReader
         var value = CreateIpamResourceDiscoveryOutput()
         value.ipamResourceDiscovery = try reader["ipamResourceDiscovery"].readIfPresent(with: EC2ClientTypes.IpamResourceDiscovery.read(from:))
+        return value
+    }
+}
+
+extension CreateIpamRoutingPolicyRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIpamRoutingPolicyRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIpamRoutingPolicyRegistrationOutput()
+        value.ipamRoutingPolicyRegistrationDelta = try reader["ipamRoutingPolicyRegistrationDelta"].readIfPresent(with: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta.read(from:))
         return value
     }
 }
@@ -106803,6 +108660,18 @@ extension DeleteIpamExternalResourceVerificationTokenOutput {
     }
 }
 
+extension DeleteIpamInternetRegistryAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIpamInternetRegistryAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteIpamInternetRegistryAssociationOutput()
+        value.ipamInternetRegistryAssociation = try reader["ipamInternetRegistryAssociation"].readIfPresent(with: EC2ClientTypes.IpamInternetRegistryAssociation.read(from:))
+        return value
+    }
+}
+
 extension DeleteIpamPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIpamPolicyOutput {
@@ -106859,6 +108728,18 @@ extension DeleteIpamResourceDiscoveryOutput {
         let reader = responseReader
         var value = DeleteIpamResourceDiscoveryOutput()
         value.ipamResourceDiscovery = try reader["ipamResourceDiscovery"].readIfPresent(with: EC2ClientTypes.IpamResourceDiscovery.read(from:))
+        return value
+    }
+}
+
+extension DeleteIpamRoutingPolicyRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIpamRoutingPolicyRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteIpamRoutingPolicyRegistrationOutput()
+        value.ipamRoutingPolicyRegistrationDelta = try reader["ipamRoutingPolicyRegistrationDelta"].readIfPresent(with: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta.read(from:))
         return value
     }
 }
@@ -108761,6 +110642,19 @@ extension DescribeIpamExternalResourceVerificationTokensOutput {
         let reader = responseReader
         var value = DescribeIpamExternalResourceVerificationTokensOutput()
         value.ipamExternalResourceVerificationTokens = try reader["ipamExternalResourceVerificationTokenSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamExternalResourceVerificationToken.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeIpamInternetRegistryAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeIpamInternetRegistryAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeIpamInternetRegistryAssociationsOutput()
+        value.ipamInternetRegistryAssociations = try reader["ipamInternetRegistryAssociationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamInternetRegistryAssociation.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -110990,6 +112884,18 @@ extension EnableInstanceSqlHaStandbyDetectionsOutput {
     }
 }
 
+extension EnableIpamInternetRegistryAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableIpamInternetRegistryAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = EnableIpamInternetRegistryAssociationOutput()
+        value.ipamInternetRegistryAssociation = try reader["ipamInternetRegistryAssociation"].readIfPresent(with: EC2ClientTypes.IpamInternetRegistryAssociation.read(from:))
+        return value
+    }
+}
+
 extension EnableIpamOrganizationAdminAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableIpamOrganizationAdminAccountOutput {
@@ -111613,6 +113519,45 @@ extension GetIpamDiscoveredResourceCidrsOutput {
     }
 }
 
+extension GetIpamDiscoveredRoutesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamDiscoveredRoutesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamDiscoveredRoutesOutput()
+        value.ipamDiscoveredRoutes = try reader["ipamDiscoveredRouteSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamDiscoveredRoute.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetIpamInternetRegistryAssociationAsnsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamInternetRegistryAssociationAsnsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamInternetRegistryAssociationAsnsOutput()
+        value.ipamInternetRegistryAssociationAsns = try reader["ipamInternetRegistryAssociationAsnSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamInternetRegistryAssociationAsn.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetIpamInternetRegistryAssociationCidrsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamInternetRegistryAssociationCidrsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamInternetRegistryAssociationCidrsOutput()
+        value.ipamInternetRegistryAssociationCidrs = try reader["ipamInternetRegistryAssociationCidrSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamInternetRegistryAssociationCidr.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension GetIpamPolicyAllocationRulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamPolicyAllocationRulesOutput {
@@ -111712,6 +113657,59 @@ extension GetIpamResourceCidrsOutput {
         let reader = responseReader
         var value = GetIpamResourceCidrsOutput()
         value.ipamResourceCidrs = try reader["ipamResourceCidrSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamResourceCidr.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetIpamRouteOriginAuthorizationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamRouteOriginAuthorizationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamRouteOriginAuthorizationsOutput()
+        value.ipamRouteOriginAuthorizations = try reader["ipamRouteOriginAuthorizationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamRouteOriginAuthorizationInfo.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetIpamRouteProtectionFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamRouteProtectionFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamRouteProtectionFindingsOutput()
+        value.ipamId = try reader["ipamId"].readIfPresent()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.routeProtectionFindings = try reader["routeProtectionFindingSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamRouteProtectionFinding.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension GetIpamRoutingPolicyRegistrationDeltasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamRoutingPolicyRegistrationDeltasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamRoutingPolicyRegistrationDeltasOutput()
+        value.ipamRoutingPolicyRegistrationDeltas = try reader["ipamRoutingPolicyRegistrationDeltaSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetIpamRoutingPolicyRegistrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIpamRoutingPolicyRegistrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIpamRoutingPolicyRegistrationsOutput()
+        value.ipamRoutingPolicyRegistrations = try reader["ipamRoutingPolicyRegistrationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamRoutingPolicyRegistration.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -112686,6 +114684,18 @@ extension ModifyIpamResourceDiscoveryOutput {
         let reader = responseReader
         var value = ModifyIpamResourceDiscoveryOutput()
         value.ipamResourceDiscovery = try reader["ipamResourceDiscovery"].readIfPresent(with: EC2ClientTypes.IpamResourceDiscovery.read(from:))
+        return value
+    }
+}
+
+extension ModifyIpamRoutingPolicyRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyIpamRoutingPolicyRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyIpamRoutingPolicyRegistrationOutput()
+        value.ipamRoutingPolicyRegistrationDelta = try reader["ipamRoutingPolicyRegistrationDelta"].readIfPresent(with: EC2ClientTypes.IpamRoutingPolicyRegistrationDelta.read(from:))
         return value
     }
 }
@@ -114813,6 +116823,19 @@ enum AuthorizeSecurityGroupIngressOutputError {
     }
 }
 
+enum BatchModifyIpamRoutingPolicyRegistrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BundleInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -115411,6 +117434,19 @@ enum CreateIpamExternalResourceVerificationTokenOutputError {
     }
 }
 
+enum CreateIpamInternetRegistryAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateIpamPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -115464,6 +117500,19 @@ enum CreateIpamPrefixListResolverTargetOutputError {
 }
 
 enum CreateIpamResourceDiscoveryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIpamRoutingPolicyRegistrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -116672,6 +118721,19 @@ enum DeleteIpamExternalResourceVerificationTokenOutputError {
     }
 }
 
+enum DeleteIpamInternetRegistryAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteIpamPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -116725,6 +118787,19 @@ enum DeleteIpamPrefixListResolverTargetOutputError {
 }
 
 enum DeleteIpamResourceDiscoveryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIpamRoutingPolicyRegistrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -118753,6 +120828,19 @@ enum DescribeIpamByoasnOutputError {
 }
 
 enum DescribeIpamExternalResourceVerificationTokensOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeIpamInternetRegistryAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -121040,6 +123128,19 @@ enum EnableInstanceSqlHaStandbyDetectionsOutputError {
     }
 }
 
+enum EnableIpamInternetRegistryAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableIpamOrganizationAdminAccountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -121651,6 +123752,45 @@ enum GetIpamDiscoveredResourceCidrsOutputError {
     }
 }
 
+enum GetIpamDiscoveredRoutesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIpamInternetRegistryAssociationAsnsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIpamInternetRegistryAssociationCidrsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetIpamPolicyAllocationRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -121743,6 +123883,58 @@ enum GetIpamPrefixListResolverVersionsOutputError {
 }
 
 enum GetIpamResourceCidrsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIpamRouteOriginAuthorizationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIpamRouteProtectionFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIpamRoutingPolicyRegistrationDeltasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIpamRoutingPolicyRegistrationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -122731,6 +124923,19 @@ enum ModifyIpamResourceCidrOutputError {
 }
 
 enum ModifyIpamResourceDiscoveryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyIpamRoutingPolicyRegistrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -125310,6 +127515,8 @@ extension EC2ClientTypes.ByoipCidr {
         value.state = try reader["state"].readIfPresent()
         value.networkBorderGroup = try reader["networkBorderGroup"].readIfPresent()
         value.advertisementType = try reader["advertisementType"].readIfPresent()
+        value.poolId = try reader["poolId"].readIfPresent()
+        value.ipamPoolId = try reader["ipamPoolId"].readIfPresent()
         return value
     }
 }
@@ -130212,6 +132419,26 @@ extension EC2ClientTypes.IpamDiscoveredResourceCidr {
     }
 }
 
+extension EC2ClientTypes.IpamDiscoveredRoute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamDiscoveredRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamDiscoveredRoute()
+        value.ipamResourceDiscoveryId = try reader["ipamResourceDiscoveryId"].readIfPresent()
+        value.resourceRegion = try reader["resourceRegion"].readIfPresent()
+        value.resourceOwnerId = try reader["resourceOwnerId"].readIfPresent()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.asn = try reader["asn"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.advertisementType = try reader["advertisementType"].readIfPresent()
+        value.networkBorderGroup = try reader["networkBorderGroup"].readIfPresent()
+        value.poolId = try reader["poolId"].readIfPresent()
+        value.ipamPoolId = try reader["ipamPoolId"].readIfPresent()
+        value.sampleTime = try reader["sampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension EC2ClientTypes.IpamDiscoveryFailureReason {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamDiscoveryFailureReason {
@@ -130239,6 +132466,48 @@ extension EC2ClientTypes.IpamExternalResourceVerificationToken {
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamInternetRegistryAssociation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamInternetRegistryAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamInternetRegistryAssociation()
+        value.ownerId = try reader["ownerId"].readIfPresent()
+        value.ipamInternetRegistryAssociationId = try reader["ipamInternetRegistryAssociationId"].readIfPresent()
+        value.ipamInternetRegistryAssociationArn = try reader["ipamInternetRegistryAssociationArn"].readIfPresent()
+        value.ipamId = try reader["ipamId"].readIfPresent()
+        value.ipamRegion = try reader["ipamRegion"].readIfPresent()
+        value.rir = try reader["rir"].readIfPresent()
+        value.organizationHandle = try reader["organizationHandle"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.childRequestXml = try reader["childRequestXml"].readIfPresent()
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamInternetRegistryAssociationAsn {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamInternetRegistryAssociationAsn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamInternetRegistryAssociationAsn()
+        value.asn = try reader["asn"].readIfPresent()
+        value.lastObservedAt = try reader["lastObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamInternetRegistryAssociationCidr {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamInternetRegistryAssociationCidr {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamInternetRegistryAssociationCidr()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.lastObservedAt = try reader["lastObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -130642,6 +132911,97 @@ extension EC2ClientTypes.IpamResourceTag {
         var value = EC2ClientTypes.IpamResourceTag()
         value.key = try reader["key"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamRouteOriginAuthorization {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamRouteOriginAuthorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamRouteOriginAuthorization()
+        value.asn = try reader["asn"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.maxLength = try reader["maxLength"].readIfPresent()
+        value.match = try reader["match"].readIfPresent()
+        value.expiration = try reader["expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamRouteOriginAuthorizationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamRouteOriginAuthorizationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamRouteOriginAuthorizationInfo()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.asn = try reader["asn"].readIfPresent()
+        value.maxLength = try reader["maxLength"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamRouteOverlap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamRouteOverlap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamRouteOverlap()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.asn = try reader["asn"].readIfPresent()
+        value.detectedAt = try reader["detectedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamRouteProtectionFinding {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamRouteProtectionFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamRouteProtectionFinding()
+        value.resourceOwnerId = try reader["resourceOwnerId"].readIfPresent()
+        value.resourceRegion = try reader["resourceRegion"].readIfPresent()
+        value.ipamPoolId = try reader["ipamPoolId"].readIfPresent()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.advertisementType = try reader["advertisementType"].readIfPresent()
+        value.networkBorderGroup = try reader["networkBorderGroup"].readIfPresent()
+        value.poolId = try reader["poolId"].readIfPresent()
+        value.asn = try reader["asn"].readIfPresent()
+        value.rpkiStatus = try reader["rpkiStatus"].readIfPresent()
+        value.rpkiStrength = try reader["rpkiStrength"].readIfPresent()
+        value.roas = try reader["roaSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamRouteOriginAuthorization.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.routeOverlaps = try reader["routeOverlapSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.IpamRouteOverlap.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.sampleTime = try reader["sampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.roaSampleTime = try reader["roaSampleTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamRoutingPolicyRegistration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamRoutingPolicyRegistration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamRoutingPolicyRegistration()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.asns = try reader["asnSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.permitMoreSpecificAnnouncements = try reader["permitMoreSpecificAnnouncements"].readIfPresent()
+        value.maxLength = try reader["maxLength"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.latestDeltaId = try reader["latestDeltaId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.IpamRoutingPolicyRegistrationDelta {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.IpamRoutingPolicyRegistrationDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.IpamRoutingPolicyRegistrationDelta()
+        value.deltaId = try reader["deltaId"].readIfPresent()
+        value.deltaJson = try reader["deltaJson"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.stateMessage = try reader["stateMessage"].readIfPresent()
         return value
     }
 }

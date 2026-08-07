@@ -4089,7 +4089,7 @@ public struct BatchDisassociateAnalyticsDataSetOutput: Swift.Sendable {
 }
 
 public struct BatchGetAttachedFileMetadataInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifiers of the attached file resource.
@@ -4228,7 +4228,7 @@ extension ConnectClientTypes {
 
     /// Information about the attached file.
     public struct AttachedFile: Swift.Sendable {
-        /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+        /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
         public var associatedResourceArn: Swift.String?
         /// Represents the identity that created the file.
         public var createdBy: ConnectClientTypes.CreatedByInfo?
@@ -4839,7 +4839,7 @@ public struct ClaimPhoneNumberOutput: Swift.Sendable {
 
 /// Request to CompleteAttachedFileUpload API
 public struct CompleteAttachedFileUploadInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifier of the attached file resource.
@@ -9820,6 +9820,7 @@ extension ConnectClientTypes {
         case referencedResourceNotFound
         case requiredPropertyMissing
         case resourceNameAlreadyExists
+        case typeMismatch
         case uniqueConstraintViolated
         case sdkUnknown(Swift.String)
 
@@ -9830,6 +9831,7 @@ extension ConnectClientTypes {
                 .referencedResourceNotFound,
                 .requiredPropertyMissing,
                 .resourceNameAlreadyExists,
+                .typeMismatch,
                 .uniqueConstraintViolated
             ]
         }
@@ -9846,6 +9848,7 @@ extension ConnectClientTypes {
             case .referencedResourceNotFound: return "REFERENCED_RESOURCE_NOT_FOUND"
             case .requiredPropertyMissing: return "REQUIRED_PROPERTY_MISSING"
             case .resourceNameAlreadyExists: return "RESOURCE_NAME_ALREADY_EXISTS"
+            case .typeMismatch: return "TYPE_MISMATCH"
             case .uniqueConstraintViolated: return "UNIQUE_CONSTRAINT_VIOLATED"
             case let .sdkUnknown(s): return s
             }
@@ -11781,7 +11784,7 @@ public struct DeactivateEvaluationFormOutput: Swift.Sendable {
 
 /// Request to DeleteAttachedFile API
 public struct DeleteAttachedFileInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifier of the attached file resource.
@@ -11808,7 +11811,7 @@ public struct DeleteAttachedFileOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The contact has not been disconnected and is not in a terminated state. PII can be deleted only from a contact that has been disconnected. This error is returned with an HTTP 409 status code.
+/// The contact has not been disconnected and is not in a terminated state. To delete PII, disconnect the contact first. Wait for it to reach the terminated state, then retry the request.
 public struct ContactNotTerminatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -11864,10 +11867,16 @@ extension ConnectClientTypes {
 }
 
 public struct DeleteContactDataInput: Swift.Sendable {
-    /// The categories of PII to redact from the contact. Valid values are CUSTOMER_ENDPOINT, ADDITIONAL_EMAIL_RECIPIENTS, and EMAIL_SUBJECT. ADDITIONAL_EMAIL_RECIPIENTS and EMAIL_SUBJECT are supported only for contacts in the email channel.
+    /// The categories of PII to redact from the contact. Specify one or more of the following values:
+    ///
+    /// * CUSTOMER_ENDPOINT – The customer's contact endpoint.
+    ///
+    /// * ADDITIONAL_EMAIL_RECIPIENTS – Additional recipients on an email contact (email channel only).
+    ///
+    /// * EMAIL_SUBJECT – The subject line of an email contact (email channel only).
     /// This member is required.
     public var contactFields: [ConnectClientTypes.ContactField]?
-    /// The identifier of the contact. PII can be deleted only from a contact that has been disconnected (is in a terminated state).
+    /// The identifier of the contact. You can delete PII only from a contact that has been disconnected (is in a terminated state).
     /// This member is required.
     public var contactId: Swift.String?
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -18900,7 +18909,7 @@ public struct EvaluateDataTableValuesOutput: Swift.Sendable {
 
 /// Request to GetAttachedFile API.
 public struct GetAttachedFileInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifier of the attached file resource.
@@ -18946,7 +18955,7 @@ extension ConnectClientTypes {
 
 /// Response from GetAttachedFile API.
 public struct GetAttachedFileOutput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html).
     public var associatedResourceArn: Swift.String?
     /// Represents the identity that created the file.
     public var createdBy: ConnectClientTypes.CreatedByInfo?
@@ -30881,7 +30890,7 @@ public struct SendOutboundWebNotificationOutput: Swift.Sendable {
 }
 
 public struct StartAttachedFileUploadInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -33373,6 +33382,33 @@ public struct UpdateContactScheduleInput: Swift.Sendable {
 }
 
 public struct UpdateContactScheduleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateContactTaskTemplateInput: Swift.Sendable {
+    /// The identifier of the contact in this instance of Connect Customer.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique identifier for the task template. For more information about task templates, see [Task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Connect Customer Administrator Guide.
+    /// This member is required.
+    public var taskTemplateId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        taskTemplateId: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.taskTemplateId = taskTemplateId
+    }
+}
+
+public struct UpdateContactTaskTemplateOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -43036,6 +43072,13 @@ extension UpdateContactScheduleInput {
     }
 }
 
+extension UpdateContactTaskTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateContactTaskTemplateInput) -> Swift.String? {
+        return "/contact/task-template"
+    }
+}
+
 extension UpdateDataTableAttributeInput {
 
     static func urlPathProvider(_ value: UpdateDataTableAttributeInput) -> Swift.String? {
@@ -45677,6 +45720,16 @@ extension UpdateContactScheduleInput {
         try writer["ContactId"].write(value.contactId)
         try writer["InstanceId"].write(value.instanceId)
         try writer["ScheduledTime"].writeTimestamp(value.scheduledTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension UpdateContactTaskTemplateInput {
+
+    static func write(value: UpdateContactTaskTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactId"].write(value.contactId)
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["TaskTemplateId"].write(value.taskTemplateId)
     }
 }
 
@@ -49870,6 +49923,13 @@ extension UpdateContactScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactScheduleOutput {
         return UpdateContactScheduleOutput()
+    }
+}
+
+extension UpdateContactTaskTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactTaskTemplateOutput {
+        return UpdateContactTaskTemplateOutput()
     }
 }
 
@@ -56446,6 +56506,26 @@ enum UpdateContactScheduleOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateContactTaskTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PropertyValidationException": return try PropertyValidationException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

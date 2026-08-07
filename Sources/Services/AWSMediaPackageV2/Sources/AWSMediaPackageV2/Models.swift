@@ -372,6 +372,7 @@ extension MediaPackageV2ClientTypes {
         case onlyCmafInputTypeAllowMqcsOutputConfiguration
         case onlyCmafInputTypeAllowOutputLockingMode
         case onlyCmafInputTypeAllowPreferredInputConfiguration
+        case onlyHlsInputTypeAllowStreamNameOutputMode
         case onlyNonEpochLockedAllowOutputTimestampMode
         case outputTimestampModeImmutable
         case periodTriggersNoneSpecifiedWithAdditionalValues
@@ -386,6 +387,7 @@ extension MediaPackageV2ClientTypes {
         case secretIsNotOneKeyValuePair
         case sourceDisruptionsEnabledIncorrectly
         case startTagTimeOffsetInvalid
+        case streamNameOutputModeImmutable
         case timingSourceMissing
         case tooManyInProgressHarvestJobs
         case tooManySecrets
@@ -480,6 +482,7 @@ extension MediaPackageV2ClientTypes {
                 .onlyCmafInputTypeAllowMqcsOutputConfiguration,
                 .onlyCmafInputTypeAllowOutputLockingMode,
                 .onlyCmafInputTypeAllowPreferredInputConfiguration,
+                .onlyHlsInputTypeAllowStreamNameOutputMode,
                 .onlyNonEpochLockedAllowOutputTimestampMode,
                 .outputTimestampModeImmutable,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
@@ -494,6 +497,7 @@ extension MediaPackageV2ClientTypes {
                 .secretIsNotOneKeyValuePair,
                 .sourceDisruptionsEnabledIncorrectly,
                 .startTagTimeOffsetInvalid,
+                .streamNameOutputModeImmutable,
                 .timingSourceMissing,
                 .tooManyInProgressHarvestJobs,
                 .tooManySecrets,
@@ -594,6 +598,7 @@ extension MediaPackageV2ClientTypes {
             case .onlyCmafInputTypeAllowMqcsOutputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
             case .onlyCmafInputTypeAllowOutputLockingMode: return "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
             case .onlyCmafInputTypeAllowPreferredInputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
+            case .onlyHlsInputTypeAllowStreamNameOutputMode: return "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
             case .onlyNonEpochLockedAllowOutputTimestampMode: return "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
             case .outputTimestampModeImmutable: return "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
@@ -608,6 +613,7 @@ extension MediaPackageV2ClientTypes {
             case .secretIsNotOneKeyValuePair: return "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR"
             case .sourceDisruptionsEnabledIncorrectly: return "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
             case .startTagTimeOffsetInvalid: return "START_TAG_TIME_OFFSET_INVALID"
+            case .streamNameOutputModeImmutable: return "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
             case .tooManyInProgressHarvestJobs: return "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
             case .tooManySecrets: return "TOO_MANY_SECRETS"
@@ -2851,6 +2857,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum StreamNameOutputMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case index
+        case passthroughName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamNameOutputMode] {
+            return [
+                .index,
+                .passthroughName
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .index: return "INDEX"
+            case .passthroughName: return "PASSTHROUGH_NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum UriSeparator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hyphen
         case underscore
@@ -2909,6 +2944,8 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
     public var startoverWindowSeconds: Swift.Int?
+    /// The output mode for stream names in egress manifests. This setting is valid only when the associated channel's InputType is HLS. You can't change the stream name output mode after you create the endpoint. INDEX uses numeric indices for stream names (for example, 1, 2, 3). PASSTHROUGH_NAME uses the stream names from the input manifest. If you don't specify a value, the default is INDEX.
+    public var streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode?
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
@@ -2929,6 +2966,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
+        streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
@@ -2945,6 +2983,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.streamNameOutputMode = streamNameOutputMode
         self.tags = tags
         self.uriSeparator = uriSeparator
     }
@@ -3229,6 +3268,8 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
     public var startoverWindowSeconds: Swift.Int?
+    /// The output mode for stream names in egress manifests for this origin endpoint.
+    public var streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
     /// The separator character used in generated URIs for this origin endpoint.
@@ -3251,6 +3292,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
+        streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
@@ -3270,6 +3312,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.streamNameOutputMode = streamNameOutputMode
         self.tags = tags
         self.uriSeparator = uriSeparator
     }
@@ -3367,6 +3410,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
     public var startoverWindowSeconds: Swift.Int?
+    /// The output mode for stream names in egress manifests for this origin endpoint.
+    public var streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
     /// The separator character used in generated URIs for this origin endpoint.
@@ -3390,6 +3435,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         resetAt: Foundation.Date? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
+        streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
@@ -3410,6 +3456,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         self.resetAt = resetAt
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.streamNameOutputMode = streamNameOutputMode
         self.tags = tags
         self.uriSeparator = uriSeparator
     }
@@ -3563,6 +3610,8 @@ extension MediaPackageV2ClientTypes {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         /// This member is required.
         public var originEndpointName: Swift.String?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public var streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode?
         /// The separator character used in generated URIs for this origin endpoint.
         public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
@@ -3580,6 +3629,7 @@ extension MediaPackageV2ClientTypes {
             modifiedAt: Foundation.Date? = nil,
             mssManifests: [MediaPackageV2ClientTypes.ListMssManifestConfiguration]? = nil,
             originEndpointName: Swift.String? = nil,
+            streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode? = nil,
             uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
         ) {
             self.arn = arn
@@ -3595,6 +3645,7 @@ extension MediaPackageV2ClientTypes {
             self.modifiedAt = modifiedAt
             self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
+            self.streamNameOutputMode = streamNameOutputMode
             self.uriSeparator = uriSeparator
         }
     }
@@ -3816,6 +3867,8 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
     public var startoverWindowSeconds: Swift.Int?
+    /// The output mode for stream names in egress manifests. If you provide a value, it must match the current value. You can't change the stream name output mode after you create the endpoint.
+    public var streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode?
     /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
     public var uriSeparator: MediaPackageV2ClientTypes.UriSeparator?
 
@@ -3833,6 +3886,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
+        streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode? = nil,
         uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
         self.channelGroupName = channelGroupName
@@ -3848,6 +3902,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.streamNameOutputMode = streamNameOutputMode
         self.uriSeparator = uriSeparator
     }
 }
@@ -3893,6 +3948,8 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
     public var segment: MediaPackageV2ClientTypes.Segment?
     /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
     public var startoverWindowSeconds: Swift.Int?
+    /// The output mode for stream names in egress manifests for this origin endpoint.
+    public var streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode?
     /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
     public var tags: [Swift.String: Swift.String]?
     /// The separator character used in generated URIs for this origin endpoint.
@@ -3915,6 +3972,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
+        streamNameOutputMode: MediaPackageV2ClientTypes.StreamNameOutputMode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uriSeparator: MediaPackageV2ClientTypes.UriSeparator? = nil
     ) {
@@ -3934,6 +3992,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
+        self.streamNameOutputMode = streamNameOutputMode
         self.tags = tags
         self.uriSeparator = uriSeparator
     }
@@ -5533,6 +5592,7 @@ extension CreateOriginEndpointInput {
         try writer["OriginEndpointName"].write(value.originEndpointName)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
+        try writer["StreamNameOutputMode"].write(value.streamNameOutputMode)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["UriSeparator"].write(value.uriSeparator)
     }
@@ -5594,6 +5654,7 @@ extension UpdateOriginEndpointInput {
         try writer["MssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateMssManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
+        try writer["StreamNameOutputMode"].write(value.streamNameOutputMode)
         try writer["UriSeparator"].write(value.uriSeparator)
     }
 }
@@ -5697,6 +5758,7 @@ extension CreateOriginEndpointOutput {
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
+        value.streamNameOutputMode = try reader["StreamNameOutputMode"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
@@ -5846,6 +5908,7 @@ extension GetOriginEndpointOutput {
         value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
+        value.streamNameOutputMode = try reader["StreamNameOutputMode"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
@@ -6057,6 +6120,7 @@ extension UpdateOriginEndpointOutput {
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
+        value.streamNameOutputMode = try reader["StreamNameOutputMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.uriSeparator = try reader["UriSeparator"].readIfPresent()
         return value
@@ -7379,6 +7443,7 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.uriSeparator = try reader["UriSeparator"].readIfPresent()
+        value.streamNameOutputMode = try reader["StreamNameOutputMode"].readIfPresent()
         return value
     }
 }

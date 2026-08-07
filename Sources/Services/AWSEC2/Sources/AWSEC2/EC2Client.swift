@@ -3626,6 +3626,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchModifyIpamRoutingPolicyRegistrations` operation on the `EC2` service.
+    ///
+    /// Modifies multiple routing policy registrations in a single operation. You can create, update, or delete Route Origin Authorizations (ROAs) in batch.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchModifyIpamRoutingPolicyRegistrationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchModifyIpamRoutingPolicyRegistrationsOutput`)
+    public func batchModifyIpamRoutingPolicyRegistrations(input: BatchModifyIpamRoutingPolicyRegistrationsInput) async throws -> BatchModifyIpamRoutingPolicyRegistrationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchModifyIpamRoutingPolicyRegistrations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>(BatchModifyIpamRoutingPolicyRegistrationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchModifyIpamRoutingPolicyRegistrationsOutput>(BatchModifyIpamRoutingPolicyRegistrationsOutput.httpOutput(from:), BatchModifyIpamRoutingPolicyRegistrationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchModifyIpamRoutingPolicyRegistrationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchModifyIpamRoutingPolicyRegistrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: BatchModifyIpamRoutingPolicyRegistrationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchModifyIpamRoutingPolicyRegistrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchModifyIpamRoutingPolicyRegistrationsInput, BatchModifyIpamRoutingPolicyRegistrationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchModifyIpamRoutingPolicyRegistrations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BundleInstance` operation on the `EC2` service.
     ///
     /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved. BundleInstance is no longer supported. To create an AMI, use [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html) instead. For more information about creating an Amazon EBS-backed AMI, see [ Create an Amazon EBS-backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon EC2 User Guide.
@@ -4791,7 +4855,7 @@ extension EC2Client {
     ///
     /// * If you do not specify Aggregation, it defaults to included, which means the check contributes to the instance-level application status.
     ///
-    /// * Default values: Interval is 60 seconds, Timeout is 6 seconds, FailureThreshold is 2, SuccessThreshold is 5, StatusCodeMatcher is 200, InitializationGracePeriodSeconds is 300 seconds.
+    /// * Default values: Interval is 60 seconds, Timeout is 6 seconds, FailureThreshold is 2, SuccessThreshold is 2, StatusCodeMatcher is 200, InitializationGracePeriodSeconds is 300 seconds.
     ///
     /// * You can tag the application status check during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html).
     ///
@@ -6663,6 +6727,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateIpamInternetRegistryAssociation` operation on the `EC2` service.
+    ///
+    /// Creates an association between an IPAM and a Regional Internet Registry (RIR) for Resource Public Key Infrastructure (RPKI) management. You can use this association to create Route Origin Authorizations (ROAs) for IP address prefixes registered with the internet registry. Your IPAM must be in the Advanced tier to use this feature.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamInternetRegistryAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateIpamInternetRegistryAssociationOutput`)
+    public func createIpamInternetRegistryAssociation(input: CreateIpamInternetRegistryAssociationInput) async throws -> CreateIpamInternetRegistryAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIpamInternetRegistryAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>(CreateIpamInternetRegistryAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamInternetRegistryAssociationOutput>(CreateIpamInternetRegistryAssociationOutput.httpOutput(from:), CreateIpamInternetRegistryAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamInternetRegistryAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIpamInternetRegistryAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIpamInternetRegistryAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIpamInternetRegistryAssociationInput, CreateIpamInternetRegistryAssociationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamInternetRegistryAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateIpamPolicy` operation on the `EC2` service.
     ///
     /// Creates an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations. For more information, see [Define public IPv4 allocation strategy with IPAM policies](https://docs.aws.amazon.com/vpc/latest/ipam/define-public-ipv4-allocation-strategy-with-ipam-policies.html) in the Amazon VPC IPAM User Guide.
@@ -6971,6 +7099,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamResourceDiscovery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateIpamRoutingPolicyRegistration` operation on the `EC2` service.
+    ///
+    /// Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamRoutingPolicyRegistrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateIpamRoutingPolicyRegistrationOutput`)
+    public func createIpamRoutingPolicyRegistration(input: CreateIpamRoutingPolicyRegistrationInput) async throws -> CreateIpamRoutingPolicyRegistrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIpamRoutingPolicyRegistration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>(CreateIpamRoutingPolicyRegistrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamRoutingPolicyRegistrationOutput>(CreateIpamRoutingPolicyRegistrationOutput.httpOutput(from:), CreateIpamRoutingPolicyRegistrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamRoutingPolicyRegistrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIpamRoutingPolicyRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIpamRoutingPolicyRegistrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIpamRoutingPolicyRegistrationInput, CreateIpamRoutingPolicyRegistrationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamRoutingPolicyRegistration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -12880,6 +13072,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteIpamInternetRegistryAssociation` operation on the `EC2` service.
+    ///
+    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamInternetRegistryAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteIpamInternetRegistryAssociationOutput`)
+    public func deleteIpamInternetRegistryAssociation(input: DeleteIpamInternetRegistryAssociationInput) async throws -> DeleteIpamInternetRegistryAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIpamInternetRegistryAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>(DeleteIpamInternetRegistryAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamInternetRegistryAssociationOutput>(DeleteIpamInternetRegistryAssociationOutput.httpOutput(from:), DeleteIpamInternetRegistryAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamInternetRegistryAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIpamInternetRegistryAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIpamInternetRegistryAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIpamInternetRegistryAssociationInput, DeleteIpamInternetRegistryAssociationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamInternetRegistryAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteIpamPolicy` operation on the `EC2` service.
     ///
     /// Deletes an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
@@ -13183,6 +13438,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamResourceDiscovery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteIpamRoutingPolicyRegistration` operation on the `EC2` service.
+    ///
+    /// Deletes a routing policy registration for a specified CIDR prefix.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamRoutingPolicyRegistrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteIpamRoutingPolicyRegistrationOutput`)
+    public func deleteIpamRoutingPolicyRegistration(input: DeleteIpamRoutingPolicyRegistrationInput) async throws -> DeleteIpamRoutingPolicyRegistrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIpamRoutingPolicyRegistration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>(DeleteIpamRoutingPolicyRegistrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamRoutingPolicyRegistrationOutput>(DeleteIpamRoutingPolicyRegistrationOutput.httpOutput(from:), DeleteIpamRoutingPolicyRegistrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamRoutingPolicyRegistrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIpamRoutingPolicyRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteIpamRoutingPolicyRegistrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIpamRoutingPolicyRegistrationInput, DeleteIpamRoutingPolicyRegistrationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamRoutingPolicyRegistration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -23077,6 +23396,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamExternalResourceVerificationTokens")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeIpamInternetRegistryAssociations` operation on the `EC2` service.
+    ///
+    /// Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamInternetRegistryAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeIpamInternetRegistryAssociationsOutput`)
+    public func describeIpamInternetRegistryAssociations(input: DescribeIpamInternetRegistryAssociationsInput) async throws -> DescribeIpamInternetRegistryAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeIpamInternetRegistryAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>(DescribeIpamInternetRegistryAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamInternetRegistryAssociationsOutput>(DescribeIpamInternetRegistryAssociationsOutput.httpOutput(from:), DescribeIpamInternetRegistryAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamInternetRegistryAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeIpamInternetRegistryAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeIpamInternetRegistryAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIpamInternetRegistryAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIpamInternetRegistryAssociationsInput, DescribeIpamInternetRegistryAssociationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamInternetRegistryAssociations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -34190,6 +34572,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `EnableIpamInternetRegistryAssociation` operation on the `EC2` service.
+    ///
+    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EnableIpamInternetRegistryAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EnableIpamInternetRegistryAssociationOutput`)
+    public func enableIpamInternetRegistryAssociation(input: EnableIpamInternetRegistryAssociationInput) async throws -> EnableIpamInternetRegistryAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableIpamInternetRegistryAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>(EnableIpamInternetRegistryAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableIpamInternetRegistryAssociationOutput>(EnableIpamInternetRegistryAssociationOutput.httpOutput(from:), EnableIpamInternetRegistryAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableIpamInternetRegistryAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableIpamInternetRegistryAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableIpamInternetRegistryAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableIpamInternetRegistryAssociationInput, EnableIpamInternetRegistryAssociationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableIpamInternetRegistryAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableIpamOrganizationAdminAccount` operation on the `EC2` service.
     ///
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see [Enable integration with Organizations](https://docs.aws.amazon.com/vpc/latest/ipam/enable-integ-ipam.html) in the Amazon VPC IPAM User Guide.
@@ -37163,6 +37609,195 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIpamDiscoveredRoutes` operation on the `EC2` service.
+    ///
+    /// Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM resource discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamDiscoveredRoutesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamDiscoveredRoutesOutput`)
+    public func getIpamDiscoveredRoutes(input: GetIpamDiscoveredRoutesInput) async throws -> GetIpamDiscoveredRoutesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamDiscoveredRoutes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>(GetIpamDiscoveredRoutesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamDiscoveredRoutesOutput>(GetIpamDiscoveredRoutesOutput.httpOutput(from:), GetIpamDiscoveredRoutesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamDiscoveredRoutesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamDiscoveredRoutesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamDiscoveredRoutesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamDiscoveredRoutesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamDiscoveredRoutesInput, GetIpamDiscoveredRoutesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamDiscoveredRoutes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIpamInternetRegistryAssociationAsns` operation on the `EC2` service.
+    ///
+    /// Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamInternetRegistryAssociationAsnsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamInternetRegistryAssociationAsnsOutput`)
+    public func getIpamInternetRegistryAssociationAsns(input: GetIpamInternetRegistryAssociationAsnsInput) async throws -> GetIpamInternetRegistryAssociationAsnsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamInternetRegistryAssociationAsns")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>(GetIpamInternetRegistryAssociationAsnsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamInternetRegistryAssociationAsnsOutput>(GetIpamInternetRegistryAssociationAsnsOutput.httpOutput(from:), GetIpamInternetRegistryAssociationAsnsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamInternetRegistryAssociationAsnsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamInternetRegistryAssociationAsnsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamInternetRegistryAssociationAsnsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamInternetRegistryAssociationAsnsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamInternetRegistryAssociationAsnsInput, GetIpamInternetRegistryAssociationAsnsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamInternetRegistryAssociationAsns")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIpamInternetRegistryAssociationCidrs` operation on the `EC2` service.
+    ///
+    /// Retrieves IP address CIDRs registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamInternetRegistryAssociationCidrsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamInternetRegistryAssociationCidrsOutput`)
+    public func getIpamInternetRegistryAssociationCidrs(input: GetIpamInternetRegistryAssociationCidrsInput) async throws -> GetIpamInternetRegistryAssociationCidrsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamInternetRegistryAssociationCidrs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>(GetIpamInternetRegistryAssociationCidrsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamInternetRegistryAssociationCidrsOutput>(GetIpamInternetRegistryAssociationCidrsOutput.httpOutput(from:), GetIpamInternetRegistryAssociationCidrsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamInternetRegistryAssociationCidrsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamInternetRegistryAssociationCidrsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamInternetRegistryAssociationCidrsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamInternetRegistryAssociationCidrsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamInternetRegistryAssociationCidrsInput, GetIpamInternetRegistryAssociationCidrsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamInternetRegistryAssociationCidrs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetIpamPolicyAllocationRules` operation on the `EC2` service.
     ///
     /// Gets the allocation rules for an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
@@ -37667,6 +38302,258 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamResourceCidrs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIpamRouteOriginAuthorizations` operation on the `EC2` service.
+    ///
+    /// Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamRouteOriginAuthorizationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamRouteOriginAuthorizationsOutput`)
+    public func getIpamRouteOriginAuthorizations(input: GetIpamRouteOriginAuthorizationsInput) async throws -> GetIpamRouteOriginAuthorizationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamRouteOriginAuthorizations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>(GetIpamRouteOriginAuthorizationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamRouteOriginAuthorizationsOutput>(GetIpamRouteOriginAuthorizationsOutput.httpOutput(from:), GetIpamRouteOriginAuthorizationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamRouteOriginAuthorizationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamRouteOriginAuthorizationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamRouteOriginAuthorizationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamRouteOriginAuthorizationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamRouteOriginAuthorizationsInput, GetIpamRouteOriginAuthorizationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamRouteOriginAuthorizations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIpamRouteProtectionFindings` operation on the `EC2` service.
+    ///
+    /// Retrieves route protection findings for an IPAM. Route protection findings show the Resource Public Key Infrastructure (RPKI) validation status of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamRouteProtectionFindingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamRouteProtectionFindingsOutput`)
+    public func getIpamRouteProtectionFindings(input: GetIpamRouteProtectionFindingsInput) async throws -> GetIpamRouteProtectionFindingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamRouteProtectionFindings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>(GetIpamRouteProtectionFindingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamRouteProtectionFindingsOutput>(GetIpamRouteProtectionFindingsOutput.httpOutput(from:), GetIpamRouteProtectionFindingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamRouteProtectionFindingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamRouteProtectionFindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamRouteProtectionFindingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamRouteProtectionFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamRouteProtectionFindingsInput, GetIpamRouteProtectionFindingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamRouteProtectionFindings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIpamRoutingPolicyRegistrationDeltas` operation on the `EC2` service.
+    ///
+    /// Retrieves the history of routing policy registration changes for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamRoutingPolicyRegistrationDeltasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamRoutingPolicyRegistrationDeltasOutput`)
+    public func getIpamRoutingPolicyRegistrationDeltas(input: GetIpamRoutingPolicyRegistrationDeltasInput) async throws -> GetIpamRoutingPolicyRegistrationDeltasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamRoutingPolicyRegistrationDeltas")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>(GetIpamRoutingPolicyRegistrationDeltasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamRoutingPolicyRegistrationDeltasOutput>(GetIpamRoutingPolicyRegistrationDeltasOutput.httpOutput(from:), GetIpamRoutingPolicyRegistrationDeltasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamRoutingPolicyRegistrationDeltasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamRoutingPolicyRegistrationDeltasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamRoutingPolicyRegistrationDeltasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamRoutingPolicyRegistrationDeltasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamRoutingPolicyRegistrationDeltasInput, GetIpamRoutingPolicyRegistrationDeltasOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamRoutingPolicyRegistrationDeltas")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIpamRoutingPolicyRegistrations` operation on the `EC2` service.
+    ///
+    /// Retrieves routing policy registrations for an IPAM internet registry association. Each registration represents a Route Origin Authorization (ROA) that has been created or is pending publication to the RPKI. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIpamRoutingPolicyRegistrationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIpamRoutingPolicyRegistrationsOutput`)
+    public func getIpamRoutingPolicyRegistrations(input: GetIpamRoutingPolicyRegistrationsInput) async throws -> GetIpamRoutingPolicyRegistrationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIpamRoutingPolicyRegistrations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>(GetIpamRoutingPolicyRegistrationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamRoutingPolicyRegistrationsOutput>(GetIpamRoutingPolicyRegistrationsOutput.httpOutput(from:), GetIpamRoutingPolicyRegistrationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamRoutingPolicyRegistrationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIpamRoutingPolicyRegistrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIpamRoutingPolicyRegistrationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIpamRoutingPolicyRegistrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIpamRoutingPolicyRegistrationsInput, GetIpamRoutingPolicyRegistrationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamRoutingPolicyRegistrations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -42506,6 +43393,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpamResourceDiscovery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyIpamRoutingPolicyRegistration` operation on the `EC2` service.
+    ///
+    /// Modifies an existing routing policy registration. You can update the authorized ASNs, maximum prefix length, and other properties of a Route Origin Authorization (ROA).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyIpamRoutingPolicyRegistrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyIpamRoutingPolicyRegistrationOutput`)
+    public func modifyIpamRoutingPolicyRegistration(input: ModifyIpamRoutingPolicyRegistrationInput) async throws -> ModifyIpamRoutingPolicyRegistrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyIpamRoutingPolicyRegistration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>(ModifyIpamRoutingPolicyRegistrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIpamRoutingPolicyRegistrationOutput>(ModifyIpamRoutingPolicyRegistrationOutput.httpOutput(from:), ModifyIpamRoutingPolicyRegistrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIpamRoutingPolicyRegistrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyIpamRoutingPolicyRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyIpamRoutingPolicyRegistrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyIpamRoutingPolicyRegistrationInput, ModifyIpamRoutingPolicyRegistrationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpamRoutingPolicyRegistration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

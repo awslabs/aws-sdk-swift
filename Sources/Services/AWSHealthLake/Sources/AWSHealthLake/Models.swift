@@ -2764,6 +2764,8 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
     public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
     /// A bounded-length string value.
     public var profileId: Swift.String?
+    /// Specifies whether to enable provenance for the import job.
+    public var provenanceEnabled: Swift.Bool?
     /// The validation level of the import job.
     public var validationLevel: HealthLakeClientTypes.ValidationLevel?
 
@@ -2777,6 +2779,7 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil,
         profileId: Swift.String? = nil,
+        provenanceEnabled: Swift.Bool? = true,
         validationLevel: HealthLakeClientTypes.ValidationLevel? = nil
     ) {
         self.clientToken = clientToken
@@ -2788,6 +2791,7 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
         self.jobName = jobName
         self.jobOutputDataConfig = jobOutputDataConfig
         self.profileId = profileId
+        self.provenanceEnabled = provenanceEnabled
         self.validationLevel = validationLevel
     }
 }

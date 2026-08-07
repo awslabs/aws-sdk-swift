@@ -41407,8 +41407,10 @@ extension SageMakerClientTypes {
     public enum NotebookInstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleting
         case failed
+        case inmaintenance
         case inservice
         case pending
+        case pendingmaintenance
         case stopped
         case stopping
         case updating
@@ -41418,8 +41420,10 @@ extension SageMakerClientTypes {
             return [
                 .deleting,
                 .failed,
+                .inmaintenance,
                 .inservice,
                 .pending,
+                .pendingmaintenance,
                 .stopped,
                 .stopping,
                 .updating
@@ -41435,8 +41439,10 @@ extension SageMakerClientTypes {
             switch self {
             case .deleting: return "Deleting"
             case .failed: return "Failed"
+            case .inmaintenance: return "InMaintenance"
             case .inservice: return "InService"
             case .pending: return "Pending"
+            case .pendingmaintenance: return "PendingMaintenance"
             case .stopped: return "Stopped"
             case .stopping: return "Stopping"
             case .updating: return "Updating"
