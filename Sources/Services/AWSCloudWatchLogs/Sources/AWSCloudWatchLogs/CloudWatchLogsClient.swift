@@ -3803,7 +3803,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeFieldIndexes` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of custom and default field indexes which are discovered in log data. For more information about field index policies, see [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html).
+    /// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT, CUSTOM, and INACTIVE index categories. To return indexes from other categories, use the indexCategories parameter. For more information about field index policies, see [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeFieldIndexesInput`)
     ///

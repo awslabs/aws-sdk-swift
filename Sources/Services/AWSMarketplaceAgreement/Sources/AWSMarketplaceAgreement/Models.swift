@@ -1191,6 +1191,29 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
+    /// Defines the net payment due period for the agreement, specifying when payment is due after an invoice is issued.
+    public struct NetPaymentTerm: Swift.Sendable {
+        /// The unique identifier for the term.
+        public var id: Swift.String?
+        /// The duration after an invoice is issued within which the payment is due. The duration is represented in the ISO 8601 format (for example, P30D for 30 days or P60D for 60 days).
+        public var paymentDuePeriod: Swift.String?
+        /// Type of the term being updated.
+        public var type: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            paymentDuePeriod: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.id = id
+            self.paymentDuePeriod = paymentDuePeriod
+            self.type = type
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     /// An individual installment of the payment that includes the date and amount of the charge.
     public struct ScheduleItem: Swift.Sendable {
         /// The price that the customer would pay on the scheduled date (chargeDate).
@@ -1509,6 +1532,8 @@ extension MarketplaceAgreementClientTypes {
         case fixedupfrontpricingterm(MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm)
         /// Defines a payment model where sellers can submit variable payment requests up to a maximum charge amount, with configurable approval strategies and expiration timelines.
         case variablepaymentterm(MarketplaceAgreementClientTypes.VariablePaymentTerm)
+        /// Defines the net payment due period for the agreement, specifying when payment is due after an invoice is issued.
+        case netpaymentterm(MarketplaceAgreementClientTypes.NetPaymentTerm)
         case sdkUnknown(Swift.String)
     }
 }

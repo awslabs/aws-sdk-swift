@@ -925,6 +925,7 @@ extension S3ClientTypes {
 
     public enum ServerSideEncryption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
+        case awsBackup
         case awsFsx
         case awsKms
         case awsKmsDsse
@@ -933,6 +934,7 @@ extension S3ClientTypes {
         public static var allCases: [ServerSideEncryption] {
             return [
                 .aes256,
+                .awsBackup,
                 .awsFsx,
                 .awsKms,
                 .awsKmsDsse
@@ -947,6 +949,7 @@ extension S3ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aes256: return "AES256"
+            case .awsBackup: return "aws:backup"
             case .awsFsx: return "aws:fsx"
             case .awsKms: return "aws:kms"
             case .awsKmsDsse: return "aws:kms:dsse"
@@ -1282,6 +1285,8 @@ extension S3ClientTypes {
 extension S3ClientTypes {
 
     public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsBackupLowCostWarm
+        case awsBackupWarm
         case deepArchive
         case expressOnezone
         case fsxOntap
@@ -1299,6 +1304,8 @@ extension S3ClientTypes {
 
         public static var allCases: [StorageClass] {
             return [
+                .awsBackupLowCostWarm,
+                .awsBackupWarm,
                 .deepArchive,
                 .expressOnezone,
                 .fsxOntap,
@@ -1322,6 +1329,8 @@ extension S3ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsBackupLowCostWarm: return "AWS_BACKUP_LOW_COST_WARM"
+            case .awsBackupWarm: return "AWS_BACKUP_WARM"
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
             case .fsxOntap: return "FSX_ONTAP"
@@ -10756,6 +10765,8 @@ extension S3ClientTypes {
 extension S3ClientTypes {
 
     public enum ObjectStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsBackupLowCostWarm
+        case awsBackupWarm
         case deepArchive
         case expressOnezone
         case fsxOntap
@@ -10773,6 +10784,8 @@ extension S3ClientTypes {
 
         public static var allCases: [ObjectStorageClass] {
             return [
+                .awsBackupLowCostWarm,
+                .awsBackupWarm,
                 .deepArchive,
                 .expressOnezone,
                 .fsxOntap,
@@ -10796,6 +10809,8 @@ extension S3ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsBackupLowCostWarm: return "AWS_BACKUP_LOW_COST_WARM"
+            case .awsBackupWarm: return "AWS_BACKUP_WARM"
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
             case .fsxOntap: return "FSX_ONTAP"

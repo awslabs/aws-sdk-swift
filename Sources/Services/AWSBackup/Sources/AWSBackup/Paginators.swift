@@ -12,6 +12,98 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension BackupClient {
+    /// Paginate over `[ListBackupAccessPointsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBackupAccessPointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBackupAccessPointsOutput`
+    public func listBackupAccessPointsPaginated(input: ListBackupAccessPointsInput) -> ClientRuntime.PaginatorSequence<ListBackupAccessPointsInput, ListBackupAccessPointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBackupAccessPointsInput, ListBackupAccessPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupAccessPoints(input:))
+    }
+}
+
+extension ListBackupAccessPointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBackupAccessPointsInput {
+        return ListBackupAccessPointsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBackupAccessPointsInput, OperationStackOutput == ListBackupAccessPointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBackupAccessPointsPaginated`
+    /// to access the nested member `[BackupClientTypes.ListAccessPointsMember]`
+    /// - Returns: `[BackupClientTypes.ListAccessPointsMember]`
+    public func backupAccessPoints() async throws -> [BackupClientTypes.ListAccessPointsMember] {
+        return try await self.asyncCompactMap { item in item.backupAccessPoints }
+    }
+}
+extension BackupClient {
+    /// Paginate over `[ListBackupAccessPointsByRecoveryPointOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBackupAccessPointsByRecoveryPointInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBackupAccessPointsByRecoveryPointOutput`
+    public func listBackupAccessPointsByRecoveryPointPaginated(input: ListBackupAccessPointsByRecoveryPointInput) -> ClientRuntime.PaginatorSequence<ListBackupAccessPointsByRecoveryPointInput, ListBackupAccessPointsByRecoveryPointOutput> {
+        return ClientRuntime.PaginatorSequence<ListBackupAccessPointsByRecoveryPointInput, ListBackupAccessPointsByRecoveryPointOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupAccessPointsByRecoveryPoint(input:))
+    }
+}
+
+extension ListBackupAccessPointsByRecoveryPointInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBackupAccessPointsByRecoveryPointInput {
+        return ListBackupAccessPointsByRecoveryPointInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPointArn: self.recoveryPointArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBackupAccessPointsByRecoveryPointInput, OperationStackOutput == ListBackupAccessPointsByRecoveryPointOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBackupAccessPointsByRecoveryPointPaginated`
+    /// to access the nested member `[BackupClientTypes.ListAccessPointsMember]`
+    /// - Returns: `[BackupClientTypes.ListAccessPointsMember]`
+    public func backupAccessPoints() async throws -> [BackupClientTypes.ListAccessPointsMember] {
+        return try await self.asyncCompactMap { item in item.backupAccessPoints }
+    }
+}
+extension BackupClient {
+    /// Paginate over `[ListBackupAccessPointsByResourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBackupAccessPointsByResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBackupAccessPointsByResourceOutput`
+    public func listBackupAccessPointsByResourcePaginated(input: ListBackupAccessPointsByResourceInput) -> ClientRuntime.PaginatorSequence<ListBackupAccessPointsByResourceInput, ListBackupAccessPointsByResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListBackupAccessPointsByResourceInput, ListBackupAccessPointsByResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupAccessPointsByResource(input:))
+    }
+}
+
+extension ListBackupAccessPointsByResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBackupAccessPointsByResourceInput {
+        return ListBackupAccessPointsByResourceInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBackupAccessPointsByResourceInput, OperationStackOutput == ListBackupAccessPointsByResourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBackupAccessPointsByResourcePaginated`
+    /// to access the nested member `[BackupClientTypes.ListAccessPointsMember]`
+    /// - Returns: `[BackupClientTypes.ListAccessPointsMember]`
+    public func backupAccessPoints() async throws -> [BackupClientTypes.ListAccessPointsMember] {
+        return try await self.asyncCompactMap { item in item.backupAccessPoints }
+    }
+}
+extension BackupClient {
     /// Paginate over `[ListBackupJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

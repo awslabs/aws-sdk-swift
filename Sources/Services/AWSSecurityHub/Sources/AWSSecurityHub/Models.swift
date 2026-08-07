@@ -254,6 +254,132 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum FreeTrialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case securityHubV2
+        case securityHubV2MultiCloudAzure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FreeTrialType] {
+            return [
+                .securityHubV2,
+                .securityHubV2MultiCloudAzure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .securityHubV2: return "SECURITY_HUB_V2"
+            case .securityHubV2MultiCloudAzure: return "SECURITY_HUB_V2_MULTI_CLOUD_AZURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum FreeTrialStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FreeTrialStatusValue] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The free trial period for a Security Hub feature, and whether the trial is currently active.
+    public struct FreeTrialStatus: Swift.Sendable {
+        /// The date and time at which the free trial period ends.
+        /// This member is required.
+        public var expiresAt: Foundation.Date?
+        /// The feature that the free trial period applies to. Valid values:
+        ///
+        /// * SECURITY_HUB_V2 specifies Security Hub.
+        ///
+        /// * SECURITY_HUB_V2_MULTI_CLOUD_AZURE specifies Security Hub coverage for Microsoft Azure resources.
+        /// This member is required.
+        public var featureType: SecurityHubClientTypes.FreeTrialType?
+        /// The date and time at which the free trial period began.
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// Whether the free trial period is currently active. Valid values:
+        ///
+        /// * ACTIVE specifies that the free trial period is ongoing.
+        ///
+        /// * INACTIVE specifies that the free trial period has ended, or that it never started.
+        ///
+        ///
+        /// To determine whether a trial has expired, compare ExpiresAt to the current time.
+        /// This member is required.
+        public var status: SecurityHubClientTypes.FreeTrialStatusValue?
+
+        public init(
+            expiresAt: Foundation.Date? = nil,
+            featureType: SecurityHubClientTypes.FreeTrialType? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: SecurityHubClientTypes.FreeTrialStatusValue? = nil
+        ) {
+            self.expiresAt = expiresAt
+            self.featureType = featureType
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The free trial status of each Security Hub feature for an account.
+    public struct AccountFreeTrialStatus: Swift.Sendable {
+        /// The Amazon Web Services account identifier that the free trial statuses apply to.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The date and time at which Security Hub evaluated the free trial statuses for this account. Every status in FreeTrialStatuses reflects this point in time.
+        /// This member is required.
+        public var evaluatedAt: Foundation.Date?
+        /// An array of free trial statuses, one for each feature that has a free trial period for the account. The array is empty if the account has no free trial to report.
+        /// This member is required.
+        public var freeTrialStatuses: [SecurityHubClientTypes.FreeTrialStatus]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            evaluatedAt: Foundation.Date? = nil,
+            freeTrialStatuses: [SecurityHubClientTypes.FreeTrialStatus]? = nil
+        ) {
+            self.accountId = accountId
+            self.evaluatedAt = evaluatedAt
+            self.freeTrialStatuses = freeTrialStatuses
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Provided if CallerType is domain. It provides information about the DNS domain that issued the API call.
     public struct AwsApiCallActionDomainDetails: Swift.Sendable {
         /// The name of the DNS domain that issued the API call. Length Constraints: 128.
@@ -29457,6 +29583,49 @@ public struct ListFindingAggregatorsOutput: Swift.Sendable {
     }
 }
 
+public struct ListFreeTrialStatusesV2Input: Swift.Sendable {
+    /// The Amazon Web Services account identifiers to list free trial status for. You can specify accounts other than your own only if you are a delegated Security Hub administrator.
+    public var accountIds: [Swift.String]?
+    /// The maximum number of results to return. If you don't specify a value, Security Hub returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The pagination token to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The free trial statuses to filter the results by. Valid values:
+    ///
+    /// * ACTIVE returns only features with an ongoing free trial period.
+    ///
+    /// * INACTIVE returns only features whose free trial period has ended, or that never started.
+    public var statuses: [SecurityHubClientTypes.FreeTrialStatusValue]?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statuses: [SecurityHubClientTypes.FreeTrialStatusValue]? = nil
+    ) {
+        self.accountIds = accountIds
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statuses = statuses
+    }
+}
+
+public struct ListFreeTrialStatusesV2Output: Swift.Sendable {
+    /// An array of free trial statuses, one for each account in scope.
+    /// This member is required.
+    public var accountFreeTrialStatuses: [SecurityHubClientTypes.AccountFreeTrialStatus]?
+    /// The pagination token to use to request the next page of results. If there are no additional results, this value is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountFreeTrialStatuses: [SecurityHubClientTypes.AccountFreeTrialStatus]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountFreeTrialStatuses = accountFreeTrialStatuses
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListInvitationsInput: Swift.Sendable {
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
@@ -31834,6 +32003,13 @@ extension ListFindingAggregatorsInput {
     }
 }
 
+extension ListFreeTrialStatusesV2Input {
+
+    static func urlPathProvider(_ value: ListFreeTrialStatusesV2Input) -> Swift.String? {
+        return "/freetrial/statusv2/list"
+    }
+}
+
 extension ListInvitationsInput {
 
     static func urlPathProvider(_ value: ListInvitationsInput) -> Swift.String? {
@@ -32638,6 +32814,17 @@ extension ListConfigurationPolicyAssociationsInput {
         try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.AssociationFilters.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListFreeTrialStatusesV2Input {
+
+    static func write(value: ListFreeTrialStatusesV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityHubClientTypes.FreeTrialStatusValue>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -33934,6 +34121,19 @@ extension ListFindingAggregatorsOutput {
         let reader = responseReader
         var value = ListFindingAggregatorsOutput()
         value.findingAggregators = try reader["FindingAggregators"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.FindingAggregator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFreeTrialStatusesV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFreeTrialStatusesV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFreeTrialStatusesV2Output()
+        value.accountFreeTrialStatuses = try reader["AccountFreeTrialStatuses"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AccountFreeTrialStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -35878,6 +36078,24 @@ enum ListFindingAggregatorsOutputError {
     }
 }
 
+enum ListFreeTrialStatusesV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListInvitationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36530,6 +36748,18 @@ extension SecurityHubClientTypes.AccountDetails {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["Email"].write(value.email)
+    }
+}
+
+extension SecurityHubClientTypes.AccountFreeTrialStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AccountFreeTrialStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AccountFreeTrialStatus()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.evaluatedAt = try reader["EvaluatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.freeTrialStatuses = try reader["FreeTrialStatuses"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.FreeTrialStatus.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -49385,6 +49615,19 @@ extension SecurityHubClientTypes.FirewallPolicyStatelessRuleGroupReferencesDetai
         var value = SecurityHubClientTypes.FirewallPolicyStatelessRuleGroupReferencesDetails()
         value.priority = try reader["Priority"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.FreeTrialStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FreeTrialStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.FreeTrialStatus()
+        value.featureType = try reader["FeatureType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

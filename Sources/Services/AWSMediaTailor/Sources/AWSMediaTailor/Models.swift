@@ -840,15 +840,19 @@ extension MediaTailorClientTypes {
 
     /// A reference to a child function within a SEQUENTIAL_EXECUTOR function.
     public struct FunctionRef: Swift.Sendable {
+        /// An optional alternate name for the function within the executor. If omitted, MediaTailor uses the function identifier.
+        public var alias: Swift.String?
         /// The identifier of the child function to execute in this step.
         public var functionId: Swift.String?
         /// An optional expression that evaluates to a boolean. MediaTailor evaluates this expression immediately before running the step, using the accumulated state at that point in the sequence. If the expression evaluates to false, MediaTailor skips the step and moves to the next one. If omitted, the step always runs.
         public var runCondition: Swift.String?
 
         public init(
+            alias: Swift.String? = nil,
             functionId: Swift.String? = nil,
             runCondition: Swift.String? = nil
         ) {
+            self.alias = alias
             self.functionId = functionId
             self.runCondition = runCondition
         }
@@ -883,6 +887,42 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The configuration for a CONCURRENT_EXECUTOR function. A CONCURRENT_EXECUTOR runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete. For more information about functions, see [Working with functions](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html) in the MediaTailor User Guide.
+    public struct ConcurrentExecutorConfiguration: Swift.Sendable {
+        /// The list of child functions that MediaTailor runs in parallel. Each entry specifies a child function to execute and an optional run condition expression that controls whether the function runs.
+        /// This member is required.
+        public var functionList: [MediaTailorClientTypes.FunctionRef]?
+        /// The maximum number of child functions that MediaTailor runs simultaneously. When the list contains more functions than MaxConcurrency, MediaTailor starts additional functions as running ones complete, so that no more than MaxConcurrency functions run at the same time.
+        /// This member is required.
+        public var maxConcurrency: Swift.Int?
+        /// A map of output bindings that controls which bindings the executor commits to the session state after all child functions complete. Each key is a namespaced output path, and each value is an expression that MediaTailor evaluates against the combined results of the child functions.
+        /// This member is required.
+        public var output: [Swift.String: Swift.String]?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+        /// The maximum time, in milliseconds, for all child functions to complete. This timeout covers every function in the list, including any HTTP calls the child functions make. If the executor exceeds this timeout, MediaTailor discards all output from the executor and proceeds with default behavior.
+        /// This member is required.
+        public var timeoutMilliseconds: Swift.Int?
+
+        public init(
+            functionList: [MediaTailorClientTypes.FunctionRef]? = nil,
+            maxConcurrency: Swift.Int? = nil,
+            output: [Swift.String: Swift.String]? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil,
+            timeoutMilliseconds: Swift.Int? = nil
+        ) {
+            self.functionList = functionList
+            self.maxConcurrency = maxConcurrency
+            self.output = output
+            self.runtime = runtime
+            self.timeoutMilliseconds = timeoutMilliseconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// The configuration for a CUSTOM_OUTPUT function. MediaTailor evaluates the output expressions against the current session state and commits the results as output bindings. CUSTOM_OUTPUT functions do not make external calls. For more information, see [CUSTOM_OUTPUT](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-custom-output.html) in the MediaTailor User Guide.
     public struct CustomOutputConfiguration: Swift.Sendable {
         /// A map of output bindings. Each key is a namespaced output path (such as player_params.device_type or temp.variant), and each value is an expression that MediaTailor evaluates at runtime against the current session state. For more information about expression syntax, see [JSONata expression reference](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-jsonata.html) in the MediaTailor User Guide.
@@ -905,6 +945,7 @@ extension MediaTailorClientTypes {
 
     /// -- Define Enums
     public enum FunctionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case concurrentExecutor
         case customOutput
         case httpRequest
         case sequentialExecutor
@@ -912,6 +953,7 @@ extension MediaTailorClientTypes {
 
         public static var allCases: [FunctionType] {
             return [
+                .concurrentExecutor,
                 .customOutput,
                 .httpRequest,
                 .sequentialExecutor
@@ -925,6 +967,7 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .concurrentExecutor: return "CONCURRENT_EXECUTOR"
             case .customOutput: return "CUSTOM_OUTPUT"
             case .httpRequest: return "HTTP_REQUEST"
             case .sequentialExecutor: return "SEQUENTIAL_EXECUTOR"
@@ -1042,6 +1085,8 @@ extension MediaTailorClientTypes {
     public struct Function: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the function.
         public var arn: Swift.String?
+        /// The configuration for a CONCURRENT_EXECUTOR function.
+        public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
         /// The configuration for a CUSTOM_OUTPUT function.
         public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
         /// A description of the function.
@@ -1061,6 +1106,7 @@ extension MediaTailorClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
             customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
             description: Swift.String? = nil,
             functionId: Swift.String? = nil,
@@ -1070,6 +1116,7 @@ extension MediaTailorClientTypes {
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.arn = arn
+            self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
             self.customOutputConfiguration = customOutputConfiguration
             self.description = description
             self.functionId = functionId
@@ -4376,6 +4423,8 @@ public struct GetFunctionInput: Swift.Sendable {
 public struct GetFunctionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the function.
     public var arn: Swift.String?
+    /// The configuration for a CONCURRENT_EXECUTOR function.
+    public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
     /// The configuration for a CUSTOM_OUTPUT function.
     public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
     /// A description of the function.
@@ -4395,6 +4444,7 @@ public struct GetFunctionOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
@@ -4404,6 +4454,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
+        self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
         self.description = description
         self.functionId = functionId
@@ -4446,6 +4497,8 @@ public struct ListFunctionsOutput: Swift.Sendable {
 
 /// -- Define Mixin --
 public struct PutFunctionInput: Swift.Sendable {
+    /// The configuration for a CONCURRENT_EXECUTOR function. Specifies the list of child functions to run in parallel, the maximum concurrency, an optional output block, and a timeout. Required when FunctionType is CONCURRENT_EXECUTOR.
+    public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
     /// The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
     public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
     /// A description of the function.
@@ -4464,6 +4517,7 @@ public struct PutFunctionInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
@@ -4472,6 +4526,7 @@ public struct PutFunctionInput: Swift.Sendable {
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
         self.description = description
         self.functionId = functionId
@@ -4486,6 +4541,8 @@ public struct PutFunctionInput: Swift.Sendable {
 public struct PutFunctionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the function.
     public var arn: Swift.String?
+    /// The configuration for a CONCURRENT_EXECUTOR function.
+    public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
     /// The configuration for a CUSTOM_OUTPUT function.
     public var customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration?
     /// A description of the function.
@@ -4505,6 +4562,7 @@ public struct PutFunctionOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
         description: Swift.String? = nil,
         functionId: Swift.String? = nil,
@@ -4514,6 +4572,7 @@ public struct PutFunctionOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
+        self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
         self.description = description
         self.functionId = functionId
@@ -6171,6 +6230,7 @@ extension PutFunctionInput {
 
     static func write(value: PutFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConcurrentExecutorConfiguration"].write(value.concurrentExecutorConfiguration, with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.write(value:to:))
         try writer["CustomOutputConfiguration"].write(value.customOutputConfiguration, with: MediaTailorClientTypes.CustomOutputConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["FunctionType"].write(value.functionType)
@@ -6616,6 +6676,7 @@ extension GetFunctionOutput {
         let reader = responseReader
         var value = GetFunctionOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
@@ -6816,6 +6877,7 @@ extension PutFunctionOutput {
         let reader = responseReader
         var value = PutFunctionOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.functionId = try reader["FunctionId"].readIfPresent() ?? ""
@@ -7957,6 +8019,29 @@ extension MediaTailorClientTypes.ClipRange {
     }
 }
 
+extension MediaTailorClientTypes.ConcurrentExecutorConfiguration {
+
+    static func write(value: MediaTailorClientTypes.ConcurrentExecutorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionList"].writeList(value.functionList, memberWritingClosure: MediaTailorClientTypes.FunctionRef.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxConcurrency"].write(value.maxConcurrency)
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Runtime"].write(value.runtime)
+        try writer["TimeoutMilliseconds"].write(value.timeoutMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ConcurrentExecutorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ConcurrentExecutorConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.functionList = try reader["FunctionList"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.FunctionRef.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timeoutMilliseconds = try reader["TimeoutMilliseconds"].readIfPresent() ?? 0
+        value.maxConcurrency = try reader["MaxConcurrency"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.CustomOutputConfiguration {
 
     static func write(value: MediaTailorClientTypes.CustomOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -8042,6 +8127,7 @@ extension MediaTailorClientTypes.Function {
         value.description = try reader["Description"].readIfPresent()
         value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
+        value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.arn = try reader["Arn"].readIfPresent()
@@ -8053,6 +8139,7 @@ extension MediaTailorClientTypes.FunctionRef {
 
     static func write(value: MediaTailorClientTypes.FunctionRef?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Alias"].write(value.alias)
         try writer["FunctionId"].write(value.functionId)
         try writer["RunCondition"].write(value.runCondition)
     }
@@ -8062,6 +8149,7 @@ extension MediaTailorClientTypes.FunctionRef {
         var value = MediaTailorClientTypes.FunctionRef()
         value.runCondition = try reader["RunCondition"].readIfPresent()
         value.functionId = try reader["FunctionId"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
         return value
     }
 }

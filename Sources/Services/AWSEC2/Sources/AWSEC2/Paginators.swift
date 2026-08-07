@@ -5238,6 +5238,7 @@ extension GetSpotPlacementScoresInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetSpotPlacementScoresInput {
         return GetSpotPlacementScoresInput(
             dryRun: self.dryRun,
+            includeLocalZones: self.includeLocalZones,
             instanceRequirementsWithMetadata: self.instanceRequirementsWithMetadata,
             instanceTypes: self.instanceTypes,
             maxResults: self.maxResults,

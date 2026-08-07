@@ -3006,6 +3006,86 @@ public struct UpdateBrowserStreamOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCapacityProviderSessionInput: Swift.Sendable {
+    /// The unique identifier of the capacity provider associated with the session.
+    /// This member is required.
+    public var capacityProviderId: Swift.String?
+    /// The unique identifier of the capacity provider session to delete.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        capacityProviderId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.capacityProviderId = capacityProviderId
+        self.sessionId = sessionId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum CapacityProviderSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case deleting
+        case deprovisioning
+        case provisioning
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityProviderSessionStatus] {
+            return [
+                .active,
+                .deleted,
+                .deleting,
+                .deprovisioning,
+                .provisioning,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .deleted: return "Deleted"
+            case .deleting: return "Deleting"
+            case .deprovisioning: return "Deprovisioning"
+            case .provisioning: return "Provisioning"
+            case .stopped: return "Stopped"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteCapacityProviderSessionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the capacity provider associated with the deleted session.
+    /// This member is required.
+    public var capacityProviderArn: Swift.String?
+    /// The unique identifier of the deleted capacity provider session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The current status of the capacity provider session. When the status is Deleting, the session is being deleted and is not available. When the status is Deleted, the session is no longer available.
+    /// This member is required.
+    public var status: BedrockAgentCoreClientTypes.CapacityProviderSessionStatus?
+
+    public init(
+        capacityProviderArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        status: BedrockAgentCoreClientTypes.CapacityProviderSessionStatus? = nil
+    ) {
+        self.capacityProviderArn = capacityProviderArn
+        self.sessionId = sessionId
+        self.status = status
+    }
+}
+
 public struct GetCodeInterpreterSessionInput: Swift.Sendable {
     /// The unique identifier of the code interpreter associated with the session.
     /// This member is required.
@@ -11409,6 +11489,19 @@ extension DeleteBatchEvaluationInput {
     }
 }
 
+extension DeleteCapacityProviderSessionInput {
+
+    static func urlPathProvider(_ value: DeleteCapacityProviderSessionInput) -> Swift.String? {
+        guard let capacityProviderId = value.capacityProviderId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/capacity-providers/\(capacityProviderId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteEventInput {
 
     static func urlPathProvider(_ value: DeleteEventInput) -> Swift.String? {
@@ -13095,6 +13188,20 @@ extension DeleteBatchEvaluationOutput {
     }
 }
 
+extension DeleteCapacityProviderSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCapacityProviderSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCapacityProviderSessionOutput()
+        value.capacityProviderArn = try reader["capacityProviderArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventOutput {
@@ -14136,6 +14243,24 @@ enum DeleteBatchEvaluationOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCapacityProviderSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

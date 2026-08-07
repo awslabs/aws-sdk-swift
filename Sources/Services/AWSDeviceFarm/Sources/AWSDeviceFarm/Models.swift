@@ -2702,6 +2702,33 @@ public struct GetDevicePoolOutput: Swift.Sendable {
 
 extension DeviceFarmClientTypes {
 
+    /// The type of insights to generate.
+    public enum InsightsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case testReport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsType] {
+            return [
+                .testReport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .testReport: return "TEST_REPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
     /// Represents a latitude and longitude pair, expressed in geographic coordinate system degrees (for example, 47.6204, -122.3491). Elevation is currently not supported.
     public struct Location: Swift.Sendable {
         /// The latitude.
@@ -2766,6 +2793,8 @@ extension DeviceFarmClientTypes {
         public var executionRoleArn: Swift.String?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public var extraDataPackageArn: Swift.String?
+        /// The types of insights to generate for a run. Specify one or more values to opt in to insights generation when scheduling a run. Insights are currently supported for custom mode runs with Instrumentation, Appium Java TestNG, and XCTest UI test types.
+        public var insightsTypes: [DeviceFarmClientTypes.InsightsType]?
         /// Information about the locale that is used for the run.
         public var locale: Swift.String?
         /// Information about the location that is used for the run.
@@ -2785,6 +2814,7 @@ extension DeviceFarmClientTypes {
             environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
             executionRoleArn: Swift.String? = nil,
             extraDataPackageArn: Swift.String? = nil,
+            insightsTypes: [DeviceFarmClientTypes.InsightsType]? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
             networkProfileArn: Swift.String? = nil,
@@ -2798,6 +2828,7 @@ extension DeviceFarmClientTypes {
             self.environmentVariables = environmentVariables
             self.executionRoleArn = executionRoleArn
             self.extraDataPackageArn = extraDataPackageArn
+            self.insightsTypes = insightsTypes
             self.locale = locale
             self.location = location
             self.networkProfileArn = networkProfileArn
@@ -3153,6 +3184,144 @@ public struct GetJobInput: Swift.Sendable {
 
 extension DeviceFarmClientTypes {
 
+    /// The status of an insights report. Possible values are:
+    ///
+    /// * PENDING: The service has queued the report and generation has not started.
+    ///
+    /// * RUNNING: The service is generating the report.
+    ///
+    /// * COMPLETED: The service successfully generated the report.
+    ///
+    /// * SKIPPED: The service did not generate the report because the necessary conditions were not met. For more information about why the service could not generate the report, view the message field in TestReport or JobReport.
+    ///
+    /// * ERRORED: An error occurred while generating the report. For more information about why the service could not generate the report, view the message field in TestReport or JobReport.
+    public enum ReportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case errored
+        case pending
+        case running
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReportStatus] {
+            return [
+                .completed,
+                .errored,
+                .pending,
+                .running,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .errored: return "ERRORED"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Contains aggregated metrics across all tests in a job.
+    public struct TestReportMetrics: Swift.Sendable {
+        /// The median execution duration of tests in the job, in seconds.
+        public var medianTestExecutionDurationSeconds: Swift.Double?
+        /// The number of tests that errored.
+        public var testsErrored: Swift.Int?
+        /// The number of tests that failed.
+        public var testsFailed: Swift.Int?
+        /// The number of tests with other result types.
+        public var testsOther: Swift.Int?
+        /// The number of tests that passed.
+        public var testsPassed: Swift.Int?
+        /// The percentage of tests that passed.
+        public var testsPassedPercentage: Swift.Double?
+        /// The number of tests that were skipped.
+        public var testsSkipped: Swift.Int?
+        /// The total number of tests in the job.
+        public var testsTotal: Swift.Int?
+        /// The total execution duration of all tests in the job, in seconds.
+        public var totalTestExecutionDurationSeconds: Swift.Double?
+
+        public init(
+            medianTestExecutionDurationSeconds: Swift.Double? = nil,
+            testsErrored: Swift.Int? = nil,
+            testsFailed: Swift.Int? = nil,
+            testsOther: Swift.Int? = nil,
+            testsPassed: Swift.Int? = nil,
+            testsPassedPercentage: Swift.Double? = nil,
+            testsSkipped: Swift.Int? = nil,
+            testsTotal: Swift.Int? = nil,
+            totalTestExecutionDurationSeconds: Swift.Double? = nil
+        ) {
+            self.medianTestExecutionDurationSeconds = medianTestExecutionDurationSeconds
+            self.testsErrored = testsErrored
+            self.testsFailed = testsFailed
+            self.testsOther = testsOther
+            self.testsPassed = testsPassed
+            self.testsPassedPercentage = testsPassedPercentage
+            self.testsSkipped = testsSkipped
+            self.testsTotal = testsTotal
+            self.totalTestExecutionDurationSeconds = totalTestExecutionDurationSeconds
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Contains aggregated test-level metrics for a job.
+    public struct TestReport: Swift.Sendable {
+        /// A message associated with the test report.
+        public var message: Swift.String?
+        /// The aggregated test-level metrics for the job.
+        public var metrics: DeviceFarmClientTypes.TestReportMetrics?
+        /// A URL to the detailed test results.
+        public var testDetailsUrl: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            metrics: DeviceFarmClientTypes.TestReportMetrics? = nil,
+            testDetailsUrl: Swift.String? = nil
+        ) {
+            self.message = message
+            self.metrics = metrics
+            self.testDetailsUrl = testDetailsUrl
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Contains insights for a job, including report status, and test-level aggregated metrics such as per test execution time and median test execution time.
+    public struct JobInsights: Swift.Sendable {
+        /// The status of the insights report for the job.
+        public var status: DeviceFarmClientTypes.ReportStatus?
+        /// The test-level aggregated report for the job.
+        public var testReport: DeviceFarmClientTypes.TestReport?
+
+        public init(
+            status: DeviceFarmClientTypes.ReportStatus? = nil,
+            testReport: DeviceFarmClientTypes.TestReport? = nil
+        ) {
+            self.status = status
+            self.testReport = testReport
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
     /// Represents a device.
     public struct Job: Swift.Sendable {
         /// The job's ARN.
@@ -3165,6 +3334,8 @@ extension DeviceFarmClientTypes {
         public var device: DeviceFarmClientTypes.Device?
         /// Represents the total (metered or unmetered) minutes used by the job.
         public var deviceMinutes: DeviceFarmClientTypes.DeviceMinutes?
+        /// The insights for the job, including the report status and test-level metrics. This field contains data only if you specified insightsTypes when you scheduled the run.
+        public var insights: DeviceFarmClientTypes.JobInsights?
         /// The ARN of the instance.
         public var instanceArn: Swift.String?
         /// A message about the job's result.
@@ -3252,6 +3423,7 @@ extension DeviceFarmClientTypes {
             created: Foundation.Date? = nil,
             device: DeviceFarmClientTypes.Device? = nil,
             deviceMinutes: DeviceFarmClientTypes.DeviceMinutes? = nil,
+            insights: DeviceFarmClientTypes.JobInsights? = nil,
             instanceArn: Swift.String? = nil,
             message: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -3268,6 +3440,7 @@ extension DeviceFarmClientTypes {
             self.created = created
             self.device = device
             self.deviceMinutes = deviceMinutes
+            self.insights = insights
             self.instanceArn = instanceArn
             self.message = message
             self.name = name
@@ -3741,6 +3914,99 @@ extension DeviceFarmClientTypes {
 
 extension DeviceFarmClientTypes {
 
+    /// Contains aggregated metrics across all jobs in a run.
+    public struct JobReportMetrics: Swift.Sendable {
+        /// The average execution duration of jobs in the run, in seconds.
+        public var averageJobExecutionDurationSeconds: Swift.Double?
+        /// The number of jobs that errored.
+        public var jobsErrored: Swift.Int?
+        /// The number of jobs that failed.
+        public var jobsFailed: Swift.Int?
+        /// The number of jobs that passed.
+        public var jobsPassed: Swift.Int?
+        /// The percentage of jobs that passed.
+        public var jobsPassedPercentage: Swift.Double?
+        /// The number of jobs that were skipped.
+        public var jobsSkipped: Swift.Int?
+        /// The number of jobs that were stopped.
+        public var jobsStopped: Swift.Int?
+        /// The total number of jobs in the run.
+        public var jobsTotal: Swift.Int?
+        /// The median execution duration of jobs in the run, in seconds.
+        public var medianJobExecutionDurationSeconds: Swift.Double?
+        /// The total execution duration of all jobs in the run, in seconds.
+        public var totalJobExecutionDurationSeconds: Swift.Double?
+
+        public init(
+            averageJobExecutionDurationSeconds: Swift.Double? = nil,
+            jobsErrored: Swift.Int? = nil,
+            jobsFailed: Swift.Int? = nil,
+            jobsPassed: Swift.Int? = nil,
+            jobsPassedPercentage: Swift.Double? = nil,
+            jobsSkipped: Swift.Int? = nil,
+            jobsStopped: Swift.Int? = nil,
+            jobsTotal: Swift.Int? = nil,
+            medianJobExecutionDurationSeconds: Swift.Double? = nil,
+            totalJobExecutionDurationSeconds: Swift.Double? = nil
+        ) {
+            self.averageJobExecutionDurationSeconds = averageJobExecutionDurationSeconds
+            self.jobsErrored = jobsErrored
+            self.jobsFailed = jobsFailed
+            self.jobsPassed = jobsPassed
+            self.jobsPassedPercentage = jobsPassedPercentage
+            self.jobsSkipped = jobsSkipped
+            self.jobsStopped = jobsStopped
+            self.jobsTotal = jobsTotal
+            self.medianJobExecutionDurationSeconds = medianJobExecutionDurationSeconds
+            self.totalJobExecutionDurationSeconds = totalJobExecutionDurationSeconds
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Contains aggregated job-level metrics for a run.
+    public struct JobReport: Swift.Sendable {
+        /// A URL to the detailed job results.
+        public var jobDetailsUrl: Swift.String?
+        /// A message associated with the job report.
+        public var message: Swift.String?
+        /// The aggregated job-level metrics for the run.
+        public var metrics: DeviceFarmClientTypes.JobReportMetrics?
+
+        public init(
+            jobDetailsUrl: Swift.String? = nil,
+            message: Swift.String? = nil,
+            metrics: DeviceFarmClientTypes.JobReportMetrics? = nil
+        ) {
+            self.jobDetailsUrl = jobDetailsUrl
+            self.message = message
+            self.metrics = metrics
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Contains insights for a run, including report status, and job-level aggregated metrics such as per job execution time and median job execution time.
+    public struct RunInsights: Swift.Sendable {
+        /// The job-level aggregated report for the run.
+        public var jobReport: DeviceFarmClientTypes.JobReport?
+        /// The status of the insights report for the run.
+        public var status: DeviceFarmClientTypes.ReportStatus?
+
+        public init(
+            jobReport: DeviceFarmClientTypes.JobReport? = nil,
+            status: DeviceFarmClientTypes.ReportStatus? = nil
+        ) {
+            self.jobReport = jobReport
+            self.status = status
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
     public enum ExecutionResultCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case parsingFailed
         case vpcEndpointSetupFailed
@@ -3800,6 +4066,10 @@ extension DeviceFarmClientTypes {
         public var eventCount: Swift.Int?
         /// The IAM role associated with the run.
         public var executionRoleArn: Swift.String?
+        /// The insights for the run, including the report status and job-level metrics. This field contains data only if you specified insightsTypes when you scheduled the run.
+        public var insights: DeviceFarmClientTypes.RunInsights?
+        /// The types of insights requested for the run.
+        public var insightsTypes: [DeviceFarmClientTypes.InsightsType]?
         /// The number of minutes the job executes before it times out.
         public var jobTimeoutMinutes: Swift.Int?
         /// Information about the locale that is used for the run.
@@ -3922,6 +4192,8 @@ extension DeviceFarmClientTypes {
             environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
             eventCount: Swift.Int? = nil,
             executionRoleArn: Swift.String? = nil,
+            insights: DeviceFarmClientTypes.RunInsights? = nil,
+            insightsTypes: [DeviceFarmClientTypes.InsightsType]? = nil,
             jobTimeoutMinutes: Swift.Int? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
@@ -3958,6 +4230,8 @@ extension DeviceFarmClientTypes {
             self.environmentVariables = environmentVariables
             self.eventCount = eventCount
             self.executionRoleArn = executionRoleArn
+            self.insights = insights
+            self.insightsTypes = insightsTypes
             self.jobTimeoutMinutes = jobTimeoutMinutes
             self.locale = locale
             self.location = location

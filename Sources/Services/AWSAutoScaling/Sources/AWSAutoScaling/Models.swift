@@ -991,7 +991,7 @@ extension AutoScalingClientTypes {
         ///
         /// * balanced-best-effort - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.
         ///
-        /// * reservations-then-balanced - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across the healthy Availability Zones.
+        /// * reservations-then-balanced - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across healthy Availability Zones.
         public var capacityDistributionStrategy: AutoScalingClientTypes.CapacityDistributionStrategy?
 
         public init(
@@ -1998,6 +1998,22 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
+    /// Describes the entity that manages an Auto Scaling group.
+    public struct Operator: Swift.Sendable {
+        /// The service principal that is authorized to manage the Auto Scaling group. When an operator is specified, only the designated operator service principal can make mutating changes to the Auto Scaling group.
+        /// This member is required.
+        public var principal: Swift.String?
+
+        public init(
+            principal: Swift.String? = nil
+        ) {
+            self.principal = principal
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
     /// Describes a tag for an Auto Scaling group.
     public struct Tag: Swift.Sendable {
         /// The tag key.
@@ -2086,6 +2102,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
     /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var newInstancesProtectedFromScaleIn: Swift.Bool?
+    /// The entity that manages the Auto Scaling group. If you specify this parameter, Amazon EC2 Auto Scaling passes the operator identity to EC2 for instance launches and only allows the designated operator to make changes to the Auto Scaling group. All mutating API calls from non-operator callers are rejected with an AccessDenied exception.
+    public var `operator`: AutoScalingClientTypes.Operator?
     /// The name of the placement group into which to launch your instances. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -2131,6 +2149,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         minSize: Swift.Int? = nil,
         mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy? = nil,
         newInstancesProtectedFromScaleIn: Swift.Bool? = nil,
+        `operator`: AutoScalingClientTypes.Operator? = nil,
         placementGroup: Swift.String? = nil,
         serviceLinkedRoleARN: Swift.String? = nil,
         skipZonalShiftValidation: Swift.Bool? = nil,
@@ -2167,6 +2186,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.minSize = minSize
         self.mixedInstancesPolicy = mixedInstancesPolicy
         self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+        self.`operator` = `operator`
         self.placementGroup = placementGroup
         self.serviceLinkedRoleARN = serviceLinkedRoleARN
         self.skipZonalShiftValidation = skipZonalShiftValidation
@@ -3243,6 +3263,8 @@ extension AutoScalingClientTypes {
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
         /// Indicates whether newly launched EC2 instances are protected from termination when scaling in for the Auto Scaling group. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
         public var newInstancesProtectedFromScaleIn: Swift.Bool?
+        /// The entity that manages the Auto Scaling group, if applicable. When set, only the designated operator can make changes to the group configuration.
+        public var `operator`: AutoScalingClientTypes.Operator?
         /// The name of the placement group into which to launch EC2 instances for the Auto Scaling group.
         public var placementGroup: Swift.String?
         /// The predicted capacity of the group when it has a predictive scaling policy.
@@ -3298,6 +3320,7 @@ extension AutoScalingClientTypes {
             minSize: Swift.Int? = nil,
             mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy? = nil,
             newInstancesProtectedFromScaleIn: Swift.Bool? = nil,
+            `operator`: AutoScalingClientTypes.Operator? = nil,
             placementGroup: Swift.String? = nil,
             predictedCapacity: Swift.Int? = nil,
             serviceLinkedRoleARN: Swift.String? = nil,
@@ -3340,6 +3363,7 @@ extension AutoScalingClientTypes {
             self.minSize = minSize
             self.mixedInstancesPolicy = mixedInstancesPolicy
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+            self.`operator` = `operator`
             self.placementGroup = placementGroup
             self.predictedCapacity = predictedCapacity
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
@@ -7569,6 +7593,7 @@ extension CreateAutoScalingGroupInput {
         try writer["MinSize"].write(value.minSize)
         try writer["MixedInstancesPolicy"].write(value.mixedInstancesPolicy, with: AutoScalingClientTypes.MixedInstancesPolicy.write(value:to:))
         try writer["NewInstancesProtectedFromScaleIn"].write(value.newInstancesProtectedFromScaleIn)
+        try writer["Operator"].write(value.`operator`, with: AutoScalingClientTypes.Operator.write(value:to:))
         try writer["PlacementGroup"].write(value.placementGroup)
         try writer["ServiceLinkedRoleARN"].write(value.serviceLinkedRoleARN)
         try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
@@ -10237,6 +10262,7 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
         value.capacityReservationSpecification = try reader["CapacityReservationSpecification"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationSpecification.read(from:))
         value.instanceLifecyclePolicy = try reader["InstanceLifecyclePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceLifecyclePolicy.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent(with: AutoScalingClientTypes.Operator.read(from:))
         return value
     }
 }
@@ -11130,6 +11156,21 @@ extension AutoScalingClientTypes.NotificationConfiguration {
         value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
         value.topicARN = try reader["TopicARN"].readIfPresent()
         value.notificationType = try reader["NotificationType"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.Operator {
+
+    static func write(value: AutoScalingClientTypes.Operator?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Principal"].write(value.principal)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.Operator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.Operator()
+        value.principal = try reader["Principal"].readIfPresent() ?? ""
         return value
     }
 }

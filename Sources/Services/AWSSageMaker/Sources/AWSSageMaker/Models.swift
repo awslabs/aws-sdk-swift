@@ -5215,6 +5215,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -5364,6 +5370,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -5519,6 +5531,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -19335,6 +19353,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -19466,6 +19490,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -19603,6 +19633,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -31539,6 +31575,27 @@ extension SageMakerClientTypes {
         public var jobType: SageMakerClientTypes.ServerlessJobType?
         /// The parameter-efficient fine-tuning configuration.
         public var peft: SageMakerClientTypes.Peft?
+        /// The maximum sequence length, in tokens, that the customization job supports. SageMaker uses this value to select a training configuration for the base model that you specify. The parameter supports the following values:
+        ///
+        /// * 1K
+        ///
+        /// * 2K
+        ///
+        /// * 4K
+        ///
+        /// * 8K
+        ///
+        /// * 16K
+        ///
+        /// * 32K
+        ///
+        /// * 64K
+        ///
+        /// * 128K
+        ///
+        ///
+        /// If you don't specify a value, SageMaker selects a training configuration based on the other values that you specify. The selection is not restricted to a particular sequence length.
+        public var sequenceLength: Swift.String?
 
         public init(
             acceptEula: Swift.Bool? = nil,
@@ -31547,7 +31604,8 @@ extension SageMakerClientTypes {
             evaluationType: SageMakerClientTypes.EvaluationType? = nil,
             evaluatorArn: Swift.String? = nil,
             jobType: SageMakerClientTypes.ServerlessJobType? = nil,
-            peft: SageMakerClientTypes.Peft? = nil
+            peft: SageMakerClientTypes.Peft? = nil,
+            sequenceLength: Swift.String? = nil
         ) {
             self.acceptEula = acceptEula
             self.baseModelArn = baseModelArn
@@ -31556,6 +31614,7 @@ extension SageMakerClientTypes {
             self.evaluatorArn = evaluatorArn
             self.jobType = jobType
             self.peft = peft
+            self.sequenceLength = sequenceLength
         }
     }
 }

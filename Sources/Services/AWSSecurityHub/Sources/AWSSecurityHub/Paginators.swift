@@ -609,6 +609,38 @@ extension PaginatorSequence where OperationStackInput == ListFindingAggregatorsI
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[ListFreeTrialStatusesV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFreeTrialStatusesV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFreeTrialStatusesV2Output`
+    public func listFreeTrialStatusesV2Paginated(input: ListFreeTrialStatusesV2Input) -> ClientRuntime.PaginatorSequence<ListFreeTrialStatusesV2Input, ListFreeTrialStatusesV2Output> {
+        return ClientRuntime.PaginatorSequence<ListFreeTrialStatusesV2Input, ListFreeTrialStatusesV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFreeTrialStatusesV2(input:))
+    }
+}
+
+extension ListFreeTrialStatusesV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFreeTrialStatusesV2Input {
+        return ListFreeTrialStatusesV2Input(
+            accountIds: self.accountIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            statuses: self.statuses
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFreeTrialStatusesV2Input, OperationStackOutput == ListFreeTrialStatusesV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listFreeTrialStatusesV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.AccountFreeTrialStatus]`
+    /// - Returns: `[SecurityHubClientTypes.AccountFreeTrialStatus]`
+    public func accountFreeTrialStatuses() async throws -> [SecurityHubClientTypes.AccountFreeTrialStatus] {
+        return try await self.asyncCompactMap { item in item.accountFreeTrialStatuses }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[ListInvitationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
