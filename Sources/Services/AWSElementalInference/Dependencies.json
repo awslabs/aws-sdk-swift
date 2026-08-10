@@ -13,6 +13,7 @@
     "SmithyJSON",
     "SmithyReadWrite",
     "SmithyRetries",
-    "SmithyRetriesAPI"
+    "SmithyRetriesAPI",
+    "SmithyTimestamps"
   ]
 }

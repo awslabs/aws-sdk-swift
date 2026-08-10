@@ -7054,6 +7054,7 @@ extension ConnectClientTypes {
         case itIt
         case jaJp
         case koKr
+        case msMy
         case ptBr
         case zhCn
         case sdkUnknown(Swift.String)
@@ -7067,6 +7068,7 @@ extension ConnectClientTypes {
                 .itIt,
                 .jaJp,
                 .koKr,
+                .msMy,
                 .ptBr,
                 .zhCn
             ]
@@ -7086,6 +7088,7 @@ extension ConnectClientTypes {
             case .itIt: return "it-IT"
             case .jaJp: return "ja-JP"
             case .koKr: return "ko-KR"
+            case .msMy: return "ms-MY"
             case .ptBr: return "pt-BR"
             case .zhCn: return "zh-CN"
             case let .sdkUnknown(s): return s

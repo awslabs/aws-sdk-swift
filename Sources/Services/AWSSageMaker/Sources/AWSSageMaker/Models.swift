@@ -21785,14 +21785,42 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configuration for prefix-aware routing on a SageMaker real-time inference endpoint. Specify PrefixLength and ConcurrencyThreshold to control routing behavior.
+    public struct PrefixAwareRoutingConfig: Swift.Sendable {
+        /// The maximum number of in-flight requests on the target instance before the endpoint routes to another instance. Required when RoutingStrategy is PREFIX_AWARE. When in-flight requests on the prefix-selected instance reach this threshold, the endpoint routes the request to an instance with more available capacity.
+        public var concurrencyThreshold: Swift.Int?
+        /// The maximum length of the prefix used for routing decisions. Required when RoutingStrategy is PREFIX_AWARE.
+        ///
+        /// * For the SageMaker Runtime InvokeEndpoint and InvokeEndpointWithResponseStream APIs, this value specifies the number of bytes from the beginning of the request body.
+        ///
+        /// * For OpenAI-compatible API, this value specifies the number of characters from the text content of the messages array.
+        ///
+        ///
+        /// The endpoint routes requests that share the same prefix to the same instance. Set this value to cover shared content (such as system prompts) plus enough unique content to distribute workloads across instances.
+        public var prefixLength: Swift.Int?
+
+        public init(
+            concurrencyThreshold: Swift.Int? = nil,
+            prefixLength: Swift.Int? = nil
+        ) {
+            self.concurrencyThreshold = concurrencyThreshold
+            self.prefixLength = prefixLength
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum RoutingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case leastOutstandingRequests
+        case prefixAware
         case random
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RoutingStrategy] {
             return [
                 .leastOutstandingRequests,
+                .prefixAware,
                 .random
             ]
         }
@@ -21805,6 +21833,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .leastOutstandingRequests: return "LEAST_OUTSTANDING_REQUESTS"
+            case .prefixAware: return "PREFIX_AWARE"
             case .random: return "RANDOM"
             case let .sdkUnknown(s): return s
             }
@@ -21816,17 +21845,23 @@ extension SageMakerClientTypes {
 
     /// Settings that control how the endpoint routes incoming traffic to the instances that the endpoint hosts.
     public struct ProductionVariantRoutingConfig: Swift.Sendable {
+        /// The configuration for prefix-aware routing. Specify this parameter only when you set RoutingStrategy to PREFIX_AWARE.
+        public var prefixAwareRoutingConfig: SageMakerClientTypes.PrefixAwareRoutingConfig?
         /// Sets how the endpoint routes incoming traffic:
         ///
         /// * LEAST_OUTSTANDING_REQUESTS: The endpoint routes requests to the specific instances that have more capacity to process them.
         ///
         /// * RANDOM: The endpoint routes each request to a randomly chosen instance.
+        ///
+        /// * PREFIX_AWARE: The endpoint routes requests that share the same prompt prefix to the same instance. When the number of in-flight requests on the selected instance reaches the configured threshold, the endpoint routes the request to an instance with more available capacity.
         /// This member is required.
         public var routingStrategy: SageMakerClientTypes.RoutingStrategy?
 
         public init(
+            prefixAwareRoutingConfig: SageMakerClientTypes.PrefixAwareRoutingConfig? = nil,
             routingStrategy: SageMakerClientTypes.RoutingStrategy? = nil
         ) {
+            self.prefixAwareRoutingConfig = prefixAwareRoutingConfig
             self.routingStrategy = routingStrategy
         }
     }

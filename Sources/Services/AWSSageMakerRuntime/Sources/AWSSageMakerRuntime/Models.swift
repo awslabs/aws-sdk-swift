@@ -199,6 +199,8 @@ public struct InvokeEndpointInput: Swift.Sendable {
     public var inferenceComponentName: Swift.String?
     /// If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data capture, see [Capture Data](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html).
     public var inferenceId: Swift.String?
+    /// An optional, stable identifier that serves as a routing hint for prefix-aware routing. The service routes requests with the same prefix and the same identifier to the same instance. If requests from different applications might have the same prompt prefix, set a different identifier for each application to differentiate their routing decisions. Applies only to endpoints configured with a RoutingStrategy of PREFIX_AWARE.
+    public var prefixAwareId: Swift.String?
     /// Creates a stateful session or identifies an existing one. You can do one of the following:
     ///
     /// * Create a stateful session by specifying the value NEW_SESSION.
@@ -224,6 +226,7 @@ public struct InvokeEndpointInput: Swift.Sendable {
         endpointName: Swift.String? = nil,
         inferenceComponentName: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
+        prefixAwareId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         targetContainerHostname: Swift.String? = nil,
         targetModel: Swift.String? = nil,
@@ -237,6 +240,7 @@ public struct InvokeEndpointInput: Swift.Sendable {
         self.endpointName = endpointName
         self.inferenceComponentName = inferenceComponentName
         self.inferenceId = inferenceId
+        self.prefixAwareId = prefixAwareId
         self.sessionId = sessionId
         self.targetContainerHostname = targetContainerHostname
         self.targetModel = targetModel
@@ -246,7 +250,7 @@ public struct InvokeEndpointInput: Swift.Sendable {
 
 extension InvokeEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), enableExplanations: \(Swift.String(describing: enableExplanations)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), sessionId: \(Swift.String(describing: sessionId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetModel: \(Swift.String(describing: targetModel)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), enableExplanations: \(Swift.String(describing: enableExplanations)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), prefixAwareId: \(Swift.String(describing: prefixAwareId)), sessionId: \(Swift.String(describing: sessionId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetModel: \(Swift.String(describing: targetModel)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeEndpointOutput: Swift.Sendable {
@@ -429,6 +433,8 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
     public var inferenceComponentName: Swift.String?
     /// An identifier that you assign to your request.
     public var inferenceId: Swift.String?
+    /// An optional, stable identifier that serves as a routing hint for prefix-aware routing. The service routes requests with the same prefix and the same identifier to the same instance. If requests from different applications might have the same prompt prefix, set a different identifier for each application to differentiate their routing decisions. Applies only to endpoints configured with a RoutingStrategy of PREFIX_AWARE.
+    public var prefixAwareId: Swift.String?
     /// The ID of a stateful session to handle your request. You can't create a stateful session by using the InvokeEndpointWithResponseStream action. Instead, you can create one by using the [InvokeEndpoint] action. In your request, you specify NEW_SESSION for the SessionId request parameter. The response to that request provides the session ID for the NewSessionId response parameter.
     public var sessionId: Swift.String?
     /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
@@ -444,6 +450,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
         endpointName: Swift.String? = nil,
         inferenceComponentName: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
+        prefixAwareId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         targetContainerHostname: Swift.String? = nil,
         targetVariant: Swift.String? = nil
@@ -455,6 +462,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
         self.endpointName = endpointName
         self.inferenceComponentName = inferenceComponentName
         self.inferenceId = inferenceId
+        self.prefixAwareId = prefixAwareId
         self.sessionId = sessionId
         self.targetContainerHostname = targetContainerHostname
         self.targetVariant = targetVariant
@@ -463,7 +471,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
 
 extension InvokeEndpointWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), sessionId: \(Swift.String(describing: sessionId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), prefixAwareId: \(Swift.String(describing: prefixAwareId)), sessionId: \(Swift.String(describing: sessionId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 extension SageMakerRuntimeClientTypes {
@@ -557,6 +565,9 @@ extension InvokeEndpointInput {
         if let inferenceId = value.inferenceId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
         }
+        if let prefixAwareId = value.prefixAwareId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Prefix-Aware-Id", value: Swift.String(prefixAwareId)))
+        }
         if let sessionId = value.sessionId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Session-Id", value: Swift.String(sessionId)))
         }
@@ -646,6 +657,9 @@ extension InvokeEndpointWithResponseStreamInput {
         }
         if let inferenceId = value.inferenceId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
+        }
+        if let prefixAwareId = value.prefixAwareId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Prefix-Aware-Id", value: Swift.String(prefixAwareId)))
         }
         if let sessionId = value.sessionId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Session-Id", value: Swift.String(sessionId)))

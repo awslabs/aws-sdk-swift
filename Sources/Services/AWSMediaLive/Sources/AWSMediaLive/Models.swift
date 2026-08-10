@@ -4482,17 +4482,21 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
         /// username for destination
         public var username: Swift.String?
+        /// Specifies the source IP address for outbound multicast packets.
+        public var virtualSourceAddress: Swift.String?
 
         public init(
             passwordParam: Swift.String? = nil,
             streamName: Swift.String? = nil,
             url: Swift.String? = nil,
-            username: Swift.String? = nil
+            username: Swift.String? = nil,
+            virtualSourceAddress: Swift.String? = nil
         ) {
             self.passwordParam = passwordParam
             self.streamName = streamName
             self.url = url
             self.username = username
+            self.virtualSourceAddress = virtualSourceAddress
         }
     }
 }
@@ -40021,6 +40025,7 @@ extension MediaLiveClientTypes.OutputDestinationSettings {
         try writer["streamName"].write(value.streamName)
         try writer["url"].write(value.url)
         try writer["username"].write(value.username)
+        try writer["virtualSourceAddress"].write(value.virtualSourceAddress)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.OutputDestinationSettings {
@@ -40030,6 +40035,7 @@ extension MediaLiveClientTypes.OutputDestinationSettings {
         value.streamName = try reader["streamName"].readIfPresent()
         value.url = try reader["url"].readIfPresent()
         value.username = try reader["username"].readIfPresent()
+        value.virtualSourceAddress = try reader["virtualSourceAddress"].readIfPresent()
         return value
     }
 }
