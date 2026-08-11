@@ -1110,7 +1110,7 @@ extension OrganizationsClientTypes {
         /// ID for the participant: Acccount ID, organization ID, or email address. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         /// This member is required.
         public var id: Swift.String?
-        /// The type of ID for the participant.
+        /// The type of ID for the participant. ORGANIZATION is valid only in the response context (identifying the inviting organization). Valid input values for the Target parameter are ACCOUNT and EMAIL only.
         /// This member is required.
         public var type: OrganizationsClientTypes.HandshakePartyType?
 

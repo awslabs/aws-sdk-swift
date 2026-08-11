@@ -7996,6 +7996,404 @@ public struct CreateIntegrationAssociationOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// The boolean comparison operator for metric filters. Valid values: IS_TRUE | IS_FALSE.
+    public enum MetricFilterBooleanConditionComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case isFalse
+        case isTrue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricFilterBooleanConditionComparison] {
+            return [
+                .isFalse,
+                .isTrue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .isFalse: return "IS_FALSE"
+            case .isTrue: return "IS_TRUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A boolean comparison condition for metric filters.
+    public struct MetricFilterBooleanCondition: Swift.Sendable {
+        /// The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false).
+        /// This member is required.
+        public var comparison: ConnectClientTypes.MetricFilterBooleanConditionComparison?
+
+        public init(
+            comparison: ConnectClientTypes.MetricFilterBooleanConditionComparison? = nil
+        ) {
+            self.comparison = comparison
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The numeric comparison operator for metric filters. Valid values: LESSER | LESSER_OR_EQUAL | GREATER | GREATER_OR_EQUAL.
+    public enum MetricFilterNumberConditionComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case greater
+        case greaterOrEqual
+        case lesser
+        case lesserOrEqual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricFilterNumberConditionComparison] {
+            return [
+                .greater,
+                .greaterOrEqual,
+                .lesser,
+                .lesserOrEqual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .greater: return "GREATER"
+            case .greaterOrEqual: return "GREATER_OR_EQUAL"
+            case .lesser: return "LESSER"
+            case .lesserOrEqual: return "LESSER_OR_EQUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A numeric comparison condition for metric filters.
+    public struct MetricFilterNumberCondition: Swift.Sendable {
+        /// The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to).
+        /// This member is required.
+        public var comparison: ConnectClientTypes.MetricFilterNumberConditionComparison?
+        /// The numeric values to compare against.
+        /// This member is required.
+        public var values: [Swift.Double]?
+
+        public init(
+            comparison: ConnectClientTypes.MetricFilterNumberConditionComparison? = nil,
+            values: [Swift.Double]? = nil
+        ) {
+            self.comparison = comparison
+            self.values = values
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The string comparison operator for metric filters. Valid values: MATCHES_ANY | MATCHES_NONE.
+    public enum MetricFilterStringConditionComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case matchesAny
+        case matchesNone
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricFilterStringConditionComparison] {
+            return [
+                .matchesAny,
+                .matchesNone
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .matchesAny: return "MATCHES_ANY"
+            case .matchesNone: return "MATCHES_NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A string comparison condition for metric filters.
+    public struct MetricFilterStringCondition: Swift.Sendable {
+        /// The comparison operator. Valid values: MATCHES_ANY (matches any of the specified values) | MATCHES_NONE (matches none of the specified values).
+        /// This member is required.
+        public var comparison: ConnectClientTypes.MetricFilterStringConditionComparison?
+        /// The string values to compare against.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            comparison: ConnectClientTypes.MetricFilterStringConditionComparison? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.comparison = comparison
+            self.values = values
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation.
+    public struct MetricFilter: Swift.Sendable {
+        /// A boolean comparison condition.
+        public var booleanCondition: ConnectClientTypes.MetricFilterBooleanCondition?
+        /// The key identifying the field to filter on.
+        /// This member is required.
+        public var metricFilterKey: Swift.String?
+        /// Specifies whether the filter condition is negated. When set to true, the filter excludes matching data instead of including it.
+        public var negate: Swift.Bool
+        /// A numeric comparison condition.
+        public var numberCondition: ConnectClientTypes.MetricFilterNumberCondition?
+        /// A string comparison condition.
+        public var stringCondition: ConnectClientTypes.MetricFilterStringCondition?
+
+        public init(
+            booleanCondition: ConnectClientTypes.MetricFilterBooleanCondition? = nil,
+            metricFilterKey: Swift.String? = nil,
+            negate: Swift.Bool = false,
+            numberCondition: ConnectClientTypes.MetricFilterNumberCondition? = nil,
+            stringCondition: ConnectClientTypes.MetricFilterStringCondition? = nil
+        ) {
+            self.booleanCondition = booleanCondition
+            self.metricFilterKey = metricFilterKey
+            self.negate = negate
+            self.numberCondition = numberCondition
+            self.stringCondition = stringCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Represents a component metric referenced in a custom metric calculation formula.
+    public struct CalculationComponent: Swift.Sendable {
+        /// The alias used to reference this component in the calculation expression.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The filters applied to the calculation component.
+        public var metricFilters: [ConnectClientTypes.MetricFilter]?
+        /// The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName.
+        public var metricId: Swift.String?
+        /// The name of an AWS-managed metric used in this calculation component (for example, CONTACTS_HANDLED). Mutually exclusive with MetricId.
+        public var metricName: Swift.String?
+
+        public init(
+            alias: Swift.String? = nil,
+            metricFilters: [ConnectClientTypes.MetricFilter]? = nil,
+            metricId: Swift.String? = nil,
+            metricName: Swift.String? = nil
+        ) {
+            self.alias = alias
+            self.metricFilters = metricFilters
+            self.metricId = metricId
+            self.metricName = metricName
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the formula and component metrics that define a custom metric calculation.
+    public struct MetricCalculation: Swift.Sendable {
+        /// The formula expression that defines how the metric is calculated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2)).
+        /// This member is required.
+        public var calculation: Swift.String?
+        /// The list of component metrics referenced in the calculation formula. Each component has an alias used in the formula expression.
+        /// This member is required.
+        public var calculationComponents: [ConnectClientTypes.CalculationComponent]?
+
+        public init(
+            calculation: Swift.String? = nil,
+            calculationComponents: [ConnectClientTypes.CalculationComponent]? = nil
+        ) {
+            self.calculation = calculation
+            self.calculationComponents = calculationComponents
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Specifies how to interpret a positive trend in metric data. Valid values: POSITIVE | NEGATIVE | NEUTRAL.
+    public enum TrendIndicator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case negative
+        case neutral
+        case positive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrendIndicator] {
+            return [
+                .negative,
+                .neutral,
+                .positive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .negative: return "NEGATIVE"
+            case .neutral: return "NEUTRAL"
+            case .positive: return "POSITIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The publish status of a metric. Valid values: PUBLISHED | SAVED.
+    public enum MetricStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case published
+        case saved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricStatus] {
+            return [
+                .published,
+                .saved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .published: return "PUBLISHED"
+            case .saved: return "SAVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The display unit for metric data. Valid values: INTEGER | DOUBLE | PERCENT | SECONDS.
+    public enum MetricUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case double
+        case integer
+        case percent
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricUnit] {
+            return [
+                .double,
+                .integer,
+                .percent,
+                .seconds
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .double: return "DOUBLE"
+            case .integer: return "INTEGER"
+            case .percent: return "PERCENT"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateMetricInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The description of the metric.
+    public var description: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The calculation definition for the metric, including the formula expression and the component metrics it references.
+    /// This member is required.
+    public var metricCalculation: ConnectClientTypes.MetricCalculation?
+    /// The name of the metric.
+    /// This member is required.
+    public var name: Swift.String?
+    /// How an increase in the metric value should be interpreted. Valid values: POSITIVE, NEUTRAL, NEGATIVE.
+    public var positiveTrendIndicator: ConnectClientTypes.TrendIndicator?
+    /// The publish status of the metric. Set to PUBLISHED to make the metric available for use in dashboards and reports, or SAVED to keep it in draft state.
+    public var status: ConnectClientTypes.MetricStatus?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String: Swift.String]?
+    /// The display unit for the metric's data.
+    /// This member is required.
+    public var unit: ConnectClientTypes.MetricUnit?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        metricCalculation: ConnectClientTypes.MetricCalculation? = nil,
+        name: Swift.String? = nil,
+        positiveTrendIndicator: ConnectClientTypes.TrendIndicator? = nil,
+        status: ConnectClientTypes.MetricStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        unit: ConnectClientTypes.MetricUnit? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.instanceId = instanceId
+        self.metricCalculation = metricCalculation
+        self.name = name
+        self.positiveTrendIndicator = positiveTrendIndicator
+        self.status = status
+        self.tags = tags
+        self.unit = unit
+    }
+}
+
+public struct CreateMetricOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the metric.
+    /// This member is required.
+    public var metricArn: Swift.String?
+    /// The identifier of the metric.
+    /// This member is required.
+    public var metricId: Swift.String?
+
+    public init(
+        metricArn: Swift.String? = nil,
+        metricId: Swift.String? = nil
+    ) {
+        self.metricArn = metricArn
+        self.metricId = metricId
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW.
     public enum LocaleCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dede
@@ -12215,6 +12613,28 @@ public struct DeleteIntegrationAssociationInput: Swift.Sendable {
     }
 }
 
+public struct DeleteMetricInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the metric to delete.
+    /// This member is required.
+    public var metricId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        metricId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.metricId = metricId
+    }
+}
+
+public struct DeleteMetricOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteNotificationInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -15839,6 +16259,273 @@ public struct DescribeInstanceStorageConfigOutput: Swift.Sendable {
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
     ) {
         self.storageConfig = storageConfig
+    }
+}
+
+public struct DescribeMetricInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the metric to describe. Adding the $SAVED qualifier will describe the saved version of the metric. Adding $LATEST or omitting a qualifier will describe the published version.
+    /// This member is required.
+    public var metricId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        metricId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.metricId = metricId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The method used to create a custom metric. Valid values: SERVICE_LEVEL_BUILDER | METRIC_BUILDER.
+    public enum MetricCreationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metricBuilder
+        case serviceLevelBuilder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricCreationMethod] {
+            return [
+                .metricBuilder,
+                .serviceLevelBuilder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metricBuilder: return "METRIC_BUILDER"
+            case .serviceLevelBuilder: return "SERVICE_LEVEL_BUILDER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The type of an available metric filter. Valid values: METRIC_LEVEL | RESOURCE_LEVEL.
+    public enum AvailableFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metricLevel
+        case resourceLevel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AvailableFilterType] {
+            return [
+                .metricLevel,
+                .resourceLevel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metricLevel: return "METRIC_LEVEL"
+            case .resourceLevel: return "RESOURCE_LEVEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A filter that is available for use with the metric. Part of an AvailableFilterList that describes the filters that are available for use with the metric.
+    public struct AvailableFilter: Swift.Sendable {
+        /// The identifier of the filter.
+        public var id: Swift.String?
+        /// The type of the filter. Valid values: METRIC_LEVEL | RESOURCE_LEVEL.
+        public var type: ConnectClientTypes.AvailableFilterType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: ConnectClientTypes.AvailableFilterType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The type of the metric. Valid values: AWS_MANAGED | CUSTOMER_MANAGED.
+    public enum MetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricType] {
+            return [
+                .awsManaged,
+                .customerManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the full definition of a metric, including its calculation, unit, status, and trend indicator.
+    public struct MetricDefinition: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the metric. May be qualified with $SAVED or $LATEST.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The category of the metric.
+        /// This member is required.
+        public var category: Swift.String?
+        /// The timestamp of when the metric was created.
+        public var createdTime: Foundation.Date?
+        /// The user that created the metric. The creator for metrics created through the CreateMetric API will be Amazon Connect API.
+        public var createdUser: ConnectClientTypes.CreatedByInfo?
+        /// The method used to create the metric. Valid values: SERVICE_LEVEL_BUILDER (created with the guided service-level experience) | METRIC_BUILDER (created with the free-form metric builder).
+        public var creationMethod: ConnectClientTypes.MetricCreationMethod?
+        /// The default stat aggregation for the metric.
+        public var defaultStat: Swift.String?
+        /// The description of the metric.
+        public var description: Swift.String?
+        /// The earliest time that can be queried for this metric.
+        public var effectiveTime: Foundation.Date?
+        /// The filters applied to the metric.
+        /// This member is required.
+        public var filters: [ConnectClientTypes.AvailableFilter]?
+        /// The groupings available for this metric.
+        /// This member is required.
+        public var groupings: [Swift.String]?
+        /// The identifier of the metric.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The region where the metric was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp of when the metric was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The user that last modified the metric. For modifications made through the API, this will be Amazon Connect API.
+        public var lastModifiedUser: ConnectClientTypes.CreatedByInfo?
+        /// The calculation definition for the metric.
+        public var metricCalculation: ConnectClientTypes.MetricCalculation?
+        /// The name of the metric.
+        /// This member is required.
+        public var name: Swift.String?
+        /// How an increase in the metric value should be interpreted. Valid values: POSITIVE, NEUTRAL, NEGATIVE.
+        public var positiveTrendIndicator: ConnectClientTypes.TrendIndicator?
+        /// The primary event source for the metric data.
+        public var primaryEventSource: Swift.String?
+        /// The timestamp type that determines where the metric appears on a time series.
+        public var primaryEventSourceEffectiveTimestampType: Swift.String?
+        /// The minimum interval, in seconds, between data refreshes for this metric.
+        public var refreshRate: Swift.Int
+        /// The publish status of the metric. Valid values: PUBLISHED | SAVED.
+        public var status: ConnectClientTypes.MetricStatus?
+        /// The stat aggregations available for this metric.
+        public var supportedStats: [Swift.String]?
+        /// Specifies whether the metric can be used as a component of custom metrics.
+        /// This member is required.
+        public var supportsCustomCalculation: Swift.Bool
+        /// Specifies whether the metric can be used inside aggregating statistical functions (SUM, AVG, etc.) in custom metric calculations.
+        /// This member is required.
+        public var supportsPreaggregateCalculation: Swift.Bool
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of the metric. Valid values: AWS_MANAGED | CUSTOMER_MANAGED.
+        /// This member is required.
+        public var type: ConnectClientTypes.MetricType?
+        /// The display unit for the metric's data.
+        /// This member is required.
+        public var unit: ConnectClientTypes.MetricUnit?
+
+        public init(
+            arn: Swift.String? = nil,
+            category: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            createdUser: ConnectClientTypes.CreatedByInfo? = nil,
+            creationMethod: ConnectClientTypes.MetricCreationMethod? = nil,
+            defaultStat: Swift.String? = nil,
+            description: Swift.String? = nil,
+            effectiveTime: Foundation.Date? = nil,
+            filters: [ConnectClientTypes.AvailableFilter]? = nil,
+            groupings: [Swift.String]? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lastModifiedUser: ConnectClientTypes.CreatedByInfo? = nil,
+            metricCalculation: ConnectClientTypes.MetricCalculation? = nil,
+            name: Swift.String? = nil,
+            positiveTrendIndicator: ConnectClientTypes.TrendIndicator? = nil,
+            primaryEventSource: Swift.String? = nil,
+            primaryEventSourceEffectiveTimestampType: Swift.String? = nil,
+            refreshRate: Swift.Int = 0,
+            status: ConnectClientTypes.MetricStatus? = nil,
+            supportedStats: [Swift.String]? = nil,
+            supportsCustomCalculation: Swift.Bool = false,
+            supportsPreaggregateCalculation: Swift.Bool = false,
+            tags: [Swift.String: Swift.String]? = nil,
+            type: ConnectClientTypes.MetricType? = nil,
+            unit: ConnectClientTypes.MetricUnit? = nil
+        ) {
+            self.arn = arn
+            self.category = category
+            self.createdTime = createdTime
+            self.createdUser = createdUser
+            self.creationMethod = creationMethod
+            self.defaultStat = defaultStat
+            self.description = description
+            self.effectiveTime = effectiveTime
+            self.filters = filters
+            self.groupings = groupings
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lastModifiedUser = lastModifiedUser
+            self.metricCalculation = metricCalculation
+            self.name = name
+            self.positiveTrendIndicator = positiveTrendIndicator
+            self.primaryEventSource = primaryEventSource
+            self.primaryEventSourceEffectiveTimestampType = primaryEventSourceEffectiveTimestampType
+            self.refreshRate = refreshRate
+            self.status = status
+            self.supportedStats = supportedStats
+            self.supportsCustomCalculation = supportsCustomCalculation
+            self.supportsPreaggregateCalculation = supportsPreaggregateCalculation
+            self.tags = tags
+            self.type = type
+            self.unit = unit
+        }
+    }
+}
+
+public struct DescribeMetricOutput: Swift.Sendable {
+    /// The metric definition.
+    /// This member is required.
+    public var metric: ConnectClientTypes.MetricDefinition?
+
+    public init(
+        metric: ConnectClientTypes.MetricDefinition? = nil
+    ) {
+        self.metric = metric
     }
 }
 
@@ -23655,6 +24342,90 @@ public struct ListLexBotsOutput: Swift.Sendable {
     }
 }
 
+public struct ListMetricsInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The type of metrics to list. Valid values: AWS_MANAGED | CUSTOMER_MANAGED.
+    public var type: ConnectClientTypes.MetricType?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        type: ConnectClientTypes.MetricType? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary information about a metric.
+    public struct MetricSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the metric.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The identifier of the metric.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The region where the metric was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp of when the metric was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the metric.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The publish status of the metric.
+        /// This member is required.
+        public var status: ConnectClientTypes.MetricStatus?
+        /// The type of the metric.
+        /// This member is required.
+        public var type: ConnectClientTypes.MetricType?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.MetricStatus? = nil,
+            type: ConnectClientTypes.MetricType? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ListMetricsOutput: Swift.Sendable {
+    /// The list of metric summaries.
+    /// This member is required.
+    public var metricSummaryList: [ConnectClientTypes.MetricSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        metricSummaryList: [ConnectClientTypes.MetricSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.metricSummaryList = metricSummaryList
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListNotificationsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -28961,6 +29732,44 @@ public struct SearchHoursOfOperationsOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// Filters to apply when searching for metrics.
+    public struct MetricSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * The top level list specifies conditions that need to be applied with OR operator.
+        ///
+        /// * The inner list specifies conditions that need to be applied with AND operator.
+        public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+
+        public init(
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+        ) {
+            self.tagFilter = tagFilter
+        }
+    }
+}
+
+public struct SearchMetricsOutput: Swift.Sendable {
+    /// The approximate total number of metrics that matched your search criteria.
+    public var approximateTotalCount: Swift.Int?
+    /// The metrics that matched the search criteria.
+    public var metrics: [ConnectClientTypes.MetricDefinition]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        metrics: [ConnectClientTypes.MetricDefinition]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.metrics = metrics
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Filters to apply when searching for notifications.
     public struct NotificationSearchFilter: Swift.Sendable {
         /// Attribute-based filters to apply to the search results.
@@ -29301,6 +30110,8 @@ public struct SearchResourceTagsInput: Swift.Sendable {
     /// * flow- module
     ///
     /// * transfer-destination (also known as quick connect)
+    ///
+    /// * metric
     public var resourceTypes: [Swift.String]?
     /// The search criteria to be used to return tags.
     public var searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria?
@@ -33780,6 +34591,70 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
     }
 }
 
+public struct UpdateMetricContentInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The updated calculation definition for the metric.
+    public var metricCalculation: ConnectClientTypes.MetricCalculation?
+    /// The identifier of the metric to update. Adding the $SAVED qualifier will update the saved version of the metric. Adding $LATEST or omitting a qualifier will update the published version.
+    /// This member is required.
+    public var metricId: Swift.String?
+    /// How an increase in the metric value should be interpreted. Valid values: POSITIVE, NEUTRAL, NEGATIVE.
+    public var positiveTrendIndicator: ConnectClientTypes.TrendIndicator?
+    /// The updated display unit for the metric.
+    public var unit: ConnectClientTypes.MetricUnit?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        metricCalculation: ConnectClientTypes.MetricCalculation? = nil,
+        metricId: Swift.String? = nil,
+        positiveTrendIndicator: ConnectClientTypes.TrendIndicator? = nil,
+        unit: ConnectClientTypes.MetricUnit? = nil
+    ) {
+        self.instanceId = instanceId
+        self.metricCalculation = metricCalculation
+        self.metricId = metricId
+        self.positiveTrendIndicator = positiveTrendIndicator
+        self.unit = unit
+    }
+}
+
+public struct UpdateMetricContentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateMetricMetadataInput: Swift.Sendable {
+    /// The updated description of the metric.
+    public var description: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the metric to update. Adding the $SAVED qualifier will update the saved version of the metric. Adding $LATEST or omitting a qualifier will update the published version.
+    /// This member is required.
+    public var metricId: Swift.String?
+    /// The updated name of the metric.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        metricId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.description = description
+        self.instanceId = instanceId
+        self.metricId = metricId
+        self.name = name
+    }
+}
+
+public struct UpdateMetricMetadataOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateNotificationContentInput: Swift.Sendable {
     /// The updated localized content of the notification. A map of locale codes and values. Maximum 500 characters per locale.
     /// This member is required.
@@ -35572,6 +36447,33 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Defines the search criteria for filtering metrics.
+    public struct MetricSearchCriteria: Swift.Sendable {
+        /// A list of conditions that must all be satisfied.
+        public var andConditions: [ConnectClientTypes.MetricSearchCriteria]?
+        /// A boolean search condition for Search APIs.
+        public var booleanCondition: ConnectClientTypes.BooleanCondition?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public var orConditions: [ConnectClientTypes.MetricSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.MetricSearchCriteria]? = nil,
+            booleanCondition: ConnectClientTypes.BooleanCondition? = nil,
+            orConditions: [ConnectClientTypes.MetricSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        ) {
+            self.andConditions = andConditions
+            self.booleanCondition = booleanCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The search criteria to be used to return notifications.
     public struct NotificationSearchCriteria: Swift.Sendable {
         /// A list of conditions that must all be satisfied.
@@ -36282,6 +37184,34 @@ public struct SearchHoursOfOperationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.HoursOfOperationSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+public struct SearchMetricsInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to filter the metrics.
+    public var searchCriteria: ConnectClientTypes.MetricSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.MetricSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.MetricSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.MetricSearchFilter? = nil
     ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -38476,6 +39406,16 @@ extension CreateIntegrationAssociationInput {
     }
 }
 
+extension CreateMetricInput {
+
+    static func urlPathProvider(_ value: CreateMetricInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/metrics/definitions/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension CreateNotificationInput {
 
     static func urlPathProvider(_ value: CreateNotificationInput) -> Swift.String? {
@@ -38987,6 +39927,19 @@ extension DeleteIntegrationAssociationInput {
             return nil
         }
         return "/instance/\(instanceId.urlPercentEncoding())/integration-associations/\(integrationAssociationId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteMetricInput {
+
+    static func urlPathProvider(_ value: DeleteMetricInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let metricId = value.metricId else {
+            return nil
+        }
+        return "/metrics/definitions/\(instanceId.urlPercentEncoding())/\(metricId.urlPercentEncoding())"
     }
 }
 
@@ -39560,6 +40513,19 @@ extension DescribeInstanceStorageConfigInput {
         let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
         items.append(resourceTypeQueryItem)
         return items
+    }
+}
+
+extension DescribeMetricInput {
+
+    static func urlPathProvider(_ value: DescribeMetricInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let metricId = value.metricId else {
+            return nil
+        }
+        return "/metrics/definitions/\(instanceId.urlPercentEncoding())/\(metricId.urlPercentEncoding())"
     }
 }
 
@@ -41331,6 +42297,36 @@ extension ListLexBotsInput {
     }
 }
 
+extension ListMetricsInput {
+
+    static func urlPathProvider(_ value: ListMetricsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/metrics/definitions/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListMetricsInput {
+
+    static func queryItemProvider(_ value: ListMetricsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListNotificationsInput {
 
     static func urlPathProvider(_ value: ListNotificationsInput) -> Swift.String? {
@@ -42467,6 +43463,13 @@ extension SearchHoursOfOperationsInput {
     }
 }
 
+extension SearchMetricsInput {
+
+    static func urlPathProvider(_ value: SearchMetricsInput) -> Swift.String? {
+        return "/search-metrics"
+    }
+}
+
 extension SearchNotificationsInput {
 
     static func urlPathProvider(_ value: SearchNotificationsInput) -> Swift.String? {
@@ -43216,6 +44219,32 @@ extension UpdateInstanceStorageConfigInput {
         let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
         items.append(resourceTypeQueryItem)
         return items
+    }
+}
+
+extension UpdateMetricContentInput {
+
+    static func urlPathProvider(_ value: UpdateMetricContentInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let metricId = value.metricId else {
+            return nil
+        }
+        return "/metrics/definitions/\(instanceId.urlPercentEncoding())/\(metricId.urlPercentEncoding())/content"
+    }
+}
+
+extension UpdateMetricMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateMetricMetadataInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let metricId = value.metricId else {
+            return nil
+        }
+        return "/metrics/definitions/\(instanceId.urlPercentEncoding())/\(metricId.urlPercentEncoding())/metadata"
     }
 }
 
@@ -44264,6 +45293,21 @@ extension CreateIntegrationAssociationInput {
     }
 }
 
+extension CreateMetricInput {
+
+    static func write(value: CreateMetricInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["MetricCalculation"].write(value.metricCalculation, with: ConnectClientTypes.MetricCalculation.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["PositiveTrendIndicator"].write(value.positiveTrendIndicator)
+        try writer["Status"].write(value.status)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Unit"].write(value.unit)
+    }
+}
+
 extension CreateNotificationInput {
 
     static func write(value: CreateNotificationInput?, to writer: SmithyJSON.Writer) throws {
@@ -45015,6 +46059,18 @@ extension SearchHoursOfOperationsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.HoursOfOperationSearchCriteria.write(value:to:))
         try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.HoursOfOperationSearchFilter.write(value:to:))
+    }
+}
+
+extension SearchMetricsInput {
+
+    static func write(value: SearchMetricsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.MetricSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.MetricSearchFilter.write(value:to:))
     }
 }
 
@@ -45838,6 +46894,25 @@ extension UpdateInstanceStorageConfigInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["StorageConfig"].write(value.storageConfig, with: ConnectClientTypes.InstanceStorageConfig.write(value:to:))
+    }
+}
+
+extension UpdateMetricContentInput {
+
+    static func write(value: UpdateMetricContentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricCalculation"].write(value.metricCalculation, with: ConnectClientTypes.MetricCalculation.write(value:to:))
+        try writer["PositiveTrendIndicator"].write(value.positiveTrendIndicator)
+        try writer["Unit"].write(value.unit)
+    }
+}
+
+extension UpdateMetricMetadataInput {
+
+    static func write(value: UpdateMetricMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -46760,6 +47835,19 @@ extension CreateIntegrationAssociationOutput {
     }
 }
 
+extension CreateMetricOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMetricOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMetricOutput()
+        value.metricArn = try reader["MetricArn"].readIfPresent() ?? ""
+        value.metricId = try reader["MetricId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateNotificationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNotificationOutput {
@@ -47162,6 +48250,13 @@ extension DeleteIntegrationAssociationOutput {
     }
 }
 
+extension DeleteMetricOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMetricOutput {
+        return DeleteMetricOutput()
+    }
+}
+
 extension DeleteNotificationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNotificationOutput {
@@ -47533,6 +48628,18 @@ extension DescribeInstanceStorageConfigOutput {
         let reader = responseReader
         var value = DescribeInstanceStorageConfigOutput()
         value.storageConfig = try reader["StorageConfig"].readIfPresent(with: ConnectClientTypes.InstanceStorageConfig.read(from:))
+        return value
+    }
+}
+
+extension DescribeMetricOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetricOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetricOutput()
+        value.metric = try reader["Metric"].readIfPresent(with: ConnectClientTypes.MetricDefinition.read(from:))
         return value
     }
 }
@@ -48579,6 +49686,19 @@ extension ListLexBotsOutput {
     }
 }
 
+extension ListMetricsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMetricsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMetricsOutput()
+        value.metricSummaryList = try reader["MetricSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.MetricSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListNotificationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNotificationsOutput {
@@ -49272,6 +50392,20 @@ extension SearchHoursOfOperationsOutput {
         var value = SearchHoursOfOperationsOutput()
         value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
         value.hoursOfOperations = try reader["HoursOfOperations"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension SearchMetricsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchMetricsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchMetricsOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: ConnectClientTypes.MetricDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -50025,6 +51159,20 @@ extension UpdateInstanceStorageConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateInstanceStorageConfigOutput {
         return UpdateInstanceStorageConfigOutput()
+    }
+}
+
+extension UpdateMetricContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMetricContentOutput {
+        return UpdateMetricContentOutput()
+    }
+}
+
+extension UpdateMetricMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMetricMetadataOutput {
+        return UpdateMetricMetadataOutput()
     }
 }
 
@@ -51311,6 +52459,27 @@ enum CreateIntegrationAssociationOutputError {
     }
 }
 
+enum CreateMetricOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateNotificationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -52072,6 +53241,26 @@ enum DeleteIntegrationAssociationOutputError {
     }
 }
 
+enum DeleteMetricOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteNotificationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -52782,6 +53971,25 @@ enum DescribeInstanceStorageConfigOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMetricOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -54375,6 +55583,25 @@ enum ListLexBotsOutputError {
     }
 }
 
+enum ListMetricsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListNotificationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -55359,6 +56586,25 @@ enum SearchHoursOfOperationsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchMetricsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -56701,6 +57947,45 @@ enum UpdateInstanceStorageConfigOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMetricContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMetricMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -58544,6 +59829,17 @@ extension ConnectClientTypes.AutomaticFailConfiguration {
     }
 }
 
+extension ConnectClientTypes.AvailableFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AvailableFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AvailableFilter()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.AvailableNumberSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AvailableNumberSummary {
@@ -58664,6 +59960,27 @@ extension ConnectClientTypes.BooleanCondition {
         guard let value else { return }
         try writer["ComparisonType"].write(value.comparisonType)
         try writer["FieldName"].write(value.fieldName)
+    }
+}
+
+extension ConnectClientTypes.CalculationComponent {
+
+    static func write(value: ConnectClientTypes.CalculationComponent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["MetricFilters"].writeList(value.metricFilters, memberWritingClosure: ConnectClientTypes.MetricFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricId"].write(value.metricId)
+        try writer["MetricName"].write(value.metricName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CalculationComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.CalculationComponent()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.metricId = try reader["MetricId"].readIfPresent()
+        value.metricFilters = try reader["MetricFilters"].readListIfPresent(memberReadingClosure: ConnectClientTypes.MetricFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -62240,6 +63557,23 @@ extension ConnectClientTypes.MeetingFeaturesConfiguration {
     }
 }
 
+extension ConnectClientTypes.MetricCalculation {
+
+    static func write(value: ConnectClientTypes.MetricCalculation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Calculation"].write(value.calculation)
+        try writer["CalculationComponents"].writeList(value.calculationComponents, memberWritingClosure: ConnectClientTypes.CalculationComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricCalculation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricCalculation()
+        value.calculationComponents = try reader["CalculationComponents"].readListIfPresent(memberReadingClosure: ConnectClientTypes.CalculationComponent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.calculation = try reader["Calculation"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ConnectClientTypes.MetricDataV2 {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricDataV2 {
@@ -62247,6 +63581,114 @@ extension ConnectClientTypes.MetricDataV2 {
         var value = ConnectClientTypes.MetricDataV2()
         value.metric = try reader["Metric"].readIfPresent(with: ConnectClientTypes.MetricV2.read(from:))
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.MetricDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricDefinition()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.metricCalculation = try reader["MetricCalculation"].readIfPresent(with: ConnectClientTypes.MetricCalculation.read(from:))
+        value.creationMethod = try reader["CreationMethod"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        value.positiveTrendIndicator = try reader["PositiveTrendIndicator"].readIfPresent()
+        value.groupings = try reader["Groupings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AvailableFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.effectiveTime = try reader["EffectiveTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.refreshRate = try reader["RefreshRate"].readIfPresent() ?? 0
+        value.category = try reader["Category"].readIfPresent() ?? ""
+        value.supportedStats = try reader["SupportedStats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultStat = try reader["DefaultStat"].readIfPresent()
+        value.supportsPreaggregateCalculation = try reader["SupportsPreaggregateCalculation"].readIfPresent() ?? false
+        value.supportsCustomCalculation = try reader["SupportsCustomCalculation"].readIfPresent() ?? false
+        value.primaryEventSource = try reader["PrimaryEventSource"].readIfPresent()
+        value.primaryEventSourceEffectiveTimestampType = try reader["PrimaryEventSourceEffectiveTimestampType"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdUser = try reader["CreatedUser"].readIfPresent(with: ConnectClientTypes.CreatedByInfo.read(from:))
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedUser = try reader["LastModifiedUser"].readIfPresent(with: ConnectClientTypes.CreatedByInfo.read(from:))
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.MetricFilter {
+
+    static func write(value: ConnectClientTypes.MetricFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BooleanCondition"].write(value.booleanCondition, with: ConnectClientTypes.MetricFilterBooleanCondition.write(value:to:))
+        try writer["MetricFilterKey"].write(value.metricFilterKey)
+        try writer["Negate"].write(value.negate)
+        try writer["NumberCondition"].write(value.numberCondition, with: ConnectClientTypes.MetricFilterNumberCondition.write(value:to:))
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.MetricFilterStringCondition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricFilter()
+        value.metricFilterKey = try reader["MetricFilterKey"].readIfPresent() ?? ""
+        value.negate = try reader["Negate"].readIfPresent() ?? false
+        value.numberCondition = try reader["NumberCondition"].readIfPresent(with: ConnectClientTypes.MetricFilterNumberCondition.read(from:))
+        value.stringCondition = try reader["StringCondition"].readIfPresent(with: ConnectClientTypes.MetricFilterStringCondition.read(from:))
+        value.booleanCondition = try reader["BooleanCondition"].readIfPresent(with: ConnectClientTypes.MetricFilterBooleanCondition.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.MetricFilterBooleanCondition {
+
+    static func write(value: ConnectClientTypes.MetricFilterBooleanCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comparison"].write(value.comparison)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricFilterBooleanCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricFilterBooleanCondition()
+        value.comparison = try reader["Comparison"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.MetricFilterNumberCondition {
+
+    static func write(value: ConnectClientTypes.MetricFilterNumberCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comparison"].write(value.comparison)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricFilterNumberCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricFilterNumberCondition()
+        value.comparison = try reader["Comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectClientTypes.MetricFilterStringCondition {
+
+    static func write(value: ConnectClientTypes.MetricFilterStringCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comparison"].write(value.comparison)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricFilterStringCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricFilterStringCondition()
+        value.comparison = try reader["Comparison"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -62290,6 +63732,41 @@ extension ConnectClientTypes.MetricResultV2 {
         value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.metricInterval = try reader["MetricInterval"].readIfPresent(with: ConnectClientTypes.MetricInterval.read(from:))
         value.collections = try reader["Collections"].readListIfPresent(memberReadingClosure: ConnectClientTypes.MetricDataV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.MetricSearchCriteria {
+
+    static func write(value: ConnectClientTypes.MetricSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.MetricSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BooleanCondition"].write(value.booleanCondition, with: ConnectClientTypes.BooleanCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.MetricSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.MetricSearchFilter {
+
+    static func write(value: ConnectClientTypes.MetricSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.MetricSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MetricSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.MetricSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

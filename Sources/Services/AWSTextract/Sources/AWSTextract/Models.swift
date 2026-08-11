@@ -313,7 +313,7 @@ extension TextractClientTypes {
     }
 }
 
-/// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+/// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
 public struct BadDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -624,7 +624,7 @@ extension TextractClientTypes {
 
 extension TextractClientTypes {
 
-    /// Sets up the human review workflow the document will be sent to if one of the conditions is met. You can also set certain attributes of the image before review.
+    /// Sets up the human review workflow the document will be sent to if one of the conditions is met. You can also set certain attributes of the image before review. Amazon Textract uses Amazon Augmented AI (A2I) to run the human review workflows that you specify in HumanLoopConfig. A2I entered maintenance mode in July 2026 and no longer accepts new customers. If your account is not an existing A2I customer, requests fail with an InvalidParameterException. For more information, see [AWS service availability](https://aws.amazon.com/about-aws/whats-new/2026/06/aws-service-availability/). If you're an existing A2I customer but receive this error, contact AWS Support and request assistance from the A2I team.
     public struct HumanLoopConfig: Swift.Sendable {
         /// Sets attributes of the input data.
         public var dataAttributes: TextractClientTypes.HumanLoopDataAttributes?
@@ -706,7 +706,7 @@ public struct AnalyzeDocumentInput: Swift.Sendable {
     /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
     /// This member is required.
     public var featureTypes: [TextractClientTypes.FeatureType]?
-    /// Sets the configuration for the human in the loop workflow for analyzing documents.
+    /// Sets the configuration for the human in the loop workflow for analyzing documents. Amazon Textract uses Amazon Augmented AI (A2I) to run the human review workflows that you specify in HumanLoopConfig. A2I entered maintenance mode in July 2026 and no longer accepts new customers. If your account is not an existing A2I customer, requests fail with an InvalidParameterException. For more information, see [AWS service availability](https://aws.amazon.com/about-aws/whats-new/2026/06/aws-service-availability/). If you're an existing A2I customer but receive this error, contact AWS Support and request assistance from the A2I team.
     public var humanLoopConfig: TextractClientTypes.HumanLoopConfig?
     /// Contains Queries and the alias for those Queries, as determined by the input.
     public var queriesConfig: TextractClientTypes.QueriesConfig?
@@ -925,7 +925,7 @@ extension TextractClientTypes {
         public var boundingBox: TextractClientTypes.BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized item.
         public var polygon: [TextractClientTypes.Point]?
-        /// Provides a numerical value corresponding to the rotation of the text.
+        /// Provides a numerical value corresponding to the rotation of the WORD block. Possible values are 0, 90, 180, and 270.
         public var rotationAngle: Swift.Float?
 
         public init(
