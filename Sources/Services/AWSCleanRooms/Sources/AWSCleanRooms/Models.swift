@@ -592,6 +592,240 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum LogExportAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case protectedQuery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogExportAnalysisType] {
+            return [
+                .protectedQuery
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .protectedQuery: return "PROTECTED_QUERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The analysis log export error.
+    public struct AnalysisLogExportError: Swift.Sendable {
+        /// The error code for the analysis log export.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message for the analysis log export error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains output information for an analysis log export with an S3 output type. The exported logs are written under the bucket and key prefix that you specify. The path includes the collaboration ID, the protected query ID, and the analysis log export ID. Because the path includes the export ID, exporting the same query more than once doesn't overwrite the logs from an earlier export. The exported logs are encrypted using the default encryption configuration of the destination bucket. Clean Rooms doesn't accept a KMS key for log export. To encrypt the exported logs with a customer managed key, configure the bucket's default encryption to use that key before you export.
+    public struct AnalysisLogExportS3OutputConfiguration: Swift.Sendable {
+        /// The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export.
+        public var keyPrefix: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            keyPrefix: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains configuration details for analysis log export output.
+    public struct AnalysisLogExportOutputConfiguration: Swift.Sendable {
+        /// Required configuration for an analysis log export with an s3 output type.
+        /// This member is required.
+        public var s3: CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration?
+
+        public init(
+            s3: CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration? = nil
+        ) {
+            self.s3 = s3
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains configurations for analysis log export results.
+    public struct AnalysisLogExportResultConfiguration: Swift.Sendable {
+        /// The configuration for analysis log export results.
+        /// This member is required.
+        public var outputConfiguration: CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration?
+
+        public init(
+            outputConfiguration: CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration? = nil
+        ) {
+            self.outputConfiguration = outputConfiguration
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum AnalysisLogExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisLogExportStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An export of the redacted Apache Spark logs for a protected query.
+    public struct AnalysisLogExport: Swift.Sendable {
+        /// The unique identifier of the protected query that the analysis logs were exported for.
+        /// This member is required.
+        public var analysisId: Swift.String?
+        /// The unique identifier of the analysis log export.
+        /// This member is required.
+        public var analysisLogExportId: Swift.String?
+        /// The type of analysis that the logs were exported for. Currently, only PROTECTED_QUERY is supported.
+        /// This member is required.
+        public var analysisType: CleanRoomsClientTypes.LogExportAnalysisType?
+        /// The time the analysis log export was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The analysis log export error. This is present only when the export status is FAILED.
+        public var error: CleanRoomsClientTypes.AnalysisLogExportError?
+        /// The unique identifier of the membership that the analysis log export belongs to.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// Contains the details needed to write the exported analysis logs.
+        /// This member is required.
+        public var resultConfiguration: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration?
+        /// The status of the analysis log export. Possible values are:
+        ///
+        /// * IN_PROGRESS – The export is currently running.
+        ///
+        /// * SUCCESS – The export completed successfully.
+        ///
+        /// * FAILED – The export failed. See the error field for details.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.AnalysisLogExportStatus?
+        /// The time the analysis log export was last updated.
+        /// This member is required.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            analysisId: Swift.String? = nil,
+            analysisLogExportId: Swift.String? = nil,
+            analysisType: CleanRoomsClientTypes.LogExportAnalysisType? = nil,
+            createTime: Foundation.Date? = nil,
+            error: CleanRoomsClientTypes.AnalysisLogExportError? = nil,
+            membershipId: Swift.String? = nil,
+            resultConfiguration: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration? = nil,
+            status: CleanRoomsClientTypes.AnalysisLogExportStatus? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.analysisId = analysisId
+            self.analysisLogExportId = analysisLogExportId
+            self.analysisType = analysisType
+            self.createTime = createTime
+            self.error = error
+            self.membershipId = membershipId
+            self.resultConfiguration = resultConfiguration
+            self.status = status
+            self.updateTime = updateTime
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A summary of an analysis log export, including its identifier, status, analysis type, and creation time. Returned by ListAnalysisLogExports.
+    public struct AnalysisLogExportSummary: Swift.Sendable {
+        /// The unique identifier of the protected query that the analysis logs were exported for.
+        /// This member is required.
+        public var analysisId: Swift.String?
+        /// The unique identifier of the analysis log export.
+        /// This member is required.
+        public var analysisLogExportId: Swift.String?
+        /// The type of analysis that the logs were exported for. Currently, only PROTECTED_QUERY is supported.
+        /// This member is required.
+        public var analysisType: CleanRoomsClientTypes.LogExportAnalysisType?
+        /// The time the analysis log export was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The status of the analysis log export. Possible values are:
+        ///
+        /// * IN_PROGRESS – The export is currently running.
+        ///
+        /// * SUCCESS – The export completed successfully.
+        ///
+        /// * FAILED – The export failed.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.AnalysisLogExportStatus?
+
+        public init(
+            analysisId: Swift.String? = nil,
+            analysisLogExportId: Swift.String? = nil,
+            analysisType: CleanRoomsClientTypes.LogExportAnalysisType? = nil,
+            createTime: Foundation.Date? = nil,
+            status: CleanRoomsClientTypes.AnalysisLogExportStatus? = nil
+        ) {
+            self.analysisId = analysisId
+            self.analysisLogExportId = analysisLogExportId
+            self.analysisType = analysisType
+            self.createTime = createTime
+            self.status = status
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum AnalysisMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case directJob
         case directQuery
@@ -2764,14 +2998,18 @@ extension CleanRoomsClientTypes {
 
     public enum AutoApprovedChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case addMember
+        case grantExportQueryAnalysisLogAbility
         case grantReceiveResultsAbility
+        case revokeExportQueryAnalysisLogAbility
         case revokeReceiveResultsAbility
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutoApprovedChangeType] {
             return [
                 .addMember,
+                .grantExportQueryAnalysisLogAbility,
                 .grantReceiveResultsAbility,
+                .revokeExportQueryAnalysisLogAbility,
                 .revokeReceiveResultsAbility
             ]
         }
@@ -2784,7 +3022,9 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .addMember: return "ADD_MEMBER"
+            case .grantExportQueryAnalysisLogAbility: return "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
             case .grantReceiveResultsAbility: return "GRANT_RECEIVE_RESULTS_ABILITY"
+            case .revokeExportQueryAnalysisLogAbility: return "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
             case .revokeReceiveResultsAbility: return "REVOKE_RECEIVE_RESULTS_ABILITY"
             case let .sdkUnknown(s): return s
             }
@@ -3563,6 +3803,7 @@ public struct BatchGetSchemaAnalysisRuleOutput: Swift.Sendable {
 extension CleanRoomsClientTypes {
 
     public enum MemberAbility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canExportQueryAnalysisLog
         case canQuery
         case canReceiveResults
         case canRunJob
@@ -3570,6 +3811,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [MemberAbility] {
             return [
+                .canExportQueryAnalysisLog,
                 .canQuery,
                 .canReceiveResults,
                 .canRunJob
@@ -3583,6 +3825,7 @@ extension CleanRoomsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .canExportQueryAnalysisLog: return "CAN_EXPORT_QUERY_ANALYSIS_LOG"
             case .canQuery: return "CAN_QUERY"
             case .canReceiveResults: return "CAN_RECEIVE_RESULTS"
             case .canRunJob: return "CAN_RUN_JOB"
@@ -4122,7 +4365,7 @@ extension CleanRoomsClientTypes {
         public var accountId: Swift.String?
         /// Specifies the display name that will be shown for this member in the collaboration. While this field is required when inviting new members, it becomes optional when modifying abilities of existing collaboration members.
         public var displayName: Swift.String?
-        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB. Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RECEIVE_RESULTS] to allow a member to contribute data and receive results.
+        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration. The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB. Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RECEIVE_RESULTS] to allow a member to contribute data and receive results. Set the value of memberAbilities to [CAN_EXPORT_QUERY_ANALYSIS_LOG] so that the member can export the analysis logs for a protected query. Having this ability isn't sufficient on its own: You can export logs only for queries that you ran or paid for.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
         /// The ML member abilities for a collaboration member.
@@ -4233,10 +4476,12 @@ extension CleanRoomsClientTypes {
         case editAutoApprovedChangeTypes
         case grantCanReceiveInferenceOutput
         case grantCanReceiveModelOutput
+        case grantExportQueryAnalysisLogAbility
         case grantReceiveResultsAbility
         case removePayerCandidate
         case revokeCanReceiveInferenceOutput
         case revokeCanReceiveModelOutput
+        case revokeExportQueryAnalysisLogAbility
         case revokeReceiveResultsAbility
         case sdkUnknown(Swift.String)
 
@@ -4247,10 +4492,12 @@ extension CleanRoomsClientTypes {
                 .editAutoApprovedChangeTypes,
                 .grantCanReceiveInferenceOutput,
                 .grantCanReceiveModelOutput,
+                .grantExportQueryAnalysisLogAbility,
                 .grantReceiveResultsAbility,
                 .removePayerCandidate,
                 .revokeCanReceiveInferenceOutput,
                 .revokeCanReceiveModelOutput,
+                .revokeExportQueryAnalysisLogAbility,
                 .revokeReceiveResultsAbility
             ]
         }
@@ -4267,10 +4514,12 @@ extension CleanRoomsClientTypes {
             case .editAutoApprovedChangeTypes: return "EDIT_AUTO_APPROVED_CHANGE_TYPES"
             case .grantCanReceiveInferenceOutput: return "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT"
             case .grantCanReceiveModelOutput: return "GRANT_CAN_RECEIVE_MODEL_OUTPUT"
+            case .grantExportQueryAnalysisLogAbility: return "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
             case .grantReceiveResultsAbility: return "GRANT_RECEIVE_RESULTS_ABILITY"
             case .removePayerCandidate: return "REMOVE_PAYER_CANDIDATE"
             case .revokeCanReceiveInferenceOutput: return "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
             case .revokeCanReceiveModelOutput: return "REVOKE_CAN_RECEIVE_MODEL_OUTPUT"
+            case .revokeExportQueryAnalysisLogAbility: return "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
             case .revokeReceiveResultsAbility: return "REVOKE_RECEIVE_RESULTS_ABILITY"
             case let .sdkUnknown(s): return s
             }
@@ -8405,7 +8654,7 @@ extension CleanRoomsClientTypes {
     public struct PopulationAnalysisSqlParameters: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table.
         public var analysisTemplateArn: Swift.String?
-        /// The SQL query string used to populate the intermediate table. Maximum length of 500,000 characters.
+        /// The SQL query string used to populate the intermediate table.
         public var queryString: Swift.String?
 
         public init(
@@ -8445,10 +8694,10 @@ public struct CreateIntermediateTableInput: Swift.Sendable {
     /// The display name for the intermediate table.
     /// This member is required.
     public var name: Swift.String?
-    /// The configuration that defines the analysis used to populate the intermediate table. This configuration contains the SQL query or analysis template reference.
+    /// The configuration that defines the analysis used to populate the intermediate table.
     /// This member is required.
     public var populationAnalysisConfiguration: CleanRoomsClientTypes.PopulationAnalysisConfiguration?
-    /// The number of days to retain populated data versions. Minimum value of 1, maximum value of 365.
+    /// The number of days to retain populated data versions.
     public var retentionInDays: Swift.Int?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     public var tags: [Swift.String: Swift.String]?
@@ -8966,7 +9215,7 @@ extension CleanRoomsClientTypes {
         /// The name of the dependency table.
         /// This member is required.
         public var name: Swift.String?
-        /// Whether the dependency is direct or indirect. A direct dependency is a table explicitly referenced in the stored query, while an indirect dependency is referenced through another intermediate table.
+        /// The type of dependency, either direct or indirect. A direct dependency is a table explicitly referenced in the stored query. An indirect dependency is a table referenced through another intermediate table.
         /// This member is required.
         public var parentType: CleanRoomsClientTypes.BaseTableParentType?
         /// The type of the dependency table.
@@ -9655,7 +9904,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// The compute configuration for an intermediate table population operation.
+    /// Contains the compute configuration for an intermediate table population operation.
     public enum IntermediateTableComputeConfiguration: Swift.Sendable {
         /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
         case querycomputeconfiguration(CleanRoomsClientTypes.WorkerComputeConfiguration)
@@ -9698,7 +9947,7 @@ extension PopulateIntermediateTableInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct PopulateIntermediateTableOutput: Swift.Sendable {
-    /// The identifier for the protected query execution. Use this value with GetProtectedQuery to track the population progress.
+    /// The identifier for the protected query execution that populated the intermediate table.
     /// This member is required.
     public var analysisId: Swift.String?
     /// The type of analysis performed to populate the intermediate table.
@@ -10407,6 +10656,35 @@ public struct DisallowIntermediateTableInput: Swift.Sendable {
 public struct DisallowIntermediateTableOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct GetAnalysisLogExportInput: Swift.Sendable {
+    /// The unique identifier of the analysis log export to retrieve.
+    /// This member is required.
+    public var analysisLogExportIdentifier: Swift.String?
+    /// A unique identifier for the membership that the analysis log export belongs to. Currently accepts the membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisLogExportIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.analysisLogExportIdentifier = analysisLogExportIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct GetAnalysisLogExportOutput: Swift.Sendable {
+    /// The analysis log export processing metadata.
+    /// This member is required.
+    public var analysisLogExport: CleanRoomsClientTypes.AnalysisLogExport?
+
+    public init(
+        analysisLogExport: CleanRoomsClientTypes.AnalysisLogExport? = nil
+    ) {
+        self.analysisLogExport = analysisLogExport
+    }
 }
 
 public struct GetMembershipInput: Swift.Sendable {
@@ -11310,6 +11588,50 @@ public struct GetProtectedQueryOutput: Swift.Sendable {
     }
 }
 
+public struct ListAnalysisLogExportsInput: Swift.Sendable {
+    /// A filter on the unique identifier of the protected query that the analysis logs were exported for.
+    public var analysisIdentifier: Swift.String?
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    public var maxResults: Swift.Int?
+    /// A unique identifier for the membership to list analysis log exports for. Currently accepts the membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+    /// A filter on the status of the analysis log export.
+    public var status: CleanRoomsClientTypes.AnalysisLogExportStatus?
+
+    public init(
+        analysisIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        status: CleanRoomsClientTypes.AnalysisLogExportStatus? = nil
+    ) {
+        self.analysisIdentifier = analysisIdentifier
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+public struct ListAnalysisLogExportsOutput: Swift.Sendable {
+    /// A list of analysis log exports.
+    /// This member is required.
+    public var analysisLogExports: [CleanRoomsClientTypes.AnalysisLogExportSummary]?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisLogExports: [CleanRoomsClientTypes.AnalysisLogExportSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.analysisLogExports = analysisLogExports
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListMembershipsInput: Swift.Sendable {
     /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
@@ -11925,6 +12247,45 @@ public struct PreviewPrivacyImpactOutput: Swift.Sendable {
         privacyImpact: CleanRoomsClientTypes.PrivacyImpact? = nil
     ) {
         self.privacyImpact = privacyImpact
+    }
+}
+
+public struct StartAnalysisLogExportInput: Swift.Sendable {
+    /// The unique identifier of the protected query that you want to export the analysis logs for.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported.
+    /// This member is required.
+    public var analysisType: CleanRoomsClientTypes.LogExportAnalysisType?
+    /// A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow.
+    /// This member is required.
+    public var resultConfiguration: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        analysisType: CleanRoomsClientTypes.LogExportAnalysisType? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        resultConfiguration: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration? = nil
+    ) {
+        self.analysisId = analysisId
+        self.analysisType = analysisType
+        self.membershipIdentifier = membershipIdentifier
+        self.resultConfiguration = resultConfiguration
+    }
+}
+
+public struct StartAnalysisLogExportOutput: Swift.Sendable {
+    /// The analysis log export that was started. The status is IN_PROGRESS.
+    /// This member is required.
+    public var analysisLogExport: CleanRoomsClientTypes.AnalysisLogExport?
+
+    public init(
+        analysisLogExport: CleanRoomsClientTypes.AnalysisLogExport? = nil
+    ) {
+        self.analysisLogExport = analysisLogExport
     }
 }
 
@@ -13059,6 +13420,19 @@ extension DisallowIntermediateTableInput {
     }
 }
 
+extension GetAnalysisLogExportInput {
+
+    static func urlPathProvider(_ value: GetAnalysisLogExportInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let analysisLogExportIdentifier = value.analysisLogExportIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysislogexports/\(analysisLogExportIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetAnalysisTemplateInput {
 
     static func urlPathProvider(_ value: GetAnalysisTemplateInput) -> Swift.String? {
@@ -13342,6 +13716,40 @@ extension GetSchemaAnalysisRuleInput {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/schemas/\(name.urlPercentEncoding())/analysisRule/\(type.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension ListAnalysisLogExportsInput {
+
+    static func urlPathProvider(_ value: ListAnalysisLogExportsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysislogexports"
+    }
+}
+
+extension ListAnalysisLogExportsInput {
+
+    static func queryItemProvider(_ value: ListAnalysisLogExportsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let analysisIdentifier = value.analysisIdentifier {
+            let analysisIdentifierQueryItem = Smithy.URIQueryItem(name: "analysisIdentifier".urlPercentEncoding(), value: Swift.String(analysisIdentifier).urlPercentEncoding())
+            items.append(analysisIdentifierQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
@@ -14001,6 +14409,16 @@ extension PreviewPrivacyImpactInput {
     }
 }
 
+extension StartAnalysisLogExportInput {
+
+    static func urlPathProvider(_ value: StartAnalysisLogExportInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysislogexports"
+    }
+}
+
 extension StartProtectedJobInput {
 
     static func urlPathProvider(_ value: StartProtectedJobInput) -> Swift.String? {
@@ -14495,6 +14913,16 @@ extension PreviewPrivacyImpactInput {
     }
 }
 
+extension StartAnalysisLogExportInput {
+
+    static func write(value: StartAnalysisLogExportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisId"].write(value.analysisId)
+        try writer["analysisType"].write(value.analysisType)
+        try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration.write(value:to:))
+    }
+}
+
 extension StartProtectedJobInput {
 
     static func write(value: StartProtectedJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -14986,6 +15414,18 @@ extension DisallowIntermediateTableOutput {
     }
 }
 
+extension GetAnalysisLogExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAnalysisLogExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAnalysisLogExportOutput()
+        value.analysisLogExport = try reader["analysisLogExport"].readIfPresent(with: CleanRoomsClientTypes.AnalysisLogExport.read(from:))
+        return value
+    }
+}
+
 extension GetAnalysisTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAnalysisTemplateOutput {
@@ -15246,6 +15686,19 @@ extension GetSchemaAnalysisRuleOutput {
         let reader = responseReader
         var value = GetSchemaAnalysisRuleOutput()
         value.analysisRule = try reader["analysisRule"].readIfPresent(with: CleanRoomsClientTypes.AnalysisRule.read(from:))
+        return value
+    }
+}
+
+extension ListAnalysisLogExportsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnalysisLogExportsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAnalysisLogExportsOutput()
+        value.analysisLogExports = try reader["analysisLogExports"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisLogExportSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -15582,6 +16035,18 @@ extension PreviewPrivacyImpactOutput {
         let reader = responseReader
         var value = PreviewPrivacyImpactOutput()
         value.privacyImpact = try reader["privacyImpact"].readIfPresent(with: CleanRoomsClientTypes.PrivacyImpact.read(from:))
+        return value
+    }
+}
+
+extension StartAnalysisLogExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAnalysisLogExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAnalysisLogExportOutput()
+        value.analysisLogExport = try reader["analysisLogExport"].readIfPresent(with: CleanRoomsClientTypes.AnalysisLogExport.read(from:))
         return value
     }
 }
@@ -16425,6 +16890,24 @@ enum DisallowIntermediateTableOutputError {
     }
 }
 
+enum GetAnalysisLogExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAnalysisTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16803,6 +17286,24 @@ enum GetSchemaOutputError {
 }
 
 enum GetSchemaAnalysisRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAnalysisLogExportsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17286,6 +17787,25 @@ enum PreviewPrivacyImpactOutputError {
     }
 }
 
+enum StartAnalysisLogExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartProtectedJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17458,6 +17978,7 @@ enum UpdateConfiguredTableAnalysisRuleOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17840,6 +18361,96 @@ extension CleanRoomsClientTypes.AggregationConstraint {
         value.columnName = try reader["columnName"].readIfPresent() ?? ""
         value.minimum = try reader["minimum"].readIfPresent() ?? 0
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisLogExport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisLogExport()
+        value.analysisLogExportId = try reader["analysisLogExportId"].readIfPresent() ?? ""
+        value.analysisId = try reader["analysisId"].readIfPresent() ?? ""
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resultConfiguration = try reader["resultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration.read(from:))
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.AnalysisLogExportError.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisLogExportError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExportError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisLogExportError()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3"].write(value.s3, with: CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration()
+        value.s3 = try reader["s3"].readIfPresent(with: CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisLogExportResultConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.AnalysisLogExportResultConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExportResultConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisLogExportResultConfiguration()
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: CleanRoomsClientTypes.AnalysisLogExportOutputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["keyPrefix"].write(value.keyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisLogExportS3OutputConfiguration()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.keyPrefix = try reader["keyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisLogExportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisLogExportSummary()
+        value.analysisLogExportId = try reader["analysisLogExportId"].readIfPresent() ?? ""
+        value.analysisId = try reader["analysisId"].readIfPresent() ?? ""
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

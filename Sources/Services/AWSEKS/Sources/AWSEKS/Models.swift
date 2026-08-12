@@ -638,6 +638,21 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// A constraint specifying the allowed values for a parameter.
+    public struct AllowedValuesConstraint: Swift.Sendable {
+        /// The list of allowed values.
+        public var allowedValues: [Swift.String]?
+
+        public init(
+            allowedValues: [Swift.String]? = nil
+        ) {
+            self.allowedValues = allowedValues
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     public enum AMITypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case al2023Arm64Nvidia
         case al2023Arm64Standard
@@ -1546,6 +1561,9 @@ extension EKSClientTypes {
         case endpointPublicAccess
         case identityProviderConfig
         case kubernetesNetworkConfig
+        case kubeApiServerConfig
+        case kubeControllerManagerConfig
+        case kubeSchedulerConfig
         case labelsToAdd
         case labelsToRemove
         case launchTemplateName
@@ -1601,6 +1619,9 @@ extension EKSClientTypes {
                 .endpointPublicAccess,
                 .identityProviderConfig,
                 .kubernetesNetworkConfig,
+                .kubeApiServerConfig,
+                .kubeControllerManagerConfig,
+                .kubeSchedulerConfig,
                 .labelsToAdd,
                 .labelsToRemove,
                 .launchTemplateName,
@@ -1662,6 +1683,9 @@ extension EKSClientTypes {
             case .endpointPublicAccess: return "EndpointPublicAccess"
             case .identityProviderConfig: return "IdentityProviderConfig"
             case .kubernetesNetworkConfig: return "KubernetesNetworkConfig"
+            case .kubeApiServerConfig: return "KubeApiServerConfig"
+            case .kubeControllerManagerConfig: return "KubeControllerManagerConfig"
+            case .kubeSchedulerConfig: return "KubeSchedulerConfig"
             case .labelsToAdd: return "LabelsToAdd"
             case .labelsToRemove: return "LabelsToRemove"
             case .launchTemplateName: return "LaunchTemplateName"
@@ -1770,6 +1794,7 @@ extension EKSClientTypes {
         case autoModeUpdate
         case capabilityUpdate
         case configUpdate
+        case controlPlaneComponentConfigUpdate
         case controlPlaneEgressUpdate
         case controlPlaneScalingConfigUpdate
         case deletionProtectionUpdate
@@ -1794,6 +1819,7 @@ extension EKSClientTypes {
                 .autoModeUpdate,
                 .capabilityUpdate,
                 .configUpdate,
+                .controlPlaneComponentConfigUpdate,
                 .controlPlaneEgressUpdate,
                 .controlPlaneScalingConfigUpdate,
                 .deletionProtectionUpdate,
@@ -1824,6 +1850,7 @@ extension EKSClientTypes {
             case .autoModeUpdate: return "AutoModeUpdate"
             case .capabilityUpdate: return "CapabilityUpdate"
             case .configUpdate: return "ConfigUpdate"
+            case .controlPlaneComponentConfigUpdate: return "ControlPlaneComponentConfigUpdate"
             case .controlPlaneEgressUpdate: return "ControlPlaneEgressUpdate"
             case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
             case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
@@ -2756,6 +2783,74 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The port range for Kubernetes NodePort services.
+    public struct ServiceNodePortRange: Swift.Sendable {
+        /// The maximum port number in the range.
+        public var maxPort: Swift.Int
+        /// The minimum port number in the range.
+        public var minPort: Swift.Int
+
+        public init(
+            maxPort: Swift.Int = 0,
+            minPort: Swift.Int = 0
+        ) {
+            self.maxPort = maxPort
+            self.minPort = minPort
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The configuration for the Kubernetes API server on an Amazon EKS cluster.
+    public struct KubeApiServerConfigRequest: Swift.Sendable {
+        /// The duration that Kubernetes events are retained. Valid values are single-unit durations such as 30m or 1h.
+        public var eventTtl: Swift.String?
+        /// The port range for NodePort services.
+        public var serviceNodePortRange: EKSClientTypes.ServiceNodePortRange?
+
+        public init(
+            eventTtl: Swift.String? = nil,
+            serviceNodePortRange: EKSClientTypes.ServiceNodePortRange? = nil
+        ) {
+            self.eventTtl = eventTtl
+            self.serviceNodePortRange = serviceNodePortRange
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The horizontal pod autoscaler controller configuration for the Kubernetes controller manager.
+    public struct HorizontalPodAutoscalerControllerConfigRequest: Swift.Sendable {
+        /// The interval between each sync of the horizontal pod autoscaler. Valid values are single-unit durations such as 15s or 1m.
+        public var horizontalPodAutoscalerSyncPeriod: Swift.String?
+
+        public init(
+            horizontalPodAutoscalerSyncPeriod: Swift.String? = nil
+        ) {
+            self.horizontalPodAutoscalerSyncPeriod = horizontalPodAutoscalerSyncPeriod
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The configuration for the Kubernetes controller manager on an Amazon EKS cluster.
+    public struct KubeControllerManagerConfigRequest: Swift.Sendable {
+        /// The horizontal pod autoscaler controller configuration.
+        public var horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest?
+
+        public init(
+            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest? = nil
+        ) {
+            self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// Indicates the current configuration of the load balancing capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide.
     public struct ElasticLoadBalancing: Swift.Sendable {
         /// Indicates if the load balancing capability is enabled on your EKS Auto Mode cluster. If the load balancing capability is enabled, EKS Auto Mode will create and delete load balancers in your Amazon Web Services account.
@@ -2826,6 +2921,104 @@ extension EKSClientTypes {
             self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// A resource weight entry for the scheduler scoring strategy.
+    public struct ResourceWeight: Swift.Sendable {
+        /// The name of the resource (for example, cpu or memory).
+        public var name: Swift.String?
+        /// The weight assigned to the resource for scoring. Must be between 1 and 100.
+        public var weight: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            weight: Swift.Int? = nil
+        ) {
+            self.name = name
+            self.weight = weight
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The scoring strategy type for the NodeResourcesFit scheduler plugin.
+    public enum ScoringStrategyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case leastAllocated
+        case mostAllocated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScoringStrategyType] {
+            return [
+                .leastAllocated,
+                .mostAllocated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .leastAllocated: return "LeastAllocated"
+            case .mostAllocated: return "MostAllocated"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The scoring strategy configuration for the NodeResourcesFit scheduler plugin.
+    public struct ScoringStrategy: Swift.Sendable {
+        /// The resource weights used for scoring nodes.
+        public var resources: [EKSClientTypes.ResourceWeight]?
+        /// The scoring strategy type. Valid values are LeastAllocated or MostAllocated.
+        public var type: EKSClientTypes.ScoringStrategyType?
+
+        public init(
+            resources: [EKSClientTypes.ResourceWeight]? = nil,
+            type: EKSClientTypes.ScoringStrategyType? = nil
+        ) {
+            self.resources = resources
+            self.type = type
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The NodeResourcesFit plugin configuration for the Kubernetes scheduler.
+    public struct NodeResourcesFitConfig: Swift.Sendable {
+        /// The scoring strategy used to rank nodes during scheduling.
+        public var scoringStrategy: EKSClientTypes.ScoringStrategy?
+
+        public init(
+            scoringStrategy: EKSClientTypes.ScoringStrategy? = nil
+        ) {
+            self.scoringStrategy = scoringStrategy
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The configuration for the Kubernetes scheduler on an Amazon EKS cluster.
+    public struct KubeSchedulerConfigRequest: Swift.Sendable {
+        /// The node resource fit scoring configuration for the scheduler.
+        public var nodeResourcesFit: EKSClientTypes.NodeResourcesFitConfig?
+
+        public init(
+            nodeResourcesFit: EKSClientTypes.NodeResourcesFitConfig? = nil
+        ) {
+            self.nodeResourcesFit = nodeResourcesFit
         }
     }
 }
@@ -3266,6 +3459,12 @@ public struct CreateClusterInput: Swift.Sendable {
     public var deletionProtection: Swift.Bool?
     /// The encryption configuration for the cluster.
     public var encryptionConfig: [EKSClientTypes.EncryptionConfig]?
+    /// The Kubernetes API server configuration for the new cluster.
+    public var kubeApiServerConfig: EKSClientTypes.KubeApiServerConfigRequest?
+    /// The Kubernetes controller manager configuration for the new cluster.
+    public var kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerConfigRequest?
+    /// The Kubernetes scheduler configuration for the new cluster.
+    public var kubeSchedulerConfig: EKSClientTypes.KubeSchedulerConfigRequest?
     /// The Kubernetes network configuration for the cluster.
     public var kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest?
     /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
@@ -3302,6 +3501,9 @@ public struct CreateClusterInput: Swift.Sendable {
         controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
         deletionProtection: Swift.Bool? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
+        kubeApiServerConfig: EKSClientTypes.KubeApiServerConfigRequest? = nil,
+        kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerConfigRequest? = nil,
+        kubeSchedulerConfig: EKSClientTypes.KubeSchedulerConfigRequest? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
@@ -3322,6 +3524,9 @@ public struct CreateClusterInput: Swift.Sendable {
         self.controlPlaneScalingConfig = controlPlaneScalingConfig
         self.deletionProtection = deletionProtection
         self.encryptionConfig = encryptionConfig
+        self.kubeApiServerConfig = kubeApiServerConfig
+        self.kubeControllerManagerConfig = kubeControllerManagerConfig
+        self.kubeSchedulerConfig = kubeSchedulerConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
@@ -3556,6 +3761,55 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The Kubernetes API server configuration for an Amazon EKS cluster.
+    public struct KubeApiServerConfigResponse: Swift.Sendable {
+        /// The duration that Kubernetes events are retained.
+        public var eventTtl: Swift.String?
+        /// The port range for NodePort services.
+        public var serviceNodePortRange: EKSClientTypes.ServiceNodePortRange?
+
+        public init(
+            eventTtl: Swift.String? = nil,
+            serviceNodePortRange: EKSClientTypes.ServiceNodePortRange? = nil
+        ) {
+            self.eventTtl = eventTtl
+            self.serviceNodePortRange = serviceNodePortRange
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The horizontal pod autoscaler controller configuration for the Kubernetes controller manager.
+    public struct HorizontalPodAutoscalerControllerConfigResponse: Swift.Sendable {
+        /// The interval between each sync of the horizontal pod autoscaler.
+        public var horizontalPodAutoscalerSyncPeriod: Swift.String?
+
+        public init(
+            horizontalPodAutoscalerSyncPeriod: Swift.String? = nil
+        ) {
+            self.horizontalPodAutoscalerSyncPeriod = horizontalPodAutoscalerSyncPeriod
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The Kubernetes controller manager configuration for an Amazon EKS cluster.
+    public struct KubeControllerManagerConfigResponse: Swift.Sendable {
+        /// The horizontal pod autoscaler controller configuration.
+        public var horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse?
+
+        public init(
+            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse? = nil
+        ) {
+            self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The Kubernetes network configuration for the cluster. The response contains a value for serviceIpv6Cidr or serviceIpv4Cidr, but not both.
     public struct KubernetesNetworkConfigResponse: Swift.Sendable {
         /// Indicates the current configuration of the load balancing capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled.
@@ -3577,6 +3831,21 @@ extension EKSClientTypes {
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
             self.serviceIpv6Cidr = serviceIpv6Cidr
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The Kubernetes scheduler configuration for an Amazon EKS cluster.
+    public struct KubeSchedulerConfigResponse: Swift.Sendable {
+        /// The node resource fit scoring configuration for the scheduler.
+        public var nodeResourcesFit: EKSClientTypes.NodeResourcesFitConfig?
+
+        public init(
+            nodeResourcesFit: EKSClientTypes.NodeResourcesFitConfig? = nil
+        ) {
+            self.nodeResourcesFit = nodeResourcesFit
         }
     }
 }
@@ -3828,6 +4097,12 @@ extension EKSClientTypes {
         public var id: Swift.String?
         /// The identity provider information for the cluster.
         public var identity: EKSClientTypes.Identity?
+        /// The Kubernetes API server configuration for the cluster.
+        public var kubeApiServerConfig: EKSClientTypes.KubeApiServerConfigResponse?
+        /// The Kubernetes controller manager configuration for the cluster.
+        public var kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerConfigResponse?
+        /// The Kubernetes scheduler configuration for the cluster.
+        public var kubeSchedulerConfig: EKSClientTypes.KubeSchedulerConfigResponse?
         /// The Kubernetes network configuration for the cluster.
         public var kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigResponse?
         /// The logging configuration for your cluster.
@@ -3872,6 +4147,9 @@ extension EKSClientTypes {
             health: EKSClientTypes.ClusterHealth? = nil,
             id: Swift.String? = nil,
             identity: EKSClientTypes.Identity? = nil,
+            kubeApiServerConfig: EKSClientTypes.KubeApiServerConfigResponse? = nil,
+            kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerConfigResponse? = nil,
+            kubeSchedulerConfig: EKSClientTypes.KubeSchedulerConfigResponse? = nil,
             kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigResponse? = nil,
             logging: EKSClientTypes.Logging? = nil,
             name: Swift.String? = nil,
@@ -3901,6 +4179,9 @@ extension EKSClientTypes {
             self.health = health
             self.id = id
             self.identity = identity
+            self.kubeApiServerConfig = kubeApiServerConfig
+            self.kubeControllerManagerConfig = kubeControllerManagerConfig
+            self.kubeSchedulerConfig = kubeSchedulerConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
@@ -5894,12 +6175,301 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    /// Constraints for a duration parameter.
+    public struct DurationConstraints: Swift.Sendable {
+        /// The maximum allowed duration value.
+        public var max: Swift.String?
+        /// The minimum allowed duration value.
+        public var min: Swift.String?
+
+        public init(
+            max: Swift.String? = nil,
+            min: Swift.String? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// A duration parameter configuration with default value and constraints.
+    public struct DurationParameterConfig: Swift.Sendable {
+        /// The constraints for the duration parameter.
+        public var constraints: EKSClientTypes.DurationConstraints?
+        /// The default value for the duration parameter.
+        public var defaultValue: Swift.String?
+
+        public init(
+            constraints: EKSClientTypes.DurationConstraints? = nil,
+            defaultValue: Swift.String? = nil
+        ) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An integer range constraint specifying minimum and maximum allowed values.
+    public struct IntegerRangeConstraint: Swift.Sendable {
+        /// The maximum allowed value.
+        public var max: Swift.Int?
+        /// The minimum allowed value.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Constraints for a port range parameter.
+    public struct PortRangeConstraints: Swift.Sendable {
+        /// The constraints for the maximum port value.
+        public var maxPort: EKSClientTypes.IntegerRangeConstraint?
+        /// The constraints for the minimum port value.
+        public var minPort: EKSClientTypes.IntegerRangeConstraint?
+
+        public init(
+            maxPort: EKSClientTypes.IntegerRangeConstraint? = nil,
+            minPort: EKSClientTypes.IntegerRangeConstraint? = nil
+        ) {
+            self.maxPort = maxPort
+            self.minPort = minPort
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// A port range parameter configuration with default value and constraints.
+    public struct PortRangeParameterConfig: Swift.Sendable {
+        /// The constraints for the port range parameter.
+        public var constraints: EKSClientTypes.PortRangeConstraints?
+        /// The default port range value.
+        public var defaultValue: EKSClientTypes.ServiceNodePortRange?
+
+        public init(
+            constraints: EKSClientTypes.PortRangeConstraints? = nil,
+            defaultValue: EKSClientTypes.ServiceNodePortRange? = nil
+        ) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The Kubernetes API server version-specific configuration defaults and constraints.
+    public struct KubeApiServerVersionConfig: Swift.Sendable {
+        /// The event TTL configuration with default value and constraints.
+        public var eventTtl: EKSClientTypes.DurationParameterConfig?
+        /// The service node port range configuration with default value and constraints.
+        public var serviceNodePortRange: EKSClientTypes.PortRangeParameterConfig?
+
+        public init(
+            eventTtl: EKSClientTypes.DurationParameterConfig? = nil,
+            serviceNodePortRange: EKSClientTypes.PortRangeParameterConfig? = nil
+        ) {
+            self.eventTtl = eventTtl
+            self.serviceNodePortRange = serviceNodePortRange
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The horizontal pod autoscaler controller version configuration.
+    public struct HorizontalPodAutoscalerControllerVersionConfig: Swift.Sendable {
+        /// The HPA sync period configuration with default value and constraints.
+        public var horizontalPodAutoscalerSyncPeriod: EKSClientTypes.DurationParameterConfig?
+
+        public init(
+            horizontalPodAutoscalerSyncPeriod: EKSClientTypes.DurationParameterConfig? = nil
+        ) {
+            self.horizontalPodAutoscalerSyncPeriod = horizontalPodAutoscalerSyncPeriod
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The Kubernetes controller manager version-specific configuration defaults and constraints.
+    public struct KubeControllerManagerVersionConfig: Swift.Sendable {
+        /// The horizontal pod autoscaler controller configuration with default value and constraints.
+        public var horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig?
+
+        public init(
+            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig? = nil
+        ) {
+            self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Constraints for resource weight entries.
+    public struct ResourceConstraints: Swift.Sendable {
+        /// The allowed values for resource names.
+        public var name: EKSClientTypes.AllowedValuesConstraint?
+        /// The allowed range for resource weight values.
+        public var weight: EKSClientTypes.IntegerRangeConstraint?
+
+        public init(
+            name: EKSClientTypes.AllowedValuesConstraint? = nil,
+            weight: EKSClientTypes.IntegerRangeConstraint? = nil
+        ) {
+            self.name = name
+            self.weight = weight
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Constraints for the scoring strategy configuration.
+    public struct ScoringStrategyConstraints: Swift.Sendable {
+        /// The constraints for resource weights.
+        public var resources: EKSClientTypes.ResourceConstraints?
+        /// The allowed values for the scoring strategy type.
+        public var scoringStrategy: EKSClientTypes.AllowedValuesConstraint?
+
+        public init(
+            resources: EKSClientTypes.ResourceConstraints? = nil,
+            scoringStrategy: EKSClientTypes.AllowedValuesConstraint? = nil
+        ) {
+            self.resources = resources
+            self.scoringStrategy = scoringStrategy
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The scoring strategy configuration with default value and constraints.
+    public struct ScoringStrategyConfig: Swift.Sendable {
+        /// The constraints for the scoring strategy.
+        public var constraints: EKSClientTypes.ScoringStrategyConstraints?
+        /// The default scoring strategy.
+        public var defaultValue: EKSClientTypes.ScoringStrategy?
+
+        public init(
+            constraints: EKSClientTypes.ScoringStrategyConstraints? = nil,
+            defaultValue: EKSClientTypes.ScoringStrategy? = nil
+        ) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The NodeResourcesFit version configuration with default value and constraints.
+    public struct NodeResourcesFitVersionConfig: Swift.Sendable {
+        /// The scoring strategy configuration with default value and constraints.
+        public var scoringStrategy: EKSClientTypes.ScoringStrategyConfig?
+
+        public init(
+            scoringStrategy: EKSClientTypes.ScoringStrategyConfig? = nil
+        ) {
+            self.scoringStrategy = scoringStrategy
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The Kubernetes scheduler version-specific configuration defaults and constraints.
+    public struct KubeSchedulerVersionConfig: Swift.Sendable {
+        /// The NodeResourcesFit configuration with default value and constraints.
+        public var nodeResourcesFit: EKSClientTypes.NodeResourcesFitVersionConfig?
+
+        public init(
+            nodeResourcesFit: EKSClientTypes.NodeResourcesFitVersionConfig? = nil
+        ) {
+            self.nodeResourcesFit = nodeResourcesFit
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The control plane component configuration defaults and constraints.
+    public struct ControlPlaneConfigInfo: Swift.Sendable {
+        /// The Kubernetes API server configuration defaults and constraints.
+        public var kubeApiServerConfig: EKSClientTypes.KubeApiServerVersionConfig?
+        /// The Kubernetes controller manager configuration defaults and constraints.
+        public var kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerVersionConfig?
+        /// The Kubernetes scheduler configuration defaults and constraints.
+        public var kubeSchedulerConfig: EKSClientTypes.KubeSchedulerVersionConfig?
+
+        public init(
+            kubeApiServerConfig: EKSClientTypes.KubeApiServerVersionConfig? = nil,
+            kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerVersionConfig? = nil,
+            kubeSchedulerConfig: EKSClientTypes.KubeSchedulerVersionConfig? = nil
+        ) {
+            self.kubeApiServerConfig = kubeApiServerConfig
+            self.kubeControllerManagerConfig = kubeControllerManagerConfig
+            self.kubeSchedulerConfig = kubeSchedulerConfig
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Information about a provisioned control plane scaling tier.
+    public struct ControlPlaneScalingTierInfo: Swift.Sendable {
+        /// The maximum API request concurrency supported by this tier.
+        public var apiRequestConcurrency: Swift.Int?
+        /// The maximum cluster database size in GB supported by this tier.
+        public var clusterDatabaseSizeGb: Swift.Int?
+        /// The control plane component configuration overrides specific to this scaling tier.
+        public var controlPlaneComponentConfigOverrides: EKSClientTypes.ControlPlaneConfigInfo?
+        /// The maximum pod scheduling rate per second supported by this tier.
+        public var podSchedulingRatePerSecond: Swift.Int?
+        /// The name of the scaling tier.
+        public var tierName: Swift.String?
+
+        public init(
+            apiRequestConcurrency: Swift.Int? = nil,
+            clusterDatabaseSizeGb: Swift.Int? = nil,
+            controlPlaneComponentConfigOverrides: EKSClientTypes.ControlPlaneConfigInfo? = nil,
+            podSchedulingRatePerSecond: Swift.Int? = nil,
+            tierName: Swift.String? = nil
+        ) {
+            self.apiRequestConcurrency = apiRequestConcurrency
+            self.clusterDatabaseSizeGb = clusterDatabaseSizeGb
+            self.controlPlaneComponentConfigOverrides = controlPlaneComponentConfigOverrides
+            self.podSchedulingRatePerSecond = podSchedulingRatePerSecond
+            self.tierName = tierName
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// Contains details about a specific EKS cluster version.
     public struct ClusterVersionInformation: Swift.Sendable {
         /// The type of cluster this version is for.
         public var clusterType: Swift.String?
         /// The Kubernetes version for the cluster.
         public var clusterVersion: Swift.String?
+        /// The default control plane component configuration and constraints for this Kubernetes version.
+        public var controlPlaneComponentConfig: EKSClientTypes.ControlPlaneConfigInfo?
+        /// The available provisioned control plane scaling tiers and their capabilities for this Kubernetes version.
+        public var controlPlaneScalingTiers: [EKSClientTypes.ControlPlaneScalingTierInfo]?
         /// Default platform version for this Kubernetes version.
         public var defaultPlatformVersion: Swift.String?
         /// Indicates if this is a default version.
@@ -5920,6 +6490,8 @@ extension EKSClientTypes {
         public init(
             clusterType: Swift.String? = nil,
             clusterVersion: Swift.String? = nil,
+            controlPlaneComponentConfig: EKSClientTypes.ControlPlaneConfigInfo? = nil,
+            controlPlaneScalingTiers: [EKSClientTypes.ControlPlaneScalingTierInfo]? = nil,
             defaultPlatformVersion: Swift.String? = nil,
             defaultVersion: Swift.Bool = false,
             endOfExtendedSupportDate: Foundation.Date? = nil,
@@ -5931,6 +6503,8 @@ extension EKSClientTypes {
         ) {
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
+            self.controlPlaneComponentConfig = controlPlaneComponentConfig
+            self.controlPlaneScalingTiers = controlPlaneScalingTiers
             self.defaultPlatformVersion = defaultPlatformVersion
             self.defaultVersion = defaultVersion
             self.endOfExtendedSupportDate = endOfExtendedSupportDate
@@ -7840,6 +8414,12 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
     /// Specifies whether to enable or disable deletion protection for the cluster. When enabled (true), the cluster cannot be deleted until deletion protection is explicitly disabled. When disabled (false), the cluster can be deleted normally.
     public var deletionProtection: Swift.Bool?
+    /// The Kubernetes API server configuration for the updated cluster.
+    public var kubeApiServerConfig: EKSClientTypes.KubeApiServerConfigRequest?
+    /// The Kubernetes controller manager configuration for the updated cluster.
+    public var kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerConfigRequest?
+    /// The Kubernetes scheduler configuration for the updated cluster.
+    public var kubeSchedulerConfig: EKSClientTypes.KubeSchedulerConfigRequest?
     /// The Kubernetes network configuration for the cluster.
     public var kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest?
     /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see [Amazon EKS cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
@@ -7864,6 +8444,9 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
         controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
         deletionProtection: Swift.Bool? = nil,
+        kubeApiServerConfig: EKSClientTypes.KubeApiServerConfigRequest? = nil,
+        kubeControllerManagerConfig: EKSClientTypes.KubeControllerManagerConfigRequest? = nil,
+        kubeSchedulerConfig: EKSClientTypes.KubeSchedulerConfigRequest? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
@@ -7878,6 +8461,9 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.computeConfig = computeConfig
         self.controlPlaneScalingConfig = controlPlaneScalingConfig
         self.deletionProtection = deletionProtection
+        self.kubeApiServerConfig = kubeApiServerConfig
+        self.kubeControllerManagerConfig = kubeControllerManagerConfig
+        self.kubeSchedulerConfig = kubeSchedulerConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
@@ -9349,6 +9935,9 @@ extension CreateClusterInput {
         try writer["controlPlaneScalingConfig"].write(value.controlPlaneScalingConfig, with: EKSClientTypes.ControlPlaneScalingConfig.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["encryptionConfig"].writeList(value.encryptionConfig, memberWritingClosure: EKSClientTypes.EncryptionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["kubeApiServerConfig"].write(value.kubeApiServerConfig, with: EKSClientTypes.KubeApiServerConfigRequest.write(value:to:))
+        try writer["kubeControllerManagerConfig"].write(value.kubeControllerManagerConfig, with: EKSClientTypes.KubeControllerManagerConfigRequest.write(value:to:))
+        try writer["kubeSchedulerConfig"].write(value.kubeSchedulerConfig, with: EKSClientTypes.KubeSchedulerConfigRequest.write(value:to:))
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["name"].write(value.name)
@@ -9521,6 +10110,9 @@ extension UpdateClusterConfigInput {
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
         try writer["controlPlaneScalingConfig"].write(value.controlPlaneScalingConfig, with: EKSClientTypes.ControlPlaneScalingConfig.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
+        try writer["kubeApiServerConfig"].write(value.kubeApiServerConfig, with: EKSClientTypes.KubeApiServerConfigRequest.write(value:to:))
+        try writer["kubeControllerManagerConfig"].write(value.kubeControllerManagerConfig, with: EKSClientTypes.KubeControllerManagerConfigRequest.write(value:to:))
+        try writer["kubeSchedulerConfig"].write(value.kubeSchedulerConfig, with: EKSClientTypes.KubeSchedulerConfigRequest.write(value:to:))
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["remoteNetworkConfig"].write(value.remoteNetworkConfig, with: EKSClientTypes.RemoteNetworkConfigRequest.write(value:to:))
@@ -11939,6 +12531,16 @@ extension EKSClientTypes.AddonVersionInfo {
     }
 }
 
+extension EKSClientTypes.AllowedValuesConstraint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AllowedValuesConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AllowedValuesConstraint()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension EKSClientTypes.ArgoCdAwsIdcConfigRequest {
 
     static func write(value: EKSClientTypes.ArgoCdAwsIdcConfigRequest?, to writer: SmithyJSON.Writer) throws {
@@ -12201,6 +12803,9 @@ extension EKSClientTypes.Cluster {
         value.storageConfig = try reader["storageConfig"].readIfPresent(with: EKSClientTypes.StorageConfigResponse.read(from:))
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.controlPlaneScalingConfig = try reader["controlPlaneScalingConfig"].readIfPresent(with: EKSClientTypes.ControlPlaneScalingConfig.read(from:))
+        value.kubeApiServerConfig = try reader["kubeApiServerConfig"].readIfPresent(with: EKSClientTypes.KubeApiServerConfigResponse.read(from:))
+        value.kubeSchedulerConfig = try reader["kubeSchedulerConfig"].readIfPresent(with: EKSClientTypes.KubeSchedulerConfigResponse.read(from:))
+        value.kubeControllerManagerConfig = try reader["kubeControllerManagerConfig"].readIfPresent(with: EKSClientTypes.KubeControllerManagerConfigResponse.read(from:))
         return value
     }
 }
@@ -12242,6 +12847,8 @@ extension EKSClientTypes.ClusterVersionInformation {
         value.status = try reader["status"].readIfPresent()
         value.versionStatus = try reader["versionStatus"].readIfPresent()
         value.kubernetesPatchVersion = try reader["kubernetesPatchVersion"].readIfPresent()
+        value.controlPlaneScalingTiers = try reader["controlPlaneScalingTiers"].readListIfPresent(memberReadingClosure: EKSClientTypes.ControlPlaneScalingTierInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlPlaneComponentConfig = try reader["controlPlaneComponentConfig"].readIfPresent(with: EKSClientTypes.ControlPlaneConfigInfo.read(from:))
         return value
     }
 }
@@ -12303,6 +12910,18 @@ extension EKSClientTypes.ConnectorConfigResponse {
     }
 }
 
+extension EKSClientTypes.ControlPlaneConfigInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlaneConfigInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ControlPlaneConfigInfo()
+        value.kubeApiServerConfig = try reader["kubeApiServerConfig"].readIfPresent(with: EKSClientTypes.KubeApiServerVersionConfig.read(from:))
+        value.kubeSchedulerConfig = try reader["kubeSchedulerConfig"].readIfPresent(with: EKSClientTypes.KubeSchedulerVersionConfig.read(from:))
+        value.kubeControllerManagerConfig = try reader["kubeControllerManagerConfig"].readIfPresent(with: EKSClientTypes.KubeControllerManagerVersionConfig.read(from:))
+        return value
+    }
+}
+
 extension EKSClientTypes.ControlPlanePlacementRequest {
 
     static func write(value: EKSClientTypes.ControlPlanePlacementRequest?, to writer: SmithyJSON.Writer) throws {
@@ -12338,6 +12957,20 @@ extension EKSClientTypes.ControlPlaneScalingConfig {
     }
 }
 
+extension EKSClientTypes.ControlPlaneScalingTierInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlaneScalingTierInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ControlPlaneScalingTierInfo()
+        value.tierName = try reader["tierName"].readIfPresent()
+        value.apiRequestConcurrency = try reader["apiRequestConcurrency"].readIfPresent()
+        value.podSchedulingRatePerSecond = try reader["podSchedulingRatePerSecond"].readIfPresent()
+        value.clusterDatabaseSizeGb = try reader["clusterDatabaseSizeGb"].readIfPresent()
+        value.controlPlaneComponentConfigOverrides = try reader["controlPlaneComponentConfigOverrides"].readIfPresent(with: EKSClientTypes.ControlPlaneConfigInfo.read(from:))
+        return value
+    }
+}
+
 extension EKSClientTypes.CreateAccessConfigRequest {
 
     static func write(value: EKSClientTypes.CreateAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
@@ -12357,6 +12990,28 @@ extension EKSClientTypes.DeprecationDetail {
         value.stopServingVersion = try reader["stopServingVersion"].readIfPresent()
         value.startServingReplacementVersion = try reader["startServingReplacementVersion"].readIfPresent()
         value.clientStats = try reader["clientStats"].readListIfPresent(memberReadingClosure: EKSClientTypes.ClientStat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.DurationConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.DurationConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.DurationConstraints()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.DurationParameterConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.DurationParameterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.DurationParameterConfig()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.constraints = try reader["constraints"].readIfPresent(with: EKSClientTypes.DurationConstraints.read(from:))
         return value
     }
 }
@@ -12520,6 +13175,34 @@ extension EKSClientTypes.FargateProfileSelector {
     }
 }
 
+extension EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest {
+
+    static func write(value: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["horizontalPodAutoscalerSyncPeriod"].write(value.horizontalPodAutoscalerSyncPeriod)
+    }
+}
+
+extension EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse()
+        value.horizontalPodAutoscalerSyncPeriod = try reader["horizontalPodAutoscalerSyncPeriod"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig()
+        value.horizontalPodAutoscalerSyncPeriod = try reader["horizontalPodAutoscalerSyncPeriod"].readIfPresent(with: EKSClientTypes.DurationParameterConfig.read(from:))
+        return value
+    }
+}
+
 extension EKSClientTypes.Identity {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Identity {
@@ -12639,6 +13322,17 @@ extension EKSClientTypes.InsightSummary {
     }
 }
 
+extension EKSClientTypes.IntegerRangeConstraint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IntegerRangeConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.IntegerRangeConstraint()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.Issue {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Issue {
@@ -12647,6 +13341,65 @@ extension EKSClientTypes.Issue {
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.KubeApiServerConfigRequest {
+
+    static func write(value: EKSClientTypes.KubeApiServerConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventTtl"].write(value.eventTtl)
+        try writer["serviceNodePortRange"].write(value.serviceNodePortRange, with: EKSClientTypes.ServiceNodePortRange.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.KubeApiServerConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeApiServerConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubeApiServerConfigResponse()
+        value.eventTtl = try reader["eventTtl"].readIfPresent()
+        value.serviceNodePortRange = try reader["serviceNodePortRange"].readIfPresent(with: EKSClientTypes.ServiceNodePortRange.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.KubeApiServerVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeApiServerVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubeApiServerVersionConfig()
+        value.eventTtl = try reader["eventTtl"].readIfPresent(with: EKSClientTypes.DurationParameterConfig.read(from:))
+        value.serviceNodePortRange = try reader["serviceNodePortRange"].readIfPresent(with: EKSClientTypes.PortRangeParameterConfig.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.KubeControllerManagerConfigRequest {
+
+    static func write(value: EKSClientTypes.KubeControllerManagerConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["horizontalPodAutoscalerControllerConfig"].write(value.horizontalPodAutoscalerControllerConfig, with: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.KubeControllerManagerConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeControllerManagerConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubeControllerManagerConfigResponse()
+        value.horizontalPodAutoscalerControllerConfig = try reader["horizontalPodAutoscalerControllerConfig"].readIfPresent(with: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.KubeControllerManagerVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeControllerManagerVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubeControllerManagerVersionConfig()
+        value.horizontalPodAutoscalerControllerConfig = try reader["horizontalPodAutoscalerControllerConfig"].readIfPresent(with: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig.read(from:))
         return value
     }
 }
@@ -12670,6 +13423,34 @@ extension EKSClientTypes.KubernetesNetworkConfigResponse {
         value.serviceIpv6Cidr = try reader["serviceIpv6Cidr"].readIfPresent()
         value.ipFamily = try reader["ipFamily"].readIfPresent()
         value.elasticLoadBalancing = try reader["elasticLoadBalancing"].readIfPresent(with: EKSClientTypes.ElasticLoadBalancing.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.KubeSchedulerConfigRequest {
+
+    static func write(value: EKSClientTypes.KubeSchedulerConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["nodeResourcesFit"].write(value.nodeResourcesFit, with: EKSClientTypes.NodeResourcesFitConfig.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.KubeSchedulerConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeSchedulerConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubeSchedulerConfigResponse()
+        value.nodeResourcesFit = try reader["nodeResourcesFit"].readIfPresent(with: EKSClientTypes.NodeResourcesFitConfig.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.KubeSchedulerVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeSchedulerVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubeSchedulerVersionConfig()
+        value.nodeResourcesFit = try reader["nodeResourcesFit"].readIfPresent(with: EKSClientTypes.NodeResourcesFitVersionConfig.read(from:))
         return value
     }
 }
@@ -12886,6 +13667,31 @@ extension EKSClientTypes.NodeRepairConfigOverrides {
     }
 }
 
+extension EKSClientTypes.NodeResourcesFitConfig {
+
+    static func write(value: EKSClientTypes.NodeResourcesFitConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scoringStrategy"].write(value.scoringStrategy, with: EKSClientTypes.ScoringStrategy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeResourcesFitConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodeResourcesFitConfig()
+        value.scoringStrategy = try reader["scoringStrategy"].readIfPresent(with: EKSClientTypes.ScoringStrategy.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.NodeResourcesFitVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeResourcesFitVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodeResourcesFitVersionConfig()
+        value.scoringStrategy = try reader["scoringStrategy"].readIfPresent(with: EKSClientTypes.ScoringStrategyConfig.read(from:))
+        return value
+    }
+}
+
 extension EKSClientTypes.OIDC {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.OIDC {
@@ -12996,6 +13802,28 @@ extension EKSClientTypes.PodIdentityAssociationSummary {
     }
 }
 
+extension EKSClientTypes.PortRangeConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.PortRangeConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.PortRangeConstraints()
+        value.minPort = try reader["minPort"].readIfPresent(with: EKSClientTypes.IntegerRangeConstraint.read(from:))
+        value.maxPort = try reader["maxPort"].readIfPresent(with: EKSClientTypes.IntegerRangeConstraint.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.PortRangeParameterConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.PortRangeParameterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.PortRangeParameterConfig()
+        value.defaultValue = try reader["defaultValue"].readIfPresent(with: EKSClientTypes.ServiceNodePortRange.read(from:))
+        value.constraints = try reader["constraints"].readIfPresent(with: EKSClientTypes.PortRangeConstraints.read(from:))
+        return value
+    }
+}
+
 extension EKSClientTypes.Provider {
 
     static func write(value: EKSClientTypes.Provider?, to writer: SmithyJSON.Writer) throws {
@@ -13078,11 +13906,95 @@ extension EKSClientTypes.RemotePodNetwork {
     }
 }
 
+extension EKSClientTypes.ResourceConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ResourceConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ResourceConstraints()
+        value.name = try reader["name"].readIfPresent(with: EKSClientTypes.AllowedValuesConstraint.read(from:))
+        value.weight = try reader["weight"].readIfPresent(with: EKSClientTypes.IntegerRangeConstraint.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ResourceWeight {
+
+    static func write(value: EKSClientTypes.ResourceWeight?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ResourceWeight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ResourceWeight()
+        value.name = try reader["name"].readIfPresent()
+        value.weight = try reader["weight"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.RollbackConfig {
 
     static func write(value: EKSClientTypes.RollbackConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+}
+
+extension EKSClientTypes.ScoringStrategy {
+
+    static func write(value: EKSClientTypes.ScoringStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resources"].writeList(value.resources, memberWritingClosure: EKSClientTypes.ResourceWeight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ScoringStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ScoringStrategy()
+        value.type = try reader["type"].readIfPresent()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: EKSClientTypes.ResourceWeight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.ScoringStrategyConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ScoringStrategyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ScoringStrategyConfig()
+        value.defaultValue = try reader["defaultValue"].readIfPresent(with: EKSClientTypes.ScoringStrategy.read(from:))
+        value.constraints = try reader["constraints"].readIfPresent(with: EKSClientTypes.ScoringStrategyConstraints.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ScoringStrategyConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ScoringStrategyConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ScoringStrategyConstraints()
+        value.scoringStrategy = try reader["scoringStrategy"].readIfPresent(with: EKSClientTypes.AllowedValuesConstraint.read(from:))
+        value.resources = try reader["resources"].readIfPresent(with: EKSClientTypes.ResourceConstraints.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ServiceNodePortRange {
+
+    static func write(value: EKSClientTypes.ServiceNodePortRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxPort"].write(value.maxPort)
+        try writer["minPort"].write(value.minPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ServiceNodePortRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ServiceNodePortRange()
+        value.minPort = try reader["minPort"].readIfPresent() ?? 0
+        value.maxPort = try reader["maxPort"].readIfPresent() ?? 0
+        return value
     }
 }
 

@@ -640,7 +640,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `HumanLoopQuotaExceededException` : Indicates you have exceeded the maximum number of active human in the loop workflows available
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
@@ -727,7 +727,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
@@ -809,7 +809,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
@@ -1224,7 +1224,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
     /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
@@ -2123,7 +2123,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
@@ -2208,7 +2208,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
@@ -2293,7 +2293,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
@@ -2384,7 +2384,7 @@ extension TextractClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
-    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [limits].
+    /// - `BadDocumentException` : Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see [Hard limits](https://docs.aws.amazon.com/textract/latest/dg/limits.html).
     /// - `DocumentTooLargeException` : The document can't be processed because it's too large. The maximum document size for synchronous operations 10 MB. The maximum document size for asynchronous operations is 500 MB for PDF files.
     /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
     /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.

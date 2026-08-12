@@ -1568,7 +1568,7 @@ extension CleanRoomsClient {
 
     /// Performs the `CreateIntermediateTable` operation on the `CleanRooms` service.
     ///
-    /// Creates an intermediate table in a membership. An intermediate table stores a query definition that you can execute later using PopulateIntermediateTable to materialize cached results. The intermediate table is owned by the member with the CAN_QUERY ability. This operation does not execute the stored query.
+    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use PopulateIntermediateTable.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateIntermediateTableInput`)
     ///
@@ -1642,7 +1642,7 @@ extension CleanRoomsClient {
 
     /// Performs the `CreateIntermediateTableAnalysisRule` operation on the `CleanRooms` service.
     ///
-    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. The service automatically determines whether the rule is first-party or multi-party restricted based on the intermediate table's inherited constraints. Only the intermediate table owner can call this operation.
+    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateIntermediateTableAnalysisRuleInput`)
     ///
@@ -2488,7 +2488,7 @@ extension CleanRoomsClient {
 
     /// Performs the `DeleteIntermediateTable` operation on the `CleanRooms` service.
     ///
-    /// Deletes an intermediate table. When you delete the table, the service marks it as DELETED, removes its analysis rule and schema, and triggers storage cleanup. This operation is idempotent. Only the intermediate table owner can call this operation.
+    /// Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteIntermediateTableInput`)
     ///
@@ -2837,7 +2837,7 @@ extension CleanRoomsClient {
 
     /// Performs the `DisallowIntermediateTable` operation on the `CleanRooms` service.
     ///
-    /// Invalidates a specific intermediate table that references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, invalidation cascades to descendant intermediate tables.
+    /// Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisallowIntermediateTableInput`)
     ///
@@ -2896,6 +2896,75 @@ extension CleanRoomsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisallowIntermediateTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAnalysisLogExport` operation on the `CleanRooms` service.
+    ///
+    /// Returns information about an analysis log export, including its current status and, if the export failed, the reason for the failure. Poll this operation until the status is SUCCESS or FAILED. An export can't be canceled after it starts.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAnalysisLogExportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAnalysisLogExportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func getAnalysisLogExport(input: GetAnalysisLogExportInput) async throws -> GetAnalysisLogExportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAnalysisLogExport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAnalysisLogExportInput, GetAnalysisLogExportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAnalysisLogExportInput, GetAnalysisLogExportOutput>(GetAnalysisLogExportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnalysisLogExportInput, GetAnalysisLogExportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnalysisLogExportOutput>(GetAnalysisLogExportOutput.httpOutput(from:), GetAnalysisLogExportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalysisLogExportInput, GetAnalysisLogExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalysisLogExportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAnalysisLogExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnalysisLogExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnalysisLogExportInput, GetAnalysisLogExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAnalysisLogExportInput, GetAnalysisLogExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAnalysisLogExportInput, GetAnalysisLogExportOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAnalysisLogExport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4413,6 +4482,76 @@ extension CleanRoomsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSchemaAnalysisRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAnalysisLogExports` operation on the `CleanRooms` service.
+    ///
+    /// Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAnalysisLogExportsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAnalysisLogExportsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func listAnalysisLogExports(input: ListAnalysisLogExportsInput) async throws -> ListAnalysisLogExportsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAnalysisLogExports")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>(ListAnalysisLogExportsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>(ListAnalysisLogExportsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalysisLogExportsOutput>(ListAnalysisLogExportsOutput.httpOutput(from:), ListAnalysisLogExportsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysisLogExportsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAnalysisLogExportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnalysisLogExportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAnalysisLogExports")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6104,7 +6243,7 @@ extension CleanRoomsClient {
 
     /// Performs the `PopulateIntermediateTable` operation on the `CleanRooms` service.
     ///
-    /// Executes the stored query of an intermediate table to materialize data into managed storage. With this operation, you can perform initial population and subsequent refreshes. Each call creates a new version. The returned analysis ID can be tracked using GetProtectedQuery. Only the intermediate table owner can call this operation.
+    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetProtectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `PopulateIntermediateTableInput`)
     ///
@@ -6236,6 +6375,79 @@ extension CleanRoomsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PreviewPrivacyImpact")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartAnalysisLogExport` operation on the `CleanRooms` service.
+    ///
+    /// Starts an export of the Apache Spark logs for a protected query to an Amazon S3 bucket that you own. Use the exported logs to diagnose a query that failed or that ran more slowly than you expected. Clean Rooms exports a redacted copy of the Spark logs instead of the raw logs. Analyze the exported logs with the tooling of your choice, such as Spark History Server. For details about what the exported logs contain, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-contents.html](https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-contents.html). The export runs asynchronously and returns with a status of IN_PROGRESS. Call GetAnalysisLogExport to poll for the final status. To use this operation, you must have the CAN_EXPORT_QUERY_ANALYSIS_LOG ability for your membership. You must also be the query runner or the query payer. Having the ability alone is not sufficient. The query must have reached a terminal state, and it must have reached the execution stage. A query that failed validation or that was canceled before it started produces no Spark logs. Log export isn't supported for queries that use differential privacy, and isn't supported for PySpark jobs. The destination bucket must be in the same Amazon Web Services Region as the collaboration. Cross-Region export isn't supported. For more information, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html](https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartAnalysisLogExportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartAnalysisLogExportOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func startAnalysisLogExport(input: StartAnalysisLogExportInput) async throws -> StartAnalysisLogExportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startAnalysisLogExport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartAnalysisLogExportInput, StartAnalysisLogExportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>(StartAnalysisLogExportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAnalysisLogExportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAnalysisLogExportOutput>(StartAnalysisLogExportOutput.httpOutput(from:), StartAnalysisLogExportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartAnalysisLogExportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAnalysisLogExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAnalysisLogExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CleanRooms"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAnalysisLogExportInput, StartAnalysisLogExportOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAnalysisLogExport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6907,6 +7119,7 @@ extension CleanRoomsClient {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     public func updateConfiguredTableAnalysisRule(input: UpdateConfiguredTableAnalysisRuleInput) async throws -> UpdateConfiguredTableAnalysisRuleOutput {

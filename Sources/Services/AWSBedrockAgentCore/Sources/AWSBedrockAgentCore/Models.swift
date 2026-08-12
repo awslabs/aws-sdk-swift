@@ -1562,6 +1562,32 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Contains the configuration for reusing agent traces from an online evaluation configuration for recommendation analysis. Because online evaluation is a continuous stream, a time range specifies which evaluated sessions the recommendation includes.
+    public struct OnlineEvaluationTraceConfig: Swift.Sendable {
+        /// The end time of the time range. Only sessions evaluated before this timestamp are included.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The ARN of the online evaluation configuration to reuse sessions from.
+        /// This member is required.
+        public var onlineEvaluationConfigArn: Swift.String?
+        /// The start time of the time range. Only sessions evaluated at or after this timestamp are included.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            onlineEvaluationConfigArn: Swift.String? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.onlineEvaluationConfigArn = onlineEvaluationConfigArn
+            self.startTime = startTime
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The configuration specifying where to read agent traces from for recommendation analysis.
     public enum AgentTracesConfig: Swift.Sendable {
         /// Agent traces provided as inline session spans in OpenTelemetry format.
@@ -1570,6 +1596,8 @@ extension BedrockAgentCoreClientTypes {
         case cloudwatchlogs(BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig)
         /// Use a completed batch evaluation as the source of agent traces.
         case batchevaluation(BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig)
+        /// Agent traces from an online evaluation configuration over a specified time range.
+        case onlineevaluation(BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -15805,6 +15833,8 @@ extension BedrockAgentCoreClientTypes.AgentTracesConfig {
                 try writer["batchEvaluation"].write(batchevaluation, with: BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig.write(value:to:))
             case let .cloudwatchlogs(cloudwatchlogs):
                 try writer["cloudwatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig.write(value:to:))
+            case let .onlineevaluation(onlineevaluation):
+                try writer["onlineEvaluation"].write(onlineevaluation, with: BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig.write(value:to:))
             case let .sessionspans(sessionspans):
                 try writer["sessionSpans"].writeList(sessionspans, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
@@ -15822,6 +15852,8 @@ extension BedrockAgentCoreClientTypes.AgentTracesConfig {
                 return .cloudwatchlogs(try reader["cloudwatchLogs"].read(with: BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig.read(from:)))
             case "batchEvaluation":
                 return .batchevaluation(try reader["batchEvaluation"].read(with: BedrockAgentCoreClientTypes.BatchEvaluationTraceConfig.read(from:)))
+            case "onlineEvaluation":
+                return .onlineevaluation(try reader["onlineEvaluation"].read(with: BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -18145,6 +18177,25 @@ extension BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource {
         var value = BedrockAgentCoreClientTypes.OnlineEvaluationConfigSource()
         value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
         value.timeRange = try reader["timeRange"].readIfPresent(with: BedrockAgentCoreClientTypes.SessionFilterConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["onlineEvaluationConfigArn"].write(value.onlineEvaluationConfigArn)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig()
+        value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

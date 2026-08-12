@@ -1096,6 +1096,38 @@ extension PaginatorSequence where OperationStackInput == ListLexBotsInput, Opera
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListMetricsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMetricsOutput`
+    public func listMetricsPaginated(input: ListMetricsInput) -> ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetrics(input:))
+    }
+}
+
+extension ListMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMetricsInput {
+        return ListMetricsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMetricsInput, OperationStackOutput == ListMetricsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMetricsPaginated`
+    /// to access the nested member `[ConnectClientTypes.MetricSummary]`
+    /// - Returns: `[ConnectClientTypes.MetricSummary]`
+    public func metricSummaryList() async throws -> [ConnectClientTypes.MetricSummary] {
+        return try await self.asyncCompactMap { item in item.metricSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListPhoneNumbersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -2276,6 +2308,39 @@ extension PaginatorSequence where OperationStackInput == SearchHoursOfOperations
     /// - Returns: `[ConnectClientTypes.HoursOfOperation]`
     public func hoursOfOperations() async throws -> [ConnectClientTypes.HoursOfOperation] {
         return try await self.asyncCompactMap { item in item.hoursOfOperations }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[SearchMetricsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchMetricsOutput`
+    public func searchMetricsPaginated(input: SearchMetricsInput) -> ClientRuntime.PaginatorSequence<SearchMetricsInput, SearchMetricsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchMetricsInput, SearchMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchMetrics(input:))
+    }
+}
+
+extension SearchMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchMetricsInput {
+        return SearchMetricsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchMetricsInput, OperationStackOutput == SearchMetricsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchMetricsPaginated`
+    /// to access the nested member `[ConnectClientTypes.MetricDefinition]`
+    /// - Returns: `[ConnectClientTypes.MetricDefinition]`
+    public func metrics() async throws -> [ConnectClientTypes.MetricDefinition] {
+        return try await self.asyncCompactMap { item in item.metrics }
     }
 }
 extension ConnectClient {

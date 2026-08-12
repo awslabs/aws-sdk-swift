@@ -564,6 +564,8 @@ extension DataZoneClientTypes {
         /// The filter IDs of the asset scope.
         /// This member is required.
         public var filterIds: [Swift.String]?
+        /// The name of the materialized asset scope.
+        public var scopeName: Swift.String?
         /// The status of the asset scope.
         /// This member is required.
         public var status: Swift.String?
@@ -572,11 +574,13 @@ extension DataZoneClientTypes {
             assetId: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             filterIds: [Swift.String]? = nil,
+            scopeName: Swift.String? = nil,
             status: Swift.String? = nil
         ) {
             self.assetId = assetId
             self.errorMessage = errorMessage
             self.filterIds = filterIds
+            self.scopeName = scopeName
             self.status = status
         }
     }
@@ -38787,6 +38791,7 @@ extension DataZoneClientTypes.AssetScope {
         value.assetId = try reader["assetId"].readIfPresent() ?? ""
         value.filterIds = try reader["filterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? ""
+        value.scopeName = try reader["scopeName"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
