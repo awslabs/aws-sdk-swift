@@ -2223,6 +2223,7 @@ extension Target.Dependency {
     static var Smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
     static var SmithyAWSJSON: Self { .product(name: "SmithyAWSJSON", package: "smithy-swift") }
     static var SmithyRPCv2CBOR: Self { .product(name: "SmithyRPCv2CBOR", package: "smithy-swift") }
+    static var SmithyRestJSON1: Self { .product(name: "SmithyRestJSON1", package: "smithy-swift") }
     static var SmithyCBOR: Self { .product(name: "SmithyCBOR", package: "smithy-swift") }
     static var SmithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
     static var SmithyChecksums: Self { .product(name: "SmithyChecksums", package: "smithy-swift") }
