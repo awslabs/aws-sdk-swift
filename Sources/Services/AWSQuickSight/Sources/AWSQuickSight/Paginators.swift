@@ -139,6 +139,36 @@ extension PaginatorSequence where OperationStackInput == ListAnalysesInput, Oper
     }
 }
 extension QuickSightClient {
+    /// Paginate over `[ListApprovalPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListApprovalPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApprovalPoliciesOutput`
+    public func listApprovalPoliciesPaginated(input: ListApprovalPoliciesInput) -> ClientRuntime.PaginatorSequence<ListApprovalPoliciesInput, ListApprovalPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListApprovalPoliciesInput, ListApprovalPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApprovalPolicies(input:))
+    }
+}
+
+extension ListApprovalPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListApprovalPoliciesInput {
+        return ListApprovalPoliciesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListApprovalPoliciesInput, OperationStackOutput == ListApprovalPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listApprovalPoliciesPaginated`
+    /// to access the nested member `[QuickSightClientTypes.ApprovalPolicy]`
+    /// - Returns: `[QuickSightClientTypes.ApprovalPolicy]`
+    public func policies() async throws -> [QuickSightClientTypes.ApprovalPolicy] {
+        return try await self.asyncCompactMap { item in item.policies }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListAssetBundleExportJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -385,6 +415,37 @@ extension PaginatorSequence where OperationStackInput == ListDataSourcesInput, O
     /// - Returns: `[QuickSightClientTypes.DataSource]`
     public func dataSources() async throws -> [QuickSightClientTypes.DataSource] {
         return try await self.asyncCompactMap { item in item.dataSources }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListDlpSettingsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDlpSettingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDlpSettingsOutput`
+    public func listDlpSettingsPaginated(input: ListDlpSettingsInput) -> ClientRuntime.PaginatorSequence<ListDlpSettingsInput, ListDlpSettingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDlpSettingsInput, ListDlpSettingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDlpSettings(input:))
+    }
+}
+
+extension ListDlpSettingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDlpSettingsInput {
+        return ListDlpSettingsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDlpSettingsInput, OperationStackOutput == ListDlpSettingsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDlpSettingsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.DlpSettingSummary]`
+    /// - Returns: `[QuickSightClientTypes.DlpSettingSummary]`
+    public func dlpSettingSummaries() async throws -> [QuickSightClientTypes.DlpSettingSummary] {
+        return try await self.asyncCompactMap { item in item.dlpSettingSummaries }
     }
 }
 extension QuickSightClient {
@@ -705,6 +766,38 @@ extension PaginatorSequence where OperationStackInput == ListKnowledgeBasesInput
     /// - Returns: `[QuickSightClientTypes.KnowledgeBaseSummary]`
     public func knowledgeBaseSummaries() async throws -> [QuickSightClientTypes.KnowledgeBaseSummary] {
         return try await self.asyncCompactMap { item in item.knowledgeBaseSummaries }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListLimitsProfilesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLimitsProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLimitsProfilesOutput`
+    public func listLimitsProfilesPaginated(input: ListLimitsProfilesInput) -> ClientRuntime.PaginatorSequence<ListLimitsProfilesInput, ListLimitsProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListLimitsProfilesInput, ListLimitsProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLimitsProfiles(input:))
+    }
+}
+
+extension ListLimitsProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLimitsProfilesInput {
+        return ListLimitsProfilesInput(
+            accountId: self.accountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLimitsProfilesInput, OperationStackOutput == ListLimitsProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLimitsProfilesPaginated`
+    /// to access the nested member `[QuickSightClientTypes.LimitsProfile]`
+    /// - Returns: `[QuickSightClientTypes.LimitsProfile]`
+    public func profiles() async throws -> [QuickSightClientTypes.LimitsProfile] {
+        return try await self.asyncCompactMap { item in item.profiles }
     }
 }
 extension QuickSightClient {

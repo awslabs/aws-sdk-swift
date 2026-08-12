@@ -8623,7 +8623,7 @@ extension GlueClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAssetInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetAssetOutput`)
+    /// - Returns: The asset metadata returned by the GetAsset operation. (Type: `GetAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10386,7 +10386,7 @@ extension GlueClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDataCatalogExportConfigurationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetDataCatalogExportConfigurationOutput`)
+    /// - Returns: The export configuration returned by the GetDataCatalogExportConfiguration operation. (Type: `GetDataCatalogExportConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18314,7 +18314,7 @@ extension GlueClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `PutDataCatalogExportConfigurationInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `PutDataCatalogExportConfigurationOutput`)
+    /// - Returns: The export configuration returned by the PutDataCatalogExportConfiguration operation. (Type: `PutDataCatalogExportConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19339,7 +19339,7 @@ extension GlueClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchAssetsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchAssetsOutput`)
+    /// - Returns: The search results returned by the SearchAssets operation. (Type: `SearchAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20423,7 +20423,7 @@ extension GlueClient {
 
     /// Performs the `StartMaterializedViewRefreshTaskRun` operation on the `Glue` service.
     ///
-    /// Starts a materialized view refresh task run, for a specified table and columns.
+    /// Starts a materialized view refresh task run for a specified materialized view.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMaterializedViewRefreshTaskRunInput`)
     ///
@@ -20967,7 +20967,7 @@ extension GlueClient {
 
     /// Performs the `StopMaterializedViewRefreshTaskRun` operation on the `Glue` service.
     ///
-    /// Stops a materialized view refresh task run, for a specified table and columns.
+    /// Stops a materialized view refresh task run for a specified materialized view.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopMaterializedViewRefreshTaskRunInput`)
     ///

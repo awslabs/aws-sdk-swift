@@ -13,6 +13,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
+import enum SmithyHTTPAPI.URLEncodingUtils
 import enum SmithyReadWrite.ReaderError
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -1438,7 +1439,7 @@ extension GetStaticMapInput {
             items.append(styleQueryItem)
         }
         if let zoom = value.zoom {
-            let zoomQueryItem = Smithy.URIQueryItem(name: "zoom".urlPercentEncoding(), value: Swift.String(zoom).urlPercentEncoding())
+            let zoomQueryItem = Smithy.URIQueryItem(name: "zoom".urlPercentEncoding(), value: SmithyHTTPAPI.URLEncodingUtils.encodeNumber(zoom).urlPercentEncoding())
             items.append(zoomQueryItem)
         }
         guard let height = value.height else {

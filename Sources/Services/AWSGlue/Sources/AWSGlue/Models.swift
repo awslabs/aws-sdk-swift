@@ -18714,6 +18714,7 @@ extension GlueClientTypes {
     }
 }
 
+/// The asset metadata returned by the GetAsset operation.
 public struct GetAssetOutput: Swift.Sendable {
     /// The identifier of the asset type for this asset.
     /// This member is required.
@@ -21268,6 +21269,7 @@ extension GlueClientTypes {
     }
 }
 
+/// The export configuration returned by the GetDataCatalogExportConfiguration operation.
 public struct GetDataCatalogExportConfigurationOutput: Swift.Sendable {
     /// The timestamp at which the export configuration was created.
     public var createdAt: Foundation.Date?
@@ -22473,13 +22475,13 @@ extension GlueClientTypes {
         public var processedBytes: Swift.Int?
         /// The type of the refresh task run. Either FULL or INCREMENTAL.
         public var refreshType: GlueClientTypes.MaterializedViewRefreshType?
-        /// The IAM role that the service assumes to generate statistics.
+        /// The IAM role that the service assumes to run the materialized view refresh task.
         public var role: Swift.String?
         /// The start time of the task.
         public var startTime: Foundation.Date?
         /// The status of the task run.
         public var status: GlueClientTypes.MaterializedViewRefreshState?
-        /// The name of the table for which statistics is generated.
+        /// The name of the materialized view.
         public var tableName: Swift.String?
 
         public init(
@@ -27399,7 +27401,7 @@ public struct ListMaterializedViewRefreshTaskRunsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
     public var nextToken: Swift.String?
-    /// The name of the table for which statistics is generated.
+    /// The name of the materialized view.
     public var tableName: Swift.String?
 
     public init(
@@ -28265,6 +28267,7 @@ public struct PutDataCatalogExportConfigurationInput: Swift.Sendable {
     }
 }
 
+/// The export configuration returned by the PutDataCatalogExportConfiguration operation.
 public struct PutDataCatalogExportConfigurationOutput: Swift.Sendable {
     /// The encryption configuration for the exported data.
     public var encryptionConfiguration: GlueClientTypes.ExportEncryptionConfiguration?
@@ -29490,6 +29493,7 @@ extension GlueClientTypes {
     }
 }
 
+/// The search results returned by the SearchAssets operation.
 public struct SearchAssetsOutput: Swift.Sendable {
     /// The list of assets matching the search criteria.
     public var items: [GlueClientTypes.SearchResultItem]?
@@ -30124,6 +30128,7 @@ public struct StartJobRunOutput: Swift.Sendable {
 public struct MaterializedViewRefreshTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -30152,7 +30157,7 @@ public struct StartMaterializedViewRefreshTaskRunInput: Swift.Sendable {
     public var databaseName: Swift.String?
     /// Specifies whether this is a full refresh of the task run.
     public var fullRefresh: Swift.Bool?
-    /// The name of the table to generate run the materialized view refresh task.
+    /// The name of the materialized view to run the refresh task for.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -30507,6 +30512,7 @@ public struct StopCrawlerScheduleOutput: Swift.Sendable {
 public struct MaterializedViewRefreshTaskNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -30530,6 +30536,7 @@ public struct MaterializedViewRefreshTaskNotRunningException: ClientRuntime.Mode
 public struct MaterializedViewRefreshTaskStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -30556,7 +30563,7 @@ public struct StopMaterializedViewRefreshTaskRunInput: Swift.Sendable {
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
-    /// The name of the table to generate statistics.
+    /// The name of the materialized view.
     /// This member is required.
     public var tableName: Swift.String?
 

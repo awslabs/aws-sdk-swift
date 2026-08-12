@@ -22365,6 +22365,54 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum ApplicableToType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case group
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicableToType] {
+            return [
+                .group
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .group: return "GROUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The scoping configuration that determines which principals an approval policy applies to.
+    public struct ApplicableTo: Swift.Sendable {
+        /// The list of group ARNs that the policy applies to. Required when type is GROUP.
+        public var groupArns: [Swift.String]?
+        /// The type of scoping that determines which principals the approval policy applies to. Valid values are defined as follows:
+        ///
+        /// * GROUP: The policy applies only to principals in the groups specified by GroupArns. When you use GROUP, you must also provide a value for GroupArns.
+        /// This member is required.
+        public var type: QuickSightClientTypes.ApplicableToType?
+
+        public init(
+            groupArns: [Swift.String]? = nil,
+            type: QuickSightClientTypes.ApplicableToType? = nil
+        ) {
+            self.groupArns = groupArns
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The color palette.
     public struct Palette: Swift.Sendable {
         /// The background color.
@@ -22509,6 +22557,124 @@ extension QuickSightClientTypes {
             self.brandColorPalette = brandColorPalette
             self.brandElementStyle = brandElementStyle
             self.contextualAccentPalette = contextualAccentPalette
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum GovernedAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case share
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GovernedAction] {
+            return [
+                .share
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .share: return "SHARE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum AssetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case knowledgeBase
+        case space
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetType] {
+            return [
+                .agent,
+                .knowledgeBase,
+                .space
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case .space: return "SPACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A governance approval policy that specifies which principals and governed actions require approval, and which assets the policy applies to.
+    public struct ApprovalPolicy: Swift.Sendable {
+        /// The list of governed actions that trigger the approval workflow.
+        /// This member is required.
+        public var actions: [QuickSightClientTypes.GovernedAction]?
+        /// The scoping configuration that determines who the approval policy applies to.
+        /// This member is required.
+        public var applicableTo: QuickSightClientTypes.ApplicableTo?
+        /// The list of group ARNs whose members can approve requests.
+        /// This member is required.
+        public var approvalGroups: [Swift.String]?
+        /// The list of asset types that the approval policy applies to.
+        /// This member is required.
+        public var assetTypes: [QuickSightClientTypes.AssetType]?
+        /// The date and time that the approval policy was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the approval policy.
+        public var description: Swift.String?
+        /// The name of the approval policy.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the approval policy.
+        /// This member is required.
+        public var policyArn: Swift.String?
+        /// The unique identifier of the approval policy.
+        /// This member is required.
+        public var policyId: Swift.String?
+        /// The date and time that the approval policy was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            actions: [QuickSightClientTypes.GovernedAction]? = nil,
+            applicableTo: QuickSightClientTypes.ApplicableTo? = nil,
+            approvalGroups: [Swift.String]? = nil,
+            assetTypes: [QuickSightClientTypes.AssetType]? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            policyArn: Swift.String? = nil,
+            policyId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.actions = actions
+            self.applicableTo = applicableTo
+            self.approvalGroups = approvalGroups
+            self.assetTypes = assetTypes
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.policyArn = policyArn
+            self.policyId = policyId
+            self.updatedAt = updatedAt
         }
     }
 }
@@ -22916,6 +23082,56 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum AssetBundleExportJobTopicV2PropertyToOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case description
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssetBundleExportJobTopicV2PropertyToOverride] {
+            return [
+                .description,
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .description: return "Description"
+            case .name: return "Name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Controls how a specific Topic resource is parameterized in the returned CloudFormation template.
+    public struct AssetBundleExportJobTopicV2OverrideProperties: Swift.Sendable {
+        /// The ARN of the specific Topic resource whose override properties are configured in this structure.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A list of Topic resource properties to generate variables for in the returned CloudFormation template.
+        /// This member is required.
+        public var properties: [QuickSightClientTypes.AssetBundleExportJobTopicV2PropertyToOverride]?
+
+        public init(
+            arn: Swift.String? = nil,
+            properties: [QuickSightClientTypes.AssetBundleExportJobTopicV2PropertyToOverride]? = nil
+        ) {
+            self.arn = arn
+            self.properties = properties
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum AssetBundleExportJobVPCConnectionPropertyToOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dnsResolvers
         case name
@@ -22987,6 +23203,8 @@ extension QuickSightClientTypes {
         public var resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration?
         /// An optional list of structures that control how Theme resources are parameterized in the returned CloudFormation template.
         public var themes: [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]?
+        /// An optional list of structures that controls how Topic resources are parameterized in the returned CloudFormation template.
+        public var topicsV2: [QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties]?
         /// An optional list of structures that control how VPCConnection resources are parameterized in the returned CloudFormation template.
         public var vpcConnections: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]?
 
@@ -22999,6 +23217,7 @@ extension QuickSightClientTypes {
             refreshSchedules: [QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil,
             resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration? = nil,
             themes: [QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties]? = nil,
+            topicsV2: [QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties]? = nil
         ) {
             self.analyses = analyses
@@ -23009,6 +23228,7 @@ extension QuickSightClientTypes {
             self.refreshSchedules = refreshSchedules
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
+            self.topicsV2 = topicsV2
             self.vpcConnections = vpcConnections
         }
     }
@@ -25115,6 +25335,30 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The override parameters for a single topic that is being imported.
+    public struct AssetBundleImportJobTopicV2OverrideParameters: Swift.Sendable {
+        /// A new description for the topic.
+        public var description: Swift.String?
+        /// A new name for the topic.
+        public var name: Swift.String?
+        /// The ID of the topic that you want to apply overrides to.
+        /// This member is required.
+        public var topicId: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            topicId: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.topicId = topicId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The override parameters for a single VPC connection that is imported.
     public struct AssetBundleImportJobVPCConnectionOverrideParameters: Swift.Sendable {
         /// An optional override of DNS resolvers to be used by the VPC connection.
@@ -25169,6 +25413,8 @@ extension QuickSightClientTypes {
         public var resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration?
         /// A list of overrides for any Theme resources that are present in the asset bundle that is imported.
         public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]?
+        /// A list of overrides for any Topic resources that are present in the asset bundle that is imported.
+        public var topicsV2: [QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters]?
         /// A list of overrides for any VPCConnection resources that are present in the asset bundle that is imported.
         public var vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]?
 
@@ -25181,6 +25427,7 @@ extension QuickSightClientTypes {
             refreshSchedules: [QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil,
             resourceIdOverrideConfiguration: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters]? = nil,
+            topicsV2: [QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters]? = nil
         ) {
             self.analyses = analyses
@@ -25191,6 +25438,7 @@ extension QuickSightClientTypes {
             self.refreshSchedules = refreshSchedules
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
+            self.topicsV2 = topicsV2
             self.vpcConnections = vpcConnections
         }
     }
@@ -25219,6 +25467,27 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// An object that contains a list of permissions to be applied to a list of topic IDs.
+    public struct AssetBundleImportJobTopicV2OverridePermissions: Swift.Sendable {
+        /// A list of permissions for the topics that you want to apply overrides to.
+        /// This member is required.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+        /// A list of topic IDs that you want to apply overrides to. You can use * to override all topics in this asset bundle.
+        /// This member is required.
+        public var topicIds: [Swift.String]?
+
+        public init(
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil,
+            topicIds: [Swift.String]? = nil
+        ) {
+            self.permissions = permissions
+            self.topicIds = topicIds
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A structure that contains the override permission configurations that modify the permissions for specified resources before the resource is imported.
     public struct AssetBundleImportJobOverridePermissions: Swift.Sendable {
         /// A list of permissions overrides for any Analysis resources that are present in the asset bundle that is imported.
@@ -25233,6 +25502,8 @@ extension QuickSightClientTypes {
         public var folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions]?
         /// A list of permissions overrides for any Theme resources that are present in the asset bundle that is imported.
         public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]?
+        /// A list of permissions for the topics that you want to apply overrides to.
+        public var topicsV2: [QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions]?
 
         public init(
             analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions]? = nil,
@@ -25240,7 +25511,8 @@ extension QuickSightClientTypes {
             dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]? = nil,
             dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]? = nil,
             folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions]? = nil,
-            themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]? = nil
+            themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]? = nil,
+            topicsV2: [QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions]? = nil
         ) {
             self.analyses = analyses
             self.dashboards = dashboards
@@ -25248,6 +25520,7 @@ extension QuickSightClientTypes {
             self.dataSources = dataSources
             self.folders = folders
             self.themes = themes
+            self.topicsV2 = topicsV2
         }
     }
 }
@@ -25269,6 +25542,27 @@ extension QuickSightClientTypes {
         ) {
             self.tags = tags
             self.themeIds = themeIds
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An object that contains a list of tags to be assigned to a list of topic IDs.
+    public struct AssetBundleImportJobTopicV2OverrideTags: Swift.Sendable {
+        /// A list of tags for the topics that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+        /// A list of topic IDs that you want to apply overrides to. You can use * to override all topics in this asset bundle.
+        /// This member is required.
+        public var topicIds: [Swift.String]?
+
+        public init(
+            tags: [QuickSightClientTypes.Tag]? = nil,
+            topicIds: [Swift.String]? = nil
+        ) {
+            self.tags = tags
+            self.topicIds = topicIds
         }
     }
 }
@@ -25310,6 +25604,8 @@ extension QuickSightClientTypes {
         public var folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags]?
         /// A list of tag overrides for any Theme resources that are present in the asset bundle that is imported.
         public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]?
+        /// A list of tag overrides for any Topic resources that are present in the asset bundle that is imported.
+        public var topicsV2: [QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags]?
         /// A list of tag overrides for any VPCConnection resources that are present in the asset bundle that is imported.
         public var vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]?
 
@@ -25320,6 +25616,7 @@ extension QuickSightClientTypes {
             dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]? = nil,
             folders: [QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags]? = nil,
             themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]? = nil,
+            topicsV2: [QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags]? = nil,
             vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]? = nil
         ) {
             self.analyses = analyses
@@ -25328,6 +25625,7 @@ extension QuickSightClientTypes {
             self.dataSources = dataSources
             self.folders = folders
             self.themes = themes
+            self.topicsV2 = topicsV2
             self.vpcConnections = vpcConnections
         }
     }
@@ -27520,6 +27818,274 @@ public struct BatchDeleteTopicReviewedAnswerOutput: Swift.Sendable {
         self.succeededAnswers = succeededAnswers
         self.topicArn = topicArn
         self.topicId = topicId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The type of resource that a limit applies to.
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentHours
+        case indexStorage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .agentHours,
+                .indexStorage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentHours: return "AGENT_HOURS"
+            case .indexStorage: return "INDEX_STORAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Identifies a user for the BatchDescribeUserLimits operation.
+    public struct UserLimitsEntry: Swift.Sendable {
+        /// The namespace of the user.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The name of the user.
+        /// This member is required.
+        public var userName: Swift.String?
+
+        public init(
+            namespace: Swift.String? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.namespace = namespace
+            self.userName = userName
+        }
+    }
+}
+
+public struct BatchDescribeUserLimitsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the users.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// An optional filter that limits the results to specific resource types. If you don't specify a value, the operation returns limits for all resource types.
+    public var resourceTypes: [QuickSightClientTypes.ResourceType]?
+    /// A list of users to describe limits for. Each entry contains a user name and namespace.
+    public var users: [QuickSightClientTypes.UserLimitsEntry]?
+
+    public init(
+        accountId: Swift.String? = nil,
+        resourceTypes: [QuickSightClientTypes.ResourceType]? = nil,
+        users: [QuickSightClientTypes.UserLimitsEntry]? = nil
+    ) {
+        self.accountId = accountId
+        self.resourceTypes = resourceTypes
+        self.users = users
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Information about a user whose limits could not be described in a batch operation.
+    public struct BatchDescribeUserLimitsError: Swift.Sendable {
+        /// The error code for the failure.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message for the failure.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The namespace of the user that failed.
+        public var namespace: Swift.String?
+        /// The ARN of the user that failed.
+        public var userArn: Swift.String?
+        /// The name of the user that failed.
+        public var userName: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            userArn: Swift.String? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.message = message
+            self.namespace = namespace
+            self.userArn = userArn
+            self.userName = userName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The unit of measurement for a resource limit value.
+    public enum LimitUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case gb
+        case hours
+        case mb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LimitUnit] {
+            return [
+                .days,
+                .gb,
+                .hours,
+                .mb
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .gb: return "GB"
+            case .hours: return "HOURS"
+            case .mb: return "MB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The source from which an effective limit was inherited.
+    public enum LimitSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case directUser
+        case group
+        case role
+        case systemDefault
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LimitSource] {
+            return [
+                .account,
+                .directUser,
+                .group,
+                .role,
+                .systemDefault
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .directUser: return "DIRECT_USER"
+            case .group: return "GROUP"
+            case .role: return "ROLE"
+            case .systemDefault: return "SYSTEM_DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The effective limit for a resource type that applies to a user, considering all applicable profile assignments and inheritance rules.
+    public struct EffectiveLimit: Swift.Sendable {
+        /// The unit of measurement for the limit.
+        /// This member is required.
+        public var limitUnit: QuickSightClientTypes.LimitUnit?
+        /// The maximum allowed value for the resource.
+        /// This member is required.
+        public var limitValue: Swift.Int?
+        /// The identifier of the limits profile that defines this limit.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The type of resource that the limit applies to.
+        /// This member is required.
+        public var resourceType: QuickSightClientTypes.ResourceType?
+        /// The source from which this limit was inherited. Possible values:
+        ///
+        /// * DIRECT_USER – The limit comes from a profile directly assigned to the user.
+        ///
+        /// * GROUP – The limit comes from a profile assigned to a group the user belongs to.
+        ///
+        /// * ROLE – The limit comes from a profile assigned to a role the user has.
+        ///
+        /// * ACCOUNT – The limit comes from the account-level default profile.
+        ///
+        /// * SYSTEM_DEFAULT – The limit comes from the built-in system default.
+        /// This member is required.
+        public var source: QuickSightClientTypes.LimitSource?
+
+        public init(
+            limitUnit: QuickSightClientTypes.LimitUnit? = nil,
+            limitValue: Swift.Int? = nil,
+            profileId: Swift.String? = nil,
+            resourceType: QuickSightClientTypes.ResourceType? = nil,
+            source: QuickSightClientTypes.LimitSource? = nil
+        ) {
+            self.limitUnit = limitUnit
+            self.limitValue = limitValue
+            self.profileId = profileId
+            self.resourceType = resourceType
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The effective limits for an Amazon Quick Sight user.
+    public struct UserLimits: Swift.Sendable {
+        /// A list of effective limits for the user.
+        /// This member is required.
+        public var effectiveLimits: [QuickSightClientTypes.EffectiveLimit]?
+        /// The namespace of the user.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The name of the user.
+        /// This member is required.
+        public var userName: Swift.String?
+
+        public init(
+            effectiveLimits: [QuickSightClientTypes.EffectiveLimit]? = nil,
+            namespace: Swift.String? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.effectiveLimits = effectiveLimits
+            self.namespace = namespace
+            self.userName = userName
+        }
+    }
+}
+
+public struct BatchDescribeUserLimitsOutput: Swift.Sendable {
+    /// A list of errors for users whose limits could not be described.
+    /// This member is required.
+    public var errors: [QuickSightClientTypes.BatchDescribeUserLimitsError]?
+    /// A list of user limits results. Each entry contains the effective limits for a user.
+    /// This member is required.
+    public var userLimits: [QuickSightClientTypes.UserLimits]?
+
+    public init(
+        errors: [QuickSightClientTypes.BatchDescribeUserLimitsError]? = nil,
+        userLimits: [QuickSightClientTypes.UserLimits]? = nil
+    ) {
+        self.errors = errors
+        self.userLimits = userLimits
     }
 }
 
@@ -30838,6 +31404,59 @@ public struct CreateAnalysisOutput: Swift.Sendable {
         self.creationStatus = creationStatus
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct CreateApprovalPolicyInput: Swift.Sendable {
+    /// The list of governed actions that trigger the approval workflow.
+    /// This member is required.
+    public var actions: [QuickSightClientTypes.GovernedAction]?
+    /// The scoping configuration that determines who the approval policy applies to.
+    /// This member is required.
+    public var applicableTo: QuickSightClientTypes.ApplicableTo?
+    /// The list of group ARNs whose members can approve requests.
+    /// This member is required.
+    public var approvalGroups: [Swift.String]?
+    /// The list of asset types that the approval policy applies to.
+    /// This member is required.
+    public var assetTypes: [QuickSightClientTypes.AssetType]?
+    /// A description of the approval policy.
+    public var description: Swift.String?
+    /// The name of the approval policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier to assign to the approval policy. You cannot change this value after you create the policy.
+    /// This member is required.
+    public var policyId: Swift.String?
+
+    public init(
+        actions: [QuickSightClientTypes.GovernedAction]? = nil,
+        applicableTo: QuickSightClientTypes.ApplicableTo? = nil,
+        approvalGroups: [Swift.String]? = nil,
+        assetTypes: [QuickSightClientTypes.AssetType]? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policyId: Swift.String? = nil
+    ) {
+        self.actions = actions
+        self.applicableTo = applicableTo
+        self.approvalGroups = approvalGroups
+        self.assetTypes = assetTypes
+        self.description = description
+        self.name = name
+        self.policyId = policyId
+    }
+}
+
+public struct CreateApprovalPolicyOutput: Swift.Sendable {
+    /// The approval policy that was created.
+    /// This member is required.
+    public var policy: QuickSightClientTypes.ApprovalPolicy?
+
+    public init(
+        policy: QuickSightClientTypes.ApprovalPolicy? = nil
+    ) {
+        self.policy = policy
     }
 }
 
@@ -34492,6 +35111,209 @@ public struct CreateDataSourceOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// The credentials for Microsoft Purview DLP integration. The credentials are stored in Amazon Web Services Secrets Manager and referenced by ARN.
+    public struct MicrosoftPurviewCredentials: Swift.Sendable {
+        /// The ARN of the Amazon Web Services Secrets Manager secret that contains the Microsoft Purview OAuth credentials. The secret includes the Azure tenant ID, client ID, and client secret or certificate.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DlpAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case block
+        case warn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DlpAction] {
+            return [
+                .allow,
+                .block,
+                .warn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case .block: return "BLOCK"
+            case .warn: return "WARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Maps a sensitivity label from Microsoft Purview to an enforcement action.
+    public struct LabelActionMapping: Swift.Sendable {
+        /// The enforcement action to apply when content with this sensitivity label is detected. Valid values are ALLOW, BLOCK, and WARN.
+        /// This member is required.
+        public var action: QuickSightClientTypes.DlpAction?
+        /// The identifier of the sensitivity label from the DLP provider.
+        /// This member is required.
+        public var labelId: Swift.String?
+        /// The display name of the sensitivity label from the DLP provider.
+        /// This member is required.
+        public var labelName: Swift.String?
+
+        public init(
+            action: QuickSightClientTypes.DlpAction? = nil,
+            labelId: Swift.String? = nil,
+            labelName: Swift.String? = nil
+        ) {
+            self.action = action
+            self.labelId = labelId
+            self.labelName = labelName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The full configuration for Microsoft Purview DLP integration, including the provider credentials and the label-action mappings that define the enforcement policy.
+    public struct MicrosoftPurviewProviderConfig: Swift.Sendable {
+        /// The credentials used to authenticate with Microsoft Purview.
+        /// This member is required.
+        public var credentials: QuickSightClientTypes.MicrosoftPurviewCredentials?
+        /// The mappings from Microsoft Purview sensitivity labels to enforcement actions.
+        /// This member is required.
+        public var labelActionMappings: [QuickSightClientTypes.LabelActionMapping]?
+        /// The default action to apply to content that has no sensitivity label or whose label is not mapped. Valid values are ALLOW, BLOCK, and WARN.
+        /// This member is required.
+        public var unmappedAction: QuickSightClientTypes.DlpAction?
+
+        public init(
+            credentials: QuickSightClientTypes.MicrosoftPurviewCredentials? = nil,
+            labelActionMappings: [QuickSightClientTypes.LabelActionMapping]? = nil,
+            unmappedAction: QuickSightClientTypes.DlpAction? = nil
+        ) {
+            self.credentials = credentials
+            self.labelActionMappings = labelActionMappings
+            self.unmappedAction = unmappedAction
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The provider-specific configuration for a DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public enum ProviderConfig: Swift.Sendable {
+        /// The configuration for a Microsoft Purview DLP integration.
+        case microsoftpurview(QuickSightClientTypes.MicrosoftPurviewProviderConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DlpProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case microsoftPurview
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DlpProviderType] {
+            return [
+                .microsoftPurview
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .microsoftPurview: return "MICROSOFT_PURVIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDlpSettingInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account in which to create the DLP setting.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A unique identifier for the DLP setting.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+    /// Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it at time of setting creation.
+    /// This member is required.
+    public var enabled: Swift.Bool?
+    /// A human-readable display name for the DLP setting.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    /// This member is required.
+    public var providerConfig: QuickSightClientTypes.ProviderConfig?
+    /// The behavior to apply when the DLP provider is unreachable. Valid values are ALLOW, WARN, and BLOCK.
+    /// This member is required.
+    public var providerOutageAction: QuickSightClientTypes.DlpAction?
+    /// The type of external DLP provider to use for sensitivity label classification. Currently, the only supported value is MICROSOFT_PURVIEW.
+    /// This member is required.
+    public var providerType: QuickSightClientTypes.DlpProviderType?
+    /// A list of resource tags to apply to the DLP setting. You can use tags to manage access to your Amazon Web Services resources.
+    public var tags: [QuickSightClientTypes.Tag]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil,
+        enabled: Swift.Bool? = false,
+        name: Swift.String? = nil,
+        providerConfig: QuickSightClientTypes.ProviderConfig? = nil,
+        providerOutageAction: QuickSightClientTypes.DlpAction? = nil,
+        providerType: QuickSightClientTypes.DlpProviderType? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.dlpSettingId = dlpSettingId
+        self.enabled = enabled
+        self.name = name
+        self.providerConfig = providerConfig
+        self.providerOutageAction = providerOutageAction
+        self.providerType = providerType
+        self.tags = tags
+    }
+}
+
+public struct CreateDlpSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created DLP setting.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the created DLP setting.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.dlpSettingId = dlpSettingId
+        self.requestId = requestId
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A structure that contains the permission information for one principal against one flow.
     public struct Permission: Swift.Sendable {
         /// A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner:
@@ -35190,9 +36012,22 @@ public struct CreateIngestionOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// The template configuration for a knowledge base.
+    /// The template configuration for a knowledge base. This object contains connector-specific configuration that defines how data is crawled and indexed.
     public struct KbTemplateConfiguration: Swift.Sendable {
-        /// The template document that defines the knowledge base behavior.
+        /// The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by DataSourceArn. The template must be a JSON object. The required fields vary by connector type:
+        ///
+        /// * Amazon S3 (S3V2) – Requires connectionConfiguration with bucketName. Supports filterConfiguration for inclusion and exclusion prefixes and patterns. Supports accessControlConfiguration and deletionProtectionConfiguration.
+        ///
+        /// * Google Drive (GOOGLEDRIVEV3) – Requires connectionConfiguration with authType set to SERVICE_ACCOUNT. Supports dataEntityConfiguration with crawlMyDrive, crawlSharedWithMe, and crawlSharedDrives.
+        ///
+        /// * OneDrive (ONEDRIVEV3) – Requires authType at the template root level set to TWO_LEGGED_OAUTH. Requires connectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with crawlPersonalDrives and crawlSharedWithMe.
+        ///
+        /// * SharePoint (SHAREPOINTV3) – Requires connectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with siteUrls, crawlFiles, and crawlPages.
+        ///
+        /// * Web Crawler (WEBCRAWLERV3) – Requires connectionConfiguration with seedUrls or siteMapUrls (mutually exclusive) and authType. Supports crawlConfiguration for crawl depth, rate limits, and scope. Supports filterConfiguration for file size limits and URL patterns. Valid values for authType: NO_AUTH, BASIC_AUTH, FORM, SAML.
+        ///
+        ///
+        /// The optional deletionProtectionConfiguration object is supported by all connector types. It contains enableDeletionProtection and deletionProtectionThreshold.
         public var template: Smithy.Document?
 
         public init(
@@ -35207,7 +36042,7 @@ extension QuickSightClientTypes {
 
     /// The configuration settings for a knowledge base.
     public struct KnowledgeBaseConfiguration: Swift.Sendable {
-        /// The template configuration for the knowledge base.
+        /// The template configuration that defines how the data source connector crawls and indexes data for the knowledge base. The template structure varies by connector type. See KbTemplateConfiguration for connector-specific details.
         public var templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration?
 
         public init(
@@ -35496,6 +36331,75 @@ public struct CreateKnowledgeBaseOutput: Swift.Sendable {
         self.knowledgeBaseId = knowledgeBaseId
         self.requestId = requestId
         self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A value that defines a resource usage limit, consisting of a maximum value and a unit of measurement.
+    public struct ProfileLimitValue: Swift.Sendable {
+        /// The maximum allowed value for the resource.
+        /// This member is required.
+        public var maxValue: Swift.Int?
+        /// The unit of measurement for the limit value.
+        /// This member is required.
+        public var unit: QuickSightClientTypes.LimitUnit?
+
+        public init(
+            maxValue: Swift.Int? = nil,
+            unit: QuickSightClientTypes.LimitUnit? = nil
+        ) {
+            self.maxValue = maxValue
+            self.unit = unit
+        }
+    }
+}
+
+public struct CreateLimitsProfileInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the limits profile.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// A description for the limits profile.
+    public var description: Swift.String?
+    /// A display name for the limits profile.
+    /// This member is required.
+    public var profileName: Swift.String?
+    /// A map of resource types to their limit values for this profile.
+    /// This member is required.
+    public var resourceLimits: [Swift.String: QuickSightClientTypes.ProfileLimitValue]?
+
+    public init(
+        accountId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        resourceLimits: [Swift.String: QuickSightClientTypes.ProfileLimitValue]? = nil
+    ) {
+        self.accountId = accountId
+        self.clientToken = clientToken
+        self.description = description
+        self.profileName = profileName
+        self.resourceLimits = resourceLimits
+    }
+}
+
+public struct CreateLimitsProfileOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created limits profile.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier for the created limits profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.profileId = profileId
     }
 }
 
@@ -39901,6 +40805,23 @@ public struct DeleteAnalysisOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteApprovalPolicyInput: Swift.Sendable {
+    /// The unique identifier of the approval policy to delete.
+    /// This member is required.
+    public var policyId: Swift.String?
+
+    public init(
+        policyId: Swift.String? = nil
+    ) {
+        self.policyId = policyId
+    }
+}
+
+public struct DeleteApprovalPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBrandInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
@@ -40172,6 +41093,44 @@ public struct DeleteDefaultQBusinessApplicationOutput: Swift.Sendable {
     ) {
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DeleteDlpSettingInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the DLP setting that you want to delete.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the DLP setting that you want to delete.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.dlpSettingId = dlpSettingId
+    }
+}
+
+public struct DeleteDlpSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted DLP setting.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the deleted DLP setting.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.dlpSettingId = dlpSettingId
+        self.requestId = requestId
     }
 }
 
@@ -40480,6 +41439,35 @@ public struct DeleteKnowledgeBaseOutput: Swift.Sendable {
         self.knowledgeBaseId = knowledgeBaseId
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DeleteLimitsProfileInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the limits profile.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The unique identifier for the limits profile to delete.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.profileId = profileId
+    }
+}
+
+public struct DeleteLimitsProfileOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted limits profile.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -41649,6 +42637,30 @@ public struct DescribeAnalysisPermissionsOutput: Swift.Sendable {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DescribeApprovalPolicyInput: Swift.Sendable {
+    /// The unique identifier of the approval policy to describe.
+    /// This member is required.
+    public var policyId: Swift.String?
+
+    public init(
+        policyId: Swift.String? = nil
+    ) {
+        self.policyId = policyId
+    }
+}
+
+public struct DescribeApprovalPolicyOutput: Swift.Sendable {
+    /// The approval policy.
+    /// This member is required.
+    public var policy: QuickSightClientTypes.ApprovalPolicy?
+
+    public init(
+        policy: QuickSightClientTypes.ApprovalPolicy? = nil
+    ) {
+        self.policy = policy
     }
 }
 
@@ -42864,6 +43876,124 @@ public struct DescribeDefaultQBusinessApplicationOutput: Swift.Sendable {
         self.applicationId = applicationId
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DescribeDlpSettingInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the DLP setting that you want to describe.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the DLP setting that you want to describe.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.dlpSettingId = dlpSettingId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DlpSettingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DlpSettingStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The full configuration details of a DLP setting.
+    public struct DlpSettingDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the DLP setting.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the DLP setting was created, in ISO 8601 format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the DLP setting.
+        /// This member is required.
+        public var dlpSettingId: Swift.String?
+        /// The display name of the DLP setting.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The provider-specific configuration for the DLP integration.
+        /// This member is required.
+        public var providerConfig: QuickSightClientTypes.ProviderConfig?
+        /// The behavior applied when the DLP provider is unreachable. Valid values are ALLOW, WARN, and BLOCK.
+        /// This member is required.
+        public var providerOutageAction: QuickSightClientTypes.DlpAction?
+        /// The type of external DLP provider used for sensitivity label classification.
+        /// This member is required.
+        public var providerType: QuickSightClientTypes.DlpProviderType?
+        /// The status of the DLP setting. Valid values are ACTIVE and INACTIVE.
+        /// This member is required.
+        public var status: QuickSightClientTypes.DlpSettingStatus?
+        /// The date and time that the DLP setting was most recently updated, in ISO 8601 format.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dlpSettingId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            providerConfig: QuickSightClientTypes.ProviderConfig? = nil,
+            providerOutageAction: QuickSightClientTypes.DlpAction? = nil,
+            providerType: QuickSightClientTypes.DlpProviderType? = nil,
+            status: QuickSightClientTypes.DlpSettingStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dlpSettingId = dlpSettingId
+            self.name = name
+            self.providerConfig = providerConfig
+            self.providerOutageAction = providerOutageAction
+            self.providerType = providerType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct DescribeDlpSettingOutput: Swift.Sendable {
+    /// The full configuration of the requested DLP setting, returned as a DlpSettingDetails object.
+    /// This member is required.
+    public var dlpSetting: QuickSightClientTypes.DlpSettingDetails?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        dlpSetting: QuickSightClientTypes.DlpSettingDetails? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.dlpSetting = dlpSetting
+        self.requestId = requestId
     }
 }
 
@@ -44221,6 +45351,85 @@ public struct DescribeKnowledgeBasePermissionsOutput: Swift.Sendable {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DescribeLimitsProfileInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the limits profile.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The unique identifier for the limits profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.profileId = profileId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A limits profile that defines resource usage limits for Amazon Quick Sight users. Limits profiles can be assigned to users, groups, or roles to control resource consumption.
+    public struct LimitsProfile: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that contains the limits profile.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the limits profile.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the limits profile was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the limits profile.
+        public var description: Swift.String?
+        /// The unique identifier for the limits profile.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The display name of the limits profile.
+        /// This member is required.
+        public var profileName: Swift.String?
+        /// A map of resource types to their limit values.
+        /// This member is required.
+        public var resourceLimits: [Swift.String: QuickSightClientTypes.ProfileLimitValue]?
+        /// The date and time that the limits profile was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            accountId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            profileName: Swift.String? = nil,
+            resourceLimits: [Swift.String: QuickSightClientTypes.ProfileLimitValue]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.accountId = accountId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.profileId = profileId
+            self.profileName = profileName
+            self.resourceLimits = resourceLimits
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct DescribeLimitsProfileOutput: Swift.Sendable {
+    /// The details of the requested limits profile, including its name, description, resource limits, and metadata.
+    /// This member is required.
+    public var profile: QuickSightClientTypes.LimitsProfile?
+
+    public init(
+        profile: QuickSightClientTypes.LimitsProfile? = nil
+    ) {
+        self.profile = profile
     }
 }
 
@@ -46366,6 +47575,52 @@ public struct DescribeVPCConnectionOutput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    /// A summary of a DLP setting returned by list operations.
+    public struct DlpSettingSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the DLP setting.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the DLP setting was created, in ISO 8601 format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the DLP setting.
+        /// This member is required.
+        public var dlpSettingId: Swift.String?
+        /// The display name of the DLP setting.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of external DLP provider used for sensitivity label classification.
+        /// This member is required.
+        public var providerType: QuickSightClientTypes.DlpProviderType?
+        /// The status of the DLP setting. Valid values are ACTIVE and INACTIVE.
+        /// This member is required.
+        public var status: QuickSightClientTypes.DlpSettingStatus?
+        /// The date and time that the DLP setting was most recently updated, in ISO 8601 format.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dlpSettingId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            providerType: QuickSightClientTypes.DlpProviderType? = nil,
+            status: QuickSightClientTypes.DlpSettingStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dlpSettingId = dlpSettingId
+            self.name = name
+            self.providerType = providerType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 /// The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon Quick Suite admin.
 public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -48346,6 +49601,37 @@ public struct ListAnalysesOutput: Swift.Sendable {
     }
 }
 
+public struct ListApprovalPoliciesInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. If you don't specify a value, the service returns a default number of results. Use the NextToken value in the response to retrieve additional results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListApprovalPoliciesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The list of approval policies.
+    /// This member is required.
+    public var policies: [QuickSightClientTypes.ApprovalPolicy]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        policies: [QuickSightClientTypes.ApprovalPolicy]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.policies = policies
+    }
+}
+
 public struct ListAssetBundleExportJobsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that the export jobs were executed in.
     /// This member is required.
@@ -48684,6 +49970,46 @@ public struct ListDataSourcesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct ListDlpSettingsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the DLP settings that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDlpSettingsOutput: Swift.Sendable {
+    /// A list of DlpSettingSummary objects for the DLP settings in the account. The list is empty if no DLP settings have been configured.
+    /// This member is required.
+    public var dlpSettingSummaries: [QuickSightClientTypes.DlpSettingSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        dlpSettingSummaries: [QuickSightClientTypes.DlpSettingSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.dlpSettingSummaries = dlpSettingSummaries
+        self.nextToken = nextToken
+        self.requestId = requestId
     }
 }
 
@@ -49207,6 +50533,46 @@ public struct ListKnowledgeBasesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct ListLimitsProfilesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the limits profiles.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The maximum number of results to return in a single call. If you don't specify a value, the service uses the default maximum.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// An optional filter that limits the results to profiles that contain the specified resource type. If you don't specify a value, the operation returns all profiles.
+    public var resourceType: QuickSightClientTypes.ResourceType?
+
+    public init(
+        accountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: QuickSightClientTypes.ResourceType? = nil
+    ) {
+        self.accountId = accountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+    }
+}
+
+public struct ListLimitsProfilesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// A list of limits profiles.
+    /// This member is required.
+    public var profiles: [QuickSightClientTypes.LimitsProfile]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        profiles: [QuickSightClientTypes.LimitsProfile]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.profiles = profiles
     }
 }
 
@@ -53013,6 +54379,54 @@ public struct UpdateApplicationWithTokenExchangeGrantOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateApprovalPolicyInput: Swift.Sendable {
+    /// The list of governed actions that trigger the approval workflow.
+    public var actions: [QuickSightClientTypes.GovernedAction]?
+    /// The scoping configuration that determines who the approval policy applies to.
+    public var applicableTo: QuickSightClientTypes.ApplicableTo?
+    /// The list of group ARNs whose members can approve requests.
+    public var approvalGroups: [Swift.String]?
+    /// The list of asset types that the approval policy applies to.
+    public var assetTypes: [QuickSightClientTypes.AssetType]?
+    /// A description of the approval policy.
+    public var description: Swift.String?
+    /// The name of the approval policy.
+    public var name: Swift.String?
+    /// The unique identifier of the approval policy to update.
+    /// This member is required.
+    public var policyId: Swift.String?
+
+    public init(
+        actions: [QuickSightClientTypes.GovernedAction]? = nil,
+        applicableTo: QuickSightClientTypes.ApplicableTo? = nil,
+        approvalGroups: [Swift.String]? = nil,
+        assetTypes: [QuickSightClientTypes.AssetType]? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policyId: Swift.String? = nil
+    ) {
+        self.actions = actions
+        self.applicableTo = applicableTo
+        self.approvalGroups = approvalGroups
+        self.assetTypes = assetTypes
+        self.description = description
+        self.name = name
+        self.policyId = policyId
+    }
+}
+
+public struct UpdateApprovalPolicyOutput: Swift.Sendable {
+    /// The updated approval policy.
+    /// This member is required.
+    public var policy: QuickSightClientTypes.ApprovalPolicy?
+
+    public init(
+        policy: QuickSightClientTypes.ApprovalPolicy? = nil
+    ) {
+        self.policy = policy
+    }
+}
+
 public struct UpdateBrandInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
@@ -53761,6 +55175,64 @@ public struct UpdateDefaultQBusinessApplicationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateDlpSettingInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the DLP setting that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the DLP setting that you want to update.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+    /// Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it.
+    public var enabled: Swift.Bool?
+    /// An updated display name for the DLP setting.
+    public var name: Swift.String?
+    /// An updated provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public var providerConfig: QuickSightClientTypes.ProviderConfig?
+    /// An updated behavior to apply when the DLP provider is unreachable. Valid values are ALLOW, WARN, and BLOCK.
+    public var providerOutageAction: QuickSightClientTypes.DlpAction?
+    /// An updated DLP provider type. Currently, the only supported value is MICROSOFT_PURVIEW.
+    public var providerType: QuickSightClientTypes.DlpProviderType?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil,
+        enabled: Swift.Bool? = nil,
+        name: Swift.String? = nil,
+        providerConfig: QuickSightClientTypes.ProviderConfig? = nil,
+        providerOutageAction: QuickSightClientTypes.DlpAction? = nil,
+        providerType: QuickSightClientTypes.DlpProviderType? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.dlpSettingId = dlpSettingId
+        self.enabled = enabled
+        self.name = name
+        self.providerConfig = providerConfig
+        self.providerOutageAction = providerOutageAction
+        self.providerType = providerType
+    }
+}
+
+public struct UpdateDlpSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated DLP setting.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the updated DLP setting.
+    /// This member is required.
+    public var dlpSettingId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        dlpSettingId: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.dlpSettingId = dlpSettingId
+        self.requestId = requestId
+    }
+}
+
 public struct UpdateFlowInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the flow that you are updating.
     /// This member is required.
@@ -54365,6 +55837,47 @@ public struct UpdateKnowledgeBasePermissionsOutput: Swift.Sendable {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct UpdateLimitsProfileInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the limits profile.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// A new description for the limits profile.
+    public var description: Swift.String?
+    /// The unique identifier for the limits profile to update.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// A new display name for the limits profile.
+    public var profileName: Swift.String?
+    /// A map of resource types to their updated limit values.
+    public var resourceLimits: [Swift.String: QuickSightClientTypes.ProfileLimitValue]?
+
+    public init(
+        accountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        profileName: Swift.String? = nil,
+        resourceLimits: [Swift.String: QuickSightClientTypes.ProfileLimitValue]? = nil
+    ) {
+        self.accountId = accountId
+        self.description = description
+        self.profileId = profileId
+        self.profileName = profileName
+        self.resourceLimits = resourceLimits
+    }
+}
+
+public struct UpdateLimitsProfileOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated limits profile.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -56001,6 +57514,16 @@ extension BatchDeleteTopicReviewedAnswerInput {
     }
 }
 
+extension BatchDescribeUserLimitsInput {
+
+    static func urlPathProvider(_ value: BatchDescribeUserLimitsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
+            return nil
+        }
+        return "/governance/limits/accounts/\(accountId.urlPercentEncoding())/user-limits"
+    }
+}
+
 extension CancelIngestionInput {
 
     static func urlPathProvider(_ value: CancelIngestionInput) -> Swift.String? {
@@ -56082,6 +57605,13 @@ extension CreateAnalysisInput {
     }
 }
 
+extension CreateApprovalPolicyInput {
+
+    static func urlPathProvider(_ value: CreateApprovalPolicyInput) -> Swift.String? {
+        return "/governance/approvalworkflows/policies"
+    }
+}
+
 extension CreateBrandInput {
 
     static func urlPathProvider(_ value: CreateBrandInput) -> Swift.String? {
@@ -56135,6 +57665,19 @@ extension CreateDataSourceInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources"
+    }
+}
+
+extension CreateDlpSettingInput {
+
+    static func urlPathProvider(_ value: CreateDlpSettingInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let dlpSettingId = value.dlpSettingId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-loss-prevention/settings/\(dlpSettingId.urlPercentEncoding())"
     }
 }
 
@@ -56248,6 +57791,16 @@ extension CreateKnowledgeBaseInput {
             return nil
         }
         return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases"
+    }
+}
+
+extension CreateLimitsProfileInput {
+
+    static func urlPathProvider(_ value: CreateLimitsProfileInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
+            return nil
+        }
+        return "/governance/limits/accounts/\(accountId.urlPercentEncoding())/profiles"
     }
 }
 
@@ -56511,6 +58064,16 @@ extension DeleteAnalysisInput {
     }
 }
 
+extension DeleteApprovalPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteApprovalPolicyInput) -> Swift.String? {
+        guard let policyId = value.policyId else {
+            return nil
+        }
+        return "/governance/approvalworkflows/policies/\(policyId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteBrandInput {
 
     static func urlPathProvider(_ value: DeleteBrandInput) -> Swift.String? {
@@ -56633,6 +58196,19 @@ extension DeleteDefaultQBusinessApplicationInput {
     }
 }
 
+extension DeleteDlpSettingInput {
+
+    static func urlPathProvider(_ value: DeleteDlpSettingInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let dlpSettingId = value.dlpSettingId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-loss-prevention/settings/\(dlpSettingId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteFlowInput {
 
     static func urlPathProvider(_ value: DeleteFlowInput) -> Swift.String? {
@@ -56752,6 +58328,19 @@ extension DeleteKnowledgeBaseInput {
             return nil
         }
         return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteLimitsProfileInput {
+
+    static func urlPathProvider(_ value: DeleteLimitsProfileInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
+            return nil
+        }
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/governance/limits/accounts/\(accountId.urlPercentEncoding())/profiles/\(profileId.urlPercentEncoding())"
     }
 }
 
@@ -57177,6 +58766,16 @@ extension DescribeAnalysisPermissionsInput {
     }
 }
 
+extension DescribeApprovalPolicyInput {
+
+    static func urlPathProvider(_ value: DescribeApprovalPolicyInput) -> Swift.String? {
+        guard let policyId = value.policyId else {
+            return nil
+        }
+        return "/governance/approvalworkflows/policies/\(policyId.urlPercentEncoding())"
+    }
+}
+
 extension DescribeAssetBundleExportJobInput {
 
     static func urlPathProvider(_ value: DescribeAssetBundleExportJobInput) -> Swift.String? {
@@ -57499,6 +59098,19 @@ extension DescribeDefaultQBusinessApplicationInput {
     }
 }
 
+extension DescribeDlpSettingInput {
+
+    static func urlPathProvider(_ value: DescribeDlpSettingInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let dlpSettingId = value.dlpSettingId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-loss-prevention/settings/\(dlpSettingId.urlPercentEncoding())"
+    }
+}
+
 extension DescribeFlowInput {
 
     static func urlPathProvider(_ value: DescribeFlowInput) -> Swift.String? {
@@ -57727,6 +59339,19 @@ extension DescribeKnowledgeBasePermissionsInput {
             return nil
         }
         return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension DescribeLimitsProfileInput {
+
+    static func urlPathProvider(_ value: DescribeLimitsProfileInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
+            return nil
+        }
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/governance/limits/accounts/\(accountId.urlPercentEncoding())/profiles/\(profileId.urlPercentEncoding())"
     }
 }
 
@@ -58348,6 +59973,29 @@ extension ListAnalysesInput {
     }
 }
 
+extension ListApprovalPoliciesInput {
+
+    static func urlPathProvider(_ value: ListApprovalPoliciesInput) -> Swift.String? {
+        return "/governance/approvalworkflows/policies"
+    }
+}
+
+extension ListApprovalPoliciesInput {
+
+    static func queryItemProvider(_ value: ListApprovalPoliciesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListAssetBundleExportJobsInput {
 
     static func urlPathProvider(_ value: ListAssetBundleExportJobsInput) -> Swift.String? {
@@ -58546,6 +60194,32 @@ extension ListDataSourcesInput {
 extension ListDataSourcesInput {
 
     static func queryItemProvider(_ value: ListDataSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDlpSettingsInput {
+
+    static func urlPathProvider(_ value: ListDlpSettingsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-loss-prevention/settings"
+    }
+}
+
+extension ListDlpSettingsInput {
+
+    static func queryItemProvider(_ value: ListDlpSettingsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -58871,6 +60545,36 @@ extension ListKnowledgeBasesInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListLimitsProfilesInput {
+
+    static func urlPathProvider(_ value: ListLimitsProfilesInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
+            return nil
+        }
+        return "/governance/limits/accounts/\(accountId.urlPercentEncoding())/profiles"
+    }
+}
+
+extension ListLimitsProfilesInput {
+
+    static func queryItemProvider(_ value: ListLimitsProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
         }
         return items
     }
@@ -59885,6 +61589,16 @@ extension UpdateApplicationWithTokenExchangeGrantInput {
     }
 }
 
+extension UpdateApprovalPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateApprovalPolicyInput) -> Swift.String? {
+        guard let policyId = value.policyId else {
+            return nil
+        }
+        return "/governance/approvalworkflows/policies/\(policyId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateBrandInput {
 
     static func urlPathProvider(_ value: UpdateBrandInput) -> Swift.String? {
@@ -60073,6 +61787,19 @@ extension UpdateDefaultQBusinessApplicationInput {
     }
 }
 
+extension UpdateDlpSettingInput {
+
+    static func urlPathProvider(_ value: UpdateDlpSettingInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let dlpSettingId = value.dlpSettingId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-loss-prevention/settings/\(dlpSettingId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateFlowInput {
 
     static func urlPathProvider(_ value: UpdateFlowInput) -> Swift.String? {
@@ -60213,6 +61940,19 @@ extension UpdateKnowledgeBasePermissionsInput {
             return nil
         }
         return "/v1/accounts/\(awsAccountId.urlPercentEncoding())/knowledge-bases/\(knowledgeBaseId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension UpdateLimitsProfileInput {
+
+    static func urlPathProvider(_ value: UpdateLimitsProfileInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
+            return nil
+        }
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/governance/limits/accounts/\(accountId.urlPercentEncoding())/profiles/\(profileId.urlPercentEncoding())"
     }
 }
 
@@ -60584,6 +62324,15 @@ extension BatchDeleteTopicReviewedAnswerInput {
     }
 }
 
+extension BatchDescribeUserLimitsInput {
+
+    static func write(value: BatchDescribeUserLimitsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["users"].writeList(value.users, memberWritingClosure: QuickSightClientTypes.UserLimitsEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateAccountCustomizationInput {
 
     static func write(value: CreateAccountCustomizationInput?, to writer: SmithyJSON.Writer) throws {
@@ -60663,6 +62412,20 @@ extension CreateAnalysisInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThemeArn"].write(value.themeArn)
         try writer["ValidationStrategy"].write(value.validationStrategy, with: QuickSightClientTypes.ValidationStrategy.write(value:to:))
+    }
+}
+
+extension CreateApprovalPolicyInput {
+
+    static func write(value: CreateApprovalPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.GovernedAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ApplicableTo"].write(value.applicableTo, with: QuickSightClientTypes.ApplicableTo.write(value:to:))
+        try writer["ApprovalGroups"].writeList(value.approvalGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AssetTypes"].writeList(value.assetTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.AssetType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["PolicyId"].write(value.policyId)
     }
 }
 
@@ -60749,6 +62512,19 @@ extension CreateDataSourceInput {
     }
 }
 
+extension CreateDlpSettingInput {
+
+    static func write(value: CreateDlpSettingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["Name"].write(value.name)
+        try writer["ProviderConfig"].write(value.providerConfig, with: QuickSightClientTypes.ProviderConfig.write(value:to:))
+        try writer["ProviderOutageAction"].write(value.providerOutageAction)
+        try writer["ProviderType"].write(value.providerType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateFlowInput {
 
     static func write(value: CreateFlowInput?, to writer: SmithyJSON.Writer) throws {
@@ -60816,6 +62592,17 @@ extension CreateKnowledgeBaseInput {
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PrimaryOwnerArn"].write(value.primaryOwnerArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateLimitsProfileInput {
+
+    static func write(value: CreateLimitsProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["profileName"].write(value.profileName)
+        try writer["resourceLimits"].writeMap(value.resourceLimits, valueWritingClosure: QuickSightClientTypes.ProfileLimitValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -61327,6 +63114,19 @@ extension UpdateAnalysisPermissionsInput {
     }
 }
 
+extension UpdateApprovalPolicyInput {
+
+    static func write(value: UpdateApprovalPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.GovernedAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ApplicableTo"].write(value.applicableTo, with: QuickSightClientTypes.ApplicableTo.write(value:to:))
+        try writer["ApprovalGroups"].writeList(value.approvalGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AssetTypes"].writeList(value.assetTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.AssetType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateBrandInput {
 
     static func write(value: UpdateBrandInput?, to writer: SmithyJSON.Writer) throws {
@@ -61461,6 +63261,18 @@ extension UpdateDefaultQBusinessApplicationInput {
     }
 }
 
+extension UpdateDlpSettingInput {
+
+    static func write(value: UpdateDlpSettingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["Name"].write(value.name)
+        try writer["ProviderConfig"].write(value.providerConfig, with: QuickSightClientTypes.ProviderConfig.write(value:to:))
+        try writer["ProviderOutageAction"].write(value.providerOutageAction)
+        try writer["ProviderType"].write(value.providerType)
+    }
+}
+
 extension UpdateFlowInput {
 
     static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
@@ -61562,6 +63374,16 @@ extension UpdateKnowledgeBasePermissionsInput {
         guard let value else { return }
         try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateLimitsProfileInput {
+
+    static func write(value: UpdateLimitsProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["profileName"].write(value.profileName)
+        try writer["resourceLimits"].writeMap(value.resourceLimits, valueWritingClosure: QuickSightClientTypes.ProfileLimitValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -61857,6 +63679,19 @@ extension BatchDeleteTopicReviewedAnswerOutput {
     }
 }
 
+extension BatchDescribeUserLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDescribeUserLimitsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDescribeUserLimitsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BatchDescribeUserLimitsError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.userLimits = try reader["userLimits"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.UserLimits.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CancelIngestionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelIngestionOutput {
@@ -61951,6 +63786,18 @@ extension CreateAnalysisOutput {
     }
 }
 
+extension CreateApprovalPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApprovalPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateApprovalPolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent(with: QuickSightClientTypes.ApprovalPolicy.read(from:))
+        return value
+    }
+}
+
 extension CreateBrandOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBrandOutput {
@@ -62025,6 +63872,20 @@ extension CreateDataSourceOutput {
         value.dataSourceId = try reader["DataSourceId"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateDlpSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDlpSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDlpSettingOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.dlpSettingId = try reader["DlpSettingId"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -62147,6 +64008,19 @@ extension CreateKnowledgeBaseOutput {
         value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateLimitsProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLimitsProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLimitsProfileOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -62435,6 +64309,13 @@ extension DeleteAnalysisOutput {
     }
 }
 
+extension DeleteApprovalPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApprovalPolicyOutput {
+        return DeleteApprovalPolicyOutput()
+    }
+}
+
 extension DeleteBrandOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBrandOutput {
@@ -62544,6 +64425,20 @@ extension DeleteDefaultQBusinessApplicationOutput {
     }
 }
 
+extension DeleteDlpSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDlpSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDlpSettingOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.dlpSettingId = try reader["DlpSettingId"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFlowOutput {
@@ -62649,6 +64544,18 @@ extension DeleteKnowledgeBaseOutput {
         value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteLimitsProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLimitsProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteLimitsProfileOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -63066,6 +64973,18 @@ extension DescribeAnalysisPermissionsOutput {
     }
 }
 
+extension DescribeApprovalPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeApprovalPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeApprovalPolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent(with: QuickSightClientTypes.ApprovalPolicy.read(from:))
+        return value
+    }
+}
+
 extension DescribeAssetBundleExportJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAssetBundleExportJobOutput {
@@ -63391,6 +65310,19 @@ extension DescribeDefaultQBusinessApplicationOutput {
     }
 }
 
+extension DescribeDlpSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDlpSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDlpSettingOutput()
+        value.dlpSetting = try reader["DlpSetting"].readIfPresent(with: QuickSightClientTypes.DlpSettingDetails.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFlowOutput {
@@ -63569,6 +65501,18 @@ extension DescribeKnowledgeBasePermissionsOutput {
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeLimitsProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeLimitsProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeLimitsProfileOutput()
+        value.profile = try reader["profile"].readIfPresent(with: QuickSightClientTypes.LimitsProfile.read(from:))
         return value
     }
 }
@@ -64102,6 +66046,19 @@ extension ListAnalysesOutput {
     }
 }
 
+extension ListApprovalPoliciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApprovalPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListApprovalPoliciesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ApprovalPolicy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListAssetBundleExportJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetBundleExportJobsOutput {
@@ -64216,6 +66173,20 @@ extension ListDataSourcesOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListDlpSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDlpSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDlpSettingsOutput()
+        value.dlpSettingSummaries = try reader["DlpSettingSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DlpSettingSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -64381,6 +66352,19 @@ extension ListKnowledgeBasesOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListLimitsProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLimitsProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLimitsProfilesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.profiles = try reader["profiles"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.LimitsProfile.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -65222,6 +67206,18 @@ extension UpdateApplicationWithTokenExchangeGrantOutput {
     }
 }
 
+extension UpdateApprovalPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApprovalPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateApprovalPolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent(with: QuickSightClientTypes.ApprovalPolicy.read(from:))
+        return value
+    }
+}
+
 extension UpdateBrandOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBrandOutput {
@@ -65430,6 +67426,20 @@ extension UpdateDefaultQBusinessApplicationOutput {
     }
 }
 
+extension UpdateDlpSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDlpSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDlpSettingOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.dlpSettingId = try reader["DlpSettingId"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFlowOutput {
@@ -65592,6 +67602,18 @@ extension UpdateKnowledgeBasePermissionsOutput {
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateLimitsProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLimitsProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLimitsProfileOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -66039,6 +68061,23 @@ enum BatchDeleteTopicReviewedAnswerOutputError {
     }
 }
 
+enum BatchDescribeUserLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CancelIngestionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -66162,6 +68201,26 @@ enum CreateAnalysisOutputError {
     }
 }
 
+enum CreateApprovalPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateBrandOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -66264,6 +68323,26 @@ enum CreateDataSourceOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDlpSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -66432,6 +68511,25 @@ enum CreateKnowledgeBaseOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateLimitsProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -66827,6 +68925,24 @@ enum DeleteAnalysisOutputError {
     }
 }
 
+enum DeleteApprovalPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteBrandOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -66973,6 +69089,24 @@ enum DeleteDefaultQBusinessApplicationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDlpSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -67132,6 +69266,25 @@ enum DeleteKnowledgeBaseOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteLimitsProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -67679,6 +69832,24 @@ enum DescribeAnalysisPermissionsOutputError {
     }
 }
 
+enum DescribeApprovalPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAssetBundleExportJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68031,6 +70202,24 @@ enum DescribeDefaultQBusinessApplicationOutputError {
     }
 }
 
+enum DescribeDlpSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68256,6 +70445,24 @@ enum DescribeKnowledgeBasePermissionsOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeLimitsProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -68940,6 +71147,24 @@ enum ListAnalysesOutputError {
     }
 }
 
+enum ListApprovalPoliciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAssetBundleExportJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -69079,6 +71304,23 @@ enum ListDataSourcesOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDlpSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -69294,6 +71536,23 @@ enum ListKnowledgeBasesOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListLimitsProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -70394,6 +72653,25 @@ enum UpdateApplicationWithTokenExchangeGrantOutputError {
     }
 }
 
+enum UpdateApprovalPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateBrandOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -70669,6 +72947,25 @@ enum UpdateDefaultQBusinessApplicationOutputError {
     }
 }
 
+enum UpdateDlpSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -70878,6 +73175,25 @@ enum UpdateKnowledgeBasePermissionsOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLimitsProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -72405,6 +74721,23 @@ extension QuickSightClientTypes.AppendOperation {
     }
 }
 
+extension QuickSightClientTypes.ApplicableTo {
+
+    static func write(value: QuickSightClientTypes.ApplicableTo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupArns"].writeList(value.groupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ApplicableTo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ApplicableTo()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.groupArns = try reader["GroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension QuickSightClientTypes.ApplicationTheme {
 
     static func write(value: QuickSightClientTypes.ApplicationTheme?, to writer: SmithyJSON.Writer) throws {
@@ -72420,6 +74753,25 @@ extension QuickSightClientTypes.ApplicationTheme {
         value.brandColorPalette = try reader["BrandColorPalette"].readIfPresent(with: QuickSightClientTypes.BrandColorPalette.read(from:))
         value.contextualAccentPalette = try reader["ContextualAccentPalette"].readIfPresent(with: QuickSightClientTypes.ContextualAccentPalette.read(from:))
         value.brandElementStyle = try reader["BrandElementStyle"].readIfPresent(with: QuickSightClientTypes.BrandElementStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ApprovalPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ApprovalPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ApprovalPolicy()
+        value.policyId = try reader["PolicyId"].readIfPresent() ?? ""
+        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.GovernedAction>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.assetTypes = try reader["AssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.applicableTo = try reader["ApplicableTo"].readIfPresent(with: QuickSightClientTypes.ApplicableTo.read(from:))
+        value.approvalGroups = try reader["ApprovalGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -72502,6 +74854,7 @@ extension QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfigu
         try writer["RefreshSchedules"].writeList(value.refreshSchedules, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobRefreshScheduleOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceIdOverrideConfiguration"].write(value.resourceIdOverrideConfiguration, with: QuickSightClientTypes.AssetBundleExportJobResourceIdOverrideConfiguration.write(value:to:))
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicsV2"].writeList(value.topicsV2, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCConnections"].writeList(value.vpcConnections, memberWritingClosure: QuickSightClientTypes.AssetBundleExportJobVPCConnectionOverrideProperties.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -72517,6 +74870,7 @@ extension QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfigu
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobAnalysisOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobDashboardOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobFolderOverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsV2 = try reader["TopicsV2"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -72680,6 +75034,23 @@ extension QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties {
         var value = QuickSightClientTypes.AssetBundleExportJobThemeOverrideProperties()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobThemePropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties {
+
+    static func write(value: QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Properties"].writeList(value.properties, memberWritingClosure: SmithyReadWrite.WritingClosureBox<QuickSightClientTypes.AssetBundleExportJobTopicV2PropertyToOverride>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleExportJobTopicV2OverrideProperties()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QuickSightClientTypes.AssetBundleExportJobTopicV2PropertyToOverride>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -73054,6 +75425,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideParameters {
         try writer["RefreshSchedules"].writeList(value.refreshSchedules, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobRefreshScheduleOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceIdOverrideConfiguration"].write(value.resourceIdOverrideConfiguration, with: QuickSightClientTypes.AssetBundleImportJobResourceIdOverrideConfiguration.write(value:to:))
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicsV2"].writeList(value.topicsV2, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCConnections"].writeList(value.vpcConnections, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -73069,6 +75441,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideParameters {
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsV2 = try reader["TopicsV2"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -73083,6 +75456,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverridePermissions {
         try writer["DataSources"].writeList(value.dataSources, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Folders"].writeList(value.folders, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicsV2"].writeList(value.topicsV2, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobOverridePermissions {
@@ -73094,6 +75468,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverridePermissions {
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsV2 = try reader["TopicsV2"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -73108,6 +75483,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideTags {
         try writer["DataSources"].writeList(value.dataSources, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Folders"].writeList(value.folders, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Themes"].writeList(value.themes, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicsV2"].writeList(value.topicsV2, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCConnections"].writeList(value.vpcConnections, memberWritingClosure: QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -73121,6 +75497,7 @@ extension QuickSightClientTypes.AssetBundleImportJobOverrideTags {
         value.analyses = try reader["Analyses"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobFolderOverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsV2 = try reader["TopicsV2"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -73234,6 +75611,59 @@ extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags()
         value.themeIds = try reader["ThemeIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters {
+
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["TopicId"].write(value.topicId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideParameters()
+        value.topicId = try reader["TopicId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions {
+
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Permissions"].write(value.permissions, with: QuickSightClientTypes.AssetBundleResourcePermissions.write(value:to:))
+        try writer["TopicIds"].writeList(value.topicIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleImportJobTopicV2OverridePermissions()
+        value.topicIds = try reader["TopicIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.permissions = try reader["Permissions"].readIfPresent(with: QuickSightClientTypes.AssetBundleResourcePermissions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags {
+
+    static func write(value: QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TopicIds"].writeList(value.topicIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AssetBundleImportJobTopicV2OverrideTags()
+        value.topicIds = try reader["TopicIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -73963,6 +76393,20 @@ extension QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess {
         var value = QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess()
         value.knowledgeBaseId = try reader["KnowledgeBaseId"].readIfPresent() ?? ""
         value.knowledgeBaseArn = try reader["KnowledgeBaseArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BatchDescribeUserLimitsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BatchDescribeUserLimitsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BatchDescribeUserLimitsError()
+        value.userName = try reader["userName"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.userArn = try reader["userArn"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -78951,6 +81395,40 @@ extension QuickSightClientTypes.DisplayFormatOptions {
     }
 }
 
+extension QuickSightClientTypes.DlpSettingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DlpSettingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DlpSettingDetails()
+        value.dlpSettingId = try reader["DlpSettingId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.providerType = try reader["ProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.providerConfig = try reader["ProviderConfig"].readIfPresent(with: QuickSightClientTypes.ProviderConfig.read(from:))
+        value.providerOutageAction = try reader["ProviderOutageAction"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DlpSettingSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DlpSettingSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DlpSettingSummary()
+        value.dlpSettingId = try reader["DlpSettingId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.providerType = try reader["ProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension QuickSightClientTypes.DonutCenterOptions {
 
     static func write(value: QuickSightClientTypes.DonutCenterOptions?, to writer: SmithyJSON.Writer) throws {
@@ -79036,6 +81514,20 @@ extension QuickSightClientTypes.DynamicDefaultValue {
         value.userNameColumn = try reader["UserNameColumn"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.groupNameColumn = try reader["GroupNameColumn"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.defaultValueColumn = try reader["DefaultValueColumn"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.EffectiveLimit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.EffectiveLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.EffectiveLimit()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.limitValue = try reader["limitValue"].readIfPresent() ?? 0
+        value.limitUnit = try reader["limitUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -83140,6 +85632,25 @@ extension QuickSightClientTypes.KPIVisualStandardLayout {
     }
 }
 
+extension QuickSightClientTypes.LabelActionMapping {
+
+    static func write(value: QuickSightClientTypes.LabelActionMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["LabelId"].write(value.labelId)
+        try writer["LabelName"].write(value.labelName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LabelActionMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LabelActionMapping()
+        value.labelId = try reader["LabelId"].readIfPresent() ?? ""
+        value.labelName = try reader["LabelName"].readIfPresent() ?? ""
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension QuickSightClientTypes.LabelOptions {
 
     static func write(value: QuickSightClientTypes.LabelOptions?, to writer: SmithyJSON.Writer) throws {
@@ -83285,6 +85796,23 @@ extension QuickSightClientTypes.LegendOptions {
         value.width = try reader["Width"].readIfPresent()
         value.height = try reader["Height"].readIfPresent()
         value.valueFontConfiguration = try reader["ValueFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LimitsProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LimitsProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LimitsProfile()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.profileName = try reader["profileName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.resourceLimits = try reader["resourceLimits"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.ProfileLimitValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -83931,6 +86459,40 @@ extension QuickSightClientTypes.MetricComparisonComputation {
         value.time = try reader["Time"].readIfPresent(with: QuickSightClientTypes.DimensionField.read(from:))
         value.fromValue = try reader["FromValue"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
         value.targetValue = try reader["TargetValue"].readIfPresent(with: QuickSightClientTypes.MeasureField.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.MicrosoftPurviewCredentials {
+
+    static func write(value: QuickSightClientTypes.MicrosoftPurviewCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MicrosoftPurviewCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.MicrosoftPurviewCredentials()
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.MicrosoftPurviewProviderConfig {
+
+    static func write(value: QuickSightClientTypes.MicrosoftPurviewProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Credentials"].write(value.credentials, with: QuickSightClientTypes.MicrosoftPurviewCredentials.write(value:to:))
+        try writer["LabelActionMappings"].writeList(value.labelActionMappings, memberWritingClosure: QuickSightClientTypes.LabelActionMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UnmappedAction"].write(value.unmappedAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MicrosoftPurviewProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.MicrosoftPurviewProviderConfig()
+        value.credentials = try reader["Credentials"].readIfPresent(with: QuickSightClientTypes.MicrosoftPurviewCredentials.read(from:))
+        value.labelActionMappings = try reader["LabelActionMappings"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.LabelActionMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unmappedAction = try reader["UnmappedAction"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -85969,6 +88531,23 @@ extension QuickSightClientTypes.PrestoParameters {
     }
 }
 
+extension QuickSightClientTypes.ProfileLimitValue {
+
+    static func write(value: QuickSightClientTypes.ProfileLimitValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxValue"].write(value.maxValue)
+        try writer["unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ProfileLimitValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ProfileLimitValue()
+        value.maxValue = try reader["maxValue"].readIfPresent() ?? 0
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension QuickSightClientTypes.ProgressBarOptions {
 
     static func write(value: QuickSightClientTypes.ProgressBarOptions?, to writer: SmithyJSON.Writer) throws {
@@ -86000,6 +88579,30 @@ extension QuickSightClientTypes.ProjectOperation {
         value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
         value.projectedColumns = try reader["ProjectedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension QuickSightClientTypes.ProviderConfig {
+
+    static func write(value: QuickSightClientTypes.ProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .microsoftpurview(microsoftpurview):
+                try writer["MicrosoftPurview"].write(microsoftpurview, with: QuickSightClientTypes.MicrosoftPurviewProviderConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "MicrosoftPurview":
+                return .microsoftpurview(try reader["MicrosoftPurview"].read(with: QuickSightClientTypes.MicrosoftPurviewProviderConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -91973,6 +94576,27 @@ extension QuickSightClientTypes.UserIndexCapacityFilter {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension QuickSightClientTypes.UserLimits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UserLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UserLimits()
+        value.userName = try reader["userName"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.effectiveLimits = try reader["effectiveLimits"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.EffectiveLimit.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UserLimitsEntry {
+
+    static func write(value: QuickSightClientTypes.UserLimitsEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespace"].write(value.namespace)
+        try writer["userName"].write(value.userName)
     }
 }
 

@@ -5700,6 +5700,55 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum FabricLatencyMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case balanced
+        case lowLatency
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FabricLatencyMode] {
+            return [
+                .balanced,
+                .lowLatency
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .balanced: return "BALANCED"
+            case .lowLatency: return "LOW_LATENCY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The fabric configuration settings for the router output.
+    public struct FabricConfiguration: Swift.Sendable {
+        /// The recovery latency mode for the router fabric connection. Valid values include the following:
+        ///
+        /// * BALANCED (default) – Optimizes for stream quality.
+        ///
+        /// * LOW_LATENCY – Reduces latency at the potential cost of stream quality under adverse network conditions.
+        /// This member is required.
+        public var recoveryLatencyMode: MediaConnectClientTypes.FabricLatencyMode?
+
+        public init(
+            recoveryLatencyMode: MediaConnectClientTypes.FabricLatencyMode? = nil
+        ) {
+            self.recoveryLatencyMode = recoveryLatencyMode
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// A message associated with a router output.
     public struct RouterOutputMessage: Swift.Sendable {
         /// The code associated with the router output message.
@@ -5931,6 +5980,9 @@ extension MediaConnectClientTypes {
         /// The timestamp when the router output was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The fabric configuration settings for the router output.
+        /// This member is required.
+        public var fabricConfiguration: MediaConnectClientTypes.FabricConfiguration?
         /// The unique identifier of the router output.
         /// This member is required.
         public var id: Swift.String?
@@ -5990,6 +6042,7 @@ extension MediaConnectClientTypes {
             availabilityZone: Swift.String? = nil,
             configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
+            fabricConfiguration: MediaConnectClientTypes.FabricConfiguration? = nil,
             id: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
@@ -6014,6 +6067,7 @@ extension MediaConnectClientTypes {
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.createdAt = createdAt
+            self.fabricConfiguration = fabricConfiguration
             self.id = id
             self.ipAddress = ipAddress
             self.maintenanceConfiguration = maintenanceConfiguration
@@ -7487,6 +7541,8 @@ public struct CreateRouterOutputInput: Swift.Sendable {
     /// The configuration settings for the router output.
     /// This member is required.
     public var configuration: MediaConnectClientTypes.RouterOutputConfiguration?
+    /// The fabric configuration settings for the router output.
+    public var fabricConfiguration: MediaConnectClientTypes.FabricConfiguration?
     /// The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
     public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
     /// The maximum bitrate for the router output.
@@ -7510,6 +7566,7 @@ public struct CreateRouterOutputInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
+        fabricConfiguration: MediaConnectClientTypes.FabricConfiguration? = nil,
         maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
         maximumBitrate: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -7521,6 +7578,7 @@ public struct CreateRouterOutputInput: Swift.Sendable {
         self.availabilityZone = availabilityZone
         self.clientToken = clientToken
         self.configuration = configuration
+        self.fabricConfiguration = fabricConfiguration
         self.maintenanceConfiguration = maintenanceConfiguration
         self.maximumBitrate = maximumBitrate
         self.name = name
@@ -10073,6 +10131,8 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The updated configuration settings for the router output. Changing the type of the configuration is not supported.
     public var configuration: MediaConnectClientTypes.RouterOutputConfiguration?
+    /// The updated fabric configuration settings for the router output. You cannot update the fabric configuration while the output has an active route. You must unroute the output before updating the fabric configuration.
+    public var fabricConfiguration: MediaConnectClientTypes.FabricConfiguration?
     /// The updated maintenance configuration settings for the router output, including any changes to preferred maintenance windows and schedules.
     public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
     /// The updated maximum bitrate for the router output.
@@ -10087,6 +10147,7 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
+        fabricConfiguration: MediaConnectClientTypes.FabricConfiguration? = nil,
         maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
         maximumBitrate: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -10095,6 +10156,7 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
     ) {
         self.arn = arn
         self.configuration = configuration
+        self.fabricConfiguration = fabricConfiguration
         self.maintenanceConfiguration = maintenanceConfiguration
         self.maximumBitrate = maximumBitrate
         self.name = name
@@ -11377,6 +11439,7 @@ extension CreateRouterOutputInput {
         try writer["availabilityZone"].write(value.availabilityZone)
         try writer["clientToken"].write(value.clientToken)
         try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterOutputConfiguration.write(value:to:))
+        try writer["fabricConfiguration"].write(value.fabricConfiguration, with: MediaConnectClientTypes.FabricConfiguration.write(value:to:))
         try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
         try writer["maximumBitrate"].write(value.maximumBitrate)
         try writer["name"].write(value.name)
@@ -11616,6 +11679,7 @@ extension UpdateRouterOutputInput {
     static func write(value: UpdateRouterOutputInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterOutputConfiguration.write(value:to:))
+        try writer["fabricConfiguration"].write(value.fabricConfiguration, with: MediaConnectClientTypes.FabricConfiguration.write(value:to:))
         try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
         try writer["maximumBitrate"].write(value.maximumBitrate)
         try writer["name"].write(value.name)
@@ -14883,6 +14947,21 @@ extension MediaConnectClientTypes.Entitlement {
     }
 }
 
+extension MediaConnectClientTypes.FabricConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FabricConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryLatencyMode"].write(value.recoveryLatencyMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FabricConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FabricConfiguration()
+        value.recoveryLatencyMode = try reader["recoveryLatencyMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.FailoverConfig {
 
     static func write(value: MediaConnectClientTypes.FailoverConfig?, to writer: SmithyJSON.Writer) throws {
@@ -16442,6 +16521,7 @@ extension MediaConnectClientTypes.RouterOutput {
         value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
         value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
         value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        value.fabricConfiguration = try reader["fabricConfiguration"].readIfPresent(with: MediaConnectClientTypes.FabricConfiguration.read(from:))
         return value
     }
 }

@@ -92,7 +92,8 @@ extension ListDbSystemShapesInput: ClientRuntime.PaginateToken {
             availabilityZone: self.availabilityZone,
             availabilityZoneId: self.availabilityZoneId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            shapeFamily: self.shapeFamily
         )}
 }
 
@@ -102,6 +103,40 @@ extension PaginatorSequence where OperationStackInput == ListDbSystemShapesInput
     /// - Returns: `[OdbClientTypes.DbSystemShapeSummary]`
     public func dbSystemShapes() async throws -> [OdbClientTypes.DbSystemShapeSummary] {
         return try await self.asyncCompactMap { item in item.dbSystemShapes }
+    }
+}
+extension OdbClient {
+    /// Paginate over `[ListGiMinorVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGiMinorVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGiMinorVersionsOutput`
+    public func listGiMinorVersionsPaginated(input: ListGiMinorVersionsInput) -> ClientRuntime.PaginatorSequence<ListGiMinorVersionsInput, ListGiMinorVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGiMinorVersions(input:))
+    }
+}
+
+extension ListGiMinorVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListGiMinorVersionsInput {
+        return ListGiMinorVersionsInput(
+            availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
+            giVersion: self.giVersion,
+            maxResults: self.maxResults,
+            nextToken: token,
+            shapeFamily: self.shapeFamily
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListGiMinorVersionsInput, OperationStackOutput == ListGiMinorVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listGiMinorVersionsPaginated`
+    /// to access the nested member `[OdbClientTypes.GiMinorVersionSummary]`
+    /// - Returns: `[OdbClientTypes.GiMinorVersionSummary]`
+    public func giMinorVersions() async throws -> [OdbClientTypes.GiMinorVersionSummary] {
+        return try await self.asyncCompactMap { item in item.giMinorVersions }
     }
 }
 extension OdbClient {

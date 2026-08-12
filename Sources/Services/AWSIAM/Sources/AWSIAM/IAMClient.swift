@@ -683,6 +683,83 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AcquireRole` operation on the `IAM` service.
+    ///
+    /// Creates an IAM role from the specified role template. The new role takes its configuration—including its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session duration—from the role template version that you specify. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AcquireRoleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AcquireRoleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `EntityAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `MalformedPolicyDocumentException` : The request was rejected because the policy document was malformed. The error message describes the specific error.
+    /// - `NameConflictException` : The request was rejected because the resulting role name conflicts with an existing role in the account.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `RoleModifiedException` : The request was rejected because someone modified the role template while the service was creating the role. Wait a few minutes and try the request again.
+    /// - `RoleTemplateDisabledException` : The request was rejected because the specified role template is disabled. A disabled role template cannot be used to create new roles. Contact your administrator to enable the role template, or use a different role template.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func acquireRole(input: AcquireRoleInput) async throws -> AcquireRoleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acquireRole")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AcquireRoleInput, AcquireRoleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcquireRoleInput, AcquireRoleOutput>(AcquireRoleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcquireRoleInput, AcquireRoleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcquireRoleInput, AcquireRoleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcquireRoleOutput>(AcquireRoleOutput.httpOutput(from:), AcquireRoleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcquireRoleInput, AcquireRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcquireRoleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcquireRoleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<AcquireRoleInput, AcquireRoleOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AcquireRoleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcquireRoleInput, AcquireRoleOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcquireRoleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcquireRoleInput, AcquireRoleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcquireRoleInput, AcquireRoleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcquireRoleInput, AcquireRoleOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcquireRole")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AddClientIDToOpenIDConnectProvider` operation on the `IAM` service.
     ///
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
@@ -5239,6 +5316,75 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAccountProperties` operation on the `IAM` service.
+    ///
+    /// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use [PutAccountProperties](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutAccountProperties.html) to modify these properties.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPropertiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAccountPropertiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func getAccountProperties(input: GetAccountPropertiesInput) async throws -> GetAccountPropertiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAccountProperties")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAccountPropertiesInput, GetAccountPropertiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>(GetAccountPropertiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountPropertiesOutput>(GetAccountPropertiesOutput.httpOutput(from:), GetAccountPropertiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPropertiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountPropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccountPropertiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountPropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAccountPropertiesInput, GetAccountPropertiesOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAccountProperties")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAccountSummary` operation on the `IAM` service.
     ///
     /// Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services account. For information about IAM quotas, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
@@ -6471,6 +6617,76 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRolePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRoleTemplateVersion` operation on the `IAM` service.
+    ///
+    /// Retrieves information about a version of the specified role template. Role templates define a reusable configuration—including role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session duration—that you use to create IAM roles with [AcquireRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html). If you do not specify a minor version, the service returns the template's default minor version.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRoleTemplateVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRoleTemplateVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `NoSuchEntityException` : The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func getRoleTemplateVersion(input: GetRoleTemplateVersionInput) async throws -> GetRoleTemplateVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRoleTemplateVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>(GetRoleTemplateVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoleTemplateVersionOutput>(GetRoleTemplateVersionOutput.httpOutput(from:), GetRoleTemplateVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRoleTemplateVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRoleTemplateVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetRoleTemplateVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRoleTemplateVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRoleTemplateVersionInput, GetRoleTemplateVersionOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRoleTemplateVersion")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -9554,6 +9770,76 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListVirtualMFADevices")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAccountProperties` operation on the `IAM` service.
+    ///
+    /// Sets account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use [GetAccountProperties](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountProperties.html) to view the current properties.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAccountPropertiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAccountPropertiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func putAccountProperties(input: PutAccountPropertiesInput) async throws -> PutAccountPropertiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAccountProperties")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountPropertiesInput, PutAccountPropertiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>(PutAccountPropertiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountPropertiesOutput>(PutAccountPropertiesOutput.httpOutput(from:), PutAccountPropertiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountPropertiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountPropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountPropertiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountPropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountPropertiesInput, PutAccountPropertiesOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountProperties")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

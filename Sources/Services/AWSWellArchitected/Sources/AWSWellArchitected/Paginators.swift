@@ -34,6 +34,195 @@ extension GetConsolidatedReportInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WellArchitectedClient {
+    /// Paginate over `[ListAgentContextsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentContextsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentContextsOutput`
+    public func listAgentContextsPaginated(input: ListAgentContextsInput) -> ClientRuntime.PaginatorSequence<ListAgentContextsInput, ListAgentContextsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentContextsInput, ListAgentContextsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentContexts(input:))
+    }
+}
+
+extension ListAgentContextsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentContextsInput {
+        return ListAgentContextsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentContextsInput, OperationStackOutput == ListAgentContextsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentContextsPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.ContextSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.ContextSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.ContextSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListAgentGoalsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentGoalsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentGoalsOutput`
+    public func listAgentGoalsPaginated(input: ListAgentGoalsInput) -> ClientRuntime.PaginatorSequence<ListAgentGoalsInput, ListAgentGoalsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentGoalsInput, ListAgentGoalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentGoals(input:))
+    }
+}
+
+extension ListAgentGoalsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentGoalsInput {
+        return ListAgentGoalsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentGoalsInput, OperationStackOutput == ListAgentGoalsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentGoalsPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.GoalSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.GoalSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.GoalSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListAgentProfilesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentProfilesOutput`
+    public func listAgentProfilesPaginated(input: ListAgentProfilesInput) -> ClientRuntime.PaginatorSequence<ListAgentProfilesInput, ListAgentProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentProfilesInput, ListAgentProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentProfiles(input:))
+    }
+}
+
+extension ListAgentProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentProfilesInput {
+        return ListAgentProfilesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentProfilesInput, OperationStackOutput == ListAgentProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentProfilesPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.AgentProfileSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.AgentProfileSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.AgentProfileSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListAgentRecommendationGenerationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentRecommendationGenerationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentRecommendationGenerationsOutput`
+    public func listAgentRecommendationGenerationsPaginated(input: ListAgentRecommendationGenerationsInput) -> ClientRuntime.PaginatorSequence<ListAgentRecommendationGenerationsInput, ListAgentRecommendationGenerationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentRecommendationGenerationsInput, ListAgentRecommendationGenerationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentRecommendationGenerations(input:))
+    }
+}
+
+extension ListAgentRecommendationGenerationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentRecommendationGenerationsInput {
+        return ListAgentRecommendationGenerationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn,
+            recommendationType: self.recommendationType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentRecommendationGenerationsInput, OperationStackOutput == ListAgentRecommendationGenerationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentRecommendationGenerationsPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.AgentRecommendationGenerationSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.AgentRecommendationGenerationSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.AgentRecommendationGenerationSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListAgentRecommendationItemsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentRecommendationItemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentRecommendationItemsOutput`
+    public func listAgentRecommendationItemsPaginated(input: ListAgentRecommendationItemsInput) -> ClientRuntime.PaginatorSequence<ListAgentRecommendationItemsInput, ListAgentRecommendationItemsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentRecommendationItemsInput, ListAgentRecommendationItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentRecommendationItems(input:))
+    }
+}
+
+extension ListAgentRecommendationItemsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentRecommendationItemsInput {
+        return ListAgentRecommendationItemsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recommendationArn: self.recommendationArn,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentRecommendationItemsInput, OperationStackOutput == ListAgentRecommendationItemsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentRecommendationItemsPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.AgentRecommendationItemSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.AgentRecommendationItemSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.AgentRecommendationItemSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
+    /// Paginate over `[ListAgentRecommendationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentRecommendationsOutput`
+    public func listAgentRecommendationsPaginated(input: ListAgentRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListAgentRecommendationsInput, ListAgentRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentRecommendationsInput, ListAgentRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentRecommendations(input:))
+    }
+}
+
+extension ListAgentRecommendationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentRecommendationsInput {
+        return ListAgentRecommendationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillar: self.pillar,
+            profileArn: self.profileArn,
+            state: self.state
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentRecommendationsInput, OperationStackOutput == ListAgentRecommendationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentRecommendationsPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.AgentRecommendationSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.AgentRecommendationSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.AgentRecommendationSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
     /// Paginate over `[ListAnswersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
