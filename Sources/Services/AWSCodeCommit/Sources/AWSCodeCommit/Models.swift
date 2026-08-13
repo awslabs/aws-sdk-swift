@@ -5980,6 +5980,193 @@ public struct GetBlobOutput: Swift.Sendable {
     }
 }
 
+/// The specified input is either not valid, or it could not be validated.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Any message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetBlobDifferencesInput: Swift.Sendable {
+    /// The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by [GetDifferences].
+    /// This member is required.
+    public var afterBlobId: Swift.String?
+    /// The ID of the "before" (source) blob in the diff. Typically the value of beforeBlob.blobId from a Difference object returned by [GetDifferences]. If you do not specify a value, the operation returns a diff against an empty before-state. This is equivalent to treating the file as newly added.
+    public var beforeBlobId: Swift.String?
+    /// The number of unchanged lines of context to include before and after each block of changes in a hunk. Valid values are 0 through 20. Defaults to 3.
+    public var contextLines: Swift.Int?
+    /// Specifies whether to ignore whitespace-only changes when computing the diff. When true, the operation treats lines that differ only in whitespace as unchanged. Defaults to false.
+    public var ignoreWhitespace: Swift.Bool?
+    /// The maximum number of DiffHunk entries to return in a single response page. Defaults to 100.
+    public var maxResults: Swift.Int?
+    /// An enumeration token that returns the next batch of results when present in a request.
+    public var nextToken: Swift.String?
+    /// The name of the repository that contains the blobs to compare.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+
+    public init(
+        afterBlobId: Swift.String? = nil,
+        beforeBlobId: Swift.String? = nil,
+        contextLines: Swift.Int? = nil,
+        ignoreWhitespace: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        repositoryName: Swift.String? = nil
+    ) {
+        self.afterBlobId = afterBlobId
+        self.beforeBlobId = beforeBlobId
+        self.contextLines = contextLines
+        self.ignoreWhitespace = ignoreWhitespace
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.repositoryName = repositoryName
+    }
+}
+
+extension CodeCommitClientTypes {
+
+    public enum DiffChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case add
+        case context
+        case delete
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiffChangeType] {
+            return [
+                .add,
+                .context,
+                .delete
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "ADD"
+            case .context: return "CONTEXT"
+            case .delete: return "DELETE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeCommitClientTypes {
+
+    /// A single line-level entry in a diff hunk. Each DiffChange describes one line and its change type: unchanged context, an addition in the after blob, or a deletion from the before blob.
+    public struct DiffChange: Swift.Sendable {
+        /// The 1-based line number in the after blob. This field is omitted for DELETE lines.
+        public var afterLineNumber: Swift.Int?
+        /// The 1-based line number in the before blob. This field is omitted for ADD lines.
+        public var beforeLineNumber: Swift.Int?
+        /// The text content of the line, without the trailing newline.
+        public var content: Swift.String?
+        /// The type of change for this line. Possible values:
+        ///
+        /// * CONTEXT – Unchanged line included for surrounding context.
+        ///
+        /// * ADD – Line added in the after blob.
+        ///
+        /// * DELETE – Line removed from the before blob.
+        public var type: CodeCommitClientTypes.DiffChangeType?
+
+        public init(
+            afterLineNumber: Swift.Int? = nil,
+            beforeLineNumber: Swift.Int? = nil,
+            content: Swift.String? = nil,
+            type: CodeCommitClientTypes.DiffChangeType? = nil
+        ) {
+            self.afterLineNumber = afterLineNumber
+            self.beforeLineNumber = beforeLineNumber
+            self.content = content
+            self.type = type
+        }
+    }
+}
+
+extension CodeCommitClientTypes {
+
+    /// A contiguous run of changed lines from a blob diff, together with any surrounding unchanged context lines. Hunks are returned in order from the start of the file to the end. Adjacent or overlapping hunks are merged into a single hunk in the response.
+    public struct DiffHunk: Swift.Sendable {
+        /// The number of lines from the after blob covered by this hunk, including any context lines.
+        public var afterLineCount: Swift.Int?
+        /// The 1-based line number in the after blob where this hunk begins. When the hunk consists entirely of deletions, afterLineCount is 0.
+        public var afterStartLine: Swift.Int?
+        /// The number of lines from the before blob covered by this hunk, including any context lines.
+        public var beforeLineCount: Swift.Int?
+        /// The 1-based line number in the before blob where this hunk begins. When the hunk consists entirely of additions, beforeLineCount is 0.
+        public var beforeStartLine: Swift.Int?
+        /// An ordered list of line-level changes that make up this hunk. Each entry indicates whether the line is unchanged context, an addition, or a deletion.
+        public var changes: [CodeCommitClientTypes.DiffChange]?
+
+        public init(
+            afterLineCount: Swift.Int? = nil,
+            afterStartLine: Swift.Int? = nil,
+            beforeLineCount: Swift.Int? = nil,
+            beforeStartLine: Swift.Int? = nil,
+            changes: [CodeCommitClientTypes.DiffChange]? = nil
+        ) {
+            self.afterLineCount = afterLineCount
+            self.afterStartLine = afterStartLine
+            self.beforeLineCount = beforeLineCount
+            self.beforeStartLine = beforeStartLine
+            self.changes = changes
+        }
+    }
+}
+
+public struct GetBlobDifferencesOutput: Swift.Sendable {
+    /// The size, in bytes, of the blob identified by afterBlobId.
+    /// This member is required.
+    public var afterBlobSize: Swift.Int
+    /// The size, in bytes, of the blob identified by beforeBlobId. Returns 0 when you do not specify beforeBlobId.
+    public var beforeBlobSize: Swift.Int
+    /// An ordered list of diff hunks. Each hunk represents a contiguous run of changed and adjacent context lines. The list is empty when the blobs are identical or when the content is binary. The list is also empty when a paginated request has already returned all hunks in earlier pages, in which case NextToken is also null.
+    /// This member is required.
+    public var hunks: [CodeCommitClientTypes.DiffHunk]?
+    /// Specifies whether the operation treated the diff content as binary. When true, the operation does not compute a line-level diff and hunks is empty.
+    /// This member is required.
+    public var isBinary: Swift.Bool?
+    /// An enumeration token that can be used in a request to return the next batch of DiffHunk entries. null when the response contains the final page of the diff.
+    public var nextToken: Swift.String?
+
+    public init(
+        afterBlobSize: Swift.Int = 0,
+        beforeBlobSize: Swift.Int = 0,
+        hunks: [CodeCommitClientTypes.DiffHunk]? = nil,
+        isBinary: Swift.Bool? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.afterBlobSize = afterBlobSize
+        self.beforeBlobSize = beforeBlobSize
+        self.hunks = hunks
+        self.isBinary = isBinary
+        self.nextToken = nextToken
+    }
+}
+
 /// Represents the input of a get branch operation.
 public struct GetBranchInput: Swift.Sendable {
     /// The name of the branch for which you want to retrieve information.

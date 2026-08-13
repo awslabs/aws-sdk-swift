@@ -134,6 +134,37 @@ extension PaginatorSequence where OperationStackInput == ListAcmeExternalAccount
     }
 }
 extension ACMClient {
+    /// Paginate over `[ListCertificateDomainValidationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCertificateDomainValidationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificateDomainValidationsOutput`
+    public func listCertificateDomainValidationsPaginated(input: ListCertificateDomainValidationsInput) -> ClientRuntime.PaginatorSequence<ListCertificateDomainValidationsInput, ListCertificateDomainValidationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCertificateDomainValidationsInput, ListCertificateDomainValidationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCertificateDomainValidations(input:))
+    }
+}
+
+extension ListCertificateDomainValidationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCertificateDomainValidationsInput {
+        return ListCertificateDomainValidationsInput(
+            certificateArn: self.certificateArn,
+            maxItems: self.maxItems,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCertificateDomainValidationsInput, OperationStackOutput == ListCertificateDomainValidationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCertificateDomainValidationsPaginated`
+    /// to access the nested member `[ACMClientTypes.DomainValidationSummary]`
+    /// - Returns: `[ACMClientTypes.DomainValidationSummary]`
+    public func domainValidationSummaryList() async throws -> [ACMClientTypes.DomainValidationSummary] {
+        return try await self.asyncCompactMap { item in item.domainValidationSummaryList }
+    }
+}
+extension ACMClient {
     /// Paginate over `[ListCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

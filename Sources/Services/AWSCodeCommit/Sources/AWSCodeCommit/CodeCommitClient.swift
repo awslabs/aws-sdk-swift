@@ -2794,6 +2794,94 @@ extension CodeCommitClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetBlobDifferences` operation on the `CodeCommit` service.
+    ///
+    /// Returns a structured, line-level diff between two blob versions in a repository. The diff is returned as an ordered list of hunks, where each hunk represents a contiguous run of changed lines together with any surrounding unchanged context lines. Results are paginated. Use MaxResults and NextToken to retrieve additional pages. For the typical usage workflow, see [GetDifferences].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetBlobDifferencesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetBlobDifferencesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BlobIdDoesNotExistException` : The specified blob does not exist.
+    /// - `BlobIdRequiredException` : A blob ID is required, but was not specified.
+    /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
+    /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
+    /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyNotFoundException` : No encryption key was found.
+    /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
+    /// - `FileTooLargeException` : The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `InvalidBlobIdException` : The specified blob is not valid.
+    /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
+    /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
+    /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
+    /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
+    /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
+    public func getBlobDifferences(input: GetBlobDifferencesInput) async throws -> GetBlobDifferencesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CodeCommitClient.getBlobDifferencesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getBlobDifferences")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "codecommit")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetBlobDifferencesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeCommit", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlobDifferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>(overrides: ["X-Amz-Target": "CodeCommit_20150413.GetBlobDifferences"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlobDifferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CodeCommit"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBlobDifferencesInput, GetBlobDifferencesOutput>(serviceID: serviceName, version: CodeCommitClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodeCommit")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBlobDifferences")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetBranch` operation on the `CodeCommit` service.
     ///
     /// Returns information about a repository branch, including its name and the last commit ID.
@@ -3302,7 +3390,7 @@ extension CodeCommitClient {
 
     /// Performs the `GetDifferences` operation on the `CodeCommit` service.
     ///
-    /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
+    /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path. For line-level diff details, pass the beforeBlob.blobId and afterBlob.blobId values from a Difference object to [GetBlobDifferences].
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDifferencesInput`)
     ///

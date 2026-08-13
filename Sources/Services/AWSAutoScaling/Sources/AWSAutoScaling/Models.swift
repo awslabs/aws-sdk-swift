@@ -3649,7 +3649,7 @@ extension AutoScalingClientTypes {
         public var checkpointPercentages: [Swift.Int]?
         /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property. If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
         public var instanceWarmup: Swift.Int?
-        /// Specifies the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 100 to 200. If you specify MaxHealthyPercentage, you must also specify MinHealthyPercentage, and the difference between them cannot be greater than 100. A larger range increases the number of instances that can be replaced at the same time. If you do not specify this property, the default is 100 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.
+        /// Specifies the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 100 to 200. If you specify MaxHealthyPercentage, you must also specify MinHealthyPercentage, and the difference between them cannot be greater than 100. A larger range increases the number of instances that can be replaced at the same time. If you do not specify this property, the default is 100 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined. Explicitly setting MaxHealthyPercentage to 100 is not equivalent to omitting it. When MaxHealthyPercentage is explicitly set and it is mathematically impossible to replace instances while honoring both MinHealthyPercentage and MaxHealthyPercentage bounds simultaneously, Auto Scaling launches a new instance before terminating an old one (temporarily exceeding the desired capacity). When MaxHealthyPercentage is omitted, Auto Scaling terminates an instance and launches its replacement simultaneously. This behavioral difference can affect workflows that depend on instance replacement ordering.
         public var maxHealthyPercentage: Swift.Int?
         /// Specifies the minimum percentage of the group to keep in service, healthy, and ready to use to support your workload to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 0 to 100. If you do not specify this property, the default is 90 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.
         public var minHealthyPercentage: Swift.Int?
@@ -6147,6 +6147,29 @@ public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
     }
 }
 
+/// The service is currently processing another request with the same client token. Retry the request with the same client token—the in-flight operation will complete and return its result.
+public struct IdempotentCallInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IdempotentCallInProgress" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Indicates that the parameters in the current request do not match the parameters from a previous request with the same client token within the idempotency window.
 public struct IdempotentParameterMismatchError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -6857,29 +6880,40 @@ public struct SuspendProcessesInput: Swift.Sendable {
 }
 
 public struct TerminateInstanceInAutoScalingGroupInput: Swift.Sendable {
+    /// The name of the Auto Scaling group. Required when using InstanceIds.
+    public var autoScalingGroupName: Swift.String?
     /// The ID of the instance.
-    /// This member is required.
     public var instanceId: Swift.String?
+    /// The IDs of the instances. You can specify up to 100 instances. This parameter requires that you also specify AutoScalingGroupName.
+    public var instanceIds: [Swift.String]?
     /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
     /// This member is required.
     public var shouldDecrementDesiredCapacity: Swift.Bool?
 
     public init(
+        autoScalingGroupName: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        instanceIds: [Swift.String]? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
     ) {
+        self.autoScalingGroupName = autoScalingGroupName
         self.instanceId = instanceId
+        self.instanceIds = instanceIds
         self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
     }
 }
 
 public struct TerminateInstanceInAutoScalingGroupOutput: Swift.Sendable {
+    /// The scaling activities related to terminating the instances from the Auto Scaling group.
+    public var activities: [AutoScalingClientTypes.Activity]?
     /// A scaling activity.
     public var activity: AutoScalingClientTypes.Activity?
 
     public init(
+        activities: [AutoScalingClientTypes.Activity]? = nil,
         activity: AutoScalingClientTypes.Activity? = nil
     ) {
+        self.activities = activities
         self.activity = activity
     }
 }
@@ -8297,7 +8331,9 @@ extension TerminateInstanceInAutoScalingGroupInput {
 
     static func write(value: TerminateInstanceInAutoScalingGroupInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["InstanceId"].write(value.instanceId)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ShouldDecrementDesiredCapacity"].write(value.shouldDecrementDesiredCapacity)
         try writer["Action"].write("TerminateInstanceInAutoScalingGroup")
         try writer["Version"].write("2011-01-01")
@@ -8981,6 +9017,7 @@ extension TerminateInstanceInAutoScalingGroupOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TerminateInstanceInAutoScalingGroupResult"]
         var value = TerminateInstanceInAutoScalingGroupOutput()
+        value.activities = try reader["Activities"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.Activity.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.activity = try reader["Activity"].readIfPresent(with: AutoScalingClientTypes.Activity.read(from:))
         return value
     }
@@ -9744,6 +9781,7 @@ enum LaunchInstancesOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "IdempotentCallInProgress": return try IdempotentCallInProgressFault.makeError(baseError: baseError)
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatchError.makeError(baseError: baseError)
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10092,6 +10130,19 @@ extension InvalidNextToken {
         let reader = baseError.errorBodyReader
         var value = InvalidNextToken()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IdempotentCallInProgressFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IdempotentCallInProgressFault {
+        let reader = baseError.errorBodyReader
+        var value = IdempotentCallInProgressFault()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

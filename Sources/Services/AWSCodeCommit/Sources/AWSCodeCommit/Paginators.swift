@@ -63,6 +63,41 @@ extension DescribePullRequestEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CodeCommitClient {
+    /// Paginate over `[GetBlobDifferencesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetBlobDifferencesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBlobDifferencesOutput`
+    public func getBlobDifferencesPaginated(input: GetBlobDifferencesInput) -> ClientRuntime.PaginatorSequence<GetBlobDifferencesInput, GetBlobDifferencesOutput> {
+        return ClientRuntime.PaginatorSequence<GetBlobDifferencesInput, GetBlobDifferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBlobDifferences(input:))
+    }
+}
+
+extension GetBlobDifferencesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetBlobDifferencesInput {
+        return GetBlobDifferencesInput(
+            afterBlobId: self.afterBlobId,
+            beforeBlobId: self.beforeBlobId,
+            contextLines: self.contextLines,
+            ignoreWhitespace: self.ignoreWhitespace,
+            maxResults: self.maxResults,
+            nextToken: token,
+            repositoryName: self.repositoryName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetBlobDifferencesInput, OperationStackOutput == GetBlobDifferencesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getBlobDifferencesPaginated`
+    /// to access the nested member `[CodeCommitClientTypes.DiffHunk]`
+    /// - Returns: `[CodeCommitClientTypes.DiffHunk]`
+    public func hunks() async throws -> [CodeCommitClientTypes.DiffHunk] {
+        return try await self.asyncCompactMap { item in item.hunks }
+    }
+}
+extension CodeCommitClient {
     /// Paginate over `[GetCommentReactionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
