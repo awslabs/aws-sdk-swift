@@ -135,7 +135,7 @@ class PresignableUrlIntegration(
                 FoundationTypes.TimeInterval,
                 FoundationTypes.URL,
             ) {
-                writer.write("let serviceName = \$S", ctx.settings.service.name)
+                writer.write("let serviceName = \$S", ctx.settings.sdkIdStrippingService)
                 writer.write("let input = self")
                 writer.openBlock(
                     "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
