@@ -497,6 +497,130 @@ public struct AssociateIamRoleToResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// You have exceeded the service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unqiue identifier of the service quota that was exceeded.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The identifier of the resource that exceeded the service quota.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource that exceeded the service quota.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct AssociateVirtualMachinesToExadbVmClusterInput: Swift.Sendable {
+    /// The desired number of nodes in the Exascale VM cluster after the association.
+    /// This member is required.
+    public var desiredNodeCount: Swift.Int?
+    /// The unique identifier of the Exascale VM cluster to add virtual machines to.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+
+    public init(
+        desiredNodeCount: Swift.Int? = nil,
+        exadbVmClusterId: Swift.String? = nil
+    ) {
+        self.desiredNodeCount = desiredNodeCount
+        self.exadbVmClusterId = exadbVmClusterId
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case failed
+        case maintenanceInProgress
+        case provisioning
+        case terminated
+        case terminating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceStatus] {
+            return [
+                .available,
+                .failed,
+                .maintenanceInProgress,
+                .provisioning,
+                .terminated,
+                .terminating,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .failed: return "FAILED"
+            case .maintenanceInProgress: return "MAINTENANCE_IN_PROGRESS"
+            case .provisioning: return "PROVISIONING"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateVirtualMachinesToExadbVmClusterOutput: Swift.Sendable {
+    /// The user-friendly name for the Exascale VM cluster.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale VM cluster.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+    /// The current status of the Exascale VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the Exascale VM cluster.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.exadbVmClusterId = exadbVmClusterId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
 extension OdbClientTypes {
 
     /// The Oracle Application Express (APEX) details for an Autonomous Database.
@@ -2369,45 +2493,6 @@ extension OdbClientTypes {
     }
 }
 
-/// You have exceeded the service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unqiue identifier of the service quota that was exceeded.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The identifier of the resource that exceeded the service quota.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of resource that exceeded the service quota.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
 public struct CreateAutonomousDatabaseBackupInput: Swift.Sendable {
     /// The unique identifier of the Autonomous Database to back up.
     /// This member is required.
@@ -2433,50 +2518,6 @@ public struct CreateAutonomousDatabaseBackupInput: Swift.Sendable {
         self.displayName = displayName
         self.retentionPeriodInDays = retentionPeriodInDays
         self.tags = tags
-    }
-}
-
-extension OdbClientTypes {
-
-    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case available
-        case failed
-        case maintenanceInProgress
-        case provisioning
-        case terminated
-        case terminating
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceStatus] {
-            return [
-                .available,
-                .failed,
-                .maintenanceInProgress,
-                .provisioning,
-                .terminated,
-                .terminating,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .available: return "AVAILABLE"
-            case .failed: return "FAILED"
-            case .maintenanceInProgress: return "MAINTENANCE_IN_PROGRESS"
-            case .provisioning: return "PROVISIONING"
-            case .terminated: return "TERMINATED"
-            case .terminating: return "TERMINATING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -6656,7 +6697,7 @@ extension OdbClientTypes {
         public var odbNetworkId: Swift.String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
         public var percentProgress: Swift.Float?
-        /// The FQDN of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
         public var scanDnsName: Swift.String?
         /// The OCID of the DNS record for the SCAN IP addresses that are associated with the VM cluster.
         public var scanDnsRecordId: Swift.String?
@@ -6840,7 +6881,7 @@ extension OdbClientTypes {
         public var odbNetworkId: Swift.String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
         public var percentProgress: Swift.Float?
-        /// The FQDN of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
         public var scanDnsName: Swift.String?
         /// The OCID of the DNS record for the SCAN IP addresses that are associated with the VM cluster.
         public var scanDnsRecordId: Swift.String?
@@ -6970,7 +7011,7 @@ public struct CreateCloudVmClusterInput: Swift.Sendable {
     public var dataCollectionOptions: OdbClientTypes.DataCollectionOptions?
     /// The size of the data disk group, in terabytes (TBs), to allocate for the VM cluster.
     public var dataStorageSizeInTBs: Swift.Double?
-    /// The amount of local node storage, in gigabytes (GBs), to allocate for the VM cluster.
+    /// The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.
     public var dbNodeStorageSizeInGBs: Swift.Int?
     /// The list of database servers for the VM cluster.
     public var dbServers: [Swift.String]?
@@ -6997,7 +7038,7 @@ public struct CreateCloudVmClusterInput: Swift.Sendable {
     public var isSparseDiskgroupEnabled: Swift.Bool?
     /// The Oracle license model to apply to the VM cluster. Default: LICENSE_INCLUDED
     public var licenseModel: OdbClientTypes.LicenseModel?
-    /// The amount of memory, in gigabytes (GBs), to allocate for the VM cluster.
+    /// The amount of memory, in gigabytes (GB), to allocate for the VM cluster.
     public var memorySizeInGBs: Swift.Int?
     /// The unique identifier of the ODB network for the VM cluster.
     /// This member is required.
@@ -7157,6 +7198,240 @@ public struct ListCloudVmClustersOutput: Swift.Sendable {
     ) {
         self.cloudVmClusters = cloudVmClusters
         self.nextToken = nextToken
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ShapeAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Block storage shape attribute.
+        case blockStorage
+        /// Smart storage shape attribute.
+        case smartStorage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShapeAttribute] {
+            return [
+                .blockStorage,
+                .smartStorage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blockStorage: return "BLOCK_STORAGE"
+            case .smartStorage: return "SMART_STORAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateExadbVmClusterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
+    public var clientToken: Swift.String?
+    /// A name for the Grid Infrastructure cluster. The name isn't case sensitive.
+    public var clusterName: Swift.String?
+    /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster.
+    public var dataCollectionOptions: OdbClientTypes.DataCollectionOptions?
+    /// A user-friendly name for the Exascale VM cluster.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The number of ECPUs to enable for the Exascale VM cluster.
+    /// This member is required.
+    public var enabledEcpuCount: Swift.Int?
+    /// The unique identifier of the Exascale storage vault for this Exascale VM cluster.
+    /// This member is required.
+    public var exascaleDbStorageVaultId: Swift.String?
+    /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+    /// This member is required.
+    public var gridImageId: Swift.String?
+    /// The host name for the Exascale VM cluster.
+    /// This member is required.
+    public var hostname: Swift.String?
+    /// The Oracle license model to apply to the Exascale VM cluster.
+    public var licenseModel: OdbClientTypes.LicenseModel?
+    /// The number of nodes in the Exascale VM cluster.
+    /// This member is required.
+    public var nodeCount: Swift.Int?
+    /// The unique identifier of the ODB network for the Exascale VM cluster.
+    /// This member is required.
+    public var odbNetworkId: Swift.String?
+    /// The port number for TCP connections to the single client access name (SCAN) listener.
+    public var scanListenerPortTcp: Swift.Int?
+    /// The port number for TCP connections with SSL to the single client access name (SCAN) listener.
+    public var scanListenerPortTcpSsl: Swift.Int?
+    /// The shape of the Exascale VM cluster.
+    /// This member is required.
+    public var shape: Swift.String?
+    /// The shape attribute for the Exascale VM cluster.
+    public var shapeAttribute: OdbClientTypes.ShapeAttribute?
+    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+    /// This member is required.
+    public var sshPublicKeys: [Swift.String]?
+    /// The version of the operating system of the image for the Exascale VM cluster.
+    public var systemVersion: Swift.String?
+    /// The list of resource tags to apply to the Exascale VM cluster.
+    public var tags: [Swift.String: Swift.String]?
+    /// The time zone for the Exascale VM cluster.
+    public var timeZone: Swift.String?
+    /// The total number of ECPUs for the Exascale VM cluster.
+    /// This member is required.
+    public var totalEcpuCount: Swift.Int?
+    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster.
+    /// This member is required.
+    public var vmFileSystemStorageTotalSizeInGBs: Swift.Int?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        dataCollectionOptions: OdbClientTypes.DataCollectionOptions? = nil,
+        displayName: Swift.String? = nil,
+        enabledEcpuCount: Swift.Int? = nil,
+        exascaleDbStorageVaultId: Swift.String? = nil,
+        gridImageId: Swift.String? = nil,
+        hostname: Swift.String? = nil,
+        licenseModel: OdbClientTypes.LicenseModel? = nil,
+        nodeCount: Swift.Int? = nil,
+        odbNetworkId: Swift.String? = nil,
+        scanListenerPortTcp: Swift.Int? = nil,
+        scanListenerPortTcpSsl: Swift.Int? = nil,
+        shape: Swift.String? = nil,
+        shapeAttribute: OdbClientTypes.ShapeAttribute? = nil,
+        sshPublicKeys: [Swift.String]? = nil,
+        systemVersion: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeZone: Swift.String? = nil,
+        totalEcpuCount: Swift.Int? = nil,
+        vmFileSystemStorageTotalSizeInGBs: Swift.Int? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterName = clusterName
+        self.dataCollectionOptions = dataCollectionOptions
+        self.displayName = displayName
+        self.enabledEcpuCount = enabledEcpuCount
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        self.gridImageId = gridImageId
+        self.hostname = hostname
+        self.licenseModel = licenseModel
+        self.nodeCount = nodeCount
+        self.odbNetworkId = odbNetworkId
+        self.scanListenerPortTcp = scanListenerPortTcp
+        self.scanListenerPortTcpSsl = scanListenerPortTcpSsl
+        self.shape = shape
+        self.shapeAttribute = shapeAttribute
+        self.sshPublicKeys = sshPublicKeys
+        self.systemVersion = systemVersion
+        self.tags = tags
+        self.timeZone = timeZone
+        self.totalEcpuCount = totalEcpuCount
+        self.vmFileSystemStorageTotalSizeInGBs = vmFileSystemStorageTotalSizeInGBs
+    }
+}
+
+public struct CreateExadbVmClusterOutput: Swift.Sendable {
+    /// The user-friendly name for the Exascale VM cluster.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale VM cluster.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+    /// The current status of the Exascale VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the Exascale VM cluster.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.exadbVmClusterId = exadbVmClusterId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct CreateExascaleDbStorageVaultInput: Swift.Sendable {
+    /// The additional flash cache percentage for the Exascale storage vault.
+    public var additionalFlashCacheInPercent: Swift.Int?
+    /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+    public var autoscaleLimitInGBs: Swift.Int?
+    /// The Availability Zone for the Exascale storage vault.
+    public var availabilityZone: Swift.String?
+    /// The Availability Zone ID for the Exascale storage vault.
+    public var availabilityZoneId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
+    public var clientToken: Swift.String?
+    /// A description of the Exascale storage vault.
+    public var description: Swift.String?
+    /// A user-friendly name for the Exascale storage vault.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
+    /// This member is required.
+    public var highCapacityDatabaseStorageTotalSizeInGBs: Swift.Int?
+    /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+    public var isAutoscaleEnabled: Swift.Bool?
+    /// The list of resource tags to apply to the Exascale storage vault.
+    public var tags: [Swift.String: Swift.String]?
+    /// The time zone for the Exascale storage vault.
+    public var timeZone: Swift.String?
+
+    public init(
+        additionalFlashCacheInPercent: Swift.Int? = nil,
+        autoscaleLimitInGBs: Swift.Int? = nil,
+        availabilityZone: Swift.String? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        highCapacityDatabaseStorageTotalSizeInGBs: Swift.Int? = nil,
+        isAutoscaleEnabled: Swift.Bool? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeZone: Swift.String? = nil
+    ) {
+        self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+        self.autoscaleLimitInGBs = autoscaleLimitInGBs
+        self.availabilityZone = availabilityZone
+        self.availabilityZoneId = availabilityZoneId
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.highCapacityDatabaseStorageTotalSizeInGBs = highCapacityDatabaseStorageTotalSizeInGBs
+        self.isAutoscaleEnabled = isAutoscaleEnabled
+        self.tags = tags
+        self.timeZone = timeZone
+    }
+}
+
+public struct CreateExascaleDbStorageVaultOutput: Swift.Sendable {
+    /// The user-friendly name for the Exascale storage vault.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale storage vault.
+    /// This member is required.
+    public var exascaleDbStorageVaultId: Swift.String?
+    /// The current status of the Exascale storage vault.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the Exascale storage vault.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        exascaleDbStorageVaultId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        self.status = status
+        self.statusReason = statusReason
     }
 }
 
@@ -7506,7 +7781,7 @@ extension OdbClientTypes {
         public var dbNodeArn: Swift.String?
         /// The unique identifier of the DB node.
         public var dbNodeId: Swift.String?
-        /// The amount of local node storage, in gigabytes (GBs), that's allocated on the DB node.
+        /// The amount of local node storage, in gigabytes (GB), that's allocated on the DB node.
         public var dbNodeStorageSizeInGBs: Swift.Int?
         /// The unique identifier of the Db server that is associated with the DB node.
         public var dbServerId: Swift.String?
@@ -7725,19 +8000,22 @@ extension OdbClientTypes {
 }
 
 public struct GetDbNodeInput: Swift.Sendable {
-    /// The unique identifier of the VM cluster that contains the DB node.
-    /// This member is required.
+    /// The unique identifier of the VM cluster that contains the DB node. You must specify either this parameter or exadbVmClusterId.
     public var cloudVmClusterId: Swift.String?
     /// The unique identifier of the DB node to retrieve information about.
     /// This member is required.
     public var dbNodeId: Swift.String?
+    /// The unique identifier of the Exascale VM cluster that contains the DB node. You must specify either this parameter or cloudVmClusterId.
+    public var exadbVmClusterId: Swift.String?
 
     public init(
         cloudVmClusterId: Swift.String? = nil,
-        dbNodeId: Swift.String? = nil
+        dbNodeId: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil
     ) {
         self.cloudVmClusterId = cloudVmClusterId
         self.dbNodeId = dbNodeId
+        self.exadbVmClusterId = exadbVmClusterId
     }
 }
 
@@ -7753,9 +8031,10 @@ public struct GetDbNodeOutput: Swift.Sendable {
 }
 
 public struct ListDbNodesInput: Swift.Sendable {
-    /// The unique identifier of the VM cluster.
-    /// This member is required.
+    /// The unique identifier of the VM cluster. You must specify either this parameter or exadbVmClusterId.
     public var cloudVmClusterId: Swift.String?
+    /// The unique identifier of the Exascale VM cluster. You must specify either this parameter or cloudVmClusterId.
+    public var exadbVmClusterId: Swift.String?
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. Default: 10
     public var maxResults: Swift.Int?
     /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -7763,10 +8042,12 @@ public struct ListDbNodesInput: Swift.Sendable {
 
     public init(
         cloudVmClusterId: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.cloudVmClusterId = cloudVmClusterId
+        self.exadbVmClusterId = exadbVmClusterId
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7789,19 +8070,22 @@ public struct ListDbNodesOutput: Swift.Sendable {
 }
 
 public struct RebootDbNodeInput: Swift.Sendable {
-    /// The unique identifier of the VM cluster that contains the DB node to reboot.
-    /// This member is required.
+    /// The unique identifier of the VM cluster that contains the DB node to reboot. You must specify either this parameter or exadbVmClusterId.
     public var cloudVmClusterId: Swift.String?
     /// The unique identifier of the DB node to reboot.
     /// This member is required.
     public var dbNodeId: Swift.String?
+    /// The unique identifier of the Exascale VM cluster that contains the DB node to reboot. You must specify either this parameter or cloudVmClusterId.
+    public var exadbVmClusterId: Swift.String?
 
     public init(
         cloudVmClusterId: Swift.String? = nil,
-        dbNodeId: Swift.String? = nil
+        dbNodeId: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil
     ) {
         self.cloudVmClusterId = cloudVmClusterId
         self.dbNodeId = dbNodeId
+        self.exadbVmClusterId = exadbVmClusterId
     }
 }
 
@@ -7826,19 +8110,22 @@ public struct RebootDbNodeOutput: Swift.Sendable {
 }
 
 public struct StartDbNodeInput: Swift.Sendable {
-    /// The unique identifier of the VM cluster that contains the DB node to start.
-    /// This member is required.
+    /// The unique identifier of the VM cluster that contains the DB node to start. You must specify either this parameter or exadbVmClusterId.
     public var cloudVmClusterId: Swift.String?
     /// The unique identifier of the DB node to start.
     /// This member is required.
     public var dbNodeId: Swift.String?
+    /// The unique identifier of the Exascale VM cluster that contains the DB node to start. You must specify either this parameter or cloudVmClusterId.
+    public var exadbVmClusterId: Swift.String?
 
     public init(
         cloudVmClusterId: Swift.String? = nil,
-        dbNodeId: Swift.String? = nil
+        dbNodeId: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil
     ) {
         self.cloudVmClusterId = cloudVmClusterId
         self.dbNodeId = dbNodeId
+        self.exadbVmClusterId = exadbVmClusterId
     }
 }
 
@@ -7863,19 +8150,22 @@ public struct StartDbNodeOutput: Swift.Sendable {
 }
 
 public struct StopDbNodeInput: Swift.Sendable {
-    /// The unique identifier of the VM cluster that contains the DB node to stop.
-    /// This member is required.
+    /// The unique identifier of the VM cluster that contains the DB node to stop. You must specify either this parameter or exadbVmClusterId.
     public var cloudVmClusterId: Swift.String?
     /// The unique identifier of the DB node to stop.
     /// This member is required.
     public var dbNodeId: Swift.String?
+    /// The unique identifier of the Exascale VM cluster that contains the DB node to stop. You must specify either this parameter or cloudVmClusterId.
+    public var exadbVmClusterId: Swift.String?
 
     public init(
         cloudVmClusterId: Swift.String? = nil,
-        dbNodeId: Swift.String? = nil
+        dbNodeId: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil
     ) {
         self.cloudVmClusterId = cloudVmClusterId
         self.dbNodeId = dbNodeId
+        self.exadbVmClusterId = exadbVmClusterId
     }
 }
 
@@ -7982,6 +8272,8 @@ extension OdbClientTypes {
         public var name: Swift.String?
         /// The runtime minimum number of CPU cores that can be enabled for the shape.
         public var runtimeMinimumCoreCount: Swift.Int?
+        /// If provided and applicable, return DB System shape parameters based on the shape attribute provided.
+        public var shapeAttributes: [OdbClientTypes.ShapeAttribute]?
         /// The family of the shape.
         public var shapeFamily: Swift.String?
         /// The shape type. This property is determined by the CPU hardware.
@@ -8010,6 +8302,7 @@ extension OdbClientTypes {
             minimumNodeCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             runtimeMinimumCoreCount: Swift.Int? = nil,
+            shapeAttributes: [OdbClientTypes.ShapeAttribute]? = nil,
             shapeFamily: Swift.String? = nil,
             shapeType: OdbClientTypes.ShapeType? = nil
         ) {
@@ -8035,10 +8328,45 @@ extension OdbClientTypes {
             self.minimumNodeCount = minimumNodeCount
             self.name = name
             self.runtimeMinimumCoreCount = runtimeMinimumCoreCount
+            self.shapeAttributes = shapeAttributes
             self.shapeFamily = shapeFamily
             self.shapeType = shapeType
         }
     }
+}
+
+public struct DeleteExadbVmClusterInput: Swift.Sendable {
+    /// The unique identifier of the Exascale VM cluster to delete.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+
+    public init(
+        exadbVmClusterId: Swift.String? = nil
+    ) {
+        self.exadbVmClusterId = exadbVmClusterId
+    }
+}
+
+public struct DeleteExadbVmClusterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteExascaleDbStorageVaultInput: Swift.Sendable {
+    /// The unique identifier of the Exascale storage vault to delete.
+    /// This member is required.
+    public var exascaleDbStorageVaultId: Swift.String?
+
+    public init(
+        exascaleDbStorageVaultId: Swift.String? = nil
+    ) {
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+    }
+}
+
+public struct DeleteExascaleDbStorageVaultOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteOdbNetworkInput: Swift.Sendable {
@@ -8105,6 +8433,973 @@ public struct DisassociateIamRoleFromResourceInput: Swift.Sendable {
 public struct DisassociateIamRoleFromResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DisassociateVirtualMachinesFromExadbVmClusterInput: Swift.Sendable {
+    /// The list of DB node IDs to remove from the Exascale VM cluster.
+    /// This member is required.
+    public var dbNodeIds: [Swift.String]?
+    /// The unique identifier of the Exascale VM cluster to remove virtual machines from.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+
+    public init(
+        dbNodeIds: [Swift.String]? = nil,
+        exadbVmClusterId: Swift.String? = nil
+    ) {
+        self.dbNodeIds = dbNodeIds
+        self.exadbVmClusterId = exadbVmClusterId
+    }
+}
+
+public struct DisassociateVirtualMachinesFromExadbVmClusterOutput: Swift.Sendable {
+    /// The user-friendly name for the Exascale VM cluster.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale VM cluster.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+    /// The current status of the Exascale VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the Exascale VM cluster.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.exadbVmClusterId = exadbVmClusterId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum GridImageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A custom grid image.
+        case customImage
+        /// A release update grid image.
+        case releaseUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GridImageType] {
+            return [
+                .customImage,
+                .releaseUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customImage: return "CUSTOM_IMAGE"
+            case .releaseUpdate: return "RELEASE_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Storage details for an Exascale VM cluster.
+    public struct ExadbVmClusterStorageDetails: Swift.Sendable {
+        /// The total storage size, in gigabytes (GB).
+        public var totalSizeInGBs: Swift.Int?
+
+        public init(
+            totalSizeInGBs: Swift.Int? = nil
+        ) {
+            self.totalSizeInGBs = totalSizeInGBs
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Exascale VM cluster.
+    public struct ExadbVmCluster: Swift.Sendable {
+        /// The name of the Grid Infrastructure (GI) cluster.
+        public var clusterName: Swift.String?
+        /// The date and time when the Exascale VM cluster was created.
+        public var createdAt: Foundation.Date?
+        /// The set of diagnostic collection options enabled for the Exascale VM cluster.
+        public var dataCollectionOptions: OdbClientTypes.DataCollectionOptions?
+        /// The user-friendly name for the Exascale VM cluster.
+        public var displayName: Swift.String?
+        /// The domain of the Exascale VM cluster.
+        public var domain: Swift.String?
+        /// The number of elastic compute processing units (ECPUs) enabled on the Exascale VM cluster.
+        public var enabledEcpuCount: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the Exascale VM cluster.
+        public var exadbVmClusterArn: Swift.String?
+        /// The unique identifier of the Exascale VM cluster.
+        /// This member is required.
+        public var exadbVmClusterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault associated with this Exascale VM cluster.
+        public var exascaleDbStorageVaultArn: Swift.String?
+        /// The unique identifier of the Exascale storage vault associated with this Exascale VM cluster.
+        public var exascaleDbStorageVaultId: Swift.String?
+        /// The software version of the Oracle Grid Infrastructure (GI) for the Exascale VM cluster.
+        public var giVersion: Swift.String?
+        /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+        public var gridImageId: Swift.String?
+        /// The type of Grid Infrastructure image for the Exascale VM cluster.
+        public var gridImageType: OdbClientTypes.GridImageType?
+        /// The host name for the Exascale VM cluster.
+        public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Exascale VM cluster.
+        public var iamRoles: [OdbClientTypes.IamRole]?
+        /// The I/O Resource Management (IORM) configuration cache details for the Exascale VM cluster.
+        public var iormConfigCache: OdbClientTypes.ExadataIormConfig?
+        /// The Oracle Cloud ID (OCID) of the last maintenance update history entry.
+        public var lastUpdateHistoryEntryId: Swift.String?
+        /// The Oracle license model applied to the Exascale VM cluster.
+        public var licenseModel: OdbClientTypes.LicenseModel?
+        /// The port number configured for the listener on the Exascale VM cluster.
+        public var listenerPort: Swift.Int?
+        /// The amount of memory, in gigabytes (GB), that's allocated for the Exascale VM cluster.
+        public var memorySizeInGBs: Swift.Int?
+        /// The number of nodes in the Exascale VM cluster.
+        public var nodeCount: Swift.Int?
+        /// The name of the OCI resource anchor for the Exascale VM cluster.
+        public var ociResourceAnchorName: Swift.String?
+        /// The HTTPS link to the Exascale VM cluster in Oracle Cloud Infrastructure (OCI).
+        public var ociUrl: Swift.String?
+        /// The OCID of the Exascale VM cluster.
+        public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Exascale VM cluster.
+        public var odbNetworkArn: Swift.String?
+        /// The unique identifier of the ODB network for the Exascale VM cluster.
+        public var odbNetworkId: Swift.String?
+        /// The amount of progress made on the current operation on the Exascale VM cluster, expressed as a percentage.
+        public var percentProgress: Swift.Float?
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the Exascale VM cluster.
+        public var scanDnsName: Swift.String?
+        /// The OCID of the DNS record for the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public var scanDnsRecordId: Swift.String?
+        /// The OCID of the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public var scanIpIds: [Swift.String]?
+        /// The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.
+        public var scanListenerPortTcp: Swift.Int?
+        /// The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.
+        public var scanListenerPortTcpSsl: Swift.Int?
+        /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
+        public var shape: Swift.String?
+        /// The shape attribute for the Exascale VM cluster.
+        public var shapeAttribute: OdbClientTypes.ShapeAttribute?
+        /// The snapshot file system storage details for the Exascale VM cluster.
+        public var snapshotFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails?
+        /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+        public var sshPublicKeys: [Swift.String]?
+        /// The current status of the Exascale VM cluster.
+        public var status: OdbClientTypes.ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public var statusReason: Swift.String?
+        /// The operating system version of the image chosen for the Exascale VM cluster.
+        public var systemVersion: Swift.String?
+        /// The time zone of the Exascale VM cluster.
+        public var timeZone: Swift.String?
+        /// The total number of ECPUs for the Exascale VM cluster.
+        public var totalEcpuCount: Swift.Int?
+        /// The total file system storage details for the Exascale VM cluster.
+        public var totalFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails?
+        /// The virtual IP (VIP) addresses associated with the Exascale VM cluster. One VIP address is assigned per node to support failover. If a node fails, its VIP is reassigned to another active node in the cluster.
+        public var vipIds: [Swift.String]?
+        /// The VM file system storage details for the Exascale VM cluster.
+        public var vmFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails?
+
+        public init(
+            clusterName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataCollectionOptions: OdbClientTypes.DataCollectionOptions? = nil,
+            displayName: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            enabledEcpuCount: Swift.Int? = nil,
+            exadbVmClusterArn: Swift.String? = nil,
+            exadbVmClusterId: Swift.String? = nil,
+            exascaleDbStorageVaultArn: Swift.String? = nil,
+            exascaleDbStorageVaultId: Swift.String? = nil,
+            giVersion: Swift.String? = nil,
+            gridImageId: Swift.String? = nil,
+            gridImageType: OdbClientTypes.GridImageType? = nil,
+            hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
+            iormConfigCache: OdbClientTypes.ExadataIormConfig? = nil,
+            lastUpdateHistoryEntryId: Swift.String? = nil,
+            licenseModel: OdbClientTypes.LicenseModel? = nil,
+            listenerPort: Swift.Int? = nil,
+            memorySizeInGBs: Swift.Int? = nil,
+            nodeCount: Swift.Int? = nil,
+            ociResourceAnchorName: Swift.String? = nil,
+            ociUrl: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
+            odbNetworkId: Swift.String? = nil,
+            percentProgress: Swift.Float? = nil,
+            scanDnsName: Swift.String? = nil,
+            scanDnsRecordId: Swift.String? = nil,
+            scanIpIds: [Swift.String]? = nil,
+            scanListenerPortTcp: Swift.Int? = nil,
+            scanListenerPortTcpSsl: Swift.Int? = nil,
+            shape: Swift.String? = nil,
+            shapeAttribute: OdbClientTypes.ShapeAttribute? = nil,
+            snapshotFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails? = nil,
+            sshPublicKeys: [Swift.String]? = nil,
+            status: OdbClientTypes.ResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            systemVersion: Swift.String? = nil,
+            timeZone: Swift.String? = nil,
+            totalEcpuCount: Swift.Int? = nil,
+            totalFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails? = nil,
+            vipIds: [Swift.String]? = nil,
+            vmFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails? = nil
+        ) {
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.dataCollectionOptions = dataCollectionOptions
+            self.displayName = displayName
+            self.domain = domain
+            self.enabledEcpuCount = enabledEcpuCount
+            self.exadbVmClusterArn = exadbVmClusterArn
+            self.exadbVmClusterId = exadbVmClusterId
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.giVersion = giVersion
+            self.gridImageId = gridImageId
+            self.gridImageType = gridImageType
+            self.hostname = hostname
+            self.iamRoles = iamRoles
+            self.iormConfigCache = iormConfigCache
+            self.lastUpdateHistoryEntryId = lastUpdateHistoryEntryId
+            self.licenseModel = licenseModel
+            self.listenerPort = listenerPort
+            self.memorySizeInGBs = memorySizeInGBs
+            self.nodeCount = nodeCount
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.percentProgress = percentProgress
+            self.scanDnsName = scanDnsName
+            self.scanDnsRecordId = scanDnsRecordId
+            self.scanIpIds = scanIpIds
+            self.scanListenerPortTcp = scanListenerPortTcp
+            self.scanListenerPortTcpSsl = scanListenerPortTcpSsl
+            self.shape = shape
+            self.shapeAttribute = shapeAttribute
+            self.snapshotFileSystemStorage = snapshotFileSystemStorage
+            self.sshPublicKeys = sshPublicKeys
+            self.status = status
+            self.statusReason = statusReason
+            self.systemVersion = systemVersion
+            self.timeZone = timeZone
+            self.totalEcpuCount = totalEcpuCount
+            self.totalFileSystemStorage = totalFileSystemStorage
+            self.vipIds = vipIds
+            self.vmFileSystemStorage = vmFileSystemStorage
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Summary information about an Exascale VM cluster.
+    public struct ExadbVmClusterSummary: Swift.Sendable {
+        /// The name of the Grid Infrastructure (GI) cluster.
+        public var clusterName: Swift.String?
+        /// The date and time when the Exascale VM cluster was created.
+        public var createdAt: Foundation.Date?
+        /// The set of diagnostic collection options enabled for the Exascale VM cluster.
+        public var dataCollectionOptions: OdbClientTypes.DataCollectionOptions?
+        /// The user-friendly name for the Exascale VM cluster.
+        public var displayName: Swift.String?
+        /// The domain of the Exascale VM cluster.
+        public var domain: Swift.String?
+        /// The number of elastic compute processing units (ECPUs) enabled on the Exascale VM cluster.
+        public var enabledEcpuCount: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the Exascale VM cluster.
+        public var exadbVmClusterArn: Swift.String?
+        /// The unique identifier of the Exascale VM cluster.
+        /// This member is required.
+        public var exadbVmClusterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault associated with this Exascale VM cluster.
+        public var exascaleDbStorageVaultArn: Swift.String?
+        /// The unique identifier of the Exascale storage vault associated with this Exascale VM cluster.
+        public var exascaleDbStorageVaultId: Swift.String?
+        /// The software version of the Oracle Grid Infrastructure (GI) for the Exascale VM cluster.
+        public var giVersion: Swift.String?
+        /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+        public var gridImageId: Swift.String?
+        /// The type of Grid Infrastructure image for the Exascale VM cluster.
+        public var gridImageType: OdbClientTypes.GridImageType?
+        /// The host name for the Exascale VM cluster.
+        public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Exascale VM cluster.
+        public var iamRoles: [OdbClientTypes.IamRole]?
+        /// The I/O Resource Management (IORM) configuration cache details for the Exascale VM cluster.
+        public var iormConfigCache: OdbClientTypes.ExadataIormConfig?
+        /// The Oracle Cloud ID (OCID) of the last maintenance update history entry.
+        public var lastUpdateHistoryEntryId: Swift.String?
+        /// The Oracle license model applied to the Exascale VM cluster.
+        public var licenseModel: OdbClientTypes.LicenseModel?
+        /// The port number configured for the listener on the Exascale VM cluster.
+        public var listenerPort: Swift.Int?
+        /// The amount of memory, in gigabytes (GB), that's allocated for the Exascale VM cluster.
+        public var memorySizeInGBs: Swift.Int?
+        /// The number of nodes in the Exascale VM cluster.
+        public var nodeCount: Swift.Int?
+        /// The name of the OCI resource anchor for the Exascale VM cluster.
+        public var ociResourceAnchorName: Swift.String?
+        /// The HTTPS link to the Exascale VM cluster in Oracle Cloud Infrastructure (OCI).
+        public var ociUrl: Swift.String?
+        /// The OCID of the Exascale VM cluster.
+        public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Exascale VM cluster.
+        public var odbNetworkArn: Swift.String?
+        /// The unique identifier of the ODB network for the Exascale VM cluster.
+        public var odbNetworkId: Swift.String?
+        /// The amount of progress made on the current operation on the Exascale VM cluster, expressed as a percentage.
+        public var percentProgress: Swift.Float?
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the Exascale VM cluster.
+        public var scanDnsName: Swift.String?
+        /// The OCID of the DNS record for the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public var scanDnsRecordId: Swift.String?
+        /// The OCID of the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public var scanIpIds: [Swift.String]?
+        /// The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.
+        public var scanListenerPortTcp: Swift.Int?
+        /// The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.
+        public var scanListenerPortTcpSsl: Swift.Int?
+        /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
+        public var shape: Swift.String?
+        /// The shape attribute for the Exascale VM cluster.
+        public var shapeAttribute: OdbClientTypes.ShapeAttribute?
+        /// The snapshot file system storage details for the Exascale VM cluster.
+        public var snapshotFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails?
+        /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+        public var sshPublicKeys: [Swift.String]?
+        /// The current status of the Exascale VM cluster.
+        public var status: OdbClientTypes.ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public var statusReason: Swift.String?
+        /// The operating system version of the image chosen for the Exascale VM cluster.
+        public var systemVersion: Swift.String?
+        /// The time zone of the Exascale VM cluster.
+        public var timeZone: Swift.String?
+        /// The total number of ECPUs for the Exascale VM cluster.
+        public var totalEcpuCount: Swift.Int?
+        /// The total file system storage details for the Exascale VM cluster.
+        public var totalFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails?
+        /// The virtual IP (VIP) addresses associated with the Exascale VM cluster. One VIP address is assigned per node to support failover. If a node fails, its VIP is reassigned to another active node in the cluster.
+        public var vipIds: [Swift.String]?
+        /// The VM file system storage details for the Exascale VM cluster.
+        public var vmFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails?
+
+        public init(
+            clusterName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataCollectionOptions: OdbClientTypes.DataCollectionOptions? = nil,
+            displayName: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            enabledEcpuCount: Swift.Int? = nil,
+            exadbVmClusterArn: Swift.String? = nil,
+            exadbVmClusterId: Swift.String? = nil,
+            exascaleDbStorageVaultArn: Swift.String? = nil,
+            exascaleDbStorageVaultId: Swift.String? = nil,
+            giVersion: Swift.String? = nil,
+            gridImageId: Swift.String? = nil,
+            gridImageType: OdbClientTypes.GridImageType? = nil,
+            hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
+            iormConfigCache: OdbClientTypes.ExadataIormConfig? = nil,
+            lastUpdateHistoryEntryId: Swift.String? = nil,
+            licenseModel: OdbClientTypes.LicenseModel? = nil,
+            listenerPort: Swift.Int? = nil,
+            memorySizeInGBs: Swift.Int? = nil,
+            nodeCount: Swift.Int? = nil,
+            ociResourceAnchorName: Swift.String? = nil,
+            ociUrl: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
+            odbNetworkId: Swift.String? = nil,
+            percentProgress: Swift.Float? = nil,
+            scanDnsName: Swift.String? = nil,
+            scanDnsRecordId: Swift.String? = nil,
+            scanIpIds: [Swift.String]? = nil,
+            scanListenerPortTcp: Swift.Int? = nil,
+            scanListenerPortTcpSsl: Swift.Int? = nil,
+            shape: Swift.String? = nil,
+            shapeAttribute: OdbClientTypes.ShapeAttribute? = nil,
+            snapshotFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails? = nil,
+            sshPublicKeys: [Swift.String]? = nil,
+            status: OdbClientTypes.ResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            systemVersion: Swift.String? = nil,
+            timeZone: Swift.String? = nil,
+            totalEcpuCount: Swift.Int? = nil,
+            totalFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails? = nil,
+            vipIds: [Swift.String]? = nil,
+            vmFileSystemStorage: OdbClientTypes.ExadbVmClusterStorageDetails? = nil
+        ) {
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.dataCollectionOptions = dataCollectionOptions
+            self.displayName = displayName
+            self.domain = domain
+            self.enabledEcpuCount = enabledEcpuCount
+            self.exadbVmClusterArn = exadbVmClusterArn
+            self.exadbVmClusterId = exadbVmClusterId
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.giVersion = giVersion
+            self.gridImageId = gridImageId
+            self.gridImageType = gridImageType
+            self.hostname = hostname
+            self.iamRoles = iamRoles
+            self.iormConfigCache = iormConfigCache
+            self.lastUpdateHistoryEntryId = lastUpdateHistoryEntryId
+            self.licenseModel = licenseModel
+            self.listenerPort = listenerPort
+            self.memorySizeInGBs = memorySizeInGBs
+            self.nodeCount = nodeCount
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.percentProgress = percentProgress
+            self.scanDnsName = scanDnsName
+            self.scanDnsRecordId = scanDnsRecordId
+            self.scanIpIds = scanIpIds
+            self.scanListenerPortTcp = scanListenerPortTcp
+            self.scanListenerPortTcpSsl = scanListenerPortTcpSsl
+            self.shape = shape
+            self.shapeAttribute = shapeAttribute
+            self.snapshotFileSystemStorage = snapshotFileSystemStorage
+            self.sshPublicKeys = sshPublicKeys
+            self.status = status
+            self.statusReason = statusReason
+            self.systemVersion = systemVersion
+            self.timeZone = timeZone
+            self.totalEcpuCount = totalEcpuCount
+            self.totalFileSystemStorage = totalFileSystemStorage
+            self.vipIds = vipIds
+            self.vmFileSystemStorage = vmFileSystemStorage
+        }
+    }
+}
+
+public struct GetExadbVmClusterInput: Swift.Sendable {
+    /// The unique identifier of the Exascale VM cluster.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+
+    public init(
+        exadbVmClusterId: Swift.String? = nil
+    ) {
+        self.exadbVmClusterId = exadbVmClusterId
+    }
+}
+
+public struct GetExadbVmClusterOutput: Swift.Sendable {
+    /// The Exascale VM cluster.
+    /// This member is required.
+    public var exadbVmCluster: OdbClientTypes.ExadbVmCluster?
+
+    public init(
+        exadbVmCluster: OdbClientTypes.ExadbVmCluster? = nil
+    ) {
+        self.exadbVmCluster = exadbVmCluster
+    }
+}
+
+public struct ListExadbVmClustersInput: Swift.Sendable {
+    /// The unique identifier of the Exascale storage vault to list the associated Exascale VM clusters.
+    public var exascaleDbStorageVaultId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        exascaleDbStorageVaultId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListExadbVmClustersOutput: Swift.Sendable {
+    /// The list of Exascale VM clusters.
+    /// This member is required.
+    public var exadbVmClusters: [OdbClientTypes.ExadbVmClusterSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        exadbVmClusters: [OdbClientTypes.ExadbVmClusterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exadbVmClusters = exadbVmClusters
+        self.nextToken = nextToken
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum UpdateAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nonRollingApply
+        case precheck
+        case rollback
+        case rollingApply
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateAction] {
+            return [
+                .nonRollingApply,
+                .precheck,
+                .rollback,
+                .rollingApply
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nonRollingApply: return "NON_ROLLING_APPLY"
+            case .precheck: return "PRECHECK"
+            case .rollback: return "ROLLBACK"
+            case .rollingApply: return "ROLLING_APPLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateExadbVmClusterInput: Swift.Sendable {
+    /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster.
+    public var dataCollectionOptions: OdbClientTypes.DataCollectionOptions?
+    /// A new user-friendly name for the Exascale VM cluster.
+    public var displayName: Swift.String?
+    /// The number of ECPUs to enable for the Exascale VM cluster.
+    public var enabledEcpuCount: Swift.Int?
+    /// The unique identifier of the Exascale VM cluster to update.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+    /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+    public var gridImageId: Swift.String?
+    /// The Oracle license model to apply to the Exascale VM cluster.
+    public var licenseModel: OdbClientTypes.LicenseModel?
+    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+    public var sshPublicKeys: [Swift.String]?
+    /// The version of the operating system of the image for the Exascale VM cluster.
+    public var systemVersion: Swift.String?
+    /// The total number of ECPUs for the Exascale VM cluster.
+    public var totalEcpuCount: Swift.Int?
+    /// The update action to perform on the Exascale VM cluster.
+    public var updateAction: OdbClientTypes.UpdateAction?
+    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster.
+    public var vmFileSystemStorageTotalSizeInGBs: Swift.Int?
+
+    public init(
+        dataCollectionOptions: OdbClientTypes.DataCollectionOptions? = nil,
+        displayName: Swift.String? = nil,
+        enabledEcpuCount: Swift.Int? = nil,
+        exadbVmClusterId: Swift.String? = nil,
+        gridImageId: Swift.String? = nil,
+        licenseModel: OdbClientTypes.LicenseModel? = nil,
+        sshPublicKeys: [Swift.String]? = nil,
+        systemVersion: Swift.String? = nil,
+        totalEcpuCount: Swift.Int? = nil,
+        updateAction: OdbClientTypes.UpdateAction? = nil,
+        vmFileSystemStorageTotalSizeInGBs: Swift.Int? = nil
+    ) {
+        self.dataCollectionOptions = dataCollectionOptions
+        self.displayName = displayName
+        self.enabledEcpuCount = enabledEcpuCount
+        self.exadbVmClusterId = exadbVmClusterId
+        self.gridImageId = gridImageId
+        self.licenseModel = licenseModel
+        self.sshPublicKeys = sshPublicKeys
+        self.systemVersion = systemVersion
+        self.totalEcpuCount = totalEcpuCount
+        self.updateAction = updateAction
+        self.vmFileSystemStorageTotalSizeInGBs = vmFileSystemStorageTotalSizeInGBs
+    }
+}
+
+public struct UpdateExadbVmClusterOutput: Swift.Sendable {
+    /// The user-friendly name for the Exascale VM cluster.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale VM cluster.
+    /// This member is required.
+    public var exadbVmClusterId: Swift.String?
+    /// The current status of the Exascale VM cluster.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the Exascale VM cluster.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        exadbVmClusterId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.exadbVmClusterId = exadbVmClusterId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The storage details for an Exascale storage vault.
+    public struct ExascaleDbStorageDetails: Swift.Sendable {
+        /// The available storage size, in gigabytes (GB).
+        public var availableSizeInGBs: Swift.Int?
+        /// The total storage size, in gigabytes (GB).
+        public var totalSizeInGBs: Swift.Int?
+
+        public init(
+            availableSizeInGBs: Swift.Int? = nil,
+            totalSizeInGBs: Swift.Int? = nil
+        ) {
+            self.availableSizeInGBs = availableSizeInGBs
+            self.totalSizeInGBs = totalSizeInGBs
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Exascale storage vault.
+    public struct ExascaleDbStorageVault: Swift.Sendable {
+        /// The additional flash cache percentage for the Exascale storage vault.
+        public var additionalFlashCacheInPercent: Swift.Int?
+        /// The list of shape attributes attached to the Exascale storage vault.
+        public var attachedShapeAttributes: [OdbClientTypes.ShapeAttribute]?
+        /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+        public var autoscaleLimitInGBs: Swift.Int?
+        /// The Availability Zone for the Exascale storage vault.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID for the Exascale storage vault.
+        public var availabilityZoneId: Swift.String?
+        /// The date and time when the Exascale storage vault was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the Exascale storage vault.
+        public var description: Swift.String?
+        /// The user-friendly name for the Exascale storage vault.
+        public var displayName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault.
+        public var exascaleDbStorageVaultArn: Swift.String?
+        /// The unique identifier of the Exascale storage vault.
+        /// This member is required.
+        public var exascaleDbStorageVaultId: Swift.String?
+        /// The high-capacity database storage details for the Exascale storage vault.
+        public var highCapacityDatabaseStorage: OdbClientTypes.ExascaleDbStorageDetails?
+        /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+        public var isAutoscaleEnabled: Swift.Bool?
+        /// The name of the OCI resource anchor for the Exascale storage vault.
+        public var ociResourceAnchorName: Swift.String?
+        /// The HTTPS link to the Exascale storage vault in Oracle Cloud Infrastructure (OCI).
+        public var ociUrl: Swift.String?
+        /// The OCID of the Exascale storage vault.
+        public var ocid: Swift.String?
+        /// The amount of progress made on the current operation on the Exascale storage vault, expressed as a percentage.
+        public var percentProgress: Swift.Float?
+        /// The current status of the Exascale storage vault.
+        public var status: OdbClientTypes.ResourceStatus?
+        /// Additional information about the status of the Exascale storage vault.
+        public var statusReason: Swift.String?
+        /// The time zone of the Exascale storage vault.
+        public var timeZone: Swift.String?
+        /// The list of Amazon Resource Names (ARNs) of the VM clusters associated with this Exascale storage vault.
+        public var vmClusterArns: [Swift.String]?
+        /// The number of VM clusters associated with this Exascale storage vault.
+        public var vmClusterCount: Swift.Int?
+        /// The list of unique identifiers of the VM clusters associated with this Exascale storage vault.
+        public var vmClusterIds: [Swift.String]?
+
+        public init(
+            additionalFlashCacheInPercent: Swift.Int? = nil,
+            attachedShapeAttributes: [OdbClientTypes.ShapeAttribute]? = nil,
+            autoscaleLimitInGBs: Swift.Int? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            exascaleDbStorageVaultArn: Swift.String? = nil,
+            exascaleDbStorageVaultId: Swift.String? = nil,
+            highCapacityDatabaseStorage: OdbClientTypes.ExascaleDbStorageDetails? = nil,
+            isAutoscaleEnabled: Swift.Bool? = nil,
+            ociResourceAnchorName: Swift.String? = nil,
+            ociUrl: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            percentProgress: Swift.Float? = nil,
+            status: OdbClientTypes.ResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeZone: Swift.String? = nil,
+            vmClusterArns: [Swift.String]? = nil,
+            vmClusterCount: Swift.Int? = nil,
+            vmClusterIds: [Swift.String]? = nil
+        ) {
+            self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+            self.attachedShapeAttributes = attachedShapeAttributes
+            self.autoscaleLimitInGBs = autoscaleLimitInGBs
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.highCapacityDatabaseStorage = highCapacityDatabaseStorage
+            self.isAutoscaleEnabled = isAutoscaleEnabled
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.ocid = ocid
+            self.percentProgress = percentProgress
+            self.status = status
+            self.statusReason = statusReason
+            self.timeZone = timeZone
+            self.vmClusterArns = vmClusterArns
+            self.vmClusterCount = vmClusterCount
+            self.vmClusterIds = vmClusterIds
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Summary information about an Exascale storage vault.
+    public struct ExascaleDbStorageVaultSummary: Swift.Sendable {
+        /// The additional flash cache percentage for the Exascale storage vault.
+        public var additionalFlashCacheInPercent: Swift.Int?
+        /// The list of shape attributes attached to the Exascale storage vault.
+        public var attachedShapeAttributes: [OdbClientTypes.ShapeAttribute]?
+        /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+        public var autoscaleLimitInGBs: Swift.Int?
+        /// The Availability Zone for the Exascale storage vault.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID for the Exascale storage vault.
+        public var availabilityZoneId: Swift.String?
+        /// The date and time when the Exascale storage vault was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the Exascale storage vault.
+        public var description: Swift.String?
+        /// The user-friendly name for the Exascale storage vault.
+        public var displayName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault.
+        public var exascaleDbStorageVaultArn: Swift.String?
+        /// The unique identifier of the Exascale storage vault.
+        /// This member is required.
+        public var exascaleDbStorageVaultId: Swift.String?
+        /// The high-capacity database storage details for the Exascale storage vault.
+        public var highCapacityDatabaseStorage: OdbClientTypes.ExascaleDbStorageDetails?
+        /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+        public var isAutoscaleEnabled: Swift.Bool?
+        /// The name of the OCI resource anchor for the Exascale storage vault.
+        public var ociResourceAnchorName: Swift.String?
+        /// The HTTPS link to the Exascale storage vault in Oracle Cloud Infrastructure (OCI).
+        public var ociUrl: Swift.String?
+        /// The OCID of the Exascale storage vault.
+        public var ocid: Swift.String?
+        /// The amount of progress made on the current operation on the Exascale storage vault, expressed as a percentage.
+        public var percentProgress: Swift.Float?
+        /// The current status of the Exascale storage vault.
+        public var status: OdbClientTypes.ResourceStatus?
+        /// Additional information about the status of the Exascale storage vault.
+        public var statusReason: Swift.String?
+        /// The time zone of the Exascale storage vault.
+        public var timeZone: Swift.String?
+        /// The list of Amazon Resource Names (ARNs) of the VM clusters associated with this Exascale storage vault.
+        public var vmClusterArns: [Swift.String]?
+        /// The number of VM clusters associated with this Exascale storage vault.
+        public var vmClusterCount: Swift.Int?
+        /// The list of unique identifiers of the VM clusters associated with this Exascale storage vault.
+        public var vmClusterIds: [Swift.String]?
+
+        public init(
+            additionalFlashCacheInPercent: Swift.Int? = nil,
+            attachedShapeAttributes: [OdbClientTypes.ShapeAttribute]? = nil,
+            autoscaleLimitInGBs: Swift.Int? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            exascaleDbStorageVaultArn: Swift.String? = nil,
+            exascaleDbStorageVaultId: Swift.String? = nil,
+            highCapacityDatabaseStorage: OdbClientTypes.ExascaleDbStorageDetails? = nil,
+            isAutoscaleEnabled: Swift.Bool? = nil,
+            ociResourceAnchorName: Swift.String? = nil,
+            ociUrl: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            percentProgress: Swift.Float? = nil,
+            status: OdbClientTypes.ResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeZone: Swift.String? = nil,
+            vmClusterArns: [Swift.String]? = nil,
+            vmClusterCount: Swift.Int? = nil,
+            vmClusterIds: [Swift.String]? = nil
+        ) {
+            self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+            self.attachedShapeAttributes = attachedShapeAttributes
+            self.autoscaleLimitInGBs = autoscaleLimitInGBs
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.highCapacityDatabaseStorage = highCapacityDatabaseStorage
+            self.isAutoscaleEnabled = isAutoscaleEnabled
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.ocid = ocid
+            self.percentProgress = percentProgress
+            self.status = status
+            self.statusReason = statusReason
+            self.timeZone = timeZone
+            self.vmClusterArns = vmClusterArns
+            self.vmClusterCount = vmClusterCount
+            self.vmClusterIds = vmClusterIds
+        }
+    }
+}
+
+public struct GetExascaleDbStorageVaultInput: Swift.Sendable {
+    /// The unique identifier of the Exascale storage vault.
+    /// This member is required.
+    public var exascaleDbStorageVaultId: Swift.String?
+
+    public init(
+        exascaleDbStorageVaultId: Swift.String? = nil
+    ) {
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+    }
+}
+
+public struct GetExascaleDbStorageVaultOutput: Swift.Sendable {
+    /// The Exascale storage vault.
+    /// This member is required.
+    public var exascaleDbStorageVault: OdbClientTypes.ExascaleDbStorageVault?
+
+    public init(
+        exascaleDbStorageVault: OdbClientTypes.ExascaleDbStorageVault? = nil
+    ) {
+        self.exascaleDbStorageVault = exascaleDbStorageVault
+    }
+}
+
+public struct ListExascaleDbStorageVaultsInput: Swift.Sendable {
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListExascaleDbStorageVaultsOutput: Swift.Sendable {
+    /// The list of Exascale storage vaults.
+    /// This member is required.
+    public var exascaleDbStorageVaults: [OdbClientTypes.ExascaleDbStorageVaultSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        exascaleDbStorageVaults: [OdbClientTypes.ExascaleDbStorageVaultSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exascaleDbStorageVaults = exascaleDbStorageVaults
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateExascaleDbStorageVaultInput: Swift.Sendable {
+    /// The additional flash cache percentage for the Exascale storage vault.
+    public var additionalFlashCacheInPercent: Swift.Int?
+    /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+    public var autoscaleLimitInGBs: Swift.Int?
+    /// A new description for the Exascale storage vault.
+    public var description: Swift.String?
+    /// A new user-friendly name for the Exascale storage vault.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale storage vault to update.
+    /// This member is required.
+    public var exascaleDbStorageVaultId: Swift.String?
+    /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
+    public var highCapacityDatabaseStorageTotalSizeInGBs: Swift.Int?
+    /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+    public var isAutoscaleEnabled: Swift.Bool?
+
+    public init(
+        additionalFlashCacheInPercent: Swift.Int? = nil,
+        autoscaleLimitInGBs: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        exascaleDbStorageVaultId: Swift.String? = nil,
+        highCapacityDatabaseStorageTotalSizeInGBs: Swift.Int? = nil,
+        isAutoscaleEnabled: Swift.Bool? = nil
+    ) {
+        self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+        self.autoscaleLimitInGBs = autoscaleLimitInGBs
+        self.description = description
+        self.displayName = displayName
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        self.highCapacityDatabaseStorageTotalSizeInGBs = highCapacityDatabaseStorageTotalSizeInGBs
+        self.isAutoscaleEnabled = isAutoscaleEnabled
+    }
+}
+
+public struct UpdateExascaleDbStorageVaultOutput: Swift.Sendable {
+    /// The user-friendly name for the Exascale storage vault.
+    public var displayName: Swift.String?
+    /// The unique identifier of the Exascale storage vault.
+    /// This member is required.
+    public var exascaleDbStorageVaultId: Swift.String?
+    /// The current status of the Exascale storage vault.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the Exascale storage vault.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        exascaleDbStorageVaultId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        self.status = status
+        self.statusReason = statusReason
+    }
 }
 
 public struct GetOciOnboardingStatusInput: Swift.Sendable {
@@ -8794,6 +10089,26 @@ public struct GetOdbPeeringConnectionOutput: Swift.Sendable {
 
 extension OdbClientTypes {
 
+    /// Summary information about an Oracle Grid Infrastructure (GI) minor version.
+    public struct GiMinorVersionSummary: Swift.Sendable {
+        /// The Grid Infrastructure software image ID for this minor version.
+        public var gridImageId: Swift.String?
+        /// The GI minor version.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            gridImageId: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.gridImageId = gridImageId
+            self.version = version
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     /// Information about a specific version of Oracle Grid Infrastructure (GI) software that can be installed on a VM cluster.
     public struct GiVersionSummary: Swift.Sendable {
         /// The GI software version.
@@ -8906,17 +10221,21 @@ public struct ListDbSystemShapesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     public var nextToken: Swift.String?
+    /// The shape family to filter results by.
+    public var shapeFamily: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
         availabilityZoneId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        shapeFamily: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.availabilityZoneId = availabilityZoneId
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.shapeFamily = shapeFamily
     }
 }
 
@@ -8932,6 +10251,54 @@ public struct ListDbSystemShapesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.dbSystemShapes = dbSystemShapes
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGiMinorVersionsInput: Swift.Sendable {
+    /// The Availability Zone to filter GI minor versions.
+    public var availabilityZone: Swift.String?
+    /// The Availability Zone ID to filter GI minor versions.
+    public var availabilityZoneId: Swift.String?
+    /// The Oracle Grid Infrastructure (GI) major version.
+    /// This member is required.
+    public var giVersion: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+    /// The shape family for the GI minor version.
+    public var shapeFamily: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        giVersion: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        shapeFamily: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.availabilityZoneId = availabilityZoneId
+        self.giVersion = giVersion
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.shapeFamily = shapeFamily
+    }
+}
+
+public struct ListGiMinorVersionsOutput: Swift.Sendable {
+    /// The list of GI minor versions.
+    /// This member is required.
+    public var giMinorVersions: [OdbClientTypes.GiMinorVersionSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        giMinorVersions: [OdbClientTypes.GiMinorVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.giMinorVersions = giMinorVersions
         self.nextToken = nextToken
     }
 }

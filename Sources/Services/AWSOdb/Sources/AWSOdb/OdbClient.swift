@@ -770,6 +770,86 @@ extension OdbClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateVirtualMachinesToExadbVmCluster` operation on the `Odb` service.
+    ///
+    /// Adds virtual machines to the specified Exascale VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateVirtualMachinesToExadbVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateVirtualMachinesToExadbVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func associateVirtualMachinesToExadbVmCluster(input: AssociateVirtualMachinesToExadbVmClusterInput) async throws -> AssociateVirtualMachinesToExadbVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.associateVirtualMachinesToExadbVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateVirtualMachinesToExadbVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVirtualMachinesToExadbVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateVirtualMachinesToExadbVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.AssociateVirtualMachinesToExadbVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateVirtualMachinesToExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateVirtualMachinesToExadbVmClusterInput, AssociateVirtualMachinesToExadbVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateVirtualMachinesToExadbVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAutonomousDatabase` operation on the `Odb` service.
     ///
     /// Creates a new Autonomous Database.
@@ -1241,6 +1321,167 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCloudVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateExadbVmCluster` operation on the `Odb` service.
+    ///
+    /// Creates an Exascale VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateExadbVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateExadbVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func createExadbVmCluster(input: CreateExadbVmClusterInput) async throws -> CreateExadbVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createExadbVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createExadbVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateExadbVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExadbVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.CreateExadbVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateExadbVmClusterInput, CreateExadbVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateExadbVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateExascaleDbStorageVault` operation on the `Odb` service.
+    ///
+    /// Creates an Exascale storage vault.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateExascaleDbStorageVaultInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateExascaleDbStorageVaultOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func createExascaleDbStorageVault(input: CreateExascaleDbStorageVaultInput) async throws -> CreateExascaleDbStorageVaultOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.createExascaleDbStorageVaultOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createExascaleDbStorageVault")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateExascaleDbStorageVaultOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExascaleDbStorageVaultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>(overrides: ["X-Amz-Target": "Odb.CreateExascaleDbStorageVault"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateExascaleDbStorageVaultInput, CreateExascaleDbStorageVaultOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateExascaleDbStorageVault")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1806,6 +2047,164 @@ extension OdbClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteExadbVmCluster` operation on the `Odb` service.
+    ///
+    /// Deletes the specified Exascale VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteExadbVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteExadbVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func deleteExadbVmCluster(input: DeleteExadbVmClusterInput) async throws -> DeleteExadbVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteExadbVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteExadbVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExadbVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExadbVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DeleteExadbVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteExadbVmClusterInput, DeleteExadbVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteExadbVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteExascaleDbStorageVault` operation on the `Odb` service.
+    ///
+    /// Deletes the specified Exascale storage vault.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteExascaleDbStorageVaultInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteExascaleDbStorageVaultOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func deleteExascaleDbStorageVault(input: DeleteExascaleDbStorageVaultInput) async throws -> DeleteExascaleDbStorageVaultOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.deleteExascaleDbStorageVaultOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteExascaleDbStorageVault")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExascaleDbStorageVaultOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExascaleDbStorageVaultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>(overrides: ["X-Amz-Target": "Odb.DeleteExascaleDbStorageVault"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteExascaleDbStorageVaultInput, DeleteExascaleDbStorageVaultOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteExascaleDbStorageVault")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteOdbNetwork` operation on the `Odb` service.
     ///
     /// Deletes the specified ODB network.
@@ -2029,6 +2428,85 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIamRoleFromResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateVirtualMachinesFromExadbVmCluster` operation on the `Odb` service.
+    ///
+    /// Removes virtual machines from the specified Exascale VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateVirtualMachinesFromExadbVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateVirtualMachinesFromExadbVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func disassociateVirtualMachinesFromExadbVmCluster(input: DisassociateVirtualMachinesFromExadbVmClusterInput) async throws -> DisassociateVirtualMachinesFromExadbVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.disassociateVirtualMachinesFromExadbVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateVirtualMachinesFromExadbVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVirtualMachinesFromExadbVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateVirtualMachinesFromExadbVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DisassociateVirtualMachinesFromExadbVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateVirtualMachinesFromExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateVirtualMachinesFromExadbVmClusterInput, DisassociateVirtualMachinesFromExadbVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateVirtualMachinesFromExadbVmCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2810,6 +3288,162 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDbServer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetExadbVmCluster` operation on the `Odb` service.
+    ///
+    /// Returns information about the specified Exascale VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetExadbVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetExadbVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func getExadbVmCluster(input: GetExadbVmClusterInput) async throws -> GetExadbVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getExadbVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getExadbVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetExadbVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExadbVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.GetExadbVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetExadbVmClusterInput, GetExadbVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetExadbVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetExascaleDbStorageVault` operation on the `Odb` service.
+    ///
+    /// Returns information about the specified Exascale storage vault.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetExascaleDbStorageVaultInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetExascaleDbStorageVaultOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func getExascaleDbStorageVault(input: GetExascaleDbStorageVaultInput) async throws -> GetExascaleDbStorageVaultOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.getExascaleDbStorageVaultOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getExascaleDbStorageVault")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetExascaleDbStorageVaultOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExascaleDbStorageVaultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>(overrides: ["X-Amz-Target": "Odb.GetExascaleDbStorageVault"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetExascaleDbStorageVaultInput, GetExascaleDbStorageVaultOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetExascaleDbStorageVault")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4129,6 +4763,238 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDbSystemShapes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListExadbVmClusters` operation on the `Odb` service.
+    ///
+    /// Returns information about the Exascale VM clusters owned by your Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListExadbVmClustersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListExadbVmClustersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func listExadbVmClusters(input: ListExadbVmClustersInput) async throws -> ListExadbVmClustersOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listExadbVmClustersOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listExadbVmClusters")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExadbVmClustersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExadbVmClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>(overrides: ["X-Amz-Target": "Odb.ListExadbVmClusters"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExadbVmClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExadbVmClustersInput, ListExadbVmClustersOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExadbVmClusters")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListExascaleDbStorageVaults` operation on the `Odb` service.
+    ///
+    /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListExascaleDbStorageVaultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListExascaleDbStorageVaultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func listExascaleDbStorageVaults(input: ListExascaleDbStorageVaultsInput) async throws -> ListExascaleDbStorageVaultsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listExascaleDbStorageVaultsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listExascaleDbStorageVaults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExascaleDbStorageVaultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExascaleDbStorageVaultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>(overrides: ["X-Amz-Target": "Odb.ListExascaleDbStorageVaults"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExascaleDbStorageVaultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExascaleDbStorageVaults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListGiMinorVersions` operation on the `Odb` service.
+    ///
+    /// Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListGiMinorVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListGiMinorVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func listGiMinorVersions(input: ListGiMinorVersionsInput) async throws -> ListGiMinorVersionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.listGiMinorVersionsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listGiMinorVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListGiMinorVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGiMinorVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>(overrides: ["X-Amz-Target": "Odb.ListGiMinorVersions"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGiMinorVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGiMinorVersionsInput, ListGiMinorVersionsOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGiMinorVersions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5607,6 +6473,164 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCloudExadataInfrastructure")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateExadbVmCluster` operation on the `Odb` service.
+    ///
+    /// Updates the specified Exascale VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateExadbVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateExadbVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func updateExadbVmCluster(input: UpdateExadbVmClusterInput) async throws -> UpdateExadbVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateExadbVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateExadbVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExadbVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateExadbVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.UpdateExadbVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateExadbVmClusterInput, UpdateExadbVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateExadbVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateExascaleDbStorageVault` operation on the `Odb` service.
+    ///
+    /// Updates the specified Exascale storage vault.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateExascaleDbStorageVaultInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateExascaleDbStorageVaultOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func updateExascaleDbStorageVault(input: UpdateExascaleDbStorageVaultInput) async throws -> UpdateExascaleDbStorageVaultOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateExascaleDbStorageVaultOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateExascaleDbStorageVault")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExascaleDbStorageVaultOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateExascaleDbStorageVaultOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>(overrides: ["X-Amz-Target": "Odb.UpdateExascaleDbStorageVault"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateExascaleDbStorageVaultInput, UpdateExascaleDbStorageVaultOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateExascaleDbStorageVault")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -25,9 +26,11 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct AssociateLensesOutput: Swift.Sendable {
@@ -427,6 +430,804 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes {
 
+    /// Configuration settings that define the scope of Amazon Web Services resources to analyze for optimization recommendations.
+    public struct AggregationConfiguration: Swift.Sendable {
+        /// The ARN of an IAM role to assume for resource analysis in this account.
+        /// This member is required.
+        public var accessRoleArn: Swift.String?
+        /// The Amazon Web Services account ID to analyze.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// A list of Amazon Web Services Regions to include in the analysis.
+        /// This member is required.
+        public var regions: [Swift.String]?
+
+        public init(
+            accessRoleArn: Swift.String? = nil,
+            accountId: Swift.String? = nil,
+            regions: [Swift.String]? = nil
+        ) {
+            self.accessRoleArn = accessRoleArn
+            self.accountId = accountId
+            self.regions = regions
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum Pillar: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case costOptimization
+        case operationalExcellence
+        case performance
+        case resilience
+        case security
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Pillar] {
+            return [
+                .costOptimization,
+                .operationalExcellence,
+                .performance,
+                .resilience,
+                .security
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .costOptimization: return "COST_OPTIMIZATION"
+            case .operationalExcellence: return "OPERATIONAL_EXCELLENCE"
+            case .performance: return "PERFORMANCE"
+            case .resilience: return "RESILIENCE"
+            case .security: return "SECURITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// A key-value pair associated with a resource for cost allocation and access control.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Summary of an optimization profile, including its configuration, metadata, and audit information.
+    public struct AgentProfileSummary: Swift.Sendable {
+        /// The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze.
+        /// This member is required.
+        public var aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]?
+        /// The Amazon Resource Name (ARN) of the optimization profile.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The business overview for this profile.
+        public var businessOverview: Swift.String?
+        /// The timestamp when the profile was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that created this profile.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// Indicates whether deletion protection is enabled for the profile.
+        public var deletionProtection: Swift.Bool?
+        /// A description of the profile.
+        public var description: Swift.String?
+        /// The display name of the profile shown to users.
+        public var displayName: Swift.String?
+        /// Indicates whether the profile is valid for manual architecture generation.
+        public var eligibleForArchitectureGeneration: Swift.Bool?
+        /// Indicates whether the profile is valid for scheduled recommendation generation.
+        public var eligibleForScheduledGeneration: Swift.Bool?
+        /// The ARN of the IAM execution role used for recommendation actions.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// A map of field paths to error messages for invalid or missing input fields.
+        public var fieldErrors: [Swift.String: Swift.String]?
+        /// The timestamp when the profile was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this profile.
+        public var lastModifiedBy: Swift.String?
+        /// The system name of the profile.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Well-Architected Tool Framework pillars associated with this profile.
+        /// This member is required.
+        public var pillars: [WellArchitectedClientTypes.Pillar]?
+        /// The tags associated with the profile.
+        public var tags: [WellArchitectedClientTypes.Tag]?
+
+        public init(
+            aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]? = nil,
+            arn: Swift.String? = nil,
+            businessOverview: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            deletionProtection: Swift.Bool? = true,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            eligibleForArchitectureGeneration: Swift.Bool? = nil,
+            eligibleForScheduledGeneration: Swift.Bool? = nil,
+            executionRoleArn: Swift.String? = nil,
+            fieldErrors: [Swift.String: Swift.String]? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+            tags: [WellArchitectedClientTypes.Tag]? = nil
+        ) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.arn = arn
+            self.businessOverview = businessOverview
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+            self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+            self.executionRoleArn = executionRoleArn
+            self.fieldErrors = fieldErrors
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.pillars = pillars
+            self.tags = tags
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.AgentProfileSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AgentProfileSummary(aggregationConfiguration: \(Swift.String(describing: aggregationConfiguration)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), eligibleForArchitectureGeneration: \(Swift.String(describing: eligibleForArchitectureGeneration)), eligibleForScheduledGeneration: \(Swift.String(describing: eligibleForScheduledGeneration)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), fieldErrors: \(Swift.String(describing: fieldErrors)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), name: \(Swift.String(describing: name)), pillars: \(Swift.String(describing: pillars)), tags: \(Swift.String(describing: tags)), businessOverview: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum GenerationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case error
+        case inProgress
+        case queued
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GenerationStatus] {
+            return [
+                .completed,
+                .error,
+                .inProgress,
+                .queued
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .error: return "ERROR"
+            case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Summary of a recommendation generation process initiated through the agent API.
+    public struct AgentRecommendationGenerationSummary: Swift.Sendable {
+        /// The timestamp when the generation was started.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that started this generation.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The estimated time for the generation to complete.
+        public var estimatedCompletionTime: Foundation.Date?
+        /// The unique identifier of the recommendation generation.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp when the generation was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this generation.
+        public var lastModifiedBy: Swift.String?
+        /// The name of the recommendation generation.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the profile used for this generation.
+        /// This member is required.
+        public var profileArn: Swift.String?
+        /// The current status of the recommendation generation.
+        /// This member is required.
+        public var status: WellArchitectedClientTypes.GenerationStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            estimatedCompletionTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            name: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            status: WellArchitectedClientTypes.GenerationStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.profileArn = profileArn
+            self.status = status
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RecommendationItemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsResource
+        case recommendation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationItemType] {
+            return [
+                .awsResource,
+                .recommendation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsResource: return "AWS_RESOURCE"
+            case .recommendation: return "RECOMMENDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Summary of an agent recommendation item, representing an Amazon Web Services resource or recommendation affected by the optimization recommendation.
+    public struct AgentRecommendationItemSummary: Swift.Sendable {
+        /// The timestamp when the recommendation item was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that created this recommendation item.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The unique identifier of the recommendation item.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp when the recommendation item was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this recommendation item.
+        public var lastModifiedBy: Swift.String?
+        /// Metadata containing a snapshot of the resource or recommendation at the time of generation.
+        /// This member is required.
+        public var metadata: Smithy.Document?
+        /// The Amazon Resource Name (ARN) of the associated recommendation.
+        /// This member is required.
+        public var recommendationArn: Swift.String?
+        /// The type of the recommendation item.
+        /// This member is required.
+        public var type: WellArchitectedClientTypes.RecommendationItemType?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            metadata: Smithy.Document? = nil,
+            recommendationArn: Swift.String? = nil,
+            type: WellArchitectedClientTypes.RecommendationItemType? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.metadata = metadata
+            self.recommendationArn = recommendationArn
+            self.type = type
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// An external reference associated with remediation steps.
+    public struct ResourceLink: Swift.Sendable {
+        /// An optional human-readable title for the link.
+        public var title: Swift.String?
+        /// The URL of the external reference.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// One step within a remediation procedure.
+    public struct RemediationStep: Swift.Sendable {
+        /// The content describing the step, which can include code examples and verification checklists.
+        /// This member is required.
+        public var content: Swift.String?
+        /// An optional short label for the step.
+        public var title: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.content = content
+            self.title = title
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.RemediationStep: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemediationStep(content: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RemediationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoRemediation
+        case cli
+        case console
+        case iac
+        case mcp
+        case sdk
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemediationType] {
+            return [
+                .autoRemediation,
+                .cli,
+                .console,
+                .iac,
+                .mcp,
+                .sdk
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoRemediation: return "AUTO_REMEDIATION"
+            case .cli: return "CLI"
+            case .console: return "CONSOLE"
+            case .iac: return "IAC"
+            case .mcp: return "MCP"
+            case .sdk: return "SDK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// The core fields for a remediation.
+    public struct AgentRecommendationRemediation: Swift.Sendable {
+        /// The timestamp when the remediation was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that created this remediation.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp when the remediation was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this remediation.
+        public var lastModifiedBy: Swift.String?
+        /// The ARN of the recommendation that this remediation belongs to.
+        /// This member is required.
+        public var recommendationArn: Swift.String?
+        /// External references associated with the steps.
+        public var resourceLinks: [WellArchitectedClientTypes.ResourceLink]?
+        /// The procedural steps to perform the remediation.
+        /// This member is required.
+        public var steps: [WellArchitectedClientTypes.RemediationStep]?
+        /// The remediation method.
+        /// This member is required.
+        public var type: WellArchitectedClientTypes.RemediationType?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            recommendationArn: Swift.String? = nil,
+            resourceLinks: [WellArchitectedClientTypes.ResourceLink]? = nil,
+            steps: [WellArchitectedClientTypes.RemediationStep]? = nil,
+            type: WellArchitectedClientTypes.RemediationType? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.recommendationArn = recommendationArn
+            self.resourceLinks = resourceLinks
+            self.steps = steps
+            self.type = type
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum Effort: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case large
+        case medium
+        case small
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Effort] {
+            return [
+                .large,
+                .medium,
+                .small
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .large: return "LARGE"
+            case .medium: return "MEDIUM"
+            case .small: return "SMALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum ImpactCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpactCategory] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum Priority: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Priority] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// A return-on-investment estimate with context.
+    public struct Roi: Swift.Sendable {
+        /// A sentence providing context for the estimate.
+        /// This member is required.
+        public var detail: Swift.String?
+        /// A short statistic or key metric. Optional when there is no quantifiable figure.
+        public var estimate: Swift.String?
+
+        public init(
+            detail: Swift.String? = nil,
+            estimate: Swift.String? = nil
+        ) {
+            self.detail = detail
+            self.estimate = estimate
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RecommendationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case closed
+        case `open`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationState] {
+            return [
+                .closed,
+                .open
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .closed: return "CLOSED"
+            case .open: return "OPEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case completed
+        case suppressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .active,
+                .completed,
+                .suppressed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .completed: return "COMPLETED"
+            case .suppressed: return "SUPPRESSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case application
+        case architecture
+        case resource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationType] {
+            return [
+                .application,
+                .architecture,
+                .resource
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .application: return "APPLICATION"
+            case .architecture: return "ARCHITECTURE"
+            case .resource: return "RESOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Summary of an agent optimization recommendation returned by list operations.
+    public struct AgentRecommendationSummary: Swift.Sendable {
+        /// The applications that the recommendation targets.
+        public var applications: [Swift.String]?
+        /// The Amazon Web Services services that the recommendation applies to.
+        public var awsServices: [Swift.String]?
+        /// The business units that own the affected resources.
+        public var businessUnits: [Swift.String]?
+        /// The timestamp when the recommendation was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that created this recommendation.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// A description of the recommendation.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The effort required to implement the recommendation.
+        /// This member is required.
+        public var effort: WellArchitectedClientTypes.Effort?
+        /// The severity of the recommendation's impact.
+        /// This member is required.
+        public var impact: WellArchitectedClientTypes.ImpactCategory?
+        /// The timestamp when the recommendation was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this recommendation.
+        public var lastModifiedBy: Swift.String?
+        /// The number of Amazon Web Services resources this recommendation affects.
+        public var numberOfResources: Swift.Int?
+        /// The Well-Architected Tool Framework pillar that the recommendation addresses.
+        /// This member is required.
+        public var pillar: WellArchitectedClientTypes.Pillar?
+        /// The priority of the recommendation.
+        /// This member is required.
+        public var priority: WellArchitectedClientTypes.Priority?
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        /// This member is required.
+        public var profileArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the recommendation.
+        /// This member is required.
+        public var recommendationArn: Swift.String?
+        /// The return on investment estimate for the recommendation.
+        /// This member is required.
+        public var roi: WellArchitectedClientTypes.Roi?
+        /// The current state of the recommendation.
+        /// This member is required.
+        public var state: WellArchitectedClientTypes.RecommendationState?
+        /// The current status of the recommendation.
+        /// This member is required.
+        public var status: WellArchitectedClientTypes.RecommendationStatus?
+        /// The title of the recommendation.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The type of the recommendation.
+        /// This member is required.
+        public var type: WellArchitectedClientTypes.RecommendationType?
+        /// The free-text reason associated with the recommendation's most recent status update.
+        public var updateReason: Swift.String?
+
+        public init(
+            applications: [Swift.String]? = nil,
+            awsServices: [Swift.String]? = nil,
+            businessUnits: [Swift.String]? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            effort: WellArchitectedClientTypes.Effort? = nil,
+            impact: WellArchitectedClientTypes.ImpactCategory? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            numberOfResources: Swift.Int? = nil,
+            pillar: WellArchitectedClientTypes.Pillar? = nil,
+            priority: WellArchitectedClientTypes.Priority? = nil,
+            profileArn: Swift.String? = nil,
+            recommendationArn: Swift.String? = nil,
+            roi: WellArchitectedClientTypes.Roi? = nil,
+            state: WellArchitectedClientTypes.RecommendationState? = nil,
+            status: WellArchitectedClientTypes.RecommendationStatus? = nil,
+            title: Swift.String? = nil,
+            type: WellArchitectedClientTypes.RecommendationType? = nil,
+            updateReason: Swift.String? = nil
+        ) {
+            self.applications = applications
+            self.awsServices = awsServices
+            self.businessUnits = businessUnits
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.effort = effort
+            self.impact = impact
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.numberOfResources = numberOfResources
+            self.pillar = pillar
+            self.priority = priority
+            self.profileArn = profileArn
+            self.recommendationArn = recommendationArn
+            self.roi = roi
+            self.state = state
+            self.status = status
+            self.title = title
+            self.type = type
+            self.updateReason = updateReason
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.AgentRecommendationSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AgentRecommendationSummary(applications: \(Swift.String(describing: applications)), awsServices: \(Swift.String(describing: awsServices)), businessUnits: \(Swift.String(describing: businessUnits)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), effort: \(Swift.String(describing: effort)), impact: \(Swift.String(describing: impact)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), numberOfResources: \(Swift.String(describing: numberOfResources)), pillar: \(Swift.String(describing: pillar)), priority: \(Swift.String(describing: priority)), profileArn: \(Swift.String(describing: profileArn)), recommendationArn: \(Swift.String(describing: recommendationArn)), roi: \(Swift.String(describing: roi)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", updateReason: \"CONTENT_REDACTED\")"}
+}
+
+extension WellArchitectedClientTypes {
+
     public enum ChoiceReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case architectureConstraints
         case businessPriorities
@@ -563,7 +1364,7 @@ extension WellArchitectedClientTypes {
     public struct JiraConfiguration: Swift.Sendable {
         /// The URL of the associated Jira issue.
         public var jiraIssueUrl: Swift.String?
-        /// The date and time recorded.
+        /// The date and time when the Jira configuration was last synced.
         public var lastSyncedTime: Foundation.Date?
 
         public init(
@@ -665,7 +1466,7 @@ extension WellArchitectedClientTypes {
         public var helpfulResourceDisplayText: Swift.String?
         /// The helpful resource URL. For Amazon Web Services official lenses, this is the helpful resource URL for a question or choice. For custom lenses, this is the helpful resource URL for a question and is only provided if HelpfulResourceDisplayText was specified for the question.
         public var helpfulResourceUrl: Swift.String?
-        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered.
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
         public var isApplicable: Swift.Bool?
@@ -827,6 +1628,38 @@ extension WellArchitectedClientTypes {
             self.reason = reason
             self.risk = risk
             self.selectedChoices = selectedChoices
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum ApplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case desktopApplication
+        case other
+        case sas
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationType] {
+            return [
+                .desktopApplication,
+                .other,
+                .sas
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .desktopApplication: return "DESKTOP_APPLICATION"
+            case .other: return "OTHER"
+            case .sas: return "SAS"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1192,7 +2025,7 @@ extension WellArchitectedClientTypes {
         public var reason: WellArchitectedClientTypes.CheckFailureReason?
         /// Status associated to the check.
         public var status: WellArchitectedClientTypes.CheckStatus?
-        /// The date and time recorded.
+        /// The date and time when the check was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -1251,7 +2084,7 @@ extension WellArchitectedClientTypes {
         public var questionId: Swift.String?
         /// Status associated to the check.
         public var status: WellArchitectedClientTypes.CheckStatus?
-        /// The date and time recorded.
+        /// The date and time when the check summary was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -1284,13 +2117,13 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes {
 
-    /// The choice level improvement plan.
+    /// The choice level improvement plan. This value is only applicable to custom lenses.
     public struct ChoiceImprovementPlan: Swift.Sendable {
         /// The ID of a choice.
         public var choiceId: Swift.String?
         /// The display text for the improvement plan.
         public var displayText: Swift.String?
-        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered.
         public var improvementPlanUrl: Swift.String?
 
         public init(
@@ -1436,7 +2269,7 @@ extension WellArchitectedClientTypes {
         public var metricType: WellArchitectedClientTypes.MetricType?
         /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String: Swift.Int]?
-        /// The date and time recorded.
+        /// The date and time when the consolidated report metric was last updated.
         public var updatedAt: Foundation.Date?
         /// The ARN for the workload.
         public var workloadArn: Swift.String?
@@ -1465,6 +2298,215 @@ extension WellArchitectedClientTypes {
             self.workloadName = workloadName
         }
     }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum Criticality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case businessCritical
+        case missionCritical
+        case nonCritical
+        case testDevelopment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Criticality] {
+            return [
+                .businessCritical,
+                .missionCritical,
+                .nonCritical,
+                .testDevelopment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessCritical: return "BUSINESS_CRITICAL"
+            case .missionCritical: return "MISSION_CRITICAL"
+            case .nonCritical: return "NON_CRITICAL"
+            case .testDevelopment: return "TEST_DEVELOPMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// A key-value pair representing a resource tag used to scope context content.
+    public struct ContextResourceTag: Swift.Sendable {
+        /// The tag key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The tag value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Typed content structure for a context. Contains application-specific fields that describe the environment used during recommendation generation.
+    public struct ContextContent: Swift.Sendable {
+        /// The Amazon Web Services account IDs associated with this application context.
+        public var accountIds: [Swift.String]?
+        /// Additional context not captured by other fields.
+        public var additionalContext: Swift.String?
+        /// A free-form overview of the application.
+        public var applicationOverview: Swift.String?
+        /// The type of the application.
+        public var applicationType: WellArchitectedClientTypes.ApplicationType?
+        /// A free-form description of the application architecture.
+        public var architectureOverview: Swift.String?
+        /// The Amazon Web Services services used by this application.
+        public var awsServices: [Swift.String]?
+        /// The business criticality of the application.
+        public var criticality: WellArchitectedClientTypes.Criticality?
+        /// The industry vertical for this application.
+        public var industry: Swift.String?
+        /// The Amazon Web Services Regions where this application operates.
+        public var regions: [Swift.String]?
+        /// Resource tags used to scope this application context.
+        public var resourceTags: [WellArchitectedClientTypes.ContextResourceTag]?
+        /// The Amazon Web Services resource types relevant to this application.
+        public var resourceTypes: [Swift.String]?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            additionalContext: Swift.String? = nil,
+            applicationOverview: Swift.String? = nil,
+            applicationType: WellArchitectedClientTypes.ApplicationType? = nil,
+            architectureOverview: Swift.String? = nil,
+            awsServices: [Swift.String]? = nil,
+            criticality: WellArchitectedClientTypes.Criticality? = nil,
+            industry: Swift.String? = nil,
+            regions: [Swift.String]? = nil,
+            resourceTags: [WellArchitectedClientTypes.ContextResourceTag]? = nil,
+            resourceTypes: [Swift.String]? = nil
+        ) {
+            self.accountIds = accountIds
+            self.additionalContext = additionalContext
+            self.applicationOverview = applicationOverview
+            self.applicationType = applicationType
+            self.architectureOverview = architectureOverview
+            self.awsServices = awsServices
+            self.criticality = criticality
+            self.industry = industry
+            self.regions = regions
+            self.resourceTags = resourceTags
+            self.resourceTypes = resourceTypes
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.ContextContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContextContent(accountIds: \(Swift.String(describing: accountIds)), applicationType: \(Swift.String(describing: applicationType)), awsServices: \(Swift.String(describing: awsServices)), criticality: \(Swift.String(describing: criticality)), regions: \(Swift.String(describing: regions)), resourceTags: \(Swift.String(describing: resourceTags)), resourceTypes: \(Swift.String(describing: resourceTypes)), additionalContext: \"CONTENT_REDACTED\", applicationOverview: \"CONTENT_REDACTED\", architectureOverview: \"CONTENT_REDACTED\", industry: \"CONTENT_REDACTED\")"}
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum ContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case application
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextType] {
+            return [
+                .application
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .application: return "APPLICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Summary of a context associated with a profile, representing application or environment information used during recommendation generation.
+    public struct ContextSummary: Swift.Sendable {
+        /// The type of application described by this context.
+        public var applicationType: WellArchitectedClientTypes.ApplicationType?
+        /// The typed content of the context, containing application-specific fields such as account IDs, Regions, services, and resource types.
+        /// This member is required.
+        public var content: WellArchitectedClientTypes.ContextContent?
+        /// The type of the context.
+        /// This member is required.
+        public var contextType: WellArchitectedClientTypes.ContextType?
+        /// The timestamp when the context was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that created this context.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The business criticality of the application described by this context.
+        public var criticality: WellArchitectedClientTypes.Criticality?
+        /// The unique identifier of the context.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp when the context was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this context.
+        public var lastModifiedBy: Swift.String?
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        /// This member is required.
+        public var profileArn: Swift.String?
+        /// The title of the context.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            applicationType: WellArchitectedClientTypes.ApplicationType? = nil,
+            content: WellArchitectedClientTypes.ContextContent? = nil,
+            contextType: WellArchitectedClientTypes.ContextType? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            criticality: WellArchitectedClientTypes.Criticality? = nil,
+            id: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.applicationType = applicationType
+            self.content = content
+            self.contextType = contextType
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.criticality = criticality
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.profileArn = profileArn
+            self.title = title
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.ContextSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ContextSummary(applicationType: \(Swift.String(describing: applicationType)), content: \(Swift.String(describing: content)), contextType: \(Swift.String(describing: contextType)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), criticality: \(Swift.String(describing: criticality)), id: \(Swift.String(describing: id)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), profileArn: \(Swift.String(describing: profileArn)), title: \"CONTENT_REDACTED\")"}
 }
 
 /// The user has reached their resource quota.
@@ -1508,6 +2550,302 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         self.properties.resourceType = resourceType
         self.properties.serviceCode = serviceCode
     }
+}
+
+public struct CreateAgentContextInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types.
+    /// This member is required.
+    public var content: WellArchitectedClientTypes.ContextContent?
+    /// The type of the context.
+    /// This member is required.
+    public var contextType: WellArchitectedClientTypes.ContextType?
+    /// The Amazon Resource Name (ARN) of the profile to associate the context with.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The title of the context.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        content: WellArchitectedClientTypes.ContextContent? = nil,
+        contextType: WellArchitectedClientTypes.ContextType? = nil,
+        profileArn: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.content = content
+        self.contextType = contextType
+        self.profileArn = profileArn
+        self.title = title
+    }
+}
+
+extension CreateAgentContextInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAgentContextInput(clientToken: \(Swift.String(describing: clientToken)), content: \(Swift.String(describing: content)), contextType: \(Swift.String(describing: contextType)), profileArn: \(Swift.String(describing: profileArn)), title: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateAgentContextOutput: Swift.Sendable {
+    /// The created context summary.
+    /// This member is required.
+    public var context: WellArchitectedClientTypes.ContextSummary?
+
+    public init(
+        context: WellArchitectedClientTypes.ContextSummary? = nil
+    ) {
+        self.context = context
+    }
+}
+
+public struct CreateAgentGoalInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A description of the goal.
+    public var description: Swift.String?
+    /// The Well-Architected Tool Framework pillars to associate with this goal.
+    /// This member is required.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The Amazon Resource Name (ARN) of the profile to associate the goal with.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The title of the goal.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        profileArn: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.pillars = pillars
+        self.profileArn = profileArn
+        self.title = title
+    }
+}
+
+extension CreateAgentGoalInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAgentGoalInput(clientToken: \(Swift.String(describing: clientToken)), pillars: \(Swift.String(describing: pillars)), profileArn: \(Swift.String(describing: profileArn)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Summary of an optimization goal associated with a profile.
+    public struct GoalSummary: Swift.Sendable {
+        /// The timestamp when the goal was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the user or system that created this goal.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// A description of the goal.
+        public var description: Swift.String?
+        /// The unique identifier of the goal.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp when the goal was last modified.
+        public var lastModifiedAt: Foundation.Date?
+        /// The identifier of the user or system that last modified this goal.
+        public var lastModifiedBy: Swift.String?
+        /// The Well-Architected Tool Framework pillars associated with this goal.
+        /// This member is required.
+        public var pillars: [WellArchitectedClientTypes.Pillar]?
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        /// This member is required.
+        public var profileArn: Swift.String?
+        /// The title of the goal.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+            profileArn: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.pillars = pillars
+            self.profileArn = profileArn
+            self.title = title
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.GoalSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GoalSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), id: \(Swift.String(describing: id)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), pillars: \(Swift.String(describing: pillars)), profileArn: \(Swift.String(describing: profileArn)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateAgentGoalOutput: Swift.Sendable {
+    /// The created goal summary.
+    /// This member is required.
+    public var goal: WellArchitectedClientTypes.GoalSummary?
+
+    public init(
+        goal: WellArchitectedClientTypes.GoalSummary? = nil
+    ) {
+        self.goal = goal
+    }
+}
+
+public struct CreateAgentProfileInput: Swift.Sendable {
+    /// The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze.
+    /// This member is required.
+    public var aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]?
+    /// The business overview for this profile.
+    public var businessOverview: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// Indicates whether deletion protection is enabled for the profile.
+    public var deletionProtection: Swift.Bool?
+    /// A description of the profile.
+    public var description: Swift.String?
+    /// The display name of the profile shown to users.
+    public var displayName: Swift.String?
+    /// The ARN of the IAM execution role used for recommendation actions.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The system name of the profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Well-Architected Tool Framework pillars to associate with this profile.
+    /// This member is required.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The tags to associate with the profile.
+    public var tags: [WellArchitectedClientTypes.Tag]?
+
+    public init(
+        aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]? = nil,
+        businessOverview: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        tags: [WellArchitectedClientTypes.Tag]? = nil
+    ) {
+        self.aggregationConfiguration = aggregationConfiguration
+        self.businessOverview = businessOverview
+        self.clientToken = clientToken
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.displayName = displayName
+        self.executionRoleArn = executionRoleArn
+        self.name = name
+        self.pillars = pillars
+        self.tags = tags
+    }
+}
+
+extension CreateAgentProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAgentProfileInput(aggregationConfiguration: \(Swift.String(describing: aggregationConfiguration)), clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), pillars: \(Swift.String(describing: pillars)), tags: \(Swift.String(describing: tags)), businessOverview: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateAgentProfileOutput: Swift.Sendable {
+    /// The aggregation configuration.
+    /// This member is required.
+    public var aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]?
+    /// The Amazon Resource Name (ARN) of the created profile.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The business overview of the created profile.
+    public var businessOverview: Swift.String?
+    /// The timestamp when the profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user or system that created this profile.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Indicates whether deletion protection is enabled.
+    public var deletionProtection: Swift.Bool?
+    /// A description of the created profile.
+    public var description: Swift.String?
+    /// The display name of the created profile.
+    public var displayName: Swift.String?
+    /// Indicates whether the profile is valid for manual architecture generation.
+    public var eligibleForArchitectureGeneration: Swift.Bool?
+    /// Indicates whether the profile is valid for scheduled recommendation generation.
+    public var eligibleForScheduledGeneration: Swift.Bool?
+    /// The ARN of the IAM execution role.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// A map of field paths to error messages for invalid or missing input fields.
+    public var fieldErrors: [Swift.String: Swift.String]?
+    /// The timestamp when the profile was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The identifier of the user or system that last modified this profile.
+    public var lastModifiedBy: Swift.String?
+    /// The system name of the created profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Well-Architected Tool Framework pillars associated with the created profile.
+    /// This member is required.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The tags associated with the created profile.
+    public var tags: [WellArchitectedClientTypes.Tag]?
+
+    public init(
+        aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]? = nil,
+        arn: Swift.String? = nil,
+        businessOverview: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = true,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        eligibleForArchitectureGeneration: Swift.Bool? = nil,
+        eligibleForScheduledGeneration: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        fieldErrors: [Swift.String: Swift.String]? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        lastModifiedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        tags: [WellArchitectedClientTypes.Tag]? = nil
+    ) {
+        self.aggregationConfiguration = aggregationConfiguration
+        self.arn = arn
+        self.businessOverview = businessOverview
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.displayName = displayName
+        self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+        self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+        self.executionRoleArn = executionRoleArn
+        self.fieldErrors = fieldErrors
+        self.lastModifiedAt = lastModifiedAt
+        self.lastModifiedBy = lastModifiedBy
+        self.name = name
+        self.pillars = pillars
+        self.tags = tags
+    }
+}
+
+extension CreateAgentProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAgentProfileOutput(aggregationConfiguration: \(Swift.String(describing: aggregationConfiguration)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), eligibleForArchitectureGeneration: \(Swift.String(describing: eligibleForArchitectureGeneration)), eligibleForScheduledGeneration: \(Swift.String(describing: eligibleForScheduledGeneration)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), fieldErrors: \(Swift.String(describing: fieldErrors)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), name: \(Swift.String(describing: name)), pillars: \(Swift.String(describing: pillars)), tags: \(Swift.String(describing: tags)), businessOverview: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateLensShareInput: Swift.Sendable {
@@ -2209,6 +3547,98 @@ public struct CreateWorkloadShareOutput: Swift.Sendable {
 
 extension WellArchitectedClientTypes {
 
+    /// A benefit on a different pillar from acting on the recommendation.
+    public struct CrossPillarBenefit: Swift.Sendable {
+        /// A description of what changes and why it matters.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The severity of the benefit.
+        /// This member is required.
+        public var impact: WellArchitectedClientTypes.ImpactCategory?
+        /// The pillar that would be positively impacted.
+        /// This member is required.
+        public var pillar: WellArchitectedClientTypes.Pillar?
+        /// A short phrase describing the outcome.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            impact: WellArchitectedClientTypes.ImpactCategory? = nil,
+            pillar: WellArchitectedClientTypes.Pillar? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.description = description
+            self.impact = impact
+            self.pillar = pillar
+            self.title = title
+        }
+    }
+}
+
+public struct DeleteAgentContextInput: Swift.Sendable {
+    /// The unique identifier of the context to delete.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile containing the context.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.id = id
+        self.profileArn = profileArn
+    }
+}
+
+public struct DeleteAgentContextOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAgentGoalInput: Swift.Sendable {
+    /// The unique identifier of the goal to delete.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile containing the goal.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.id = id
+        self.profileArn = profileArn
+    }
+}
+
+public struct DeleteAgentGoalOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAgentProfileInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the profile to delete.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        profileArn: Swift.String? = nil
+    ) {
+        self.profileArn = profileArn
+    }
+}
+
+public struct DeleteAgentProfileOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension WellArchitectedClientTypes {
+
     public enum LensStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case draft
@@ -2498,6 +3928,27 @@ extension WellArchitectedClientTypes {
     }
 }
 
+extension WellArchitectedClientTypes {
+
+    /// Details about an error that occurred during recommendation generation.
+    public struct ErrorDetails: Swift.Sendable {
+        /// The status code identifying the type of error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A human-readable description of the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
 public struct ExportLensInput: Swift.Sendable {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
@@ -2522,6 +3973,701 @@ public struct ExportLensOutput: Swift.Sendable {
         lensJSON: Swift.String? = nil
     ) {
         self.lensJSON = lensJSON
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum FeedbackCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case other
+        case recommendationIncorrect
+        case recommendationNotRelevant
+        case resourceNotImportant
+        case resourceTypeNotImportant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeedbackCategory] {
+            return [
+                .other,
+                .recommendationIncorrect,
+                .recommendationNotRelevant,
+                .resourceNotImportant,
+                .resourceTypeNotImportant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .other: return "OTHER"
+            case .recommendationIncorrect: return "RECOMMENDATION_INCORRECT"
+            case .recommendationNotRelevant: return "RECOMMENDATION_NOT_RELEVANT"
+            case .resourceNotImportant: return "RESOURCE_NOT_IMPORTANT"
+            case .resourceTypeNotImportant: return "RESOURCE_TYPE_NOT_IMPORTANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetAgentContextInput: Swift.Sendable {
+    /// The unique identifier of the context to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile containing the context.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.id = id
+        self.profileArn = profileArn
+    }
+}
+
+public struct GetAgentContextOutput: Swift.Sendable {
+    /// The retrieved context summary.
+    /// This member is required.
+    public var context: WellArchitectedClientTypes.ContextSummary?
+
+    public init(
+        context: WellArchitectedClientTypes.ContextSummary? = nil
+    ) {
+        self.context = context
+    }
+}
+
+public struct GetAgentGoalInput: Swift.Sendable {
+    /// The unique identifier of the goal to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile containing the goal.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.id = id
+        self.profileArn = profileArn
+    }
+}
+
+public struct GetAgentGoalOutput: Swift.Sendable {
+    /// The retrieved goal summary.
+    /// This member is required.
+    public var goal: WellArchitectedClientTypes.GoalSummary?
+
+    public init(
+        goal: WellArchitectedClientTypes.GoalSummary? = nil
+    ) {
+        self.goal = goal
+    }
+}
+
+public struct GetAgentProfileInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the optimization profile to retrieve.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        profileArn: Swift.String? = nil
+    ) {
+        self.profileArn = profileArn
+    }
+}
+
+public struct GetAgentProfileOutput: Swift.Sendable {
+    /// The aggregation configuration.
+    /// This member is required.
+    public var aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]?
+    /// The Amazon Resource Name (ARN) of the profile.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The business overview of the profile.
+    public var businessOverview: Swift.String?
+    /// The timestamp when the profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user or system that created this profile.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Indicates whether deletion protection is enabled.
+    public var deletionProtection: Swift.Bool?
+    /// A description of the profile.
+    public var description: Swift.String?
+    /// The display name of the profile.
+    public var displayName: Swift.String?
+    /// Indicates whether the profile is valid for manual architecture generation.
+    public var eligibleForArchitectureGeneration: Swift.Bool?
+    /// Indicates whether the profile is valid for scheduled recommendation generation.
+    public var eligibleForScheduledGeneration: Swift.Bool?
+    /// The ARN of the IAM execution role.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// A map of field paths to error messages for invalid or missing input fields.
+    public var fieldErrors: [Swift.String: Swift.String]?
+    /// The timestamp when the profile was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The identifier of the user or system that last modified this profile.
+    public var lastModifiedBy: Swift.String?
+    /// The system name of the profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Well-Architected Tool Framework pillars associated with the profile.
+    /// This member is required.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The tags associated with the profile.
+    public var tags: [WellArchitectedClientTypes.Tag]?
+
+    public init(
+        aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]? = nil,
+        arn: Swift.String? = nil,
+        businessOverview: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = true,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        eligibleForArchitectureGeneration: Swift.Bool? = nil,
+        eligibleForScheduledGeneration: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        fieldErrors: [Swift.String: Swift.String]? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        lastModifiedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        tags: [WellArchitectedClientTypes.Tag]? = nil
+    ) {
+        self.aggregationConfiguration = aggregationConfiguration
+        self.arn = arn
+        self.businessOverview = businessOverview
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.displayName = displayName
+        self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+        self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+        self.executionRoleArn = executionRoleArn
+        self.fieldErrors = fieldErrors
+        self.lastModifiedAt = lastModifiedAt
+        self.lastModifiedBy = lastModifiedBy
+        self.name = name
+        self.pillars = pillars
+        self.tags = tags
+    }
+}
+
+extension GetAgentProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAgentProfileOutput(aggregationConfiguration: \(Swift.String(describing: aggregationConfiguration)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), eligibleForArchitectureGeneration: \(Swift.String(describing: eligibleForArchitectureGeneration)), eligibleForScheduledGeneration: \(Swift.String(describing: eligibleForScheduledGeneration)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), fieldErrors: \(Swift.String(describing: fieldErrors)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), name: \(Swift.String(describing: name)), pillars: \(Swift.String(describing: pillars)), tags: \(Swift.String(describing: tags)), businessOverview: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetAgentRecommendationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the recommendation to retrieve.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// Optional filter on remediation type.
+    public var remediationType: WellArchitectedClientTypes.RemediationType?
+
+    public init(
+        recommendationArn: Swift.String? = nil,
+        remediationType: WellArchitectedClientTypes.RemediationType? = nil
+    ) {
+        self.recommendationArn = recommendationArn
+        self.remediationType = remediationType
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Contains information about a goal associated with a recommendation.
+    public struct RecommendationGoal: Swift.Sendable {
+        /// The title of the goal associated with the recommendation.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            title: Swift.String? = nil
+        ) {
+            self.title = title
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// An insight describing a usage pattern and the signals detected.
+    public struct Insight: Swift.Sendable {
+        /// A description of the signals detected.
+        public var signalsDetected: Swift.String?
+        /// A description of the usage pattern.
+        /// This member is required.
+        public var usagePattern: Swift.String?
+
+        public init(
+            signalsDetected: Swift.String? = nil,
+            usagePattern: Swift.String? = nil
+        ) {
+            self.signalsDetected = signalsDetected
+            self.usagePattern = usagePattern
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// A high-level remediation summary returned in the detail response.
+    public struct RemediationSummary: Swift.Sendable {
+        /// A short imperative statement of the recommended action.
+        /// This member is required.
+        public var recommendation: Swift.String?
+        /// High-level steps to implement the fix.
+        /// This member is required.
+        public var steps: [Swift.String]?
+
+        public init(
+            recommendation: Swift.String? = nil,
+            steps: [Swift.String]? = nil
+        ) {
+            self.recommendation = recommendation
+            self.steps = steps
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RecommendationSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatch
+        case costExplorer
+        case customerIac
+        case trustedAdvisor
+        case wellArchitectedAgent
+        case wellArchitectedTool
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationSource] {
+            return [
+                .cloudwatch,
+                .costExplorer,
+                .customerIac,
+                .trustedAdvisor,
+                .wellArchitectedAgent,
+                .wellArchitectedTool
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatch: return "CLOUDWATCH"
+            case .costExplorer: return "COST_EXPLORER"
+            case .customerIac: return "CUSTOMER_IAC"
+            case .trustedAdvisor: return "TRUSTED_ADVISOR"
+            case .wellArchitectedAgent: return "WELL_ARCHITECTED_AGENT"
+            case .wellArchitectedTool: return "WELL_ARCHITECTED_TOOL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    public enum RiskRating: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RiskRating] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// A negative trade-off from acting on the recommendation.
+    public struct TradeOff: Swift.Sendable {
+        /// A description of the specific risk and the condition that triggers it.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A specific action to mitigate the trade-off and when to take it.
+        /// This member is required.
+        public var mitigation: Swift.String?
+        /// The pillar that could be negatively impacted.
+        /// This member is required.
+        public var pillar: WellArchitectedClientTypes.Pillar?
+        /// The risk rating for the trade-off.
+        /// This member is required.
+        public var risk: WellArchitectedClientTypes.RiskRating?
+        /// An optional explanation providing additional context for the risk rating.
+        public var riskExplanation: Swift.String?
+        /// A short phrase describing what is lost or degraded.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            mitigation: Swift.String? = nil,
+            pillar: WellArchitectedClientTypes.Pillar? = nil,
+            risk: WellArchitectedClientTypes.RiskRating? = nil,
+            riskExplanation: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.description = description
+            self.mitigation = mitigation
+            self.pillar = pillar
+            self.risk = risk
+            self.riskExplanation = riskExplanation
+            self.title = title
+        }
+    }
+}
+
+public struct GetAgentRecommendationOutput: Swift.Sendable {
+    /// The applications that the recommendation targets.
+    public var applications: [Swift.String]?
+    /// The Amazon Web Services services that the recommendation applies to.
+    public var awsServices: [Swift.String]?
+    /// The business units that own the affected resources.
+    public var businessUnits: [Swift.String]?
+    /// The timestamp when the recommendation was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user or system that created this recommendation.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Cross-pillar benefits of acting on the recommendation.
+    public var crossPillarBenefits: [WellArchitectedClientTypes.CrossPillarBenefit]?
+    /// A description of the recommendation.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The effort required to implement the recommendation.
+    /// This member is required.
+    public var effort: WellArchitectedClientTypes.Effort?
+    /// Goals that this recommendation targets.
+    public var goals: [WellArchitectedClientTypes.RecommendationGoal]?
+    /// Highlights describing what was detected.
+    /// This member is required.
+    public var highlights: [Swift.String]?
+    /// The severity of the recommendation's impact.
+    /// This member is required.
+    public var impact: WellArchitectedClientTypes.ImpactCategory?
+    /// Detailed impact information for the recommendation.
+    /// This member is required.
+    public var impactDetails: [Swift.String]?
+    /// A list of insights about the recommendation.
+    /// This member is required.
+    public var insights: [WellArchitectedClientTypes.Insight]?
+    /// The timestamp when the recommendation was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The identifier of the user or system that last modified this recommendation.
+    public var lastModifiedBy: Swift.String?
+    /// The number of Amazon Web Services resources this recommendation affects.
+    public var numberOfResources: Swift.Int?
+    /// The Well-Architected Tool Framework pillar that the recommendation addresses.
+    /// This member is required.
+    public var pillar: WellArchitectedClientTypes.Pillar?
+    /// The priority of the recommendation.
+    /// This member is required.
+    public var priority: WellArchitectedClientTypes.Priority?
+    /// The Amazon Resource Name (ARN) of the associated profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the recommendation.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// A high-level summary of the recommended remediation.
+    /// This member is required.
+    public var remediationSummary: WellArchitectedClientTypes.RemediationSummary?
+    /// A list of remediations for the recommendation.
+    public var remediations: [WellArchitectedClientTypes.AgentRecommendationRemediation]?
+    /// The return on investment estimate for the recommendation.
+    /// This member is required.
+    public var roi: WellArchitectedClientTypes.Roi?
+    /// Sources that generated this recommendation.
+    public var sources: [WellArchitectedClientTypes.RecommendationSource]?
+    /// The current state of the recommendation.
+    /// This member is required.
+    public var state: WellArchitectedClientTypes.RecommendationState?
+    /// The current status of the recommendation.
+    /// This member is required.
+    public var status: WellArchitectedClientTypes.RecommendationStatus?
+    /// A set of key-value pairs associated with the recommendation, used for cost allocation and access control.
+    public var tags: [WellArchitectedClientTypes.Tag]?
+    /// The title of the recommendation.
+    /// This member is required.
+    public var title: Swift.String?
+    /// Trade-offs of acting on the recommendation.
+    public var tradeOffs: [WellArchitectedClientTypes.TradeOff]?
+    /// The type of the recommendation.
+    /// This member is required.
+    public var type: WellArchitectedClientTypes.RecommendationType?
+    /// The free-text reason associated with the recommendation's most recent status update.
+    public var updateReason: Swift.String?
+
+    public init(
+        applications: [Swift.String]? = nil,
+        awsServices: [Swift.String]? = nil,
+        businessUnits: [Swift.String]? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        crossPillarBenefits: [WellArchitectedClientTypes.CrossPillarBenefit]? = nil,
+        description: Swift.String? = nil,
+        effort: WellArchitectedClientTypes.Effort? = nil,
+        goals: [WellArchitectedClientTypes.RecommendationGoal]? = nil,
+        highlights: [Swift.String]? = nil,
+        impact: WellArchitectedClientTypes.ImpactCategory? = nil,
+        impactDetails: [Swift.String]? = nil,
+        insights: [WellArchitectedClientTypes.Insight]? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        lastModifiedBy: Swift.String? = nil,
+        numberOfResources: Swift.Int? = nil,
+        pillar: WellArchitectedClientTypes.Pillar? = nil,
+        priority: WellArchitectedClientTypes.Priority? = nil,
+        profileArn: Swift.String? = nil,
+        recommendationArn: Swift.String? = nil,
+        remediationSummary: WellArchitectedClientTypes.RemediationSummary? = nil,
+        remediations: [WellArchitectedClientTypes.AgentRecommendationRemediation]? = nil,
+        roi: WellArchitectedClientTypes.Roi? = nil,
+        sources: [WellArchitectedClientTypes.RecommendationSource]? = nil,
+        state: WellArchitectedClientTypes.RecommendationState? = nil,
+        status: WellArchitectedClientTypes.RecommendationStatus? = nil,
+        tags: [WellArchitectedClientTypes.Tag]? = nil,
+        title: Swift.String? = nil,
+        tradeOffs: [WellArchitectedClientTypes.TradeOff]? = nil,
+        type: WellArchitectedClientTypes.RecommendationType? = nil,
+        updateReason: Swift.String? = nil
+    ) {
+        self.applications = applications
+        self.awsServices = awsServices
+        self.businessUnits = businessUnits
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.crossPillarBenefits = crossPillarBenefits
+        self.description = description
+        self.effort = effort
+        self.goals = goals
+        self.highlights = highlights
+        self.impact = impact
+        self.impactDetails = impactDetails
+        self.insights = insights
+        self.lastModifiedAt = lastModifiedAt
+        self.lastModifiedBy = lastModifiedBy
+        self.numberOfResources = numberOfResources
+        self.pillar = pillar
+        self.priority = priority
+        self.profileArn = profileArn
+        self.recommendationArn = recommendationArn
+        self.remediationSummary = remediationSummary
+        self.remediations = remediations
+        self.roi = roi
+        self.sources = sources
+        self.state = state
+        self.status = status
+        self.tags = tags
+        self.title = title
+        self.tradeOffs = tradeOffs
+        self.type = type
+        self.updateReason = updateReason
+    }
+}
+
+extension GetAgentRecommendationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAgentRecommendationOutput(applications: \(Swift.String(describing: applications)), awsServices: \(Swift.String(describing: awsServices)), businessUnits: \(Swift.String(describing: businessUnits)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), crossPillarBenefits: \(Swift.String(describing: crossPillarBenefits)), effort: \(Swift.String(describing: effort)), goals: \(Swift.String(describing: goals)), highlights: \(Swift.String(describing: highlights)), impact: \(Swift.String(describing: impact)), impactDetails: \(Swift.String(describing: impactDetails)), insights: \(Swift.String(describing: insights)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), numberOfResources: \(Swift.String(describing: numberOfResources)), pillar: \(Swift.String(describing: pillar)), priority: \(Swift.String(describing: priority)), profileArn: \(Swift.String(describing: profileArn)), recommendationArn: \(Swift.String(describing: recommendationArn)), remediationSummary: \(Swift.String(describing: remediationSummary)), remediations: \(Swift.String(describing: remediations)), roi: \(Swift.String(describing: roi)), sources: \(Swift.String(describing: sources)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), tradeOffs: \(Swift.String(describing: tradeOffs)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", updateReason: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetAgentRecommendationGenerationInput: Swift.Sendable {
+    /// The unique identifier of the recommendation generation to retrieve.
+    /// This member is required.
+    public var generationId: Swift.String?
+    /// The ARN of the optimization profile associated with this generation.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        generationId: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.generationId = generationId
+        self.profileArn = profileArn
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Progress information for a recommendation generation process.
+    public struct Progress: Swift.Sendable {
+        /// The completion percentage of the generation process (0-100).
+        /// This member is required.
+        public var completionPercentage: Swift.Double?
+        /// The number of generation steps that have been completed.
+        /// This member is required.
+        public var stepsCompleted: Swift.Int?
+        /// The total number of steps in the generation process.
+        /// This member is required.
+        public var totalSteps: Swift.Int?
+
+        public init(
+            completionPercentage: Swift.Double? = nil,
+            stepsCompleted: Swift.Int? = nil,
+            totalSteps: Swift.Int? = nil
+        ) {
+            self.completionPercentage = completionPercentage
+            self.stepsCompleted = stepsCompleted
+            self.totalSteps = totalSteps
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Item configuration for a specific Well-Architected Tool Framework pillar.
+    public struct PillarItem: Swift.Sendable {
+        /// A list of item IDs to process for this pillar, such as best practice IDs, Amazon Web Services service names, or resource ARNs.
+        /// This member is required.
+        public var ids: [Swift.String]?
+        /// The pillar this item configuration applies to.
+        /// This member is required.
+        public var pillar: WellArchitectedClientTypes.Pillar?
+
+        public init(
+            ids: [Swift.String]? = nil,
+            pillar: WellArchitectedClientTypes.Pillar? = nil
+        ) {
+            self.ids = ids
+            self.pillar = pillar
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+
+    /// Defines the scope for recommendation generation, specifying which pillars and goals to focus on.
+    public struct Scope: Swift.Sendable {
+        /// Specific goal IDs to focus on during recommendation generation.
+        public var goalIds: [Swift.String]?
+        /// Optional per-pillar item filtering configuration.
+        public var items: [WellArchitectedClientTypes.PillarItem]?
+        /// The Well-Architected Tool Framework pillars to include in the generation scope.
+        /// This member is required.
+        public var pillars: [WellArchitectedClientTypes.Pillar]?
+
+        public init(
+            goalIds: [Swift.String]? = nil,
+            items: [WellArchitectedClientTypes.PillarItem]? = nil,
+            pillars: [WellArchitectedClientTypes.Pillar]? = nil
+        ) {
+            self.goalIds = goalIds
+            self.items = items
+            self.pillars = pillars
+        }
+    }
+}
+
+public struct GetAgentRecommendationGenerationOutput: Swift.Sendable {
+    /// Additional context information provided to guide the recommendation generation process.
+    public var additionalContext: Smithy.Document?
+    /// The timestamp when the generation was started.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user or system that started this generation.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The timestamp when the recommendation generation process completed.
+    public var endedAt: Foundation.Date?
+    /// Details about the error if the generation status is ERROR.
+    public var errorDetails: WellArchitectedClientTypes.ErrorDetails?
+    /// The estimated time for the generation to complete.
+    public var estimatedCompletionTime: Foundation.Date?
+    /// The unique identifier of the recommendation generation.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp when the generation was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The identifier of the user or system that last modified this generation.
+    public var lastModifiedBy: Swift.String?
+    /// The name of the recommendation generation.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile used for this generation.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// Current progress information including steps completed and completion percentage.
+    public var progress: WellArchitectedClientTypes.Progress?
+    /// The scope configuration that defines which pillars and goals to focus on during generation.
+    public var scope: WellArchitectedClientTypes.Scope?
+    /// The timestamp when the recommendation generation process started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the recommendation generation.
+    /// This member is required.
+    public var status: WellArchitectedClientTypes.GenerationStatus?
+
+    public init(
+        additionalContext: Smithy.Document? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        endedAt: Foundation.Date? = nil,
+        errorDetails: WellArchitectedClientTypes.ErrorDetails? = nil,
+        estimatedCompletionTime: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        lastModifiedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        progress: WellArchitectedClientTypes.Progress? = nil,
+        scope: WellArchitectedClientTypes.Scope? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: WellArchitectedClientTypes.GenerationStatus? = nil
+    ) {
+        self.additionalContext = additionalContext
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.endedAt = endedAt
+        self.errorDetails = errorDetails
+        self.estimatedCompletionTime = estimatedCompletionTime
+        self.id = id
+        self.lastModifiedAt = lastModifiedAt
+        self.lastModifiedBy = lastModifiedBy
+        self.name = name
+        self.profileArn = profileArn
+        self.progress = progress
+        self.scope = scope
+        self.startedAt = startedAt
+        self.status = status
     }
 }
 
@@ -2938,7 +5084,7 @@ extension WellArchitectedClientTypes {
         public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
         /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String: Swift.Int]?
-        /// The date and time recorded.
+        /// The date and time when the lens review was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -3356,7 +5502,7 @@ extension WellArchitectedClientTypes {
         public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
         /// The review owner of the workload. The name, email address, or identifier for the primary group or individual that owns the workload review process.
         public var reviewOwner: Swift.String?
-        /// The date and time recorded.
+        /// The review restriction date for the workload.
         public var reviewRestrictionDate: Foundation.Date?
         /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String: Swift.Int]?
@@ -3364,7 +5510,7 @@ extension WellArchitectedClientTypes {
         public var shareInvitationId: Swift.String?
         /// The tags associated with the workload.
         public var tags: [Swift.String: Swift.String]?
-        /// The date and time recorded.
+        /// The date and time when the workload was last updated.
         public var updatedAt: Foundation.Date?
         /// The ARN for the workload.
         public var workloadArn: Swift.String?
@@ -3443,7 +5589,7 @@ extension WellArchitectedClientTypes {
         public var milestoneName: Swift.String?
         /// The milestone number. A workload can have a maximum of 100 milestones.
         public var milestoneNumber: Swift.Int?
-        /// The date and time recorded.
+        /// The date and time when the milestone was recorded.
         public var recordedAt: Foundation.Date?
         /// A workload return object.
         public var workload: WellArchitectedClientTypes.Workload?
@@ -3560,7 +5706,7 @@ extension WellArchitectedClientTypes {
 
     /// A profile.
     public struct Profile: Swift.Sendable {
-        /// The date and time recorded.
+        /// The date and time when the profile was created.
         public var createdAt: Foundation.Date?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?
@@ -3578,7 +5724,7 @@ extension WellArchitectedClientTypes {
         public var shareInvitationId: Swift.String?
         /// The tags assigned to the profile.
         public var tags: [Swift.String: Swift.String]?
-        /// The date and time recorded.
+        /// The date and time when the profile was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -3685,13 +5831,13 @@ extension WellArchitectedClientTypes {
 
     /// The profile template.
     public struct ProfileTemplate: Swift.Sendable {
-        /// The date and time recorded.
+        /// The date and time when the profile template was created.
         public var createdAt: Foundation.Date?
         /// The name of the profile template.
         public var templateName: Swift.String?
         /// Profile template questions.
         public var templateQuestions: [WellArchitectedClientTypes.ProfileTemplateQuestion]?
-        /// The date and time recorded.
+        /// The date and time when the profile template was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -3813,7 +5959,7 @@ extension WellArchitectedClientTypes {
         public var templateName: Swift.String?
         /// The latest status of a review template.
         public var updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus?
-        /// The date and time recorded.
+        /// The date and time when the review template was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -3920,7 +6066,7 @@ extension WellArchitectedClientTypes {
         public var helpfulResourceDisplayText: Swift.String?
         /// The helpful resource URL. For Amazon Web Services official lenses, this is the helpful resource URL for a question or choice. For custom lenses, this is the helpful resource URL for a question and is only provided if HelpfulResourceDisplayText was specified for the question.
         public var helpfulResourceUrl: Swift.String?
-        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered.
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
         public var isApplicable: Swift.Bool?
@@ -4058,7 +6204,7 @@ extension WellArchitectedClientTypes {
         public var pillarReviewSummaries: [WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary]?
         /// A count of how many questions are answered and unanswered in the lens review.
         public var questionCounts: [Swift.String: Swift.Int]?
-        /// The date and time recorded.
+        /// The date and time when the review template lens review was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -4203,9 +6349,9 @@ extension WellArchitectedClientTypes {
 
     /// An improvement summary of a lens review in a workload.
     public struct ImprovementSummary: Swift.Sendable {
-        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered.
         public var improvementPlanUrl: Swift.String?
-        /// The improvement plan details.
+        /// The improvement plan details. This value is only applicable to custom lenses.
         public var improvementPlans: [WellArchitectedClientTypes.ChoiceImprovementPlan]?
         /// Configuration of the Jira integration.
         public var jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration?
@@ -4284,7 +6430,7 @@ extension WellArchitectedClientTypes {
         public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
         /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String: Swift.Int]?
-        /// The date and time recorded.
+        /// The date and time when the lens review was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -4422,7 +6568,7 @@ extension WellArchitectedClientTypes {
 
     /// A lens summary of a lens.
     public struct LensSummary: Swift.Sendable {
-        /// The date and time recorded.
+        /// The date and time when the lens was created.
         public var createdAt: Foundation.Date?
         /// The description of the lens.
         public var description: Swift.String?
@@ -4440,7 +6586,7 @@ extension WellArchitectedClientTypes {
         public var lensVersion: Swift.String?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?
-        /// The date and time recorded.
+        /// The date and time when the lens was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -4509,6 +6655,233 @@ extension WellArchitectedClientTypes {
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
+    }
+}
+
+public struct ListAgentContextsInput: Swift.Sendable {
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile to list contexts for.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileArn = profileArn
+    }
+}
+
+public struct ListAgentContextsOutput: Swift.Sendable {
+    /// A list of context summaries associated with the profile.
+    /// This member is required.
+    public var items: [WellArchitectedClientTypes.ContextSummary]?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [WellArchitectedClientTypes.ContextSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentGoalsInput: Swift.Sendable {
+    /// The maximum number of goals to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the optimization profile to list goals for.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileArn = profileArn
+    }
+}
+
+public struct ListAgentGoalsOutput: Swift.Sendable {
+    /// A list of goal summaries associated with the profile.
+    /// This member is required.
+    public var items: [WellArchitectedClientTypes.GoalSummary]?
+    /// A pagination token to retrieve the next set of results, if available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [WellArchitectedClientTypes.GoalSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentProfilesInput: Swift.Sendable {
+    /// The maximum number of profiles to return in a single call. Default is 100.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to continue retrieving results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentProfilesOutput: Swift.Sendable {
+    /// A list of profile summaries.
+    /// This member is required.
+    public var items: [WellArchitectedClientTypes.AgentProfileSummary]?
+    /// A pagination token to retrieve the next set of results, if available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [WellArchitectedClientTypes.AgentProfileSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentRecommendationGenerationsInput: Swift.Sendable {
+    /// The maximum number of generation processes to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the optimization profile to list generation processes for.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// Optional filter by recommendation type.
+    public var recommendationType: WellArchitectedClientTypes.RecommendationType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        recommendationType: WellArchitectedClientTypes.RecommendationType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.profileArn = profileArn
+        self.recommendationType = recommendationType
+    }
+}
+
+public struct ListAgentRecommendationGenerationsOutput: Swift.Sendable {
+    /// A list of recommendation generation summaries.
+    /// This member is required.
+    public var items: [WellArchitectedClientTypes.AgentRecommendationGenerationSummary]?
+    /// A pagination token to retrieve the next set of results, if available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [WellArchitectedClientTypes.AgentRecommendationGenerationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentRecommendationItemsInput: Swift.Sendable {
+    /// The maximum number of recommendation items to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the recommendation to list items for.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// Optional filter to return only recommendation items of the specified type.
+    public var type: WellArchitectedClientTypes.RecommendationItemType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recommendationArn: Swift.String? = nil,
+        type: WellArchitectedClientTypes.RecommendationItemType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recommendationArn = recommendationArn
+        self.type = type
+    }
+}
+
+public struct ListAgentRecommendationItemsOutput: Swift.Sendable {
+    /// A list of recommendation items with their detailed metadata and configuration information.
+    /// This member is required.
+    public var items: [WellArchitectedClientTypes.AgentRecommendationItemSummary]?
+    /// A pagination token to retrieve the next set of results, if available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [WellArchitectedClientTypes.AgentRecommendationItemSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAgentRecommendationsInput: Swift.Sendable {
+    /// The maximum number of recommendations to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// Optional filter to return only recommendations for the specified pillar.
+    public var pillar: WellArchitectedClientTypes.Pillar?
+    /// The Amazon Resource Name (ARN) of the optimization profile to list recommendations for.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// Optional filter to return only recommendations with the specified state (OPEN or CLOSED).
+    public var state: WellArchitectedClientTypes.RecommendationState?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pillar: WellArchitectedClientTypes.Pillar? = nil,
+        profileArn: Swift.String? = nil,
+        state: WellArchitectedClientTypes.RecommendationState? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pillar = pillar
+        self.profileArn = profileArn
+        self.state = state
+    }
+}
+
+public struct ListAgentRecommendationsOutput: Swift.Sendable {
+    /// A list of recommendation summaries.
+    /// This member is required.
+    public var items: [WellArchitectedClientTypes.AgentRecommendationSummary]?
+    /// A pagination token to retrieve the next set of results, if available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [WellArchitectedClientTypes.AgentRecommendationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -4964,7 +7337,7 @@ extension WellArchitectedClientTypes {
         public var profiles: [WellArchitectedClientTypes.WorkloadProfile]?
         /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String: Swift.Int]?
-        /// The date and time recorded.
+        /// The date and time when the workload was last updated.
         public var updatedAt: Foundation.Date?
         /// The ARN for the workload.
         public var workloadArn: Swift.String?
@@ -5007,7 +7380,7 @@ extension WellArchitectedClientTypes {
         public var milestoneName: Swift.String?
         /// The milestone number. A workload can have a maximum of 100 milestones.
         public var milestoneNumber: Swift.Int?
-        /// The date and time recorded.
+        /// The date and time when the milestone was recorded.
         public var recordedAt: Foundation.Date?
         /// A workload summary return object.
         public var workloadSummary: WellArchitectedClientTypes.WorkloadSummary?
@@ -5290,7 +7663,7 @@ extension WellArchitectedClientTypes {
 
     /// Summary of a profile.
     public struct ProfileSummary: Swift.Sendable {
-        /// The date and time recorded.
+        /// The date and time when the profile was created.
         public var createdAt: Foundation.Date?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?
@@ -5302,7 +7675,7 @@ extension WellArchitectedClientTypes {
         public var profileName: Swift.String?
         /// The profile version.
         public var profileVersion: Swift.String?
-        /// The date and time recorded.
+        /// The date and time when the profile was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -5544,7 +7917,7 @@ extension WellArchitectedClientTypes {
         public var templateName: Swift.String?
         /// The latest status of a review template.
         public var updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus?
-        /// The date and time recorded.
+        /// The date and time when the review template was last updated.
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -5947,6 +8320,65 @@ public struct ListWorkloadSharesOutput: Swift.Sendable {
 
 extension WellArchitectedClientTypes {
 
+    public enum RecommendationFeedbackType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notUseful
+        case useful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationFeedbackType] {
+            return [
+                .notUseful,
+                .useful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notUseful: return "NOT_USEFUL"
+            case .useful: return "USEFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct PutAgentRecommendationFeedbackInput: Swift.Sendable {
+    /// Optional comments providing additional context about the feedback.
+    public var comments: Swift.String?
+    /// Optional category classifying the nature of the feedback.
+    public var feedbackCategory: WellArchitectedClientTypes.FeedbackCategory?
+    /// The Amazon Resource Name (ARN) of the recommendation to provide feedback for.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// The type of feedback being provided.
+    /// This member is required.
+    public var type: WellArchitectedClientTypes.RecommendationFeedbackType?
+
+    public init(
+        comments: Swift.String? = nil,
+        feedbackCategory: WellArchitectedClientTypes.FeedbackCategory? = nil,
+        recommendationArn: Swift.String? = nil,
+        type: WellArchitectedClientTypes.RecommendationFeedbackType? = nil
+    ) {
+        self.comments = comments
+        self.feedbackCategory = feedbackCategory
+        self.recommendationArn = recommendationArn
+        self.type = type
+    }
+}
+
+public struct PutAgentRecommendationFeedbackOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension WellArchitectedClientTypes {
+
     /// The share invitation.
     public struct ShareInvitation: Swift.Sendable {
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -6014,6 +8446,84 @@ extension WellArchitectedClientTypes {
     }
 }
 
+public struct StartAgentRecommendationGenerationInput: Swift.Sendable {
+    /// Optional additional context to guide the recommendation generation, such as specific business requirements or constraints.
+    public var additionalContext: Smithy.Document?
+    /// An optional name for this generation process to help identify it in lists and logs.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the optimization profile to use for generating recommendations.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// Scope configuration to focus the generation on specific pillars or goals.
+    /// This member is required.
+    public var scope: WellArchitectedClientTypes.Scope?
+    /// The types of recommendations to generate.
+    /// This member is required.
+    public var types: [WellArchitectedClientTypes.RecommendationType]?
+
+    public init(
+        additionalContext: Smithy.Document? = nil,
+        name: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        scope: WellArchitectedClientTypes.Scope? = nil,
+        types: [WellArchitectedClientTypes.RecommendationType]? = nil
+    ) {
+        self.additionalContext = additionalContext
+        self.name = name
+        self.profileArn = profileArn
+        self.scope = scope
+        self.types = types
+    }
+}
+
+public struct StartAgentRecommendationGenerationOutput: Swift.Sendable {
+    /// The timestamp when the generation was started.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user or system that started this generation.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The estimated time for the generation to complete.
+    public var estimatedCompletionTime: Foundation.Date?
+    /// The unique identifier of the recommendation generation.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp when the generation was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The identifier of the user or system that last modified this generation.
+    public var lastModifiedBy: Swift.String?
+    /// The name of the recommendation generation.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile used for this generation.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The current status of the recommendation generation.
+    /// This member is required.
+    public var status: WellArchitectedClientTypes.GenerationStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        estimatedCompletionTime: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        lastModifiedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        status: WellArchitectedClientTypes.GenerationStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.estimatedCompletionTime = estimatedCompletionTime
+        self.id = id
+        self.lastModifiedAt = lastModifiedAt
+        self.lastModifiedBy = lastModifiedBy
+        self.name = name
+        self.profileArn = profileArn
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The tags for the resource.
     /// This member is required.
@@ -6054,6 +8564,269 @@ public struct UntagResourceInput: Swift.Sendable {
 }
 
 public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateAgentContextInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The updated typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types.
+    public var content: WellArchitectedClientTypes.ContextContent?
+    /// The unique identifier of the context to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the profile containing the context.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The updated title of the context.
+    public var title: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        content: WellArchitectedClientTypes.ContextContent? = nil,
+        id: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.content = content
+        self.id = id
+        self.profileArn = profileArn
+        self.title = title
+    }
+}
+
+extension UpdateAgentContextInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentContextInput(clientToken: \(Swift.String(describing: clientToken)), content: \(Swift.String(describing: content)), id: \(Swift.String(describing: id)), profileArn: \(Swift.String(describing: profileArn)), title: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentContextOutput: Swift.Sendable {
+    /// The updated context summary.
+    /// This member is required.
+    public var context: WellArchitectedClientTypes.ContextSummary?
+
+    public init(
+        context: WellArchitectedClientTypes.ContextSummary? = nil
+    ) {
+        self.context = context
+    }
+}
+
+public struct UpdateAgentGoalInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A description of the goal.
+    public var description: Swift.String?
+    /// The unique identifier of the goal to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The updated pillars for the goal. Pillars define the optimization focus areas such as cost, performance, resilience, and operational excellence.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The Amazon Resource Name (ARN) of the profile containing the goal to update.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The updated title for the goal. Maximum length of 1000 characters.
+    public var title: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        profileArn: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.id = id
+        self.pillars = pillars
+        self.profileArn = profileArn
+        self.title = title
+    }
+}
+
+extension UpdateAgentGoalInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentGoalInput(clientToken: \(Swift.String(describing: clientToken)), id: \(Swift.String(describing: id)), pillars: \(Swift.String(describing: pillars)), profileArn: \(Swift.String(describing: profileArn)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentGoalOutput: Swift.Sendable {
+    /// The updated goal summary.
+    /// This member is required.
+    public var goal: WellArchitectedClientTypes.GoalSummary?
+
+    public init(
+        goal: WellArchitectedClientTypes.GoalSummary? = nil
+    ) {
+        self.goal = goal
+    }
+}
+
+public struct UpdateAgentProfileInput: Swift.Sendable {
+    /// The updated aggregation configuration.
+    public var aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]?
+    /// The updated business overview for the profile.
+    public var businessOverview: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// Indicates whether deletion protection is enabled for the profile.
+    public var deletionProtection: Swift.Bool?
+    /// The updated description of the profile.
+    public var description: Swift.String?
+    /// The updated display name of the profile.
+    public var displayName: Swift.String?
+    /// The updated ARN of the IAM execution role.
+    public var executionRoleArn: Swift.String?
+    /// The updated Well-Architected Tool Framework pillars for the profile.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The Amazon Resource Name (ARN) of the profile to update.
+    /// This member is required.
+    public var profileArn: Swift.String?
+
+    public init(
+        aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]? = nil,
+        businessOverview: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        profileArn: Swift.String? = nil
+    ) {
+        self.aggregationConfiguration = aggregationConfiguration
+        self.businessOverview = businessOverview
+        self.clientToken = clientToken
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.displayName = displayName
+        self.executionRoleArn = executionRoleArn
+        self.pillars = pillars
+        self.profileArn = profileArn
+    }
+}
+
+extension UpdateAgentProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentProfileInput(aggregationConfiguration: \(Swift.String(describing: aggregationConfiguration)), clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), pillars: \(Swift.String(describing: pillars)), profileArn: \(Swift.String(describing: profileArn)), businessOverview: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentProfileOutput: Swift.Sendable {
+    /// The aggregation configuration.
+    /// This member is required.
+    public var aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]?
+    /// The Amazon Resource Name (ARN) of the updated profile.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The business overview of the updated profile.
+    public var businessOverview: Swift.String?
+    /// The timestamp when the profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the user or system that created this profile.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Indicates whether deletion protection is enabled.
+    public var deletionProtection: Swift.Bool?
+    /// A description of the updated profile.
+    public var description: Swift.String?
+    /// The display name of the updated profile.
+    public var displayName: Swift.String?
+    /// Indicates whether the profile is valid for manual architecture generation.
+    public var eligibleForArchitectureGeneration: Swift.Bool?
+    /// Indicates whether the profile is valid for scheduled recommendation generation.
+    public var eligibleForScheduledGeneration: Swift.Bool?
+    /// The ARN of the IAM execution role.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// A map of field paths to error messages for invalid or missing input fields.
+    public var fieldErrors: [Swift.String: Swift.String]?
+    /// The timestamp when the profile was last modified.
+    public var lastModifiedAt: Foundation.Date?
+    /// The identifier of the user or system that last modified this profile.
+    public var lastModifiedBy: Swift.String?
+    /// The system name of the updated profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Well-Architected Tool Framework pillars associated with the updated profile.
+    /// This member is required.
+    public var pillars: [WellArchitectedClientTypes.Pillar]?
+    /// The tags associated with the updated profile.
+    public var tags: [WellArchitectedClientTypes.Tag]?
+
+    public init(
+        aggregationConfiguration: [WellArchitectedClientTypes.AggregationConfiguration]? = nil,
+        arn: Swift.String? = nil,
+        businessOverview: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = true,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        eligibleForArchitectureGeneration: Swift.Bool? = nil,
+        eligibleForScheduledGeneration: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        fieldErrors: [Swift.String: Swift.String]? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        lastModifiedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pillars: [WellArchitectedClientTypes.Pillar]? = nil,
+        tags: [WellArchitectedClientTypes.Tag]? = nil
+    ) {
+        self.aggregationConfiguration = aggregationConfiguration
+        self.arn = arn
+        self.businessOverview = businessOverview
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.displayName = displayName
+        self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+        self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+        self.executionRoleArn = executionRoleArn
+        self.fieldErrors = fieldErrors
+        self.lastModifiedAt = lastModifiedAt
+        self.lastModifiedBy = lastModifiedBy
+        self.name = name
+        self.pillars = pillars
+        self.tags = tags
+    }
+}
+
+extension UpdateAgentProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentProfileOutput(aggregationConfiguration: \(Swift.String(describing: aggregationConfiguration)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), eligibleForArchitectureGeneration: \(Swift.String(describing: eligibleForArchitectureGeneration)), eligibleForScheduledGeneration: \(Swift.String(describing: eligibleForScheduledGeneration)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), fieldErrors: \(Swift.String(describing: fieldErrors)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), name: \(Swift.String(describing: name)), pillars: \(Swift.String(describing: pillars)), tags: \(Swift.String(describing: tags)), businessOverview: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentRecommendationStatusInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the recommendation to update.
+    /// This member is required.
+    public var recommendationArn: Swift.String?
+    /// The new status to assign to the recommendation.
+    /// This member is required.
+    public var status: WellArchitectedClientTypes.RecommendationStatus?
+    /// A free-text reason explaining this status update.
+    public var updateReason: Swift.String?
+
+    public init(
+        recommendationArn: Swift.String? = nil,
+        status: WellArchitectedClientTypes.RecommendationStatus? = nil,
+        updateReason: Swift.String? = nil
+    ) {
+        self.recommendationArn = recommendationArn
+        self.status = status
+        self.updateReason = updateReason
+    }
+}
+
+extension UpdateAgentRecommendationStatusInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentRecommendationStatusInput(recommendationArn: \(Swift.String(describing: recommendationArn)), status: \(Swift.String(describing: status)), updateReason: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentRecommendationStatusOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -6733,6 +9506,33 @@ extension AssociateProfilesInput {
     }
 }
 
+extension CreateAgentContextInput {
+
+    static func urlPathProvider(_ value: CreateAgentContextInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/contexts"
+    }
+}
+
+extension CreateAgentGoalInput {
+
+    static func urlPathProvider(_ value: CreateAgentGoalInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/goals"
+    }
+}
+
+extension CreateAgentProfileInput {
+
+    static func urlPathProvider(_ value: CreateAgentProfileInput) -> Swift.String? {
+        return "/api/v1/agent-profiles"
+    }
+}
+
 extension CreateLensShareInput {
 
     static func urlPathProvider(_ value: CreateLensShareInput) -> Swift.String? {
@@ -6811,6 +9611,42 @@ extension CreateWorkloadShareInput {
             return nil
         }
         return "/workloads/\(workloadId.urlPercentEncoding())/shares"
+    }
+}
+
+extension DeleteAgentContextInput {
+
+    static func urlPathProvider(_ value: DeleteAgentContextInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/contexts/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAgentGoalInput {
+
+    static func urlPathProvider(_ value: DeleteAgentGoalInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/goals/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAgentProfileInput {
+
+    static func urlPathProvider(_ value: DeleteAgentProfileInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())"
     }
 }
 
@@ -7063,6 +9899,77 @@ extension ExportLensInput {
             items.append(lensVersionQueryItem)
         }
         return items
+    }
+}
+
+extension GetAgentContextInput {
+
+    static func urlPathProvider(_ value: GetAgentContextInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/contexts/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetAgentGoalInput {
+
+    static func urlPathProvider(_ value: GetAgentGoalInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/goals/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetAgentProfileInput {
+
+    static func urlPathProvider(_ value: GetAgentProfileInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())"
+    }
+}
+
+extension GetAgentRecommendationInput {
+
+    static func urlPathProvider(_ value: GetAgentRecommendationInput) -> Swift.String? {
+        guard let recommendationArn = value.recommendationArn else {
+            return nil
+        }
+        return "/api/v1/agent-recommendations/\(recommendationArn.urlPercentEncoding())"
+    }
+}
+
+extension GetAgentRecommendationInput {
+
+    static func queryItemProvider(_ value: GetAgentRecommendationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let remediationType = value.remediationType {
+            let remediationTypeQueryItem = Smithy.URIQueryItem(name: "remediationType".urlPercentEncoding(), value: Swift.String(remediationType.rawValue).urlPercentEncoding())
+            items.append(remediationTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetAgentRecommendationGenerationInput {
+
+    static func urlPathProvider(_ value: GetAgentRecommendationGenerationInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let generationId = value.generationId else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/generations/\(generationId.urlPercentEncoding())"
     }
 }
 
@@ -7327,6 +10234,175 @@ extension ImportLensInput {
 
     static func urlPathProvider(_ value: ImportLensInput) -> Swift.String? {
         return "/importLens"
+    }
+}
+
+extension ListAgentContextsInput {
+
+    static func urlPathProvider(_ value: ListAgentContextsInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/contexts"
+    }
+}
+
+extension ListAgentContextsInput {
+
+    static func queryItemProvider(_ value: ListAgentContextsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAgentGoalsInput {
+
+    static func urlPathProvider(_ value: ListAgentGoalsInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/goals"
+    }
+}
+
+extension ListAgentGoalsInput {
+
+    static func queryItemProvider(_ value: ListAgentGoalsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAgentProfilesInput {
+
+    static func urlPathProvider(_ value: ListAgentProfilesInput) -> Swift.String? {
+        return "/api/v1/agent-profiles"
+    }
+}
+
+extension ListAgentProfilesInput {
+
+    static func queryItemProvider(_ value: ListAgentProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAgentRecommendationGenerationsInput {
+
+    static func urlPathProvider(_ value: ListAgentRecommendationGenerationsInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/generations"
+    }
+}
+
+extension ListAgentRecommendationGenerationsInput {
+
+    static func queryItemProvider(_ value: ListAgentRecommendationGenerationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let recommendationType = value.recommendationType {
+            let recommendationTypeQueryItem = Smithy.URIQueryItem(name: "RecommendationType".urlPercentEncoding(), value: Swift.String(recommendationType.rawValue).urlPercentEncoding())
+            items.append(recommendationTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAgentRecommendationItemsInput {
+
+    static func urlPathProvider(_ value: ListAgentRecommendationItemsInput) -> Swift.String? {
+        guard let recommendationArn = value.recommendationArn else {
+            return nil
+        }
+        return "/api/v1/agent-recommendations/\(recommendationArn.urlPercentEncoding())/items"
+    }
+}
+
+extension ListAgentRecommendationItemsInput {
+
+    static func queryItemProvider(_ value: ListAgentRecommendationItemsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAgentRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListAgentRecommendationsInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/recommendations"
+    }
+}
+
+extension ListAgentRecommendationsInput {
+
+    static func queryItemProvider(_ value: ListAgentRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let pillar = value.pillar {
+            let pillarQueryItem = Smithy.URIQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            items.append(pillarQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        return items
     }
 }
 
@@ -7824,6 +10900,26 @@ extension ListWorkloadSharesInput {
     }
 }
 
+extension PutAgentRecommendationFeedbackInput {
+
+    static func urlPathProvider(_ value: PutAgentRecommendationFeedbackInput) -> Swift.String? {
+        guard let recommendationArn = value.recommendationArn else {
+            return nil
+        }
+        return "/api/v1/agent-recommendations/\(recommendationArn.urlPercentEncoding())/feedback"
+    }
+}
+
+extension StartAgentRecommendationGenerationInput {
+
+    static func urlPathProvider(_ value: StartAgentRecommendationGenerationInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/generations"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -7857,6 +10953,52 @@ extension UntagResourceInput {
             items.append(queryItem)
         }
         return items
+    }
+}
+
+extension UpdateAgentContextInput {
+
+    static func urlPathProvider(_ value: UpdateAgentContextInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/contexts/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAgentGoalInput {
+
+    static func urlPathProvider(_ value: UpdateAgentGoalInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())/goals/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAgentProfileInput {
+
+    static func urlPathProvider(_ value: UpdateAgentProfileInput) -> Swift.String? {
+        guard let profileArn = value.profileArn else {
+            return nil
+        }
+        return "/api/v1/agent-profiles/\(profileArn.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAgentRecommendationStatusInput {
+
+    static func urlPathProvider(_ value: UpdateAgentRecommendationStatusInput) -> Swift.String? {
+        guard let recommendationArn = value.recommendationArn else {
+            return nil
+        }
+        return "/api/v1/agent-recommendations/\(recommendationArn.urlPercentEncoding())/status"
     }
 }
 
@@ -8040,6 +11182,45 @@ extension AssociateProfilesInput {
     static func write(value: AssociateProfilesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ProfileArns"].writeList(value.profileArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateAgentContextInput {
+
+    static func write(value: CreateAgentContextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["content"].write(value.content, with: WellArchitectedClientTypes.ContextContent.write(value:to:))
+        try writer["contextType"].write(value.contextType)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension CreateAgentGoalInput {
+
+    static func write(value: CreateAgentGoalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["pillars"].writeList(value.pillars, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.Pillar>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension CreateAgentProfileInput {
+
+    static func write(value: CreateAgentProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aggregationConfiguration"].writeList(value.aggregationConfiguration, memberWritingClosure: WellArchitectedClientTypes.AggregationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["businessOverview"].write(value.businessOverview)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["deletionProtection"].write(value.deletionProtection)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["name"].write(value.name)
+        try writer["pillars"].writeList(value.pillars, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.Pillar>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: WellArchitectedClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -8234,11 +11415,77 @@ extension ListWorkloadsInput {
     }
 }
 
+extension PutAgentRecommendationFeedbackInput {
+
+    static func write(value: PutAgentRecommendationFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comments"].write(value.comments)
+        try writer["feedbackCategory"].write(value.feedbackCategory)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension StartAgentRecommendationGenerationInput {
+
+    static func write(value: StartAgentRecommendationGenerationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalContext"].write(value.additionalContext)
+        try writer["name"].write(value.name)
+        try writer["scope"].write(value.scope, with: WellArchitectedClientTypes.Scope.write(value:to:))
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.RecommendationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateAgentContextInput {
+
+    static func write(value: UpdateAgentContextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["content"].write(value.content, with: WellArchitectedClientTypes.ContextContent.write(value:to:))
+        try writer["title"].write(value.title)
+    }
+}
+
+extension UpdateAgentGoalInput {
+
+    static func write(value: UpdateAgentGoalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["pillars"].writeList(value.pillars, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.Pillar>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension UpdateAgentProfileInput {
+
+    static func write(value: UpdateAgentProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aggregationConfiguration"].writeList(value.aggregationConfiguration, memberWritingClosure: WellArchitectedClientTypes.AggregationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["businessOverview"].write(value.businessOverview)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["deletionProtection"].write(value.deletionProtection)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["pillars"].writeList(value.pillars, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.Pillar>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateAgentRecommendationStatusInput {
+
+    static func write(value: UpdateAgentRecommendationStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+        try writer["updateReason"].write(value.updateReason)
     }
 }
 
@@ -8405,6 +11652,58 @@ extension AssociateProfilesOutput {
     }
 }
 
+extension CreateAgentContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAgentContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAgentContextOutput()
+        value.context = try reader["context"].readIfPresent(with: WellArchitectedClientTypes.ContextSummary.read(from:))
+        return value
+    }
+}
+
+extension CreateAgentGoalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAgentGoalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAgentGoalOutput()
+        value.goal = try reader["goal"].readIfPresent(with: WellArchitectedClientTypes.GoalSummary.read(from:))
+        return value
+    }
+}
+
+extension CreateAgentProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAgentProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAgentProfileOutput()
+        value.aggregationConfiguration = try reader["aggregationConfiguration"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AggregationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.businessOverview = try reader["businessOverview"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? true
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.eligibleForArchitectureGeneration = try reader["eligibleForArchitectureGeneration"].readIfPresent()
+        value.eligibleForScheduledGeneration = try reader["eligibleForScheduledGeneration"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.fieldErrors = try reader["fieldErrors"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.Pillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateLensShareOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLensShareOutput {
@@ -8520,6 +11819,27 @@ extension CreateWorkloadShareOutput {
     }
 }
 
+extension DeleteAgentContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentContextOutput {
+        return DeleteAgentContextOutput()
+    }
+}
+
+extension DeleteAgentGoalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentGoalOutput {
+        return DeleteAgentGoalOutput()
+    }
+}
+
+extension DeleteAgentProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentProfileOutput {
+        return DeleteAgentProfileOutput()
+    }
+}
+
 extension DeleteLensOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLensOutput {
@@ -8598,6 +11918,126 @@ extension ExportLensOutput {
         let reader = responseReader
         var value = ExportLensOutput()
         value.lensJSON = try reader["LensJSON"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAgentContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentContextOutput()
+        value.context = try reader["context"].readIfPresent(with: WellArchitectedClientTypes.ContextSummary.read(from:))
+        return value
+    }
+}
+
+extension GetAgentGoalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentGoalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentGoalOutput()
+        value.goal = try reader["goal"].readIfPresent(with: WellArchitectedClientTypes.GoalSummary.read(from:))
+        return value
+    }
+}
+
+extension GetAgentProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentProfileOutput()
+        value.aggregationConfiguration = try reader["aggregationConfiguration"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AggregationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.businessOverview = try reader["businessOverview"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? true
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.eligibleForArchitectureGeneration = try reader["eligibleForArchitectureGeneration"].readIfPresent()
+        value.eligibleForScheduledGeneration = try reader["eligibleForScheduledGeneration"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.fieldErrors = try reader["fieldErrors"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.Pillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetAgentRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentRecommendationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentRecommendationOutput()
+        value.applications = try reader["applications"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.businessUnits = try reader["businessUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.crossPillarBenefits = try reader["crossPillarBenefits"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.CrossPillarBenefit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.effort = try reader["effort"].readIfPresent() ?? .sdkUnknown("")
+        value.goals = try reader["goals"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.RecommendationGoal.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.highlights = try reader["highlights"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.impact = try reader["impact"].readIfPresent() ?? .sdkUnknown("")
+        value.impactDetails = try reader["impactDetails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.numberOfResources = try reader["numberOfResources"].readIfPresent()
+        value.pillar = try reader["pillar"].readIfPresent() ?? .sdkUnknown("")
+        value.priority = try reader["priority"].readIfPresent() ?? .sdkUnknown("")
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.remediationSummary = try reader["remediationSummary"].readIfPresent(with: WellArchitectedClientTypes.RemediationSummary.read(from:))
+        value.remediations = try reader["remediations"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AgentRecommendationRemediation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roi = try reader["roi"].readIfPresent(with: WellArchitectedClientTypes.Roi.read(from:))
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.RecommendationSource>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.tradeOffs = try reader["tradeOffs"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.TradeOff.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updateReason = try reader["updateReason"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAgentRecommendationGenerationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentRecommendationGenerationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentRecommendationGenerationOutput()
+        value.additionalContext = try reader["additionalContext"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorDetails = try reader["errorDetails"].readIfPresent(with: WellArchitectedClientTypes.ErrorDetails.read(from:))
+        value.estimatedCompletionTime = try reader["estimatedCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.progress = try reader["progress"].readIfPresent(with: WellArchitectedClientTypes.Progress.read(from:))
+        value.scope = try reader["scope"].readIfPresent(with: WellArchitectedClientTypes.Scope.read(from:))
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8800,6 +12240,84 @@ extension ImportLensOutput {
         var value = ImportLensOutput()
         value.lensArn = try reader["LensArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentContextsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentContextsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentContextsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ContextSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentGoalsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentGoalsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentGoalsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.GoalSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentProfilesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AgentProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentRecommendationGenerationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentRecommendationGenerationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentRecommendationGenerationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AgentRecommendationGenerationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentRecommendationItemsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentRecommendationItemsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentRecommendationItemsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AgentRecommendationItemSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentRecommendationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AgentRecommendationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -9065,6 +12583,33 @@ extension ListWorkloadSharesOutput {
     }
 }
 
+extension PutAgentRecommendationFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAgentRecommendationFeedbackOutput {
+        return PutAgentRecommendationFeedbackOutput()
+    }
+}
+
+extension StartAgentRecommendationGenerationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAgentRecommendationGenerationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAgentRecommendationGenerationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.estimatedCompletionTime = try reader["estimatedCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -9076,6 +12621,65 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAgentContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentContextOutput()
+        value.context = try reader["context"].readIfPresent(with: WellArchitectedClientTypes.ContextSummary.read(from:))
+        return value
+    }
+}
+
+extension UpdateAgentGoalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentGoalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentGoalOutput()
+        value.goal = try reader["goal"].readIfPresent(with: WellArchitectedClientTypes.GoalSummary.read(from:))
+        return value
+    }
+}
+
+extension UpdateAgentProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentProfileOutput()
+        value.aggregationConfiguration = try reader["aggregationConfiguration"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AggregationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.businessOverview = try reader["businessOverview"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? true
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.eligibleForArchitectureGeneration = try reader["eligibleForArchitectureGeneration"].readIfPresent()
+        value.eligibleForScheduledGeneration = try reader["eligibleForScheduledGeneration"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.fieldErrors = try reader["fieldErrors"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.Pillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdateAgentRecommendationStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentRecommendationStatusOutput {
+        return UpdateAgentRecommendationStatusOutput()
     }
 }
 
@@ -9268,6 +12872,65 @@ enum AssociateProfilesOutputError {
     }
 }
 
+enum CreateAgentContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAgentGoalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAgentProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateLensShareOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9440,6 +13103,61 @@ enum CreateWorkloadShareOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAgentContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAgentGoalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAgentProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9638,6 +13356,96 @@ enum DisassociateProfilesOutputError {
 }
 
 enum ExportLensOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentGoalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentRecommendationGenerationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9919,6 +13727,111 @@ enum ImportLensOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentContextsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentGoalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentRecommendationGenerationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentRecommendationItemsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10258,6 +14171,43 @@ enum ListWorkloadSharesOutputError {
     }
 }
 
+enum PutAgentRecommendationFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartAgentRecommendationGenerationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10283,6 +14233,78 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAgentContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAgentGoalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAgentProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAgentRecommendationStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10695,6 +14717,133 @@ extension WellArchitectedClientTypes.AdditionalResources {
     }
 }
 
+extension WellArchitectedClientTypes.AgentProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AgentProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AgentProfileSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.businessOverview = try reader["businessOverview"].readIfPresent()
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.Pillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? true
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.aggregationConfiguration = try reader["aggregationConfiguration"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.AggregationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.eligibleForScheduledGeneration = try reader["eligibleForScheduledGeneration"].readIfPresent()
+        value.eligibleForArchitectureGeneration = try reader["eligibleForArchitectureGeneration"].readIfPresent()
+        value.fieldErrors = try reader["fieldErrors"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.AgentRecommendationGenerationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AgentRecommendationGenerationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AgentRecommendationGenerationSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.estimatedCompletionTime = try reader["estimatedCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.AgentRecommendationItemSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AgentRecommendationItemSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AgentRecommendationItemSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readIfPresent() ?? [:]
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.AgentRecommendationRemediation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AgentRecommendationRemediation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AgentRecommendationRemediation()
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.RemediationStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceLinks = try reader["resourceLinks"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ResourceLink.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.AgentRecommendationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AgentRecommendationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AgentRecommendationSummary()
+        value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.pillar = try reader["pillar"].readIfPresent() ?? .sdkUnknown("")
+        value.priority = try reader["priority"].readIfPresent() ?? .sdkUnknown("")
+        value.effort = try reader["effort"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.updateReason = try reader["updateReason"].readIfPresent()
+        value.impact = try reader["impact"].readIfPresent() ?? .sdkUnknown("")
+        value.roi = try reader["roi"].readIfPresent(with: WellArchitectedClientTypes.Roi.read(from:))
+        value.numberOfResources = try reader["numberOfResources"].readIfPresent()
+        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.businessUnits = try reader["businessUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applications = try reader["applications"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.AggregationConfiguration {
+
+    static func write(value: WellArchitectedClientTypes.AggregationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessRoleArn"].write(value.accessRoleArn)
+        try writer["accountId"].write(value.accountId)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AggregationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AggregationConfiguration()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.accessRoleArn = try reader["accessRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.Answer {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Answer {
@@ -10882,6 +15031,120 @@ extension WellArchitectedClientTypes.ConsolidatedReportMetric {
     }
 }
 
+extension WellArchitectedClientTypes.ContextContent {
+
+    static func write(value: WellArchitectedClientTypes.ContextContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["additionalContext"].write(value.additionalContext)
+        try writer["applicationOverview"].write(value.applicationOverview)
+        try writer["applicationType"].write(value.applicationType)
+        try writer["architectureOverview"].write(value.architectureOverview)
+        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["criticality"].write(value.criticality)
+        try writer["industry"].write(value.industry)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceTags"].writeList(value.resourceTags, memberWritingClosure: WellArchitectedClientTypes.ContextResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ContextContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ContextContent()
+        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ContextResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationOverview = try reader["applicationOverview"].readIfPresent()
+        value.industry = try reader["industry"].readIfPresent()
+        value.applicationType = try reader["applicationType"].readIfPresent()
+        value.criticality = try reader["criticality"].readIfPresent()
+        value.architectureOverview = try reader["architectureOverview"].readIfPresent()
+        value.additionalContext = try reader["additionalContext"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ContextResourceTag {
+
+    static func write(value: WellArchitectedClientTypes.ContextResourceTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ContextResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ContextResourceTag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ContextSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ContextSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ContextSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contextType = try reader["contextType"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["content"].readIfPresent(with: WellArchitectedClientTypes.ContextContent.read(from:))
+        value.applicationType = try reader["applicationType"].readIfPresent()
+        value.criticality = try reader["criticality"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.CrossPillarBenefit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CrossPillarBenefit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.CrossPillarBenefit()
+        value.pillar = try reader["pillar"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.impact = try reader["impact"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ErrorDetails()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.GoalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.GoalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.GoalSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.Pillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.ImprovementSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ImprovementSummary {
@@ -10894,6 +15157,17 @@ extension WellArchitectedClientTypes.ImprovementSummary {
         value.improvementPlanUrl = try reader["ImprovementPlanUrl"].readIfPresent()
         value.improvementPlans = try reader["ImprovementPlans"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceImprovementPlan.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.JiraConfiguration.read(from:))
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.Insight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Insight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.Insight()
+        value.usagePattern = try reader["usagePattern"].readIfPresent() ?? ""
+        value.signalsDetected = try reader["signalsDetected"].readIfPresent()
         return value
     }
 }
@@ -11103,6 +15377,23 @@ extension WellArchitectedClientTypes.PillarDifference {
     }
 }
 
+extension WellArchitectedClientTypes.PillarItem {
+
+    static func write(value: WellArchitectedClientTypes.PillarItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ids"].writeList(value.ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["pillar"].write(value.pillar)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.PillarItem()
+        value.pillar = try reader["pillar"].readIfPresent() ?? .sdkUnknown("")
+        value.ids = try reader["ids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.PillarMetric {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarMetric {
@@ -11270,6 +15561,18 @@ extension WellArchitectedClientTypes.ProfileTemplateQuestion {
     }
 }
 
+extension WellArchitectedClientTypes.Progress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Progress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.Progress()
+        value.stepsCompleted = try reader["stepsCompleted"].readIfPresent() ?? 0
+        value.totalSteps = try reader["totalSteps"].readIfPresent() ?? 0
+        value.completionPercentage = try reader["completionPercentage"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.QuestionDifference {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionDifference {
@@ -11290,6 +15593,49 @@ extension WellArchitectedClientTypes.QuestionMetric {
         value.questionId = try reader["QuestionId"].readIfPresent()
         value.risk = try reader["Risk"].readIfPresent()
         value.bestPractices = try reader["BestPractices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.BestPractice.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.RecommendationGoal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.RecommendationGoal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.RecommendationGoal()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.RemediationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.RemediationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.RemediationStep()
+        value.title = try reader["title"].readIfPresent()
+        value.content = try reader["content"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.RemediationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.RemediationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.RemediationSummary()
+        value.recommendation = try reader["recommendation"].readIfPresent() ?? ""
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ResourceLink {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ResourceLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ResourceLink()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
         return value
     }
 }
@@ -11404,6 +15750,36 @@ extension WellArchitectedClientTypes.ReviewTemplateSummary {
     }
 }
 
+extension WellArchitectedClientTypes.Roi {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Roi {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.Roi()
+        value.estimate = try reader["estimate"].readIfPresent()
+        value.detail = try reader["detail"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.Scope {
+
+    static func write(value: WellArchitectedClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["goalIds"].writeList(value.goalIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["items"].writeList(value.items, memberWritingClosure: WellArchitectedClientTypes.PillarItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["pillars"].writeList(value.pillars, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.Pillar>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Scope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.Scope()
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.Pillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.goalIds = try reader["goalIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.PillarItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.SelectedPillar {
 
     static func write(value: WellArchitectedClientTypes.SelectedPillar?, to writer: SmithyJSON.Writer) throws {
@@ -11459,6 +15835,23 @@ extension WellArchitectedClientTypes.ShareInvitationSummary {
     }
 }
 
+extension WellArchitectedClientTypes.Tag {
+
+    static func write(value: WellArchitectedClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.TemplateShareSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.TemplateShareSummary {
@@ -11468,6 +15861,21 @@ extension WellArchitectedClientTypes.TemplateShareSummary {
         value.sharedWith = try reader["SharedWith"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.TradeOff {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.TradeOff {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.TradeOff()
+        value.pillar = try reader["pillar"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.risk = try reader["risk"].readIfPresent() ?? .sdkUnknown("")
+        value.mitigation = try reader["mitigation"].readIfPresent() ?? ""
+        value.riskExplanation = try reader["riskExplanation"].readIfPresent()
         return value
     }
 }

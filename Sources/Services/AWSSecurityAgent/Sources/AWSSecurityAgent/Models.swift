@@ -1887,6 +1887,8 @@ extension SecurityAgentClientTypes {
         public var excludeRiskTypes: [SecurityAgentClientTypes.RiskType]?
         /// The CloudWatch Logs configuration for the pentest.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The maximum number of billable task hours allowed for jobs started from this pentest. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.
+        public var maxTaskHours: Swift.Double?
         /// The network traffic configuration for the pentest.
         public var networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig?
         /// The unique identifier of the pentest.
@@ -1911,6 +1913,7 @@ extension SecurityAgentClientTypes {
             disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
             excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            maxTaskHours: Swift.Double? = nil,
             networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
             pentestId: Swift.String? = nil,
             serviceRole: Swift.String? = nil,
@@ -1926,6 +1929,7 @@ extension SecurityAgentClientTypes {
             self.disableManagedSkills = disableManagedSkills
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
             self.pentestId = pentestId
             self.serviceRole = serviceRole
@@ -2404,6 +2408,8 @@ extension SecurityAgentClientTypes {
         public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
         /// The CloudWatch Logs configuration for the code review job.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The maximum number of billable task hours allowed for this code review job. If the cumulative task hours reach this limit, the job is gracefully stopped.
+        public var maxTaskHours: Swift.Double?
         /// An overview of the code review job results.
         public var overview: Swift.String?
         /// The IAM service role used for the code review job.
@@ -2429,6 +2435,7 @@ extension SecurityAgentClientTypes {
             executionContext: [SecurityAgentClientTypes.ExecutionContext]? = nil,
             integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            maxTaskHours: Swift.Double? = nil,
             overview: Swift.String? = nil,
             serviceRole: Swift.String? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
@@ -2446,6 +2453,7 @@ extension SecurityAgentClientTypes {
             self.executionContext = executionContext
             self.integratedRepositories = integratedRepositories
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.overview = overview
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
@@ -2744,6 +2752,8 @@ extension SecurityAgentClientTypes {
         public var createdAt: Foundation.Date?
         /// The CloudWatch Logs configuration for the code review.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The maximum number of billable task hours allowed for jobs started from this code review. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.
+        public var maxTaskHours: Swift.Double?
         /// The IAM service role used for the code review.
         public var serviceRole: Swift.String?
         /// The title of the code review.
@@ -2761,6 +2771,7 @@ extension SecurityAgentClientTypes {
             codeReviewId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            maxTaskHours: Swift.Double? = nil,
             serviceRole: Swift.String? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -2772,6 +2783,7 @@ extension SecurityAgentClientTypes {
             self.codeReviewId = codeReviewId
             self.createdAt = createdAt
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -3158,12 +3170,16 @@ extension SecurityAgentClientTypes {
         public var lastUpdatedBy: Swift.String?
         /// The name of the finding.
         public var name: Swift.String?
+        /// The identifier of the original finding that this revalidation finding was produced from.
+        public var originalFindingId: Swift.String?
         /// The unique identifier of the pentest associated with the finding.
         public var pentestId: Swift.String?
         /// The unique identifier of the pentest job that produced the finding.
         public var pentestJobId: Swift.String?
         /// The reasoning behind the finding, explaining why it was identified as a vulnerability.
         public var reasoning: Swift.String?
+        /// The list of pentest job identifiers for revalidation jobs that retested this finding.
+        public var revalidationJobIds: [Swift.String]?
         /// The risk level of the finding. Valid values include UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
         public var riskLevel: SecurityAgentClientTypes.RiskLevel?
         /// The numerical risk score of the finding.
@@ -3196,9 +3212,11 @@ extension SecurityAgentClientTypes {
             findingId: Swift.String? = nil,
             lastUpdatedBy: Swift.String? = nil,
             name: Swift.String? = nil,
+            originalFindingId: Swift.String? = nil,
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
             reasoning: Swift.String? = nil,
+            revalidationJobIds: [Swift.String]? = nil,
             riskLevel: SecurityAgentClientTypes.RiskLevel? = nil,
             riskScore: Swift.String? = nil,
             riskType: Swift.String? = nil,
@@ -3222,9 +3240,11 @@ extension SecurityAgentClientTypes {
             self.findingId = findingId
             self.lastUpdatedBy = lastUpdatedBy
             self.name = name
+            self.originalFindingId = originalFindingId
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.reasoning = reasoning
+            self.revalidationJobIds = revalidationJobIds
             self.riskLevel = riskLevel
             self.riskScore = riskScore
             self.riskType = riskType
@@ -3273,6 +3293,38 @@ public struct BatchGetPentestJobsInput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// The type of pentest job execution.
+    public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A full pentest job that executes all phases including scanning, managed execution, and guided exploration.
+        case full
+        /// A targeted revalidation job that retests specific findings to determine whether they are still exploitable.
+        case revalidation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobType] {
+            return [
+                .full,
+                .revalidation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .revalidation: return "REVALIDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a pentest job, which is an execution instance of a pentest. A pentest job progresses through preflight, static analysis, pentest, and finalizing steps.
     public struct PentestJob: Swift.Sendable {
         /// The list of actors used during the pentest job.
@@ -3301,8 +3353,12 @@ extension SecurityAgentClientTypes {
         public var executionContext: [SecurityAgentClientTypes.ExecutionContext]?
         /// The list of integrated repositories associated with the pentest job.
         public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
+        /// The type of the pentest job. Valid values are FULL and REVALIDATION.
+        public var jobType: SecurityAgentClientTypes.JobType?
         /// The CloudWatch Logs configuration for the pentest job.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The maximum number of billable task hours allowed for this pentest job. If the cumulative task hours reach this limit, the job is gracefully stopped.
+        public var maxTaskHours: Swift.Double?
         /// The network traffic configuration for the pentest job.
         public var networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig?
         /// An overview of the pentest job results.
@@ -3311,6 +3367,8 @@ extension SecurityAgentClientTypes {
         public var pentestId: Swift.String?
         /// The unique identifier of the pentest job.
         public var pentestJobId: Swift.String?
+        /// The list of finding identifiers selected for revalidation. Present only when jobType is REVALIDATION.
+        public var selectedFindingIds: [Swift.String]?
         /// The IAM service role used for the pentest job.
         public var serviceRole: Swift.String?
         /// The list of source code repositories analyzed during the pentest job.
@@ -3340,11 +3398,14 @@ extension SecurityAgentClientTypes {
             excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
             executionContext: [SecurityAgentClientTypes.ExecutionContext]? = nil,
             integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
+            jobType: SecurityAgentClientTypes.JobType? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            maxTaskHours: Swift.Double? = nil,
             networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
             overview: Swift.String? = nil,
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
+            selectedFindingIds: [Swift.String]? = nil,
             serviceRole: Swift.String? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
@@ -3366,11 +3427,14 @@ extension SecurityAgentClientTypes {
             self.excludeRiskTypes = excludeRiskTypes
             self.executionContext = executionContext
             self.integratedRepositories = integratedRepositories
+            self.jobType = jobType
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
             self.overview = overview
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
+            self.selectedFindingIds = selectedFindingIds
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
             self.status = status
@@ -4879,6 +4943,8 @@ public struct CreateCodeReviewInput: Swift.Sendable {
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// The CloudWatch Logs configuration for the code review.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.
+    public var maxTaskHours: Swift.Double?
     /// The IAM service role to use for the code review.
     public var serviceRole: Swift.String?
     /// The title of the code review.
@@ -4892,6 +4958,7 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         assets: SecurityAgentClientTypes.Assets? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        maxTaskHours: Swift.Double? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         validationMode: SecurityAgentClientTypes.ValidationMode? = nil
@@ -4900,6 +4967,7 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         self.assets = assets
         self.codeRemediationStrategy = codeRemediationStrategy
         self.logConfig = logConfig
+        self.maxTaskHours = maxTaskHours
         self.serviceRole = serviceRole
         self.title = title
         self.validationMode = validationMode
@@ -4921,6 +4989,8 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The CloudWatch Logs configuration for the code review.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.
+    public var maxTaskHours: Swift.Double?
     /// The IAM service role used for the code review.
     public var serviceRole: Swift.String?
     /// The title of the code review.
@@ -4937,6 +5007,7 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
         codeReviewId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        maxTaskHours: Swift.Double? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -4948,6 +5019,7 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
         self.codeReviewId = codeReviewId
         self.createdAt = createdAt
         self.logConfig = logConfig
+        self.maxTaskHours = maxTaskHours
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
@@ -5284,6 +5356,8 @@ public struct CreatePentestInput: Swift.Sendable {
     public var excludeRiskTypes: [SecurityAgentClientTypes.RiskType]?
     /// The CloudWatch Logs configuration for the pentest.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The maximum number of billable task hours allowed for jobs started from this pentest. Must be a positive number. If not set, jobs run to completion with no budget cap.
+    public var maxTaskHours: Swift.Double?
     /// The network traffic configuration for the pentest, including custom headers and traffic rules.
     public var networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig?
     /// The IAM service role to use for the pentest.
@@ -5301,6 +5375,7 @@ public struct CreatePentestInput: Swift.Sendable {
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        maxTaskHours: Swift.Double? = nil,
         networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
@@ -5312,6 +5387,7 @@ public struct CreatePentestInput: Swift.Sendable {
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
+        self.maxTaskHours = maxTaskHours
         self.networkTrafficConfig = networkTrafficConfig
         self.serviceRole = serviceRole
         self.title = title
@@ -8860,16 +8936,24 @@ public struct StartPentestJobInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// The type of pentest job to start. Valid values are FULL and REVALIDATION. When set to REVALIDATION, the selectedFindingIds parameter is required.
+    public var jobType: SecurityAgentClientTypes.JobType?
     /// The unique identifier of the pentest to start a job for.
     /// This member is required.
     public var pentestId: Swift.String?
+    /// The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.
+    public var selectedFindingIds: [Swift.String]?
 
     public init(
         agentSpaceId: Swift.String? = nil,
-        pentestId: Swift.String? = nil
+        jobType: SecurityAgentClientTypes.JobType? = nil,
+        pentestId: Swift.String? = nil,
+        selectedFindingIds: [Swift.String]? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.jobType = jobType
         self.pentestId = pentestId
+        self.selectedFindingIds = selectedFindingIds
     }
 }
 
@@ -9155,6 +9239,8 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
     public var codeReviewId: Swift.String?
     /// The updated CloudWatch Logs configuration for the code review.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The updated maximum number of billable task hours allowed for jobs started from this code review.
+    public var maxTaskHours: Swift.Double?
     /// The updated IAM service role for the code review.
     public var serviceRole: Swift.String?
     /// The updated title of the code review.
@@ -9168,6 +9254,7 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         codeReviewId: Swift.String? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        maxTaskHours: Swift.Double? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         validationMode: SecurityAgentClientTypes.ValidationMode? = nil
@@ -9177,6 +9264,7 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
         self.codeRemediationStrategy = codeRemediationStrategy
         self.codeReviewId = codeReviewId
         self.logConfig = logConfig
+        self.maxTaskHours = maxTaskHours
         self.serviceRole = serviceRole
         self.title = title
         self.validationMode = validationMode
@@ -9198,6 +9286,8 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The CloudWatch Logs configuration for the code review.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.
+    public var maxTaskHours: Swift.Double?
     /// The IAM service role used for the code review.
     public var serviceRole: Swift.String?
     /// The title of the code review.
@@ -9214,6 +9304,7 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
         codeReviewId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        maxTaskHours: Swift.Double? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -9225,6 +9316,7 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
         self.codeReviewId = codeReviewId
         self.createdAt = createdAt
         self.logConfig = logConfig
+        self.maxTaskHours = maxTaskHours
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
@@ -9334,6 +9426,8 @@ public struct UpdatePentestInput: Swift.Sendable {
     public var excludeRiskTypes: [SecurityAgentClientTypes.RiskType]?
     /// The updated CloudWatch Logs configuration for the pentest.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The updated maximum number of billable task hours allowed for jobs started from this pentest.
+    public var maxTaskHours: Swift.Double?
     /// The updated network traffic configuration for the pentest.
     public var networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig?
     /// The unique identifier of the pentest to update.
@@ -9353,6 +9447,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        maxTaskHours: Swift.Double? = nil,
         networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
         pentestId: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
@@ -9365,6 +9460,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
+        self.maxTaskHours = maxTaskHours
         self.networkTrafficConfig = networkTrafficConfig
         self.pentestId = pentestId
         self.serviceRole = serviceRole
@@ -10625,6 +10721,7 @@ extension CreateCodeReviewInput {
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["maxTaskHours"].write(value.maxTaskHours)
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["validationMode"].write(value.validationMode)
@@ -10666,6 +10763,7 @@ extension CreatePentestInput {
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["maxTaskHours"].write(value.maxTaskHours)
         try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
@@ -11135,7 +11233,9 @@ extension StartPentestJobInput {
     static func write(value: StartPentestJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["jobType"].write(value.jobType)
         try writer["pentestId"].write(value.pentestId)
+        try writer["selectedFindingIds"].writeList(value.selectedFindingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11215,6 +11315,7 @@ extension UpdateCodeReviewInput {
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["codeReviewId"].write(value.codeReviewId)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["maxTaskHours"].write(value.maxTaskHours)
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["validationMode"].write(value.validationMode)
@@ -11259,6 +11360,7 @@ extension UpdatePentestInput {
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["maxTaskHours"].write(value.maxTaskHours)
         try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
         try writer["pentestId"].write(value.pentestId)
         try writer["serviceRole"].write(value.serviceRole)
@@ -11671,6 +11773,7 @@ extension CreateCodeReviewOutput {
         value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -12465,6 +12568,7 @@ extension UpdateCodeReviewOutput {
         value.codeReviewId = try reader["codeReviewId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -14421,6 +14525,7 @@ extension SecurityAgentClientTypes.CodeReview {
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.validationMode = try reader["validationMode"].readIfPresent()
+        value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -14446,6 +14551,7 @@ extension SecurityAgentClientTypes.CodeReviewJob {
         value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -14782,6 +14888,8 @@ extension SecurityAgentClientTypes.Finding {
         value.codeLocations = try reader["codeLocations"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.verificationScript = try reader["verificationScript"].readIfPresent(with: SecurityAgentClientTypes.VerificationScript.read(from:))
         value.alignmentRationale = try reader["alignmentRationale"].readIfPresent()
+        value.revalidationJobIds = try reader["revalidationJobIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.originalFindingId = try reader["originalFindingId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15204,6 +15312,7 @@ extension SecurityAgentClientTypes.Pentest {
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
         value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15238,6 +15347,9 @@ extension SecurityAgentClientTypes.PentestJob {
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
         value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
+        value.jobType = try reader["jobType"].readIfPresent()
+        value.selectedFindingIds = try reader["selectedFindingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value

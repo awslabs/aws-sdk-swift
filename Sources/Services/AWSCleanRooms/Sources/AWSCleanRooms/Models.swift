@@ -441,6 +441,117 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum AllowedAggregateExpressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anyExpression
+        case columnsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllowedAggregateExpressionType] {
+            return [
+                .anyExpression,
+                .columnsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anyExpression: return "ANY_EXPRESSION"
+            case .columnsOnly: return "COLUMNS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies the minimum number of distinct identities for an individual output column. This value overrides the table-wide minimumIdentityCount that you set in AggregationThreshold.
+    public struct OutputColumnThreshold: Swift.Sendable {
+        /// The minimum number of distinct identities that each query output group must represent for this column. Specify 0 to exempt the column from the threshold, or a value of 2 or greater to enforce a threshold.
+        /// This member is required.
+        public var minimumIdentityCount: Swift.Int?
+        /// The name of the output column that the override applies to. You can specify each column only once.
+        /// This member is required.
+        public var outputColumnName: Swift.String?
+
+        public init(
+            minimumIdentityCount: Swift.Int? = nil,
+            outputColumnName: Swift.String? = nil
+        ) {
+            self.minimumIdentityCount = minimumIdentityCount
+            self.outputColumnName = outputColumnName
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum AggregationThresholdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case countDistinct
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggregationThresholdType] {
+            return [
+                .countDistinct
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .countDistinct: return "COUNT_DISTINCT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies the minimum number of distinct identities that each query output group must represent.
+    public struct AggregationThreshold: Swift.Sendable {
+        /// Specifies whether a query can aggregate a transformed column. This applies to the arguments of both aggregate and window functions. Valid values are: COLUMNS_ONLY – A query can aggregate only a direct column reference, such as SUM(amount), or a constant. Clean Rooms rejects a query that transforms a column and then aggregates it, such as SUM(amount * 2) or SUM(ROUND(amount)). ANY_EXPRESSION – A query can aggregate any expression. This includes arithmetic, such as SUM(price * quantity); a cast, such as SUM(CAST(amount AS DECIMAL)); a nested function call, such as SUM(COALESCE(amount, 0)); and a conditional, such as SUM(CASE WHEN region = 'EU' THEN amount ELSE 0 END).
+        /// This member is required.
+        public var allowedAggregateExpressionType: CleanRoomsClientTypes.AllowedAggregateExpressionType?
+        /// The identity column, such as user_id, whose distinct values Clean Rooms counts to enforce minimum aggregation thresholds. Currently, you can specify only one column, and its data type must be string, varchar, or char.
+        /// This member is required.
+        public var identityColumns: [Swift.String]?
+        /// The minimum number of distinct identities that each query output group must represent. This threshold applies to all output columns in the table. To override this threshold for a specific column, use outputColumnThresholds.
+        /// This member is required.
+        public var minimumIdentityCount: Swift.Int?
+        /// The per-column overrides of minimumIdentityCount. An output column without an override uses minimumIdentityCount.
+        public var outputColumnThresholds: [CleanRoomsClientTypes.OutputColumnThreshold]?
+        /// The type of aggregation that the threshold enforces. Currently, the only supported value is COUNT_DISTINCT, which counts the distinct values in the identity column.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.AggregationThresholdType?
+
+        public init(
+            allowedAggregateExpressionType: CleanRoomsClientTypes.AllowedAggregateExpressionType? = nil,
+            identityColumns: [Swift.String]? = nil,
+            minimumIdentityCount: Swift.Int? = nil,
+            outputColumnThresholds: [CleanRoomsClientTypes.OutputColumnThreshold]? = nil,
+            type: CleanRoomsClientTypes.AggregationThresholdType? = nil
+        ) {
+            self.allowedAggregateExpressionType = allowedAggregateExpressionType
+            self.identityColumns = identityColumns
+            self.minimumIdentityCount = minimumIdentityCount
+            self.outputColumnThresholds = outputColumnThresholds
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum SupportedS3Region: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
@@ -1283,6 +1394,27 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Specifies how a query can compare the columns in a table, including literal comparisons and column-to-column comparisons.
+    public struct ComparisonControls: Swift.Sendable {
+        /// The columns that a query can compare to another column, for example, in a join, a WHERE clause, a GROUP BY clause, or a window function. Clean Rooms rejects a query that uses any other column in a column-to-column comparison. Specify an empty list to block column-to-column comparison on every column.
+        /// This member is required.
+        public var allowedColumnComparisonColumns: [Swift.String]?
+        /// The columns that a query can compare to literal values, for example, in a WHERE clause. Clean Rooms rejects a query that compares any other column to a literal value. Specify an empty list to block literal comparison on every column. You can't specify a column that you also use as an identity column in an aggregation threshold.
+        /// This member is required.
+        public var allowedLiteralComparisonColumns: [Swift.String]?
+
+        public init(
+            allowedColumnComparisonColumns: [Swift.String]? = nil,
+            allowedLiteralComparisonColumns: [Swift.String]? = nil
+        ) {
+            self.allowedColumnComparisonColumns = allowedColumnComparisonColumns
+            self.allowedLiteralComparisonColumns = allowedLiteralComparisonColumns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Specifies the name of the column that contains the unique identifier of your users, whose privacy you want to protect.
     public struct DifferentialPrivacyColumn: Swift.Sendable {
         /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
@@ -1319,6 +1451,8 @@ extension CleanRoomsClientTypes {
     public struct ConsolidatedPolicyCustom: Swift.Sendable {
         /// Additional analyses for the consolidated policy.
         public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The aggregation thresholds for the consolidated policy.
+        public var aggregationThresholds: [CleanRoomsClientTypes.AggregationThreshold]?
         /// The additional analyses allowed by the consolidated policy.
         public var allowedAdditionalAnalyses: [Swift.String]?
         /// The allowed analyses.
@@ -1328,6 +1462,8 @@ extension CleanRoomsClientTypes {
         public var allowedAnalysisProviders: [Swift.String]?
         /// The allowed result receivers.
         public var allowedResultReceivers: [Swift.String]?
+        /// The comparison controls for the consolidated policy.
+        public var comparisonControls: CleanRoomsClientTypes.ComparisonControls?
         /// Specifies the unique identifier for your users.
         public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
         /// Disallowed output columns
@@ -1335,18 +1471,22 @@ extension CleanRoomsClientTypes {
 
         public init(
             additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            aggregationThresholds: [CleanRoomsClientTypes.AggregationThreshold]? = nil,
             allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedAnalyses: [Swift.String]? = nil,
             allowedAnalysisProviders: [Swift.String]? = nil,
             allowedResultReceivers: [Swift.String]? = nil,
+            comparisonControls: CleanRoomsClientTypes.ComparisonControls? = nil,
             differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
             disallowedOutputColumns: [Swift.String]? = nil
         ) {
             self.additionalAnalyses = additionalAnalyses
+            self.aggregationThresholds = aggregationThresholds
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.allowedResultReceivers = allowedResultReceivers
+            self.comparisonControls = comparisonControls
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
@@ -1464,10 +1604,12 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
+    /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy, minimum aggregation thresholds, and comparison controls.
     public struct AnalysisRuleCustom: Swift.Sendable {
         /// An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query.
         public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The aggregation thresholds that each query output group must satisfy. Clean Rooms filters out any group that represents fewer than the specified number of distinct identities. You can specify at most one threshold. You can't use aggregation thresholds with differential privacy, or when allowedAnalyses allows only jobs.
+        public var aggregationThresholds: [CleanRoomsClientTypes.AggregationThreshold]?
         /// The list of allowed additional analyses for the custom analysis rule.
         public var allowedAdditionalAnalyses: [Swift.String]?
         /// The ARN of the analysis templates that are allowed by the custom analysis rule.
@@ -1477,6 +1619,8 @@ extension CleanRoomsClientTypes {
         public var allowedAnalysisProviders: [Swift.String]?
         /// The list of Amazon Web Services account IDs that are allowed to receive results from queries run on the configured table.
         public var allowedResultReceivers: [Swift.String]?
+        /// The controls that restrict how a query can compare the columns in the configured table. You can't use comparison controls with differential privacy, or when allowedAnalyses allows only jobs.
+        public var comparisonControls: CleanRoomsClientTypes.ComparisonControls?
         /// The differential privacy configuration.
         public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
         /// A list of columns that aren't allowed to be shown in the query output.
@@ -1484,18 +1628,22 @@ extension CleanRoomsClientTypes {
 
         public init(
             additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            aggregationThresholds: [CleanRoomsClientTypes.AggregationThreshold]? = nil,
             allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedAnalyses: [Swift.String]? = nil,
             allowedAnalysisProviders: [Swift.String]? = nil,
             allowedResultReceivers: [Swift.String]? = nil,
+            comparisonControls: CleanRoomsClientTypes.ComparisonControls? = nil,
             differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
             disallowedOutputColumns: [Swift.String]? = nil
         ) {
             self.additionalAnalyses = additionalAnalyses
+            self.aggregationThresholds = aggregationThresholds
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.allowedResultReceivers = allowedResultReceivers
+            self.comparisonControls = comparisonControls
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
@@ -7567,7 +7715,7 @@ extension CleanRoomsClientTypes {
         case list(CleanRoomsClientTypes.AnalysisRuleList)
         /// Analysis rule type that enables only aggregation queries on a configured table.
         case aggregation(CleanRoomsClientTypes.AnalysisRuleAggregation)
-        /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
+        /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy, minimum aggregation thresholds, and comparison controls.
         case custom(CleanRoomsClientTypes.AnalysisRuleCustom)
         case sdkUnknown(Swift.String)
     }
@@ -9358,6 +9506,8 @@ extension CleanRoomsClientTypes {
     public struct IntermediateTableAnalysisRuleCustom: Swift.Sendable {
         /// The setting that controls whether additional analyses are allowed on the intermediate table.
         public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The aggregation thresholds that each query output group must satisfy. Clean Rooms filters out any group that represents fewer than the specified number of distinct identities. You can specify at most one threshold. You can't use aggregation thresholds with differential privacy, or when allowedAnalyses allows only jobs.
+        public var aggregationThresholds: [CleanRoomsClientTypes.AggregationThreshold]?
         /// The list of allowed additional analyses for the intermediate table.
         public var allowedAdditionalAnalyses: [Swift.String]?
         /// The list of allowed analyses that can be performed on the intermediate table.
@@ -9366,6 +9516,8 @@ extension CleanRoomsClientTypes {
         public var allowedAnalysisProviders: [Swift.String]?
         /// The list of Amazon Web Services account IDs that are allowed to receive results from queries run on the intermediate table.
         public var allowedResultReceivers: [Swift.String]?
+        /// The controls that restrict how a query can compare the columns in the intermediate table. You can't use comparison controls with differential privacy, or when allowedAnalyses allows only jobs.
+        public var comparisonControls: CleanRoomsClientTypes.ComparisonControls?
         /// Specifies the unique identifier for your users.
         public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
         /// The list of columns that are not allowed in the query output.
@@ -9373,18 +9525,22 @@ extension CleanRoomsClientTypes {
 
         public init(
             additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            aggregationThresholds: [CleanRoomsClientTypes.AggregationThreshold]? = nil,
             allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedAnalyses: [Swift.String]? = nil,
             allowedAnalysisProviders: [Swift.String]? = nil,
             allowedResultReceivers: [Swift.String]? = nil,
+            comparisonControls: CleanRoomsClientTypes.ComparisonControls? = nil,
             differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
             disallowedOutputColumns: [Swift.String]? = nil
         ) {
             self.additionalAnalyses = additionalAnalyses
+            self.aggregationThresholds = aggregationThresholds
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.allowedResultReceivers = allowedResultReceivers
+            self.comparisonControls = comparisonControls
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
@@ -18365,6 +18521,29 @@ extension CleanRoomsClientTypes.AggregationConstraint {
     }
 }
 
+extension CleanRoomsClientTypes.AggregationThreshold {
+
+    static func write(value: CleanRoomsClientTypes.AggregationThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedAggregateExpressionType"].write(value.allowedAggregateExpressionType)
+        try writer["identityColumns"].writeList(value.identityColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["minimumIdentityCount"].write(value.minimumIdentityCount)
+        try writer["outputColumnThresholds"].writeList(value.outputColumnThresholds, memberWritingClosure: CleanRoomsClientTypes.OutputColumnThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregationThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AggregationThreshold()
+        value.identityColumns = try reader["identityColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.minimumIdentityCount = try reader["minimumIdentityCount"].readIfPresent() ?? 0
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.outputColumnThresholds = try reader["outputColumnThresholds"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.OutputColumnThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAggregateExpressionType = try reader["allowedAggregateExpressionType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.AnalysisLogExport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisLogExport {
@@ -18525,10 +18704,12 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom {
     static func write(value: CleanRoomsClientTypes.AnalysisRuleCustom?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalAnalyses"].write(value.additionalAnalyses)
+        try writer["aggregationThresholds"].writeList(value.aggregationThresholds, memberWritingClosure: CleanRoomsClientTypes.AggregationThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAnalyses"].writeList(value.allowedAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAnalysisProviders"].writeList(value.allowedAnalysisProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["comparisonControls"].write(value.comparisonControls, with: CleanRoomsClientTypes.ComparisonControls.write(value:to:))
         try writer["differentialPrivacy"].write(value.differentialPrivacy, with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.write(value:to:))
         try writer["disallowedOutputColumns"].writeList(value.disallowedOutputColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -18541,6 +18722,8 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom {
         value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
         value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
+        value.aggregationThresholds = try reader["aggregationThresholds"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.comparisonControls = try reader["comparisonControls"].readIfPresent(with: CleanRoomsClientTypes.ComparisonControls.read(from:))
         value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -19274,6 +19457,23 @@ extension CleanRoomsClientTypes.ColumnLineageEntry {
     }
 }
 
+extension CleanRoomsClientTypes.ComparisonControls {
+
+    static func write(value: CleanRoomsClientTypes.ComparisonControls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedColumnComparisonColumns"].writeList(value.allowedColumnComparisonColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedLiteralComparisonColumns"].writeList(value.allowedLiteralComparisonColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ComparisonControls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ComparisonControls()
+        value.allowedLiteralComparisonColumns = try reader["allowedLiteralComparisonColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedColumnComparisonColumns = try reader["allowedColumnComparisonColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.ComputeConfiguration {
 
     static func write(value: CleanRoomsClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -19677,6 +19877,8 @@ extension CleanRoomsClientTypes.ConsolidatedPolicyCustom {
         value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
         value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
+        value.aggregationThresholds = try reader["aggregationThresholds"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.comparisonControls = try reader["comparisonControls"].readIfPresent(with: CleanRoomsClientTypes.ComparisonControls.read(from:))
         value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -20266,10 +20468,12 @@ extension CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom {
     static func write(value: CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalAnalyses"].write(value.additionalAnalyses)
+        try writer["aggregationThresholds"].writeList(value.aggregationThresholds, memberWritingClosure: CleanRoomsClientTypes.AggregationThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAnalyses"].writeList(value.allowedAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAnalysisProviders"].writeList(value.allowedAnalysisProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["comparisonControls"].write(value.comparisonControls, with: CleanRoomsClientTypes.ComparisonControls.write(value:to:))
         try writer["differentialPrivacy"].write(value.differentialPrivacy, with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.write(value:to:))
         try writer["disallowedOutputColumns"].writeList(value.disallowedOutputColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -20284,6 +20488,8 @@ extension CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom {
         value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
         value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregationThresholds = try reader["aggregationThresholds"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.comparisonControls = try reader["comparisonControls"].readIfPresent(with: CleanRoomsClientTypes.ComparisonControls.read(from:))
         return value
     }
 }
@@ -20855,6 +21061,23 @@ extension CleanRoomsClientTypes.ModelTrainingPaymentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ModelTrainingPaymentConfig()
         value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.OutputColumnThreshold {
+
+    static func write(value: CleanRoomsClientTypes.OutputColumnThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["minimumIdentityCount"].write(value.minimumIdentityCount)
+        try writer["outputColumnName"].write(value.outputColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.OutputColumnThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.OutputColumnThreshold()
+        value.outputColumnName = try reader["outputColumnName"].readIfPresent() ?? ""
+        value.minimumIdentityCount = try reader["minimumIdentityCount"].readIfPresent() ?? 0
         return value
     }
 }

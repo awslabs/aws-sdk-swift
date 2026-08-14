@@ -1878,6 +1878,22 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// The AI agent that participates in the contact, including its identifier.
+    public struct AiAgentInput: Swift.Sendable {
+        /// The identifier of the AI agent that participates in the contact.
+        /// This member is required.
+        public var aiAgentId: Swift.String?
+
+        public init(
+            aiAgentId: Swift.String? = nil
+        ) {
+            self.aiAgentId = aiAgentId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The search criteria based on AI Agents metadata.
     public struct AiAgentSearchCriteria: Swift.Sendable {
         /// A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
@@ -31154,7 +31170,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The customer's details.
+    /// The details of the participant, including their display name.
     public struct ParticipantDetails: Swift.Sendable {
         /// Display name of the participant.
         /// This member is required.
@@ -31190,7 +31206,7 @@ extension ConnectClientTypes {
     public struct NewSessionDetails: Swift.Sendable {
         /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public var attributes: [Swift.String: Swift.String]?
-        /// The customer's details.
+        /// The details of the participant, including their display name.
         public var participantDetails: ConnectClientTypes.ParticipantDetails?
         /// The streaming configuration, such as the Amazon SNS streaming endpoint.
         public var streamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration?
@@ -31703,6 +31719,118 @@ public struct SendOutboundWebNotificationOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectClientTypes {
+
+    /// A chat message.
+    public struct ChatMessage: Swift.Sendable {
+        /// The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see [Chat message size limits by channel](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html#chat-message-size-limits) in the Amazon Connect Customer Administrator Guide.
+        /// This member is required.
+        public var content: Swift.String?
+        /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
+        /// This member is required.
+        public var contentType: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            contentType: Swift.String? = nil
+        ) {
+            self.content = content
+            self.contentType = contentType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+    public struct PersistentChat: Swift.Sendable {
+        /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.
+        ///
+        /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.
+        ///
+        /// * FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.
+        ///
+        ///
+        /// The actual contactId used for rehydration is provided in the response of this API.
+        public var rehydrationType: ConnectClientTypes.RehydrationType?
+        /// The contactId from which a persistent chat session must be started.
+        public var sourceContactId: Swift.String?
+
+        public init(
+            rehydrationType: ConnectClientTypes.RehydrationType? = nil,
+            sourceContactId: Swift.String? = nil
+        ) {
+            self.rehydrationType = rehydrationType
+            self.sourceContactId = sourceContactId
+        }
+    }
+}
+
+public struct StartAssistantContactInput: Swift.Sendable {
+    /// The AI agent that participates in the contact.
+    /// This member is required.
+    public var aiAgent: ConnectClientTypes.AiAgentInput?
+    /// A map of key-value pairs to associate with the contact. Amazon Connect makes these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can contain only alphanumeric characters, dashes, and underscores.
+    public var attributes: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The initial message to send to the newly created chat.
+    public var initialMessage: ConnectClientTypes.ChatMessage?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The display name and other details that identify the chat participant.
+    /// This member is required.
+    public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// The configuration that enables persistent chat. For more information about persistent chat and its use cases, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+    public var persistentChat: ConnectClientTypes.PersistentChat?
+    /// The identifier of an Connect Customer contact related to the new assistant contact. You cannot provide both RelatedContactId and PersistentChat.
+    public var relatedContactId: Swift.String?
+
+    public init(
+        aiAgent: ConnectClientTypes.AiAgentInput? = nil,
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        initialMessage: ConnectClientTypes.ChatMessage? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        persistentChat: ConnectClientTypes.PersistentChat? = nil,
+        relatedContactId: Swift.String? = nil
+    ) {
+        self.aiAgent = aiAgent
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.initialMessage = initialMessage
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+        self.persistentChat = persistentChat
+        self.relatedContactId = relatedContactId
+    }
+}
+
+public struct StartAssistantContactOutput: Swift.Sendable {
+    /// The identifier of the contact within the Connect Customer instance.
+    public var contactId: Swift.String?
+    /// For a persistent chat, the identifier of the contact from which the chat continues. Amazon Connect returns this field only for persistent chats.
+    public var continuedFromContactId: Swift.String?
+    /// The identifier of the chat participant. The participant identifier remains the same throughout the chat lifecycle.
+    public var participantId: Swift.String?
+    /// The token that the chat participant uses to call the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) API. The token remains valid for the lifetime of the chat participant.
+    public var participantToken: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        continuedFromContactId: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        participantToken: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.continuedFromContactId = continuedFromContactId
+        self.participantId = participantId
+        self.participantToken = participantToken
+    }
+}
+
 public struct StartAttachedFileUploadInput: Swift.Sendable {
     /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
     /// This member is required.
@@ -31834,27 +31962,6 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// A chat message.
-    public struct ChatMessage: Swift.Sendable {
-        /// The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see [Chat message size limits by channel](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html#chat-message-size-limits) in the Amazon Connect Customer Administrator Guide.
-        /// This member is required.
-        public var content: Swift.String?
-        /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
-        /// This member is required.
-        public var contentType: Swift.String?
-
-        public init(
-            content: Swift.String? = nil,
-            contentType: Swift.String? = nil
-        ) {
-            self.content = content
-            self.contentType = contentType
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     public enum ResponseMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case complete
         case incremental
@@ -31893,32 +32000,6 @@ extension ConnectClientTypes {
             responseMode: ConnectClientTypes.ResponseMode? = nil
         ) {
             self.responseMode = responseMode
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
-    public struct PersistentChat: Swift.Sendable {
-        /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.
-        ///
-        /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.
-        ///
-        /// * FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.
-        ///
-        ///
-        /// The actual contactId used for rehydration is provided in the response of this API.
-        public var rehydrationType: ConnectClientTypes.RehydrationType?
-        /// The contactId from which a persistent chat session must be started.
-        public var sourceContactId: Swift.String?
-
-        public init(
-            rehydrationType: ConnectClientTypes.RehydrationType? = nil,
-            sourceContactId: Swift.String? = nil
-        ) {
-            self.rehydrationType = rehydrationType
-            self.sourceContactId = sourceContactId
         }
     }
 }
@@ -33076,57 +33157,6 @@ public struct StartTestCaseExecutionOutput: Swift.Sendable {
         self.testCaseExecutionId = testCaseExecutionId
         self.testCaseId = testCaseId
     }
-}
-
-public struct StartWebRTCContactInput: Swift.Sendable {
-    /// Information about the video sharing capabilities of the participants (customer, agent).
-    public var allowedCapabilities: ConnectClientTypes.AllowedCapabilities?
-    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    /// This member is required.
-    public var contactFlowId: Swift.String?
-    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
-    public var description: Swift.String?
-    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The customer's details.
-    /// This member is required.
-    public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
-    public var relatedContactId: Swift.String?
-
-    public init(
-        allowedCapabilities: ConnectClientTypes.AllowedCapabilities? = nil,
-        attributes: [Swift.String: Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil
-    ) {
-        self.allowedCapabilities = allowedCapabilities
-        self.attributes = attributes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.description = description
-        self.instanceId = instanceId
-        self.participantDetails = participantDetails
-        self.references = references
-        self.relatedContactId = relatedContactId
-    }
-}
-
-extension StartWebRTCContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "StartWebRTCContactInput(allowedCapabilities: \(Swift.String(describing: allowedCapabilities)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -37873,7 +37903,7 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The customer's details.
+    /// The details of the participant, including their display name.
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
     /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
     public var relatedContactId: Swift.String?
@@ -38006,6 +38036,61 @@ public struct StartTaskContactInput: Swift.Sendable {
 extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartWebRTCContactInput: Swift.Sendable {
+    /// Information about the video sharing capabilities of the participants (customer, agent).
+    public var allowedCapabilities: ConnectClientTypes.AllowedCapabilities?
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
+    public var description: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The details of the participant, including their display name.
+    /// This member is required.
+    public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
+    public var relatedContactId: Swift.String?
+    /// Use this map to specify system-defined attributes for the WebRTC contact segment. Use the connect:Subtype attribute to specify the channel subtype, such as connect:WebRTC. Attribute keys can contain only alphanumeric characters, hyphens, and underscores.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+
+    public init(
+        allowedCapabilities: ConnectClientTypes.AllowedCapabilities? = nil,
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
+    ) {
+        self.allowedCapabilities = allowedCapabilities
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.description = description
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+    }
+}
+
+extension StartWebRTCContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartWebRTCContactInput(allowedCapabilities: \(Swift.String(describing: allowedCapabilities)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateContactInput: Swift.Sendable {
@@ -43612,6 +43697,13 @@ extension SendOutboundWebNotificationInput {
     }
 }
 
+extension StartAssistantContactInput {
+
+    static func urlPathProvider(_ value: StartAssistantContactInput) -> Swift.String? {
+        return "/contact/assistant"
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func urlPathProvider(_ value: StartAttachedFileUploadInput) -> Swift.String? {
@@ -46305,6 +46397,21 @@ extension SendOutboundWebNotificationInput {
     }
 }
 
+extension StartAssistantContactInput {
+
+    static func write(value: StartAssistantContactInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AiAgent"].write(value.aiAgent, with: ConnectClientTypes.AiAgentInput.write(value:to:))
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["InitialMessage"].write(value.initialMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
+        try writer["PersistentChat"].write(value.persistentChat, with: ConnectClientTypes.PersistentChat.write(value:to:))
+        try writer["RelatedContactId"].write(value.relatedContactId)
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func write(value: StartAttachedFileUploadInput?, to writer: SmithyJSON.Writer) throws {
@@ -46533,6 +46640,7 @@ extension StartWebRTCContactInput {
         try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
         try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RelatedContactId"].write(value.relatedContactId)
+        try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -50657,6 +50765,21 @@ extension SendOutboundWebNotificationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendOutboundWebNotificationOutput {
         return SendOutboundWebNotificationOutput()
+    }
+}
+
+extension StartAssistantContactOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAssistantContactOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAssistantContactOutput()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        value.continuedFromContactId = try reader["ContinuedFromContactId"].readIfPresent()
+        value.participantId = try reader["ParticipantId"].readIfPresent()
+        value.participantToken = try reader["ParticipantToken"].readIfPresent()
+        return value
     }
 }
 
@@ -56965,6 +57088,25 @@ enum SendOutboundWebNotificationOutputError {
     }
 }
 
+enum StartAssistantContactOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartAttachedFileUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -57261,6 +57403,7 @@ enum StartWebRTCContactOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -59405,6 +59548,14 @@ extension ConnectClientTypes.AiAgentInfo {
         value.aiAgentVersionId = try reader["AiAgentVersionId"].readIfPresent()
         value.aiAgentEscalated = try reader["AiAgentEscalated"].readIfPresent() ?? false
         return value
+    }
+}
+
+extension ConnectClientTypes.AiAgentInput {
+
+    static func write(value: ConnectClientTypes.AiAgentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AiAgentId"].write(value.aiAgentId)
     }
 }
 

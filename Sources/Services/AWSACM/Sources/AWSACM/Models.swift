@@ -1944,20 +1944,24 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
-    /// Structure that contains options for your certificate. You can use this structure to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
+    /// Structure that contains options for your certificate. You can use this structure to change the domain validation method or specify whether to export your certificate. All public certificates are recorded in a certificate transparency log. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public struct CertificateOptions: Swift.Sendable {
         /// This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
         @available(*, deprecated, message: "Certificate transparency logging opt-out is no longer available. API deprecated since 12th June 2026")
         public var certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference?
         /// You can opt in to allow the export of your certificates by specifying ENABLED. You cannot update the value of Export after the the certificate is created.
         public var export: ACMClientTypes.CertificateExport?
+        /// The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS.
+        public var validationMethod: ACMClientTypes.ValidationMethod?
 
         public init(
             certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference? = nil,
-            export: ACMClientTypes.CertificateExport? = nil
+            export: ACMClientTypes.CertificateExport? = nil,
+            validationMethod: ACMClientTypes.ValidationMethod? = nil
         ) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
             self.export = export
+            self.validationMethod = validationMethod
         }
     }
 }
@@ -2050,6 +2054,132 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
+    /// Contains information about a domain validation method migration, including the previous validation method and the target validation method.
+    public struct DomainValidationMethodUpdateSummary: Swift.Sendable {
+        /// The validation method that the certificate was using before the update.
+        public var from: ACMClientTypes.ValidationMethod?
+        /// The target validation method for the update.
+        public var to: ACMClientTypes.ValidationMethod?
+
+        public init(
+            from: ACMClientTypes.ValidationMethod? = nil,
+            to: ACMClientTypes.ValidationMethod? = nil
+        ) {
+            self.from = from
+            self.to = to
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// The status of a certificate update. Possible values:
+    ///
+    /// * PENDING_DOMAIN_VALIDATION – The update is waiting for domain validation to complete.
+    ///
+    /// * SUCCESS – The update completed successfully.
+    ///
+    /// * FAILED – The update failed.
+    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pendingDomainValidation
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .failed,
+                .pendingDomainValidation,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pendingDomainValidation: return "PENDING_DOMAIN_VALIDATION"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// The type of certificate update. Valid values:
+    ///
+    /// * DOMAIN_VALIDATION_METHOD – A change to the domain validation method for the certificate.
+    public enum UpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domainValidationMethod
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateType] {
+            return [
+                .domainValidationMethod
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domainValidationMethod: return "DOMAIN_VALIDATION_METHOD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains information about the most recent certificate update, such as a domain validation method migration. This structure is returned as part of the [CertificateDetail] response from [DescribeCertificate].
+    public struct UpdateSummary: Swift.Sendable {
+        /// Contains information about a domain validation method migration, including the previous and target validation methods.
+        public var domainValidationMethodUpdateSummary: ACMClientTypes.DomainValidationMethodUpdateSummary?
+        /// The time at which the certificate update was requested.
+        public var requestedAt: Foundation.Date?
+        /// The status of the certificate update. The following are valid values:
+        ///
+        /// * PENDING_DOMAIN_VALIDATION – The certificate update is waiting for domain ownership validation to complete.
+        ///
+        /// * SUCCESS – The certificate was updated successfully.
+        ///
+        /// * FAILED – The certificate update failed.
+        public var status: ACMClientTypes.UpdateStatus?
+        /// The type of update that was requested for the certificate. The following are valid values:
+        ///
+        /// * DOMAIN_VALIDATION_METHOD – The update changes the domain validation method for the certificate.
+        public var type: ACMClientTypes.UpdateType?
+        /// The time at which the certificate update status was last changed.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            domainValidationMethodUpdateSummary: ACMClientTypes.DomainValidationMethodUpdateSummary? = nil,
+            requestedAt: Foundation.Date? = nil,
+            status: ACMClientTypes.UpdateStatus? = nil,
+            type: ACMClientTypes.UpdateType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.domainValidationMethodUpdateSummary = domainValidationMethodUpdateSummary
+            self.requestedAt = requestedAt
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ACMClientTypes {
+
     /// Contains metadata about an ACM certificate. This structure is returned in the response to a [DescribeCertificate] request.
     public struct CertificateDetail: Swift.Sendable {
         /// The ACME account identifier associated with the certificate.
@@ -2112,6 +2242,8 @@ extension ACMClientTypes {
         public var subjectAlternativeNames: [Swift.String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with [ImportCertificate], this value is IMPORTED. ACM does not provide [managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html) for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see [Importing Certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
         public var type: ACMClientTypes.CertificateType?
+        /// Contains information about the most recent update to the certificate. This field exists only when the certificate type is AMAZON_ISSUED and a certificate update has been requested.
+        public var updateSummary: ACMClientTypes.UpdateSummary?
 
         public init(
             acmeAccountId: Swift.String? = nil,
@@ -2143,7 +2275,8 @@ extension ACMClientTypes {
             status: ACMClientTypes.CertificateStatus? = nil,
             subject: Swift.String? = nil,
             subjectAlternativeNames: [Swift.String]? = nil,
-            type: ACMClientTypes.CertificateType? = nil
+            type: ACMClientTypes.CertificateType? = nil,
+            updateSummary: ACMClientTypes.UpdateSummary? = nil
         ) {
             self.acmeAccountId = acmeAccountId
             self.acmeEndpointArn = acmeEndpointArn
@@ -2175,6 +2308,7 @@ extension ACMClientTypes {
             self.subject = subject
             self.subjectAlternativeNames = subjectAlternativeNames
             self.type = type
+            self.updateSummary = updateSummary
         }
     }
 }
@@ -3153,6 +3287,146 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct ListCertificateDomainValidationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the certificate for which to list domain validation summaries.
+    /// This member is required.
+    public var certificateArn: Swift.String?
+    /// The maximum number of domain validation summaries to return. If you don't specify a value, the default is 1000.
+    public var maxItems: Swift.Int?
+    /// A token returned by a previous call to ListCertificateDomainValidations. If the number of results exceeds MaxItems, use this token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        certificateArn: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.certificateArn = certificateArn
+        self.maxItems = maxItems
+        self.nextToken = nextToken
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains the CNAME record that you must add to your DNS configuration to validate domain ownership using DNS validation.
+    public struct DnsValidationChallenge: Swift.Sendable {
+        /// The CNAME record that ACM creates for DNS validation. Add this record to your DNS configuration to prove that you own or control the domain.
+        public var resourceRecord: ACMClientTypes.ResourceRecord?
+
+        public init(
+            resourceRecord: ACMClientTypes.ResourceRecord? = nil
+        ) {
+            self.resourceRecord = resourceRecord
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains the email addresses used for email-based domain validation.
+    public struct EmailValidationChallenge: Swift.Sendable {
+        /// The domain name that ACM uses to send validation emails.
+        public var validationDomain: Swift.String?
+        /// A list of email addresses that ACM uses to send domain validation emails.
+        public var validationEmails: [Swift.String]?
+
+        public init(
+            validationDomain: Swift.String? = nil,
+            validationEmails: [Swift.String]? = nil
+        ) {
+            self.validationDomain = validationDomain
+            self.validationEmails = validationEmails
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains the challenge details that you use to prove domain ownership. Only one member is set, depending on the validation method.
+    public enum ValidationChallenge: Swift.Sendable {
+        /// Contains the email addresses used for email-based domain validation.
+        case emailvalidationchallenge(ACMClientTypes.EmailValidationChallenge)
+        /// Contains the CNAME record that you must add to your DNS configuration to validate domain ownership using DNS validation.
+        case dnsvalidationchallenge(ACMClientTypes.DnsValidationChallenge)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains the validation method, validation status, and validation challenge details for a domain. This structure appears in [DomainValidationSummary] as both the active and requested validation configuration.
+    public struct ValidationConfiguration: Swift.Sendable {
+        /// The validation challenge details for this configuration. The structure varies by validation method: for DNS validation, contains a DnsValidationChallenge with the CNAME record to add; for email validation, contains an EmailValidationChallenge with the validation email addresses.
+        public var validationChallenge: ACMClientTypes.ValidationChallenge?
+        /// The validation method for this configuration. Valid values:
+        ///
+        /// * DNS – Validation using a CNAME record added to your DNS configuration.
+        ///
+        /// * EMAIL – Validation using an approval email sent to domain contacts.
+        ///
+        /// * HTTP – Validation using an HTTP resource placed on your web server.
+        public var validationMethod: ACMClientTypes.ValidationMethod?
+        /// The validation status for this domain. Valid values:
+        ///
+        /// * PENDING_VALIDATION – The domain is waiting for validation to complete.
+        ///
+        /// * SUCCESS – Validation completed successfully.
+        ///
+        /// * FAILED – Validation failed.
+        public var validationStatus: ACMClientTypes.DomainStatus?
+
+        public init(
+            validationChallenge: ACMClientTypes.ValidationChallenge? = nil,
+            validationMethod: ACMClientTypes.ValidationMethod? = nil,
+            validationStatus: ACMClientTypes.DomainStatus? = nil
+        ) {
+            self.validationChallenge = validationChallenge
+            self.validationMethod = validationMethod
+            self.validationStatus = validationStatus
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains per-domain validation information for a certificate. This structure is returned as a member of the [ListCertificateDomainValidations] response.
+    public struct DomainValidationSummary: Swift.Sendable {
+        /// The validation configuration currently in effect for this domain. This reflects the validation method that ACM is currently using to validate domain ownership (for example, email or DNS).
+        public var activeValidationConfiguration: ACMClientTypes.ValidationConfiguration?
+        /// The fully qualified domain name (FQDN) in the certificate for which this validation summary applies.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// The validation configuration for a pending validation method migration. This field is present only when a migration is in progress (for example, from email to DNS validation). It contains the target validation method, the current validation status, and the validation challenge details (such as the CNAME record to add to your DNS configuration).
+        public var requestedValidationConfiguration: ACMClientTypes.ValidationConfiguration?
+
+        public init(
+            activeValidationConfiguration: ACMClientTypes.ValidationConfiguration? = nil,
+            domainName: Swift.String? = nil,
+            requestedValidationConfiguration: ACMClientTypes.ValidationConfiguration? = nil
+        ) {
+            self.activeValidationConfiguration = activeValidationConfiguration
+            self.domainName = domainName
+            self.requestedValidationConfiguration = requestedValidationConfiguration
+        }
+    }
+}
+
+public struct ListCertificateDomainValidationsOutput: Swift.Sendable {
+    /// A list of [DomainValidationSummary] objects, one for each domain on the certificate. Each object contains the domain name and its active and requested validation configurations.
+    public var domainValidationSummaryList: [ACMClientTypes.DomainValidationSummary]?
+    /// If the number of results exceeds MaxItems, this token is included in the response. Use this token in a subsequent ListCertificateDomainValidations request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainValidationSummaryList: [ACMClientTypes.DomainValidationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainValidationSummaryList = domainValidationSummaryList
+        self.nextToken = nextToken
     }
 }
 
@@ -4143,7 +4417,7 @@ public struct UpdateCertificateOptionsInput: Swift.Sendable {
     /// ARN of the requested certificate to update. This must be of the form: arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateArn: Swift.String?
-    /// Use to update the options for your certificate. Currently, you can specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency).
+    /// Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see [Migrate from email to DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/email-to-dns-migration.html).
     /// This member is required.
     public var options: ACMClientTypes.CertificateOptions?
 

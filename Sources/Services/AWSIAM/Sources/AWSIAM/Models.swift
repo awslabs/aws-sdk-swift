@@ -779,6 +779,29 @@ public struct AccountNotManagementOrDelegatedAdministratorException: ClientRunti
     }
 }
 
+/// The request was rejected because it attempted to create a resource that already exists.
+public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
 public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -825,6 +848,316 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+/// The request was rejected because the policy document was malformed. The error message describes the specific error.
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MalformedPolicyDocument" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because the resulting role name conflicts with an existing role in the account.
+public struct NameConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NameConflict" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because someone modified the role template while the service was creating the role. Wait a few minutes and try the request again.
+public struct RoleModifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RoleModified" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because the specified role template is disabled. A disabled role template cannot be used to create new roles. Contact your administrator to enable the role template, or use a different role template.
+public struct RoleTemplateDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RoleTemplateDisabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains the list of replacement values for a single template parameter used when creating a role from a role template.
+    public struct ReplacementValueEntry: Swift.Sendable {
+        /// The list of replacement values for the template parameter.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            values: [Swift.String]? = nil
+        ) {
+            self.values = values
+        }
+    }
+}
+
+public struct AcquireRoleInput: Swift.Sendable {
+    /// A map of values to substitute for the parameters that are defined in the role template version. Each key is a parameter name from the template, and each value is a structure that contains the replacement values for that parameter.
+    public var replacementValues: [Swift.String: IAMClientTypes.ReplacementValueEntry]?
+    /// The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var templateArn: Swift.String?
+    /// The minor version of the role template to use. If you do not specify a minor version, the service uses the template's default minor version.
+    public var templateMinorVersion: Swift.Int?
+
+    public init(
+        replacementValues: [Swift.String: IAMClientTypes.ReplacementValueEntry]? = nil,
+        templateArn: Swift.String? = nil,
+        templateMinorVersion: Swift.Int? = nil
+    ) {
+        self.replacementValues = replacementValues
+        self.templateArn = templateArn
+        self.templateMinorVersion = templateMinorVersion
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum PermissionsBoundaryAttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case policy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionsBoundaryAttachmentType] {
+            return [
+                .policy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .policy: return "PermissionsBoundaryPolicy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about an attached permissions boundary. An attached permissions boundary is a managed policy that has been attached to a user or role to set the permissions boundary. For more information about permissions boundaries, see [Permissions boundaries for IAM identities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide.
+    public struct AttachedPermissionsBoundary: Swift.Sendable {
+        /// The ARN of the policy used to set the permissions boundary for the user or role.
+        public var permissionsBoundaryArn: Swift.String?
+        /// The permissions boundary usage type that indicates what type of IAM resource is used as the permissions boundary for an entity. This data type can only have a value of Policy.
+        public var permissionsBoundaryType: IAMClientTypes.PermissionsBoundaryAttachmentType?
+
+        public init(
+            permissionsBoundaryArn: Swift.String? = nil,
+            permissionsBoundaryType: IAMClientTypes.PermissionsBoundaryAttachmentType? = nil
+        ) {
+            self.permissionsBoundaryArn = permissionsBoundaryArn
+            self.permissionsBoundaryType = permissionsBoundaryType
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide. This data type is returned as a response element in the [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) and [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operations.
+    public struct RoleLastUsed: Swift.Sendable {
+        /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601) that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM User Guide.
+        public var lastUsedDate: Foundation.Date?
+        /// The name of the Amazon Web Services Region in which the role was last used.
+        public var region: Swift.String?
+
+        public init(
+            lastUsedDate: Foundation.Date? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.lastUsedDate = lastUsedDate
+            self.region = region
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about the role template that a role was created from.
+    public struct SourceRoleTemplate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the role template that the role was created from.
+        /// This member is required.
+        public var templateArn: Swift.String?
+        /// The minor version of the role template that was used to create the role.
+        /// This member is required.
+        public var templateMinorVersion: Swift.Int?
+
+        public init(
+            templateArn: Swift.String? = nil,
+            templateMinorVersion: Swift.Int? = nil
+        ) {
+            self.templateArn = templateArn
+            self.templateMinorVersion = templateMinorVersion
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
+    public struct Tag: Swift.Sendable {
+        /// The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about an IAM role. This structure is returned as a response element in several API operations that interact with roles.
+    public struct Role: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide guide.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The policy that grants an entity permission to assume the role.
+        public var assumeRolePolicyDocument: Swift.String?
+        /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the role was created.
+        /// This member is required.
+        public var createDate: Foundation.Date?
+        /// A description of the role that you provide.
+        public var description: Swift.String?
+        /// The maximum session duration (in seconds) for the specified role. Anyone who uses the CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
+        public var maxSessionDuration: Swift.Int?
+        /// The path to the role. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The ARN of the policy used to set the permissions boundary for the role. For more information about permissions boundaries, see [Permissions boundaries for IAM identities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide.
+        public var permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary?
+        /// The stable and unique string identifying the role. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
+        /// This member is required.
+        public var roleId: Swift.String?
+        /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide.
+        public var roleLastUsed: IAMClientTypes.RoleLastUsed?
+        /// The friendly name that identifies the role.
+        /// This member is required.
+        public var roleName: Swift.String?
+        /// Contains information about the role template that this role was created from. This member is present only for roles created with [AcquireRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html).
+        public var sourceRoleTemplate: IAMClientTypes.SourceRoleTemplate?
+        /// A list of tags that are attached to the role. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
+        public var tags: [IAMClientTypes.Tag]?
+
+        public init(
+            arn: Swift.String? = nil,
+            assumeRolePolicyDocument: Swift.String? = nil,
+            createDate: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            maxSessionDuration: Swift.Int? = nil,
+            path: Swift.String? = nil,
+            permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary? = nil,
+            roleId: Swift.String? = nil,
+            roleLastUsed: IAMClientTypes.RoleLastUsed? = nil,
+            roleName: Swift.String? = nil,
+            sourceRoleTemplate: IAMClientTypes.SourceRoleTemplate? = nil,
+            tags: [IAMClientTypes.Tag]? = nil
+        ) {
+            self.arn = arn
+            self.assumeRolePolicyDocument = assumeRolePolicyDocument
+            self.createDate = createDate
+            self.description = description
+            self.maxSessionDuration = maxSessionDuration
+            self.path = path
+            self.permissionsBoundary = permissionsBoundary
+            self.roleId = roleId
+            self.roleLastUsed = roleLastUsed
+            self.roleName = roleName
+            self.sourceRoleTemplate = sourceRoleTemplate
+            self.tags = tags
+        }
+    }
+}
+
+public struct AcquireRoleOutput: Swift.Sendable {
+    /// A structure that contains details about the IAM role that was created.
+    /// This member is required.
+    public var role: IAMClientTypes.Role?
+
+    public init(
+        role: IAMClientTypes.Role? = nil
+    ) {
+        self.role = role
+    }
+}
+
 public struct AddClientIDToOpenIDConnectProviderInput: Swift.Sendable {
     /// The client ID (also known as audience) to add to the IAM OpenID Connect provider resource.
     /// This member is required.
@@ -839,29 +1172,6 @@ public struct AddClientIDToOpenIDConnectProviderInput: Swift.Sendable {
     ) {
         self.clientID = clientID
         self.openIDConnectProviderArn = openIDConnectProviderArn
-    }
-}
-
-/// The request was rejected because it attempted to create a resource that already exists.
-public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityAlreadyExists" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -992,51 +1302,6 @@ public struct AssociateDelegationRequestInput: Swift.Sendable {
         delegationRequestId: Swift.String? = nil
     ) {
         self.delegationRequestId = delegationRequestId
-    }
-}
-
-extension IAMClientTypes {
-
-    public enum PermissionsBoundaryAttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case policy
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PermissionsBoundaryAttachmentType] {
-            return [
-                .policy
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .policy: return "PermissionsBoundaryPolicy"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension IAMClientTypes {
-
-    /// Contains information about an attached permissions boundary. An attached permissions boundary is a managed policy that has been attached to a user or role to set the permissions boundary. For more information about permissions boundaries, see [Permissions boundaries for IAM identities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide.
-    public struct AttachedPermissionsBoundary: Swift.Sendable {
-        /// The ARN of the policy used to set the permissions boundary for the user or role.
-        public var permissionsBoundaryArn: Swift.String?
-        /// The permissions boundary usage type that indicates what type of IAM resource is used as the permissions boundary for an entity. This data type can only have a value of Policy.
-        public var permissionsBoundaryType: IAMClientTypes.PermissionsBoundaryAttachmentType?
-
-        public init(
-            permissionsBoundaryArn: Swift.String? = nil,
-            permissionsBoundaryType: IAMClientTypes.PermissionsBoundaryAttachmentType? = nil
-        ) {
-            self.permissionsBoundaryArn = permissionsBoundaryArn
-            self.permissionsBoundaryType = permissionsBoundaryType
-        }
     }
 }
 
@@ -1497,27 +1762,6 @@ public struct CreateGroupOutput: Swift.Sendable {
     }
 }
 
-extension IAMClientTypes {
-
-    /// A structure that represents user-provided metadata that can be associated with an IAM resource. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
-    public struct Tag: Swift.Sendable {
-        /// The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
 public struct CreateInstanceProfileInput: Swift.Sendable {
     /// The name of the instance profile to create. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
@@ -1535,85 +1779,6 @@ public struct CreateInstanceProfileInput: Swift.Sendable {
         self.instanceProfileName = instanceProfileName
         self.path = path
         self.tags = tags
-    }
-}
-
-extension IAMClientTypes {
-
-    /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide. This data type is returned as a response element in the [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) and [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operations.
-    public struct RoleLastUsed: Swift.Sendable {
-        /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601) that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM User Guide.
-        public var lastUsedDate: Foundation.Date?
-        /// The name of the Amazon Web Services Region in which the role was last used.
-        public var region: Swift.String?
-
-        public init(
-            lastUsedDate: Foundation.Date? = nil,
-            region: Swift.String? = nil
-        ) {
-            self.lastUsedDate = lastUsedDate
-            self.region = region
-        }
-    }
-}
-
-extension IAMClientTypes {
-
-    /// Contains information about an IAM role. This structure is returned as a response element in several API operations that interact with roles.
-    public struct Role: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide guide.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// The policy that grants an entity permission to assume the role.
-        public var assumeRolePolicyDocument: Swift.String?
-        /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the role was created.
-        /// This member is required.
-        public var createDate: Foundation.Date?
-        /// A description of the role that you provide.
-        public var description: Swift.String?
-        /// The maximum session duration (in seconds) for the specified role. Anyone who uses the CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
-        public var maxSessionDuration: Swift.Int?
-        /// The path to the role. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
-        /// This member is required.
-        public var path: Swift.String?
-        /// The ARN of the policy used to set the permissions boundary for the role. For more information about permissions boundaries, see [Permissions boundaries for IAM identities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide.
-        public var permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary?
-        /// The stable and unique string identifying the role. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
-        /// This member is required.
-        public var roleId: Swift.String?
-        /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide.
-        public var roleLastUsed: IAMClientTypes.RoleLastUsed?
-        /// The friendly name that identifies the role.
-        /// This member is required.
-        public var roleName: Swift.String?
-        /// A list of tags that are attached to the role. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
-        public var tags: [IAMClientTypes.Tag]?
-
-        public init(
-            arn: Swift.String? = nil,
-            assumeRolePolicyDocument: Swift.String? = nil,
-            createDate: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            maxSessionDuration: Swift.Int? = nil,
-            path: Swift.String? = nil,
-            permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary? = nil,
-            roleId: Swift.String? = nil,
-            roleLastUsed: IAMClientTypes.RoleLastUsed? = nil,
-            roleName: Swift.String? = nil,
-            tags: [IAMClientTypes.Tag]? = nil
-        ) {
-            self.arn = arn
-            self.assumeRolePolicyDocument = assumeRolePolicyDocument
-            self.createDate = createDate
-            self.description = description
-            self.maxSessionDuration = maxSessionDuration
-            self.path = path
-            self.permissionsBoundary = permissionsBoundary
-            self.roleId = roleId
-            self.roleLastUsed = roleLastUsed
-            self.roleName = roleName
-            self.tags = tags
-        }
     }
 }
 
@@ -1805,29 +1970,6 @@ public struct CreateOpenIDConnectProviderOutput: Swift.Sendable {
     ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
         self.tags = tags
-    }
-}
-
-/// The request was rejected because the policy document was malformed. The error message describes the specific error.
-public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "MalformedPolicyDocument" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -3673,6 +3815,22 @@ public struct GetAccountPasswordPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct GetAccountPropertiesInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAccountPropertiesOutput: Swift.Sendable {
+    /// A map of account property key-value pairs. Keys are in the format Namespace/PropertyName.
+    public var properties: [Swift.String: Swift.String]?
+
+    public init(
+        properties: [Swift.String: Swift.String]? = nil
+    ) {
+        self.properties = properties
+    }
+}
+
 extension IAMClientTypes {
 
     public enum SummaryKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4807,6 +4965,287 @@ public struct GetRolePolicyOutput: Swift.Sendable {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.roleName = roleName
+    }
+}
+
+public struct GetRoleTemplateVersionInput: Swift.Sendable {
+    /// The minor version of the role template to retrieve. If you do not specify a minor version, the service returns the template's default minor version.
+    public var minorVersion: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var templateArn: Swift.String?
+
+    public init(
+        minorVersion: Swift.Int? = nil,
+        templateArn: Swift.String? = nil
+    ) {
+        self.minorVersion = minorVersion
+        self.templateArn = templateArn
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains an inline policy template that the service embeds in roles that you create from a role template.
+    public struct InlinePolicy: Swift.Sendable {
+        /// The inline policy document.
+        /// This member is required.
+        public var policyDocument: Swift.String?
+        /// The name of the inline policy.
+        /// This member is required.
+        public var policyName: Swift.String?
+
+        public init(
+            policyDocument: Swift.String? = nil,
+            policyName: Swift.String? = nil
+        ) {
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum ManagedByTypeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedByTypeType] {
+            return [
+                .service
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .service: return "Service"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    public enum ParameterTypeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arn
+        case arnlist
+        case number
+        case numberlist
+        case string
+        case stringlist
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParameterTypeType] {
+            return [
+                .arn,
+                .arnlist,
+                .number,
+                .numberlist,
+                .string,
+                .stringlist
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arn: return "Arn"
+            case .arnlist: return "ArnList"
+            case .number: return "Number"
+            case .numberlist: return "NumberList"
+            case .string: return "String"
+            case .stringlist: return "StringList"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Defines a parameter that a role template accepts. You supply values for these parameters when you create a role with [AcquireRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html).
+    public struct ParameterDefinition: Swift.Sendable {
+        /// The value that the service uses for the parameter when you do not supply one.
+        public var defaultValue: Swift.String?
+        /// A description of the parameter.
+        public var description: Swift.String?
+        /// Specifies whether you can change the parameter value after you create the role.
+        public var immutable: Swift.Bool
+        /// Specifies whether you must supply a value for the parameter when you create a role from the template.
+        public var isRequired: Swift.Bool
+        /// The name of the parameter.
+        /// This member is required.
+        public var name: Swift.String?
+        /// An optional subtype that further constrains the values that are allowed for the parameter.
+        public var subType: Swift.String?
+        /// The data type of the parameter. Valid values are String, StringList, Number, NumberList, Arn, and ArnList.
+        /// This member is required.
+        public var type: IAMClientTypes.ParameterTypeType?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            description: Swift.String? = nil,
+            immutable: Swift.Bool = false,
+            isRequired: Swift.Bool = false,
+            name: Swift.String? = nil,
+            subType: Swift.String? = nil,
+            type: IAMClientTypes.ParameterTypeType? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.immutable = immutable
+            self.isRequired = isRequired
+            self.name = name
+            self.subType = subType
+            self.type = type
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Represents a tag that is applied to roles that are created from a role template. The key and value can include @{parameter} placeholders that are replaced with template parameter values when the role is created.
+    public struct TagTemplate: Swift.Sendable {
+        /// The key name of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value associated with the tag key.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    /// Contains information about a version of an IAM role template, including the configuration that is used to create roles with [AcquireRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html). This structure is returned as a response element by the [GetRoleTemplateVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRoleTemplateVersion.html) operation.
+    public struct RoleTemplateVersion: Swift.Sendable {
+        /// The trust policy template that grants an entity permission to assume roles that you create from this template.
+        public var assumeRolePolicyDocumentTemplate: Swift.String?
+        /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the role template version was created.
+        public var createTimestamp: Foundation.Date?
+        /// The minor version that the service uses by default when you create a role from this template without specifying a minor version.
+        public var defaultMinorVersion: Swift.Int?
+        /// The description of the role template.
+        public var description: Swift.String?
+        /// Specifies whether the role template is enabled. When a template is disabled, you cannot create roles from it.
+        public var enabled: Swift.Bool
+        /// A list of inline policy templates that the service embeds in roles that you create from this template.
+        public var inlinePolicyTemplates: [IAMClientTypes.InlinePolicy]?
+        /// The major version number of the role template.
+        public var majorVersion: Swift.Int?
+        /// Indicates that the role template is managed by an Amazon Web Services service.
+        public var managedByType: IAMClientTypes.ManagedByTypeType?
+        /// The identifier of the Amazon Web Services service that manages the role template.
+        public var managedByValue: Swift.String?
+        /// A list of the ARNs of the managed policies that the service attaches to roles that you create from this template.
+        public var managedPolicyArns: [Swift.String]?
+        /// The maximum session duration (in seconds) for roles that are created from this template.
+        public var maxSessionDuration: Swift.Int?
+        /// The minor version number of this role template version.
+        public var minorVersion: Swift.Int?
+        /// A list of the parameters that are defined for this role template version. You supply values for these parameters when you create a role with [AcquireRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html).
+        public var parametersDefinition: [IAMClientTypes.ParameterDefinition]?
+        /// The ARN of the policy that sets the permissions boundary for roles that you create from this template. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var permissionBoundaryArn: Swift.String?
+        /// The pattern that is used to generate the description of a role that is created from this template.
+        public var roleDescriptionPattern: Swift.String?
+        /// The pattern that is used to generate the name of a role that is created from this template. The pattern can include @{parameter} placeholders that are replaced with the values you supply in the ReplacementValues parameter of [AcquireRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html).
+        public var roleNamePattern: Swift.String?
+        /// The pattern that is used to generate the path of a role that is created from this template.
+        public var rolePathPattern: Swift.String?
+        /// A list of tag templates that are applied to roles that are created from this template.
+        public var roleTagsTemplate: [IAMClientTypes.TagTemplate]?
+        /// The Amazon Resource Name (ARN) that identifies the role template. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var templateArn: Swift.String?
+        /// The friendly name that identifies the role template.
+        public var templateName: Swift.String?
+        /// The identifier of the role template version.
+        public var templateVersionId: Swift.String?
+        /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the role template version was last updated.
+        public var updateTimestamp: Foundation.Date?
+        /// Specifies whether this specific minor version of the role template is enabled.
+        public var versionEnabled: Swift.Bool
+
+        public init(
+            assumeRolePolicyDocumentTemplate: Swift.String? = nil,
+            createTimestamp: Foundation.Date? = nil,
+            defaultMinorVersion: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            enabled: Swift.Bool = false,
+            inlinePolicyTemplates: [IAMClientTypes.InlinePolicy]? = nil,
+            majorVersion: Swift.Int? = nil,
+            managedByType: IAMClientTypes.ManagedByTypeType? = nil,
+            managedByValue: Swift.String? = nil,
+            managedPolicyArns: [Swift.String]? = nil,
+            maxSessionDuration: Swift.Int? = nil,
+            minorVersion: Swift.Int? = nil,
+            parametersDefinition: [IAMClientTypes.ParameterDefinition]? = nil,
+            permissionBoundaryArn: Swift.String? = nil,
+            roleDescriptionPattern: Swift.String? = nil,
+            roleNamePattern: Swift.String? = nil,
+            rolePathPattern: Swift.String? = nil,
+            roleTagsTemplate: [IAMClientTypes.TagTemplate]? = nil,
+            templateArn: Swift.String? = nil,
+            templateName: Swift.String? = nil,
+            templateVersionId: Swift.String? = nil,
+            updateTimestamp: Foundation.Date? = nil,
+            versionEnabled: Swift.Bool = false
+        ) {
+            self.assumeRolePolicyDocumentTemplate = assumeRolePolicyDocumentTemplate
+            self.createTimestamp = createTimestamp
+            self.defaultMinorVersion = defaultMinorVersion
+            self.description = description
+            self.enabled = enabled
+            self.inlinePolicyTemplates = inlinePolicyTemplates
+            self.majorVersion = majorVersion
+            self.managedByType = managedByType
+            self.managedByValue = managedByValue
+            self.managedPolicyArns = managedPolicyArns
+            self.maxSessionDuration = maxSessionDuration
+            self.minorVersion = minorVersion
+            self.parametersDefinition = parametersDefinition
+            self.permissionBoundaryArn = permissionBoundaryArn
+            self.roleDescriptionPattern = roleDescriptionPattern
+            self.roleNamePattern = roleNamePattern
+            self.rolePathPattern = rolePathPattern
+            self.roleTagsTemplate = roleTagsTemplate
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.templateVersionId = templateVersionId
+            self.updateTimestamp = updateTimestamp
+            self.versionEnabled = versionEnabled
+        }
+    }
+}
+
+public struct GetRoleTemplateVersionOutput: Swift.Sendable {
+    /// A structure that contains details about the requested role template version.
+    /// This member is required.
+    public var roleTemplateVersion: IAMClientTypes.RoleTemplateVersion?
+
+    public init(
+        roleTemplateVersion: IAMClientTypes.RoleTemplateVersion? = nil
+    ) {
+        self.roleTemplateVersion = roleTemplateVersion
     }
 }
 
@@ -7343,6 +7782,23 @@ public struct ListVirtualMFADevicesOutput: Swift.Sendable {
     }
 }
 
+public struct PutAccountPropertiesInput: Swift.Sendable {
+    /// A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName. The key must contain exactly one / separating the namespace from the property name, and cannot start or end with /. The service validates each value based on the property key's expected type. For example, boolean properties expect true or false.
+    /// This member is required.
+    public var properties: [Swift.String: Swift.String]?
+
+    public init(
+        properties: [Swift.String: Swift.String]? = nil
+    ) {
+        self.properties = properties
+    }
+}
+
+public struct PutAccountPropertiesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutGroupPolicyInput: Swift.Sendable {
     /// The name of the group to associate the policy with. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-.
     /// This member is required.
@@ -9243,6 +9699,13 @@ extension AcceptDelegationRequestInput {
     }
 }
 
+extension AcquireRoleInput {
+
+    static func urlPathProvider(_ value: AcquireRoleInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AddClientIDToOpenIDConnectProviderInput {
 
     static func urlPathProvider(_ value: AddClientIDToOpenIDConnectProviderInput) -> Swift.String? {
@@ -9684,6 +10147,13 @@ extension GetAccountPasswordPolicyInput {
     }
 }
 
+extension GetAccountPropertiesInput {
+
+    static func urlPathProvider(_ value: GetAccountPropertiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetAccountSummaryInput {
 
     static func urlPathProvider(_ value: GetAccountSummaryInput) -> Swift.String? {
@@ -9806,6 +10276,13 @@ extension GetRoleInput {
 extension GetRolePolicyInput {
 
     static func urlPathProvider(_ value: GetRolePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetRoleTemplateVersionInput {
+
+    static func urlPathProvider(_ value: GetRoleTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10114,6 +10591,13 @@ extension ListUserTagsInput {
 extension ListVirtualMFADevicesInput {
 
     static func urlPathProvider(_ value: ListVirtualMFADevicesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutAccountPropertiesInput {
+
+    static func urlPathProvider(_ value: PutAccountPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10474,6 +10958,18 @@ extension AcceptDelegationRequestInput {
         guard let value else { return }
         try writer["DelegationRequestId"].write(value.delegationRequestId)
         try writer["Action"].write("AcceptDelegationRequest")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension AcquireRoleInput {
+
+    static func write(value: AcquireRoleInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ReplacementValues"].writeMap(value.replacementValues, valueWritingClosure: IAMClientTypes.ReplacementValueEntry.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TemplateArn"].write(value.templateArn)
+        try writer["TemplateMinorVersion"].write(value.templateMinorVersion)
+        try writer["Action"].write("AcquireRole")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -11175,6 +11671,16 @@ extension GetAccountPasswordPolicyInput {
     }
 }
 
+extension GetAccountPropertiesInput {
+
+    static func write(value: GetAccountPropertiesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("GetAccountProperties")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension GetAccountSummaryInput {
 
     static func write(value: GetAccountSummaryInput?, to writer: SmithyFormURL.Writer) throws {
@@ -11363,6 +11869,17 @@ extension GetRolePolicyInput {
         try writer["PolicyName"].write(value.policyName)
         try writer["RoleName"].write(value.roleName)
         try writer["Action"].write("GetRolePolicy")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension GetRoleTemplateVersionInput {
+
+    static func write(value: GetRoleTemplateVersionInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MinorVersion"].write(value.minorVersion)
+        try writer["TemplateArn"].write(value.templateArn)
+        try writer["Action"].write("GetRoleTemplateVersion")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -11887,6 +12404,16 @@ extension ListVirtualMFADevicesInput {
         try writer["Marker"].write(value.marker)
         try writer["MaxItems"].write(value.maxItems)
         try writer["Action"].write("ListVirtualMFADevices")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension PutAccountPropertiesInput {
+
+    static func write(value: PutAccountPropertiesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Action"].write("PutAccountProperties")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -12495,6 +13022,18 @@ extension AcceptDelegationRequestOutput {
     }
 }
 
+extension AcquireRoleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcquireRoleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["AcquireRoleResult"]
+        var value = AcquireRoleOutput()
+        value.role = try reader["Role"].readIfPresent(with: IAMClientTypes.Role.read(from:))
+        return value
+    }
+}
+
 extension AddClientIDToOpenIDConnectProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddClientIDToOpenIDConnectProviderOutput {
@@ -13080,6 +13619,18 @@ extension GetAccountPasswordPolicyOutput {
     }
 }
 
+extension GetAccountPropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountPropertiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetAccountPropertiesResult"]
+        var value = GetAccountPropertiesOutput()
+        value.properties = try reader["Properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetAccountSummaryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountSummaryOutput {
@@ -13321,6 +13872,18 @@ extension GetRolePolicyOutput {
         value.policyDocument = try reader["PolicyDocument"].readIfPresent() ?? ""
         value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
         value.roleName = try reader["RoleName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetRoleTemplateVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRoleTemplateVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetRoleTemplateVersionResult"]
+        var value = GetRoleTemplateVersionOutput()
+        value.roleTemplateVersion = try reader["RoleTemplateVersion"].readIfPresent(with: IAMClientTypes.RoleTemplateVersion.read(from:))
         return value
     }
 }
@@ -13944,6 +14507,13 @@ extension ListVirtualMFADevicesOutput {
     }
 }
 
+extension PutAccountPropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountPropertiesOutput {
+        return PutAccountPropertiesOutput()
+    }
+}
+
 extension PutGroupPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutGroupPolicyOutput {
@@ -14349,6 +14919,29 @@ enum AcceptDelegationRequestOutputError {
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AcquireRoleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
+            case "MalformedPolicyDocument": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
+            case "NameConflict": return try NameConflictException.makeError(baseError: baseError)
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "RoleModified": return try RoleModifiedException.makeError(baseError: baseError)
+            case "RoleTemplateDisabled": return try RoleTemplateDisabledException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15421,6 +16014,21 @@ enum GetAccountPasswordPolicyOutputError {
     }
 }
 
+enum GetAccountPropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAccountSummaryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15686,6 +16294,22 @@ enum GetRolePolicyOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRoleTemplateVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16350,6 +16974,22 @@ enum ListVirtualMFADevicesOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccountPropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17249,6 +17889,19 @@ extension ServiceFailureException {
     }
 }
 
+extension EntityAlreadyExistsException {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EntityAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = EntityAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidInputException {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidInputException {
@@ -17275,11 +17928,50 @@ extension LimitExceededException {
     }
 }
 
-extension EntityAlreadyExistsException {
+extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EntityAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExistsException()
+        var value = MalformedPolicyDocumentException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NameConflictException {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NameConflictException {
+        let reader = baseError.errorBodyReader
+        var value = NameConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RoleModifiedException {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RoleModifiedException {
+        let reader = baseError.errorBodyReader
+        var value = RoleModifiedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RoleTemplateDisabledException {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> RoleTemplateDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = RoleTemplateDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17358,19 +18050,6 @@ extension OpenIdIdpCommunicationErrorException {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OpenIdIdpCommunicationErrorException {
         let reader = baseError.errorBodyReader
         var value = OpenIdIdpCommunicationErrorException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MalformedPolicyDocumentException {
-
-    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
-        let reader = baseError.errorBodyReader
-        var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17892,6 +18571,17 @@ extension IAMClientTypes.GroupDetail {
     }
 }
 
+extension IAMClientTypes.InlinePolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.InlinePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.InlinePolicy()
+        value.policyName = try reader["PolicyName"].readIfPresent() ?? ""
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IAMClientTypes.InlinePolicyIdentifierType {
 
     static func write(value: IAMClientTypes.InlinePolicyIdentifierType?, to writer: SmithyFormURL.Writer) throws {
@@ -17998,6 +18688,22 @@ extension IAMClientTypes.OrganizationsDecisionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.OrganizationsDecisionDetail()
         value.allowedByOrganizations = try reader["AllowedByOrganizations"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IAMClientTypes.ParameterDefinition {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ParameterDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.ParameterDefinition()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.subType = try reader["SubType"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.isRequired = try reader["IsRequired"].readIfPresent() ?? false
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.immutable = try reader["Immutable"].readIfPresent() ?? false
         return value
     }
 }
@@ -18170,6 +18876,14 @@ extension IAMClientTypes.Position {
     }
 }
 
+extension IAMClientTypes.ReplacementValueEntry {
+
+    static func write(value: IAMClientTypes.ReplacementValueEntry?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension IAMClientTypes.ResourceSpecificResult {
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.ResourceSpecificResult {
@@ -18201,6 +18915,7 @@ extension IAMClientTypes.Role {
         value.permissionsBoundary = try reader["PermissionsBoundary"].readIfPresent(with: IAMClientTypes.AttachedPermissionsBoundary.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleLastUsed = try reader["RoleLastUsed"].readIfPresent(with: IAMClientTypes.RoleLastUsed.read(from:))
+        value.sourceRoleTemplate = try reader["SourceRoleTemplate"].readIfPresent(with: IAMClientTypes.SourceRoleTemplate.read(from:))
         return value
     }
 }
@@ -18233,6 +18948,38 @@ extension IAMClientTypes.RoleLastUsed {
         var value = IAMClientTypes.RoleLastUsed()
         value.lastUsedDate = try reader["LastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
+extension IAMClientTypes.RoleTemplateVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.RoleTemplateVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.RoleTemplateVersion()
+        value.templateArn = try reader["TemplateArn"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.templateVersionId = try reader["TemplateVersionId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.majorVersion = try reader["MajorVersion"].readIfPresent()
+        value.defaultMinorVersion = try reader["DefaultMinorVersion"].readIfPresent()
+        value.managedByType = try reader["ManagedByType"].readIfPresent()
+        value.managedByValue = try reader["ManagedByValue"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.minorVersion = try reader["MinorVersion"].readIfPresent()
+        value.roleNamePattern = try reader["RoleNamePattern"].readIfPresent()
+        value.rolePathPattern = try reader["RolePathPattern"].readIfPresent()
+        value.roleDescriptionPattern = try reader["RoleDescriptionPattern"].readIfPresent()
+        value.assumeRolePolicyDocumentTemplate = try reader["AssumeRolePolicyDocumentTemplate"].readIfPresent()
+        value.inlinePolicyTemplates = try reader["InlinePolicyTemplates"].readListIfPresent(memberReadingClosure: IAMClientTypes.InlinePolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedPolicyArns = try reader["ManagedPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.permissionBoundaryArn = try reader["PermissionBoundaryArn"].readIfPresent()
+        value.parametersDefinition = try reader["ParametersDefinition"].readListIfPresent(memberReadingClosure: IAMClientTypes.ParameterDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleTagsTemplate = try reader["RoleTagsTemplate"].readListIfPresent(memberReadingClosure: IAMClientTypes.TagTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
+        value.versionEnabled = try reader["VersionEnabled"].readIfPresent() ?? false
+        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTimestamp = try reader["UpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -18365,6 +19112,17 @@ extension IAMClientTypes.SigningCertificate {
     }
 }
 
+extension IAMClientTypes.SourceRoleTemplate {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SourceRoleTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.SourceRoleTemplate()
+        value.templateArn = try reader["TemplateArn"].readIfPresent() ?? ""
+        value.templateMinorVersion = try reader["TemplateMinorVersion"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension IAMClientTypes.SSHPublicKey {
 
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SSHPublicKey {
@@ -18417,6 +19175,17 @@ extension IAMClientTypes.Tag {
     static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IAMClientTypes.TagTemplate {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.TagTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.TagTemplate()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
