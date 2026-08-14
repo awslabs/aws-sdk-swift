@@ -23,6 +23,8 @@ class RulesBasedAuthSchemeResolverGeneratorTests {
 public struct S3AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let authSchemePreference: [String]?
     public let operation: Swift.String
+    // Region is used for SigV4 auth scheme
+    public let region: Swift.String?
 }
 
 public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
@@ -31,7 +33,7 @@ public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // the service S3 must conform to.
 }
 
-private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
+public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
@@ -100,52 +102,12 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
-        return try DefaultS3AuthSchemeResolver().constructParameters(context: context)
-    }
-}
-
-public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
-
-    public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
-        var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
-            throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
-        }
-        let endpointParams = EndpointParams(authSchemeParams: serviceParams)
-        let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)
-        guard let authSchemes = endpoint.authSchemes() else {
-            return try InternalModeledS3AuthSchemeResolver().resolveAuthScheme(params: params)
-        }
-        let schemes = try authSchemes.map { (input) -> ClientRuntime.EndpointsAuthScheme in try ClientRuntime.EndpointsAuthScheme(from: input) }
-        for scheme in schemes {
-            switch scheme {
-                case .sigV4(let param):
-                    var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                    sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: param.signingName)
-                    sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegion)
-                    validAuthOptions.append(sigV4Option)
-                case .sigV4A(let param):
-                    var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4a")
-                    sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: param.signingName)
-                    sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])
-                    sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.sigV4aSigningRegionSet, value: param.signingRegionSet)
-                    validAuthOptions.append(sigV4Option)
-                default:
-                    throw Smithy.ClientError.authError("Unknown auth scheme name: \(scheme.name)")
-            }
-        }
-        return validAuthOptions
-    }
-
-    public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
         guard let opName = context.getOperation() else {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
-        guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
-            throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
-        }
         let authSchemePreference = context.getAuthSchemePreference()
-        return S3AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName)
+        let opRegion = context.getRegion()
+        return S3AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
     }
 }
 """
