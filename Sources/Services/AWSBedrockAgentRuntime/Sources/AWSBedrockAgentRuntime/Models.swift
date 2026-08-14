@@ -4648,6 +4648,50 @@ extension BedrockAgentRuntimeClientTypes.TracePart: Swift.CustomDebugStringConve
     }
 }
 
+public struct CheckIngestedDocumentAclInput: Swift.Sendable {
+    /// The unique identifier of the data source that contains the document.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the document to check access for.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The unique identifier of the knowledge base that contains the document.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The context object containing identity information for access control filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL).
+    /// This member is required.
+    public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
+
+    public init(
+        dataSourceId: Swift.String? = nil,
+        documentId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        userContext: BedrockAgentRuntimeClientTypes.UserContext? = nil
+    ) {
+        self.dataSourceId = dataSourceId
+        self.documentId = documentId
+        self.knowledgeBaseId = knowledgeBaseId
+        self.userContext = userContext
+    }
+}
+
+extension CheckIngestedDocumentAclInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CheckIngestedDocumentAclInput(dataSourceId: \(Swift.String(describing: dataSourceId)), documentId: \(Swift.String(describing: documentId)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), userContext: \"CONTENT_REDACTED\")"}
+}
+
+public struct CheckIngestedDocumentAclOutput: Swift.Sendable {
+    /// Specifies whether the user has access to the document based on the ingested access control list (ACL). Returns true if the user is allowed access, and false otherwise.
+    /// This member is required.
+    public var hasAccess: Swift.Bool?
+
+    public init(
+        hasAccess: Swift.Bool? = nil
+    ) {
+        self.hasAccess = hasAccess
+    }
+}
+
 public struct GetExecutionFlowSnapshotInput: Swift.Sendable {
     /// The unique identifier of the flow execution.
     /// This member is required.
@@ -6950,7 +6994,7 @@ public struct GetDocumentContentInput: Swift.Sendable {
     public var knowledgeBaseId: Swift.String?
     /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
     public var outputFormat: BedrockAgentRuntimeClientTypes.DocumentOutputFormat?
-    /// Contains information about the user making the request. Use this to pass user identity information for access control filtering, so that retrieval results only include documents the user is authorized to access.
+    /// Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.
     public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
 
     public init(
@@ -6997,6 +7041,214 @@ public struct GetDocumentContentOutput: Swift.Sendable {
 extension GetDocumentContentOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetDocumentContentOutput(documentContentLength: \(Swift.String(describing: documentContentLength)), mimeType: \(Swift.String(describing: mimeType)), presignedUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetIngestedDocumentAclInput: Swift.Sendable {
+    /// The unique identifier of the data source that contains the document.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the document to retrieve the ingested access control list (ACL) for.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The unique identifier of the knowledge base that contains the document.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        dataSourceId: Swift.String? = nil,
+        documentId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    ) {
+        self.dataSourceId = dataSourceId
+        self.documentId = documentId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The logical relation for combining access control list (ACL) membership conditions.
+    public enum DocumentAclMemberRelation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentAclMemberRelation] {
+            return [
+                .and,
+                .or
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The scope type for a document access control list (ACL) membership condition. Valid values: KNOWLEDGE_BASE – The entry applies at the knowledge base level. DATA_SOURCE – The entry applies at the data source level.
+    public enum DocumentAclMembershipType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataSource
+        case knowledgeBase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentAclMembershipType] {
+            return [
+                .dataSource,
+                .knowledgeBase
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataSource: return "DATA_SOURCE"
+            case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// A group entry within a document access control list (ACL) condition.
+    public struct DocumentAclGroup: Swift.Sendable {
+        /// The identifier of the group.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The membership type indicating the scope of the group entry.
+        /// This member is required.
+        public var type: BedrockAgentRuntimeClientTypes.DocumentAclMembershipType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.DocumentAclMembershipType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// A user entry within a document access control list (ACL) condition.
+    public struct DocumentAclUser: Swift.Sendable {
+        /// The identifier of the user.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The membership type indicating the scope of the user entry.
+        /// This member is required.
+        public var type: BedrockAgentRuntimeClientTypes.DocumentAclMembershipType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.DocumentAclMembershipType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// A condition within a document access control list (ACL) membership, specifying users and groups that are evaluated together.
+    public struct DocumentAclCondition: Swift.Sendable {
+        /// The logical operator for combining users and groups within this condition. Valid values: AND – Both a user match and a group match are required. OR – Either a user match or a group match is sufficient.
+        public var conditionOperator: BedrockAgentRuntimeClientTypes.DocumentAclMemberRelation?
+        /// The list of group entries in this condition.
+        public var groups: [BedrockAgentRuntimeClientTypes.DocumentAclGroup]?
+        /// The list of user entries in this condition.
+        public var users: [BedrockAgentRuntimeClientTypes.DocumentAclUser]?
+
+        public init(
+            conditionOperator: BedrockAgentRuntimeClientTypes.DocumentAclMemberRelation? = nil,
+            groups: [BedrockAgentRuntimeClientTypes.DocumentAclGroup]? = nil,
+            users: [BedrockAgentRuntimeClientTypes.DocumentAclUser]? = nil
+        ) {
+            self.conditionOperator = conditionOperator
+            self.groups = groups
+            self.users = users
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The membership entry for a document access control list (ACL), containing conditions and their logical relation.
+    public struct DocumentAclMembership: Swift.Sendable {
+        /// The list of conditions that determine membership.
+        public var conditions: [BedrockAgentRuntimeClientTypes.DocumentAclCondition]?
+        /// The logical relation between conditions. Valid values: AND – All conditions must match. OR – At least one condition must match.
+        public var memberRelation: BedrockAgentRuntimeClientTypes.DocumentAclMemberRelation?
+
+        public init(
+            conditions: [BedrockAgentRuntimeClientTypes.DocumentAclCondition]? = nil,
+            memberRelation: BedrockAgentRuntimeClientTypes.DocumentAclMemberRelation? = nil
+        ) {
+            self.conditions = conditions
+            self.memberRelation = memberRelation
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The access control list for a document, containing allow and deny membership lists. Each list specifies conditions that determine which users and groups are granted or denied access.
+    public struct DocumentAcl: Swift.Sendable {
+        /// The list of principals allowed access to the document.
+        public var allowList: BedrockAgentRuntimeClientTypes.DocumentAclMembership?
+        /// The list of principals denied access to the document.
+        public var denyList: BedrockAgentRuntimeClientTypes.DocumentAclMembership?
+
+        public init(
+            allowList: BedrockAgentRuntimeClientTypes.DocumentAclMembership? = nil,
+            denyList: BedrockAgentRuntimeClientTypes.DocumentAclMembership? = nil
+        ) {
+            self.allowList = allowList
+            self.denyList = denyList
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.DocumentAcl: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct GetIngestedDocumentAclOutput: Swift.Sendable {
+    /// The ingested document access control list (ACL) containing allow and deny membership information.
+    /// This member is required.
+    public var documentAcl: BedrockAgentRuntimeClientTypes.DocumentAcl?
+
+    public init(
+        documentAcl: BedrockAgentRuntimeClientTypes.DocumentAcl? = nil
+    ) {
+        self.documentAcl = documentAcl
+    }
+}
+
+extension GetIngestedDocumentAclOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIngestedDocumentAclOutput(documentAcl: \"CONTENT_REDACTED\")"}
 }
 
 /// The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see [Retry behavior](https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html) in the AWS SDKs and Tools reference guide.
@@ -10618,11 +10870,7 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// Configuration for managed search in a knowledge base. Managed search automatically determines the best search strategy based on your data store configuration.
     public struct ManagedSearchConfiguration: Swift.Sendable {
-        /// Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). See the examples below to see how to use these filters. This data type is used in the following API operations:
-        ///
-        /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the filter field
-        ///
-        /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the filter field
+        /// Filters the metadata of the retrieved results so that Amazon Bedrock returns only results that match the filter.
         public var filter: BedrockAgentRuntimeClientTypes.RetrievalFilter?
         /// The number of results to retrieve.
         public var numberOfResults: Swift.Int?
@@ -10892,7 +11140,7 @@ public struct RetrieveInput: Swift.Sendable {
     /// Contains the query to send the knowledge base.
     /// This member is required.
     public var retrievalQuery: BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery?
-    /// Contains information about the user making the request. Use this to pass user identity information for access control filtering, so that retrieval results only include documents the user is authorized to access.
+    /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
 
     public init(
@@ -11058,7 +11306,7 @@ public struct RetrieveAndGenerateInput: Swift.Sendable {
     public var sessionConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration?
     /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
     public var sessionId: Swift.String?
-    /// Contains information about the user making the request. Use this to pass user identity information for access control filtering, so that retrieval results only include documents the user is authorized to access.
+    /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
 
     public init(
@@ -11091,7 +11339,7 @@ public struct RetrieveAndGenerateStreamInput: Swift.Sendable {
     public var sessionConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration?
     /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
     public var sessionId: Swift.String?
-    /// Contains information about the user making the request. Use this to pass user identity information for access control filtering, so that retrieval results only include documents the user is authorized to access.
+    /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
 
     public init(
@@ -11287,6 +11535,19 @@ extension AgenticRetrieveStreamInput {
     }
 }
 
+extension CheckIngestedDocumentAclInput {
+
+    static func urlPathProvider(_ value: CheckIngestedDocumentAclInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/check-ingested-document-acl"
+    }
+}
+
 extension CreateInvocationInput {
 
     static func urlPathProvider(_ value: CreateInvocationInput) -> Swift.String? {
@@ -11446,6 +11707,19 @@ extension GetFlowExecutionInput {
             return nil
         }
         return "/flows/\(flowIdentifier.urlPercentEncoding())/aliases/\(flowAliasIdentifier.urlPercentEncoding())/executions/\(executionIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetIngestedDocumentAclInput {
+
+    static func urlPathProvider(_ value: GetIngestedDocumentAclInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/get-ingested-document-acl"
     }
 }
 
@@ -11812,6 +12086,15 @@ extension AgenticRetrieveStreamInput {
     }
 }
 
+extension CheckIngestedDocumentAclInput {
+
+    static func write(value: CheckIngestedDocumentAclInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentId"].write(value.documentId)
+        try writer["userContext"].write(value.userContext, with: BedrockAgentRuntimeClientTypes.UserContext.write(value:to:))
+    }
+}
+
 extension CreateInvocationInput {
 
     static func write(value: CreateInvocationInput?, to writer: SmithyJSON.Writer) throws {
@@ -11846,6 +12129,14 @@ extension GetDocumentContentInput {
         guard let value else { return }
         try writer["outputFormat"].write(value.outputFormat)
         try writer["userContext"].write(value.userContext, with: BedrockAgentRuntimeClientTypes.UserContext.write(value:to:))
+    }
+}
+
+extension GetIngestedDocumentAclInput {
+
+    static func write(value: GetIngestedDocumentAclInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentId"].write(value.documentId)
     }
 }
 
@@ -12025,6 +12316,18 @@ extension AgenticRetrieveStreamOutput {
     }
 }
 
+extension CheckIngestedDocumentAclOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CheckIngestedDocumentAclOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CheckIngestedDocumentAclOutput()
+        value.hasAccess = try reader["hasAccess"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension CreateInvocationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInvocationOutput {
@@ -12153,6 +12456,18 @@ extension GetFlowExecutionOutput {
         value.flowVersion = try reader["flowVersion"].readIfPresent() ?? ""
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetIngestedDocumentAclOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIngestedDocumentAclOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIngestedDocumentAclOutput()
+        value.documentAcl = try reader["documentAcl"].readIfPresent(with: BedrockAgentRuntimeClientTypes.DocumentAcl.read(from:))
         return value
     }
 }
@@ -12481,6 +12796,24 @@ enum AgenticRetrieveStreamOutputError {
     }
 }
 
+enum CheckIngestedDocumentAclOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateInvocationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12661,6 +12994,24 @@ enum GetExecutionFlowSnapshotOutputError {
 }
 
 enum GetFlowExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIngestedDocumentAclOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14452,6 +14803,62 @@ extension DependencyFailedException {
         var value = DependencyFailedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.DocumentAcl {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.DocumentAcl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.DocumentAcl()
+        value.allowList = try reader["allowList"].readIfPresent(with: BedrockAgentRuntimeClientTypes.DocumentAclMembership.read(from:))
+        value.denyList = try reader["denyList"].readIfPresent(with: BedrockAgentRuntimeClientTypes.DocumentAclMembership.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.DocumentAclCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.DocumentAclCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.DocumentAclCondition()
+        value.conditionOperator = try reader["conditionOperator"].readIfPresent()
+        value.users = try reader["users"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.DocumentAclUser.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.DocumentAclGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.DocumentAclGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.DocumentAclGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.DocumentAclGroup()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.DocumentAclMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.DocumentAclMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.DocumentAclMembership()
+        value.memberRelation = try reader["memberRelation"].readIfPresent()
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.DocumentAclCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.DocumentAclUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.DocumentAclUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.DocumentAclUser()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

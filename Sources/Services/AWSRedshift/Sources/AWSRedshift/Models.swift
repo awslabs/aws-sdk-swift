@@ -12593,7 +12593,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     public var manualSnapshotRetentionPeriod: Swift.Int?
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true.
     public var masterPasswordSecretKmsKeyId: Swift.String?
-    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
+    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true. If your admin user account is locked, this operation also unlocks your account and resets the failed-login counter. This option is available only when account lockout security is enabled for the cluster. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///

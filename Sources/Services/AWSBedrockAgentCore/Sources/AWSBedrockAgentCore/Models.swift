@@ -9792,6 +9792,38 @@ public struct StartMemoryExtractionJobOutput: Swift.Sendable {
     }
 }
 
+/// Returned when you attempt a wallet operation against a Coinbase Marketplace connector whose account does not hold an active Marketplace subscription and is not within the legacy exception period. Subscribe to the Marketplace listing before you retry the operation.
+public struct SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The name of the product that requires a Marketplace subscription.
+        public internal(set) var productName: Swift.String? = nil
+        /// The URL to the Marketplace listing where you can subscribe.
+        public internal(set) var subscriptionUrl: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubscriptionRequiredException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        productName: Swift.String? = nil,
+        subscriptionUrl: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.productName = productName
+        self.properties.subscriptionUrl = subscriptionUrl
+    }
+}
+
 extension BedrockAgentCoreClientTypes {
 
     /// Authentication method using JWT with key ID and subject claims.
@@ -10071,6 +10103,7 @@ extension BedrockAgentCoreClientTypes {
     /// The status of a payment instrument.
     public enum PaymentInstrumentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case blocked
         case deleted
         case failed
         case initiated
@@ -10079,6 +10112,7 @@ extension BedrockAgentCoreClientTypes {
         public static var allCases: [PaymentInstrumentStatus] {
             return [
                 .active,
+                .blocked,
                 .deleted,
                 .failed,
                 .initiated
@@ -10093,6 +10127,7 @@ extension BedrockAgentCoreClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .blocked: return "BLOCKED"
             case .deleted: return "DELETED"
             case .failed: return "FAILED"
             case .initiated: return "INITIATED"
@@ -10901,15 +10936,19 @@ extension BedrockAgentCoreClientTypes {
         /// The X402 payment payload.
         /// This member is required.
         public var payload: Smithy.Document?
+        /// The maximum on-chain Permit2 allowance to grant before signing the payment authorization, in the asset's smallest denomination. This field is valid only for the upto (metered) scheme; supplying it for the exact scheme returns a validation error. When set, the service approves an ERC-20 allowance for this amount before processing the payment. The approval sets, rather than adds to, the wallet's allowance. Set this field only when the wallet needs approving, for example on its first upto payment, to avoid a redundant on-chain transaction. Omit the field to skip allowance handling. This is the default, and the only behavior for the exact scheme.
+        public var permit2AllowanceLimit: Swift.String?
         /// The version of the X402 protocol.
         /// This member is required.
         public var version: Swift.String?
 
         public init(
             payload: Smithy.Document? = nil,
+            permit2AllowanceLimit: Swift.String? = nil,
             version: Swift.String? = nil
         ) {
             self.payload = payload
+            self.permit2AllowanceLimit = permit2AllowanceLimit
             self.version = version
         }
     }
@@ -10917,7 +10956,32 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.CryptoX402PaymentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CryptoX402PaymentInput(version: \(Swift.String(describing: version)), payload: \"CONTENT_REDACTED\")"}
+        "CryptoX402PaymentInput(permit2AllowanceLimit: \(Swift.String(describing: permit2AllowanceLimit)), version: \(Swift.String(describing: version)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Contains the payment challenge from a 402 Payment Required response. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per request.
+    public struct MppPaymentInput: Swift.Sendable {
+        /// Authorizes the service to sign a payment whose blockchain network (gas) fees are charged to your wallet, on top of the payment amount. The challenge indicates who sponsors the network fees. When the challenge does not sponsor them, the service signs the payment only if this field is true. Otherwise it returns a validation error, so you can decide whether to pay the fees or obtain a challenge that sponsors them. Optional. When omitted or false, you decline to pay network fees. This field has no effect on challenges that already sponsor the fees.
+        public var buyerPaysGasFees: Swift.Bool?
+        /// The MPP protocol version, for example "1" or "2".
+        /// This member is required.
+        public var version: Swift.String?
+        /// The raw WWW-Authenticate: Payment header value from the 402 response, passed verbatim. Provide exactly one entry. The service uses this value to generate the payment credential.
+        /// This member is required.
+        public var wwwAuthenticateHeaders: [Swift.String]?
+
+        public init(
+            buyerPaysGasFees: Swift.Bool? = nil,
+            version: Swift.String? = nil,
+            wwwAuthenticateHeaders: [Swift.String]? = nil
+        ) {
+            self.buyerPaysGasFees = buyerPaysGasFees
+            self.version = version
+            self.wwwAuthenticateHeaders = wwwAuthenticateHeaders
+        }
+    }
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -10926,6 +10990,8 @@ extension BedrockAgentCoreClientTypes {
     public enum PaymentInput: Swift.Sendable {
         /// Input for a crypto X402 payment.
         case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentInput)
+        /// Contains the payment challenge from a 402 Payment Required response. Forward the raw WWW-Authenticate: Payment header value verbatim. In response, you receive a payment credential that satisfies the challenge. Provide exactly one challenge per request.
+        case mpp(BedrockAgentCoreClientTypes.MppPaymentInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10935,11 +11001,13 @@ extension BedrockAgentCoreClientTypes {
     /// Payment type enum.
     public enum PaymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cryptoX402
+        case mpp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PaymentType] {
             return [
-                .cryptoX402
+                .cryptoX402,
+                .mpp
             ]
         }
 
@@ -10951,6 +11019,7 @@ extension BedrockAgentCoreClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cryptoX402: return "CRYPTO_X402"
+            case .mpp: return "MPP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11030,10 +11099,43 @@ extension BedrockAgentCoreClientTypes.CryptoX402PaymentOutput: Swift.CustomDebug
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Contains the payment credential, ready to retry the request.
+    public struct MppPaymentOutput: Swift.Sendable {
+        /// Ready-to-send value for the Authorization header, in the form "Payment <base64url-token>". Attach this header and retry the original request. To inspect the full credential, base64url-decode the token.
+        /// This member is required.
+        public var paymentCredential: Swift.String?
+        /// The id of the challenge that was paid, echoed from the input challenge so you can correlate the result without decoding the credential.
+        /// This member is required.
+        public var selectedPaymentId: Swift.String?
+        /// The MPP protocol version, for example "1" or "2".
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            paymentCredential: Swift.String? = nil,
+            selectedPaymentId: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.paymentCredential = paymentCredential
+            self.selectedPaymentId = selectedPaymentId
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MppPaymentOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MppPaymentOutput(selectedPaymentId: \(Swift.String(describing: selectedPaymentId)), version: \(Swift.String(describing: version)), paymentCredential: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// The payment output details, which vary by payment type.
     public enum PaymentOutput: Swift.Sendable {
         /// Output from a crypto X402 payment.
         case cryptox402(BedrockAgentCoreClientTypes.CryptoX402PaymentOutput)
+        /// Contains the payment credential, ready to retry the request.
+        case mpp(BedrockAgentCoreClientTypes.MppPaymentOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -14210,7 +14312,9 @@ enum CreatePaymentInstrumentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "SubscriptionRequiredException": return try SubscriptionRequiredException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14230,6 +14334,7 @@ enum CreatePaymentSessionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "SubscriptionRequiredException": return try SubscriptionRequiredException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15067,7 +15172,9 @@ enum ProcessPaymentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "SubscriptionRequiredException": return try SubscriptionRequiredException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15506,6 +15613,21 @@ extension RetryableConflictException {
         let reader = baseError.errorBodyReader
         var value = RetryableConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubscriptionRequiredException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SubscriptionRequiredException {
+        let reader = baseError.errorBodyReader
+        var value = SubscriptionRequiredException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.productName = try reader["productName"].readIfPresent()
+        value.properties.subscriptionUrl = try reader["subscriptionUrl"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16490,6 +16612,7 @@ extension BedrockAgentCoreClientTypes.CryptoX402PaymentInput {
     static func write(value: BedrockAgentCoreClientTypes.CryptoX402PaymentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["payload"].write(value.payload)
+        try writer["permit2AllowanceLimit"].write(value.permit2AllowanceLimit)
         try writer["version"].write(value.version)
     }
 }
@@ -18131,6 +18254,28 @@ extension BedrockAgentCoreClientTypes.MouseScrollResult {
     }
 }
 
+extension BedrockAgentCoreClientTypes.MppPaymentInput {
+
+    static func write(value: BedrockAgentCoreClientTypes.MppPaymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["buyerPaysGasFees"].write(value.buyerPaysGasFees)
+        try writer["version"].write(value.version)
+        try writer["wwwAuthenticateHeaders"].writeList(value.wwwAuthenticateHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MppPaymentOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MppPaymentOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.MppPaymentOutput()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.selectedPaymentId = try reader["selectedPaymentId"].readIfPresent() ?? ""
+        value.paymentCredential = try reader["paymentCredential"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.OAuth2Authentication {
 
     static func write(value: BedrockAgentCoreClientTypes.OAuth2Authentication?, to writer: SmithyJSON.Writer) throws {
@@ -18249,6 +18394,8 @@ extension BedrockAgentCoreClientTypes.PaymentInput {
         switch value {
             case let .cryptox402(cryptox402):
                 try writer["cryptoX402"].write(cryptox402, with: BedrockAgentCoreClientTypes.CryptoX402PaymentInput.write(value:to:))
+            case let .mpp(mpp):
+                try writer["mpp"].write(mpp, with: BedrockAgentCoreClientTypes.MppPaymentInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -18322,6 +18469,8 @@ extension BedrockAgentCoreClientTypes.PaymentOutput {
         switch name {
             case "cryptoX402":
                 return .cryptox402(try reader["cryptoX402"].read(with: BedrockAgentCoreClientTypes.CryptoX402PaymentOutput.read(from:)))
+            case "mpp":
+                return .mpp(try reader["mpp"].read(with: BedrockAgentCoreClientTypes.MppPaymentOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

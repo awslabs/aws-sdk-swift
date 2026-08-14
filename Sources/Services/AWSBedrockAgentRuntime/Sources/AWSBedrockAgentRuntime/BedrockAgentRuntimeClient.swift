@@ -691,6 +691,78 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CheckIngestedDocumentAcl` operation on the `BedrockAgentRuntime` service.
+    ///
+    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CheckIngestedDocumentAclInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CheckIngestedDocumentAclOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions. Check your permissions and retry your request.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func checkIngestedDocumentAcl(input: CheckIngestedDocumentAclInput) async throws -> CheckIngestedDocumentAclOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "checkIngestedDocumentAcl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>(CheckIngestedDocumentAclInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CheckIngestedDocumentAclInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckIngestedDocumentAclOutput>(CheckIngestedDocumentAclOutput.httpOutput(from:), CheckIngestedDocumentAclOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CheckIngestedDocumentAclOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent Runtime", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckIngestedDocumentAclOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckIngestedDocumentAclOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent Runtime"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CheckIngestedDocumentAclInput, CheckIngestedDocumentAclOutput>(serviceID: serviceName, version: BedrockAgentRuntimeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentRuntime")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CheckIngestedDocumentAcl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateInvocation` operation on the `BedrockAgentRuntime` service.
     ///
     /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html). Related APIs
@@ -1426,6 +1498,78 @@ extension BedrockAgentRuntimeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIngestedDocumentAcl` operation on the `BedrockAgentRuntime` service.
+    ///
+    /// Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the bedrock:GetIngestedDocumentAcl permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIngestedDocumentAclInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIngestedDocumentAclOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions. Check your permissions and retry your request.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func getIngestedDocumentAcl(input: GetIngestedDocumentAclInput) async throws -> GetIngestedDocumentAclOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIngestedDocumentAcl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>(GetIngestedDocumentAclInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIngestedDocumentAclInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIngestedDocumentAclOutput>(GetIngestedDocumentAclOutput.httpOutput(from:), GetIngestedDocumentAclOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIngestedDocumentAclOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent Runtime", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIngestedDocumentAclOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIngestedDocumentAclOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent Runtime"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIngestedDocumentAclInput, GetIngestedDocumentAclOutput>(serviceID: serviceName, version: BedrockAgentRuntimeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentRuntime")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIngestedDocumentAcl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetInvocationStep` operation on the `BedrockAgentRuntime` service.
     ///
     /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
@@ -1569,7 +1713,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `InvokeAgent` operation on the `BedrockAgentRuntime` service.
     ///
-    /// Sends a prompt for the agent to process and respond to. Note the following fields for the request:
+    /// Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see [Amazon Bedrock Agents Classic availability change](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-classic-maintenance-mode.html). Sends a prompt for the agent to process and respond to. Note the following fields for the request:
     ///
     /// * To continue the same conversation with an agent, use the same sessionId value in the request.
     ///
