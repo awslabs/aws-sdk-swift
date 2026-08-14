@@ -803,15 +803,23 @@ public struct AssociateGlossaryTermsInput: Swift.Sendable {
     /// The list of glossary term identifiers to associate with the asset.
     /// This member is required.
     public var glossaryTermIdentifiers: [Swift.String]?
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form. When specified along with itemIdentifier, the glossary terms are associated with an item within the iterable form rather than the asset itself.
+    public var iterableFormName: Swift.String?
 
     public init(
         assetIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        glossaryTermIdentifiers: [Swift.String]? = nil
+        glossaryTermIdentifiers: [Swift.String]? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
     ) {
         self.assetIdentifier = assetIdentifier
         self.clientToken = clientToken
         self.glossaryTermIdentifiers = glossaryTermIdentifiers
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
     }
 }
 
@@ -820,13 +828,21 @@ public struct AssociateGlossaryTermsOutput: Swift.Sendable {
     public var assetIdentifier: Swift.String?
     /// The glossary terms now associated with the asset.
     public var glossaryTerms: [Swift.String]?
+    /// The identifier of the item within the iterable form, if applicable.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form, if the association targets an item.
+    public var iterableFormName: Swift.String?
 
     public init(
         assetIdentifier: Swift.String? = nil,
-        glossaryTerms: [Swift.String]? = nil
+        glossaryTerms: [Swift.String]? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
     ) {
         self.assetIdentifier = assetIdentifier
         self.glossaryTerms = glossaryTerms
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
     }
 }
 
@@ -16415,11 +16431,19 @@ public struct DeleteAttachmentInput: Swift.Sendable {
 public struct DeleteAttachmentOutput: Swift.Sendable {
     /// The unique identifier of the asset.
     public var assetIdentifier: Swift.String?
+    /// The identifier of the item within the iterable form, if applicable.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form, if the deletion targets an item.
+    public var iterableFormName: Swift.String?
 
     public init(
-        assetIdentifier: Swift.String? = nil
+        assetIdentifier: Swift.String? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
     ) {
         self.assetIdentifier = assetIdentifier
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
     }
 }
 
@@ -18660,15 +18684,23 @@ public struct DisassociateGlossaryTermsInput: Swift.Sendable {
     /// The list of glossary term identifiers to disassociate from the asset.
     /// This member is required.
     public var glossaryTermIdentifiers: [Swift.String]?
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form. When specified along with itemIdentifier, the glossary terms are disassociated from an item within the iterable form rather than the asset itself.
+    public var iterableFormName: Swift.String?
 
     public init(
         assetIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        glossaryTermIdentifiers: [Swift.String]? = nil
+        glossaryTermIdentifiers: [Swift.String]? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
     ) {
         self.assetIdentifier = assetIdentifier
         self.clientToken = clientToken
         self.glossaryTermIdentifiers = glossaryTermIdentifiers
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
     }
 }
 
@@ -18677,13 +18709,21 @@ public struct DisassociateGlossaryTermsOutput: Swift.Sendable {
     public var assetIdentifier: Swift.String?
     /// The remaining glossary terms associated with the asset.
     public var glossaryTerms: [Swift.String]?
+    /// The identifier of the item within the iterable form, if applicable.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form, if the disassociation targets an item.
+    public var iterableFormName: Swift.String?
 
     public init(
         assetIdentifier: Swift.String? = nil,
-        glossaryTerms: [Swift.String]? = nil
+        glossaryTerms: [Swift.String]? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
     ) {
         self.assetIdentifier = assetIdentifier
         self.glossaryTerms = glossaryTerms
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
     }
 }
 

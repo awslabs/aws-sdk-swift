@@ -1593,6 +1593,7 @@ extension BedrockAgentCoreControlClientTypes {
     /// Configuration for customer-managed compute capacity for the AgentCore Runtime. A capacity provider runs the AgentCore Runtime on the Instances compute type, using Amazon Web Services managed compute in your account.
     public struct CapacityProviderConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the capacity provider to use for the AgentCore Runtime.
+        /// This member is required.
         public var capacityProviderArn: Swift.String?
 
         public init(
@@ -2127,7 +2128,6 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     /// Configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
     public var metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration?
     /// The network configuration for the AgentCore Runtime.
-    /// This member is required.
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
     /// The protocol configuration for an agent runtime. This structure defines how the agent runtime communicates with clients.
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
@@ -17590,6 +17590,8 @@ public struct CreatePaymentManagerInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description of the payment manager.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encrypting sensitive payment manager data at rest. If you don't specify a key, the data is encrypted with an Amazon Web Services owned key.
+    public var kmsKeyArn: Swift.String?
     /// The name of the payment manager.
     /// This member is required.
     public var name: Swift.String?
@@ -17604,6 +17606,7 @@ public struct CreatePaymentManagerInput: Swift.Sendable {
         authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -17612,6 +17615,7 @@ public struct CreatePaymentManagerInput: Swift.Sendable {
         self.authorizerType = authorizerType
         self.clientToken = clientToken
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.roleArn = roleArn
         self.tags = tags
@@ -17671,6 +17675,8 @@ public struct CreatePaymentManagerOutput: Swift.Sendable {
     /// The timestamp when the payment manager was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.
+    public var kmsKeyArn: Swift.String?
     /// The name of the created payment manager.
     /// This member is required.
     public var name: Swift.String?
@@ -17695,6 +17701,7 @@ public struct CreatePaymentManagerOutput: Swift.Sendable {
         authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
         authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
         createdAt: Foundation.Date? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         paymentManagerArn: Swift.String? = nil,
         paymentManagerId: Swift.String? = nil,
@@ -17706,6 +17713,7 @@ public struct CreatePaymentManagerOutput: Swift.Sendable {
         self.authorizerConfiguration = authorizerConfiguration
         self.authorizerType = authorizerType
         self.createdAt = createdAt
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.paymentManagerArn = paymentManagerArn
         self.paymentManagerId = paymentManagerId
@@ -17775,6 +17783,8 @@ public struct GetPaymentManagerOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the payment manager.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.
+    public var kmsKeyArn: Swift.String?
     /// The timestamp when the payment manager was last updated.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
@@ -17803,6 +17813,7 @@ public struct GetPaymentManagerOutput: Swift.Sendable {
         authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         paymentManagerArn: Swift.String? = nil,
@@ -17816,6 +17827,7 @@ public struct GetPaymentManagerOutput: Swift.Sendable {
         self.authorizerType = authorizerType
         self.createdAt = createdAt
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.paymentManagerArn = paymentManagerArn
@@ -17857,6 +17869,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var createdAt: Foundation.Date?
         /// The description of the payment manager.
         public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.
+        public var kmsKeyArn: Swift.String?
         /// The timestamp when the payment manager was last updated.
         /// This member is required.
         public var lastUpdatedAt: Foundation.Date?
@@ -17880,6 +17894,7 @@ extension BedrockAgentCoreControlClientTypes {
             authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             paymentManagerArn: Swift.String? = nil,
@@ -17890,6 +17905,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.authorizerType = authorizerType
             self.createdAt = createdAt
             self.description = description
+            self.kmsKeyArn = kmsKeyArn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.paymentManagerArn = paymentManagerArn
@@ -17913,6 +17929,38 @@ public struct ListPaymentManagersOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.paymentManagers = paymentManagers
+    }
+}
+
+/// The request failed because it requires an active Amazon Web Services Marketplace subscription that is not present. Subscribe to the required product in Amazon Web Services Marketplace and try again.
+public struct SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The product requiring subscription
+        public internal(set) var productName: Swift.String? = nil
+        /// URL to the Marketplace listing for subscription
+        public internal(set) var subscriptionUrl: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SubscriptionRequiredException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        productName: Swift.String? = nil,
+        subscriptionUrl: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.productName = productName
+        self.properties.subscriptionUrl = subscriptionUrl
     }
 }
 
@@ -17941,6 +17989,35 @@ extension BedrockAgentCoreControlClientTypes {
         /// The credential provider configuration for a Stripe Privy payment connector.
         case stripeprivy(BedrockAgentCoreControlClientTypes.PaymentCredentialProviderConfiguration)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum PaymentConnectorProvisionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
+        case quickCreate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentConnectorProvisionMode] {
+            return [
+                .manual,
+                .quickCreate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case .quickCreate: return "QUICK_CREATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -17987,6 +18064,12 @@ public struct CreatePaymentConnectorInput: Swift.Sendable {
     /// The unique identifier of the payment manager to create the connector for.
     /// This member is required.
     public var paymentManagerId: Swift.String?
+    /// The provision mode for creating the payment connector. If you don't specify a value, the default is MANUAL.
+    ///
+    /// * MANUAL - You provide the credential provider configurations directly.
+    ///
+    /// * QUICK_CREATE - The service orchestrates OAuth consent and provisions the credential provider for you.
+    public var provisionMode: BedrockAgentCoreControlClientTypes.PaymentConnectorProvisionMode?
     /// The type of payment connector, which determines the payment provider integration.
     /// This member is required.
     public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
@@ -17997,6 +18080,7 @@ public struct CreatePaymentConnectorInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         paymentManagerId: Swift.String? = nil,
+        provisionMode: BedrockAgentCoreControlClientTypes.PaymentConnectorProvisionMode? = nil,
         type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
     ) {
         self.clientToken = clientToken
@@ -18004,6 +18088,7 @@ public struct CreatePaymentConnectorInput: Swift.Sendable {
         self.description = description
         self.name = name
         self.paymentManagerId = paymentManagerId
+        self.provisionMode = provisionMode
         self.type = type
     }
 }
@@ -18011,10 +18096,15 @@ public struct CreatePaymentConnectorInput: Swift.Sendable {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum PaymentConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authenticationExpired
+        case authenticationFailed
+        case awsMarketplaceSubscriptionRequired
         case createFailed
         case creating
         case deleteFailed
         case deleting
+        case pendingAuthentication
+        case provisioning
         case ready
         case updateFailed
         case updating
@@ -18022,10 +18112,15 @@ extension BedrockAgentCoreControlClientTypes {
 
         public static var allCases: [PaymentConnectorStatus] {
             return [
+                .authenticationExpired,
+                .authenticationFailed,
+                .awsMarketplaceSubscriptionRequired,
                 .createFailed,
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .pendingAuthentication,
+                .provisioning,
                 .ready,
                 .updateFailed,
                 .updating
@@ -18039,10 +18134,15 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .authenticationExpired: return "AUTHENTICATION_EXPIRED"
+            case .authenticationFailed: return "AUTHENTICATION_FAILED"
+            case .awsMarketplaceSubscriptionRequired: return "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED"
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .pendingAuthentication: return "PENDING_AUTHENTICATION"
+            case .provisioning: return "PROVISIONING"
             case .ready: return "READY"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
@@ -18053,6 +18153,8 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreatePaymentConnectorOutput: Swift.Sendable {
+    /// The URL that the user must open to complete OAuth consent. This field is only present when the payment connector status is PENDING_AUTHENTICATION.
+    public var authorizationUrl: Swift.String?
     /// The timestamp when the payment connector was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -18076,6 +18178,7 @@ public struct CreatePaymentConnectorOutput: Swift.Sendable {
     public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
 
     public init(
+        authorizationUrl: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
         name: Swift.String? = nil,
@@ -18084,6 +18187,7 @@ public struct CreatePaymentConnectorOutput: Swift.Sendable {
         status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
         type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
     ) {
+        self.authorizationUrl = authorizationUrl
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.name = name
@@ -18149,6 +18253,8 @@ public struct GetPaymentConnectorInput: Swift.Sendable {
 }
 
 public struct GetPaymentConnectorOutput: Swift.Sendable {
+    /// The URL that the user must open to complete OAuth consent. This field is only present when the payment connector status is PENDING_AUTHENTICATION.
+    public var authorizationUrl: Swift.String?
     /// The timestamp when the payment connector was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -18174,6 +18280,7 @@ public struct GetPaymentConnectorOutput: Swift.Sendable {
     public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
 
     public init(
+        authorizationUrl: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -18183,6 +18290,7 @@ public struct GetPaymentConnectorOutput: Swift.Sendable {
         status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
         type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
     ) {
+        self.authorizationUrl = authorizationUrl
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -18300,6 +18408,8 @@ public struct UpdatePaymentConnectorInput: Swift.Sendable {
 }
 
 public struct UpdatePaymentConnectorOutput: Swift.Sendable {
+    /// The URL that the user must open to complete OAuth consent. This field is only present when the payment connector status is PENDING_AUTHENTICATION.
+    public var authorizationUrl: Swift.String?
     /// The credential provider configurations for the updated payment connector.
     /// This member is required.
     public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
@@ -18323,6 +18433,7 @@ public struct UpdatePaymentConnectorOutput: Swift.Sendable {
     public var type: BedrockAgentCoreControlClientTypes.PaymentConnectorType?
 
     public init(
+        authorizationUrl: Swift.String? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -18331,6 +18442,7 @@ public struct UpdatePaymentConnectorOutput: Swift.Sendable {
         status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
         type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
     ) {
+        self.authorizationUrl = authorizationUrl
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
@@ -18350,6 +18462,8 @@ public struct UpdatePaymentManagerInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The updated description of the payment manager.
     public var description: Swift.String?
+    /// The updated Amazon Resource Name (ARN) of the customer managed KMS key used to encrypt sensitive payment manager data at rest.
+    public var kmsKeyArn: Swift.String?
     /// The unique identifier of the payment manager to update.
     /// This member is required.
     public var paymentManagerId: Swift.String?
@@ -18361,6 +18475,7 @@ public struct UpdatePaymentManagerInput: Swift.Sendable {
         authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         paymentManagerId: Swift.String? = nil,
         roleArn: Swift.String? = nil
     ) {
@@ -18368,6 +18483,7 @@ public struct UpdatePaymentManagerInput: Swift.Sendable {
         self.authorizerType = authorizerType
         self.clientToken = clientToken
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.paymentManagerId = paymentManagerId
         self.roleArn = roleArn
     }
@@ -18377,6 +18493,8 @@ public struct UpdatePaymentManagerOutput: Swift.Sendable {
     /// The type of authorizer for the updated payment manager.
     /// This member is required.
     public var authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt sensitive payment manager data at rest, if configured.
+    public var kmsKeyArn: Swift.String?
     /// The timestamp when the payment manager was last updated.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
@@ -18400,6 +18518,7 @@ public struct UpdatePaymentManagerOutput: Swift.Sendable {
 
     public init(
         authorizerType: BedrockAgentCoreControlClientTypes.PaymentsAuthorizerType? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         paymentManagerArn: Swift.String? = nil,
@@ -18409,6 +18528,7 @@ public struct UpdatePaymentManagerOutput: Swift.Sendable {
         workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails? = nil
     ) {
         self.authorizerType = authorizerType
+        self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.paymentManagerArn = paymentManagerArn
@@ -25622,6 +25742,7 @@ extension CreatePaymentConnectorInput {
         try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["provisionMode"].write(value.provisionMode)
         try writer["type"].write(value.type)
     }
 }
@@ -25645,6 +25766,7 @@ extension CreatePaymentManagerInput {
         try writer["authorizerType"].write(value.authorizerType)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -26151,6 +26273,7 @@ extension UpdatePaymentManagerInput {
         try writer["authorizerType"].write(value.authorizerType)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["roleArn"].write(value.roleArn)
     }
 }
@@ -26598,6 +26721,7 @@ extension CreatePaymentConnectorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePaymentConnectorOutput()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -26634,6 +26758,7 @@ extension CreatePaymentManagerOutput {
         value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
         value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
         value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
@@ -27546,6 +27671,7 @@ extension GetPaymentConnectorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPaymentConnectorOutput()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -27587,6 +27713,7 @@ extension GetPaymentManagerOutput {
         value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
@@ -28719,6 +28846,7 @@ extension UpdatePaymentConnectorOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdatePaymentConnectorOutput()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -28755,6 +28883,7 @@ extension UpdatePaymentManagerOutput {
         let reader = responseReader
         var value = UpdatePaymentManagerOutput()
         value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.paymentManagerArn = try reader["paymentManagerArn"].readIfPresent() ?? ""
@@ -29340,6 +29469,7 @@ enum CreatePaymentConnectorOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "SubscriptionRequiredException": return try SubscriptionRequiredException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -31837,6 +31967,7 @@ enum UpdatePaymentConnectorOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "SubscriptionRequiredException": return try SubscriptionRequiredException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -32180,6 +32311,21 @@ extension ThrottledException {
         let reader = baseError.errorBodyReader
         var value = ThrottledException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubscriptionRequiredException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SubscriptionRequiredException {
+        let reader = baseError.errorBodyReader
+        var value = SubscriptionRequiredException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.productName = try reader["productName"].readIfPresent()
+        value.properties.subscriptionUrl = try reader["subscriptionUrl"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -32703,7 +32849,7 @@ extension BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration()
-        value.capacityProviderArn = try reader["capacityProviderArn"].readIfPresent()
+        value.capacityProviderArn = try reader["capacityProviderArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -36840,6 +36986,7 @@ extension BedrockAgentCoreControlClientTypes.PaymentManagerSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
 }

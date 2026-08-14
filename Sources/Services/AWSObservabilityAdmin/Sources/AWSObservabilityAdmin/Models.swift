@@ -457,6 +457,71 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// The strategy for resolving tag conflicts between source and destination log groups.
+    ///
+    /// * ADD_ONLY – Only adds new tags from the source without modifying existing destination tags.
+    ///
+    /// * UPDATE_SYNC – Adds new tags and updates existing tags from the source. Does not remove destination tags that are absent from the source.
+    ///
+    /// * IN_SYNC – Keeps destination tags fully synchronized with source tags, including removing destination tags that do not exist on the source.
+    public enum TagConflictResolutionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case addOnly
+        case inSync
+        case updateSync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagConflictResolutionStrategy] {
+            return [
+                .addOnly,
+                .inSync,
+                .updateSync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .addOnly: return "ADD_ONLY"
+            case .inSync: return "IN_SYNC"
+            case .updateSync: return "UPDATE_SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Specifies configuration for propagating resource tags from source log groups to centralized destination log groups. The service uses a customer-managed IAM role in the destination account to add, update, and remove tags on destination log groups.
+    public struct TagPropagationConfiguration: Swift.Sendable {
+        /// The ARN of a customer-managed IAM role in the destination account. The service assumes this role to propagate tags to destination log groups. You must have iam:PassRole permission on this role.
+        /// This member is required.
+        public var destinationRoleArn: Swift.String?
+        /// The strategy for resolving conflicts when a tag key exists on both the source and destination log groups. If not specified, defaults to UPDATE_SYNC.
+        ///
+        /// * ADD_ONLY – Only adds new tags from the source without modifying existing destination tags.
+        ///
+        /// * UPDATE_SYNC – Adds new tags and updates existing tags from the source. Does not remove destination tags that are absent from the source.
+        ///
+        /// * IN_SYNC – Keeps destination tags fully synchronized with source tags, including removing destination tags that do not exist on the source.
+        public var tagConflictResolutionStrategy: ObservabilityAdminClientTypes.TagConflictResolutionStrategy?
+
+        public init(
+            destinationRoleArn: Swift.String? = nil,
+            tagConflictResolutionStrategy: ObservabilityAdminClientTypes.TagConflictResolutionStrategy? = nil
+        ) {
+            self.destinationRoleArn = destinationRoleArn
+            self.tagConflictResolutionStrategy = tagConflictResolutionStrategy
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration for centralization destination log groups, including encryption and backup settings.
     public struct DestinationLogsConfiguration: Swift.Sendable {
         /// Configuration defining the backup region and an optional KMS key for the backup destination.
@@ -465,15 +530,19 @@ extension ObservabilityAdminClientTypes {
         public var logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
         public var logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration?
+        /// Specifies the tag propagation configuration for this centralization rule. When present, LogGroupNameConfiguration must use a LogGroupNamePattern that contains ${source.logGroup}, ${source.accountId}, and ${source.region}.
+        public var tagPropagationConfiguration: ObservabilityAdminClientTypes.TagPropagationConfiguration?
 
         public init(
             backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration? = nil,
             logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration? = nil,
-            logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration? = nil
+            logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration? = nil,
+            tagPropagationConfiguration: ObservabilityAdminClientTypes.TagPropagationConfiguration? = nil
         ) {
             self.backupConfiguration = backupConfiguration
             self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
+            self.tagPropagationConfiguration = tagPropagationConfiguration
         }
     }
 }
@@ -688,6 +757,70 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// The reason tag propagation is unhealthy for a centralization rule.
+    ///
+    /// * RoleNotAssumable – The service cannot assume the destination role due to a trust policy or external ID misconfiguration.
+    ///
+    /// * RoleLacksPermissions – The role was assumed successfully but the tag API call was denied by the role's permissions policy.
+    public enum TagPropagationFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case roleLacksPermissions
+        case roleNotAssumable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagationFailureReason] {
+            return [
+                .roleLacksPermissions,
+                .roleNotAssumable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .roleLacksPermissions: return "RoleLacksPermissions"
+            case .roleNotAssumable: return "RoleNotAssumable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// The health status of tag propagation for a centralization rule. This status is independent of the overall RuleHealth for log delivery.
+    public enum TagPropagationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagationStatus] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "Healthy"
+            case .unhealthy: return "Unhealthy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// A summary of a centralization rule's key properties and status.
     public struct CentralizationRuleSummary: Swift.Sendable {
         /// The Amazon Web Services region where the organization centralization rule was created.
@@ -710,6 +843,10 @@ extension ObservabilityAdminClientTypes {
         public var ruleHealth: ObservabilityAdminClientTypes.RuleHealth?
         /// The name of the organization centralization rule.
         public var ruleName: Swift.String?
+        /// The reason tag propagation is unhealthy for this rule. Only present when TagPropagationStatus is Unhealthy.
+        public var tagPropagationFailureReason: ObservabilityAdminClientTypes.TagPropagationFailureReason?
+        /// The health status of tag propagation for this rule. This status is independent of the overall RuleHealth for log delivery. Returns Healthy when the most recent tag-propagation attempt succeeded, or Unhealthy when the most recent attempt failed.
+        public var tagPropagationStatus: ObservabilityAdminClientTypes.TagPropagationStatus?
 
         public init(
             createdRegion: Swift.String? = nil,
@@ -721,7 +858,9 @@ extension ObservabilityAdminClientTypes {
             lastUpdateTimeStamp: Swift.Int? = nil,
             ruleArn: Swift.String? = nil,
             ruleHealth: ObservabilityAdminClientTypes.RuleHealth? = nil,
-            ruleName: Swift.String? = nil
+            ruleName: Swift.String? = nil,
+            tagPropagationFailureReason: ObservabilityAdminClientTypes.TagPropagationFailureReason? = nil,
+            tagPropagationStatus: ObservabilityAdminClientTypes.TagPropagationStatus? = nil
         ) {
             self.createdRegion = createdRegion
             self.createdTimeStamp = createdTimeStamp
@@ -733,6 +872,8 @@ extension ObservabilityAdminClientTypes {
             self.ruleArn = ruleArn
             self.ruleHealth = ruleHealth
             self.ruleName = ruleName
+            self.tagPropagationFailureReason = tagPropagationFailureReason
+            self.tagPropagationStatus = tagPropagationStatus
         }
     }
 }
@@ -2099,6 +2240,10 @@ public struct GetCentralizationRuleForOrganizationOutput: Swift.Sendable {
     public var ruleHealth: ObservabilityAdminClientTypes.RuleHealth?
     /// The name of the organization centralization rule.
     public var ruleName: Swift.String?
+    /// The reason tag propagation is unhealthy for this rule. Only present when TagPropagationStatus is Unhealthy.
+    public var tagPropagationFailureReason: ObservabilityAdminClientTypes.TagPropagationFailureReason?
+    /// The health status of tag propagation for this rule. This status is independent of the overall RuleHealth for log delivery. Returns Healthy when the most recent tag-propagation attempt succeeded, or Unhealthy when the most recent attempt failed.
+    public var tagPropagationStatus: ObservabilityAdminClientTypes.TagPropagationStatus?
 
     public init(
         centralizationRule: ObservabilityAdminClientTypes.CentralizationRule? = nil,
@@ -2109,7 +2254,9 @@ public struct GetCentralizationRuleForOrganizationOutput: Swift.Sendable {
         lastUpdateTimeStamp: Swift.Int? = nil,
         ruleArn: Swift.String? = nil,
         ruleHealth: ObservabilityAdminClientTypes.RuleHealth? = nil,
-        ruleName: Swift.String? = nil
+        ruleName: Swift.String? = nil,
+        tagPropagationFailureReason: ObservabilityAdminClientTypes.TagPropagationFailureReason? = nil,
+        tagPropagationStatus: ObservabilityAdminClientTypes.TagPropagationStatus? = nil
     ) {
         self.centralizationRule = centralizationRule
         self.createdRegion = createdRegion
@@ -2120,6 +2267,8 @@ public struct GetCentralizationRuleForOrganizationOutput: Swift.Sendable {
         self.ruleArn = ruleArn
         self.ruleHealth = ruleHealth
         self.ruleName = ruleName
+        self.tagPropagationFailureReason = tagPropagationFailureReason
+        self.tagPropagationStatus = tagPropagationStatus
     }
 }
 
@@ -4106,6 +4255,8 @@ extension GetCentralizationRuleForOrganizationOutput {
         value.ruleArn = try reader["RuleArn"].readIfPresent()
         value.ruleHealth = try reader["RuleHealth"].readIfPresent()
         value.ruleName = try reader["RuleName"].readIfPresent()
+        value.tagPropagationFailureReason = try reader["TagPropagationFailureReason"].readIfPresent()
+        value.tagPropagationStatus = try reader["TagPropagationStatus"].readIfPresent()
         return value
     }
 }
@@ -5429,6 +5580,8 @@ extension ObservabilityAdminClientTypes.CentralizationRuleSummary {
         value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
         value.ruleHealth = try reader["RuleHealth"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.tagPropagationStatus = try reader["TagPropagationStatus"].readIfPresent()
+        value.tagPropagationFailureReason = try reader["TagPropagationFailureReason"].readIfPresent()
         value.destinationAccountId = try reader["DestinationAccountId"].readIfPresent()
         value.destinationRegion = try reader["DestinationRegion"].readIfPresent()
         return value
@@ -5499,6 +5652,7 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
         try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.LogsBackupConfiguration.write(value:to:))
         try writer["LogGroupNameConfiguration"].write(value.logGroupNameConfiguration, with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.write(value:to:))
         try writer["LogsEncryptionConfiguration"].write(value.logsEncryptionConfiguration, with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.write(value:to:))
+        try writer["TagPropagationConfiguration"].write(value.tagPropagationConfiguration, with: ObservabilityAdminClientTypes.TagPropagationConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.DestinationLogsConfiguration {
@@ -5507,6 +5661,7 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
         value.logsEncryptionConfiguration = try reader["LogsEncryptionConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.read(from:))
         value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsBackupConfiguration.read(from:))
         value.logGroupNameConfiguration = try reader["LogGroupNameConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.read(from:))
+        value.tagPropagationConfiguration = try reader["TagPropagationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TagPropagationConfiguration.read(from:))
         return value
     }
 }
@@ -5847,6 +6002,23 @@ extension ObservabilityAdminClientTypes.SourceMetricsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ObservabilityAdminClientTypes.SourceMetricsConfiguration()
         value.metricsSelectionCriteria = try reader["MetricsSelectionCriteria"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TagPropagationConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.TagPropagationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationRoleArn"].write(value.destinationRoleArn)
+        try writer["TagConflictResolutionStrategy"].write(value.tagConflictResolutionStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TagPropagationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TagPropagationConfiguration()
+        value.destinationRoleArn = try reader["DestinationRoleArn"].readIfPresent() ?? ""
+        value.tagConflictResolutionStrategy = try reader["TagConflictResolutionStrategy"].readIfPresent()
         return value
     }
 }

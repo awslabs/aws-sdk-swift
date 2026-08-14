@@ -554,6 +554,41 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension MWAAServerlessClientTypes {
+
+    /// Specifies the Amazon S3 location of code artifacts that workflows use during execution.
+    public struct S3Location: Swift.Sendable {
+        /// The name of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The key of the code artifact within the Amazon S3 bucket.
+        /// This member is required.
+        public var objectKey: Swift.String?
+        /// The version ID of the object in Amazon S3. If not specified, the latest version is used.
+        public var versionId: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            objectKey: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.objectKey = objectKey
+            self.versionId = versionId
+        }
+    }
+}
+
+extension MWAAServerlessClientTypes {
+
+    /// Specifies the Amazon S3 location of code artifacts that workflows use during execution.
+    public enum Code: Swift.Sendable {
+        /// The Amazon S3 location of the code artifacts that your workflow tasks use during execution.
+        case s3location(MWAAServerlessClientTypes.S3Location)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// You cannot create a resource that already exists, or the resource is in a state that prevents the requested operation.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -768,6 +803,8 @@ extension MWAAServerlessClientTypes {
 public struct CreateWorkflowInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token prevents duplicate workflow creation requests.
     public var clientToken: Swift.String?
+    /// The location of code artifacts in Amazon S3 for the workflow. The service copies the code from this location at the time of the request.
+    public var code: MWAAServerlessClientTypes.Code?
     /// The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snapshot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compatible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment.
     /// This member is required.
     public var definitionS3Location: MWAAServerlessClientTypes.DefinitionS3Location?
@@ -794,6 +831,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        code: MWAAServerlessClientTypes.Code? = nil,
         definitionS3Location: MWAAServerlessClientTypes.DefinitionS3Location? = nil,
         description: Swift.String? = nil,
         encryptionConfiguration: MWAAServerlessClientTypes.EncryptionConfiguration? = nil,
@@ -806,6 +844,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         triggerMode: Swift.String? = nil
     ) {
         self.clientToken = clientToken
+        self.code = code
         self.definitionS3Location = definitionS3Location
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
@@ -948,6 +987,10 @@ extension MWAAServerlessClientTypes {
 }
 
 public struct GetWorkflowOutput: Swift.Sendable {
+    /// The Amazon S3 location of the code artifacts provided during workflow creation or update.
+    public var code: MWAAServerlessClientTypes.Code?
+    /// The time at which the code artifacts were copied for this workflow, in ISO 8601 date-time format.
+    public var codeSnapshottedAt: Foundation.Date?
     /// The timestamp when the workflow was created, in ISO 8601 date-time format.
     public var createdAt: Foundation.Date?
     /// The Amazon S3 location of the workflow definition file.
@@ -983,6 +1026,8 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var workflowVersion: Swift.String?
 
     public init(
+        code: MWAAServerlessClientTypes.Code? = nil,
+        codeSnapshottedAt: Foundation.Date? = nil,
         createdAt: Foundation.Date? = nil,
         definitionS3Location: MWAAServerlessClientTypes.DefinitionS3Location? = nil,
         description: Swift.String? = nil,
@@ -1000,6 +1045,8 @@ public struct GetWorkflowOutput: Swift.Sendable {
         workflowStatus: MWAAServerlessClientTypes.WorkflowStatus? = nil,
         workflowVersion: Swift.String? = nil
     ) {
+        self.code = code
+        self.codeSnapshottedAt = codeSnapshottedAt
         self.createdAt = createdAt
         self.definitionS3Location = definitionS3Location
         self.description = description
@@ -1095,6 +1142,8 @@ public struct ListWorkflowsOutput: Swift.Sendable {
 }
 
 public struct UpdateWorkflowInput: Swift.Sendable {
+    /// The location of code artifacts in Amazon S3 for the updated workflow. The service copies the code from this location at the time of the request.
+    public var code: MWAAServerlessClientTypes.Code?
     /// The Amazon S3 location where the updated workflow definition file is stored.
     /// This member is required.
     public var definitionS3Location: MWAAServerlessClientTypes.DefinitionS3Location?
@@ -1116,6 +1165,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
     public var workflowArn: Swift.String?
 
     public init(
+        code: MWAAServerlessClientTypes.Code? = nil,
         definitionS3Location: MWAAServerlessClientTypes.DefinitionS3Location? = nil,
         description: Swift.String? = nil,
         engineVersion: EngineVersion? = nil,
@@ -1125,6 +1175,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         triggerMode: Swift.String? = nil,
         workflowArn: Swift.String? = nil
     ) {
+        self.code = code
         self.definitionS3Location = definitionS3Location
         self.description = description
         self.engineVersion = engineVersion
