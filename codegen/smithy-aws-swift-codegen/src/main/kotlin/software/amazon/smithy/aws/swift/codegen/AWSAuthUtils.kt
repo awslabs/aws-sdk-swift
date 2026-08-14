@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3WithExpress
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKHTTPAuthTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
