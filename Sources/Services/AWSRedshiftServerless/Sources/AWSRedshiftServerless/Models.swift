@@ -3461,7 +3461,7 @@ public struct UpdateLakehouseConfigurationOutput: Swift.Sendable {
 public struct UpdateNamespaceInput: Swift.Sendable {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     public var adminPasswordSecretKmsKeyId: Swift.String?
-    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
+    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true. If your admin user account is locked, this operation also unlocks your account and resets the failed-login counter. This option is available only when account lockout security is enabled for the namespace.
     public var adminUserPassword: Swift.String?
     /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
     public var adminUsername: Swift.String?
