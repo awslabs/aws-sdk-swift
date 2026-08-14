@@ -27,34 +27,23 @@ dependencies {
     implementation(project(":smithy-aws-swift-codegen"))
 }
 
-data class CodegenTest(val service: String, val module: String)
-val codegenTests = listOf(
-    CodegenTest(
-        "aws.protocoltests.restjson#RestJsonExtras",
-        "rest_json_extras"
-    ),
-    CodegenTest(
-        "aws.protocoltests.query#AwsQueryExtras",
-        "AwsQueryExtras"
-    ),
-    CodegenTest(
-        "aws.protocoltests.eventstream#TestService",
-        "EventStream"
-    ),
-    CodegenTest(
-        "aws.protocoltests.eventstream#RPCTestService",
-        "RPCEventStream"
-    ),
-    CodegenTest(
-        "aws.endpointtests.stringarray#EndpointStringArray",
-        "StringArrayEndpointParam"
-    )
+data class ProtocolTest(
+    val serviceName: String,
+    val serviceShapeId: String,
 )
 
-fun generateSmithyBuild(tests: List<CodegenTest>): String {
+val codegenTests = listOf(
+    ProtocolTest("RestJsonExtras", "aws.protocoltests.restjson#RestJsonExtras"),
+    ProtocolTest("AwsQueryExtras", "aws.protocoltests.query#AwsQueryExtras"),
+    ProtocolTest("EventStream", "aws.protocoltests.eventstream#TestService"),
+    ProtocolTest("RPCEventStream", "aws.protocoltests.eventstream#RPCTestService"),
+    ProtocolTest("StringArrayEndpointParam", "aws.endpointtests.stringarray#EndpointStringArray")
+)
+
+fun generateSmithyBuild(tests: List<ProtocolTest>): String {
     val projections = tests.joinToString(",\n") {
         """
-            "${it.module}": {
+            "${it.serviceName}": {
                 "transforms": [
                   {
                     "name": "flattenAndRemoveMixins"
@@ -62,13 +51,12 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                 ],
                 "plugins": {
                     "swift-codegen": {
-                      "service": "${it.service}",
-                      "module": "${it.module.replace("-", "_")}",
+                      "service": "${it.serviceShapeId}",
+                      "module": "${it.serviceName}",
                       "moduleVersion": "0.0.1",
                       "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                       "author": "Amazon Web Services",
                       "homepage": "https://docs.amplify.aws/",
-                      "sdkId": "${ShapeId.from(it.service).name}",
                       "swiftVersion": "5.9.0",
                       "build": {
                         "rootProject": true
