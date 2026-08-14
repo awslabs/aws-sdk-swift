@@ -27,25 +27,30 @@ dependencies {
     implementation("software.amazon.smithy:smithy-protocol-tests:$smithyVersion")
 }
 
+data class ProtocolTest(
+    val serviceName: String,
+    val serviceShapeId: String,
+)
+
 val enabledProtocols = listOf(
-    ProtocolTest("ec2-query", "aws.protocoltests.ec2#AwsEc2", "Ec2QueryTestSDK"),
-    ProtocolTest("aws-json-10", "aws.protocoltests.json10#JsonRpc10", "AWSJson10TestSDK"),
-    ProtocolTest("aws-json-11", "aws.protocoltests.json#JsonProtocol", "AWSJson11TestSDK"),
-    ProtocolTest("aws-restjson", "aws.protocoltests.restjson#RestJson", "AWSRestJsonTestSDK"),
-    ProtocolTest("aws-restjson-validation", "aws.protocoltests.restjson.validation#RestJsonValidation", "AWSRestJsonValidationTestSDK"),
-    ProtocolTest("rest-xml", "aws.protocoltests.restxml#RestXml", "RestXmlTestSDK"),
-    ProtocolTest("rest-xml-xmlns", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace", "RestXmlWithNamespaceTestSDK"),
-    ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
-    ProtocolTest("smithy-rpcv2-cbor", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol", "RPCV2CBORTestSDK"),
-    ProtocolTest("aws-json-10-query-compat", "aws.protocoltests.json10#QueryCompatibleJsonRpc10", "AWSJson10TestQueryCompatSDK"),
-    ProtocolTest("smithy-rpcv2-cbor-query-compat", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol", "RPCV2CBORTestQueryCompatSDK"),
-    ProtocolTest("smithy-rpcv2-cbor-non-query-compat", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol", "RPCV2CBORTestNonQueryCompatSDK"),
+    ProtocolTest("Ec2QueryTestSDK", "aws.protocoltests.ec2#AwsEc2"),
+    ProtocolTest("AWSJson10TestSDK", "aws.protocoltests.json10#JsonRpc10"),
+    ProtocolTest("AWSJson11TestSDK", "aws.protocoltests.json#JsonProtocol"),
+    ProtocolTest("AWSRestJsonTestSDK", "aws.protocoltests.restjson#RestJson"),
+    ProtocolTest("AWSRestJsonValidationTestSDK", "aws.protocoltests.restjson.validation#RestJsonValidation"),
+    ProtocolTest("RestXmlTestSDK", "aws.protocoltests.restxml#RestXml"),
+    ProtocolTest("RestXmlWithNamespaceTestSDK", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace"),
+    ProtocolTest("AWSQueryTestSDK", "aws.protocoltests.query#AwsQuery"),
+    ProtocolTest("RPCV2CBORTestSDK", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol"),
+    ProtocolTest("AWSJson10TestQueryCompatSDK", "aws.protocoltests.json10#QueryCompatibleJsonRpc10"),
+    ProtocolTest("RPCV2CBORTestQueryCompatSDK", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol"),
+    ProtocolTest("RPCV2CBORTestNonQueryCompatSDK", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol"),
 
     // service specific tests
-    ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService", "APIGatewayTestSDK"),
-    ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK"),
-    ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK"),
-    ProtocolTest("machinelearning", "com.amazonaws.machinelearning#AmazonML_20141212", "MachineLearningTestSDK"),
+    ProtocolTest("APIGatewayTestSDK", "com.amazonaws.apigateway#BackplaneControlService"),
+    ProtocolTest("GlacierTestSDK", "com.amazonaws.glacier#Glacier"),
+    ProtocolTest("S3TestSDK", "com.amazonaws.s3#AmazonS3"),
+    ProtocolTest("MachineLearningTestSDK", "com.amazonaws.machinelearning#AmazonML_20141212"),
 )
 
 // This project doesn't produce a JAR.
@@ -72,25 +77,18 @@ tasks.named("smithyBuild") {
 }
 
 enabledProtocols.forEach {
-    tasks.register<ProtocolTestTask>("testProtocol-${it.projectionName}") {
+    tasks.register<ProtocolTestTask>("testProtocol-${it.serviceName}") {
         dependsOn(tasks.build)
         group = "Verification"
-        protocol = it.projectionName
+        protocol = it.serviceName
         plugin = "swift-codegen"
     }
 }
 
-
-data class ProtocolTest(val projectionName: String,
-                        val serviceShapeId: String,
-                        val moduleName: String) {
-    val packageName: String
-        get() = projectionName.lowercase().filter { it.isLetterOrDigit() }
-}
 fun generateSmithyBuild(tests: List<ProtocolTest>): String {
     val projections = tests.joinToString(",") { test ->
         """
-            "${test.projectionName}": {
+            "${test.serviceName}": {
               "transforms": [
                 {
                   "name": "includeServices",
@@ -110,12 +108,11 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
               "plugins": {
                 "swift-codegen": {
                   "service": "${test.serviceShapeId}",
-                  "module": "${test.moduleName}",
+                  "module": "${test.serviceName}",
                   "moduleVersion": "1.0",
                   "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                   "author": "Amazon Web Services",
                   "homepage": "https://docs.amplify.aws/",
-                  "sdkId": "${ShapeId.from(test.serviceShapeId).name}",
                   "swiftVersion": "5.9.0",
                   "mergeModels": true,
                   "copyrightNotice": "//\n// Copyright Amazon.com Inc. or its affiliates.\n// All Rights Reserved.\n//\n// SPDX-License-Identifier: Apache-2.0\n//\n\n// Code generated by smithy-swift-codegen. DO NOT EDIT!\n\n"

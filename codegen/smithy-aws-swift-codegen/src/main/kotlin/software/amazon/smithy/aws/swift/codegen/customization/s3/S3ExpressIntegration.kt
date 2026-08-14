@@ -23,15 +23,13 @@ class S3ExpressIntegration : SwiftIntegration {
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
-    ): Boolean = model.expectShape<ServiceShape>(settings.service).isS3
+    ): Boolean = model.expectShape<ServiceShape>(settings.service).isS3WithExpress
 
     override fun writeAdditionalFiles(
         ctx: SwiftCodegenContext,
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
-        if (!service.allOperations.any { it.name == "CreateSession" }) return
         val filename = SDKFileUtils(ctx.settings).sourcesDirFilePath("S3Client+S3Express")
         delegator.useFileWriter(filename) { writer ->
             writer.write("")

@@ -1,6 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3WithExpress
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
@@ -133,7 +134,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // sigv4-s3express case
-                        if (ctx.service.isS3) {
+                        if (ctx.service.isS3WithExpress) {
                             write("case .sigV4S3Express(let param):")
                             indent()
                             write(
