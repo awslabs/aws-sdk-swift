@@ -18086,6 +18086,7 @@ extension GlueClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access to a resource was denied.
     /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottlingException` : The throttling threshhold was exceeded.

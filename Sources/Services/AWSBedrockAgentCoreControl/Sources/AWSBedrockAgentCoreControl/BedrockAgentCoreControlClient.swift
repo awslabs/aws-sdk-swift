@@ -2279,6 +2279,7 @@ extension BedrockAgentCoreControlClient {
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `SubscriptionRequiredException` : The request failed because it requires an active Amazon Web Services Marketplace subscription that is not present. Subscribe to the required product in Amazon Web Services Marketplace and try again.
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createPaymentConnector(input: CreatePaymentConnectorInput) async throws -> CreatePaymentConnectorOutput {
@@ -11833,6 +11834,7 @@ extension BedrockAgentCoreControlClient {
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `SubscriptionRequiredException` : The request failed because it requires an active Amazon Web Services Marketplace subscription that is not present. Subscribe to the required product in Amazon Web Services Marketplace and try again.
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updatePaymentConnector(input: UpdatePaymentConnectorInput) async throws -> UpdatePaymentConnectorOutput {

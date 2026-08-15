@@ -550,6 +550,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlGr64xlarge
         case mlGr68xlarge
         case mlI3en12xlarge
@@ -755,6 +761,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlGr64xlarge,
                 .mlGr68xlarge,
                 .mlI3en12xlarge,
@@ -966,6 +978,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlGr64xlarge: return "ml.gr6.4xlarge"
             case .mlGr68xlarge: return "ml.gr6.8xlarge"
             case .mlI3en12xlarge: return "ml.i3en.12xlarge"
@@ -3715,6 +3733,12 @@ extension SageMakerClientTypes {
         case mlG7e48xlarge
         case mlG7e4xlarge
         case mlG7e8xlarge
+        case mlG712xlarge
+        case mlG724xlarge
+        case mlG72xlarge
+        case mlG748xlarge
+        case mlG74xlarge
+        case mlG78xlarge
         case mlP316xlarge
         case mlP32xlarge
         case mlP38xlarge
@@ -3759,6 +3783,12 @@ extension SageMakerClientTypes {
                 .mlG7e48xlarge,
                 .mlG7e4xlarge,
                 .mlG7e8xlarge,
+                .mlG712xlarge,
+                .mlG724xlarge,
+                .mlG72xlarge,
+                .mlG748xlarge,
+                .mlG74xlarge,
+                .mlG78xlarge,
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
@@ -3809,6 +3839,12 @@ extension SageMakerClientTypes {
             case .mlG7e48xlarge: return "ml.g7e.48xlarge"
             case .mlG7e4xlarge: return "ml.g7e.4xlarge"
             case .mlG7e8xlarge: return "ml.g7e.8xlarge"
+            case .mlG712xlarge: return "ml.g7.12xlarge"
+            case .mlG724xlarge: return "ml.g7.24xlarge"
+            case .mlG72xlarge: return "ml.g7.2xlarge"
+            case .mlG748xlarge: return "ml.g7.48xlarge"
+            case .mlG74xlarge: return "ml.g7.4xlarge"
+            case .mlG78xlarge: return "ml.g7.8xlarge"
             case .mlP316xlarge: return "ml.p3.16xlarge"
             case .mlP32xlarge: return "ml.p3.2xlarge"
             case .mlP38xlarge: return "ml.p3.8xlarge"
@@ -30623,10 +30659,8 @@ extension SageMakerClientTypes {
     /// Configuration for the cluster used to run a processing job.
     public struct ProcessingClusterConfig: Swift.Sendable {
         /// The number of ML compute instances to use in the processing job. For distributed processing jobs, specify a value greater than 1. The default value is 1.
-        /// This member is required.
         public var instanceCount: Swift.Int?
         /// The ML compute instance type for the processing job.
-        /// This member is required.
         public var instanceType: SageMakerClientTypes.ProcessingInstanceType?
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the processing job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html).
         public var volumeKmsKeyId: Swift.String?
