@@ -1309,6 +1309,44 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMessageContent: Swift.Cu
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// A long-term memory retrieval that the agent chose to perform. The record reports the query and the namespace. The corresponding Retrieval step reports the results.
+    public struct AgenticRetrieveMemoryRetrieveDetails: Swift.Sendable {
+        /// The query that the agent composed.
+        /// This member is required.
+        public var inputQuery: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessageContent?
+        /// The identifier of the AgentCore Memory resource retrieved from.
+        /// This member is required.
+        public var memoryId: Swift.String?
+        /// The namespace prefix retrieved from, as supplied in the request. This field is present when the request specified namespace.
+        public var namespace: Swift.String?
+        /// The parent namespace retrieved from hierarchically, as supplied in the request. This field is present when the request specified namespacePath.
+        public var namespacePath: Swift.String?
+        /// The extraction strategy that restricted retrieval, if the request specified one.
+        public var strategyId: Swift.String?
+
+        public init(
+            inputQuery: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessageContent? = nil,
+            memoryId: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            namespacePath: Swift.String? = nil,
+            strategyId: Swift.String? = nil
+        ) {
+            self.inputQuery = inputQuery
+            self.memoryId = memoryId
+            self.namespace = namespace
+            self.namespacePath = namespacePath
+            self.strategyId = strategyId
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AgenticRetrieveMemoryRetrieveDetails(memoryId: \(Swift.String(describing: memoryId)), namespace: \(Swift.String(describing: namespace)), namespacePath: \(Swift.String(describing: namespacePath)), strategyId: \(Swift.String(describing: strategyId)), inputQuery: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Details of a retrieve action including the query and target retrievers.
     public struct AgenticRetrieveActionDetails: Swift.Sendable {
         /// The input query used for retrieval.
@@ -1339,14 +1377,18 @@ extension BedrockAgentRuntimeClientTypes {
     public struct AgenticRetrieveAction: Swift.Sendable {
         /// Details of a full document expansion action.
         public var fullDocumentExpansion: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails?
+        /// The details of a long-term memory retrieval that the agent chose to perform.
+        public var memoryRetrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails?
         /// Details of the retrieve action.
         public var retrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails?
 
         public init(
             fullDocumentExpansion: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails? = nil,
+            memoryRetrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails? = nil,
             retrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails? = nil
         ) {
             self.fullDocumentExpansion = fullDocumentExpansion
+            self.memoryRetrieve = memoryRetrieve
             self.retrieve = retrieve
         }
     }
@@ -1764,6 +1806,243 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Specifies whether the agent-generated answer is written back to a short-term memory session.
+    public enum AgenticRetrieveMemoryPersistenceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Specifies that the question and the agent-generated answer are persisted to the session. This is the default when persistenceMode is omitted.
+        case `default`
+        /// Specifies that the session is left unchanged.
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgenticRetrieveMemoryPersistenceMode] {
+            return [
+                .default,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The left operand of a metadata filter expression. Set exactly one member.
+    public enum AgenticRetrieveMemoryMetadataFilterLeft: Swift.Sendable {
+        /// The metadata key to filter on.
+        case metadatakey(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Specifies the relationship that a metadata key and value must have for a memory record to match a filter expression.
+    public enum AgenticRetrieveMemoryMetadataFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The AFTER operator matches memory records whose timestamp metadata value falls after the supplied value.
+        case after
+        /// The BEFORE operator matches memory records whose timestamp metadata value falls before the supplied value.
+        case before
+        /// The CONTAINS operator matches memory records whose metadata value contains the supplied value.
+        case contains
+        /// The EQUALS_TO operator matches memory records whose metadata value equals the supplied value.
+        case equalsTo
+        /// The EXISTS operator matches memory records that carry the metadata key, whatever its value. This operator takes no right operand.
+        case exists
+        /// The GREATER_THAN operator matches memory records whose numeric metadata value is greater than the supplied value.
+        case greaterThan
+        /// The GREATER_THAN_OR_EQUALS operator matches memory records whose numeric metadata value is greater than or equal to the supplied value.
+        case greaterThanOrEquals
+        /// The LESS_THAN operator matches memory records whose numeric metadata value is less than the supplied value.
+        case lessThan
+        /// The LESS_THAN_OR_EQUALS operator matches memory records whose numeric metadata value is less than or equal to the supplied value.
+        case lessThanOrEquals
+        /// The NOT_EXISTS operator matches memory records that do not carry the metadata key. This operator takes no right operand.
+        case notExists
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgenticRetrieveMemoryMetadataFilterOperator] {
+            return [
+                .after,
+                .before,
+                .contains,
+                .equalsTo,
+                .exists,
+                .greaterThan,
+                .greaterThanOrEquals,
+                .lessThan,
+                .lessThanOrEquals,
+                .notExists
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .contains: return "CONTAINS"
+            case .equalsTo: return "EQUALS_TO"
+            case .exists: return "EXISTS"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEquals: return "GREATER_THAN_OR_EQUALS"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEquals: return "LESS_THAN_OR_EQUALS"
+            case .notExists: return "NOT_EXISTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// A metadata value that a filter expression compares against. Set exactly one member.
+    public enum AgenticRetrieveMemoryMetadataValue: Swift.Sendable {
+        /// A string value.
+        case stringvalue(Swift.String)
+        /// A numeric value.
+        case numbervalue(Swift.Double)
+        /// A list of string values.
+        case stringlistvalue([Swift.String])
+        /// A timestamp value in ISO 8601 UTC format.
+        case datetimevalue(Foundation.Date)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The right operand of a metadata filter expression. Set exactly one member.
+    public enum AgenticRetrieveMemoryMetadataFilterRight: Swift.Sendable {
+        /// The value to compare the metadata key against.
+        case metadatavalue(BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataValue)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// A metadata filter expression, in the form accepted by the AgentCore Memory RetrieveMemoryRecords operation. The expression has a left operand that names the metadata key, an operator, and a right operand. For the EXISTS and NOT_EXISTS operators, omit the right operand.
+    public struct AgenticRetrieveMemoryMetadataFilter: Swift.Sendable {
+        /// The metadata key that the expression evaluates.
+        /// This member is required.
+        public var `left`: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterLeft?
+        /// The relationship that the metadata key and value must have for a memory record to match.
+        /// This member is required.
+        public var `operator`: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterOperator?
+        /// The value that the expression compares the metadata key against. Supply this value for every operator except EXISTS and NOT_EXISTS.
+        public var `right`: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterRight?
+
+        public init(
+            `left`: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterLeft? = nil,
+            `operator`: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterOperator? = nil,
+            `right`: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterRight? = nil
+        ) {
+            self.`left` = `left`
+            self.`operator` = `operator`
+            self.`right` = `right`
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The long-term memory namespace that the agent might retrieve memory records from, and the filters applied to that retrieval. You must specify either namespace or namespacePath.
+    public struct AgenticRetrieveMemoryRetrievalConfig: Swift.Sendable {
+        /// The metadata filter expressions that restrict retrieval to matching memory records. You can specify a maximum of 5 expressions.
+        public var metadataFilters: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilter]?
+        /// The namespace prefix to filter memory records by. The agent retrieves memory records in namespaces that start with the provided prefix. You must specify either namespace or namespacePath.
+        public var namespace: Swift.String?
+        /// The parent namespace to use for hierarchical retrievals. The agent retrieves all memory records whose namespace falls under the same parent hierarchy. You must specify either namespace or namespacePath.
+        public var namespacePath: Swift.String?
+        /// The extraction strategy ID that restricts retrieval to memory records produced by a single strategy. Omit this parameter to retrieve records from every strategy on the memory resource.
+        public var strategyId: Swift.String?
+
+        public init(
+            metadataFilters: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilter]? = nil,
+            namespace: Swift.String? = nil,
+            namespacePath: Swift.String? = nil,
+            strategyId: Swift.String? = nil
+        ) {
+            self.metadataFilters = metadataFilters
+            self.namespace = namespace
+            self.namespacePath = namespacePath
+            self.strategyId = strategyId
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The short-term memory session that this retrieval reads from and writes to.
+    public struct AgenticRetrieveMemorySessionBinding: Swift.Sendable {
+        /// The identifier of the end user or agent that the session belongs to. This identifier scopes session history so that one actor's history is never returned for another. You are responsible for sending the correct actor value.
+        /// This member is required.
+        public var actorId: Swift.String?
+        /// The identifier of the session to restore and continue. You are responsible for sending the correct session value.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            actorId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.actorId = actorId
+            self.sessionId = sessionId
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Specifies an AgentCore Memory resource and how this retrieval uses it. Set sessionBinding to restore and continue a session. Set retrievalConfigs to let the agent retrieve from long-term memory. You must specify at least one of the two.
+    public struct AgenticRetrieveMemoryConfiguration: Swift.Sendable {
+        /// The identifier of the AgentCore Memory resource to use. The resource must exist in your account and be in the ACTIVE state.
+        /// This member is required.
+        public var memoryId: Swift.String?
+        /// Specifies whether the agent-generated answer is written back to the given short-term memory session, and applies only when sessionBinding is set. Valid values:
+        ///
+        /// * DEFAULT (default) – Specifies that the question and the agent-generated answer are persisted to the session as a single event. This value requires generateResponse to be true.
+        ///
+        /// * NONE – Specifies that the session is left unchanged.
+        public var persistenceMode: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryPersistenceMode?
+        /// Specifies the long-term memory configuration the agent can retrieve from. The agent decides whether to retrieve and composes its own query. This field currently accepts at most one entry.
+        public var retrievalConfigs: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrievalConfig]?
+        /// The short-term memory session whose history is restored for this retrieval. To persist the agent-generated answer to the session, omit persistenceMode or set it to DEFAULT. To leave the session unchanged, set persistenceMode to NONE. Supply session history through the existing messages parameter or through short-term memory, but not both.
+        public var sessionBinding: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemorySessionBinding?
+
+        public init(
+            memoryId: Swift.String? = nil,
+            persistenceMode: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryPersistenceMode? = nil,
+            retrievalConfigs: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrievalConfig]? = nil,
+            sessionBinding: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemorySessionBinding? = nil
+        ) {
+            self.memoryId = memoryId
+            self.persistenceMode = persistenceMode
+            self.retrievalConfigs = retrievalConfigs
+            self.sessionBinding = sessionBinding
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     public enum ConversationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case assistant
         case user
@@ -1948,12 +2227,15 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The type of retrieval source.
     public enum AgenticRetrieveType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// An AgentCore Memory resource. Long-term memory retrievals report under the Retrieval step with this source type.
+        case bedrockAgentCoreMemory
         /// A Bedrock knowledge base retrieval source.
         case bedrockKnowledgeBase
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AgenticRetrieveType] {
             return [
+                .bedrockAgentCoreMemory,
                 .bedrockKnowledgeBase
             ]
         }
@@ -1965,6 +2247,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .bedrockAgentCoreMemory: return "BedrockAgentCoreMemory"
             case .bedrockKnowledgeBase: return "BedrockKnowledgeBase"
             case let .sdkUnknown(s): return s
             }
@@ -2037,6 +2320,8 @@ extension BedrockAgentRuntimeClientTypes {
         case planning
         /// The retrieval phase where data is fetched.
         case retrieval
+        /// The phase that restores prior session history from AgentCore Memory short-term memory, before the agent begins work.
+        case sessionHistoryLoad
         /// A speculative retrieval phase for optimization.
         case speculativeRetrieval
         case sdkUnknown(Swift.String)
@@ -2046,6 +2331,7 @@ extension BedrockAgentRuntimeClientTypes {
                 .fullDocumentExpansion,
                 .planning,
                 .retrieval,
+                .sessionHistoryLoad,
                 .speculativeRetrieval
             ]
         }
@@ -2060,6 +2346,7 @@ extension BedrockAgentRuntimeClientTypes {
             case .fullDocumentExpansion: return "FullDocumentExpansion"
             case .planning: return "Planning"
             case .retrieval: return "Retrieval"
+            case .sessionHistoryLoad: return "SessionHistoryLoad"
             case .speculativeRetrieval: return "SpeculativeRetrieval"
             case let .sdkUnknown(s): return s
             }
@@ -11002,6 +11289,8 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
     public var agenticRetrieveConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveConfiguration?
     /// Whether to generate a response based on the retrieved results.
     public var generateResponse: Swift.Bool?
+    /// The configuration for using an Amazon Bedrock AgentCore Memory resource with this retrieval.
+    public var memoryConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryConfiguration?
     /// The list of messages for the agentic retrieval conversation.
     /// This member is required.
     public var messages: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage]?
@@ -11018,6 +11307,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
     public init(
         agenticRetrieveConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveConfiguration? = nil,
         generateResponse: Swift.Bool? = nil,
+        memoryConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryConfiguration? = nil,
         messages: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage]? = nil,
         nextToken: Swift.String? = nil,
         policyConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration? = nil,
@@ -11026,6 +11316,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
     ) {
         self.agenticRetrieveConfiguration = agenticRetrieveConfiguration
         self.generateResponse = generateResponse
+        self.memoryConfiguration = memoryConfiguration
         self.messages = messages
         self.nextToken = nextToken
         self.policyConfiguration = policyConfiguration
@@ -11036,7 +11327,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
 
 extension AgenticRetrieveStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgenticRetrieveStreamInput(agenticRetrieveConfiguration: \(Swift.String(describing: agenticRetrieveConfiguration)), generateResponse: \(Swift.String(describing: generateResponse)), messages: \(Swift.String(describing: messages)), nextToken: \(Swift.String(describing: nextToken)), policyConfiguration: \(Swift.String(describing: policyConfiguration)), retrievers: \(Swift.String(describing: retrievers)), userContext: \"CONTENT_REDACTED\")"}
+        "AgenticRetrieveStreamInput(agenticRetrieveConfiguration: \(Swift.String(describing: agenticRetrieveConfiguration)), generateResponse: \(Swift.String(describing: generateResponse)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), messages: \(Swift.String(describing: messages)), nextToken: \(Swift.String(describing: nextToken)), policyConfiguration: \(Swift.String(describing: policyConfiguration)), retrievers: \(Swift.String(describing: retrievers)), userContext: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -12078,6 +12369,7 @@ extension AgenticRetrieveStreamInput {
         guard let value else { return }
         try writer["agenticRetrieveConfiguration"].write(value.agenticRetrieveConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveConfiguration.write(value:to:))
         try writer["generateResponse"].write(value.generateResponse)
+        try writer["memoryConfiguration"].write(value.memoryConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryConfiguration.write(value:to:))
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
         try writer["policyConfiguration"].write(value.policyConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration.write(value:to:))
@@ -14111,6 +14403,7 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveAction {
         var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveAction()
         value.retrieve = try reader["retrieve"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails.read(from:))
         value.fullDocumentExpansion = try reader["fullDocumentExpansion"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails.read(from:))
+        value.memoryRetrieve = try reader["memoryRetrieve"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails.read(from:))
         return value
     }
 }
@@ -14227,6 +14520,106 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveGuardrailWarning {
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["message"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["memoryId"].write(value.memoryId)
+        try writer["persistenceMode"].write(value.persistenceMode)
+        try writer["retrievalConfigs"].writeList(value.retrievalConfigs, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrievalConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sessionBinding"].write(value.sessionBinding, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemorySessionBinding.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilter {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["left"].write(value.`left`, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterLeft.write(value:to:))
+        try writer["operator"].write(value.`operator`)
+        try writer["right"].write(value.`right`, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterRight.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterLeft {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterLeft?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .metadatakey(metadatakey):
+                try writer["metadataKey"].write(metadatakey)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterRight {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilterRight?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .metadatavalue(metadatavalue):
+                try writer["metadataValue"].write(metadatavalue, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataValue.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataValue {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .datetimevalue(datetimevalue):
+                try writer["dateTimeValue"].writeTimestamp(datetimevalue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+            case let .numbervalue(numbervalue):
+                try writer["numberValue"].write(numbervalue)
+            case let .stringlistvalue(stringlistvalue):
+                try writer["stringListValue"].writeList(stringlistvalue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrievalConfig {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrievalConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataFilters"].writeList(value.metadataFilters, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryMetadataFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["namespace"].write(value.namespace)
+        try writer["namespacePath"].write(value.namespacePath)
+        try writer["strategyId"].write(value.strategyId)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails()
+        value.inputQuery = try reader["inputQuery"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessageContent.read(from:))
+        value.memoryId = try reader["memoryId"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.namespacePath = try reader["namespacePath"].readIfPresent()
+        value.strategyId = try reader["strategyId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveMemorySessionBinding {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemorySessionBinding?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actorId"].write(value.actorId)
+        try writer["sessionId"].write(value.sessionId)
     }
 }
 

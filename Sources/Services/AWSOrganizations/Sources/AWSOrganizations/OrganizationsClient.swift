@@ -628,7 +628,7 @@ extension OrganizationsClient {
     /// * Approve all features request (ENABLE_ALL_FEATURES)
     ///
     ///
-    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide. When a handshake is accepted, Organizations logs membership events in CloudTrail, available only in the management account's event history. If the account was standalone and joined a new organization, an AccountJoinedOrganization event is logged with joinedMethod:INVITED and joinedTime fields. If the account departed one organization and joined another, both an AccountDepartedOrganization event with departureMethod:LEFT and departureTime and an AccountJoinedOrganization event with joinedMethod:INVITED and joinedTime are logged in their respective management accounts.
+    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide. When a handshake is accepted, Organizations logs membership events in CloudTrail, available only in the management account's event history. If the account was standalone and joined a new organization, an AccountJoinedOrganization event is logged with joinedMethod:INVITED and joinedTime fields. If the account departed one organization and joined another, both an AccountDepartedOrganization event with departureMethod:LEFT and departureTime and an AccountJoinedOrganization event with joinedMethod:INVITED and joinedTime are logged in their respective management accounts. When a billing transfer (TRANSFER_RESPONSIBILITY) handshake is accepted, Organizations publishes a ResponsibilityTransferAccepted service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see [Example log entries: AcceptResponsibilityTransfer](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html#Log-entries-accept-responsibility-transfer) in the Organizations User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptHandshakeInput`)
     ///
@@ -650,6 +650,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that can be in progress at a time.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
     ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
@@ -734,7 +736,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `HandshakeAlreadyInStateException` : The specified handshake is already in the requested state. For example, you can't accept a handshake that was already accepted.
@@ -752,17 +758,21 @@ extension OrganizationsClient {
     ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: You can only join an organization that operates in the same Amazon Web Services partition as your account.
     ///
     /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
+    ///
+    /// * PAST_DUE_INVOICE: Your organization has an invoice that is past due.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
     ///
     /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
     ///
     /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * TARGET_ACCOUNT_VALIDATION_FAILURE: Billing transfer is not available for your account. Contact your billing administrator or Amazon Web Services Support for assistance.
     ///
     /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `HandshakeNotFoundException` : We can't find a handshake with the HandshakeId that you specified.
@@ -785,7 +795,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -960,6 +970,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -1043,7 +1055,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicatePolicyAttachmentException` : The selected policy is already attached to the specified target.
@@ -1065,7 +1081,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1225,7 +1241,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1391,6 +1407,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -1474,7 +1492,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -1495,7 +1517,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1659,6 +1681,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -1742,7 +1766,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `FinalizingOrganizationException` : Organizations couldn't perform the operation because your organization hasn't finished initializing. This can take up to an hour. Try again later. If after one hour you continue to receive this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -1764,7 +1792,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -1908,7 +1936,7 @@ extension OrganizationsClient {
     ///
     /// If the request includes tags, then the requester must have the organizations:TagResource permission. The tags are attached to the commercial account associated with the GovCloud account, rather than the GovCloud account itself. To add tags to the GovCloud account, call the [TagResource] operation in the GovCloud Region after the new GovCloud account exists. You call this action from the management account of your organization in the commercial Region to create a standalone Amazon Web Services account in the Amazon Web Services GovCloud (US) Region. After the account is created, the management account of an organization in the Amazon Web Services GovCloud (US) Region can invite it to that organization. For more information on inviting standalone accounts in the Amazon Web Services GovCloud (US) to join an organization, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide. Calling CreateGovCloudAccount is an asynchronous request that Amazon Web Services performs in the background. Because CreateGovCloudAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:
     ///
-    /// * Use the OperationId response element from this operation to provide as a parameter to the [DescribeCreateAccountStatus] operation.
+    /// * Use the Id response element from this operation to provide as a parameter to the [DescribeCreateAccountStatus] operation.
     ///
     /// * Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html) in the Organizations User Guide.
     ///
@@ -1945,6 +1973,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that can be in progress at a time.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
     ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
@@ -2029,7 +2059,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `FinalizingOrganizationException` : Organizations couldn't perform the operation because your organization hasn't finished initializing. This can take up to an hour. Try again later. If after one hour you continue to receive this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -2051,7 +2085,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2198,6 +2232,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -2281,7 +2317,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -2302,7 +2342,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2447,6 +2487,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -2530,7 +2572,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicateOrganizationalUnitException` : An OU with the same name already exists.
@@ -2552,7 +2598,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2698,6 +2744,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -2781,7 +2829,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicatePolicyException` : A policy with the same name already exists.
@@ -2803,7 +2855,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -2961,7 +3013,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3106,6 +3158,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -3189,7 +3243,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -3210,7 +3268,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3364,7 +3422,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3519,7 +3577,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -3667,6 +3725,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -3750,7 +3810,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `ResourcePolicyNotFoundException` : We can't find a resource policy request with the parameter that you specified.
@@ -3845,6 +3909,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -3928,7 +3994,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -3949,7 +4019,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4103,7 +4173,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4256,7 +4326,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4401,6 +4471,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -4484,7 +4556,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `EffectivePolicyNotFoundException` : If you ran this action on the management account, this policy type is not enabled. If you ran the action on a member account, the account doesn't have an effective policy of this type. Contact the administrator of your organization about attaching a policy of this type to the account.
@@ -4506,7 +4582,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4661,7 +4737,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -4891,7 +4967,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5044,7 +5120,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5190,6 +5266,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -5273,7 +5351,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `ResourcePolicyNotFoundException` : We can't find a resource policy request with the parameter that you specified.
@@ -5373,7 +5455,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5520,6 +5602,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -5603,7 +5687,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -5624,7 +5712,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -5783,6 +5871,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -5866,7 +5956,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -5887,7 +5981,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6033,6 +6127,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -6116,7 +6212,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -6137,7 +6237,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6286,6 +6386,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -6369,7 +6471,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -6390,7 +6496,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6536,6 +6642,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -6619,7 +6727,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `HandshakeConstraintViolationException` : The requested operation would violate the constraint identified in the reason code. Some of the reasons in the following list might not be applicable to this specific API or operation:
@@ -6636,17 +6748,21 @@ extension OrganizationsClient {
     ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: You can only join an organization that operates in the same Amazon Web Services partition as your account.
     ///
     /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
+    ///
+    /// * PAST_DUE_INVOICE: Your organization has an invoice that is past due.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
     ///
     /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
     ///
     /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * TARGET_ACCOUNT_VALIDATION_FAILURE: Billing transfer is not available for your account. Contact your billing administrator or Amazon Web Services Support for assistance.
     ///
     /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -6667,7 +6783,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -6812,6 +6928,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -6895,7 +7013,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -6916,7 +7038,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7067,6 +7189,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -7150,7 +7274,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicateHandshakeException` : A handshake with the same action and target already exists. For example, if you invited an account to join your organization, the invited account might already have a pending invitation from this organization. If you intend to resend an invitation to an account, ensure that existing handshakes that might be considered duplicates are canceled or declined.
@@ -7169,17 +7297,21 @@ extension OrganizationsClient {
     ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: You can only join an organization that operates in the same Amazon Web Services partition as your account.
     ///
     /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
+    ///
+    /// * PAST_DUE_INVOICE: Your organization has an invoice that is past due.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
     ///
     /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
     ///
     /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * TARGET_ACCOUNT_VALIDATION_FAILURE: Billing transfer is not available for your account. Contact your billing administrator or Amazon Web Services Support for assistance.
     ///
     /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -7200,7 +7332,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7345,6 +7477,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -7428,7 +7562,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicateHandshakeException` : A handshake with the same action and target already exists. For example, if you invited an account to join your organization, the invited account might already have a pending invitation from this organization. If you intend to resend an invitation to an account, ensure that existing handshakes that might be considered duplicates are canceled or declined.
@@ -7446,17 +7584,21 @@ extension OrganizationsClient {
     ///
     /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
     ///
-    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+    /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: You can only join an organization that operates in the same Amazon Web Services partition as your account.
     ///
     /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
     ///
     /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
+    ///
+    /// * PAST_DUE_INVOICE: Your organization has an invoice that is past due.
     ///
     /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
     ///
     /// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
     ///
     /// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+    ///
+    /// * TARGET_ACCOUNT_VALIDATION_FAILURE: Billing transfer is not available for your account. Contact your billing administrator or Amazon Web Services Support for assistance.
     ///
     /// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -7477,7 +7619,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7645,6 +7787,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -7728,7 +7872,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -7749,7 +7897,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -7894,6 +8042,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -7977,7 +8127,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -7998,7 +8152,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8151,7 +8305,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8303,7 +8457,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8448,6 +8602,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -8531,7 +8687,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `EffectivePolicyNotFoundException` : If you ran this action on the management account, this policy type is not enabled. If you ran the action on a member account, the account doesn't have an effective policy of this type. Contact the administrator of your organization about attaching a policy of this type to the account.
@@ -8553,7 +8713,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8706,7 +8866,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -8859,7 +9019,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9004,6 +9164,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -9087,7 +9249,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -9108,7 +9274,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9255,6 +9421,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -9338,7 +9506,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -9359,7 +9531,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9505,6 +9677,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -9588,7 +9762,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `EffectivePolicyNotFoundException` : If you ran this action on the management account, this policy type is not enabled. If you ran the action on a member account, the account doesn't have an effective policy of this type. Contact the administrator of your organization about attaching a policy of this type to the account.
@@ -9610,7 +9788,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9763,7 +9941,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -9916,7 +10094,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -10060,6 +10238,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -10143,7 +10323,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -10164,7 +10348,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -10318,7 +10502,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -10463,6 +10647,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -10546,7 +10732,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -10567,7 +10757,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -10721,7 +10911,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -10873,7 +11063,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -11026,7 +11216,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -11180,7 +11370,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -11343,7 +11533,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -11496,7 +11686,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -11654,7 +11844,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -11800,6 +11990,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -11883,7 +12075,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -11904,7 +12100,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -12052,6 +12248,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -12135,7 +12333,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -12156,7 +12358,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -12309,6 +12511,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -12392,7 +12596,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -12413,7 +12621,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -12570,6 +12778,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -12653,7 +12863,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -12674,7 +12888,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -12798,7 +13012,7 @@ extension OrganizationsClient {
 
     /// Performs the `TerminateResponsibilityTransfer` operation on the `Organizations` service.
     ///
-    /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization.
+    /// Ends a transfer. A transfer is an arrangement between two management accounts where one account designates the other with specified responsibilities for their organization. When a transfer ends, Organizations publishes a ResponsibilityTransferTerminated service event to CloudTrail. Each affected account receives this event, including upstream participants such as distributors in a chained transfer. For an example log entry, see [Example log entries: TerminateResponsibilityTransfer](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html#Log-entries-terminate-responsibility-transfer) in the Organizations User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `TerminateResponsibilityTransferInput`)
     ///
@@ -12819,6 +13033,8 @@ extension OrganizationsClient {
     /// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that can be in progress at a time.
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+    ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
     ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
@@ -12903,7 +13119,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -12924,7 +13144,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -13084,6 +13304,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -13167,7 +13389,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -13188,7 +13414,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -13343,7 +13569,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -13489,6 +13715,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -13572,7 +13800,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `DuplicatePolicyException` : A policy with the same name already exists.
@@ -13594,7 +13826,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///
@@ -13742,6 +13974,8 @@ extension OrganizationsClient {
     ///
     /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
     ///
+    /// * ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY: Your account setup isn't complete or your account isn't fully active to invite or accept a Billing Transfer invitation.
+    ///
     /// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
     ///
     /// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
@@ -13825,7 +14059,11 @@ extension OrganizationsClient {
     ///
     /// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
     ///
-    /// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+    /// * TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED: You cannot update this transfer because it is no longer active. Transfers that have been withdrawn, declined, expired, or cancelled cannot be modified.
+    ///
+    /// * UNMET_BILLING_PREREQUISITE: Your current billing configuration is unsupported. Contact Amazon Web Services Support for assistance.
+    ///
+    /// * UNSUPPORTED_PRICING: Ineligible for Billing Transfer. Your organization is subject to a pricing agreement with Amazon Web Services that Billing Transfer does not support.
     ///
     /// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
     /// - `InvalidInputException` : The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
@@ -13846,7 +14084,7 @@ extension OrganizationsClient {
     ///
     /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
     ///
-    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
+    /// * INVALID_END_DATE: The selected withdrawal date doesn't meet the minimum notice period required by your partner agreement. Visit Amazon Web Services Partner Central or contact your Amazon Web Services Channel Partner for help.
     ///
     /// * INVALID_ENUM: You specified an invalid value.
     ///

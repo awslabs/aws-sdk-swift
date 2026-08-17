@@ -1,8 +1,4 @@
 {
     "service": "com.amazonaws.cloudtrail#CloudTrail_20131101",
-    "module": "AWSCloudTrail",
-    "sdkId": "CloudTrail",
-    "internalClient": false,
-    "operations": [],
     "modelPath": "codegen/sdk-codegen/aws-models/cloudtrail.json"
 }
