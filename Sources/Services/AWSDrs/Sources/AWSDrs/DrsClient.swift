@@ -54,6 +54,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -687,6 +688,80 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CancelRecoveryPlanExecution` operation on the `Drs` service.
+    ///
+    /// Cancels an in-progress Recovery Plan execution. Remaining steps are skipped.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelRecoveryPlanExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelRecoveryPlanExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func cancelRecoveryPlanExecution(input: CancelRecoveryPlanExecutionInput) async throws -> CancelRecoveryPlanExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelRecoveryPlanExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>(CancelRecoveryPlanExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelRecoveryPlanExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelRecoveryPlanExecutionOutput>(CancelRecoveryPlanExecutionOutput.httpOutput(from:), CancelRecoveryPlanExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelRecoveryPlanExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelRecoveryPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelRecoveryPlanExecutionInput, CancelRecoveryPlanExecutionOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelRecoveryPlanExecution")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateExtendedSourceServer` operation on the `Drs` service.
     ///
     /// Create an extended source server in the target Account based on the source server in staging account.
@@ -822,6 +897,157 @@ extension DrsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLaunchConfigurationTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRecoveryPlan` operation on the `Drs` service.
+    ///
+    /// Creates a Recovery Plan to orchestrate multi-server disaster recovery.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRecoveryPlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRecoveryPlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func createRecoveryPlan(input: CreateRecoveryPlanInput) async throws -> CreateRecoveryPlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRecoveryPlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRecoveryPlanInput, CreateRecoveryPlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>(CreateRecoveryPlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRecoveryPlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecoveryPlanOutput>(CreateRecoveryPlanOutput.httpOutput(from:), CreateRecoveryPlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecoveryPlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRecoveryPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRecoveryPlanInput, CreateRecoveryPlanOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRecoveryPlan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRecoveryPlanStep` operation on the `Drs` service.
+    ///
+    /// Creates a step in a Recovery Plan. A step is either SERVER type (servers to recover in parallel) or WAIT type (timed pause between steps).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRecoveryPlanStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRecoveryPlanStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func createRecoveryPlanStep(input: CreateRecoveryPlanStepInput) async throws -> CreateRecoveryPlanStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRecoveryPlanStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>(CreateRecoveryPlanStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRecoveryPlanStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecoveryPlanStepOutput>(CreateRecoveryPlanStepOutput.httpOutput(from:), CreateRecoveryPlanStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecoveryPlanStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRecoveryPlanStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRecoveryPlanStepInput, CreateRecoveryPlanStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRecoveryPlanStep")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1257,6 +1483,228 @@ extension DrsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRecoveryInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRecoveryPlan` operation on the `Drs` service.
+    ///
+    /// Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (CREATED, IN_PROGRESS).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryPlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryPlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func deleteRecoveryPlan(input: DeleteRecoveryPlanInput) async throws -> DeleteRecoveryPlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRecoveryPlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>(DeleteRecoveryPlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRecoveryPlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecoveryPlanOutput>(DeleteRecoveryPlanOutput.httpOutput(from:), DeleteRecoveryPlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecoveryPlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRecoveryPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRecoveryPlanInput, DeleteRecoveryPlanOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRecoveryPlan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRecoveryPlanExecution` operation on the `Drs` service.
+    ///
+    /// Deletes a Recovery Plan execution record. Must be in a terminal status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryPlanExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryPlanExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func deleteRecoveryPlanExecution(input: DeleteRecoveryPlanExecutionInput) async throws -> DeleteRecoveryPlanExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRecoveryPlanExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>(DeleteRecoveryPlanExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRecoveryPlanExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecoveryPlanExecutionOutput>(DeleteRecoveryPlanExecutionOutput.httpOutput(from:), DeleteRecoveryPlanExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecoveryPlanExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRecoveryPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRecoveryPlanExecutionInput, DeleteRecoveryPlanExecutionOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRecoveryPlanExecution")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRecoveryPlanStep` operation on the `Drs` service.
+    ///
+    /// Deletes a step from a Recovery Plan.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryPlanStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryPlanStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func deleteRecoveryPlanStep(input: DeleteRecoveryPlanStepInput) async throws -> DeleteRecoveryPlanStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRecoveryPlanStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>(DeleteRecoveryPlanStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRecoveryPlanStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecoveryPlanStepOutput>(DeleteRecoveryPlanStepOutput.httpOutput(from:), DeleteRecoveryPlanStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecoveryPlanStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRecoveryPlanStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRecoveryPlanStepInput, DeleteRecoveryPlanStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRecoveryPlanStep")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2416,6 +2864,298 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetRecoveryPlan` operation on the `Drs` service.
+    ///
+    /// Gets a Recovery Plan by ARN.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func getRecoveryPlan(input: GetRecoveryPlanInput) async throws -> GetRecoveryPlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRecoveryPlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRecoveryPlanInput, GetRecoveryPlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>(GetRecoveryPlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecoveryPlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPlanOutput>(GetRecoveryPlanOutput.httpOutput(from:), GetRecoveryPlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecoveryPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecoveryPlanInput, GetRecoveryPlanOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecoveryPlan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRecoveryPlanExecution` operation on the `Drs` service.
+    ///
+    /// Gets the details of a Recovery Plan execution.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPlanExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPlanExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func getRecoveryPlanExecution(input: GetRecoveryPlanExecutionInput) async throws -> GetRecoveryPlanExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRecoveryPlanExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>(GetRecoveryPlanExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecoveryPlanExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPlanExecutionOutput>(GetRecoveryPlanExecutionOutput.httpOutput(from:), GetRecoveryPlanExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPlanExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecoveryPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecoveryPlanExecutionInput, GetRecoveryPlanExecutionOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecoveryPlanExecution")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRecoveryPlanExecutionStep` operation on the `Drs` service.
+    ///
+    /// Gets the details of a step within a Recovery Plan execution.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPlanExecutionStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPlanExecutionStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func getRecoveryPlanExecutionStep(input: GetRecoveryPlanExecutionStepInput) async throws -> GetRecoveryPlanExecutionStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRecoveryPlanExecutionStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>(GetRecoveryPlanExecutionStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecoveryPlanExecutionStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPlanExecutionStepOutput>(GetRecoveryPlanExecutionStepOutput.httpOutput(from:), GetRecoveryPlanExecutionStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPlanExecutionStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecoveryPlanExecutionStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecoveryPlanExecutionStepInput, GetRecoveryPlanExecutionStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecoveryPlanExecutionStep")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRecoveryPlanStep` operation on the `Drs` service.
+    ///
+    /// Gets a Recovery Plan step by ARN.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPlanStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPlanStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func getRecoveryPlanStep(input: GetRecoveryPlanStepInput) async throws -> GetRecoveryPlanStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRecoveryPlanStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>(GetRecoveryPlanStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecoveryPlanStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPlanStepOutput>(GetRecoveryPlanStepOutput.httpOutput(from:), GetRecoveryPlanStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPlanStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecoveryPlanStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecoveryPlanStepInput, GetRecoveryPlanStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecoveryPlanStep")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetReplicationConfiguration` operation on the `Drs` service.
     ///
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
@@ -2700,6 +3440,296 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRecoveryPlanExecutionSteps` operation on the `Drs` service.
+    ///
+    /// Lists all steps within a Recovery Plan execution.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPlanExecutionStepsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPlanExecutionStepsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func listRecoveryPlanExecutionSteps(input: ListRecoveryPlanExecutionStepsInput) async throws -> ListRecoveryPlanExecutionStepsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRecoveryPlanExecutionSteps")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>(ListRecoveryPlanExecutionStepsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecoveryPlanExecutionStepsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPlanExecutionStepsOutput>(ListRecoveryPlanExecutionStepsOutput.httpOutput(from:), ListRecoveryPlanExecutionStepsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPlanExecutionStepsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecoveryPlanExecutionStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecoveryPlanExecutionStepsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecoveryPlanExecutionSteps")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRecoveryPlanExecutions` operation on the `Drs` service.
+    ///
+    /// Lists executions of Recovery Plans, optionally filtered by plan or status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPlanExecutionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPlanExecutionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func listRecoveryPlanExecutions(input: ListRecoveryPlanExecutionsInput) async throws -> ListRecoveryPlanExecutionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRecoveryPlanExecutions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>(ListRecoveryPlanExecutionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecoveryPlanExecutionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPlanExecutionsOutput>(ListRecoveryPlanExecutionsOutput.httpOutput(from:), ListRecoveryPlanExecutionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPlanExecutionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecoveryPlanExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecoveryPlanExecutionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecoveryPlanExecutions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRecoveryPlanSteps` operation on the `Drs` service.
+    ///
+    /// Lists all steps in a Recovery Plan.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPlanStepsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPlanStepsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func listRecoveryPlanSteps(input: ListRecoveryPlanStepsInput) async throws -> ListRecoveryPlanStepsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRecoveryPlanSteps")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>(ListRecoveryPlanStepsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecoveryPlanStepsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPlanStepsOutput>(ListRecoveryPlanStepsOutput.httpOutput(from:), ListRecoveryPlanStepsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPlanStepsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecoveryPlanStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecoveryPlanStepsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecoveryPlanSteps")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRecoveryPlans` operation on the `Drs` service.
+    ///
+    /// Lists all Recovery Plans in the account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPlansInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPlansOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func listRecoveryPlans(input: ListRecoveryPlansInput) async throws -> ListRecoveryPlansOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRecoveryPlans")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRecoveryPlansInput, ListRecoveryPlansOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>(ListRecoveryPlansInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecoveryPlansInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPlansOutput>(ListRecoveryPlansOutput.httpOutput(from:), ListRecoveryPlansOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPlansOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecoveryPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecoveryPlansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecoveryPlansInput, ListRecoveryPlansOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecoveryPlans")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListStagingAccounts` operation on the `Drs` service.
     ///
     /// Returns an array of staging accounts for existing extended source servers.
@@ -2912,6 +3942,80 @@ extension DrsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ReorderRecoveryPlanSteps` operation on the `Drs` service.
+    ///
+    /// Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ReorderRecoveryPlanStepsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ReorderRecoveryPlanStepsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func reorderRecoveryPlanSteps(input: ReorderRecoveryPlanStepsInput) async throws -> ReorderRecoveryPlanStepsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "reorderRecoveryPlanSteps")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>(ReorderRecoveryPlanStepsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReorderRecoveryPlanStepsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReorderRecoveryPlanStepsOutput>(ReorderRecoveryPlanStepsOutput.httpOutput(from:), ReorderRecoveryPlanStepsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ReorderRecoveryPlanStepsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReorderRecoveryPlanStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReorderRecoveryPlanStepsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReorderRecoveryPlanStepsInput, ReorderRecoveryPlanStepsOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReorderRecoveryPlanSteps")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RetryDataReplication` operation on the `Drs` service.
     ///
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
@@ -2973,6 +4077,80 @@ extension DrsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RetryDataReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RetryRecoveryPlanExecutionStep` operation on the `Drs` service.
+    ///
+    /// Retries a failed SERVER type execution step.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RetryRecoveryPlanExecutionStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RetryRecoveryPlanExecutionStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func retryRecoveryPlanExecutionStep(input: RetryRecoveryPlanExecutionStepInput) async throws -> RetryRecoveryPlanExecutionStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "retryRecoveryPlanExecutionStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>(RetryRecoveryPlanExecutionStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetryRecoveryPlanExecutionStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryRecoveryPlanExecutionStepOutput>(RetryRecoveryPlanExecutionStepOutput.httpOutput(from:), RetryRecoveryPlanExecutionStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RetryRecoveryPlanExecutionStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryRecoveryPlanExecutionStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RetryRecoveryPlanExecutionStepInput, RetryRecoveryPlanExecutionStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RetryRecoveryPlanExecutionStep")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3192,6 +4370,82 @@ extension DrsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartRecovery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartRecoveryPlanExecution` operation on the `Drs` service.
+    ///
+    /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan cannot have more than one execution in a non-terminal status at a time.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartRecoveryPlanExecutionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartRecoveryPlanExecutionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func startRecoveryPlanExecution(input: StartRecoveryPlanExecutionInput) async throws -> StartRecoveryPlanExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startRecoveryPlanExecution")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>(StartRecoveryPlanExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRecoveryPlanExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRecoveryPlanExecutionOutput>(StartRecoveryPlanExecutionOutput.httpOutput(from:), StartRecoveryPlanExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartRecoveryPlanExecutionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRecoveryPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRecoveryPlanExecutionInput, StartRecoveryPlanExecutionOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartRecoveryPlanExecution")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4057,6 +5311,228 @@ extension DrsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLaunchConfigurationTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRecoveryPlan` operation on the `Drs` service.
+    ///
+    /// Updates a Recovery Plan's name or description.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecoveryPlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryPlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func updateRecoveryPlan(input: UpdateRecoveryPlanInput) async throws -> UpdateRecoveryPlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRecoveryPlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>(UpdateRecoveryPlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRecoveryPlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecoveryPlanOutput>(UpdateRecoveryPlanOutput.httpOutput(from:), UpdateRecoveryPlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecoveryPlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRecoveryPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRecoveryPlanInput, UpdateRecoveryPlanOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRecoveryPlan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRecoveryPlanExecutionStep` operation on the `Drs` service.
+    ///
+    /// Updates an execution step. Supports two actions: (1) skip a step that is in NOT_STARTED or FAILED status; (2) update the wait duration of a WAIT type step that is in NOT_STARTED status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecoveryPlanExecutionStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryPlanExecutionStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func updateRecoveryPlanExecutionStep(input: UpdateRecoveryPlanExecutionStepInput) async throws -> UpdateRecoveryPlanExecutionStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRecoveryPlanExecutionStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>(UpdateRecoveryPlanExecutionStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRecoveryPlanExecutionStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecoveryPlanExecutionStepOutput>(UpdateRecoveryPlanExecutionStepOutput.httpOutput(from:), UpdateRecoveryPlanExecutionStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecoveryPlanExecutionStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRecoveryPlanExecutionStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRecoveryPlanExecutionStepInput, UpdateRecoveryPlanExecutionStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRecoveryPlanExecutionStep")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRecoveryPlanStep` operation on the `Drs` service.
+    ///
+    /// Updates a Recovery Plan step's name or configuration. Step type is immutable.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecoveryPlanStepInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryPlanStepOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    public func updateRecoveryPlanStep(input: UpdateRecoveryPlanStepInput) async throws -> UpdateRecoveryPlanStepOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRecoveryPlanStep")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "drs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>(UpdateRecoveryPlanStepInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRecoveryPlanStepInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecoveryPlanStepOutput>(UpdateRecoveryPlanStepOutput.httpOutput(from:), UpdateRecoveryPlanStepOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecoveryPlanStepOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("drs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRecoveryPlanStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "drs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRecoveryPlanStepInput, UpdateRecoveryPlanStepOutput>(serviceID: serviceName, version: DrsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Drs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRecoveryPlanStep")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

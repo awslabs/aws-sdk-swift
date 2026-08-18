@@ -1,8 +1,4 @@
 {
     "service": "com.amazonaws.kendra#AWSKendraFrontendService",
-    "module": "AWSKendra",
-    "sdkId": "kendra",
-    "internalClient": false,
-    "operations": [],
     "modelPath": "codegen/sdk-codegen/aws-models/kendra.json"
 }

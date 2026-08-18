@@ -1,8 +1,4 @@
 {
     "service": "com.amazonaws.odb#Odb",
-    "module": "AWSOdb",
-    "sdkId": "odb",
-    "internalClient": false,
-    "operations": [],
     "modelPath": "codegen/sdk-codegen/aws-models/odb.json"
 }

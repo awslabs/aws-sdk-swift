@@ -5866,12 +5866,15 @@ extension BedrockAgentCoreControlClientTypes {
         case agentcoreEvaluationPredefinedV1
         /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation where each example is a scenario used to generate full conversations.
         case agentcoreEvaluationSimulatedV1
+        /// Unified generic evaluation schema, version 1. Supports single-turn (string input) and multi-turn (message list input) across all evaluation frameworks.
+        case genericEvaluationPredefinedV1
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatasetSchemaType] {
             return [
                 .agentcoreEvaluationPredefinedV1,
-                .agentcoreEvaluationSimulatedV1
+                .agentcoreEvaluationSimulatedV1,
+                .genericEvaluationPredefinedV1
             ]
         }
 
@@ -5884,6 +5887,7 @@ extension BedrockAgentCoreControlClientTypes {
             switch self {
             case .agentcoreEvaluationPredefinedV1: return "AGENTCORE_EVALUATION_PREDEFINED_V1"
             case .agentcoreEvaluationSimulatedV1: return "AGENTCORE_EVALUATION_SIMULATED_V1"
+            case .genericEvaluationPredefinedV1: return "GENERIC_EVALUATION_PREDEFINED_V1"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6708,6 +6712,27 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The configuration for a derived evaluator. It reuses an existing evaluator's logic on your own model.
+    public struct DerivedEvaluatorConfig: Swift.Sendable {
+        /// The identifier of the base evaluator whose logic to run (a Builtin.* or ThirdParty.* evaluator).
+        /// This member is required.
+        public var baseEvaluatorId: Swift.String?
+        /// The configuration of the evaluator model that you supply.
+        /// This member is required.
+        public var modelConfig: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig?
+
+        public init(
+            baseEvaluatorId: Swift.String? = nil,
+            modelConfig: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig? = nil
+        ) {
+            self.baseEvaluatorId = baseEvaluatorId
+            self.modelConfig = modelConfig
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The definition of a categorical rating scale option that provides a named category with its description for evaluation scoring.
     public struct CategoricalScaleDefinition: Swift.Sendable {
         /// The description that explains what this categorical rating represents and when it should be used.
@@ -6804,6 +6829,8 @@ extension BedrockAgentCoreControlClientTypes {
         case llmasajudge(BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig)
         /// Configuration for a code-based evaluator that uses a customer-managed Lambda function to programmatically assess agent performance.
         case codebased(BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig)
+        /// The configuration for an evaluator derived from an existing base evaluator (a built-in or third-party evaluator), run on your own model. The base evaluator supplies the prompt and scoring.
+        case derived(BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7030,6 +7057,79 @@ public struct GetEvaluatorInput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum EvaluatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case builtin
+        case code
+        case custom
+        case customDerived
+        case thirdParty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluatorType] {
+            return [
+                .builtin,
+                .code,
+                .custom,
+                .customDerived,
+                .thirdParty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .builtin: return "Builtin"
+            case .code: return "CustomCode"
+            case .custom: return "Custom"
+            case .customDerived: return "CustomDerived"
+            case .thirdParty: return "ThirdParty"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoEval
+        case aws
+        case custom
+        case deepEval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Provider] {
+            return [
+                .autoEval,
+                .aws,
+                .custom,
+                .deepEval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoEval: return "AutoEval"
+            case .aws: return "AWS"
+            case .custom: return "Custom"
+            case .deepEval: return "DeepEval"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetEvaluatorOutput: Swift.Sendable {
     /// The timestamp when the evaluator was created.
     /// This member is required.
@@ -7048,6 +7148,18 @@ public struct GetEvaluatorOutput: Swift.Sendable {
     /// The name of the evaluator.
     /// This member is required.
     public var evaluatorName: Swift.String?
+    /// The kind of evaluator resource. Valid values:
+    ///
+    /// * Builtin – An Amazon Web Services-managed global evaluator.
+    ///
+    /// * ThirdParty – An Amazon Web Services-managed global evaluator from a third-party provider.
+    ///
+    /// * Custom – A customer-created evaluator.
+    ///
+    /// * CustomCode – A customer-created code-based evaluator.
+    ///
+    /// * CustomDerived – A customer-created evaluator derived from an existing base evaluator.
+    public var evaluatorType: BedrockAgentCoreControlClientTypes.EvaluatorType?
     /// The Amazon Resource Name (ARN) of the customer managed KMS key used to encrypt the evaluator's sensitive data. This field is only present for evaluators encrypted with a customer managed key.
     public var kmsKeyArn: Swift.String?
     /// The evaluation level (TOOL_CALL, TRACE, or SESSION) that determines the scope of evaluation.
@@ -7055,6 +7167,8 @@ public struct GetEvaluatorOutput: Swift.Sendable {
     public var level: BedrockAgentCoreControlClientTypes.EvaluatorLevel?
     /// Whether the evaluator is locked for modification due to being referenced by active online evaluation configurations.
     public var lockedForModification: Swift.Bool?
+    /// The source of the evaluator's logic: Amazon Web Services, a third-party library, or you.
+    public var provider: BedrockAgentCoreControlClientTypes.Provider?
     /// The current status of the evaluator.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.EvaluatorStatus?
@@ -7069,9 +7183,11 @@ public struct GetEvaluatorOutput: Swift.Sendable {
         evaluatorConfig: BedrockAgentCoreControlClientTypes.EvaluatorConfig? = nil,
         evaluatorId: Swift.String? = nil,
         evaluatorName: Swift.String? = nil,
+        evaluatorType: BedrockAgentCoreControlClientTypes.EvaluatorType? = nil,
         kmsKeyArn: Swift.String? = nil,
         level: BedrockAgentCoreControlClientTypes.EvaluatorLevel? = nil,
         lockedForModification: Swift.Bool? = nil,
+        provider: BedrockAgentCoreControlClientTypes.Provider? = nil,
         status: BedrockAgentCoreControlClientTypes.EvaluatorStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
@@ -7081,9 +7197,11 @@ public struct GetEvaluatorOutput: Swift.Sendable {
         self.evaluatorConfig = evaluatorConfig
         self.evaluatorId = evaluatorId
         self.evaluatorName = evaluatorName
+        self.evaluatorType = evaluatorType
         self.kmsKeyArn = kmsKeyArn
         self.level = level
         self.lockedForModification = lockedForModification
+        self.provider = provider
         self.status = status
         self.updatedAt = updatedAt
     }
@@ -7091,7 +7209,7 @@ public struct GetEvaluatorOutput: Swift.Sendable {
 
 extension GetEvaluatorOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEvaluatorOutput(createdAt: \(Swift.String(describing: createdAt)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorConfig: \(Swift.String(describing: evaluatorConfig)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), level: \(Swift.String(describing: level)), lockedForModification: \(Swift.String(describing: lockedForModification)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetEvaluatorOutput(createdAt: \(Swift.String(describing: createdAt)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorConfig: \(Swift.String(describing: evaluatorConfig)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), evaluatorType: \(Swift.String(describing: evaluatorType)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), level: \(Swift.String(describing: level)), lockedForModification: \(Swift.String(describing: lockedForModification)), provider: \(Swift.String(describing: provider)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEvaluatorsInput: Swift.Sendable {
@@ -7106,38 +7224,6 @@ public struct ListEvaluatorsInput: Swift.Sendable {
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    public enum EvaluatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case builtin
-        case code
-        case custom
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EvaluatorType] {
-            return [
-                .builtin,
-                .code,
-                .custom
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .builtin: return "Builtin"
-            case .code: return "CustomCode"
-            case .custom: return "Custom"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -7168,6 +7254,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var level: BedrockAgentCoreControlClientTypes.EvaluatorLevel?
         /// Whether the evaluator is locked for modification due to being referenced by active online evaluation configurations.
         public var lockedForModification: Swift.Bool?
+        /// The source of the evaluator's logic: Amazon Web Services, a third-party library, or you.
+        public var provider: BedrockAgentCoreControlClientTypes.Provider?
         /// The current status of the evaluator.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.EvaluatorStatus?
@@ -7185,6 +7273,7 @@ extension BedrockAgentCoreControlClientTypes {
             kmsKeyArn: Swift.String? = nil,
             level: BedrockAgentCoreControlClientTypes.EvaluatorLevel? = nil,
             lockedForModification: Swift.Bool? = nil,
+            provider: BedrockAgentCoreControlClientTypes.Provider? = nil,
             status: BedrockAgentCoreControlClientTypes.EvaluatorStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -7197,6 +7286,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.level = level
             self.lockedForModification = lockedForModification
+            self.provider = provider
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -7205,7 +7295,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.EvaluatorSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EvaluatorSummary(createdAt: \(Swift.String(describing: createdAt)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), evaluatorType: \(Swift.String(describing: evaluatorType)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), level: \(Swift.String(describing: level)), lockedForModification: \(Swift.String(describing: lockedForModification)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "EvaluatorSummary(createdAt: \(Swift.String(describing: createdAt)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), evaluatorType: \(Swift.String(describing: evaluatorType)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), level: \(Swift.String(describing: level)), lockedForModification: \(Swift.String(describing: lockedForModification)), provider: \(Swift.String(describing: provider)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEvaluatorsOutput: Swift.Sendable {
@@ -27469,9 +27559,11 @@ extension GetEvaluatorOutput {
         value.evaluatorConfig = try reader["evaluatorConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.EvaluatorConfig.read(from:))
         value.evaluatorId = try reader["evaluatorId"].readIfPresent() ?? ""
         value.evaluatorName = try reader["evaluatorName"].readIfPresent() ?? ""
+        value.evaluatorType = try reader["evaluatorType"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.level = try reader["level"].readIfPresent() ?? .sdkUnknown("")
         value.lockedForModification = try reader["lockedForModification"].readIfPresent()
+        value.provider = try reader["provider"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -33868,6 +33960,23 @@ extension BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["baseEvaluatorId"].write(value.baseEvaluatorId)
+        try writer["modelConfig"].write(value.modelConfig, with: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig()
+        value.baseEvaluatorId = try reader["baseEvaluatorId"].readIfPresent() ?? ""
+        value.modelConfig = try reader["modelConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.Descriptors {
 
     static func write(value: BedrockAgentCoreControlClientTypes.Descriptors?, to writer: SmithyJSON.Writer) throws {
@@ -34145,6 +34254,8 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorConfig {
         switch value {
             case let .codebased(codebased):
                 try writer["codeBased"].write(codebased, with: BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig.write(value:to:))
+            case let .derived(derived):
+                try writer["derived"].write(derived, with: BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig.write(value:to:))
             case let .llmasajudge(llmasajudge):
                 try writer["llmAsAJudge"].write(llmasajudge, with: BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -34160,6 +34271,8 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorConfig {
                 return .llmasajudge(try reader["llmAsAJudge"].read(with: BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig.read(from:)))
             case "codeBased":
                 return .codebased(try reader["codeBased"].read(with: BedrockAgentCoreControlClientTypes.CodeBasedEvaluatorConfig.read(from:)))
+            case "derived":
+                return .derived(try reader["derived"].read(with: BedrockAgentCoreControlClientTypes.DerivedEvaluatorConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -34228,6 +34341,7 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorSummary {
         value.evaluatorName = try reader["evaluatorName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.evaluatorType = try reader["evaluatorType"].readIfPresent() ?? .sdkUnknown("")
+        value.provider = try reader["provider"].readIfPresent()
         value.level = try reader["level"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")

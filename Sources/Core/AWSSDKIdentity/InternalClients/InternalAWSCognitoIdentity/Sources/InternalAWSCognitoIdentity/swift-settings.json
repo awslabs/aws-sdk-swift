@@ -1,7 +1,5 @@
 {
     "service": "com.amazonaws.cognitoidentity#AWSCognitoIdentityService",
-    "module": "InternalAWSCognitoIdentity",
-    "sdkId": "Cognito Identity",
     "internalClient": true,
     "operations": [
         "com.amazonaws.cognitoidentity#GetId",

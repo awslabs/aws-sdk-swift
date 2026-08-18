@@ -515,9 +515,7 @@ extension GeoMapsClientTypes {
 extension GeoMapsClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse
-        /// The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed
         /// The required input is missing.
         case missing
@@ -1004,6 +1002,97 @@ public struct GetStaticMapOutput: Swift.Sendable {
 
 extension GeoMapsClientTypes {
 
+    public enum PoiCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accommodations
+        case businessAndServices
+        case entertainment
+        case facilitiesAndBuildings
+        case foodAndDrink
+        case leisureAndOutdoor
+        case shopping
+        case sightsAndMuseums
+        case transportation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PoiCategory] {
+            return [
+                .accommodations,
+                .businessAndServices,
+                .entertainment,
+                .facilitiesAndBuildings,
+                .foodAndDrink,
+                .leisureAndOutdoor,
+                .shopping,
+                .sightsAndMuseums,
+                .transportation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accommodations: return "Accommodations"
+            case .businessAndServices: return "BusinessAndServices"
+            case .entertainment: return "Entertainment"
+            case .facilitiesAndBuildings: return "FacilitiesAndBuildings"
+            case .foodAndDrink: return "FoodAndDrink"
+            case .leisureAndOutdoor: return "LeisureAndOutdoor"
+            case .shopping: return "Shopping"
+            case .sightsAndMuseums: return "SightsAndMuseums"
+            case .transportation: return "Transportation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum PoiDensity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case dense
+        case off
+        case sparse
+        case veryDense
+        case verySparse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PoiDensity] {
+            return [
+                .default,
+                .dense,
+                .off,
+                .sparse,
+                .veryDense,
+                .verySparse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "Default"
+            case .dense: return "Dense"
+            case .off: return "Off"
+            case .sparse: return "Sparse"
+            case .veryDense: return "VeryDense"
+            case .verySparse: return "VerySparse"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoMapsClientTypes {
+
     public enum Terrain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hillshade
         case terrain3d
@@ -1103,6 +1192,31 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     public var contourDensity: GeoMapsClientTypes.ContourDensity?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
+    /// Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories. The following categories are currently supported:
+    ///
+    /// * FoodAndDrink
+    ///
+    /// * Entertainment
+    ///
+    /// * SightsAndMuseums
+    ///
+    /// * Transportation
+    ///
+    /// * Accommodations
+    ///
+    /// * LeisureAndOutdoor
+    ///
+    /// * Shopping
+    ///
+    /// * BusinessAndServices
+    ///
+    /// * FacilitiesAndBuildings
+    ///
+    ///
+    /// Specify each category as a separate poi-categories query parameter. Duplicate values are rejected. This parameter has no effect when poi-density is set to Off, which hides all points of interest regardless of category. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, this parameter is valid only for the Standard map style.
+    public var poiCategories: [GeoMapsClientTypes.PoiCategory]?
+    /// Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parameter, the map renders at Default density. The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest. This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, this parameter is valid only for the Standard map style.
+    public var poiDensity: GeoMapsClientTypes.PoiDensity?
     /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. The following political views are currently supported:
     ///
     /// * ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands
@@ -1155,6 +1269,8 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
         colorScheme: GeoMapsClientTypes.ColorScheme? = nil,
         contourDensity: GeoMapsClientTypes.ContourDensity? = nil,
         key: Swift.String? = nil,
+        poiCategories: [GeoMapsClientTypes.PoiCategory]? = nil,
+        poiDensity: GeoMapsClientTypes.PoiDensity? = nil,
         politicalView: Swift.String? = nil,
         style: GeoMapsClientTypes.MapStyle? = nil,
         terrain: GeoMapsClientTypes.Terrain? = nil,
@@ -1165,6 +1281,8 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
         self.colorScheme = colorScheme
         self.contourDensity = contourDensity
         self.key = key
+        self.poiCategories = poiCategories
+        self.poiDensity = poiDensity
         self.politicalView = politicalView
         self.style = style
         self.terrain = terrain
@@ -1175,7 +1293,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
 
 extension GetStyleDescriptorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStyleDescriptorInput(buildings: \(Swift.String(describing: buildings)), colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
+        "GetStyleDescriptorInput(buildings: \(Swift.String(describing: buildings)), colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), poiCategories: \(Swift.String(describing: poiCategories)), poiDensity: \(Swift.String(describing: poiDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStyleDescriptorOutput: Swift.Sendable {
@@ -1341,7 +1459,7 @@ extension GetGlyphsInput {
         guard let fontUnicodeRange = value.fontUnicodeRange else {
             return nil
         }
-        return "/glyphs/\(fontStack.urlPercentEncoding())/\(fontUnicodeRange.urlPercentEncoding())"
+        return "/v2/glyphs/\(fontStack.urlPercentEncoding())/\(fontUnicodeRange.urlPercentEncoding())"
     }
 }
 
@@ -1360,7 +1478,7 @@ extension GetSpritesInput {
         guard let fileName = value.fileName else {
             return nil
         }
-        return "/styles/\(style.rawValue.urlPercentEncoding())/\(colorScheme.rawValue.urlPercentEncoding())/\(variant.rawValue.urlPercentEncoding())/sprites/\(fileName.urlPercentEncoding())"
+        return "/v2/styles/\(style.rawValue.urlPercentEncoding())/\(colorScheme.rawValue.urlPercentEncoding())/\(variant.rawValue.urlPercentEncoding())/sprites/\(fileName.urlPercentEncoding())"
     }
 }
 
@@ -1370,7 +1488,7 @@ extension GetStaticMapInput {
         guard let fileName = value.fileName else {
             return nil
         }
-        return "/static/\(fileName.urlPercentEncoding())"
+        return "/v2/static/\(fileName.urlPercentEncoding())"
     }
 }
 
@@ -1468,7 +1586,7 @@ extension GetStyleDescriptorInput {
         guard let style = value.style else {
             return nil
         }
-        return "/styles/\(style.rawValue.urlPercentEncoding())/descriptor"
+        return "/v2/styles/\(style.rawValue.urlPercentEncoding())/descriptor"
     }
 }
 
@@ -1500,6 +1618,16 @@ extension GetStyleDescriptorInput {
             let politicalViewQueryItem = Smithy.URIQueryItem(name: "political-view".urlPercentEncoding(), value: Swift.String(politicalView).urlPercentEncoding())
             items.append(politicalViewQueryItem)
         }
+        if let poiCategories = value.poiCategories {
+            poiCategories.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "poi-categories".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let poiDensity = value.poiDensity {
+            let poiDensityQueryItem = Smithy.URIQueryItem(name: "poi-density".urlPercentEncoding(), value: Swift.String(poiDensity.rawValue).urlPercentEncoding())
+            items.append(poiDensityQueryItem)
+        }
         if let key = value.key {
             let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
@@ -1529,7 +1657,7 @@ extension GetTileInput {
         guard let y = value.y else {
             return nil
         }
-        return "/tiles/\(tileset.urlPercentEncoding())/\(z.urlPercentEncoding())/\(x.urlPercentEncoding())/\(y.urlPercentEncoding())"
+        return "/v2/tiles/\(tileset.urlPercentEncoding())/\(z.urlPercentEncoding())/\(x.urlPercentEncoding())/\(y.urlPercentEncoding())"
     }
 }
 

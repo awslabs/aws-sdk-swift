@@ -1,8 +1,4 @@
 {
     "service": "com.amazonaws.workmail#WorkMailService",
-    "module": "AWSWorkMail",
-    "sdkId": "WorkMail",
-    "internalClient": false,
-    "operations": [],
     "modelPath": "codegen/sdk-codegen/aws-models/workmail.json"
 }

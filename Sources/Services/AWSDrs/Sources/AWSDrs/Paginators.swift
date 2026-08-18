@@ -74,6 +74,131 @@ extension PaginatorSequence where OperationStackInput == ListLaunchActionsInput,
     }
 }
 extension DrsClient {
+    /// Paginate over `[ListRecoveryPlanExecutionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecoveryPlanExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPlanExecutionsOutput`
+    public func listRecoveryPlanExecutionsPaginated(input: ListRecoveryPlanExecutionsInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecoveryPlanExecutionsInput, ListRecoveryPlanExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPlanExecutions(input:))
+    }
+}
+
+extension ListRecoveryPlanExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecoveryPlanExecutionsInput {
+        return ListRecoveryPlanExecutionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPlanArn: self.recoveryPlanArn,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecoveryPlanExecutionsInput, OperationStackOutput == ListRecoveryPlanExecutionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPlanExecutionsPaginated`
+    /// to access the nested member `[DrsClientTypes.RecoveryPlanExecutionSummary]`
+    /// - Returns: `[DrsClientTypes.RecoveryPlanExecutionSummary]`
+    public func recoveryPlanExecutions() async throws -> [DrsClientTypes.RecoveryPlanExecutionSummary] {
+        return try await self.asyncCompactMap { item in item.recoveryPlanExecutions }
+    }
+}
+extension DrsClient {
+    /// Paginate over `[ListRecoveryPlanExecutionStepsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecoveryPlanExecutionStepsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPlanExecutionStepsOutput`
+    public func listRecoveryPlanExecutionStepsPaginated(input: ListRecoveryPlanExecutionStepsInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecoveryPlanExecutionStepsInput, ListRecoveryPlanExecutionStepsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPlanExecutionSteps(input:))
+    }
+}
+
+extension ListRecoveryPlanExecutionStepsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecoveryPlanExecutionStepsInput {
+        return ListRecoveryPlanExecutionStepsInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPlanExecutionArn: self.recoveryPlanExecutionArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecoveryPlanExecutionStepsInput, OperationStackOutput == ListRecoveryPlanExecutionStepsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPlanExecutionStepsPaginated`
+    /// to access the nested member `[DrsClientTypes.RecoveryPlanExecutionStepSummary]`
+    /// - Returns: `[DrsClientTypes.RecoveryPlanExecutionStepSummary]`
+    public func recoveryPlanExecutionSteps() async throws -> [DrsClientTypes.RecoveryPlanExecutionStepSummary] {
+        return try await self.asyncCompactMap { item in item.recoveryPlanExecutionSteps }
+    }
+}
+extension DrsClient {
+    /// Paginate over `[ListRecoveryPlansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecoveryPlansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPlansOutput`
+    public func listRecoveryPlansPaginated(input: ListRecoveryPlansInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPlansInput, ListRecoveryPlansOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecoveryPlansInput, ListRecoveryPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPlans(input:))
+    }
+}
+
+extension ListRecoveryPlansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecoveryPlansInput {
+        return ListRecoveryPlansInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecoveryPlansInput, OperationStackOutput == ListRecoveryPlansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPlansPaginated`
+    /// to access the nested member `[DrsClientTypes.RecoveryPlanSummary]`
+    /// - Returns: `[DrsClientTypes.RecoveryPlanSummary]`
+    public func recoveryPlans() async throws -> [DrsClientTypes.RecoveryPlanSummary] {
+        return try await self.asyncCompactMap { item in item.recoveryPlans }
+    }
+}
+extension DrsClient {
+    /// Paginate over `[ListRecoveryPlanStepsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecoveryPlanStepsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPlanStepsOutput`
+    public func listRecoveryPlanStepsPaginated(input: ListRecoveryPlanStepsInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecoveryPlanStepsInput, ListRecoveryPlanStepsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPlanSteps(input:))
+    }
+}
+
+extension ListRecoveryPlanStepsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecoveryPlanStepsInput {
+        return ListRecoveryPlanStepsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPlanArn: self.recoveryPlanArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecoveryPlanStepsInput, OperationStackOutput == ListRecoveryPlanStepsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPlanStepsPaginated`
+    /// to access the nested member `[DrsClientTypes.RecoveryPlanStep]`
+    /// - Returns: `[DrsClientTypes.RecoveryPlanStep]`
+    public func recoveryPlanSteps() async throws -> [DrsClientTypes.RecoveryPlanStep] {
+        return try await self.asyncCompactMap { item in item.recoveryPlanSteps }
+    }
+}
+extension DrsClient {
     /// Paginate over `[ListStagingAccountsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

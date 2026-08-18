@@ -936,6 +936,176 @@ public struct AssociateSourceNetworkStackOutput: Swift.Sendable {
     }
 }
 
+public struct CancelRecoveryPlanExecutionInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan execution to cancel.
+    /// This member is required.
+    public var recoveryPlanExecutionArn: Swift.String?
+
+    public init(
+        recoveryPlanExecutionArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Error details for a failed operation.
+    public struct ErrorDetail: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Execution mode. DRILL for testing, RECOVERY for actual disaster recovery.
+    public enum RecoveryPlanExecutionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drill
+        case recovery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryPlanExecutionMode] {
+            return [
+                .drill,
+                .recovery
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .drill: return "DRILL"
+            case .recovery: return "RECOVERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// The status of a Recovery Plan execution.
+    public enum RecoveryPlanExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case completed
+        case created
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryPlanExecutionStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .completed,
+                .created,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// A Recovery Plan execution.
+    public struct RecoveryPlanExecution: Swift.Sendable {
+        /// The timestamp when the execution completed.
+        public var completedAt: Swift.String?
+        /// Error details if the execution failed.
+        public var errorDetail: DrsClientTypes.ErrorDetail?
+        /// The execution mode.
+        /// This member is required.
+        public var mode: DrsClientTypes.RecoveryPlanExecutionMode?
+        /// The ARN of the Recovery Plan being executed.
+        /// This member is required.
+        public var recoveryPlanArn: Swift.String?
+        /// The ARN of the Recovery Plan execution.
+        /// This member is required.
+        public var recoveryPlanExecutionArn: Swift.String?
+        /// The timestamp when the execution started.
+        /// This member is required.
+        public var startedAt: Swift.String?
+        /// The execution status.
+        /// This member is required.
+        public var status: DrsClientTypes.RecoveryPlanExecutionStatus?
+        /// The tags associated with the Recovery Plan execution.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            completedAt: Swift.String? = nil,
+            errorDetail: DrsClientTypes.ErrorDetail? = nil,
+            mode: DrsClientTypes.RecoveryPlanExecutionMode? = nil,
+            recoveryPlanArn: Swift.String? = nil,
+            recoveryPlanExecutionArn: Swift.String? = nil,
+            startedAt: Swift.String? = nil,
+            status: DrsClientTypes.RecoveryPlanExecutionStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.completedAt = completedAt
+            self.errorDetail = errorDetail
+            self.mode = mode
+            self.recoveryPlanArn = recoveryPlanArn
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+            self.startedAt = startedAt
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecution: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RecoveryPlanExecution(completedAt: \(Swift.String(describing: completedAt)), errorDetail: \(Swift.String(describing: errorDetail)), mode: \(Swift.String(describing: mode)), recoveryPlanArn: \(Swift.String(describing: recoveryPlanArn)), recoveryPlanExecutionArn: \(Swift.String(describing: recoveryPlanExecutionArn)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CancelRecoveryPlanExecutionOutput: Swift.Sendable {
+    /// The cancelled Recovery Plan execution.
+    /// This member is required.
+    public var recoveryPlanExecution: DrsClientTypes.RecoveryPlanExecution?
+
+    public init(
+        recoveryPlanExecution: DrsClientTypes.RecoveryPlanExecution? = nil
+    ) {
+        self.recoveryPlanExecution = recoveryPlanExecution
+    }
+}
+
 extension DrsClientTypes {
 
     public enum ProductCodeMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2147,6 +2317,303 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
     }
 }
 
+public struct CreateRecoveryPlanInput: Swift.Sendable {
+    /// A unique string provided to ensure request idempotency.
+    public var clientToken: Swift.String?
+    /// The description of a Recovery Plan.
+    public var description: Swift.String?
+    /// The name of a Recovery Plan.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to apply to the Recovery Plan.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateRecoveryPlanInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRecoveryPlanInput(clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension DrsClientTypes {
+
+    /// Recovery Plan status. ACTIVE means executable. INVALID means the plan has no SERVER type steps and cannot be executed.
+    public enum RecoveryPlanStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case invalid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryPlanStatus] {
+            return [
+                .active,
+                .invalid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .invalid: return "INVALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// A Recovery Plan resource.
+    public struct RecoveryPlan: Swift.Sendable {
+        /// The timestamp when the Recovery Plan was created.
+        /// This member is required.
+        public var createdAt: Swift.String?
+        /// The description of a Recovery Plan.
+        public var description: Swift.String?
+        /// The name of a Recovery Plan.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the Recovery Plan.
+        /// This member is required.
+        public var recoveryPlanArn: Swift.String?
+        /// The status of the Recovery Plan.
+        /// This member is required.
+        public var status: DrsClientTypes.RecoveryPlanStatus?
+        /// The tags associated with the Recovery Plan.
+        public var tags: [Swift.String: Swift.String]?
+        /// The timestamp when the Recovery Plan was last updated.
+        /// This member is required.
+        public var updatedAt: Swift.String?
+
+        public init(
+            createdAt: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            recoveryPlanArn: Swift.String? = nil,
+            status: DrsClientTypes.RecoveryPlanStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            updatedAt: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.recoveryPlanArn = recoveryPlanArn
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension DrsClientTypes.RecoveryPlan: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RecoveryPlan(createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), recoveryPlanArn: \(Swift.String(describing: recoveryPlanArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateRecoveryPlanOutput: Swift.Sendable {
+    /// A Recovery Plan resource.
+    /// This member is required.
+    public var recoveryPlan: DrsClientTypes.RecoveryPlan?
+
+    public init(
+        recoveryPlan: DrsClientTypes.RecoveryPlan? = nil
+    ) {
+        self.recoveryPlan = recoveryPlan
+    }
+}
+
+extension DrsClientTypes {
+
+    /// The impact level of a server within a Recovery Plan step. CRITICAL means the step fails if this server fails. OPTIONAL means the step continues even if this server fails.
+    public enum RecoveryPlanServerImpactLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case `optional`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryPlanServerImpactLevel] {
+            return [
+                .critical,
+                .optional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .optional: return "OPTIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// A server associated with a Recovery Plan Step.
+    public struct RecoveryPlanServer: Swift.Sendable {
+        /// Defaults to CRITICAL if not specified.
+        public var impactLevel: DrsClientTypes.RecoveryPlanServerImpactLevel?
+        /// The ARN of the source server.
+        /// This member is required.
+        public var serverArn: Swift.String?
+
+        public init(
+            impactLevel: DrsClientTypes.RecoveryPlanServerImpactLevel? = nil,
+            serverArn: Swift.String? = nil
+        ) {
+            self.impactLevel = impactLevel
+            self.serverArn = serverArn
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Configuration for a SERVER type step.
+    public struct ServerStepConfiguration: Swift.Sendable {
+        /// The list of servers to recover in this step.
+        /// This member is required.
+        public var servers: [DrsClientTypes.RecoveryPlanServer]?
+
+        public init(
+            servers: [DrsClientTypes.RecoveryPlanServer]? = nil
+        ) {
+            self.servers = servers
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Configuration for a WAIT type step.
+    public struct WaitStepConfiguration: Swift.Sendable {
+        /// The wait duration in minutes for a Wait type step.
+        /// This member is required.
+        public var waitDurationMinutes: Swift.Int?
+
+        public init(
+            waitDurationMinutes: Swift.Int? = nil
+        ) {
+            self.waitDurationMinutes = waitDurationMinutes
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Type-specific configuration for a recovery plan step. Exactly one member must be set.
+    public enum RecoveryPlanStepConfiguration: Swift.Sendable {
+        /// Configuration for a SERVER type step.
+        case serverstepconfiguration(DrsClientTypes.ServerStepConfiguration)
+        /// Configuration for a WAIT type step.
+        case waitstepconfiguration(DrsClientTypes.WaitStepConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateRecoveryPlanStepInput: Swift.Sendable {
+    /// A unique string provided to ensure request idempotency.
+    public var clientToken: Swift.String?
+    /// Type-specific configuration for a recovery plan step. Exactly one member must be set.
+    /// This member is required.
+    public var configuration: DrsClientTypes.RecoveryPlanStepConfiguration?
+    /// The ARN of the Recovery Plan to add the step to.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+    /// The name of a Recovery Plan Step.
+    /// This member is required.
+    public var stepName: Swift.String?
+    /// The order of a step within a Recovery Plan (1-based).
+    public var stepOrder: Swift.Int?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: DrsClientTypes.RecoveryPlanStepConfiguration? = nil,
+        recoveryPlanArn: Swift.String? = nil,
+        stepName: Swift.String? = nil,
+        stepOrder: Swift.Int? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.recoveryPlanArn = recoveryPlanArn
+        self.stepName = stepName
+        self.stepOrder = stepOrder
+    }
+}
+
+extension DrsClientTypes {
+
+    /// A Recovery Plan Step resource.
+    public struct RecoveryPlanStep: Swift.Sendable {
+        /// Type-specific configuration for a recovery plan step. Exactly one member must be set.
+        /// This member is required.
+        public var configuration: DrsClientTypes.RecoveryPlanStepConfiguration?
+        /// The timestamp when the step was created.
+        /// This member is required.
+        public var createdAt: Swift.String?
+        /// The ARN of the Recovery Plan step.
+        /// This member is required.
+        public var recoveryPlanStepArn: Swift.String?
+        /// The name of a Recovery Plan Step.
+        /// This member is required.
+        public var stepName: Swift.String?
+        /// The order of a step within a Recovery Plan (1-based).
+        /// This member is required.
+        public var stepOrder: Swift.Int?
+        /// The timestamp when the step was last updated.
+        /// This member is required.
+        public var updatedAt: Swift.String?
+
+        public init(
+            configuration: DrsClientTypes.RecoveryPlanStepConfiguration? = nil,
+            createdAt: Swift.String? = nil,
+            recoveryPlanStepArn: Swift.String? = nil,
+            stepName: Swift.String? = nil,
+            stepOrder: Swift.Int? = nil,
+            updatedAt: Swift.String? = nil
+        ) {
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.recoveryPlanStepArn = recoveryPlanStepArn
+            self.stepName = stepName
+            self.stepOrder = stepOrder
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct CreateRecoveryPlanStepOutput: Swift.Sendable {
+    /// A Recovery Plan Step resource.
+    /// This member is required.
+    public var recoveryPlanStep: DrsClientTypes.RecoveryPlanStep?
+
+    public init(
+        recoveryPlanStep: DrsClientTypes.RecoveryPlanStep? = nil
+    ) {
+        self.recoveryPlanStep = recoveryPlanStep
+    }
+}
+
 extension DrsClientTypes {
 
     public enum ReplicationConfigurationDataPlaneRouting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2612,6 +3079,78 @@ public struct DeleteRecoveryInstanceInput: Swift.Sendable {
         recoveryInstanceID: Swift.String? = nil
     ) {
         self.recoveryInstanceID = recoveryInstanceID
+    }
+}
+
+public struct DeleteRecoveryPlanInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan to delete.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+
+    public init(
+        recoveryPlanArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanArn = recoveryPlanArn
+    }
+}
+
+public struct DeleteRecoveryPlanOutput: Swift.Sendable {
+    /// The ARN of the deleted Recovery Plan.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+
+    public init(
+        recoveryPlanArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanArn = recoveryPlanArn
+    }
+}
+
+public struct DeleteRecoveryPlanExecutionInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan execution to delete.
+    /// This member is required.
+    public var recoveryPlanExecutionArn: Swift.String?
+
+    public init(
+        recoveryPlanExecutionArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+    }
+}
+
+public struct DeleteRecoveryPlanExecutionOutput: Swift.Sendable {
+    /// The ARN of the deleted Recovery Plan execution.
+    /// This member is required.
+    public var recoveryPlanExecutionArn: Swift.String?
+
+    public init(
+        recoveryPlanExecutionArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+    }
+}
+
+public struct DeleteRecoveryPlanStepInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan step to delete.
+    /// This member is required.
+    public var recoveryPlanStepArn: Swift.String?
+
+    public init(
+        recoveryPlanStepArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanStepArn = recoveryPlanStepArn
+    }
+}
+
+public struct DeleteRecoveryPlanStepOutput: Swift.Sendable {
+    /// The ARN of the deleted Recovery Plan step.
+    /// This member is required.
+    public var recoveryPlanStepArn: Swift.String?
+
+    public init(
+        recoveryPlanStepArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanStepArn = recoveryPlanStepArn
     }
 }
 
@@ -4397,6 +4936,254 @@ extension DisconnectSourceServerOutput: Swift.CustomDebugStringConvertible {
         "DisconnectSourceServerOutput(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetRecoveryPlanInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan to retrieve.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+
+    public init(
+        recoveryPlanArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanArn = recoveryPlanArn
+    }
+}
+
+public struct GetRecoveryPlanOutput: Swift.Sendable {
+    /// A Recovery Plan resource.
+    /// This member is required.
+    public var recoveryPlan: DrsClientTypes.RecoveryPlan?
+
+    public init(
+        recoveryPlan: DrsClientTypes.RecoveryPlan? = nil
+    ) {
+        self.recoveryPlan = recoveryPlan
+    }
+}
+
+public struct GetRecoveryPlanExecutionInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan execution.
+    /// This member is required.
+    public var recoveryPlanExecutionArn: Swift.String?
+
+    public init(
+        recoveryPlanExecutionArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+    }
+}
+
+public struct GetRecoveryPlanExecutionOutput: Swift.Sendable {
+    /// The Recovery Plan execution details.
+    /// This member is required.
+    public var recoveryPlanExecution: DrsClientTypes.RecoveryPlanExecution?
+
+    public init(
+        recoveryPlanExecution: DrsClientTypes.RecoveryPlanExecution? = nil
+    ) {
+        self.recoveryPlanExecution = recoveryPlanExecution
+    }
+}
+
+public struct GetRecoveryPlanExecutionStepInput: Swift.Sendable {
+    /// The ARN of the execution step.
+    /// This member is required.
+    public var recoveryPlanExecutionStepArn: Swift.String?
+
+    public init(
+        recoveryPlanExecutionStepArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+    }
+}
+
+extension DrsClientTypes {
+
+    /// A server within a recovery plan execution step, enriched with execution state.
+    public struct RecoveryPlanExecutionServer: Swift.Sendable {
+        /// Defaults to CRITICAL if not specified.
+        public var impactLevel: DrsClientTypes.RecoveryPlanServerImpactLevel?
+        /// The DRS recovery job ID. Populated when recovery is initiated for this server.
+        public var jobID: Swift.String?
+        /// The ARN of the source server.
+        /// This member is required.
+        public var serverArn: Swift.String?
+
+        public init(
+            impactLevel: DrsClientTypes.RecoveryPlanServerImpactLevel? = nil,
+            jobID: Swift.String? = nil,
+            serverArn: Swift.String? = nil
+        ) {
+            self.impactLevel = impactLevel
+            self.jobID = jobID
+            self.serverArn = serverArn
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Configuration for a SERVER type execution step.
+    public struct ExecutionServerStepConfiguration: Swift.Sendable {
+        /// The list of servers in this execution step.
+        /// This member is required.
+        public var servers: [DrsClientTypes.RecoveryPlanExecutionServer]?
+
+        public init(
+            servers: [DrsClientTypes.RecoveryPlanExecutionServer]? = nil
+        ) {
+            self.servers = servers
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Type-specific configuration for an execution step response. Mirrors RecoveryPlanStepConfiguration but uses execution-enriched server shapes.
+    public enum RecoveryPlanExecutionStepConfiguration: Swift.Sendable {
+        /// Configuration for a SERVER type step (with execution state like jobID).
+        case executionserverstepconfiguration(DrsClientTypes.ExecutionServerStepConfiguration)
+        /// Configuration for a WAIT type step.
+        case waitstepconfiguration(DrsClientTypes.WaitStepConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DrsClientTypes {
+
+    /// The status of a step within a Recovery Plan execution.
+    public enum RecoveryPlanExecutionStepStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case executing
+        case failed
+        case notStarted
+        case skipped
+        case timedOut
+        case waiting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecoveryPlanExecutionStepStatus] {
+            return [
+                .completed,
+                .executing,
+                .failed,
+                .notStarted,
+                .skipped,
+                .timedOut,
+                .waiting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .executing: return "EXECUTING"
+            case .failed: return "FAILED"
+            case .notStarted: return "NOT_STARTED"
+            case .skipped: return "SKIPPED"
+            case .timedOut: return "TIMED_OUT"
+            case .waiting: return "WAITING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
+    /// A Recovery Plan Execution Step resource.
+    public struct RecoveryPlanExecutionStep: Swift.Sendable {
+        /// The number of times this step has been attempted.
+        /// This member is required.
+        public var attempt: Swift.Int?
+        /// Type-specific configuration for an execution step response. Mirrors RecoveryPlanStepConfiguration but uses execution-enriched server shapes.
+        /// This member is required.
+        public var configuration: DrsClientTypes.RecoveryPlanExecutionStepConfiguration?
+        /// The timestamp when the execution step was created.
+        /// This member is required.
+        public var createdAt: Swift.String?
+        /// Error details if the step failed.
+        public var errorDetail: DrsClientTypes.ErrorDetail?
+        /// The ARN of the execution step.
+        /// This member is required.
+        public var recoveryPlanExecutionStepArn: Swift.String?
+        /// The status of the execution step.
+        /// This member is required.
+        public var status: DrsClientTypes.RecoveryPlanExecutionStepStatus?
+        /// The order of a step within a Recovery Plan (1-based).
+        /// This member is required.
+        public var stepIndex: Swift.Int?
+        /// The name of a Recovery Plan Step.
+        /// This member is required.
+        public var stepName: Swift.String?
+        /// The timestamp when the execution step was last updated.
+        /// This member is required.
+        public var updatedAt: Swift.String?
+
+        public init(
+            attempt: Swift.Int? = nil,
+            configuration: DrsClientTypes.RecoveryPlanExecutionStepConfiguration? = nil,
+            createdAt: Swift.String? = nil,
+            errorDetail: DrsClientTypes.ErrorDetail? = nil,
+            recoveryPlanExecutionStepArn: Swift.String? = nil,
+            status: DrsClientTypes.RecoveryPlanExecutionStepStatus? = nil,
+            stepIndex: Swift.Int? = nil,
+            stepName: Swift.String? = nil,
+            updatedAt: Swift.String? = nil
+        ) {
+            self.attempt = attempt
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.errorDetail = errorDetail
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+            self.status = status
+            self.stepIndex = stepIndex
+            self.stepName = stepName
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetRecoveryPlanExecutionStepOutput: Swift.Sendable {
+    /// A Recovery Plan Execution Step resource.
+    /// This member is required.
+    public var recoveryPlanExecutionStep: DrsClientTypes.RecoveryPlanExecutionStep?
+
+    public init(
+        recoveryPlanExecutionStep: DrsClientTypes.RecoveryPlanExecutionStep? = nil
+    ) {
+        self.recoveryPlanExecutionStep = recoveryPlanExecutionStep
+    }
+}
+
+public struct GetRecoveryPlanStepInput: Swift.Sendable {
+    /// The ARN of the Recovery Plan step to retrieve.
+    /// This member is required.
+    public var recoveryPlanStepArn: Swift.String?
+
+    public init(
+        recoveryPlanStepArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanStepArn = recoveryPlanStepArn
+    }
+}
+
+public struct GetRecoveryPlanStepOutput: Swift.Sendable {
+    /// A Recovery Plan Step resource.
+    /// This member is required.
+    public var recoveryPlanStep: DrsClientTypes.RecoveryPlanStep?
+
+    public init(
+        recoveryPlanStep: DrsClientTypes.RecoveryPlanStep? = nil
+    ) {
+        self.recoveryPlanStep = recoveryPlanStep
+    }
+}
+
 public struct InitializeServiceInput: Swift.Sendable {
 
     public init() { }
@@ -4580,6 +5367,283 @@ public struct ListLaunchActionsOutput: Swift.Sendable {
     ) {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+public struct ListRecoveryPlanExecutionsInput: Swift.Sendable {
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// Filter executions by Recovery Plan ARN.
+    public var recoveryPlanArn: Swift.String?
+    /// Filter executions by status.
+    public var status: DrsClientTypes.RecoveryPlanExecutionStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recoveryPlanArn: Swift.String? = nil,
+        status: DrsClientTypes.RecoveryPlanExecutionStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recoveryPlanArn = recoveryPlanArn
+        self.status = status
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Summary information about a Recovery Plan execution.
+    public struct RecoveryPlanExecutionSummary: Swift.Sendable {
+        /// Error details if the execution failed.
+        public var errorDetail: DrsClientTypes.ErrorDetail?
+        /// The execution mode.
+        /// This member is required.
+        public var mode: DrsClientTypes.RecoveryPlanExecutionMode?
+        /// The ARN of the Recovery Plan.
+        /// This member is required.
+        public var recoveryPlanArn: Swift.String?
+        /// The ARN of the Recovery Plan execution.
+        /// This member is required.
+        public var recoveryPlanExecutionArn: Swift.String?
+        /// The timestamp when the execution started.
+        /// This member is required.
+        public var startedAt: Swift.String?
+        /// The execution status.
+        /// This member is required.
+        public var status: DrsClientTypes.RecoveryPlanExecutionStatus?
+
+        public init(
+            errorDetail: DrsClientTypes.ErrorDetail? = nil,
+            mode: DrsClientTypes.RecoveryPlanExecutionMode? = nil,
+            recoveryPlanArn: Swift.String? = nil,
+            recoveryPlanExecutionArn: Swift.String? = nil,
+            startedAt: Swift.String? = nil,
+            status: DrsClientTypes.RecoveryPlanExecutionStatus? = nil
+        ) {
+            self.errorDetail = errorDetail
+            self.mode = mode
+            self.recoveryPlanArn = recoveryPlanArn
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+public struct ListRecoveryPlanExecutionsOutput: Swift.Sendable {
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of Recovery Plan executions.
+    /// This member is required.
+    public var recoveryPlanExecutions: [DrsClientTypes.RecoveryPlanExecutionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recoveryPlanExecutions: [DrsClientTypes.RecoveryPlanExecutionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recoveryPlanExecutions = recoveryPlanExecutions
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Filters for listing Recovery Plan execution steps.
+    public struct ListRecoveryPlanExecutionStepsFilter: Swift.Sendable {
+        /// Filter by execution step status.
+        public var status: DrsClientTypes.RecoveryPlanExecutionStepStatus?
+
+        public init(
+            status: DrsClientTypes.RecoveryPlanExecutionStepStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+public struct ListRecoveryPlanExecutionStepsInput: Swift.Sendable {
+    /// Filters for listing execution steps.
+    public var filter: DrsClientTypes.ListRecoveryPlanExecutionStepsFilter?
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ARN of the Recovery Plan execution.
+    /// This member is required.
+    public var recoveryPlanExecutionArn: Swift.String?
+
+    public init(
+        filter: DrsClientTypes.ListRecoveryPlanExecutionStepsFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recoveryPlanExecutionArn: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Summary information about a Recovery Plan execution step.
+    public struct RecoveryPlanExecutionStepSummary: Swift.Sendable {
+        /// Type-specific configuration for an execution step response. Mirrors RecoveryPlanStepConfiguration but uses execution-enriched server shapes.
+        /// This member is required.
+        public var configuration: DrsClientTypes.RecoveryPlanExecutionStepConfiguration?
+        /// Error details if the step failed.
+        public var errorDetail: DrsClientTypes.ErrorDetail?
+        /// The ARN of the execution step.
+        /// This member is required.
+        public var recoveryPlanExecutionStepArn: Swift.String?
+        /// The status of the execution step.
+        /// This member is required.
+        public var status: DrsClientTypes.RecoveryPlanExecutionStepStatus?
+        /// The order of a step within a Recovery Plan (1-based).
+        /// This member is required.
+        public var stepIndex: Swift.Int?
+        /// The name of a Recovery Plan Step.
+        /// This member is required.
+        public var stepName: Swift.String?
+
+        public init(
+            configuration: DrsClientTypes.RecoveryPlanExecutionStepConfiguration? = nil,
+            errorDetail: DrsClientTypes.ErrorDetail? = nil,
+            recoveryPlanExecutionStepArn: Swift.String? = nil,
+            status: DrsClientTypes.RecoveryPlanExecutionStepStatus? = nil,
+            stepIndex: Swift.Int? = nil,
+            stepName: Swift.String? = nil
+        ) {
+            self.configuration = configuration
+            self.errorDetail = errorDetail
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+            self.status = status
+            self.stepIndex = stepIndex
+            self.stepName = stepName
+        }
+    }
+}
+
+public struct ListRecoveryPlanExecutionStepsOutput: Swift.Sendable {
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of execution steps.
+    /// This member is required.
+    public var recoveryPlanExecutionSteps: [DrsClientTypes.RecoveryPlanExecutionStepSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recoveryPlanExecutionSteps: [DrsClientTypes.RecoveryPlanExecutionStepSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recoveryPlanExecutionSteps = recoveryPlanExecutionSteps
+    }
+}
+
+public struct ListRecoveryPlansInput: Swift.Sendable {
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DrsClientTypes {
+
+    /// Summary information about a Recovery Plan.
+    public struct RecoveryPlanSummary: Swift.Sendable {
+        /// The timestamp when the Recovery Plan was created.
+        /// This member is required.
+        public var createdAt: Swift.String?
+        /// The name of a Recovery Plan.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the Recovery Plan.
+        /// This member is required.
+        public var recoveryPlanArn: Swift.String?
+        /// The status of the Recovery Plan.
+        /// This member is required.
+        public var status: DrsClientTypes.RecoveryPlanStatus?
+        /// The timestamp when the Recovery Plan was last updated.
+        /// This member is required.
+        public var updatedAt: Swift.String?
+
+        public init(
+            createdAt: Swift.String? = nil,
+            name: Swift.String? = nil,
+            recoveryPlanArn: Swift.String? = nil,
+            status: DrsClientTypes.RecoveryPlanStatus? = nil,
+            updatedAt: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.name = name
+            self.recoveryPlanArn = recoveryPlanArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListRecoveryPlansOutput: Swift.Sendable {
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of Recovery Plans.
+    /// This member is required.
+    public var recoveryPlans: [DrsClientTypes.RecoveryPlanSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recoveryPlans: [DrsClientTypes.RecoveryPlanSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recoveryPlans = recoveryPlans
+    }
+}
+
+public struct ListRecoveryPlanStepsInput: Swift.Sendable {
+    /// Maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ARN of the Recovery Plan.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recoveryPlanArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recoveryPlanArn = recoveryPlanArn
+    }
+}
+
+public struct ListRecoveryPlanStepsOutput: Swift.Sendable {
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of Recovery Plan steps.
+    /// This member is required.
+    public var recoveryPlanSteps: [DrsClientTypes.RecoveryPlanStep]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        recoveryPlanSteps: [DrsClientTypes.RecoveryPlanStep]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.recoveryPlanSteps = recoveryPlanSteps
     }
 }
 
@@ -4915,6 +5979,102 @@ public struct UpdateFailbackReplicationConfigurationInput: Swift.Sendable {
     }
 }
 
+extension DrsClientTypes {
+
+    /// A source server with a specific recovery snapshot for plan execution.
+    public struct RecoveryPlanExecutionSourceServer: Swift.Sendable {
+        /// The ID of the recovery snapshot to use.
+        /// This member is required.
+        public var recoverySnapshotID: Swift.String?
+        /// The ID of the source server.
+        /// This member is required.
+        public var sourceServerID: Swift.String?
+
+        public init(
+            recoverySnapshotID: Swift.String? = nil,
+            sourceServerID: Swift.String? = nil
+        ) {
+            self.recoverySnapshotID = recoverySnapshotID
+            self.sourceServerID = sourceServerID
+        }
+    }
+}
+
+public struct StartRecoveryPlanExecutionInput: Swift.Sendable {
+    /// A unique string provided to ensure request idempotency.
+    public var clientToken: Swift.String?
+    /// The execution mode (DRILL or RECOVERY).
+    /// This member is required.
+    public var mode: DrsClientTypes.RecoveryPlanExecutionMode?
+    /// The ARN of the Recovery Plan to execute.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+    /// Optional list of source servers with specific recovery snapshots. If not provided, the latest snapshot is used for each server.
+    public var sourceServers: [DrsClientTypes.RecoveryPlanExecutionSourceServer]?
+    /// The tags to apply to the Recovery Plan execution.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        mode: DrsClientTypes.RecoveryPlanExecutionMode? = nil,
+        recoveryPlanArn: Swift.String? = nil,
+        sourceServers: [DrsClientTypes.RecoveryPlanExecutionSourceServer]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.mode = mode
+        self.recoveryPlanArn = recoveryPlanArn
+        self.sourceServers = sourceServers
+        self.tags = tags
+    }
+}
+
+extension StartRecoveryPlanExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartRecoveryPlanExecutionInput(clientToken: \(Swift.String(describing: clientToken)), mode: \(Swift.String(describing: mode)), recoveryPlanArn: \(Swift.String(describing: recoveryPlanArn)), sourceServers: \(Swift.String(describing: sourceServers)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartRecoveryPlanExecutionOutput: Swift.Sendable {
+    /// The started Recovery Plan execution.
+    /// This member is required.
+    public var recoveryPlanExecution: DrsClientTypes.RecoveryPlanExecution?
+
+    public init(
+        recoveryPlanExecution: DrsClientTypes.RecoveryPlanExecution? = nil
+    ) {
+        self.recoveryPlanExecution = recoveryPlanExecution
+    }
+}
+
+public struct ReorderRecoveryPlanStepsInput: Swift.Sendable {
+    /// Ordered list of all step ARNs representing the desired sequence.
+    /// This member is required.
+    public var orderedStepArns: [Swift.String]?
+    /// The ARN of the Recovery Plan.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+
+    public init(
+        orderedStepArns: [Swift.String]? = nil,
+        recoveryPlanArn: Swift.String? = nil
+    ) {
+        self.orderedStepArns = orderedStepArns
+        self.recoveryPlanArn = recoveryPlanArn
+    }
+}
+
+public struct ReorderRecoveryPlanStepsOutput: Swift.Sendable {
+    /// The steps with updated order.
+    /// This member is required.
+    public var recoveryPlanSteps: [DrsClientTypes.RecoveryPlanStep]?
+
+    public init(
+        recoveryPlanSteps: [DrsClientTypes.RecoveryPlanStep]? = nil
+    ) {
+        self.recoveryPlanSteps = recoveryPlanSteps
+    }
+}
+
 public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// The Replication Configuration Template ARN.
     public var arn: Swift.String?
@@ -5079,6 +6239,30 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct RetryRecoveryPlanExecutionStepInput: Swift.Sendable {
+    /// The ARN of the execution step to retry.
+    /// This member is required.
+    public var recoveryPlanExecutionStepArn: Swift.String?
+
+    public init(
+        recoveryPlanExecutionStepArn: Swift.String? = nil
+    ) {
+        self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+    }
+}
+
+public struct RetryRecoveryPlanExecutionStepOutput: Swift.Sendable {
+    /// A Recovery Plan Execution Step resource.
+    /// This member is required.
+    public var recoveryPlanExecutionStep: DrsClientTypes.RecoveryPlanExecutionStep?
+
+    public init(
+        recoveryPlanExecutionStep: DrsClientTypes.RecoveryPlanExecutionStep? = nil
+    ) {
+        self.recoveryPlanExecutionStep = recoveryPlanExecutionStep
+    }
 }
 
 public struct ExportSourceNetworkCfnTemplateInput: Swift.Sendable {
@@ -5959,10 +7143,117 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
         "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
+public struct UpdateRecoveryPlanInput: Swift.Sendable {
+    /// The description of a Recovery Plan.
+    public var description: Swift.String?
+    /// The name of a Recovery Plan.
+    public var name: Swift.String?
+    /// The ARN of the Recovery Plan to update.
+    /// This member is required.
+    public var recoveryPlanArn: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        recoveryPlanArn: Swift.String? = nil
+    ) {
+        self.description = description
+        self.name = name
+        self.recoveryPlanArn = recoveryPlanArn
+    }
+}
+
+public struct UpdateRecoveryPlanOutput: Swift.Sendable {
+    /// A Recovery Plan resource.
+    /// This member is required.
+    public var recoveryPlan: DrsClientTypes.RecoveryPlan?
+
+    public init(
+        recoveryPlan: DrsClientTypes.RecoveryPlan? = nil
+    ) {
+        self.recoveryPlan = recoveryPlan
+    }
+}
+
+public struct UpdateRecoveryPlanExecutionStepInput: Swift.Sendable {
+    /// The ARN of the execution step to update.
+    /// This member is required.
+    public var recoveryPlanExecutionStepArn: Swift.String?
+    /// Full replacement of the server list. Only allowed when the step is in NOT_STARTED status (Server type steps only).
+    public var servers: [DrsClientTypes.RecoveryPlanServer]?
+    /// Only SKIPPED is accepted. Step must be in NOT_STARTED or FAILED status.
+    public var status: DrsClientTypes.RecoveryPlanExecutionStepStatus?
+    /// Updated wait duration. Only allowed when the step is in NOT_STARTED status (Wait type steps only).
+    public var waitDurationMinutes: Swift.Int?
+
+    public init(
+        recoveryPlanExecutionStepArn: Swift.String? = nil,
+        servers: [DrsClientTypes.RecoveryPlanServer]? = nil,
+        status: DrsClientTypes.RecoveryPlanExecutionStepStatus? = nil,
+        waitDurationMinutes: Swift.Int? = nil
+    ) {
+        self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+        self.servers = servers
+        self.status = status
+        self.waitDurationMinutes = waitDurationMinutes
+    }
+}
+
+public struct UpdateRecoveryPlanExecutionStepOutput: Swift.Sendable {
+    /// A Recovery Plan Execution Step resource.
+    /// This member is required.
+    public var recoveryPlanExecutionStep: DrsClientTypes.RecoveryPlanExecutionStep?
+
+    public init(
+        recoveryPlanExecutionStep: DrsClientTypes.RecoveryPlanExecutionStep? = nil
+    ) {
+        self.recoveryPlanExecutionStep = recoveryPlanExecutionStep
+    }
+}
+
+public struct UpdateRecoveryPlanStepInput: Swift.Sendable {
+    /// Type-specific configuration for a recovery plan step. Exactly one member must be set.
+    public var configuration: DrsClientTypes.RecoveryPlanStepConfiguration?
+    /// The ARN of the Recovery Plan step to update.
+    /// This member is required.
+    public var recoveryPlanStepArn: Swift.String?
+    /// The name of a Recovery Plan Step.
+    public var stepName: Swift.String?
+
+    public init(
+        configuration: DrsClientTypes.RecoveryPlanStepConfiguration? = nil,
+        recoveryPlanStepArn: Swift.String? = nil,
+        stepName: Swift.String? = nil
+    ) {
+        self.configuration = configuration
+        self.recoveryPlanStepArn = recoveryPlanStepArn
+        self.stepName = stepName
+    }
+}
+
+public struct UpdateRecoveryPlanStepOutput: Swift.Sendable {
+    /// A Recovery Plan Step resource.
+    /// This member is required.
+    public var recoveryPlanStep: DrsClientTypes.RecoveryPlanStep?
+
+    public init(
+        recoveryPlanStep: DrsClientTypes.RecoveryPlanStep? = nil
+    ) {
+        self.recoveryPlanStep = recoveryPlanStep
+    }
+}
+
 extension AssociateSourceNetworkStackInput {
 
     static func urlPathProvider(_ value: AssociateSourceNetworkStackInput) -> Swift.String? {
         return "/AssociateSourceNetworkStack"
+    }
+}
+
+extension CancelRecoveryPlanExecutionInput {
+
+    static func urlPathProvider(_ value: CancelRecoveryPlanExecutionInput) -> Swift.String? {
+        return "/CancelRecoveryPlanExecution"
     }
 }
 
@@ -5977,6 +7268,20 @@ extension CreateLaunchConfigurationTemplateInput {
 
     static func urlPathProvider(_ value: CreateLaunchConfigurationTemplateInput) -> Swift.String? {
         return "/CreateLaunchConfigurationTemplate"
+    }
+}
+
+extension CreateRecoveryPlanInput {
+
+    static func urlPathProvider(_ value: CreateRecoveryPlanInput) -> Swift.String? {
+        return "/CreateRecoveryPlan"
+    }
+}
+
+extension CreateRecoveryPlanStepInput {
+
+    static func urlPathProvider(_ value: CreateRecoveryPlanStepInput) -> Swift.String? {
+        return "/CreateRecoveryPlanStep"
     }
 }
 
@@ -6019,6 +7324,27 @@ extension DeleteRecoveryInstanceInput {
 
     static func urlPathProvider(_ value: DeleteRecoveryInstanceInput) -> Swift.String? {
         return "/DeleteRecoveryInstance"
+    }
+}
+
+extension DeleteRecoveryPlanInput {
+
+    static func urlPathProvider(_ value: DeleteRecoveryPlanInput) -> Swift.String? {
+        return "/DeleteRecoveryPlan"
+    }
+}
+
+extension DeleteRecoveryPlanExecutionInput {
+
+    static func urlPathProvider(_ value: DeleteRecoveryPlanExecutionInput) -> Swift.String? {
+        return "/DeleteRecoveryPlanExecution"
+    }
+}
+
+extension DeleteRecoveryPlanStepInput {
+
+    static func urlPathProvider(_ value: DeleteRecoveryPlanStepInput) -> Swift.String? {
+        return "/DeleteRecoveryPlanStep"
     }
 }
 
@@ -6134,6 +7460,34 @@ extension GetLaunchConfigurationInput {
     }
 }
 
+extension GetRecoveryPlanInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPlanInput) -> Swift.String? {
+        return "/GetRecoveryPlan"
+    }
+}
+
+extension GetRecoveryPlanExecutionInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPlanExecutionInput) -> Swift.String? {
+        return "/GetRecoveryPlanExecution"
+    }
+}
+
+extension GetRecoveryPlanExecutionStepInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPlanExecutionStepInput) -> Swift.String? {
+        return "/GetRecoveryPlanExecutionStep"
+    }
+}
+
+extension GetRecoveryPlanStepInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPlanStepInput) -> Swift.String? {
+        return "/GetRecoveryPlanStep"
+    }
+}
+
 extension GetReplicationConfigurationInput {
 
     static func urlPathProvider(_ value: GetReplicationConfigurationInput) -> Swift.String? {
@@ -6159,6 +7513,34 @@ extension ListLaunchActionsInput {
 
     static func urlPathProvider(_ value: ListLaunchActionsInput) -> Swift.String? {
         return "/ListLaunchActions"
+    }
+}
+
+extension ListRecoveryPlanExecutionsInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPlanExecutionsInput) -> Swift.String? {
+        return "/ListRecoveryPlanExecutions"
+    }
+}
+
+extension ListRecoveryPlanExecutionStepsInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPlanExecutionStepsInput) -> Swift.String? {
+        return "/ListRecoveryPlanExecutionSteps"
+    }
+}
+
+extension ListRecoveryPlansInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPlansInput) -> Swift.String? {
+        return "/ListRecoveryPlans"
+    }
+}
+
+extension ListRecoveryPlanStepsInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPlanStepsInput) -> Swift.String? {
+        return "/ListRecoveryPlanSteps"
     }
 }
 
@@ -6202,10 +7584,24 @@ extension PutLaunchActionInput {
     }
 }
 
+extension ReorderRecoveryPlanStepsInput {
+
+    static func urlPathProvider(_ value: ReorderRecoveryPlanStepsInput) -> Swift.String? {
+        return "/ReorderRecoveryPlanSteps"
+    }
+}
+
 extension RetryDataReplicationInput {
 
     static func urlPathProvider(_ value: RetryDataReplicationInput) -> Swift.String? {
         return "/RetryDataReplication"
+    }
+}
+
+extension RetryRecoveryPlanExecutionStepInput {
+
+    static func urlPathProvider(_ value: RetryRecoveryPlanExecutionStepInput) -> Swift.String? {
+        return "/RetryRecoveryPlanExecutionStep"
     }
 }
 
@@ -6227,6 +7623,13 @@ extension StartRecoveryInput {
 
     static func urlPathProvider(_ value: StartRecoveryInput) -> Swift.String? {
         return "/StartRecovery"
+    }
+}
+
+extension StartRecoveryPlanExecutionInput {
+
+    static func urlPathProvider(_ value: StartRecoveryPlanExecutionInput) -> Swift.String? {
+        return "/StartRecoveryPlanExecution"
     }
 }
 
@@ -6336,6 +7739,27 @@ extension UpdateLaunchConfigurationTemplateInput {
     }
 }
 
+extension UpdateRecoveryPlanInput {
+
+    static func urlPathProvider(_ value: UpdateRecoveryPlanInput) -> Swift.String? {
+        return "/UpdateRecoveryPlan"
+    }
+}
+
+extension UpdateRecoveryPlanExecutionStepInput {
+
+    static func urlPathProvider(_ value: UpdateRecoveryPlanExecutionStepInput) -> Swift.String? {
+        return "/UpdateRecoveryPlanExecutionStep"
+    }
+}
+
+extension UpdateRecoveryPlanStepInput {
+
+    static func urlPathProvider(_ value: UpdateRecoveryPlanStepInput) -> Swift.String? {
+        return "/UpdateRecoveryPlanStep"
+    }
+}
+
 extension UpdateReplicationConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateReplicationConfigurationInput) -> Swift.String? {
@@ -6356,6 +7780,14 @@ extension AssociateSourceNetworkStackInput {
         guard let value else { return }
         try writer["cfnStackName"].write(value.cfnStackName)
         try writer["sourceNetworkID"].write(value.sourceNetworkID)
+    }
+}
+
+extension CancelRecoveryPlanExecutionInput {
+
+    static func write(value: CancelRecoveryPlanExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanExecutionArn"].write(value.recoveryPlanExecutionArn)
     }
 }
 
@@ -6382,6 +7814,29 @@ extension CreateLaunchConfigurationTemplateInput {
         try writer["recoveryMode"].write(value.recoveryMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["targetInstanceTypeRightSizingMethod"].write(value.targetInstanceTypeRightSizingMethod)
+    }
+}
+
+extension CreateRecoveryPlanInput {
+
+    static func write(value: CreateRecoveryPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRecoveryPlanStepInput {
+
+    static func write(value: CreateRecoveryPlanStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: DrsClientTypes.RecoveryPlanStepConfiguration.write(value:to:))
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+        try writer["stepName"].write(value.stepName)
+        try writer["stepOrder"].write(value.stepOrder)
     }
 }
 
@@ -6449,6 +7904,30 @@ extension DeleteRecoveryInstanceInput {
     static func write(value: DeleteRecoveryInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["recoveryInstanceID"].write(value.recoveryInstanceID)
+    }
+}
+
+extension DeleteRecoveryPlanInput {
+
+    static func write(value: DeleteRecoveryPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+    }
+}
+
+extension DeleteRecoveryPlanExecutionInput {
+
+    static func write(value: DeleteRecoveryPlanExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanExecutionArn"].write(value.recoveryPlanExecutionArn)
+    }
+}
+
+extension DeleteRecoveryPlanStepInput {
+
+    static func write(value: DeleteRecoveryPlanStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanStepArn"].write(value.recoveryPlanStepArn)
     }
 }
 
@@ -6598,6 +8077,38 @@ extension GetLaunchConfigurationInput {
     }
 }
 
+extension GetRecoveryPlanInput {
+
+    static func write(value: GetRecoveryPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+    }
+}
+
+extension GetRecoveryPlanExecutionInput {
+
+    static func write(value: GetRecoveryPlanExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanExecutionArn"].write(value.recoveryPlanExecutionArn)
+    }
+}
+
+extension GetRecoveryPlanExecutionStepInput {
+
+    static func write(value: GetRecoveryPlanExecutionStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanExecutionStepArn"].write(value.recoveryPlanExecutionStepArn)
+    }
+}
+
+extension GetRecoveryPlanStepInput {
+
+    static func write(value: GetRecoveryPlanStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanStepArn"].write(value.recoveryPlanStepArn)
+    }
+}
+
 extension GetReplicationConfigurationInput {
 
     static func write(value: GetReplicationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -6627,6 +8138,47 @@ extension ListLaunchActionsInput {
     }
 }
 
+extension ListRecoveryPlanExecutionsInput {
+
+    static func write(value: ListRecoveryPlanExecutionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension ListRecoveryPlanExecutionStepsInput {
+
+    static func write(value: ListRecoveryPlanExecutionStepsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: DrsClientTypes.ListRecoveryPlanExecutionStepsFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["recoveryPlanExecutionArn"].write(value.recoveryPlanExecutionArn)
+    }
+}
+
+extension ListRecoveryPlansInput {
+
+    static func write(value: ListRecoveryPlansInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListRecoveryPlanStepsInput {
+
+    static func write(value: ListRecoveryPlanStepsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+    }
+}
+
 extension PutLaunchActionInput {
 
     static func write(value: PutLaunchActionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6645,11 +8197,28 @@ extension PutLaunchActionInput {
     }
 }
 
+extension ReorderRecoveryPlanStepsInput {
+
+    static func write(value: ReorderRecoveryPlanStepsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["orderedStepArns"].writeList(value.orderedStepArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+    }
+}
+
 extension RetryDataReplicationInput {
 
     static func write(value: RetryDataReplicationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["sourceServerID"].write(value.sourceServerID)
+    }
+}
+
+extension RetryRecoveryPlanExecutionStepInput {
+
+    static func write(value: RetryRecoveryPlanExecutionStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanExecutionStepArn"].write(value.recoveryPlanExecutionStepArn)
     }
 }
 
@@ -6676,6 +8245,18 @@ extension StartRecoveryInput {
         guard let value else { return }
         try writer["isDrill"].write(value.isDrill)
         try writer["sourceServers"].writeList(value.sourceServers, memberWritingClosure: DrsClientTypes.StartRecoveryRequestSourceServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartRecoveryPlanExecutionInput {
+
+    static func write(value: StartRecoveryPlanExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["mode"].write(value.mode)
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+        try writer["sourceServers"].writeList(value.sourceServers, memberWritingClosure: DrsClientTypes.RecoveryPlanExecutionSourceServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -6792,6 +8373,37 @@ extension UpdateLaunchConfigurationTemplateInput {
     }
 }
 
+extension UpdateRecoveryPlanInput {
+
+    static func write(value: UpdateRecoveryPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["recoveryPlanArn"].write(value.recoveryPlanArn)
+    }
+}
+
+extension UpdateRecoveryPlanExecutionStepInput {
+
+    static func write(value: UpdateRecoveryPlanExecutionStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoveryPlanExecutionStepArn"].write(value.recoveryPlanExecutionStepArn)
+        try writer["servers"].writeList(value.servers, memberWritingClosure: DrsClientTypes.RecoveryPlanServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["status"].write(value.status)
+        try writer["waitDurationMinutes"].write(value.waitDurationMinutes)
+    }
+}
+
+extension UpdateRecoveryPlanStepInput {
+
+    static func write(value: UpdateRecoveryPlanStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: DrsClientTypes.RecoveryPlanStepConfiguration.write(value:to:))
+        try writer["recoveryPlanStepArn"].write(value.recoveryPlanStepArn)
+        try writer["stepName"].write(value.stepName)
+    }
+}
+
 extension UpdateReplicationConfigurationInput {
 
     static func write(value: UpdateReplicationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -6853,6 +8465,18 @@ extension AssociateSourceNetworkStackOutput {
     }
 }
 
+extension CancelRecoveryPlanExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelRecoveryPlanExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelRecoveryPlanExecutionOutput()
+        value.recoveryPlanExecution = try reader["recoveryPlanExecution"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecution.read(from:))
+        return value
+    }
+}
+
 extension CreateExtendedSourceServerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExtendedSourceServerOutput {
@@ -6873,6 +8497,30 @@ extension CreateLaunchConfigurationTemplateOutput {
         let reader = responseReader
         var value = CreateLaunchConfigurationTemplateOutput()
         value.launchConfigurationTemplate = try reader["launchConfigurationTemplate"].readIfPresent(with: DrsClientTypes.LaunchConfigurationTemplate.read(from:))
+        return value
+    }
+}
+
+extension CreateRecoveryPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRecoveryPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRecoveryPlanOutput()
+        value.recoveryPlan = try reader["recoveryPlan"].readIfPresent(with: DrsClientTypes.RecoveryPlan.read(from:))
+        return value
+    }
+}
+
+extension CreateRecoveryPlanStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRecoveryPlanStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRecoveryPlanStepOutput()
+        value.recoveryPlanStep = try reader["recoveryPlanStep"].readIfPresent(with: DrsClientTypes.RecoveryPlanStep.read(from:))
         return value
     }
 }
@@ -6943,6 +8591,42 @@ extension DeleteRecoveryInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecoveryInstanceOutput {
         return DeleteRecoveryInstanceOutput()
+    }
+}
+
+extension DeleteRecoveryPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecoveryPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRecoveryPlanOutput()
+        value.recoveryPlanArn = try reader["recoveryPlanArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteRecoveryPlanExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecoveryPlanExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRecoveryPlanExecutionOutput()
+        value.recoveryPlanExecutionArn = try reader["recoveryPlanExecutionArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteRecoveryPlanStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRecoveryPlanStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRecoveryPlanStepOutput()
+        value.recoveryPlanStepArn = try reader["recoveryPlanStepArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -7153,6 +8837,54 @@ extension GetLaunchConfigurationOutput {
     }
 }
 
+extension GetRecoveryPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecoveryPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecoveryPlanOutput()
+        value.recoveryPlan = try reader["recoveryPlan"].readIfPresent(with: DrsClientTypes.RecoveryPlan.read(from:))
+        return value
+    }
+}
+
+extension GetRecoveryPlanExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecoveryPlanExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecoveryPlanExecutionOutput()
+        value.recoveryPlanExecution = try reader["recoveryPlanExecution"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecution.read(from:))
+        return value
+    }
+}
+
+extension GetRecoveryPlanExecutionStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecoveryPlanExecutionStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecoveryPlanExecutionStepOutput()
+        value.recoveryPlanExecutionStep = try reader["recoveryPlanExecutionStep"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecutionStep.read(from:))
+        return value
+    }
+}
+
+extension GetRecoveryPlanStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecoveryPlanStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecoveryPlanStepOutput()
+        value.recoveryPlanStep = try reader["recoveryPlanStep"].readIfPresent(with: DrsClientTypes.RecoveryPlanStep.read(from:))
+        return value
+    }
+}
+
 extension GetReplicationConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetReplicationConfigurationOutput {
@@ -7215,6 +8947,58 @@ extension ListLaunchActionsOutput {
     }
 }
 
+extension ListRecoveryPlanExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecoveryPlanExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecoveryPlanExecutionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recoveryPlanExecutions = try reader["recoveryPlanExecutions"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRecoveryPlanExecutionStepsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecoveryPlanExecutionStepsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecoveryPlanExecutionStepsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recoveryPlanExecutionSteps = try reader["recoveryPlanExecutionSteps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanExecutionStepSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRecoveryPlansOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecoveryPlansOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecoveryPlansOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recoveryPlans = try reader["recoveryPlans"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRecoveryPlanStepsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecoveryPlanStepsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRecoveryPlanStepsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recoveryPlanSteps = try reader["recoveryPlanSteps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListStagingAccountsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListStagingAccountsOutput {
@@ -7263,6 +9047,18 @@ extension PutLaunchActionOutput {
     }
 }
 
+extension ReorderRecoveryPlanStepsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ReorderRecoveryPlanStepsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ReorderRecoveryPlanStepsOutput()
+        value.recoveryPlanSteps = try reader["recoveryPlanSteps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanStep.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension RetryDataReplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RetryDataReplicationOutput {
@@ -7284,6 +9080,18 @@ extension RetryDataReplicationOutput {
         value.sourceServerID = try reader["sourceServerID"].readIfPresent()
         value.stagingArea = try reader["stagingArea"].readIfPresent(with: DrsClientTypes.StagingArea.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension RetryRecoveryPlanExecutionStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RetryRecoveryPlanExecutionStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RetryRecoveryPlanExecutionStepOutput()
+        value.recoveryPlanExecutionStep = try reader["recoveryPlanExecutionStep"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecutionStep.read(from:))
         return value
     }
 }
@@ -7320,6 +9128,18 @@ extension StartRecoveryOutput {
         let reader = responseReader
         var value = StartRecoveryOutput()
         value.job = try reader["job"].readIfPresent(with: DrsClientTypes.Job.read(from:))
+        return value
+    }
+}
+
+extension StartRecoveryPlanExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRecoveryPlanExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRecoveryPlanExecutionOutput()
+        value.recoveryPlanExecution = try reader["recoveryPlanExecution"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecution.read(from:))
         return value
     }
 }
@@ -7458,6 +9278,42 @@ extension UpdateLaunchConfigurationTemplateOutput {
     }
 }
 
+extension UpdateRecoveryPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRecoveryPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRecoveryPlanOutput()
+        value.recoveryPlan = try reader["recoveryPlan"].readIfPresent(with: DrsClientTypes.RecoveryPlan.read(from:))
+        return value
+    }
+}
+
+extension UpdateRecoveryPlanExecutionStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRecoveryPlanExecutionStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRecoveryPlanExecutionStepOutput()
+        value.recoveryPlanExecutionStep = try reader["recoveryPlanExecutionStep"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecutionStep.read(from:))
+        return value
+    }
+}
+
+extension UpdateRecoveryPlanStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRecoveryPlanStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRecoveryPlanStepOutput()
+        value.recoveryPlanStep = try reader["recoveryPlanStep"].readIfPresent(with: DrsClientTypes.RecoveryPlanStep.read(from:))
+        return value
+    }
+}
+
 extension UpdateReplicationConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateReplicationConfigurationOutput {
@@ -7536,6 +9392,26 @@ enum AssociateSourceNetworkStackOutputError {
     }
 }
 
+enum CancelRecoveryPlanExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateExtendedSourceServerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7566,6 +9442,47 @@ enum CreateLaunchConfigurationTemplateOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRecoveryPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRecoveryPlanStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
@@ -7681,6 +9598,66 @@ enum DeleteRecoveryInstanceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRecoveryPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRecoveryPlanExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRecoveryPlanStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7969,6 +9946,82 @@ enum GetLaunchConfigurationOutputError {
     }
 }
 
+enum GetRecoveryPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRecoveryPlanExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRecoveryPlanExecutionStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRecoveryPlanStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetReplicationConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8040,6 +10093,80 @@ enum ListLaunchActionsOutputError {
     }
 }
 
+enum ListRecoveryPlanExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRecoveryPlanExecutionStepsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRecoveryPlansOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRecoveryPlanStepsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListStagingAccountsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8095,6 +10222,26 @@ enum PutLaunchActionOutputError {
     }
 }
 
+enum ReorderRecoveryPlanStepsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RetryDataReplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8103,6 +10250,26 @@ enum RetryDataReplicationOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RetryRecoveryPlanExecutionStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8165,6 +10332,27 @@ enum StartRecoveryOutputError {
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartRecoveryPlanExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8379,6 +10567,66 @@ enum UpdateLaunchConfigurationTemplateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRecoveryPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRecoveryPlanExecutionStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UninitializedAccountException": return try UninitializedAccountException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRecoveryPlanStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8719,6 +10967,17 @@ extension DrsClientTypes.Disk {
     }
 }
 
+extension DrsClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ErrorDetail()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DrsClientTypes.EventResourceData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.EventResourceData {
@@ -8730,6 +10989,16 @@ extension DrsClientTypes.EventResourceData {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DrsClientTypes.ExecutionServerStepConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ExecutionServerStepConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ExecutionServerStepConfiguration()
+        value.servers = try reader["servers"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanExecutionServer.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -8948,6 +11217,14 @@ extension DrsClientTypes.LifeCycleLastLaunchInitiated {
         value.jobID = try reader["jobID"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         return value
+    }
+}
+
+extension DrsClientTypes.ListRecoveryPlanExecutionStepsFilter {
+
+    static func write(value: DrsClientTypes.ListRecoveryPlanExecutionStepsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
     }
 }
 
@@ -9193,6 +11470,198 @@ extension DrsClientTypes.RecoveryLifeCycle {
     }
 }
 
+extension DrsClientTypes.RecoveryPlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlan()
+        value.recoveryPlanArn = try reader["recoveryPlanArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanExecution()
+        value.recoveryPlanExecutionArn = try reader["recoveryPlanExecutionArn"].readIfPresent() ?? ""
+        value.recoveryPlanArn = try reader["recoveryPlanArn"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readIfPresent() ?? ""
+        value.completedAt = try reader["completedAt"].readIfPresent()
+        value.errorDetail = try reader["errorDetail"].readIfPresent(with: DrsClientTypes.ErrorDetail.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecutionServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanExecutionServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanExecutionServer()
+        value.serverArn = try reader["serverArn"].readIfPresent() ?? ""
+        value.impactLevel = try reader["impactLevel"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecutionSourceServer {
+
+    static func write(value: DrsClientTypes.RecoveryPlanExecutionSourceServer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recoverySnapshotID"].write(value.recoverySnapshotID)
+        try writer["sourceServerID"].write(value.sourceServerID)
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecutionStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanExecutionStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanExecutionStep()
+        value.recoveryPlanExecutionStepArn = try reader["recoveryPlanExecutionStepArn"].readIfPresent() ?? ""
+        value.stepIndex = try reader["stepIndex"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.stepName = try reader["stepName"].readIfPresent() ?? ""
+        value.configuration = try reader["configuration"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecutionStepConfiguration.read(from:))
+        value.errorDetail = try reader["errorDetail"].readIfPresent(with: DrsClientTypes.ErrorDetail.read(from:))
+        value.attempt = try reader["attempt"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecutionStepConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanExecutionStepConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "executionServerStepConfiguration":
+                return .executionserverstepconfiguration(try reader["executionServerStepConfiguration"].read(with: DrsClientTypes.ExecutionServerStepConfiguration.read(from:)))
+            case "waitStepConfiguration":
+                return .waitstepconfiguration(try reader["waitStepConfiguration"].read(with: DrsClientTypes.WaitStepConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecutionStepSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanExecutionStepSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanExecutionStepSummary()
+        value.recoveryPlanExecutionStepArn = try reader["recoveryPlanExecutionStepArn"].readIfPresent() ?? ""
+        value.stepName = try reader["stepName"].readIfPresent() ?? ""
+        value.stepIndex = try reader["stepIndex"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: DrsClientTypes.RecoveryPlanExecutionStepConfiguration.read(from:))
+        value.errorDetail = try reader["errorDetail"].readIfPresent(with: DrsClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanExecutionSummary()
+        value.recoveryPlanExecutionArn = try reader["recoveryPlanExecutionArn"].readIfPresent() ?? ""
+        value.recoveryPlanArn = try reader["recoveryPlanArn"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readIfPresent() ?? ""
+        value.errorDetail = try reader["errorDetail"].readIfPresent(with: DrsClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanServer {
+
+    static func write(value: DrsClientTypes.RecoveryPlanServer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["impactLevel"].write(value.impactLevel)
+        try writer["serverArn"].write(value.serverArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanServer()
+        value.serverArn = try reader["serverArn"].readIfPresent() ?? ""
+        value.impactLevel = try reader["impactLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanStep()
+        value.recoveryPlanStepArn = try reader["recoveryPlanStepArn"].readIfPresent() ?? ""
+        value.stepOrder = try reader["stepOrder"].readIfPresent() ?? 0
+        value.stepName = try reader["stepName"].readIfPresent() ?? ""
+        value.configuration = try reader["configuration"].readIfPresent(with: DrsClientTypes.RecoveryPlanStepConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanStepConfiguration {
+
+    static func write(value: DrsClientTypes.RecoveryPlanStepConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .serverstepconfiguration(serverstepconfiguration):
+                try writer["serverStepConfiguration"].write(serverstepconfiguration, with: DrsClientTypes.ServerStepConfiguration.write(value:to:))
+            case let .waitstepconfiguration(waitstepconfiguration):
+                try writer["waitStepConfiguration"].write(waitstepconfiguration, with: DrsClientTypes.WaitStepConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanStepConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "serverStepConfiguration":
+                return .serverstepconfiguration(try reader["serverStepConfiguration"].read(with: DrsClientTypes.ServerStepConfiguration.read(from:)))
+            case "waitStepConfiguration":
+                return .waitstepconfiguration(try reader["waitStepConfiguration"].read(with: DrsClientTypes.WaitStepConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DrsClientTypes.RecoveryPlanSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryPlanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryPlanSummary()
+        value.recoveryPlanArn = try reader["recoveryPlanArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DrsClientTypes.RecoverySnapshot {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
@@ -9255,6 +11724,21 @@ extension DrsClientTypes.ReplicationConfigurationTemplate {
         value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.autoReplicateNewDisks = try reader["autoReplicateNewDisks"].readIfPresent()
         value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ServerStepConfiguration {
+
+    static func write(value: DrsClientTypes.ServerStepConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["servers"].writeList(value.servers, memberWritingClosure: DrsClientTypes.RecoveryPlanServer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ServerStepConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ServerStepConfiguration()
+        value.servers = try reader["servers"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryPlanServer.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9396,6 +11880,21 @@ extension DrsClientTypes.ValidationExceptionField {
         var value = DrsClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.WaitStepConfiguration {
+
+    static func write(value: DrsClientTypes.WaitStepConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["waitDurationMinutes"].write(value.waitDurationMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.WaitStepConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.WaitStepConfiguration()
+        value.waitDurationMinutes = try reader["waitDurationMinutes"].readIfPresent() ?? 0
         return value
     }
 }

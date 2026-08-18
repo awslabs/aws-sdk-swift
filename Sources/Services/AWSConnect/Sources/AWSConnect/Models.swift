@@ -476,6 +476,7 @@ extension ConnectClientTypes {
         case createCase
         case createTask
         case endAssociatedTasks
+        case extractInformation
         case generateEventbridgeEvent
         case sendNotification
         case submitAutoEvaluation
@@ -489,6 +490,7 @@ extension ConnectClientTypes {
                 .createCase,
                 .createTask,
                 .endAssociatedTasks,
+                .extractInformation,
                 .generateEventbridgeEvent,
                 .sendNotification,
                 .submitAutoEvaluation,
@@ -508,6 +510,7 @@ extension ConnectClientTypes {
             case .createCase: return "CREATE_CASE"
             case .createTask: return "CREATE_TASK"
             case .endAssociatedTasks: return "END_ASSOCIATED_TASKS"
+            case .extractInformation: return "EXTRACT_INFORMATION"
             case .generateEventbridgeEvent: return "GENERATE_EVENTBRIDGE_EVENT"
             case .sendNotification: return "SEND_NOTIFICATION"
             case .submitAutoEvaluation: return "SUBMIT_AUTO_EVALUATION"
@@ -7363,6 +7366,141 @@ public struct CreateEvaluationFormOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// The display configuration for an extraction definition.
+    public struct ExtractionDefinitionDisplay: Swift.Sendable {
+        /// The label displayed in the agent workspace for this extraction definition.
+        public var label: Swift.String?
+
+        public init(
+            label: Swift.String? = nil
+        ) {
+            self.label = label
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum NotFoundBehaviorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case omit
+        case useDefaultValue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotFoundBehaviorType] {
+            return [
+                .omit,
+                .useDefaultValue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .omit: return "OMIT"
+            case .useDefaultValue: return "USE_DEFAULT_VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The behavior configuration when an extraction definition cannot find the target value.
+    public struct ExtractionDefinitionNotFoundBehavior: Swift.Sendable {
+        /// The behavior type. USE_DEFAULT_VALUE returns the specified default value. OMIT excludes the field from the output.
+        /// This member is required.
+        public var behavior: ConnectClientTypes.NotFoundBehaviorType?
+        /// The default value to use when the behavior is USE_DEFAULT_VALUE.
+        public var defaultValue: Swift.String?
+
+        public init(
+            behavior: ConnectClientTypes.NotFoundBehaviorType? = nil,
+            defaultValue: Swift.String? = nil
+        ) {
+            self.behavior = behavior
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The extraction configuration that defines how data is extracted from customer interactions.
+    public struct ExtractionConfiguration: Swift.Sendable {
+        /// The behavior when the extraction cannot find the specified data in the interaction.
+        public var notFoundBehavior: ConnectClientTypes.ExtractionDefinitionNotFoundBehavior?
+        /// The prompt hint that guides the extraction. This text tells the generative AI model what data to look for in the customer interaction.
+        /// This member is required.
+        public var promptHint: Swift.String?
+
+        public init(
+            notFoundBehavior: ConnectClientTypes.ExtractionDefinitionNotFoundBehavior? = nil,
+            promptHint: Swift.String? = nil
+        ) {
+            self.notFoundBehavior = notFoundBehavior
+            self.promptHint = promptHint
+        }
+    }
+}
+
+public struct CreateExtractionDefinitionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field.
+    public var clientToken: Swift.String?
+    /// The display settings for the extraction definition, including the label shown in the agent workspace.
+    public var display: ConnectClientTypes.ExtractionDefinitionDisplay?
+    /// The configuration that defines how data is extracted, including the prompt hint and not-found behavior.
+    /// This member is required.
+    public var extractionConfiguration: ConnectClientTypes.ExtractionConfiguration?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique name of the extraction definition.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        display: ConnectClientTypes.ExtractionDefinitionDisplay? = nil,
+        extractionConfiguration: ConnectClientTypes.ExtractionConfiguration? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.display = display
+        self.extractionConfiguration = extractionConfiguration
+        self.instanceId = instanceId
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateExtractionDefinitionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extraction definition.
+    /// This member is required.
+    public var extractionDefinitionArn: Swift.String?
+    /// The identifier of the extraction definition.
+    /// This member is required.
+    public var extractionDefinitionId: Swift.String?
+
+    public init(
+        extractionDefinitionArn: Swift.String? = nil,
+        extractionDefinitionId: Swift.String? = nil
+    ) {
+        self.extractionDefinitionArn = extractionDefinitionArn
+        self.extractionDefinitionId = extractionDefinitionId
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum HoursOfOperationDays: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case friday
         case monday
@@ -9635,6 +9773,38 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// An identifier that references an extraction definition resource.
+    public struct RulesExtractionDefinitionIdentifier: Swift.Sendable {
+        /// The identifier of the extraction definition.
+        /// This member is required.
+        public var identifier: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil
+        ) {
+            self.identifier = identifier
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the extract information action, which references extraction definitions to use when extracting structured data from customer interactions.
+    public struct ExtractInformationActionDefinition: Swift.Sendable {
+        /// The list of extraction definition identifiers that specify what data to extract.
+        /// This member is required.
+        public var rulesExtractionDefinitions: [ConnectClientTypes.RulesExtractionDefinitionIdentifier]?
+
+        public init(
+            rulesExtractionDefinitions: [ConnectClientTypes.RulesExtractionDefinitionIdentifier]? = nil
+        ) {
+            self.rulesExtractionDefinitions = rulesExtractionDefinitions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum NotificationContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plainText
         case sdkUnknown(Swift.String)
@@ -9821,6 +9991,8 @@ extension ConnectClientTypes {
         public var endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition?
         /// Information about the EventBridge action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnContactEvaluationSubmit | OnMetricDataUpdate
         public var eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition?
+        /// Information about the extract information action.
+        public var extractInformationAction: ConnectClientTypes.ExtractInformationActionDefinition?
         /// Information about the send notification action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnContactEvaluationSubmit | OnMetricDataUpdate
         public var sendNotificationAction: ConnectClientTypes.SendNotificationActionDefinition?
         /// Information about the submit automated evaluation action.
@@ -9837,6 +10009,7 @@ extension ConnectClientTypes {
             createCaseAction: ConnectClientTypes.CreateCaseActionDefinition? = nil,
             endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition? = nil,
             eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition? = nil,
+            extractInformationAction: ConnectClientTypes.ExtractInformationActionDefinition? = nil,
             sendNotificationAction: ConnectClientTypes.SendNotificationActionDefinition? = nil,
             submitAutoEvaluationAction: ConnectClientTypes.SubmitAutoEvaluationActionDefinition? = nil,
             taskAction: ConnectClientTypes.TaskActionDefinition? = nil,
@@ -9848,6 +10021,7 @@ extension ConnectClientTypes {
             self.createCaseAction = createCaseAction
             self.endAssociatedTasksAction = endAssociatedTasksAction
             self.eventBridgeAction = eventBridgeAction
+            self.extractInformationAction = extractInformationAction
             self.sendNotificationAction = sendNotificationAction
             self.submitAutoEvaluationAction = submitAutoEvaluationAction
             self.taskAction = taskAction
@@ -9888,6 +10062,8 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EventSourceName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onaftercallworkavailable
+        case onafterchatworkavailable
         case onalertupdate
         case oncasecreate
         case oncaseupdate
@@ -9909,6 +10085,8 @@ extension ConnectClientTypes {
 
         public static var allCases: [EventSourceName] {
             return [
+                .onaftercallworkavailable,
+                .onafterchatworkavailable,
                 .onalertupdate,
                 .oncasecreate,
                 .oncaseupdate,
@@ -9936,6 +10114,8 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .onaftercallworkavailable: return "OnAfterCallWorkAvailable"
+            case .onafterchatworkavailable: return "OnAfterChatWorkAvailable"
             case .onalertupdate: return "OnAlertUpdate"
             case .oncasecreate: return "OnCaseCreate"
             case .oncaseupdate: return "OnCaseUpdate"
@@ -12555,6 +12735,28 @@ public struct DeleteEvaluationFormInput: Swift.Sendable {
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
     }
+}
+
+public struct DeleteExtractionDefinitionInput: Swift.Sendable {
+    /// The identifier of the extraction definition to delete.
+    /// This member is required.
+    public var extractionDefinitionId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        extractionDefinitionId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.extractionDefinitionId = extractionDefinitionId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteExtractionDefinitionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteHoursOfOperationInput: Swift.Sendable {
@@ -15720,6 +15922,89 @@ extension ConnectClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+public struct DescribeExtractionDefinitionInput: Swift.Sendable {
+    /// The identifier of the extraction definition to describe.
+    /// This member is required.
+    public var extractionDefinitionId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        extractionDefinitionId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.extractionDefinitionId = extractionDefinitionId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about an extraction definition.
+    public struct ExtractionDefinition: Swift.Sendable {
+        /// The timestamp when the extraction definition was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The display settings for the extraction definition.
+        public var display: ConnectClientTypes.ExtractionDefinitionDisplay?
+        /// The configuration that defines how data is extracted.
+        /// This member is required.
+        public var extractionConfiguration: ConnectClientTypes.ExtractionConfiguration?
+        /// The Amazon Resource Name (ARN) of the extraction definition.
+        /// This member is required.
+        public var extractionDefinitionArn: Swift.String?
+        /// The identifier of the extraction definition.
+        /// This member is required.
+        public var extractionDefinitionId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the extraction definition.
+        /// This member is required.
+        public var lastUpdatedBy: Swift.String?
+        /// The timestamp when the extraction definition was last updated.
+        /// This member is required.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The name of the extraction definition.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            createdTime: Foundation.Date? = nil,
+            display: ConnectClientTypes.ExtractionDefinitionDisplay? = nil,
+            extractionConfiguration: ConnectClientTypes.ExtractionConfiguration? = nil,
+            extractionDefinitionArn: Swift.String? = nil,
+            extractionDefinitionId: Swift.String? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.createdTime = createdTime
+            self.display = display
+            self.extractionConfiguration = extractionConfiguration
+            self.extractionDefinitionArn = extractionDefinitionArn
+            self.extractionDefinitionId = extractionDefinitionId
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.tags = tags
+        }
+    }
+}
+
+public struct DescribeExtractionDefinitionOutput: Swift.Sendable {
+    /// The extraction definition.
+    /// This member is required.
+    public var extractionDefinition: ConnectClientTypes.ExtractionDefinition?
+
+    public init(
+        extractionDefinition: ConnectClientTypes.ExtractionDefinition? = nil
+    ) {
+        self.extractionDefinition = extractionDefinition
     }
 }
 
@@ -23888,6 +24173,83 @@ public struct ListEvaluationFormVersionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListExtractionDefinitionsInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Summary information about an extraction definition.
+    public struct ExtractionDefinitionSummary: Swift.Sendable {
+        /// The timestamp when the extraction definition was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the extraction definition.
+        /// This member is required.
+        public var extractionDefinitionArn: Swift.String?
+        /// The identifier of the extraction definition.
+        /// This member is required.
+        public var extractionDefinitionId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the extraction definition.
+        /// This member is required.
+        public var lastUpdatedBy: Swift.String?
+        /// The timestamp when the extraction definition was last updated.
+        /// This member is required.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The name of the extraction definition.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            createdTime: Foundation.Date? = nil,
+            extractionDefinitionArn: Swift.String? = nil,
+            extractionDefinitionId: Swift.String? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.createdTime = createdTime
+            self.extractionDefinitionArn = extractionDefinitionArn
+            self.extractionDefinitionId = extractionDefinitionId
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+    }
+}
+
+public struct ListExtractionDefinitionsOutput: Swift.Sendable {
+    /// Information about the extraction definitions.
+    /// This member is required.
+    public var extractionDefinitionSummaryList: [ConnectClientTypes.ExtractionDefinitionSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        extractionDefinitionSummaryList: [ConnectClientTypes.ExtractionDefinitionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extractionDefinitionSummaryList = extractionDefinitionSummaryList
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListFlowAssociationsInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -31767,10 +32129,10 @@ extension ConnectClientTypes {
 }
 
 public struct StartAssistantContactInput: Swift.Sendable {
-    /// The AI agent that participates in the contact.
+    /// The AI agent configuration for this contact.
     /// This member is required.
     public var aiAgent: ConnectClientTypes.AiAgentInput?
-    /// A map of key-value pairs to associate with the contact. Amazon Connect makes these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can contain only alphanumeric characters, dashes, and underscores.
+    /// A map of key-value pairs to associate with the contact. We make these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs for each contact.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -31811,11 +32173,11 @@ public struct StartAssistantContactInput: Swift.Sendable {
 public struct StartAssistantContactOutput: Swift.Sendable {
     /// The identifier of the contact within the Connect Customer instance.
     public var contactId: Swift.String?
-    /// For a persistent chat, the identifier of the contact from which the chat continues. Amazon Connect returns this field only for persistent chats.
+    /// The identifier of the contact from which the chat continues, returned only for persistent chats.
     public var continuedFromContactId: Swift.String?
     /// The identifier of the chat participant. The participant identifier remains the same throughout the chat lifecycle.
     public var participantId: Swift.String?
-    /// The token that the chat participant uses to call the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) API. The token remains valid for the lifetime of the chat participant.
+    /// The token that the chat participant uses with the [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) operation. The token remains valid for the lifetime of the chat participant.
     public var participantToken: Swift.String?
 
     public init(
@@ -34479,6 +34841,46 @@ public struct UpdateEvaluationFormOutput: Swift.Sendable {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
     }
+}
+
+public struct UpdateExtractionDefinitionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field.
+    public var clientToken: Swift.String?
+    /// The display settings for the extraction definition.
+    public var display: ConnectClientTypes.ExtractionDefinitionDisplay?
+    /// The configuration that defines how data is extracted, including the prompt hint and not-found behavior.
+    /// This member is required.
+    public var extractionConfiguration: ConnectClientTypes.ExtractionConfiguration?
+    /// The identifier of the extraction definition to update.
+    /// This member is required.
+    public var extractionDefinitionId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the extraction definition.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        display: ConnectClientTypes.ExtractionDefinitionDisplay? = nil,
+        extractionConfiguration: ConnectClientTypes.ExtractionConfiguration? = nil,
+        extractionDefinitionId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.display = display
+        self.extractionConfiguration = extractionConfiguration
+        self.extractionDefinitionId = extractionDefinitionId
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+public struct UpdateExtractionDefinitionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct UpdateHoursOfOperationInput: Swift.Sendable {
@@ -38060,7 +38462,7 @@ public struct StartWebRTCContactInput: Swift.Sendable {
     public var references: [Swift.String: ConnectClientTypes.Reference]?
     /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
     public var relatedContactId: Swift.String?
-    /// Use this map to specify system-defined attributes for the WebRTC contact segment. Use the connect:Subtype attribute to specify the channel subtype, such as connect:WebRTC. Attribute keys can contain only alphanumeric characters, hyphens, and underscores.
+    /// A map of system-defined attributes for the WebRTC contact segment. Use the connect:Subtype attribute to specify the channel subtype, such as connect:WebRTC.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
 
     public init(
@@ -39451,6 +39853,16 @@ extension CreateEvaluationFormInput {
     }
 }
 
+extension CreateExtractionDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateExtractionDefinitionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/extraction-definitions/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension CreateHoursOfOperationInput {
 
     static func urlPathProvider(_ value: CreateHoursOfOperationInput) -> Swift.String? {
@@ -39948,6 +40360,19 @@ extension DeleteEvaluationFormInput {
             items.append(evaluationFormVersionQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteExtractionDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteExtractionDefinitionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let extractionDefinitionId = value.extractionDefinitionId else {
+            return nil
+        }
+        return "/extraction-definitions/\(instanceId.urlPercentEncoding())/\(extractionDefinitionId.urlPercentEncoding())"
     }
 }
 
@@ -40519,6 +40944,19 @@ extension DescribeEvaluationFormInput {
             items.append(evaluationFormVersionQueryItem)
         }
         return items
+    }
+}
+
+extension DescribeExtractionDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeExtractionDefinitionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let extractionDefinitionId = value.extractionDefinitionId else {
+            return nil
+        }
+        return "/extraction-definitions/\(instanceId.urlPercentEncoding())/\(extractionDefinitionId.urlPercentEncoding())"
     }
 }
 
@@ -42117,6 +42555,32 @@ extension ListEvaluationFormVersionsInput {
 extension ListEvaluationFormVersionsInput {
 
     static func queryItemProvider(_ value: ListEvaluationFormVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListExtractionDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListExtractionDefinitionsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/extraction-definitions/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListExtractionDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListExtractionDefinitionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -44245,6 +44709,19 @@ extension UpdateEvaluationFormInput {
     }
 }
 
+extension UpdateExtractionDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateExtractionDefinitionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let extractionDefinitionId = value.extractionDefinitionId else {
+            return nil
+        }
+        return "/extraction-definitions/\(instanceId.urlPercentEncoding())/\(extractionDefinitionId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateHoursOfOperationInput {
 
     static func urlPathProvider(_ value: UpdateHoursOfOperationInput) -> Swift.String? {
@@ -45328,6 +45805,18 @@ extension CreateEvaluationFormInput {
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
+    }
+}
+
+extension CreateExtractionDefinitionInput {
+
+    static func write(value: CreateExtractionDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Display"].write(value.display, with: ConnectClientTypes.ExtractionDefinitionDisplay.write(value:to:))
+        try writer["ExtractionConfiguration"].write(value.extractionConfiguration, with: ConnectClientTypes.ExtractionConfiguration.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -46962,6 +47451,17 @@ extension UpdateEvaluationFormInput {
     }
 }
 
+extension UpdateExtractionDefinitionInput {
+
+    static func write(value: UpdateExtractionDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Display"].write(value.display, with: ConnectClientTypes.ExtractionDefinitionDisplay.write(value:to:))
+        try writer["ExtractionConfiguration"].write(value.extractionConfiguration, with: ConnectClientTypes.ExtractionConfiguration.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateHoursOfOperationInput {
 
     static func write(value: UpdateHoursOfOperationInput?, to writer: SmithyJSON.Writer) throws {
@@ -47892,6 +48392,19 @@ extension CreateEvaluationFormOutput {
     }
 }
 
+extension CreateExtractionDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExtractionDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateExtractionDefinitionOutput()
+        value.extractionDefinitionArn = try reader["ExtractionDefinitionArn"].readIfPresent() ?? ""
+        value.extractionDefinitionId = try reader["ExtractionDefinitionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateHoursOfOperationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHoursOfOperationOutput {
@@ -48330,6 +48843,13 @@ extension DeleteEvaluationFormOutput {
     }
 }
 
+extension DeleteExtractionDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteExtractionDefinitionOutput {
+        return DeleteExtractionDefinitionOutput()
+    }
+}
+
 extension DeleteHoursOfOperationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHoursOfOperationOutput {
@@ -48675,6 +49195,18 @@ extension DescribeEvaluationFormOutput {
         let reader = responseReader
         var value = DescribeEvaluationFormOutput()
         value.evaluationForm = try reader["EvaluationForm"].readIfPresent(with: ConnectClientTypes.EvaluationForm.read(from:))
+        return value
+    }
+}
+
+extension DescribeExtractionDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeExtractionDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeExtractionDefinitionOutput()
+        value.extractionDefinition = try reader["ExtractionDefinition"].readIfPresent(with: ConnectClientTypes.ExtractionDefinition.read(from:))
         return value
     }
 }
@@ -49670,6 +50202,19 @@ extension ListEvaluationFormVersionsOutput {
         let reader = responseReader
         var value = ListEvaluationFormVersionsOutput()
         value.evaluationFormVersionSummaryList = try reader["EvaluationFormVersionSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListExtractionDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExtractionDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExtractionDefinitionsOutput()
+        value.extractionDefinitionSummaryList = try reader["ExtractionDefinitionSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ExtractionDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -51257,6 +51802,13 @@ extension UpdateEvaluationFormOutput {
     }
 }
 
+extension UpdateExtractionDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateExtractionDefinitionOutput {
+        return UpdateExtractionDefinitionOutput()
+    }
+}
+
 extension UpdateHoursOfOperationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHoursOfOperationOutput {
@@ -52505,6 +53057,26 @@ enum CreateEvaluationFormOutputError {
     }
 }
 
+enum CreateExtractionDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateHoursOfOperationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -53295,6 +53867,24 @@ enum DeleteEvaluationFormOutputError {
     }
 }
 
+enum DeleteExtractionDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteHoursOfOperationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -54009,6 +54599,24 @@ enum DescribeEvaluationFormOutputError {
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeExtractionDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -55540,6 +56148,24 @@ enum ListEvaluationFormVersionsOutputError {
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListExtractionDefinitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -57102,6 +57728,7 @@ enum StartAssistantContactOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -58019,6 +58646,25 @@ enum UpdateEvaluationFormOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateExtractionDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -62803,6 +63449,103 @@ extension ConnectClientTypes.ExternalInvocationConfiguration {
     }
 }
 
+extension ConnectClientTypes.ExtractInformationActionDefinition {
+
+    static func write(value: ConnectClientTypes.ExtractInformationActionDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RulesExtractionDefinitions"].writeList(value.rulesExtractionDefinitions, memberWritingClosure: ConnectClientTypes.RulesExtractionDefinitionIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtractInformationActionDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtractInformationActionDefinition()
+        value.rulesExtractionDefinitions = try reader["RulesExtractionDefinitions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RulesExtractionDefinitionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtractionConfiguration {
+
+    static func write(value: ConnectClientTypes.ExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NotFoundBehavior"].write(value.notFoundBehavior, with: ConnectClientTypes.ExtractionDefinitionNotFoundBehavior.write(value:to:))
+        try writer["PromptHint"].write(value.promptHint)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtractionConfiguration()
+        value.promptHint = try reader["PromptHint"].readIfPresent() ?? ""
+        value.notFoundBehavior = try reader["NotFoundBehavior"].readIfPresent(with: ConnectClientTypes.ExtractionDefinitionNotFoundBehavior.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtractionDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtractionDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtractionDefinition()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.extractionDefinitionId = try reader["ExtractionDefinitionId"].readIfPresent() ?? ""
+        value.extractionDefinitionArn = try reader["ExtractionDefinitionArn"].readIfPresent() ?? ""
+        value.extractionConfiguration = try reader["ExtractionConfiguration"].readIfPresent(with: ConnectClientTypes.ExtractionConfiguration.read(from:))
+        value.display = try reader["Display"].readIfPresent(with: ConnectClientTypes.ExtractionDefinitionDisplay.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtractionDefinitionDisplay {
+
+    static func write(value: ConnectClientTypes.ExtractionDefinitionDisplay?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Label"].write(value.label)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtractionDefinitionDisplay {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtractionDefinitionDisplay()
+        value.label = try reader["Label"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtractionDefinitionNotFoundBehavior {
+
+    static func write(value: ConnectClientTypes.ExtractionDefinitionNotFoundBehavior?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+        try writer["DefaultValue"].write(value.defaultValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtractionDefinitionNotFoundBehavior {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtractionDefinitionNotFoundBehavior()
+        value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExtractionDefinitionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExtractionDefinitionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExtractionDefinitionSummary()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.extractionDefinitionId = try reader["ExtractionDefinitionId"].readIfPresent() ?? ""
+        value.extractionDefinitionArn = try reader["ExtractionDefinitionArn"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ConnectClientTypes.FailedBatchAssociationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FailedBatchAssociationSummary {
@@ -65646,6 +66389,7 @@ extension ConnectClientTypes.RuleAction {
         try writer["CreateCaseAction"].write(value.createCaseAction, with: ConnectClientTypes.CreateCaseActionDefinition.write(value:to:))
         try writer["EndAssociatedTasksAction"].write(value.endAssociatedTasksAction, with: ConnectClientTypes.EndAssociatedTasksActionDefinition.write(value:to:))
         try writer["EventBridgeAction"].write(value.eventBridgeAction, with: ConnectClientTypes.EventBridgeActionDefinition.write(value:to:))
+        try writer["ExtractInformationAction"].write(value.extractInformationAction, with: ConnectClientTypes.ExtractInformationActionDefinition.write(value:to:))
         try writer["SendNotificationAction"].write(value.sendNotificationAction, with: ConnectClientTypes.SendNotificationActionDefinition.write(value:to:))
         try writer["SubmitAutoEvaluationAction"].write(value.submitAutoEvaluationAction, with: ConnectClientTypes.SubmitAutoEvaluationActionDefinition.write(value:to:))
         try writer["TaskAction"].write(value.taskAction, with: ConnectClientTypes.TaskActionDefinition.write(value:to:))
@@ -65665,6 +66409,7 @@ extension ConnectClientTypes.RuleAction {
         value.assignSlaAction = try reader["AssignSlaAction"].readIfPresent(with: ConnectClientTypes.AssignSlaActionDefinition.read(from:))
         value.endAssociatedTasksAction = try reader["EndAssociatedTasksAction"].readIfPresent(with: ConnectClientTypes.EndAssociatedTasksActionDefinition.read(from:))
         value.submitAutoEvaluationAction = try reader["SubmitAutoEvaluationAction"].readIfPresent(with: ConnectClientTypes.SubmitAutoEvaluationActionDefinition.read(from:))
+        value.extractInformationAction = try reader["ExtractInformationAction"].readIfPresent(with: ConnectClientTypes.ExtractInformationActionDefinition.read(from:))
         return value
     }
 }
@@ -65711,6 +66456,21 @@ extension ConnectClientTypes.RuleSearchSummary {
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.RulesExtractionDefinitionIdentifier {
+
+    static func write(value: ConnectClientTypes.RulesExtractionDefinitionIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RulesExtractionDefinitionIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RulesExtractionDefinitionIdentifier()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
         return value
     }
 }
