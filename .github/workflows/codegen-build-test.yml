@@ -30,7 +30,7 @@ jobs:
           - 4
     steps:
       - name: Configure Xcode
-        run: sudo xcode-select -s /Applications/Xcode_26.4.app
+        run: sudo xcode-select -s /Applications/Xcode_26.6.app
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v6
         with:
