@@ -827,6 +827,78 @@ extension MarketplaceCatalogClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAssessment` operation on the `MarketplaceCatalog` service.
+    ///
+    /// Returns the metadata and detailed results of a single assessment, including the framework that was evaluated, the overall assessment result, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the ListAssessments action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssessmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAssessmentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. HTTP status code: 403
+    /// - `InternalServiceException` : There was an internal service exception. HTTP status code: 500
+    /// - `ResourceNotFoundException` : The specified resource wasn't found. HTTP status code: 404
+    /// - `ThrottlingException` : Too many requests. HTTP status code: 429
+    /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
+    public func describeAssessment(input: DescribeAssessmentInput) async throws -> DescribeAssessmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAssessment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAssessmentInput, DescribeAssessmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>(DescribeAssessmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAssessmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssessmentOutput>(DescribeAssessmentOutput.httpOutput(from:), DescribeAssessmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssessmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Catalog", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAssessmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Catalog"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAssessmentInput, DescribeAssessmentOutput>(serviceID: serviceName, version: MarketplaceCatalogClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceCatalog")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAssessment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeChangeSet` operation on the `MarketplaceCatalog` service.
     ///
     /// Provides information about a given change set.
@@ -1026,6 +1098,77 @@ extension MarketplaceCatalogClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceCatalog")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAssessments` operation on the `MarketplaceCatalog` service.
+    ///
+    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluating a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results are sorted by assessment creation time in descending order.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAssessmentsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAssessmentsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. HTTP status code: 403
+    /// - `InternalServiceException` : There was an internal service exception. HTTP status code: 500
+    /// - `ThrottlingException` : Too many requests. HTTP status code: 429
+    /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
+    public func listAssessments(input: ListAssessmentsInput) async throws -> ListAssessmentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAssessments")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aws-marketplace")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAssessmentsInput, ListAssessmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAssessmentsInput, ListAssessmentsOutput>(ListAssessmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAssessmentsInput, ListAssessmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssessmentsInput, ListAssessmentsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAssessmentsInput, ListAssessmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAssessmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssessmentsInput, ListAssessmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssessmentsOutput>(ListAssessmentsOutput.httpOutput(from:), ListAssessmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssessmentsInput, ListAssessmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAssessmentsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Catalog", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssessmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssessmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAssessmentsInput, ListAssessmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAssessmentsInput, ListAssessmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Catalog"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAssessmentsInput, ListAssessmentsOutput>(serviceID: serviceName, version: MarketplaceCatalogClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceCatalog")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAssessments")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
