@@ -2956,6 +2956,8 @@ extension WorkSpacesClientTypes {
         public var computeTypeName: WorkSpacesClientTypes.Compute?
         /// Indicates the Global Accelerator properties.
         public var globalAccelerator: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace?
+        /// Specifies whether nested virtualization is enabled for the WorkSpace. For more information, see [Nested virtualization for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/nested-virtualization.html).
+        public var nestedVirtualizationEnabled: Swift.Bool?
         /// The name of the operating system.
         public var operatingSystemName: WorkSpacesClientTypes.OperatingSystemName?
         /// The protocol. For more information, see [ Protocols for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-protocols.html).
@@ -2978,6 +2980,7 @@ extension WorkSpacesClientTypes {
         public init(
             computeTypeName: WorkSpacesClientTypes.Compute? = nil,
             globalAccelerator: WorkSpacesClientTypes.GlobalAcceleratorForWorkSpace? = nil,
+            nestedVirtualizationEnabled: Swift.Bool? = nil,
             operatingSystemName: WorkSpacesClientTypes.OperatingSystemName? = nil,
             protocols: [WorkSpacesClientTypes.ModelProtocol]? = nil,
             rootVolumeSizeGib: Swift.Int? = nil,
@@ -2987,6 +2990,7 @@ extension WorkSpacesClientTypes {
         ) {
             self.computeTypeName = computeTypeName
             self.globalAccelerator = globalAccelerator
+            self.nestedVirtualizationEnabled = nestedVirtualizationEnabled
             self.operatingSystemName = operatingSystemName
             self.protocols = protocols
             self.rootVolumeSizeGib = rootVolumeSizeGib
@@ -3109,6 +3113,7 @@ extension WorkSpacesClientTypes {
 
     public enum ModificationResourceEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case computeType
+        case nestedVirtualization
         case `protocol`
         case rootVolume
         case userVolume
@@ -3117,6 +3122,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [ModificationResourceEnum] {
             return [
                 .computeType,
+                .nestedVirtualization,
                 .protocol,
                 .rootVolume,
                 .userVolume
@@ -3131,6 +3137,7 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .computeType: return "COMPUTE_TYPE"
+            case .nestedVirtualization: return "NESTED_VIRTUALIZATION"
             case .protocol: return "PROTOCOL"
             case .rootVolume: return "ROOT_VOLUME"
             case .userVolume: return "USER_VOLUME"
@@ -3176,7 +3183,7 @@ extension WorkSpacesClientTypes {
 
     /// Describes a WorkSpace modification.
     public struct ModificationState: Swift.Sendable {
-        /// The resource.
+        /// The WorkSpace property being modified.
         public var resource: WorkSpacesClientTypes.ModificationResourceEnum?
         /// The modification state.
         public var state: WorkSpacesClientTypes.ModificationStateEnum?
