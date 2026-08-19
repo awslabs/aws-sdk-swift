@@ -698,6 +698,54 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// Specifies the CloudWatch Container Insights mode for the compute environment.
+    public enum ContainerInsights: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case enhanced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerInsights] {
+            return [
+                .disabled,
+                .enabled,
+                .enhanced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .enhanced: return "ENHANCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The Amazon ECS settings for a compute environment, including the CloudWatch Container Insights mode. Use this structure with CreateComputeEnvironment and UpdateComputeEnvironment.
+    public struct EcsSettings: Swift.Sendable {
+        /// Specifies the CloudWatch Container Insights mode for the compute environment. Valid values are: ENABLED Turns on standard Container Insights, which collects CPU, memory, disk, and network utilization metrics for the compute environment. ENHANCED Turns on enhanced Container Insights, which collects the standard metrics along with additional per-task observability metrics. DISABLED Turns off Container Insights for the compute environment. If you don't specify a value, the default is DISABLED. For more information, see [Container Insights](https://docs.aws.amazon.com/batch/latest/userguide/cloudwatch-container-insights.html) in the Batch User Guide.
+        public var containerInsights: BatchClientTypes.ContainerInsights?
+
+        public init(
+            containerInsights: BatchClientTypes.ContainerInsights? = nil
+        ) {
+            self.containerInsights = containerInsights
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Configuration for the Amazon EKS cluster that supports the Batch compute environment. The cluster must exist before the compute environment can be created.
     public struct EksConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amazon EKS cluster. An example is arn:aws:eks:us-east-1:123456789012:cluster/ClusterForBatch .
@@ -784,6 +832,8 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
     public var computeResources: BatchClientTypes.ComputeResource?
     /// Reserved.
     public var context: Swift.String?
+    /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
+    public var ecsSettings: BatchClientTypes.EcsSettings?
     /// The details for the Amazon EKS cluster that supports the compute environment. To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
     public var eksConfiguration: BatchClientTypes.EksConfiguration?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole. If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
@@ -802,6 +852,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
         computeEnvironmentName: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResource? = nil,
         context: Swift.String? = nil,
+        ecsSettings: BatchClientTypes.EcsSettings? = nil,
         eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
@@ -812,6 +863,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
         self.computeEnvironmentName = computeEnvironmentName
         self.computeResources = computeResources
         self.context = context
+        self.ecsSettings = ecsSettings
         self.eksConfiguration = eksConfiguration
         self.serviceRole = serviceRole
         self.state = state
@@ -1835,6 +1887,8 @@ extension BatchClientTypes {
         public var context: Swift.String?
         /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster that the compute environment uses.
         public var ecsClusterArn: Swift.String?
+        /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection.
+        public var ecsSettings: BatchClientTypes.EcsSettings?
         /// The configuration for the Amazon EKS cluster that supports the Batch compute environment. Only specify this parameter if the containerOrchestrationType is EKS.
         public var eksConfiguration: BatchClientTypes.EksConfiguration?
         /// The service role that's associated with the compute environment that allows Batch to make calls to Amazon Web Services API operations on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide.
@@ -1863,6 +1917,7 @@ extension BatchClientTypes {
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
             context: Swift.String? = nil,
             ecsClusterArn: Swift.String? = nil,
+            ecsSettings: BatchClientTypes.EcsSettings? = nil,
             eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
             serviceRole: Swift.String? = nil,
             state: BatchClientTypes.CEState? = nil,
@@ -1880,6 +1935,7 @@ extension BatchClientTypes {
             self.containerOrchestrationType = containerOrchestrationType
             self.context = context
             self.ecsClusterArn = ecsClusterArn
+            self.ecsSettings = ecsSettings
             self.eksConfiguration = eksConfiguration
             self.serviceRole = serviceRole
             self.state = state
@@ -7004,6 +7060,8 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
     public var computeResources: BatchClientTypes.ComputeResourceUpdate?
     /// Reserved.
     public var context: Swift.String?
+    /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
+    public var ecsSettings: BatchClientTypes.EcsSettings?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
     /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -7017,6 +7075,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         computeEnvironment: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResourceUpdate? = nil,
         context: Swift.String? = nil,
+        ecsSettings: BatchClientTypes.EcsSettings? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
         unmanagedvCpus: Swift.Int? = nil,
@@ -7025,6 +7084,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         self.computeEnvironment = computeEnvironment
         self.computeResources = computeResources
         self.context = context
+        self.ecsSettings = ecsSettings
         self.serviceRole = serviceRole
         self.state = state
         self.unmanagedvCpus = unmanagedvCpus
@@ -7648,6 +7708,7 @@ extension CreateComputeEnvironmentInput {
         try writer["computeEnvironmentName"].write(value.computeEnvironmentName)
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResource.write(value:to:))
         try writer["context"].write(value.context)
+        try writer["ecsSettings"].write(value.ecsSettings, with: BatchClientTypes.EcsSettings.write(value:to:))
         try writer["eksConfiguration"].write(value.eksConfiguration, with: BatchClientTypes.EksConfiguration.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
@@ -8030,6 +8091,7 @@ extension UpdateComputeEnvironmentInput {
         try writer["computeEnvironment"].write(value.computeEnvironment)
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResourceUpdate.write(value:to:))
         try writer["context"].write(value.context)
+        try writer["ecsSettings"].write(value.ecsSettings, with: BatchClientTypes.EcsSettings.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
         try writer["unmanagedvCpus"].write(value.unmanagedvCpus)
@@ -9476,6 +9538,7 @@ extension BatchClientTypes.ComputeEnvironmentDetail {
         value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
         value.uuid = try reader["uuid"].readIfPresent()
         value.context = try reader["context"].readIfPresent()
+        value.ecsSettings = try reader["ecsSettings"].readIfPresent(with: BatchClientTypes.EcsSettings.read(from:))
         return value
     }
 }
@@ -9826,6 +9889,21 @@ extension BatchClientTypes.EcsPropertiesOverride {
     static func write(value: BatchClientTypes.EcsPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.TaskPropertiesOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.EcsSettings {
+
+    static func write(value: BatchClientTypes.EcsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerInsights"].write(value.containerInsights)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EcsSettings()
+        value.containerInsights = try reader["containerInsights"].readIfPresent()
+        return value
     }
 }
 

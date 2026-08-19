@@ -19328,6 +19328,37 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// A rectangle defined by position (x, y) and dimensions (width, height) in pixels. Used for output positioning and input cropping.
+    public struct VideoPositionRectangle: Swift.Sendable {
+        /// Height in pixels. Must be an even number.
+        /// This member is required.
+        public var height: Swift.Int?
+        /// Width in pixels. Must be an even number.
+        /// This member is required.
+        public var width: Swift.Int?
+        /// Left offset in pixels. Must be an even number.
+        /// This member is required.
+        public var x: Swift.Int?
+        /// Top offset in pixels. Must be an even number.
+        /// This member is required.
+        public var y: Swift.Int?
+
+        public init(
+            height: Swift.Int? = nil,
+            width: Swift.Int? = nil,
+            x: Swift.Int? = nil,
+            y: Swift.Int? = nil
+        ) {
+            self.height = height
+            self.width = width
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Video Description Respond To Afd
     public enum VideoDescriptionRespondToAfd: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
@@ -19398,11 +19429,15 @@ extension MediaLiveClientTypes {
     public struct VideoDescription: Swift.Sendable {
         /// Video codec settings.
         public var codecSettings: MediaLiveClientTypes.VideoCodecSettings?
+        /// Region of the input video to crop before scaling. If not specified, the entire input frame is used. Note: Unlike {@link outputPositionRectangle}, the bounds of cropRectangle are validated at ingest time by the encoder/scaler rather than at the API level, because the input resolution is not known until the source is probed. Field-level constraints on (x, y, width, height) defined on {@link VideoPositionRectangle} still apply.
+        public var cropRectangle: MediaLiveClientTypes.VideoPositionRectangle?
         /// Output video height, in pixels. Must be an even number. For most codecs, you can leave this field and width blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
         public var height: Swift.Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description. Description names should be unique within this Live Event.
         /// This member is required.
         public var name: Swift.String?
+        /// Position of the encoded video within the output frame. The area outside the rectangle is filled with black. If not specified, the video fills the entire output frame. When used, both {@link width} and {@link height} of the VideoDescription must be explicitly specified so that the rectangle can be validated against the output frame.
+        public var outputPositionRectangle: MediaLiveClientTypes.VideoPositionRectangle?
         /// Indicates how MediaLive will respond to the AFD values that might be in the input video. If you do not know what AFD signaling is, or if your downstream system has not given you guidance, choose PASSTHROUGH. RESPOND: MediaLive clips the input video using a formula that uses the AFD values (configured in afdSignaling ), the input display aspect ratio, and the output display aspect ratio. MediaLive also includes the AFD values in the output, unless the codec for this encode is FRAME_CAPTURE. PASSTHROUGH: MediaLive ignores the AFD values and does not clip the video. But MediaLive does include the values in the output. NONE: MediaLive does not clip the input video and does not include the AFD values in the output
         public var respondToAfd: MediaLiveClientTypes.VideoDescriptionRespondToAfd?
         /// Configures how MediaLive transforms the video picture to match the output frame. Use STRETCH_TO_OUTPUT to stretch the video to fill the output frame. The video might get distorted. Use DEFAULT to insert pillar boxes or letter boxes around the video to fill the output frame. The video won't get distorted. Use SMART_CROP to enable the smart crop feature that uses the Elemental Inference service to crop the frame using AI - see the MediaLive User Guide for more information.
@@ -19414,16 +19449,20 @@ extension MediaLiveClientTypes {
 
         public init(
             codecSettings: MediaLiveClientTypes.VideoCodecSettings? = nil,
+            cropRectangle: MediaLiveClientTypes.VideoPositionRectangle? = nil,
             height: Swift.Int? = nil,
             name: Swift.String? = nil,
+            outputPositionRectangle: MediaLiveClientTypes.VideoPositionRectangle? = nil,
             respondToAfd: MediaLiveClientTypes.VideoDescriptionRespondToAfd? = nil,
             scalingBehavior: MediaLiveClientTypes.VideoDescriptionScalingBehavior? = nil,
             sharpness: Swift.Int? = nil,
             width: Swift.Int? = nil
         ) {
             self.codecSettings = codecSettings
+            self.cropRectangle = cropRectangle
             self.height = height
             self.name = name
+            self.outputPositionRectangle = outputPositionRectangle
             self.respondToAfd = respondToAfd
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
@@ -41674,8 +41713,10 @@ extension MediaLiveClientTypes.VideoDescription {
     static func write(value: MediaLiveClientTypes.VideoDescription?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["codecSettings"].write(value.codecSettings, with: MediaLiveClientTypes.VideoCodecSettings.write(value:to:))
+        try writer["cropRectangle"].write(value.cropRectangle, with: MediaLiveClientTypes.VideoPositionRectangle.write(value:to:))
         try writer["height"].write(value.height)
         try writer["name"].write(value.name)
+        try writer["outputPositionRectangle"].write(value.outputPositionRectangle, with: MediaLiveClientTypes.VideoPositionRectangle.write(value:to:))
         try writer["respondToAfd"].write(value.respondToAfd)
         try writer["scalingBehavior"].write(value.scalingBehavior)
         try writer["sharpness"].write(value.sharpness)
@@ -41692,6 +41733,29 @@ extension MediaLiveClientTypes.VideoDescription {
         value.scalingBehavior = try reader["scalingBehavior"].readIfPresent()
         value.sharpness = try reader["sharpness"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
+        value.cropRectangle = try reader["cropRectangle"].readIfPresent(with: MediaLiveClientTypes.VideoPositionRectangle.read(from:))
+        value.outputPositionRectangle = try reader["outputPositionRectangle"].readIfPresent(with: MediaLiveClientTypes.VideoPositionRectangle.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.VideoPositionRectangle {
+
+    static func write(value: MediaLiveClientTypes.VideoPositionRectangle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["height"].write(value.height)
+        try writer["width"].write(value.width)
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.VideoPositionRectangle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.VideoPositionRectangle()
+        value.height = try reader["height"].readIfPresent() ?? 0
+        value.width = try reader["width"].readIfPresent() ?? 0
+        value.x = try reader["x"].readIfPresent() ?? 0
+        value.y = try reader["y"].readIfPresent() ?? 0
         return value
     }
 }

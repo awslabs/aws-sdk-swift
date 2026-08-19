@@ -2652,6 +2652,52 @@ extension RedshiftClientTypes {
 
 extension RedshiftClientTypes {
 
+    /// Describes the status of system table publishing to S3 Tables for a cluster.
+    public struct S3TablePublishStatus: Swift.Sendable {
+        /// true if the cluster is enrolled in all current and future system tables rather than an explicit subset.
+        public var enabledAll: Swift.Bool?
+        /// A map whose keys are the names of the published system tables and whose values are the time each table last received data. Use this to judge data freshness.
+        public var lastIngestionTimes: [Swift.String: Swift.String]?
+        /// The scope of system table publishing in effect. Possible values are cluster and account.
+        public var s3TableGranularity: Swift.String?
+        /// The namespace in the S3 table bucket that holds the published tables.
+        public var s3TableNamespace: Swift.String?
+        /// The system tables currently being published.
+        public var s3Tables: [Swift.String]?
+
+        public init(
+            enabledAll: Swift.Bool? = nil,
+            lastIngestionTimes: [Swift.String: Swift.String]? = nil,
+            s3TableGranularity: Swift.String? = nil,
+            s3TableNamespace: Swift.String? = nil,
+            s3Tables: [Swift.String]? = nil
+        ) {
+            self.enabledAll = enabledAll
+            self.lastIngestionTimes = lastIngestionTimes
+            self.s3TableGranularity = s3TableGranularity
+            self.s3TableNamespace = s3TableNamespace
+            self.s3Tables = s3Tables
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// Describes the system table publishing status for a cluster.
+    public struct LoggingPublishStatus: Swift.Sendable {
+        /// The status of system table publishing to S3 Tables.
+        public var s3Tables: RedshiftClientTypes.S3TablePublishStatus?
+
+        public init(
+            s3Tables: RedshiftClientTypes.S3TablePublishStatus? = nil
+        ) {
+            self.s3Tables = s3Tables
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
     /// The AvailabilityZone and ClusterNodes information of the secondary compute unit.
     public struct SecondaryClusterInfo: Swift.Sendable {
         /// The name of the Availability Zone in which the secondary compute unit of the cluster is located.
@@ -3026,6 +3072,8 @@ extension RedshiftClientTypes {
         public var kmsKeyId: Swift.String?
         /// The status of the lakehouse registration for the cluster. Indicates whether the cluster is successfully registered with Amazon Redshift federated permissions.
         public var lakehouseRegistrationStatus: Swift.String?
+        /// The status of system table publishing for the cluster. This field is present only when system table publishing is configured.
+        public var loggingPublishStatus: RedshiftClientTypes.LoggingPublishStatus?
         /// The name of the maintenance track for the cluster.
         public var maintenanceTrackName: Swift.String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
@@ -3119,6 +3167,7 @@ extension RedshiftClientTypes {
             ipAddressType: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             lakehouseRegistrationStatus: Swift.String? = nil,
+            loggingPublishStatus: RedshiftClientTypes.LoggingPublishStatus? = nil,
             maintenanceTrackName: Swift.String? = nil,
             manualSnapshotRetentionPeriod: Swift.Int? = nil,
             masterPasswordSecretArn: Swift.String? = nil,
@@ -3183,6 +3232,7 @@ extension RedshiftClientTypes {
             self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
+            self.loggingPublishStatus = loggingPublishStatus
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.masterPasswordSecretArn = masterPasswordSecretArn
@@ -9744,12 +9794,14 @@ extension RedshiftClientTypes {
     public enum LogDestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudwatch
         case s3
+        case s3table
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogDestinationType] {
             return [
                 .cloudwatch,
-                .s3
+                .s3,
+                .s3table
             ]
         }
 
@@ -9762,6 +9814,7 @@ extension RedshiftClientTypes {
             switch self {
             case .cloudwatch: return "cloudwatch"
             case .s3: return "s3"
+            case .s3table: return "s3table"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9778,14 +9831,16 @@ public struct DescribeLoggingStatusOutput: Swift.Sendable {
     public var lastFailureTime: Foundation.Date?
     /// The last time that logs were delivered.
     public var lastSuccessfulDeliveryTime: Foundation.Date?
-    /// The log destination type. An enum with possible values of s3 and cloudwatch.
+    /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
+    /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and userlog. When LogDestinationType is s3table, the values are the names of the system tables being published.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
     public var loggingEnabled: Swift.Bool?
     /// The prefix applied to the log file names.
     public var s3KeyPrefix: Swift.String?
+    /// The status of system table publishing to S3 Tables. This field is populated only when system table publishing is active.
+    public var s3Tables: RedshiftClientTypes.S3TablePublishStatus?
 
     public init(
         bucketName: Swift.String? = nil,
@@ -9795,7 +9850,8 @@ public struct DescribeLoggingStatusOutput: Swift.Sendable {
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
         loggingEnabled: Swift.Bool? = nil,
-        s3KeyPrefix: Swift.String? = nil
+        s3KeyPrefix: Swift.String? = nil,
+        s3Tables: RedshiftClientTypes.S3TablePublishStatus? = nil
     ) {
         self.bucketName = bucketName
         self.lastFailureMessage = lastFailureMessage
@@ -9805,6 +9861,7 @@ public struct DescribeLoggingStatusOutput: Swift.Sendable {
         self.logExports = logExports
         self.loggingEnabled = loggingEnabled
         self.s3KeyPrefix = s3KeyPrefix
+        self.s3Tables = s3Tables
     }
 }
 
@@ -11243,11 +11300,19 @@ public struct DisableLoggingInput: Swift.Sendable {
     /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster
     /// This member is required.
     public var clusterIdentifier: Swift.String?
+    /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table. When set to s3table, stops system table publishing. When omitted, the operation disables audit logging.
+    public var logDestinationType: RedshiftClientTypes.LogDestinationType?
+    /// The collection of log types to stop exporting. When LogDestinationType is s3table, the values are the names of the system tables to stop publishing. Omitting this parameter or passing all stops publishing all system tables.
+    public var logExports: [Swift.String]?
 
     public init(
-        clusterIdentifier: Swift.String? = nil
+        clusterIdentifier: Swift.String? = nil,
+        logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
+        logExports: [Swift.String]? = nil
     ) {
         self.clusterIdentifier = clusterIdentifier
+        self.logDestinationType = logDestinationType
+        self.logExports = logExports
     }
 }
 
@@ -11261,14 +11326,16 @@ public struct DisableLoggingOutput: Swift.Sendable {
     public var lastFailureTime: Foundation.Date?
     /// The last time that logs were delivered.
     public var lastSuccessfulDeliveryTime: Foundation.Date?
-    /// The log destination type. An enum with possible values of s3 and cloudwatch.
+    /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
+    /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and userlog. When LogDestinationType is s3table, the values are the names of the system tables being published.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
     public var loggingEnabled: Swift.Bool?
     /// The prefix applied to the log file names.
     public var s3KeyPrefix: Swift.String?
+    /// The status of system table publishing to S3 Tables. This field is populated only when system table publishing is active.
+    public var s3Tables: RedshiftClientTypes.S3TablePublishStatus?
 
     public init(
         bucketName: Swift.String? = nil,
@@ -11278,7 +11345,8 @@ public struct DisableLoggingOutput: Swift.Sendable {
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
         loggingEnabled: Swift.Bool? = nil,
-        s3KeyPrefix: Swift.String? = nil
+        s3KeyPrefix: Swift.String? = nil,
+        s3Tables: RedshiftClientTypes.S3TablePublishStatus? = nil
     ) {
         self.bucketName = bucketName
         self.lastFailureMessage = lastFailureMessage
@@ -11288,6 +11356,7 @@ public struct DisableLoggingOutput: Swift.Sendable {
         self.logExports = logExports
         self.loggingEnabled = loggingEnabled
         self.s3KeyPrefix = s3KeyPrefix
+        self.s3Tables = s3Tables
     }
 }
 
@@ -11473,25 +11542,33 @@ public struct EnableLoggingInput: Swift.Sendable {
     /// The identifier of the cluster on which logging is to be started. Example: examplecluster
     /// This member is required.
     public var clusterIdentifier: Swift.String?
-    /// The log destination type. An enum with possible values of s3 and cloudwatch.
+    /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
+    /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and userlog. When LogDestinationType is s3table, the values are the names of the system tables to publish. Omitting this parameter, passing an empty list, or including the value all publishes all current and future system tables.
     public var logExports: [Swift.String]?
     /// The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters: underscore (_), period (.), colon (:), slash (/), equal (=), plus (+), backslash (\), hyphen (-), at symbol (@).
     public var s3KeyPrefix: Swift.String?
+    /// The scope of system table publishing. Valid values are cluster and account. A value of cluster scopes publishing to the individual cluster. A value of account scopes publishing to the Amazon Web Services account. This parameter is valid only when LogDestinationType is s3table.
+    public var s3TableGranularity: Swift.String?
+    /// The identifier of a customer managed KMS key used to encrypt the S3 tables. This parameter is valid only when LogDestinationType is s3table.
+    public var s3TableKmsKeyId: Swift.String?
 
     public init(
         bucketName: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
-        s3KeyPrefix: Swift.String? = nil
+        s3KeyPrefix: Swift.String? = nil,
+        s3TableGranularity: Swift.String? = nil,
+        s3TableKmsKeyId: Swift.String? = nil
     ) {
         self.bucketName = bucketName
         self.clusterIdentifier = clusterIdentifier
         self.logDestinationType = logDestinationType
         self.logExports = logExports
         self.s3KeyPrefix = s3KeyPrefix
+        self.s3TableGranularity = s3TableGranularity
+        self.s3TableKmsKeyId = s3TableKmsKeyId
     }
 }
 
@@ -11505,14 +11582,16 @@ public struct EnableLoggingOutput: Swift.Sendable {
     public var lastFailureTime: Foundation.Date?
     /// The last time that logs were delivered.
     public var lastSuccessfulDeliveryTime: Foundation.Date?
-    /// The log destination type. An enum with possible values of s3 and cloudwatch.
+    /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
+    /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and userlog. When LogDestinationType is s3table, the values are the names of the system tables being published.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
     public var loggingEnabled: Swift.Bool?
     /// The prefix applied to the log file names.
     public var s3KeyPrefix: Swift.String?
+    /// The status of system table publishing to S3 Tables. This field is populated only when system table publishing is active.
+    public var s3Tables: RedshiftClientTypes.S3TablePublishStatus?
 
     public init(
         bucketName: Swift.String? = nil,
@@ -11522,7 +11601,8 @@ public struct EnableLoggingOutput: Swift.Sendable {
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
         loggingEnabled: Swift.Bool? = nil,
-        s3KeyPrefix: Swift.String? = nil
+        s3KeyPrefix: Swift.String? = nil,
+        s3Tables: RedshiftClientTypes.S3TablePublishStatus? = nil
     ) {
         self.bucketName = bucketName
         self.lastFailureMessage = lastFailureMessage
@@ -11532,6 +11612,7 @@ public struct EnableLoggingOutput: Swift.Sendable {
         self.logExports = logExports
         self.loggingEnabled = loggingEnabled
         self.s3KeyPrefix = s3KeyPrefix
+        self.s3Tables = s3Tables
     }
 }
 
@@ -12593,7 +12674,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     public var manualSnapshotRetentionPeriod: Swift.Int?
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret. You can only use this parameter if ManageMasterPassword is true.
     public var masterPasswordSecretKmsKeyId: Swift.String?
-    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true. If your admin user account is locked, this operation also unlocks your account and resets the failed-login counter. This option is available only when account lockout security is enabled for the cluster. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
+    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. You can't use MasterUserPassword if ManageMasterPassword is true. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -16644,6 +16725,8 @@ extension DisableLoggingInput {
     static func write(value: DisableLoggingInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+        try writer["LogDestinationType"].write(value.logDestinationType)
+        try writer["LogExports"].writeList(value.logExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("DisableLogging")
         try writer["Version"].write("2012-12-01")
     }
@@ -16681,6 +16764,8 @@ extension EnableLoggingInput {
         try writer["LogDestinationType"].write(value.logDestinationType)
         try writer["LogExports"].writeList(value.logExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
+        try writer["S3TableGranularity"].write(value.s3TableGranularity)
+        try writer["S3TableKmsKeyId"].write(value.s3TableKmsKeyId)
         try writer["Action"].write("EnableLogging")
         try writer["Version"].write("2012-12-01")
     }
@@ -18317,6 +18402,7 @@ extension DescribeLoggingStatusOutput {
         value.logExports = try reader["LogExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent()
         value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        value.s3Tables = try reader["S3Tables"].readIfPresent(with: RedshiftClientTypes.S3TablePublishStatus.read(from:))
         return value
     }
 }
@@ -18557,6 +18643,7 @@ extension DisableLoggingOutput {
         value.logExports = try reader["LogExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent()
         value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        value.s3Tables = try reader["S3Tables"].readIfPresent(with: RedshiftClientTypes.S3TablePublishStatus.read(from:))
         return value
     }
 }
@@ -18605,6 +18692,7 @@ extension EnableLoggingOutput {
         value.logExports = try reader["LogExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent()
         value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        value.s3Tables = try reader["S3Tables"].readIfPresent(with: RedshiftClientTypes.S3TablePublishStatus.read(from:))
         return value
     }
 }
@@ -23761,6 +23849,7 @@ extension RedshiftClientTypes.Cluster {
         value.lakehouseRegistrationStatus = try reader["LakehouseRegistrationStatus"].readIfPresent()
         value.catalogArn = try reader["CatalogArn"].readIfPresent()
         value.extraComputeForAutomaticOptimization = try reader["ExtraComputeForAutomaticOptimization"].readIfPresent()
+        value.loggingPublishStatus = try reader["LoggingPublishStatus"].readIfPresent(with: RedshiftClientTypes.LoggingPublishStatus.read(from:))
         return value
     }
 }
@@ -24286,6 +24375,16 @@ extension RedshiftClientTypes.LakeFormationScopeUnion {
     }
 }
 
+extension RedshiftClientTypes.LoggingPublishStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.LoggingPublishStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.LoggingPublishStatus()
+        value.s3Tables = try reader["S3Tables"].readIfPresent(with: RedshiftClientTypes.S3TablePublishStatus.read(from:))
+        return value
+    }
+}
+
 extension RedshiftClientTypes.MaintenanceTrack {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.MaintenanceTrack {
@@ -24767,6 +24866,20 @@ extension RedshiftClientTypes.S3AccessGrantsScopeUnion {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension RedshiftClientTypes.S3TablePublishStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.S3TablePublishStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.S3TablePublishStatus()
+        value.s3Tables = try reader["S3Tables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.s3TableNamespace = try reader["S3TableNamespace"].readIfPresent()
+        value.s3TableGranularity = try reader["S3TableGranularity"].readIfPresent()
+        value.enabledAll = try reader["EnabledAll"].readIfPresent()
+        value.lastIngestionTimes = try reader["LastIngestionTimes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

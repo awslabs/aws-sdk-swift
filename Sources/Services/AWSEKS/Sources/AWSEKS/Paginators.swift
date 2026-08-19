@@ -238,6 +238,37 @@ extension PaginatorSequence where OperationStackInput == ListCapabilitiesInput, 
     }
 }
 extension EKSClient {
+    /// Paginate over `[ListCertificateAuthoritiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCertificateAuthoritiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificateAuthoritiesOutput`
+    public func listCertificateAuthoritiesPaginated(input: ListCertificateAuthoritiesInput) -> ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCertificateAuthorities(input:))
+    }
+}
+
+extension ListCertificateAuthoritiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCertificateAuthoritiesInput {
+        return ListCertificateAuthoritiesInput(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCertificateAuthoritiesInput, OperationStackOutput == ListCertificateAuthoritiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCertificateAuthoritiesPaginated`
+    /// to access the nested member `[EKSClientTypes.CertificateAuthoritySummary]`
+    /// - Returns: `[EKSClientTypes.CertificateAuthoritySummary]`
+    public func certificateAuthorities() async throws -> [EKSClientTypes.CertificateAuthoritySummary] {
+        return try await self.asyncCompactMap { item in item.certificateAuthorities }
+    }
+}
+extension EKSClient {
     /// Paginate over `[ListClustersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
