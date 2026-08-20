@@ -214,6 +214,98 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         )
     }
 
+    // MARK: - enableAwsChunked config gating
+
+    // Sets a streaming payload backed by a closed BufferedStream, which has a known
+    // length and is therefore eligible for aws-chunked streaming.
+    private func setChunkedEligibleStreamingPayload(_ data: Data) {
+        builder.serialize({ input, builder, ctx in
+            builder.withBody(.stream(BufferedStream(data: data, isClosed: true)))
+        })
+    }
+
+    // Asserts that aws-chunked encoding is applied: the aws-chunked headers and the
+    // trailing-checksum header are set, and no direct checksum header is present.
+    private func assertAwsChunkedApplied(
+        checksumHeader: String,
+        file: StaticString = #filePath, line: UInt = #line
+    ) async throws {
+        _ = try await builder.executeRequest({ request, attributes in
+            XCTAssertEqual(
+                request.headers.value(for: "Content-Encoding"), "aws-chunked",
+                "Expected aws-chunked Content-Encoding", file: file, line: line
+            )
+            XCTAssertEqual(
+                request.headers.value(for: "x-amz-trailer"), checksumHeader,
+                "Expected checksum to be sent as a trailing header", file: file, line: line
+            )
+            XCTAssertNil(
+                request.headers.value(for: checksumHeader),
+                "Checksum must not be a direct header when aws-chunked is used", file: file, line: line
+            )
+            return HTTPResponse(body: ByteStream.noStream, statusCode: .ok)
+        })
+        .build()
+        .execute(input: MockInput())
+    }
+
+    // Asserts that aws-chunked encoding is NOT applied: no aws-chunked headers or
+    // trailer, and the checksum is computed inline as a direct header.
+    private func assertAwsChunkedNotApplied(
+        checksumHeader: String,
+        expectedChecksum: String,
+        file: StaticString = #filePath, line: UInt = #line
+    ) async throws {
+        _ = try await builder.executeRequest({ request, attributes in
+            XCTAssertNil(
+                request.headers.value(for: "Content-Encoding"),
+                "aws-chunked Content-Encoding must not be set when disabled", file: file, line: line
+            )
+            XCTAssertNil(
+                request.headers.value(for: "x-amz-trailer"),
+                "Trailing checksum header must not be set when aws-chunked is disabled", file: file, line: line
+            )
+            XCTAssertEqual(
+                request.headers.value(for: checksumHeader), expectedChecksum,
+                "Checksum must be a direct header when aws-chunked is disabled", file: file, line: line
+            )
+            return HTTPResponse(body: ByteStream.noStream, statusCode: .ok)
+        })
+        .build()
+        .execute(input: MockInput())
+    }
+
+    // Default behavior: when `enableAwsChunked` is left unset on the context, it
+    // defaults to `true`, so eligible streaming payloads use aws-chunked encoding.
+    func testEnableAwsChunkedDefaultsToTrue() async throws {
+        XCTAssertTrue(builtContext.enableAwsChunked, "enableAwsChunked should default to true")
+        setChunkedEligibleStreamingPayload(Data("Hello world".utf8))
+        addFlexibleChecksumsRequestMiddleware(true, "crc32")
+        try await assertAwsChunkedApplied(checksumHeader: "x-amz-checksum-crc32")
+    }
+
+    // When `enableAwsChunked` is explicitly true, eligible streaming payloads use
+    // aws-chunked encoding (same as the default).
+    func testEnableAwsChunkedExplicitlyTrue() async throws {
+        builder.attributes.enableAwsChunked = true
+        setChunkedEligibleStreamingPayload(Data("Hello world".utf8))
+        addFlexibleChecksumsRequestMiddleware(true, "crc32")
+        try await assertAwsChunkedApplied(checksumHeader: "x-amz-checksum-crc32")
+    }
+
+    // When `enableAwsChunked` is false, aws-chunked encoding is disabled even for an
+    // eligible streaming payload; the checksum is added inline as a direct header.
+    func testEnableAwsChunkedFalseDisablesAwsChunked() async throws {
+        builder.attributes.enableAwsChunked = false
+        setChunkedEligibleStreamingPayload(Data("Hello world".utf8))
+        addFlexibleChecksumsRequestMiddleware(true, "crc32")
+        // crc32 of "Hello world" — matches testNormalPayloadCRC32.
+        try await assertAwsChunkedNotApplied(
+            checksumHeader: "x-amz-checksum-crc32",
+            expectedChecksum: "i9aeUg=="
+        )
+    }
+
     /*
      * Algorithm Selection Tests for Response
      */
