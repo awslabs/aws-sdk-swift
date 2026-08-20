@@ -718,7 +718,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
-    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see [Block public access to Lambda resources](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#access-control-block-public-access).
+    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda resource would grant public access to it, which isn't allowed.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -2089,6 +2089,81 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProvisionedConcurrencyConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteResourcePolicy` operation on the `Lambda` service.
+    ///
+    /// Deletes a [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) from a Lambda resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResourcePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3538,6 +3613,74 @@ extension LambdaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetProvisionedConcurrencyConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetResourcePolicy` operation on the `Lambda` service.
+    ///
+    /// Retrieves the [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) attached to a Lambda resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResourcePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5549,6 +5692,85 @@ extension LambdaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutResourcePolicy` operation on the `Lambda` service.
+    ///
+    /// Adds a [resource-based policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) to a Lambda resource. Resource-based policies grant access to other [Amazon Web Services accounts](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-cross-account.html), [organizations](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-organization.html), or [services](https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-services.html). Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias). This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the [AddPermission] operation, the new policy overwrites those permissions.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `PolicyLengthExceededException` : The permissions policy for the resource is too large. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
+    /// - `PreconditionFailedException` : The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.
+    ///
+    /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
+    ///
+    /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda resource would grant public access to it, which isn't allowed.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putResourcePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: LambdaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lambda")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutRuntimeManagementConfig` operation on the `Lambda` service.
     ///
     /// Sets the runtime management configuration for a function's version. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
@@ -5713,7 +5935,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
-    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see [Block public access to Lambda resources](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#access-control-block-public-access).
+    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda resource would grant public access to it, which isn't allowed.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).

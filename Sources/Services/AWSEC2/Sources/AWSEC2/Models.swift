@@ -5408,7 +5408,7 @@ public struct AssociateApplicationStatusCheckInput: Swift.Sendable {
     /// The ID of the application status check to associate.
     /// This member is required.
     public var applicationStatusCheckId: Swift.String?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -10432,7 +10432,7 @@ extension EC2ClientTypes {
 public struct CreateApplicationStatusCheckInput: Swift.Sendable {
     /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
     public var aggregation: EC2ClientTypes.AggregationStatusEnum?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The index of the network device to use for the health check. The value must be greater than or equal to 0.
     public var deviceIndex: Swift.Int?
@@ -39655,7 +39655,7 @@ public struct DeleteApplicationStatusCheckInput: Swift.Sendable {
     /// The ID of the application status check to delete.
     /// This member is required.
     public var applicationStatusCheckId: Swift.String?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -67388,7 +67388,7 @@ public struct DisableAllowedImagesSettingsOutput: Swift.Sendable {
 }
 
 public struct DisableApplicationStatusCheckSuppressionInput: Swift.Sendable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -68392,7 +68392,7 @@ public struct DisassociateApplicationStatusCheckInput: Swift.Sendable {
     /// The ID of the application status check to disassociate.
     /// This member is required.
     public var applicationStatusCheckId: Swift.String?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -69042,7 +69042,7 @@ public struct EnableAllowedImagesSettingsOutput: Swift.Sendable {
 }
 
 public struct EnableApplicationStatusCheckSuppressionInput: Swift.Sendable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -72983,6 +72983,11 @@ public struct GetInstanceUefiDataOutput: Swift.Sendable {
         self.instanceId = instanceId
         self.uefiData = uefiData
     }
+}
+
+extension GetInstanceUefiDataOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetInstanceUefiDataOutput(instanceId: \(Swift.String(describing: instanceId)), uefiData: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetIpamAddressHistoryInput: Swift.Sendable {
@@ -78522,7 +78527,7 @@ public struct ModifyApplicationStatusCheckInput: Swift.Sendable {
     /// The ID of the application status check to modify.
     /// This member is required.
     public var applicationStatusCheckId: Swift.String?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The index of the network device to use for the health check. The value must be greater than or equal to 0.
     public var deviceIndex: Swift.Int?
@@ -84486,6 +84491,11 @@ public struct RegisterImageInput: Swift.Sendable {
         self.uefiData = uefiData
         self.virtualizationType = virtualizationType
     }
+}
+
+extension RegisterImageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterImageInput(architecture: \(Swift.String(describing: architecture)), billingProducts: \(Swift.String(describing: billingProducts)), blockDeviceMappings: \(Swift.String(describing: blockDeviceMappings)), bootMode: \(Swift.String(describing: bootMode)), description: \(Swift.String(describing: description)), dryRun: \(Swift.String(describing: dryRun)), enaSupport: \(Swift.String(describing: enaSupport)), imageLocation: \(Swift.String(describing: imageLocation)), imdsSupport: \(Swift.String(describing: imdsSupport)), kernelId: \(Swift.String(describing: kernelId)), name: \(Swift.String(describing: name)), ramdiskId: \(Swift.String(describing: ramdiskId)), rootDeviceName: \(Swift.String(describing: rootDeviceName)), sriovNetSupport: \(Swift.String(describing: sriovNetSupport)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tpmSupport: \(Swift.String(describing: tpmSupport)), virtualizationType: \(Swift.String(describing: virtualizationType)), uefiData: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the output of RegisterImage.

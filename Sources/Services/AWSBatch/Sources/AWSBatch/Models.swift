@@ -547,6 +547,202 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The infrastructure optimization configuration for an Amazon ECS Managed Instances capacity provider. Specifies the idle-instance scale-in behavior.
+    public struct InfrastructureOptimization: Swift.Sendable {
+        /// The number of seconds an instance can remain idle before it is terminated. Valid values are -1 or 0 to 3600. Use -1 as a special value to disable scale-in (instances are never terminated for being idle). If not specified, a default value applies.
+        public var scaleInAfter: Swift.Int?
+
+        public init(
+            scaleInAfter: Swift.Int? = nil
+        ) {
+            self.scaleInAfter = scaleInAfter
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity reservation configuration for Amazon ECS Managed Instances. Use this to target On-Demand Capacity Reservations or Reserved Instances.
+    public struct CapacityReservationRequest: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capacity reservation group to target.
+        public var reservationGroupArn: Swift.String?
+        /// The capacity reservation preference. Valid values:
+        ///
+        /// * RESERVATIONS_ONLY — Use only capacity reservations.
+        ///
+        /// * RESERVATIONS_FIRST — Prefer capacity reservations but fall back to On-Demand if unavailable.
+        ///
+        /// * RESERVATIONS_EXCLUDED — Do not use capacity reservations.
+        public var reservationPreference: Swift.String?
+
+        public init(
+            reservationGroupArn: Swift.String? = nil,
+            reservationPreference: Swift.String? = nil
+        ) {
+            self.reservationGroupArn = reservationGroupArn
+            self.reservationPreference = reservationPreference
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The instance type requirements for the Amazon ECS Managed Instances capacity provider. Use this to specify which Amazon EC2 instance types or instance families Amazon ECS can launch.
+    public struct InstanceRequirementsRequest: Swift.Sendable {
+        /// A list of specific instance types or instance families that Amazon ECS can launch (for example, m5.large or g5). When specified, only these instance types are used.
+        public var allowedInstanceTypes: [Swift.String]?
+
+        public init(
+            allowedInstanceTypes: [Swift.String]? = nil
+        ) {
+            self.allowedInstanceTypes = allowedInstanceTypes
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The local storage configuration for Amazon ECS Managed Instances.
+    public struct ManagedInstancesLocalStorageConfiguration: Swift.Sendable {
+        /// Specifies whether instance store volumes (local NVMe SSDs) are available to containers. When enabled, containers can use the instance store for high-performance temporary storage.
+        public var useLocalStorage: Swift.Bool?
+
+        public init(
+            useLocalStorage: Swift.Bool? = nil
+        ) {
+            self.useLocalStorage = useLocalStorage
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The network configuration for Amazon ECS Managed Instances. Specifies the VPC subnets and security groups where instances are launched.
+    public struct ManagedInstancesNetworkConfiguration: Swift.Sendable {
+        /// The VPC security groups to associate with the managed instances.
+        /// This member is required.
+        public var securityGroups: [Swift.String]?
+        /// The VPC subnets where managed instances are launched. If your subnets don't provide public IP addresses, they must have a NAT gateway for outbound internet access.
+        /// This member is required.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The storage configuration for Amazon ECS Managed Instances.
+    public struct ManagedInstancesStorageConfiguration: Swift.Sendable {
+        /// The size of the root EBS volume in GiB for the managed instances.
+        public var storageSizeGiB: Swift.Int?
+
+        public init(
+            storageSizeGiB: Swift.Int? = nil
+        ) {
+            self.storageSizeGiB = storageSizeGiB
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The instance launch configuration for an Amazon ECS Managed Instances capacity provider. Specifies the instance profile, networking, instance selection constraints, capacity pricing model, storage, and monitoring settings.
+    public struct InstanceLaunchTemplate: Swift.Sendable {
+        /// The capacity pricing model for the managed instances. Valid values:
+        ///
+        /// * ON_DEMAND (default) — On-Demand pricing.
+        ///
+        /// * SPOT — Spot Instances, which can provide significant cost savings for fault-tolerant workloads.
+        public var capacityOptionType: Swift.String?
+        /// The capacity reservation configuration for the managed instances. Use this to target On-Demand Capacity Reservations or Reserved Instances for predictable capacity and cost optimization.
+        public var capacityReservations: BatchClientTypes.CapacityReservationRequest?
+        /// The Amazon Resource Name (ARN) of the Amazon EC2 instance profile for the managed instances. The instance profile must use the AmazonECSInstanceRolePolicyForManagedInstances managed policy with a trust policy for ec2.amazonaws.com.
+        /// This member is required.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// Specifies whether FIPS 140-2 validated cryptographic modules are enabled on the managed instances. Not available in all Regions.
+        public var fipsEnabled: Swift.Bool?
+        /// Specifies whether instance tags are accessible from the instance metadata service (IMDS). If not specified, instance tags are not accessible from IMDS.
+        public var instanceMetadataTagsPropagation: Swift.Bool?
+        /// The instance type requirements for the capacity provider. Use this to constrain which Amazon EC2 instance types Amazon ECS can launch. If not specified, all available instance types are eligible.
+        public var instanceRequirements: BatchClientTypes.InstanceRequirementsRequest?
+        /// The local storage configuration for the managed instances. If not specified, instance store volumes are not available to containers.
+        public var localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration?
+        /// The level of CloudWatch monitoring for the managed instances. Valid values are BASIC and DETAILED.
+        public var monitoring: Swift.String?
+        /// The network configuration for the managed instances. Specifies the VPC subnets and security groups where instances are launched.
+        /// This member is required.
+        public var networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The storage configuration for the managed instances. Configures the root EBS volume size. If not specified, the service uses the default EBS volume size for the instance type.
+        public var storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            capacityOptionType: Swift.String? = nil,
+            capacityReservations: BatchClientTypes.CapacityReservationRequest? = nil,
+            ec2InstanceProfileArn: Swift.String? = nil,
+            fipsEnabled: Swift.Bool? = nil,
+            instanceMetadataTagsPropagation: Swift.Bool? = nil,
+            instanceRequirements: BatchClientTypes.InstanceRequirementsRequest? = nil,
+            localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
+            monitoring: Swift.String? = nil,
+            networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.capacityOptionType = capacityOptionType
+            self.capacityReservations = capacityReservations
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.fipsEnabled = fipsEnabled
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
+            self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The configuration for an Amazon ECS Managed Instances capacity provider. This object is required when creating a compute environment with computeResources.type set to ECS_MANAGED_INSTANCES.
+    public struct ManagedInstancesProvider: Swift.Sendable {
+        /// The infrastructure optimization configuration for the capacity provider. Specifies the idle-instance scale-in behavior.
+        public var infrastructureOptimization: BatchClientTypes.InfrastructureOptimization?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon ECS assumes to manage Amazon EC2 instances on your behalf. This role must have a trust policy for ecs.amazonaws.com. You must have the iam:PassRole permission for this role with the condition iam:PassedToService: ecs.amazonaws.com.
+        /// This member is required.
+        public var infrastructureRoleArn: Swift.String?
+        /// The instance launch configuration for the Amazon ECS Managed Instances capacity provider. Contains networking, instance profile, instance requirements, capacity type, storage, and monitoring configuration.
+        /// This member is required.
+        public var instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplate?
+        /// Specifies whether tags on the capacity provider are propagated to the Amazon EC2 instances it launches. Valid values:
+        ///
+        /// * CAPACITY_PROVIDER — Propagates tags to instances.
+        ///
+        /// * NONE (default) — Does not propagate tags to instances.
+        public var propagateTags: Swift.String?
+
+        public init(
+            infrastructureOptimization: BatchClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplate? = nil,
+            propagateTags: Swift.String? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// An object that represents a scaling policy for a compute environment.
     public struct ComputeScalingPolicy: Swift.Sendable {
         /// The minimum time (in minutes) that Batch keeps instances running in the compute environment after their jobs complete. For each instance, the delay period begins when the last job finishes. If no new jobs are placed on the instance during this delay, Batch terminates the instance once the delay expires. Valid Range: Minimum value of 20. Maximum value of 10080. Use 0 to unset and disable the scale down delay. Idle instances retained during the scale-down delay period are billable at standard EC2 pricing. The scale down delay does not apply to:
@@ -570,6 +766,7 @@ extension BatchClientTypes {
 
     public enum CRType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2
+        case ecsManagedInstances
         case fargate
         case fargateSpot
         case spot
@@ -578,6 +775,7 @@ extension BatchClientTypes {
         public static var allCases: [CRType] {
             return [
                 .ec2,
+                .ecsManagedInstances,
                 .fargate,
                 .fargateSpot,
                 .spot
@@ -592,6 +790,7 @@ extension BatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .ec2: return "EC2"
+            case .ecsManagedInstances: return "ECS_MANAGED_INSTANCES"
             case .fargate: return "FARGATE"
             case .fargateSpot: return "FARGATE_SPOT"
             case .spot: return "SPOT"
@@ -609,6 +808,8 @@ extension BatchClientTypes {
         public var allocationStrategy: BatchClientTypes.CRAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price. For most use cases, we recommend leaving this field empty. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
+        /// The tags to apply to the Amazon ECS capacity provider and Amazon EC2 instances launched by the compute environment. These tags are separate from the compute environment resource tags (the top-level tags parameter). Use capacityTags for cost allocation and organization of the underlying infrastructure resources. This parameter is only valid for ECS_MANAGED_INSTANCES compute environments. You must have the batch:SetCapacityTags permission on the compute environment resource to use this parameter.
+        public var capacityTags: [Swift.String: Swift.String]?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var desiredvCpus: Swift.Int?
         /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -633,6 +834,8 @@ extension BatchClientTypes {
         public var instanceTypes: [Swift.String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a [CreateComputeEnvironment](https://docs.aws.amazon.com/batch/latest/APIReference/API_CreateComputeEnvironment.html) API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
+        /// The configuration for the Amazon ECS Managed Instances capacity provider. This parameter is required when computeResources.type is ECS_MANAGED_INSTANCES and must not be specified for other compute environment types. For more information, see [Amazon ECS Managed Instances compute environments](https://docs.aws.amazon.com/batch/latest/userguide/ecs_managed_instances.html) in the Batch User Guide.
+        public var managedInstancesProvider: BatchClientTypes.ManagedInstancesProvider?
         /// The maximum number of vCPUs that a compute environment can support. With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         /// This member is required.
         public var maxvCpus: Swift.Int?
@@ -650,13 +853,14 @@ extension BatchClientTypes {
         public var subnets: [Swift.String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String: Swift.String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. Multi-node parallel jobs aren't supported on Spot Instances.
+        /// The type of compute environment: EC2, SPOT, FARGATE, FARGATE_SPOT, or ECS_MANAGED_INSTANCES. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. If you choose ECS_MANAGED_INSTANCES, you must also specify a managedInstancesProvider configuration. To use Spot capacity, set capacityOptionType to SPOT in the managedInstancesProvider.instanceLaunchTemplate configuration. For more information, see [Amazon ECS Managed Instances compute environments](https://docs.aws.amazon.com/batch/latest/userguide/ecs_managed_instances.html) in the Batch User Guide. Multi-node parallel jobs aren't supported on Spot Instances or Amazon ECS Managed Instances.
         /// This member is required.
         public var type: BatchClientTypes.CRType?
 
         public init(
             allocationStrategy: BatchClientTypes.CRAllocationStrategy? = nil,
             bidPercentage: Swift.Int? = nil,
+            capacityTags: [Swift.String: Swift.String]? = nil,
             desiredvCpus: Swift.Int? = nil,
             ec2Configuration: [BatchClientTypes.Ec2Configuration]? = nil,
             ec2KeyPair: Swift.String? = nil,
@@ -664,6 +868,7 @@ extension BatchClientTypes {
             instanceRole: Swift.String? = nil,
             instanceTypes: [Swift.String]? = nil,
             launchTemplate: BatchClientTypes.LaunchTemplateSpecification? = nil,
+            managedInstancesProvider: BatchClientTypes.ManagedInstancesProvider? = nil,
             maxvCpus: Swift.Int? = nil,
             minvCpus: Swift.Int? = nil,
             placementGroup: Swift.String? = nil,
@@ -676,6 +881,7 @@ extension BatchClientTypes {
         ) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -683,6 +889,7 @@ extension BatchClientTypes {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -959,6 +1166,7 @@ extension BatchClientTypes {
     public enum JobQueueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ecs
         case ecsFargate
+        case ecsManagedInstances
         case eks
         case sagemakerTraining
         case sdkUnknown(Swift.String)
@@ -967,6 +1175,7 @@ extension BatchClientTypes {
             return [
                 .ecs,
                 .ecsFargate,
+                .ecsManagedInstances,
                 .eks,
                 .sagemakerTraining
             ]
@@ -981,6 +1190,7 @@ extension BatchClientTypes {
             switch self {
             case .ecs: return "ECS"
             case .ecsFargate: return "ECS_FARGATE"
+            case .ecsManagedInstances: return "ECS_MANAGED_INSTANCES"
             case .eks: return "EKS"
             case .sagemakerTraining: return "SAGEMAKER_TRAINING"
             case let .sdkUnknown(s): return s
@@ -3000,13 +3210,15 @@ extension BatchClientTypes {
         public var executionRoleArn: Swift.String?
         /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, the IPC resources within the containers of a task are private, and are not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see [IPC settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc) in the Docker run reference. This parameter is not supported for jobs that run on Fargate resources.
         public var ipcMode: Swift.String?
-        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources or Amazon ECS Managed Instances must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
+        /// The network mode to use for the task. Valid values: host. When not specified, the default is host. With host mode, the container shares the host instance's network stack directly. When running tasks that use the host network mode, do not run containers using the root user (UID 0). Running as root grants unrestricted access to host resources and increases the attack surface. This parameter only applies to jobs running on Amazon ECS Managed Instances (MANAGED_INSTANCES platform capability). It cannot be specified for Fargate or Amazon EC2 platform job definitions.
+        public var networkMode: Swift.String?
         /// The process namespace to use for the containers in the task. The valid values are host or task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see [PID settings](https://docs.docker.com/engine/reference/run/#pid-settings---pid) in the Docker run reference.
         public var pidMode: Swift.String?
         /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
         public var platformVersion: Swift.String?
-        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate or Amazon ECS Managed Instances. Use this to specify the operating system family (operatingSystemFamily) and CPU architecture (cpuArchitecture). For Amazon ECS Managed Instances, the valid value for operatingSystemFamily is LINUX (default). The valid values for cpuArchitecture are X86_64 and ARM64.
         public var runtimePlatform: BatchClientTypes.RuntimePlatform?
         /// The Amazon Resource Name (ARN) that's associated with the Amazon ECS task. This is object is comparable to [ContainerProperties:jobRoleArn](https://docs.aws.amazon.com/batch/latest/APIReference/API_ContainerProperties.html).
         public var taskRoleArn: Swift.String?
@@ -3020,6 +3232,7 @@ extension BatchClientTypes {
             executionRoleArn: Swift.String? = nil,
             ipcMode: Swift.String? = nil,
             networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
+            networkMode: Swift.String? = nil,
             pidMode: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
@@ -3032,6 +3245,7 @@ extension BatchClientTypes {
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
             self.networkConfiguration = networkConfiguration
+            self.networkMode = networkMode
             self.pidMode = pidMode
             self.platformVersion = platformVersion
             self.runtimePlatform = runtimePlatform
@@ -3498,12 +3712,14 @@ extension BatchClientTypes {
     public enum PlatformCapability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2
         case fargate
+        case managedInstances
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformCapability] {
             return [
                 .ec2,
-                .fargate
+                .fargate,
+                .managedInstances
             ]
         }
 
@@ -3516,6 +3732,7 @@ extension BatchClientTypes {
             switch self {
             case .ec2: return "EC2"
             case .fargate: return "FARGATE"
+            case .managedInstances: return "MANAGED_INSTANCES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3637,7 +3854,7 @@ extension BatchClientTypes {
         public var nodeProperties: BatchClientTypes.NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see [Job definition parameters](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html) in the Batch User Guide.
         public var parameters: [Swift.String: Swift.String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE. Jobs run on Amazon ECS Managed Instances specify MANAGED_INSTANCES.
         public var platformCapabilities: [BatchClientTypes.PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the tasks when the tasks are created. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.
         public var propagateTags: Swift.Bool?
@@ -4155,11 +4372,13 @@ extension BatchClientTypes {
         public var ipcMode: Swift.String?
         /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
+        /// The network mode configured for the task. This field is populated for jobs running on Amazon ECS Managed Instances (MANAGED_INSTANCES platform capability) and always returns host.
+        public var networkMode: Swift.String?
         /// The process namespace to use for the containers in the task. The valid values are host, or task. For more information see pidMode in [EcsTaskProperties](https://docs.aws.amazon.com/batch/latest/APIReference/API_EcsTaskProperties.html).
         public var pidMode: Swift.String?
         /// The Fargate platform version where the jobs are running.
         public var platformVersion: Swift.String?
-        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate or Amazon ECS Managed Instances. Contains the operating system family and CPU architecture of the task.
         public var runtimePlatform: BatchClientTypes.RuntimePlatform?
         /// The ARN of the Amazon ECS task.
         public var taskArn: Swift.String?
@@ -4176,6 +4395,7 @@ extension BatchClientTypes {
             executionRoleArn: Swift.String? = nil,
             ipcMode: Swift.String? = nil,
             networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
+            networkMode: Swift.String? = nil,
             pidMode: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
@@ -4190,6 +4410,7 @@ extension BatchClientTypes {
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
             self.networkConfiguration = networkConfiguration
+            self.networkMode = networkMode
             self.pidMode = pidMode
             self.platformVersion = platformVersion
             self.runtimePlatform = runtimePlatform
@@ -4523,7 +4744,7 @@ extension BatchClientTypes {
         public var nodeProperties: BatchClientTypes.NodeProperties?
         /// Additional parameters that are passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition.
         public var parameters: [Swift.String: Swift.String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE. Jobs run on Amazon ECS Managed Instances specify MANAGED_INSTANCES.
         public var platformCapabilities: [BatchClientTypes.PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the tasks when the tasks are created. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.
         public var propagateTags: Swift.Bool?
@@ -6344,7 +6565,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
     public var nodeProperties: BatchClientTypes.NodeProperties?
     /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
     public var parameters: [Swift.String: Swift.String]?
-    /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE. If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
+    /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE. To run the job on Amazon ECS Managed Instances, specify MANAGED_INSTANCES. Jobs with the MANAGED_INSTANCES platform capability must use ecsProperties (not containerProperties) and do not support multi-node parallel jobs. If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
     public var platformCapabilities: [BatchClientTypes.PlatformCapability]?
     /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags are not propagated. Tags can only be propagated to the tasks during task creation. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state. If the job runs on Amazon EKS resources, then you must not specify propagateTags.
     public var propagateTags: Swift.Bool?
@@ -6961,12 +7182,88 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The instance launch configuration for updating an Amazon ECS Managed Instances capacity provider. You cannot change capacityOptionType or fipsEnabled after the compute environment is created.
+    public struct InstanceLaunchTemplateUpdate: Swift.Sendable {
+        /// The updated capacity reservation configuration.
+        public var capacityReservations: BatchClientTypes.CapacityReservationRequest?
+        /// The updated Amazon Resource Name (ARN) of the Amazon EC2 instance profile for the managed instances.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// Specifies whether instance tags are accessible from the instance metadata service (IMDS).
+        public var instanceMetadataTagsPropagation: Swift.Bool?
+        /// The updated instance type requirements for the capacity provider.
+        public var instanceRequirements: BatchClientTypes.InstanceRequirementsRequest?
+        /// The updated local storage configuration.
+        public var localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration?
+        /// The updated monitoring level. Valid values are BASIC and DETAILED.
+        public var monitoring: Swift.String?
+        /// The updated network configuration for the managed instances.
+        public var networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The updated storage configuration for the managed instances.
+        public var storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            capacityReservations: BatchClientTypes.CapacityReservationRequest? = nil,
+            ec2InstanceProfileArn: Swift.String? = nil,
+            instanceMetadataTagsPropagation: Swift.Bool? = nil,
+            instanceRequirements: BatchClientTypes.InstanceRequirementsRequest? = nil,
+            localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
+            monitoring: Swift.String? = nil,
+            networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.capacityReservations = capacityReservations
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
+            self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The configuration for updating an Amazon ECS Managed Instances capacity provider. Used in UpdateComputeEnvironment requests. The capacityOptionType and fipsEnabled fields cannot be changed on update.
+    public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The updated infrastructure optimization configuration.
+        public var infrastructureOptimization: BatchClientTypes.InfrastructureOptimization?
+        /// The updated Amazon Resource Name (ARN) of the IAM role that Amazon ECS assumes to manage Amazon EC2 instances on your behalf.
+        public var infrastructureRoleArn: Swift.String?
+        /// The updated instance launch configuration for the Amazon ECS Managed Instances capacity provider.
+        public var instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplateUpdate?
+        /// Specifies whether tags on the capacity provider are propagated to the Amazon EC2 instances it launches. Valid values:
+        ///
+        /// * CAPACITY_PROVIDER — Propagates tags to instances.
+        ///
+        /// * NONE — Does not propagate tags to instances.
+        public var propagateTags: Swift.String?
+
+        public init(
+            infrastructureOptimization: BatchClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplateUpdate? = nil,
+            propagateTags: Swift.String? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// An object that represents the attributes of a compute environment that can be updated. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public struct ComputeResourceUpdate: Swift.Sendable {
         /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html). For more information, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html) in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. BEST_FIT_PROGRESSIVE Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types. BEST_FIT_PROGRESSIVE_ORDERED This is an advanced allocation strategy only for customers who want to control which instance types are preferred during scaling. Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus. Batch selects instance types in the order they appear in the instanceTypes list. When an instance family is specified, sizes within that family are expanded using BEST_FIT_PROGRESSIVE logic—preferring sizes that best fit the jobs, with larger sizes as fallback. Instance types that cannot meet the resource requirements of the jobs are skipped. This strategy is only available for On-Demand Instance (EC2) compute resources. If an instance family and an explicit instance type from that family both appear in instanceTypes, the explicit type takes its listed position and is excluded from the family expansion. For example, in ["m7a.4xlarge", "m7a", "m6a"], m7a.4xlarge is always placed first and is excluded from the m7a family expansion. SPOT_CAPACITY_OPTIMIZED Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources. SPOT_PRICE_CAPACITY_OPTIMIZED The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources. SPOT_CAPACITY_OPTIMIZED_PRIORITIZED This is an advanced allocation strategy for customers who want to influence instance type selection during scaling. This strategy optimizes for capacity first, and honors instance type priorities on a best-effort basis (priorities are honored when they do not significantly reduce available Spot capacity). Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus. Batch selects instance types in the order they appear in the instanceTypes list, but optimizes for capacity first. The customer-defined priority is honored on a best-effort basis. When Spot Instance capacity pools are similarly available, priority order is respected. When capacity is constrained, Batch selects from the most available pools regardless of priority to minimize the likelihood of Spot Instance interruptions. This strategy is only available for Spot Instance compute resources. With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
+        /// The updated tags to apply to the Amazon ECS capacity provider and Amazon EC2 instances. This parameter is only valid for ECS_MANAGED_INSTANCES compute environments. You must have the batch:SetCapacityTags permission on the compute environment resource to use this parameter.
+        public var capacityTags: [Swift.String: Swift.String]?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
         /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -6990,6 +7287,8 @@ extension BatchClientTypes {
         public var instanceTypes: [Swift.String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
+        /// The updated configuration for the Amazon ECS Managed Instances capacity provider. This parameter is only valid when the compute environment type is ECS_MANAGED_INSTANCES. You cannot change capacityOptionType or fipsEnabled on update.
+        public var managedInstancesProvider: BatchClientTypes.UpdateManagedInstancesProviderConfiguration?
         /// The maximum number of Amazon EC2 vCPUs that an environment can reach. With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var maxvCpus: Swift.Int?
         /// The minimum number of vCPUs that an environment should maintain (even if the compute environment is DISABLED). This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -7004,7 +7303,7 @@ extension BatchClientTypes {
         public var subnets: [Swift.String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String: Swift.String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
+        /// The type of compute environment: EC2, SPOT, FARGATE, FARGATE_SPOT, or ECS_MANAGED_INSTANCES. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. You cannot change the type to or from ECS_MANAGED_INSTANCES.
         public var type: BatchClientTypes.CRType?
         /// Specifies whether the AMI ID is updated to the latest one that's supported by Batch when the compute environment has an infrastructure update. The default value is false. An AMI ID can either be specified in the imageId or imageIdOverride parameters or be determined by the launch template that's specified in the launchTemplate parameter. If an AMI ID is specified any of these ways, this parameter is ignored. For more information about to update AMI IDs during an infrastructure update, see [Updating the AMI ID](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html#updating-compute-environments-ami) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var updateToLatestImageVersion: Swift.Bool?
@@ -7012,6 +7311,7 @@ extension BatchClientTypes {
         public init(
             allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy? = nil,
             bidPercentage: Swift.Int? = nil,
+            capacityTags: [Swift.String: Swift.String]? = nil,
             desiredvCpus: Swift.Int? = nil,
             ec2Configuration: [BatchClientTypes.Ec2Configuration]? = nil,
             ec2KeyPair: Swift.String? = nil,
@@ -7019,6 +7319,7 @@ extension BatchClientTypes {
             instanceRole: Swift.String? = nil,
             instanceTypes: [Swift.String]? = nil,
             launchTemplate: BatchClientTypes.LaunchTemplateSpecification? = nil,
+            managedInstancesProvider: BatchClientTypes.UpdateManagedInstancesProviderConfiguration? = nil,
             maxvCpus: Swift.Int? = nil,
             minvCpus: Swift.Int? = nil,
             placementGroup: Swift.String? = nil,
@@ -7031,6 +7332,7 @@ extension BatchClientTypes {
         ) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -7038,6 +7340,7 @@ extension BatchClientTypes {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -9517,6 +9820,23 @@ extension BatchClientTypes.CapacityLimit {
     }
 }
 
+extension BatchClientTypes.CapacityReservationRequest {
+
+    static func write(value: BatchClientTypes.CapacityReservationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["reservationGroupArn"].write(value.reservationGroupArn)
+        try writer["reservationPreference"].write(value.reservationPreference)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.CapacityReservationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.CapacityReservationRequest()
+        value.reservationGroupArn = try reader["reservationGroupArn"].readIfPresent()
+        value.reservationPreference = try reader["reservationPreference"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.ComputeEnvironmentDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeEnvironmentDetail {
@@ -9566,6 +9886,7 @@ extension BatchClientTypes.ComputeResource {
         guard let value else { return }
         try writer["allocationStrategy"].write(value.allocationStrategy)
         try writer["bidPercentage"].write(value.bidPercentage)
+        try writer["capacityTags"].writeMap(value.capacityTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["desiredvCpus"].write(value.desiredvCpus)
         try writer["ec2Configuration"].writeList(value.ec2Configuration, memberWritingClosure: BatchClientTypes.Ec2Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2KeyPair"].write(value.ec2KeyPair)
@@ -9573,6 +9894,7 @@ extension BatchClientTypes.ComputeResource {
         try writer["instanceRole"].write(value.instanceRole)
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["launchTemplate"].write(value.launchTemplate, with: BatchClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["managedInstancesProvider"].write(value.managedInstancesProvider, with: BatchClientTypes.ManagedInstancesProvider.write(value:to:))
         try writer["maxvCpus"].write(value.maxvCpus)
         try writer["minvCpus"].write(value.minvCpus)
         try writer["placementGroup"].write(value.placementGroup)
@@ -9605,6 +9927,8 @@ extension BatchClientTypes.ComputeResource {
         value.launchTemplate = try reader["launchTemplate"].readIfPresent(with: BatchClientTypes.LaunchTemplateSpecification.read(from:))
         value.ec2Configuration = try reader["ec2Configuration"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ec2Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingPolicy = try reader["scalingPolicy"].readIfPresent(with: BatchClientTypes.ComputeScalingPolicy.read(from:))
+        value.managedInstancesProvider = try reader["managedInstancesProvider"].readIfPresent(with: BatchClientTypes.ManagedInstancesProvider.read(from:))
+        value.capacityTags = try reader["capacityTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -9615,6 +9939,7 @@ extension BatchClientTypes.ComputeResourceUpdate {
         guard let value else { return }
         try writer["allocationStrategy"].write(value.allocationStrategy)
         try writer["bidPercentage"].write(value.bidPercentage)
+        try writer["capacityTags"].writeMap(value.capacityTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["desiredvCpus"].write(value.desiredvCpus)
         try writer["ec2Configuration"].writeList(value.ec2Configuration, memberWritingClosure: BatchClientTypes.Ec2Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2KeyPair"].write(value.ec2KeyPair)
@@ -9622,6 +9947,7 @@ extension BatchClientTypes.ComputeResourceUpdate {
         try writer["instanceRole"].write(value.instanceRole)
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["launchTemplate"].write(value.launchTemplate, with: BatchClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["managedInstancesProvider"].write(value.managedInstancesProvider, with: BatchClientTypes.UpdateManagedInstancesProviderConfiguration.write(value:to:))
         try writer["maxvCpus"].write(value.maxvCpus)
         try writer["minvCpus"].write(value.minvCpus)
         try writer["placementGroup"].write(value.placementGroup)
@@ -9925,6 +10251,7 @@ extension BatchClientTypes.EcsTaskDetails {
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
+        value.networkMode = try reader["networkMode"].readIfPresent()
         return value
     }
 }
@@ -9939,6 +10266,7 @@ extension BatchClientTypes.EcsTaskProperties {
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["ipcMode"].write(value.ipcMode)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.NetworkConfiguration.write(value:to:))
+        try writer["networkMode"].write(value.networkMode)
         try writer["pidMode"].write(value.pidMode)
         try writer["platformVersion"].write(value.platformVersion)
         try writer["runtimePlatform"].write(value.runtimePlatform, with: BatchClientTypes.RuntimePlatform.write(value:to:))
@@ -9960,6 +10288,7 @@ extension BatchClientTypes.EcsTaskProperties {
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
+        value.networkMode = try reader["networkMode"].readIfPresent()
         return value
     }
 }
@@ -10592,6 +10921,84 @@ extension BatchClientTypes.ImagePullSecret {
     }
 }
 
+extension BatchClientTypes.InfrastructureOptimization {
+
+    static func write(value: BatchClientTypes.InfrastructureOptimization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleInAfter"].write(value.scaleInAfter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.InfrastructureOptimization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.InfrastructureOptimization()
+        value.scaleInAfter = try reader["scaleInAfter"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.InstanceLaunchTemplate {
+
+    static func write(value: BatchClientTypes.InstanceLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityOptionType"].write(value.capacityOptionType)
+        try writer["capacityReservations"].write(value.capacityReservations, with: BatchClientTypes.CapacityReservationRequest.write(value:to:))
+        try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["fipsEnabled"].write(value.fipsEnabled)
+        try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
+        try writer["instanceRequirements"].write(value.instanceRequirements, with: BatchClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["localStorageConfiguration"].write(value.localStorageConfiguration, with: BatchClientTypes.ManagedInstancesLocalStorageConfiguration.write(value:to:))
+        try writer["monitoring"].write(value.monitoring)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BatchClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.InstanceLaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.InstanceLaunchTemplate()
+        value.ec2InstanceProfileArn = try reader["ec2InstanceProfileArn"].readIfPresent() ?? ""
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.ManagedInstancesNetworkConfiguration.read(from:))
+        value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: BatchClientTypes.InstanceRequirementsRequest.read(from:))
+        value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BatchClientTypes.ManagedInstancesStorageConfiguration.read(from:))
+        value.monitoring = try reader["monitoring"].readIfPresent()
+        value.fipsEnabled = try reader["fipsEnabled"].readIfPresent()
+        value.capacityReservations = try reader["capacityReservations"].readIfPresent(with: BatchClientTypes.CapacityReservationRequest.read(from:))
+        value.instanceMetadataTagsPropagation = try reader["instanceMetadataTagsPropagation"].readIfPresent()
+        value.localStorageConfiguration = try reader["localStorageConfiguration"].readIfPresent(with: BatchClientTypes.ManagedInstancesLocalStorageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.InstanceLaunchTemplateUpdate {
+
+    static func write(value: BatchClientTypes.InstanceLaunchTemplateUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityReservations"].write(value.capacityReservations, with: BatchClientTypes.CapacityReservationRequest.write(value:to:))
+        try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
+        try writer["instanceRequirements"].write(value.instanceRequirements, with: BatchClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["localStorageConfiguration"].write(value.localStorageConfiguration, with: BatchClientTypes.ManagedInstancesLocalStorageConfiguration.write(value:to:))
+        try writer["monitoring"].write(value.monitoring)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BatchClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.InstanceRequirementsRequest {
+
+    static func write(value: BatchClientTypes.InstanceRequirementsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.InstanceRequirementsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.InstanceRequirementsRequest()
+        value.allowedInstanceTypes = try reader["allowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchClientTypes.JobCapacityUsageSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobCapacityUsageSummary {
@@ -10909,6 +11316,74 @@ extension BatchClientTypes.LogConfiguration {
         value.logDriver = try reader["logDriver"].readIfPresent() ?? .sdkUnknown("")
         value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.secretOptions = try reader["secretOptions"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesLocalStorageConfiguration {
+
+    static func write(value: BatchClientTypes.ManagedInstancesLocalStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["useLocalStorage"].write(value.useLocalStorage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesLocalStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesLocalStorageConfiguration()
+        value.useLocalStorage = try reader["useLocalStorage"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesNetworkConfiguration {
+
+    static func write(value: BatchClientTypes.ManagedInstancesNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesNetworkConfiguration()
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesProvider {
+
+    static func write(value: BatchClientTypes.ManagedInstancesProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: BatchClientTypes.InfrastructureOptimization.write(value:to:))
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: BatchClientTypes.InstanceLaunchTemplate.write(value:to:))
+        try writer["propagateTags"].write(value.propagateTags)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesProvider()
+        value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.infrastructureRoleArn = try reader["infrastructureRoleArn"].readIfPresent() ?? ""
+        value.instanceLaunchTemplate = try reader["instanceLaunchTemplate"].readIfPresent(with: BatchClientTypes.InstanceLaunchTemplate.read(from:))
+        value.infrastructureOptimization = try reader["infrastructureOptimization"].readIfPresent(with: BatchClientTypes.InfrastructureOptimization.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesStorageConfiguration {
+
+    static func write(value: BatchClientTypes.ManagedInstancesStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageSizeGiB"].write(value.storageSizeGiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesStorageConfiguration()
+        value.storageSizeGiB = try reader["storageSizeGiB"].readIfPresent()
         return value
     }
 }
@@ -11674,6 +12149,17 @@ extension BatchClientTypes.Ulimit {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.softLimit = try reader["softLimit"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension BatchClientTypes.UpdateManagedInstancesProviderConfiguration {
+
+    static func write(value: BatchClientTypes.UpdateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: BatchClientTypes.InfrastructureOptimization.write(value:to:))
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: BatchClientTypes.InstanceLaunchTemplateUpdate.write(value:to:))
+        try writer["propagateTags"].write(value.propagateTags)
     }
 }
 

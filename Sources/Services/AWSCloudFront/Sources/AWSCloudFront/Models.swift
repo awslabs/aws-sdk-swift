@@ -4806,7 +4806,7 @@ extension CloudFrontClientTypes {
         ///
         /// * vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.
         ///
-        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home).
+        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home).
         ///
         ///
         /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
@@ -8233,11 +8233,13 @@ extension CloudFrontClientTypes {
 
     public enum OriginAccessControlSigningProtocols: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sigv4
+        case sigv4a
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OriginAccessControlSigningProtocols] {
             return [
-                .sigv4
+                .sigv4,
+                .sigv4a
             ]
         }
 
@@ -8249,6 +8251,7 @@ extension CloudFrontClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .sigv4: return "sigv4"
+            case .sigv4a: return "sigv4a"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8276,7 +8279,7 @@ extension CloudFrontClientTypes {
         /// * no-override – If the viewer request doesn't contain the Authorization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARNING: To pass along the Authorization header from the viewer request, you must add the Authorization header to a [cache policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html) for all cache behaviors that use origins associated with this origin access control.
         /// This member is required.
         public var signingBehavior: CloudFrontClientTypes.OriginAccessControlSigningBehaviors?
-        /// The signing protocol of the origin access control, which determines how CloudFront signs (authenticates) requests. The only valid value is sigv4.
+        /// The signing protocol of the origin access control, which determines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a.
         /// This member is required.
         public var signingProtocol: CloudFrontClientTypes.OriginAccessControlSigningProtocols?
 
@@ -14499,7 +14502,7 @@ extension CloudFrontClientTypes {
         /// * no-override – If the viewer request doesn't contain the Authorization header, CloudFront signs the origin request. If the viewer request contains the Authorization header, CloudFront doesn't sign the origin request, but instead passes along the Authorization header that it received in the viewer request.
         /// This member is required.
         public var signingBehavior: CloudFrontClientTypes.OriginAccessControlSigningBehaviors?
-        /// The signing protocol of the origin access control. The signing protocol determines how CloudFront signs (authenticates) requests. The only valid value is sigv4.
+        /// The signing protocol of the origin access control. The signing protocol determines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a.
         /// This member is required.
         public var signingProtocol: CloudFrontClientTypes.OriginAccessControlSigningProtocols?
 

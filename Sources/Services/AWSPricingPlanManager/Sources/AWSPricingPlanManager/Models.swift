@@ -358,7 +358,7 @@ extension PricingPlanManagerClientTypes {
         /// The current tier level of the pricing plan, such as FREE, PRO, BUSINESS, or PREMIUM.
         /// This member is required.
         public var planTier: Swift.String?
-        /// The ARNs of the AWS resources covered by this subscription.
+        /// The ARNs of the resources covered by this subscription.
         /// This member is required.
         public var resourceArns: [Swift.String]?
         /// A pending change that will take effect at the end of the current billing period. This field is present only when a downgrade or cancellation is scheduled.
@@ -561,7 +561,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 public struct CreateSubscriptionInput: Swift.Sendable {
-    /// Determines whether the subscription requires explicit approval before billing starts. Set to MANUAL to require a separate ApprovePaidSubscription call, or IMMEDIATE to activate the subscription right away. Defaults to IMMEDIATE if not specified.
+    /// Determines whether the subscription requires explicit approval before billing starts. Set to MANUAL to require a separate ApprovePaidSubscription call, or IMMEDIATE to activate the subscription right away. For paid tier plans, this defaults to MANUAL if not specified. For the FREE plan tier, only IMMEDIATE is supported, and it is the default.
     public var approvalMode: PricingPlanManagerClientTypes.ApprovalMode?
     /// A unique, case-sensitive identifier that you provide to ensure that the request is handled only once. If you send the same request with the same client token, the API returns the original response without creating a duplicate subscription.
     public var clientToken: Swift.String?
@@ -571,7 +571,7 @@ public struct CreateSubscriptionInput: Swift.Sendable {
     /// The tier level for the subscription, such as FREE, PRO, BUSINESS, or PREMIUM.
     /// This member is required.
     public var planTier: Swift.String?
-    /// The ARNs of the AWS resources to include in the subscription. Specify one or more supported resources. For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and exactly one AWS WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores.
+    /// The ARNs of the resources to include in the subscription. Specify one or more supported resources. For subscriptions in the CloudFront plan family, the resources must include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones and CloudFront KeyValueStores.
     /// This member is required.
     public var resourceArns: [Swift.String]?
     /// The usage level within the plan tier. Specify DEFAULT for the base configuration, or a higher level if your plan tier supports it.
@@ -713,7 +713,7 @@ extension PricingPlanManagerClientTypes {
         /// The current tier level of the pricing plan.
         /// This member is required.
         public var planTier: Swift.String?
-        /// The ARNs of the AWS resources covered by this subscription.
+        /// The ARNs of the resources covered by this subscription.
         /// This member is required.
         public var resourceArns: [Swift.String]?
         /// A pending change that will take effect at the end of the current billing period, if any.

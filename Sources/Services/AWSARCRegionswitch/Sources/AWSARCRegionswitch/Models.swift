@@ -2135,6 +2135,80 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    /// The ungraceful behavior for an Amazon RDS switchover read replica, that is, promote the read replica to a standalone primary.
+    public enum RdsUngracefulBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case promoteReadReplica
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RdsUngracefulBehavior] {
+            return [
+                .promoteReadReplica
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .promoteReadReplica: return "promoteReadReplica"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// The ungraceful execution settings for an Amazon RDS switchover read replica execution block.
+    public struct RdsUngraceful: Swift.Sendable {
+        /// The ungraceful behavior to perform if switching to ungraceful execution.
+        public var ungraceful: ARCRegionswitchClientTypes.RdsUngracefulBehavior?
+
+        public init(
+            ungraceful: ARCRegionswitchClientTypes.RdsUngracefulBehavior? = nil
+        ) {
+            self.ungraceful = ungraceful
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for switching over an Amazon RDS read replica to become the new primary database instance during a Region switch.
+    public struct RdsSwitchoverReadReplicaConfiguration: Swift.Sendable {
+        /// The cross-account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// A map of database instance ARNs for each Region in the plan.
+        /// This member is required.
+        public var dbInstanceArnMap: [Swift.String: Swift.String]?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+        /// The ungraceful execution settings for the configuration.
+        public var ungraceful: ARCRegionswitchClientTypes.RdsUngraceful?
+
+        public init(
+            crossAccountRole: Swift.String? = nil,
+            dbInstanceArnMap: [Swift.String: Swift.String]? = nil,
+            externalId: Swift.String? = nil,
+            timeoutMinutes: Swift.Int? = 60,
+            ungraceful: ARCRegionswitchClientTypes.RdsUngraceful? = nil
+        ) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// Configuration for nested Region switch plans. This allows one Region switch plan to trigger another plan as part of its execution.
     public struct RegionSwitchPlanConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the plan configuration.
@@ -2230,6 +2304,7 @@ extension ARCRegionswitchClientTypes {
         case parallel
         case rdsCreateCrossRegionReplica
         case rdsPromoteReadReplica
+        case rdsSwitchoverReadReplica
         case regionSwitch
         case route53HealthCheck
         case routingControl
@@ -2251,6 +2326,7 @@ extension ARCRegionswitchClientTypes {
                 .parallel,
                 .rdsCreateCrossRegionReplica,
                 .rdsPromoteReadReplica,
+                .rdsSwitchoverReadReplica,
                 .regionSwitch,
                 .route53HealthCheck,
                 .routingControl
@@ -2278,6 +2354,7 @@ extension ARCRegionswitchClientTypes {
             case .parallel: return "Parallel"
             case .rdsCreateCrossRegionReplica: return "RdsCreateCrossRegionReplica"
             case .rdsPromoteReadReplica: return "RdsPromoteReadReplica"
+            case .rdsSwitchoverReadReplica: return "RdsSwitchoverReadReplica"
             case .regionSwitch: return "ARCRegionSwitchPlan"
             case .route53HealthCheck: return "Route53HealthCheck"
             case .routingControl: return "ARCRoutingControl"
@@ -3257,6 +3334,8 @@ extension ARCRegionswitchClientTypes {
         case auroraprovisionedscalingconfig(ARCRegionswitchClientTypes.AuroraProvisionedScalingConfiguration)
         /// A Neptune global database execution block.
         case neptuneglobaldatabaseconfig(ARCRegionswitchClientTypes.NeptuneGlobalDatabaseConfiguration)
+        /// An Amazon RDS switchover read replica execution block.
+        case rdsswitchoverreadreplicaconfig(ARCRegionswitchClientTypes.RdsSwitchoverReadReplicaConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
