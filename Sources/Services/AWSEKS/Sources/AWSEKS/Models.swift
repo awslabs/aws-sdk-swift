@@ -218,6 +218,918 @@ extension EKSClientTypes {
     }
 }
 
+/// The specified parameter is invalid. Review the available parameters for the API request.
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
+        public internal(set) var addonName: Swift.String? = nil
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        /// The Fargate profile associated with the exception.
+        public internal(set) var fargateProfileName: Swift.String? = nil
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon EKS managed node group associated with the exception.
+        public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        addonName: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        fargateProfileName: Swift.String? = nil,
+        message: Swift.String? = nil,
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
+    ) {
+        self.properties.addonName = addonName
+        self.properties.clusterName = clusterName
+        self.properties.fargateProfileName = fargateProfileName
+        self.properties.message = message
+        self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
+    }
+}
+
+/// The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS add-on name associated with the exception.
+        public internal(set) var addonName: Swift.String? = nil
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        /// The Fargate profile associated with the exception.
+        public internal(set) var fargateProfileName: Swift.String? = nil
+        /// The Amazon EKS message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon EKS managed node group associated with the exception.
+        public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        addonName: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        fargateProfileName: Swift.String? = nil,
+        message: Swift.String? = nil,
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
+    ) {
+        self.properties.addonName = addonName
+        self.properties.clusterName = clusterName
+        self.properties.fargateProfileName = fargateProfileName
+        self.properties.message = message
+        self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
+    }
+}
+
+/// These errors are usually caused by a server-side issue.
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS add-on name associated with the exception.
+        public internal(set) var addonName: Swift.String? = nil
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        /// These errors are usually caused by a server-side issue.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon EKS managed node group associated with the exception.
+        public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        addonName: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil,
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
+    ) {
+        self.properties.addonName = addonName
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+        self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
+    }
+}
+
+/// The service is unavailable. Back off and retry the operation.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The request has failed due to a temporary failure of the server.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct ActivateCertificateAuthorityInput: Swift.Sendable {
+    /// The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must already exist on the cluster and have a distributionStatus of COMPLETE.
+    /// This member is required.
+    public var certificateAuthorityId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of your cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        certificateAuthorityId: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    ) {
+        self.certificateAuthorityId = certificateAuthorityId
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CertificateAuthorityActivatedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case eks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateAuthorityActivatedBy] {
+            return [
+                .customer,
+                .eks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .eks: return "EKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CertificateAuthorityCreatedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case eks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateAuthorityCreatedBy] {
+            return [
+                .customer,
+                .eks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .eks: return "EKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CertificateAuthorityDistributionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case deleting
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateAuthorityDistributionStatus] {
+            return [
+                .complete,
+                .deleting,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CertificateAuthoritySigningStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case inUse
+        case notUsed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateAuthoritySigningStatus] {
+            return [
+                .activating,
+                .inUse,
+                .notUsed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .inUse: return "IN_USE"
+            case .notUsed: return "NOT_USED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Summary information about a certificate authority (CA) for an Amazon EKS cluster, returned by [ListCertificateAuthorities](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListCertificateAuthorities.html) and the certificate-authority write operations.
+    public struct CertificateAuthoritySummary: Swift.Sendable {
+        /// The Unix epoch timestamp in seconds for when the certificate authority was last activated. This value is absent if the certificate authority has never been activated.
+        public var activatedAt: Foundation.Date?
+        /// The entity that most recently activated the certificate authority, either CUSTOMER or EKS.
+        public var activatedBy: EKSClientTypes.CertificateAuthorityActivatedBy?
+        /// The Unix epoch timestamp in seconds for when the certificate authority was created.
+        public var createdAt: Foundation.Date?
+        /// The entity that created the certificate authority, either CUSTOMER or EKS.
+        public var createdBy: EKSClientTypes.CertificateAuthorityCreatedBy?
+        /// The distribution status of the certificate authority: IN_PROGRESS, COMPLETE, FAILED, or DELETING.
+        public var distributionStatus: EKSClientTypes.CertificateAuthorityDistributionStatus?
+        /// The unique identifier of the certificate authority.
+        public var id: Swift.String?
+        /// The signing status of the certificate authority: IN_USE, ACTIVATING, or NOT_USED.
+        public var signingStatus: EKSClientTypes.CertificateAuthoritySigningStatus?
+
+        public init(
+            activatedAt: Foundation.Date? = nil,
+            activatedBy: EKSClientTypes.CertificateAuthorityActivatedBy? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: EKSClientTypes.CertificateAuthorityCreatedBy? = nil,
+            distributionStatus: EKSClientTypes.CertificateAuthorityDistributionStatus? = nil,
+            id: Swift.String? = nil,
+            signingStatus: EKSClientTypes.CertificateAuthoritySigningStatus? = nil
+        ) {
+            self.activatedAt = activatedAt
+            self.activatedBy = activatedBy
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.distributionStatus = distributionStatus
+            self.id = id
+            self.signingStatus = signingStatus
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CancellationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CancellationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .successful: return "Successful"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Contains information about the latest cancellation of an update to an Amazon EKS cluster.
+    public struct Cancellation: Swift.Sendable {
+        /// A message providing additional details about the cancellation, such as the reason for the cancellation or failure details.
+        public var reason: Swift.String?
+        /// The current status of the cancellation. Valid values are InProgress, Failed, and Successful.
+        public var status: EKSClientTypes.CancellationStatus?
+
+        public init(
+            reason: Swift.String? = nil,
+            status: EKSClientTypes.CancellationStatus? = nil
+        ) {
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case admissionRequestDenied
+        case clusterUnreachable
+        case configurationConflict
+        case eniLimitReached
+        case insufficientFreeAddresses
+        case insufficientNumberOfReplicas
+        case ipNotAvailable
+        case k8sResourceNotFound
+        case nodeCreationFailure
+        case operationNotPermitted
+        case podEvictionFailure
+        case securityGroupNotFound
+        case subnetNotFound
+        case unknown
+        case unsupportedAddonModification
+        case vpcIdNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorCode] {
+            return [
+                .accessDenied,
+                .admissionRequestDenied,
+                .clusterUnreachable,
+                .configurationConflict,
+                .eniLimitReached,
+                .insufficientFreeAddresses,
+                .insufficientNumberOfReplicas,
+                .ipNotAvailable,
+                .k8sResourceNotFound,
+                .nodeCreationFailure,
+                .operationNotPermitted,
+                .podEvictionFailure,
+                .securityGroupNotFound,
+                .subnetNotFound,
+                .unknown,
+                .unsupportedAddonModification,
+                .vpcIdNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "AccessDenied"
+            case .admissionRequestDenied: return "AdmissionRequestDenied"
+            case .clusterUnreachable: return "ClusterUnreachable"
+            case .configurationConflict: return "ConfigurationConflict"
+            case .eniLimitReached: return "EniLimitReached"
+            case .insufficientFreeAddresses: return "InsufficientFreeAddresses"
+            case .insufficientNumberOfReplicas: return "InsufficientNumberOfReplicas"
+            case .ipNotAvailable: return "IpNotAvailable"
+            case .k8sResourceNotFound: return "K8sResourceNotFound"
+            case .nodeCreationFailure: return "NodeCreationFailure"
+            case .operationNotPermitted: return "OperationNotPermitted"
+            case .podEvictionFailure: return "PodEvictionFailure"
+            case .securityGroupNotFound: return "SecurityGroupNotFound"
+            case .subnetNotFound: return "SubnetNotFound"
+            case .unknown: return "Unknown"
+            case .unsupportedAddonModification: return "UnsupportedAddonModification"
+            case .vpcIdNotFound: return "VpcIdNotFound"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An object representing an error when an asynchronous operation fails.
+    public struct ErrorDetail: Swift.Sendable {
+        /// A brief description of the error.
+        ///
+        /// * SubnetNotFound: We couldn't find one of the subnets associated with the cluster.
+        ///
+        /// * SecurityGroupNotFound: We couldn't find one of the security groups associated with the cluster.
+        ///
+        /// * EniLimitReached: You have reached the elastic network interface limit for your account.
+        ///
+        /// * IpNotAvailable: A subnet associated with the cluster doesn't have any available IP addresses.
+        ///
+        /// * AccessDenied: You don't have permissions to perform the specified operation.
+        ///
+        /// * OperationNotPermitted: The service role associated with the cluster doesn't have the required access permissions for Amazon EKS.
+        ///
+        /// * VpcIdNotFound: We couldn't find the VPC associated with the cluster.
+        public var errorCode: EKSClientTypes.ErrorCode?
+        /// A more complete description of the error.
+        public var errorMessage: Swift.String?
+        /// An optional field that contains the resource IDs associated with the error.
+        public var resourceIds: [Swift.String]?
+
+        public init(
+            errorCode: EKSClientTypes.ErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            resourceIds: [Swift.String]? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.resourceIds = resourceIds
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum UpdateParamType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeCertificateAuthority
+        case addonVersion
+        case authenticationMode
+        case certificateAuthorityId
+        case clusterLogging
+        case computeConfig
+        case configurationValues
+        case controlPlaneEgressMode
+        case deletionProtection
+        case desiredSize
+        case encryptionConfig
+        case endpointPrivateAccess
+        case endpointPublicAccess
+        case identityProviderConfig
+        case kubernetesNetworkConfig
+        case kubeApiServerConfig
+        case kubeControllerManagerConfig
+        case kubeSchedulerConfig
+        case labelsToAdd
+        case labelsToRemove
+        case launchTemplateName
+        case launchTemplateVersion
+        case maxSize
+        case maxUnavailable
+        case maxUnavailablePercentage
+        case minSize
+        case networkAccess
+        case nodeRepairConfig
+        case nodeRepairEnabled
+        case platformVersion
+        case podIdentityAssociations
+        case previousTier
+        case publicAccessCidrs
+        case releaseVersion
+        case remoteNetworkConfig
+        case resolveConflicts
+        case roleArn
+        case roleMappingsToAddOrUpdate
+        case roleMappingsToRemove
+        case securityGroups
+        case serviceAccountRoleArn
+        case signingStatus
+        case storageConfig
+        case subnets
+        case taintsToAdd
+        case taintsToRemove
+        case trustedCertificateAuthorities
+        case updatedTier
+        case updateStrategy
+        case upgradePolicy
+        case vendedLogs
+        case version
+        case warmPoolEnabled
+        case warmPoolMaxGroupPreparedCapacity
+        case warmPoolMinSize
+        case warmPoolReuseOnScaleIn
+        case warmPoolState
+        case zonalShiftConfig
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateParamType] {
+            return [
+                .activeCertificateAuthority,
+                .addonVersion,
+                .authenticationMode,
+                .certificateAuthorityId,
+                .clusterLogging,
+                .computeConfig,
+                .configurationValues,
+                .controlPlaneEgressMode,
+                .deletionProtection,
+                .desiredSize,
+                .encryptionConfig,
+                .endpointPrivateAccess,
+                .endpointPublicAccess,
+                .identityProviderConfig,
+                .kubernetesNetworkConfig,
+                .kubeApiServerConfig,
+                .kubeControllerManagerConfig,
+                .kubeSchedulerConfig,
+                .labelsToAdd,
+                .labelsToRemove,
+                .launchTemplateName,
+                .launchTemplateVersion,
+                .maxSize,
+                .maxUnavailable,
+                .maxUnavailablePercentage,
+                .minSize,
+                .networkAccess,
+                .nodeRepairConfig,
+                .nodeRepairEnabled,
+                .platformVersion,
+                .podIdentityAssociations,
+                .previousTier,
+                .publicAccessCidrs,
+                .releaseVersion,
+                .remoteNetworkConfig,
+                .resolveConflicts,
+                .roleArn,
+                .roleMappingsToAddOrUpdate,
+                .roleMappingsToRemove,
+                .securityGroups,
+                .serviceAccountRoleArn,
+                .signingStatus,
+                .storageConfig,
+                .subnets,
+                .taintsToAdd,
+                .taintsToRemove,
+                .trustedCertificateAuthorities,
+                .updatedTier,
+                .updateStrategy,
+                .upgradePolicy,
+                .vendedLogs,
+                .version,
+                .warmPoolEnabled,
+                .warmPoolMaxGroupPreparedCapacity,
+                .warmPoolMinSize,
+                .warmPoolReuseOnScaleIn,
+                .warmPoolState,
+                .zonalShiftConfig
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activeCertificateAuthority: return "ActiveCertificateAuthority"
+            case .addonVersion: return "AddonVersion"
+            case .authenticationMode: return "AuthenticationMode"
+            case .certificateAuthorityId: return "CertificateAuthorityId"
+            case .clusterLogging: return "ClusterLogging"
+            case .computeConfig: return "ComputeConfig"
+            case .configurationValues: return "ConfigurationValues"
+            case .controlPlaneEgressMode: return "ControlPlaneEgressMode"
+            case .deletionProtection: return "DeletionProtection"
+            case .desiredSize: return "DesiredSize"
+            case .encryptionConfig: return "EncryptionConfig"
+            case .endpointPrivateAccess: return "EndpointPrivateAccess"
+            case .endpointPublicAccess: return "EndpointPublicAccess"
+            case .identityProviderConfig: return "IdentityProviderConfig"
+            case .kubernetesNetworkConfig: return "KubernetesNetworkConfig"
+            case .kubeApiServerConfig: return "KubeApiServerConfig"
+            case .kubeControllerManagerConfig: return "KubeControllerManagerConfig"
+            case .kubeSchedulerConfig: return "KubeSchedulerConfig"
+            case .labelsToAdd: return "LabelsToAdd"
+            case .labelsToRemove: return "LabelsToRemove"
+            case .launchTemplateName: return "LaunchTemplateName"
+            case .launchTemplateVersion: return "LaunchTemplateVersion"
+            case .maxSize: return "MaxSize"
+            case .maxUnavailable: return "MaxUnavailable"
+            case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
+            case .minSize: return "MinSize"
+            case .networkAccess: return "NetworkAccess"
+            case .nodeRepairConfig: return "NodeRepairConfig"
+            case .nodeRepairEnabled: return "NodeRepairEnabled"
+            case .platformVersion: return "PlatformVersion"
+            case .podIdentityAssociations: return "PodIdentityAssociations"
+            case .previousTier: return "PreviousTier"
+            case .publicAccessCidrs: return "PublicAccessCidrs"
+            case .releaseVersion: return "ReleaseVersion"
+            case .remoteNetworkConfig: return "RemoteNetworkConfig"
+            case .resolveConflicts: return "ResolveConflicts"
+            case .roleArn: return "RoleArn"
+            case .roleMappingsToAddOrUpdate: return "RoleMappingsToAddOrUpdate"
+            case .roleMappingsToRemove: return "RoleMappingsToRemove"
+            case .securityGroups: return "SecurityGroups"
+            case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
+            case .signingStatus: return "SigningStatus"
+            case .storageConfig: return "StorageConfig"
+            case .subnets: return "Subnets"
+            case .taintsToAdd: return "TaintsToAdd"
+            case .taintsToRemove: return "TaintsToRemove"
+            case .trustedCertificateAuthorities: return "TrustedCertificateAuthorities"
+            case .updatedTier: return "UpdatedTier"
+            case .updateStrategy: return "UpdateStrategy"
+            case .upgradePolicy: return "UpgradePolicy"
+            case .vendedLogs: return "VendedLogs"
+            case .version: return "Version"
+            case .warmPoolEnabled: return "WarmPoolEnabled"
+            case .warmPoolMaxGroupPreparedCapacity: return "WarmPoolMaxGroupPreparedCapacity"
+            case .warmPoolMinSize: return "WarmPoolMinSize"
+            case .warmPoolReuseOnScaleIn: return "WarmPoolReuseOnScaleIn"
+            case .warmPoolState: return "WarmPoolState"
+            case .zonalShiftConfig: return "ZonalShiftConfig"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An object representing the details of an update request.
+    public struct UpdateParam: Swift.Sendable {
+        /// The keys associated with an update request.
+        public var type: EKSClientTypes.UpdateParamType?
+        /// The value of the keys submitted as part of an update request.
+        public var value: Swift.String?
+
+        public init(
+            type: EKSClientTypes.UpdateParamType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case failed
+        case inProgress
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .cancelled,
+                .failed,
+                .inProgress,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "Cancelled"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .successful: return "Successful"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum UpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessConfigUpdate
+        case addonUpdate
+        case associateEncryptionConfig
+        case associateIdentityProviderConfig
+        case autoModeUpdate
+        case capabilityUpdate
+        case certificateAuthorityUpdate
+        case configUpdate
+        case controlPlaneComponentConfigUpdate
+        case controlPlaneEgressUpdate
+        case controlPlaneScalingConfigUpdate
+        case deletionProtectionUpdate
+        case disassociateIdentityProviderConfig
+        case endpointAccessUpdate
+        case loggingUpdate
+        case remoteNetworkConfigUpdate
+        case upgradePolicyUpdate
+        case vendedLogsUpdate
+        case versionRollback
+        case versionUpdate
+        case vpcConfigUpdate
+        case zonalShiftConfigUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateType] {
+            return [
+                .accessConfigUpdate,
+                .addonUpdate,
+                .associateEncryptionConfig,
+                .associateIdentityProviderConfig,
+                .autoModeUpdate,
+                .capabilityUpdate,
+                .certificateAuthorityUpdate,
+                .configUpdate,
+                .controlPlaneComponentConfigUpdate,
+                .controlPlaneEgressUpdate,
+                .controlPlaneScalingConfigUpdate,
+                .deletionProtectionUpdate,
+                .disassociateIdentityProviderConfig,
+                .endpointAccessUpdate,
+                .loggingUpdate,
+                .remoteNetworkConfigUpdate,
+                .upgradePolicyUpdate,
+                .vendedLogsUpdate,
+                .versionRollback,
+                .versionUpdate,
+                .vpcConfigUpdate,
+                .zonalShiftConfigUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessConfigUpdate: return "AccessConfigUpdate"
+            case .addonUpdate: return "AddonUpdate"
+            case .associateEncryptionConfig: return "AssociateEncryptionConfig"
+            case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
+            case .autoModeUpdate: return "AutoModeUpdate"
+            case .capabilityUpdate: return "CapabilityUpdate"
+            case .certificateAuthorityUpdate: return "CertificateAuthorityUpdate"
+            case .configUpdate: return "ConfigUpdate"
+            case .controlPlaneComponentConfigUpdate: return "ControlPlaneComponentConfigUpdate"
+            case .controlPlaneEgressUpdate: return "ControlPlaneEgressUpdate"
+            case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
+            case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
+            case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
+            case .endpointAccessUpdate: return "EndpointAccessUpdate"
+            case .loggingUpdate: return "LoggingUpdate"
+            case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
+            case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
+            case .vendedLogsUpdate: return "VendedLogsUpdate"
+            case .versionRollback: return "VersionRollback"
+            case .versionUpdate: return "VersionUpdate"
+            case .vpcConfigUpdate: return "VpcConfigUpdate"
+            case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An object representing an asynchronous update.
+    public struct Update: Swift.Sendable {
+        /// The latest cancellation information for the update. This field is present only if any cancellation is attempted for the update.
+        public var cancellation: EKSClientTypes.Cancellation?
+        /// The Unix epoch timestamp at object creation.
+        public var createdAt: Foundation.Date?
+        /// Any errors associated with a Failed update.
+        public var errors: [EKSClientTypes.ErrorDetail]?
+        /// A UUID that is used to track the update.
+        public var id: Swift.String?
+        /// A key-value map that contains the parameters associated with the update.
+        public var params: [EKSClientTypes.UpdateParam]?
+        /// The current status of the update.
+        public var status: EKSClientTypes.UpdateStatus?
+        /// The type of the update.
+        public var type: EKSClientTypes.UpdateType?
+
+        public init(
+            cancellation: EKSClientTypes.Cancellation? = nil,
+            createdAt: Foundation.Date? = nil,
+            errors: [EKSClientTypes.ErrorDetail]? = nil,
+            id: Swift.String? = nil,
+            params: [EKSClientTypes.UpdateParam]? = nil,
+            status: EKSClientTypes.UpdateStatus? = nil,
+            type: EKSClientTypes.UpdateType? = nil
+        ) {
+            self.cancellation = cancellation
+            self.createdAt = createdAt
+            self.errors = errors
+            self.id = id
+            self.params = params
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ActivateCertificateAuthorityOutput: Swift.Sendable {
+    /// Summary information about the certificate authority that is being activated.
+    public var certificateAuthority: EKSClientTypes.CertificateAuthoritySummary?
+    /// An object representing the asynchronous update that promotes the certificate authority to be the cluster's signer.
+    public var update: EKSClientTypes.Update?
+
+    public init(
+        certificateAuthority: EKSClientTypes.CertificateAuthoritySummary? = nil,
+        update: EKSClientTypes.Update? = nil
+    ) {
+        self.certificateAuthority = certificateAuthority
+        self.update = update
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Identifies the certificate authority that is currently signing certificates for the cluster.
+    public struct ActiveCertificateAuthority: Swift.Sendable {
+        /// The entity that activated the current signing certificate authority, either CUSTOMER or EKS.
+        public var activatedBy: EKSClientTypes.CertificateAuthorityActivatedBy?
+        /// The unique identifier of the certificate authority that is currently signing certificates for the cluster.
+        public var id: Swift.String?
+
+        public init(
+            activatedBy: EKSClientTypes.CertificateAuthorityActivatedBy? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.activatedBy = activatedBy
+            self.id = id
+        }
+    }
+}
+
 extension EKSClientTypes {
 
     public enum AddonIssueCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -984,50 +1896,6 @@ extension EKSClientTypes {
     }
 }
 
-/// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
-        public internal(set) var addonName: Swift.String? = nil
-        /// The Amazon EKS cluster associated with the exception.
-        public internal(set) var clusterName: Swift.String? = nil
-        /// The Fargate profile associated with the exception.
-        public internal(set) var fargateProfileName: Swift.String? = nil
-        /// The specified parameter is invalid. Review the available parameters for the API request.
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon EKS managed node group associated with the exception.
-        public internal(set) var nodegroupName: Swift.String? = nil
-        /// The Amazon EKS subscription ID with the exception.
-        public internal(set) var subscriptionId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        addonName: Swift.String? = nil,
-        clusterName: Swift.String? = nil,
-        fargateProfileName: Swift.String? = nil,
-        message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil,
-        subscriptionId: Swift.String? = nil
-    ) {
-        self.properties.addonName = addonName
-        self.properties.clusterName = clusterName
-        self.properties.fargateProfileName = fargateProfileName
-        self.properties.message = message
-        self.properties.nodegroupName = nodegroupName
-        self.properties.subscriptionId = subscriptionId
-    }
-}
-
 /// The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1047,90 +1915,6 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidRequestException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        addonName: Swift.String? = nil,
-        clusterName: Swift.String? = nil,
-        message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil,
-        subscriptionId: Swift.String? = nil
-    ) {
-        self.properties.addonName = addonName
-        self.properties.clusterName = clusterName
-        self.properties.message = message
-        self.properties.nodegroupName = nodegroupName
-        self.properties.subscriptionId = subscriptionId
-    }
-}
-
-/// The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The Amazon EKS add-on name associated with the exception.
-        public internal(set) var addonName: Swift.String? = nil
-        /// The Amazon EKS cluster associated with the exception.
-        public internal(set) var clusterName: Swift.String? = nil
-        /// The Fargate profile associated with the exception.
-        public internal(set) var fargateProfileName: Swift.String? = nil
-        /// The Amazon EKS message associated with the exception.
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon EKS managed node group associated with the exception.
-        public internal(set) var nodegroupName: Swift.String? = nil
-        /// The Amazon EKS subscription ID with the exception.
-        public internal(set) var subscriptionId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        addonName: Swift.String? = nil,
-        clusterName: Swift.String? = nil,
-        fargateProfileName: Swift.String? = nil,
-        message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil,
-        subscriptionId: Swift.String? = nil
-    ) {
-        self.properties.addonName = addonName
-        self.properties.clusterName = clusterName
-        self.properties.fargateProfileName = fargateProfileName
-        self.properties.message = message
-        self.properties.nodegroupName = nodegroupName
-        self.properties.subscriptionId = subscriptionId
-    }
-}
-
-/// These errors are usually caused by a server-side issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The Amazon EKS add-on name associated with the exception.
-        public internal(set) var addonName: Swift.String? = nil
-        /// The Amazon EKS cluster associated with the exception.
-        public internal(set) var clusterName: Swift.String? = nil
-        /// These errors are usually caused by a server-side issue.
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon EKS managed node group associated with the exception.
-        public internal(set) var nodegroupName: Swift.String? = nil
-        /// The Amazon EKS subscription ID with the exception.
-        public internal(set) var subscriptionId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -1380,532 +2164,6 @@ public struct AssociateEncryptionConfigInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.encryptionConfig = encryptionConfig
-    }
-}
-
-extension EKSClientTypes {
-
-    public enum CancellationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case inProgress
-        case successful
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CancellationStatus] {
-            return [
-                .failed,
-                .inProgress,
-                .successful
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "Failed"
-            case .inProgress: return "InProgress"
-            case .successful: return "Successful"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    /// Contains information about the latest cancellation of an update to an Amazon EKS cluster.
-    public struct Cancellation: Swift.Sendable {
-        /// A message providing additional details about the cancellation, such as the reason for the cancellation or failure details.
-        public var reason: Swift.String?
-        /// The current status of the cancellation. Valid values are InProgress, Failed, and Successful.
-        public var status: EKSClientTypes.CancellationStatus?
-
-        public init(
-            reason: Swift.String? = nil,
-            status: EKSClientTypes.CancellationStatus? = nil
-        ) {
-            self.reason = reason
-            self.status = status
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accessDenied
-        case admissionRequestDenied
-        case clusterUnreachable
-        case configurationConflict
-        case eniLimitReached
-        case insufficientFreeAddresses
-        case insufficientNumberOfReplicas
-        case ipNotAvailable
-        case k8sResourceNotFound
-        case nodeCreationFailure
-        case operationNotPermitted
-        case podEvictionFailure
-        case securityGroupNotFound
-        case subnetNotFound
-        case unknown
-        case unsupportedAddonModification
-        case vpcIdNotFound
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ErrorCode] {
-            return [
-                .accessDenied,
-                .admissionRequestDenied,
-                .clusterUnreachable,
-                .configurationConflict,
-                .eniLimitReached,
-                .insufficientFreeAddresses,
-                .insufficientNumberOfReplicas,
-                .ipNotAvailable,
-                .k8sResourceNotFound,
-                .nodeCreationFailure,
-                .operationNotPermitted,
-                .podEvictionFailure,
-                .securityGroupNotFound,
-                .subnetNotFound,
-                .unknown,
-                .unsupportedAddonModification,
-                .vpcIdNotFound
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accessDenied: return "AccessDenied"
-            case .admissionRequestDenied: return "AdmissionRequestDenied"
-            case .clusterUnreachable: return "ClusterUnreachable"
-            case .configurationConflict: return "ConfigurationConflict"
-            case .eniLimitReached: return "EniLimitReached"
-            case .insufficientFreeAddresses: return "InsufficientFreeAddresses"
-            case .insufficientNumberOfReplicas: return "InsufficientNumberOfReplicas"
-            case .ipNotAvailable: return "IpNotAvailable"
-            case .k8sResourceNotFound: return "K8sResourceNotFound"
-            case .nodeCreationFailure: return "NodeCreationFailure"
-            case .operationNotPermitted: return "OperationNotPermitted"
-            case .podEvictionFailure: return "PodEvictionFailure"
-            case .securityGroupNotFound: return "SecurityGroupNotFound"
-            case .subnetNotFound: return "SubnetNotFound"
-            case .unknown: return "Unknown"
-            case .unsupportedAddonModification: return "UnsupportedAddonModification"
-            case .vpcIdNotFound: return "VpcIdNotFound"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    /// An object representing an error when an asynchronous operation fails.
-    public struct ErrorDetail: Swift.Sendable {
-        /// A brief description of the error.
-        ///
-        /// * SubnetNotFound: We couldn't find one of the subnets associated with the cluster.
-        ///
-        /// * SecurityGroupNotFound: We couldn't find one of the security groups associated with the cluster.
-        ///
-        /// * EniLimitReached: You have reached the elastic network interface limit for your account.
-        ///
-        /// * IpNotAvailable: A subnet associated with the cluster doesn't have any available IP addresses.
-        ///
-        /// * AccessDenied: You don't have permissions to perform the specified operation.
-        ///
-        /// * OperationNotPermitted: The service role associated with the cluster doesn't have the required access permissions for Amazon EKS.
-        ///
-        /// * VpcIdNotFound: We couldn't find the VPC associated with the cluster.
-        public var errorCode: EKSClientTypes.ErrorCode?
-        /// A more complete description of the error.
-        public var errorMessage: Swift.String?
-        /// An optional field that contains the resource IDs associated with the error.
-        public var resourceIds: [Swift.String]?
-
-        public init(
-            errorCode: EKSClientTypes.ErrorCode? = nil,
-            errorMessage: Swift.String? = nil,
-            resourceIds: [Swift.String]? = nil
-        ) {
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-            self.resourceIds = resourceIds
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    public enum UpdateParamType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case addonVersion
-        case authenticationMode
-        case clusterLogging
-        case computeConfig
-        case configurationValues
-        case controlPlaneEgressMode
-        case deletionProtection
-        case desiredSize
-        case encryptionConfig
-        case endpointPrivateAccess
-        case endpointPublicAccess
-        case identityProviderConfig
-        case kubernetesNetworkConfig
-        case kubeApiServerConfig
-        case kubeControllerManagerConfig
-        case kubeSchedulerConfig
-        case labelsToAdd
-        case labelsToRemove
-        case launchTemplateName
-        case launchTemplateVersion
-        case maxSize
-        case maxUnavailable
-        case maxUnavailablePercentage
-        case minSize
-        case networkAccess
-        case nodeRepairConfig
-        case nodeRepairEnabled
-        case platformVersion
-        case podIdentityAssociations
-        case previousTier
-        case publicAccessCidrs
-        case releaseVersion
-        case remoteNetworkConfig
-        case resolveConflicts
-        case roleArn
-        case roleMappingsToAddOrUpdate
-        case roleMappingsToRemove
-        case securityGroups
-        case serviceAccountRoleArn
-        case storageConfig
-        case subnets
-        case taintsToAdd
-        case taintsToRemove
-        case updatedTier
-        case updateStrategy
-        case upgradePolicy
-        case vendedLogs
-        case version
-        case warmPoolEnabled
-        case warmPoolMaxGroupPreparedCapacity
-        case warmPoolMinSize
-        case warmPoolReuseOnScaleIn
-        case warmPoolState
-        case zonalShiftConfig
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdateParamType] {
-            return [
-                .addonVersion,
-                .authenticationMode,
-                .clusterLogging,
-                .computeConfig,
-                .configurationValues,
-                .controlPlaneEgressMode,
-                .deletionProtection,
-                .desiredSize,
-                .encryptionConfig,
-                .endpointPrivateAccess,
-                .endpointPublicAccess,
-                .identityProviderConfig,
-                .kubernetesNetworkConfig,
-                .kubeApiServerConfig,
-                .kubeControllerManagerConfig,
-                .kubeSchedulerConfig,
-                .labelsToAdd,
-                .labelsToRemove,
-                .launchTemplateName,
-                .launchTemplateVersion,
-                .maxSize,
-                .maxUnavailable,
-                .maxUnavailablePercentage,
-                .minSize,
-                .networkAccess,
-                .nodeRepairConfig,
-                .nodeRepairEnabled,
-                .platformVersion,
-                .podIdentityAssociations,
-                .previousTier,
-                .publicAccessCidrs,
-                .releaseVersion,
-                .remoteNetworkConfig,
-                .resolveConflicts,
-                .roleArn,
-                .roleMappingsToAddOrUpdate,
-                .roleMappingsToRemove,
-                .securityGroups,
-                .serviceAccountRoleArn,
-                .storageConfig,
-                .subnets,
-                .taintsToAdd,
-                .taintsToRemove,
-                .updatedTier,
-                .updateStrategy,
-                .upgradePolicy,
-                .vendedLogs,
-                .version,
-                .warmPoolEnabled,
-                .warmPoolMaxGroupPreparedCapacity,
-                .warmPoolMinSize,
-                .warmPoolReuseOnScaleIn,
-                .warmPoolState,
-                .zonalShiftConfig
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .addonVersion: return "AddonVersion"
-            case .authenticationMode: return "AuthenticationMode"
-            case .clusterLogging: return "ClusterLogging"
-            case .computeConfig: return "ComputeConfig"
-            case .configurationValues: return "ConfigurationValues"
-            case .controlPlaneEgressMode: return "ControlPlaneEgressMode"
-            case .deletionProtection: return "DeletionProtection"
-            case .desiredSize: return "DesiredSize"
-            case .encryptionConfig: return "EncryptionConfig"
-            case .endpointPrivateAccess: return "EndpointPrivateAccess"
-            case .endpointPublicAccess: return "EndpointPublicAccess"
-            case .identityProviderConfig: return "IdentityProviderConfig"
-            case .kubernetesNetworkConfig: return "KubernetesNetworkConfig"
-            case .kubeApiServerConfig: return "KubeApiServerConfig"
-            case .kubeControllerManagerConfig: return "KubeControllerManagerConfig"
-            case .kubeSchedulerConfig: return "KubeSchedulerConfig"
-            case .labelsToAdd: return "LabelsToAdd"
-            case .labelsToRemove: return "LabelsToRemove"
-            case .launchTemplateName: return "LaunchTemplateName"
-            case .launchTemplateVersion: return "LaunchTemplateVersion"
-            case .maxSize: return "MaxSize"
-            case .maxUnavailable: return "MaxUnavailable"
-            case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
-            case .minSize: return "MinSize"
-            case .networkAccess: return "NetworkAccess"
-            case .nodeRepairConfig: return "NodeRepairConfig"
-            case .nodeRepairEnabled: return "NodeRepairEnabled"
-            case .platformVersion: return "PlatformVersion"
-            case .podIdentityAssociations: return "PodIdentityAssociations"
-            case .previousTier: return "PreviousTier"
-            case .publicAccessCidrs: return "PublicAccessCidrs"
-            case .releaseVersion: return "ReleaseVersion"
-            case .remoteNetworkConfig: return "RemoteNetworkConfig"
-            case .resolveConflicts: return "ResolveConflicts"
-            case .roleArn: return "RoleArn"
-            case .roleMappingsToAddOrUpdate: return "RoleMappingsToAddOrUpdate"
-            case .roleMappingsToRemove: return "RoleMappingsToRemove"
-            case .securityGroups: return "SecurityGroups"
-            case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
-            case .storageConfig: return "StorageConfig"
-            case .subnets: return "Subnets"
-            case .taintsToAdd: return "TaintsToAdd"
-            case .taintsToRemove: return "TaintsToRemove"
-            case .updatedTier: return "UpdatedTier"
-            case .updateStrategy: return "UpdateStrategy"
-            case .upgradePolicy: return "UpgradePolicy"
-            case .vendedLogs: return "VendedLogs"
-            case .version: return "Version"
-            case .warmPoolEnabled: return "WarmPoolEnabled"
-            case .warmPoolMaxGroupPreparedCapacity: return "WarmPoolMaxGroupPreparedCapacity"
-            case .warmPoolMinSize: return "WarmPoolMinSize"
-            case .warmPoolReuseOnScaleIn: return "WarmPoolReuseOnScaleIn"
-            case .warmPoolState: return "WarmPoolState"
-            case .zonalShiftConfig: return "ZonalShiftConfig"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    /// An object representing the details of an update request.
-    public struct UpdateParam: Swift.Sendable {
-        /// The keys associated with an update request.
-        public var type: EKSClientTypes.UpdateParamType?
-        /// The value of the keys submitted as part of an update request.
-        public var value: Swift.String?
-
-        public init(
-            type: EKSClientTypes.UpdateParamType? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.type = type
-            self.value = value
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cancelled
-        case failed
-        case inProgress
-        case successful
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdateStatus] {
-            return [
-                .cancelled,
-                .failed,
-                .inProgress,
-                .successful
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cancelled: return "Cancelled"
-            case .failed: return "Failed"
-            case .inProgress: return "InProgress"
-            case .successful: return "Successful"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    public enum UpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accessConfigUpdate
-        case addonUpdate
-        case associateEncryptionConfig
-        case associateIdentityProviderConfig
-        case autoModeUpdate
-        case capabilityUpdate
-        case configUpdate
-        case controlPlaneComponentConfigUpdate
-        case controlPlaneEgressUpdate
-        case controlPlaneScalingConfigUpdate
-        case deletionProtectionUpdate
-        case disassociateIdentityProviderConfig
-        case endpointAccessUpdate
-        case loggingUpdate
-        case remoteNetworkConfigUpdate
-        case upgradePolicyUpdate
-        case vendedLogsUpdate
-        case versionRollback
-        case versionUpdate
-        case vpcConfigUpdate
-        case zonalShiftConfigUpdate
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdateType] {
-            return [
-                .accessConfigUpdate,
-                .addonUpdate,
-                .associateEncryptionConfig,
-                .associateIdentityProviderConfig,
-                .autoModeUpdate,
-                .capabilityUpdate,
-                .configUpdate,
-                .controlPlaneComponentConfigUpdate,
-                .controlPlaneEgressUpdate,
-                .controlPlaneScalingConfigUpdate,
-                .deletionProtectionUpdate,
-                .disassociateIdentityProviderConfig,
-                .endpointAccessUpdate,
-                .loggingUpdate,
-                .remoteNetworkConfigUpdate,
-                .upgradePolicyUpdate,
-                .vendedLogsUpdate,
-                .versionRollback,
-                .versionUpdate,
-                .vpcConfigUpdate,
-                .zonalShiftConfigUpdate
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accessConfigUpdate: return "AccessConfigUpdate"
-            case .addonUpdate: return "AddonUpdate"
-            case .associateEncryptionConfig: return "AssociateEncryptionConfig"
-            case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
-            case .autoModeUpdate: return "AutoModeUpdate"
-            case .capabilityUpdate: return "CapabilityUpdate"
-            case .configUpdate: return "ConfigUpdate"
-            case .controlPlaneComponentConfigUpdate: return "ControlPlaneComponentConfigUpdate"
-            case .controlPlaneEgressUpdate: return "ControlPlaneEgressUpdate"
-            case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
-            case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
-            case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
-            case .endpointAccessUpdate: return "EndpointAccessUpdate"
-            case .loggingUpdate: return "LoggingUpdate"
-            case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
-            case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
-            case .vendedLogsUpdate: return "VendedLogsUpdate"
-            case .versionRollback: return "VersionRollback"
-            case .versionUpdate: return "VersionUpdate"
-            case .vpcConfigUpdate: return "VpcConfigUpdate"
-            case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EKSClientTypes {
-
-    /// An object representing an asynchronous update.
-    public struct Update: Swift.Sendable {
-        /// The latest cancellation information for the update. This field is present only if any cancellation is attempted for the update.
-        public var cancellation: EKSClientTypes.Cancellation?
-        /// The Unix epoch timestamp at object creation.
-        public var createdAt: Foundation.Date?
-        /// Any errors associated with a Failed update.
-        public var errors: [EKSClientTypes.ErrorDetail]?
-        /// A UUID that is used to track the update.
-        public var id: Swift.String?
-        /// A key-value map that contains the parameters associated with the update.
-        public var params: [EKSClientTypes.UpdateParam]?
-        /// The current status of the update.
-        public var status: EKSClientTypes.UpdateStatus?
-        /// The type of the update.
-        public var type: EKSClientTypes.UpdateType?
-
-        public init(
-            cancellation: EKSClientTypes.Cancellation? = nil,
-            createdAt: Foundation.Date? = nil,
-            errors: [EKSClientTypes.ErrorDetail]? = nil,
-            id: Swift.String? = nil,
-            params: [EKSClientTypes.UpdateParam]? = nil,
-            status: EKSClientTypes.UpdateStatus? = nil,
-            type: EKSClientTypes.UpdateType? = nil
-        ) {
-            self.cancellation = cancellation
-            self.createdAt = createdAt
-            self.errors = errors
-            self.id = id
-            self.params = params
-            self.status = status
-            self.type = type
-        }
     }
 }
 
@@ -2626,27 +2884,34 @@ public struct CreateCapabilityOutput: Swift.Sendable {
     }
 }
 
-/// The service is unavailable. Back off and retry the operation.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The request has failed due to a temporary failure of the server.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceUnavailableException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+public struct CreateCertificateAuthorityInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of your cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil
     ) {
-        self.properties.message = message
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+    }
+}
+
+public struct CreateCertificateAuthorityOutput: Swift.Sendable {
+    /// Summary information about the certificate authority that was created, including its ID and initial signing and distribution status.
+    public var certificateAuthority: EKSClientTypes.CertificateAuthoritySummary?
+    /// An object representing the asynchronous update that adds the certificate authority to the cluster's trust bundle.
+    public var update: EKSClientTypes.Update?
+
+    public init(
+        certificateAuthority: EKSClientTypes.CertificateAuthoritySummary? = nil,
+        update: EKSClientTypes.Update? = nil
+    ) {
+        self.certificateAuthority = certificateAuthority
+        self.update = update
     }
 }
 
@@ -3546,12 +3811,16 @@ extension EKSClientTypes {
 
     /// An object representing the certificate-authority-data for your cluster.
     public struct Certificate: Swift.Sendable {
+        /// An object identifying the certificate authority that is currently signing certificates for the cluster.
+        public var active: EKSClientTypes.ActiveCertificateAuthority?
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public var data: Swift.String?
 
         public init(
+            active: EKSClientTypes.ActiveCertificateAuthority? = nil,
             data: Swift.String? = nil
         ) {
+            self.active = active
             self.data = data
         }
     }
@@ -5719,6 +5988,42 @@ public struct DeleteCapabilityOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCertificateAuthorityInput: Swift.Sendable {
+    /// The ID of the certificate authority to delete. You can't delete the certificate authority that's currently signing certificates for the cluster.
+    /// This member is required.
+    public var certificateAuthorityId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of your cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        certificateAuthorityId: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    ) {
+        self.certificateAuthorityId = certificateAuthorityId
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+    }
+}
+
+public struct DeleteCertificateAuthorityOutput: Swift.Sendable {
+    /// Summary information about the certificate authority that is being deleted.
+    public var certificateAuthority: EKSClientTypes.CertificateAuthoritySummary?
+    /// An object representing the asynchronous update that removes the certificate authority from the cluster's trust bundle.
+    public var update: EKSClientTypes.Update?
+
+    public init(
+        certificateAuthority: EKSClientTypes.CertificateAuthoritySummary? = nil,
+        update: EKSClientTypes.Update? = nil
+    ) {
+        self.certificateAuthority = certificateAuthority
+        self.update = update
+    }
+}
+
 public struct DeleteClusterInput: Swift.Sendable {
     /// The name of the cluster to delete.
     /// This member is required.
@@ -6043,6 +6348,127 @@ public struct DescribeCapabilityOutput: Swift.Sendable {
         capability: EKSClientTypes.Capability? = nil
     ) {
         self.capability = capability
+    }
+}
+
+public struct DescribeCertificateAuthorityInput: Swift.Sendable {
+    /// The ID of the certificate authority to describe.
+    /// This member is required.
+    public var certificateAuthorityId: Swift.String?
+    /// The name of your cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        certificateAuthorityId: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    ) {
+        self.certificateAuthorityId = certificateAuthorityId
+        self.clusterName = clusterName
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The scheduled events during which Amazon EKS may automatically activate a certificate authority, computed from its validity period. These events help ensure that a cluster's signing certificate authority is rotated before its certificate expires.
+    public struct CertificateAuthorityScheduledEvents: Swift.Sendable {
+        /// The Unix epoch timestamp in seconds by which Amazon EKS will automatically activate this certificate authority if you haven't already activated it.
+        public var finalAutoActivation: Foundation.Date?
+        /// The earliest Unix epoch timestamp in seconds at which Amazon EKS may automatically activate this certificate authority.
+        public var firstAutoActivation: Foundation.Date?
+
+        public init(
+            finalAutoActivation: Foundation.Date? = nil,
+            firstAutoActivation: Foundation.Date? = nil
+        ) {
+            self.finalAutoActivation = finalAutoActivation
+            self.firstAutoActivation = firstAutoActivation
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The validity period of a certificate authority's certificate.
+    public struct CertificateAuthorityValidity: Swift.Sendable {
+        /// The Unix epoch timestamp in seconds for the end of the certificate authority's validity period.
+        public var notAfter: Foundation.Date?
+        /// The Unix epoch timestamp in seconds for the start of the certificate authority's validity period.
+        public var notBefore: Foundation.Date?
+
+        public init(
+            notAfter: Foundation.Date? = nil,
+            notBefore: Foundation.Date? = nil
+        ) {
+            self.notAfter = notAfter
+            self.notBefore = notBefore
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An object representing a certificate authority (CA) for an Amazon EKS cluster.
+    public struct CertificateAuthority: Swift.Sendable {
+        /// The Unix epoch timestamp in seconds for when the certificate authority was last activated as the cluster's signer. This value is absent if the certificate authority has never been activated.
+        public var activatedAt: Foundation.Date?
+        /// The entity that most recently activated the certificate authority. A value of EKS indicates that Amazon EKS activated it automatically; CUSTOMER indicates that you activated it.
+        public var activatedBy: EKSClientTypes.CertificateAuthorityActivatedBy?
+        /// The Unix epoch timestamp in seconds for when the certificate authority was created.
+        public var createdAt: Foundation.Date?
+        /// The entity that created the certificate authority. Certificate authorities that you create are CUSTOMER; those that Amazon EKS provisions on your behalf, such as a cluster's initial certificate authority, are EKS.
+        public var createdBy: EKSClientTypes.CertificateAuthorityCreatedBy?
+        /// The Base64-encoded public certificate of the certificate authority.
+        public var data: Swift.String?
+        /// The distribution status of the certificate authority, which tracks whether Amazon EKS has distributed its trust to the Amazon Web Services managed components in your cluster (the control plane, Amazon EKS Auto Mode instances, and Amazon Web Services Fargate nodes). Valid values are IN_PROGRESS, COMPLETE, FAILED, and DELETING. A successor CA can only be activated after its distribution status is COMPLETE.
+        public var distributionStatus: EKSClientTypes.CertificateAuthorityDistributionStatus?
+        /// The unique identifier of the certificate authority.
+        public var id: Swift.String?
+        /// Indicates whether CA rollback is still available for this certificate authority. After you activate a successor CA, rollback lets you revert to the outgoing CA for a limited period while you finish updating any worker nodes or clients that were missed.
+        public var rollbackAvailable: Swift.Bool?
+        /// The scheduled auto-activation events for the certificate authority, computed from its validity period.
+        public var scheduledEvents: EKSClientTypes.CertificateAuthorityScheduledEvents?
+        /// The signing status of the certificate authority. IN_USE means the certificate authority is currently signing certificates for the cluster, ACTIVATING means it's being promoted to the signer, and NOT_USED means it's trusted by the cluster (for example, a successor CA during a rotation, or a retired outgoing CA) but isn't the signer.
+        public var signingStatus: EKSClientTypes.CertificateAuthoritySigningStatus?
+        /// The validity period of the certificate authority's certificate.
+        public var validity: EKSClientTypes.CertificateAuthorityValidity?
+
+        public init(
+            activatedAt: Foundation.Date? = nil,
+            activatedBy: EKSClientTypes.CertificateAuthorityActivatedBy? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: EKSClientTypes.CertificateAuthorityCreatedBy? = nil,
+            data: Swift.String? = nil,
+            distributionStatus: EKSClientTypes.CertificateAuthorityDistributionStatus? = nil,
+            id: Swift.String? = nil,
+            rollbackAvailable: Swift.Bool? = nil,
+            scheduledEvents: EKSClientTypes.CertificateAuthorityScheduledEvents? = nil,
+            signingStatus: EKSClientTypes.CertificateAuthoritySigningStatus? = nil,
+            validity: EKSClientTypes.CertificateAuthorityValidity? = nil
+        ) {
+            self.activatedAt = activatedAt
+            self.activatedBy = activatedBy
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.data = data
+            self.distributionStatus = distributionStatus
+            self.id = id
+            self.rollbackAvailable = rollbackAvailable
+            self.scheduledEvents = scheduledEvents
+            self.signingStatus = signingStatus
+            self.validity = validity
+        }
+    }
+}
+
+public struct DescribeCertificateAuthorityOutput: Swift.Sendable {
+    /// An object containing detailed information about the certificate authority.
+    public var certificateAuthority: EKSClientTypes.CertificateAuthority?
+
+    public init(
+        certificateAuthority: EKSClientTypes.CertificateAuthority? = nil
+    ) {
+        self.certificateAuthority = certificateAuthority
     }
 }
 
@@ -7456,6 +7882,41 @@ public struct ListCapabilitiesOutput: Swift.Sendable {
     }
 }
 
+public struct ListCertificateAuthoritiesInput: Swift.Sendable {
+    /// The name of your cluster.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCertificateAuthoritiesOutput: Swift.Sendable {
+    /// A list of certificate authority summary objects, each containing basic information about a certificate authority, including its ID, signing status, and distribution status.
+    public var certificateAuthorities: [EKSClientTypes.CertificateAuthoritySummary]?
+    /// The nextToken value to include in a future ListCertificateAuthorities request. When the results of a ListCertificateAuthorities request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        certificateAuthorities: [EKSClientTypes.CertificateAuthoritySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.certificateAuthorities = certificateAuthorities
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListClustersInput: Swift.Sendable {
     /// Indicates whether external clusters are included in the returned list. Use 'all' to return [https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html](https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html)connected clusters, or blank to return only Amazon EKS clusters. 'all' must be in lowercase otherwise an error occurs.
     public var include: [Swift.String]?
@@ -8767,6 +9228,19 @@ public struct UpdatePodIdentityAssociationOutput: Swift.Sendable {
     }
 }
 
+extension ActivateCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: ActivateCertificateAuthorityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let certificateAuthorityId = value.certificateAuthorityId else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/certificate-authorities/\(certificateAuthorityId.urlPercentEncoding())/activate"
+    }
+}
+
 extension AssociateAccessPolicyInput {
 
     static func urlPathProvider(_ value: AssociateAccessPolicyInput) -> Swift.String? {
@@ -8840,6 +9314,16 @@ extension CreateCapabilityInput {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/capabilities"
+    }
+}
+
+extension CreateCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: CreateCertificateAuthorityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/certificate-authorities"
     }
 }
 
@@ -8935,6 +9419,31 @@ extension DeleteCapabilityInput {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/capabilities/\(capabilityName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: DeleteCertificateAuthorityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let certificateAuthorityId = value.certificateAuthorityId else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/certificate-authorities/\(certificateAuthorityId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCertificateAuthorityInput {
+
+    static func queryItemProvider(_ value: DeleteCertificateAuthorityInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientRequestToken = value.clientRequestToken {
+            let clientRequestTokenQueryItem = Smithy.URIQueryItem(name: "clientRequestToken".urlPercentEncoding(), value: Swift.String(clientRequestToken).urlPercentEncoding())
+            items.append(clientRequestTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -9119,6 +9628,19 @@ extension DescribeCapabilityInput {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/capabilities/\(capabilityName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: DescribeCertificateAuthorityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let certificateAuthorityId = value.certificateAuthorityId else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/certificate-authorities/\(certificateAuthorityId.urlPercentEncoding())"
     }
 }
 
@@ -9451,6 +9973,32 @@ extension ListCapabilitiesInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCertificateAuthoritiesInput {
+
+    static func urlPathProvider(_ value: ListCertificateAuthoritiesInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/certificate-authorities"
+    }
+}
+
+extension ListCertificateAuthoritiesInput {
+
+    static func queryItemProvider(_ value: ListCertificateAuthoritiesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
         return items
     }
@@ -9845,6 +10393,14 @@ extension UpdatePodIdentityAssociationInput {
     }
 }
 
+extension ActivateCertificateAuthorityInput {
+
+    static func write(value: ActivateCertificateAuthorityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+    }
+}
+
 extension AssociateAccessPolicyInput {
 
     static func write(value: AssociateAccessPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -9921,6 +10477,14 @@ extension CreateCapabilityInput {
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
+    }
+}
+
+extension CreateCertificateAuthorityInput {
+
+    static func write(value: CreateCertificateAuthorityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
     }
 }
 
@@ -10181,6 +10745,19 @@ extension UpdatePodIdentityAssociationInput {
     }
 }
 
+extension ActivateCertificateAuthorityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ActivateCertificateAuthorityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ActivateCertificateAuthorityOutput()
+        value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EKSClientTypes.CertificateAuthoritySummary.read(from:))
+        value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
+        return value
+    }
+}
+
 extension AssociateAccessPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAccessPolicyOutput {
@@ -10264,6 +10841,19 @@ extension CreateCapabilityOutput {
         let reader = responseReader
         var value = CreateCapabilityOutput()
         value.capability = try reader["capability"].readIfPresent(with: EKSClientTypes.Capability.read(from:))
+        return value
+    }
+}
+
+extension CreateCertificateAuthorityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCertificateAuthorityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCertificateAuthorityOutput()
+        value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EKSClientTypes.CertificateAuthoritySummary.read(from:))
+        value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
         return value
     }
 }
@@ -10355,6 +10945,19 @@ extension DeleteCapabilityOutput {
         let reader = responseReader
         var value = DeleteCapabilityOutput()
         value.capability = try reader["capability"].readIfPresent(with: EKSClientTypes.Capability.read(from:))
+        return value
+    }
+}
+
+extension DeleteCertificateAuthorityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCertificateAuthorityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCertificateAuthorityOutput()
+        value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EKSClientTypes.CertificateAuthoritySummary.read(from:))
+        value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
         return value
     }
 }
@@ -10491,6 +11094,18 @@ extension DescribeCapabilityOutput {
         let reader = responseReader
         var value = DescribeCapabilityOutput()
         value.capability = try reader["capability"].readIfPresent(with: EKSClientTypes.Capability.read(from:))
+        return value
+    }
+}
+
+extension DescribeCertificateAuthorityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCertificateAuthorityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCertificateAuthorityOutput()
+        value.certificateAuthority = try reader["certificateAuthority"].readIfPresent(with: EKSClientTypes.CertificateAuthority.read(from:))
         return value
     }
 }
@@ -10700,6 +11315,19 @@ extension ListCapabilitiesOutput {
         let reader = responseReader
         var value = ListCapabilitiesOutput()
         value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: EKSClientTypes.CapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCertificateAuthoritiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCertificateAuthoritiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCertificateAuthoritiesOutput()
+        value.certificateAuthorities = try reader["certificateAuthorities"].readListIfPresent(memberReadingClosure: EKSClientTypes.CertificateAuthoritySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -10968,6 +11596,23 @@ extension UpdatePodIdentityAssociationOutput {
     }
 }
 
+enum ActivateCertificateAuthorityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateAccessPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11099,6 +11744,25 @@ enum CreateCapabilityOutputError {
             case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCertificateAuthorityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11247,6 +11911,24 @@ enum DeleteCapabilityOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCertificateAuthorityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11438,6 +12120,22 @@ enum DescribeCapabilityOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeCertificateAuthorityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11725,6 +12423,23 @@ enum ListCapabilitiesOutputError {
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCertificateAuthoritiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12137,23 +12852,6 @@ extension InvalidParameterException {
     }
 }
 
-extension InvalidRequestException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.addonName = try reader["addonName"].readIfPresent()
-        value.properties.clusterName = try reader["clusterName"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.nodegroupName = try reader["nodegroupName"].readIfPresent()
-        value.properties.subscriptionId = try reader["subscriptionId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -12177,6 +12875,36 @@ extension ServerException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServerException {
         let reader = baseError.errorBodyReader
         var value = ServerException()
+        value.properties.addonName = try reader["addonName"].readIfPresent()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.nodegroupName = try reader["nodegroupName"].readIfPresent()
+        value.properties.subscriptionId = try reader["subscriptionId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
         value.properties.addonName = try reader["addonName"].readIfPresent()
         value.properties.clusterName = try reader["clusterName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
@@ -12271,19 +12999,6 @@ extension AccessDeniedException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12400,6 +13115,17 @@ extension EKSClientTypes.AccessScope {
         var value = EKSClientTypes.AccessScope()
         value.type = try reader["type"].readIfPresent()
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.ActiveCertificateAuthority {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ActiveCertificateAuthority {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ActiveCertificateAuthority()
+        value.id = try reader["id"].readIfPresent()
+        value.activatedBy = try reader["activatedBy"].readIfPresent()
         return value
     }
 }
@@ -12754,6 +13480,65 @@ extension EKSClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.Certificate()
         value.data = try reader["data"].readIfPresent()
+        value.active = try reader["active"].readIfPresent(with: EKSClientTypes.ActiveCertificateAuthority.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.CertificateAuthority {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CertificateAuthority {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CertificateAuthority()
+        value.id = try reader["id"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.activatedAt = try reader["activatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activatedBy = try reader["activatedBy"].readIfPresent()
+        value.signingStatus = try reader["signingStatus"].readIfPresent()
+        value.distributionStatus = try reader["distributionStatus"].readIfPresent()
+        value.validity = try reader["validity"].readIfPresent(with: EKSClientTypes.CertificateAuthorityValidity.read(from:))
+        value.scheduledEvents = try reader["scheduledEvents"].readIfPresent(with: EKSClientTypes.CertificateAuthorityScheduledEvents.read(from:))
+        value.rollbackAvailable = try reader["rollbackAvailable"].readIfPresent()
+        value.data = try reader["data"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.CertificateAuthorityScheduledEvents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CertificateAuthorityScheduledEvents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CertificateAuthorityScheduledEvents()
+        value.firstAutoActivation = try reader["firstAutoActivation"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.finalAutoActivation = try reader["finalAutoActivation"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension EKSClientTypes.CertificateAuthoritySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CertificateAuthoritySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CertificateAuthoritySummary()
+        value.id = try reader["id"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.activatedAt = try reader["activatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activatedBy = try reader["activatedBy"].readIfPresent()
+        value.signingStatus = try reader["signingStatus"].readIfPresent()
+        value.distributionStatus = try reader["distributionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.CertificateAuthorityValidity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CertificateAuthorityValidity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CertificateAuthorityValidity()
+        value.notBefore = try reader["notBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.notAfter = try reader["notAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

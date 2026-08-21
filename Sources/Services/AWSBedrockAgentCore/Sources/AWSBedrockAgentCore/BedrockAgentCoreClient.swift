@@ -1541,6 +1541,7 @@ extension BedrockAgentCoreClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMemoryRecordInput, DeleteMemoryRecordOutput>(DeleteMemoryRecordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMemoryRecordInput, DeleteMemoryRecordOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteMemoryRecordInput, DeleteMemoryRecordOutput>(DeleteMemoryRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMemoryRecordOutput>(DeleteMemoryRecordOutput.httpOutput(from:), DeleteMemoryRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMemoryRecordInput, DeleteMemoryRecordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -2342,6 +2343,7 @@ extension BedrockAgentCoreClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMemoryRecordInput, GetMemoryRecordOutput>(GetMemoryRecordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemoryRecordInput, GetMemoryRecordOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetMemoryRecordInput, GetMemoryRecordOutput>(GetMemoryRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemoryRecordOutput>(GetMemoryRecordOutput.httpOutput(from:), GetMemoryRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemoryRecordInput, GetMemoryRecordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

@@ -5185,7 +5185,7 @@ extension RedshiftServerlessClient {
 
     /// Performs the `UpdateNamespace` operation on the `RedshiftServerless` service.
     ///
-    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
+    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request. Similarly, an S3 Tables log-publishing update (a request where logDestinationType is s3table) cannot be combined with any other namespace configuration change and must be submitted as its own request.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateNamespaceInput`)
     ///

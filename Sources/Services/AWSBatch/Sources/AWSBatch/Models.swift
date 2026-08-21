@@ -547,6 +547,202 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The infrastructure optimization configuration for an Amazon ECS Managed Instances capacity provider. Specifies the idle-instance scale-in behavior.
+    public struct InfrastructureOptimization: Swift.Sendable {
+        /// The number of seconds an instance can remain idle before it is terminated. Valid values are -1 or 0 to 3600. Use -1 as a special value to disable scale-in (instances are never terminated for being idle). If not specified, a default value applies.
+        public var scaleInAfter: Swift.Int?
+
+        public init(
+            scaleInAfter: Swift.Int? = nil
+        ) {
+            self.scaleInAfter = scaleInAfter
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity reservation configuration for Amazon ECS Managed Instances. Use this to target On-Demand Capacity Reservations or Reserved Instances.
+    public struct CapacityReservationRequest: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capacity reservation group to target.
+        public var reservationGroupArn: Swift.String?
+        /// The capacity reservation preference. Valid values:
+        ///
+        /// * RESERVATIONS_ONLY — Use only capacity reservations.
+        ///
+        /// * RESERVATIONS_FIRST — Prefer capacity reservations but fall back to On-Demand if unavailable.
+        ///
+        /// * RESERVATIONS_EXCLUDED — Do not use capacity reservations.
+        public var reservationPreference: Swift.String?
+
+        public init(
+            reservationGroupArn: Swift.String? = nil,
+            reservationPreference: Swift.String? = nil
+        ) {
+            self.reservationGroupArn = reservationGroupArn
+            self.reservationPreference = reservationPreference
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The instance type requirements for the Amazon ECS Managed Instances capacity provider. Use this to specify which Amazon EC2 instance types or instance families Amazon ECS can launch.
+    public struct InstanceRequirementsRequest: Swift.Sendable {
+        /// A list of specific instance types or instance families that Amazon ECS can launch (for example, m5.large or g5). When specified, only these instance types are used.
+        public var allowedInstanceTypes: [Swift.String]?
+
+        public init(
+            allowedInstanceTypes: [Swift.String]? = nil
+        ) {
+            self.allowedInstanceTypes = allowedInstanceTypes
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The local storage configuration for Amazon ECS Managed Instances.
+    public struct ManagedInstancesLocalStorageConfiguration: Swift.Sendable {
+        /// Specifies whether instance store volumes (local NVMe SSDs) are available to containers. When enabled, containers can use the instance store for high-performance temporary storage.
+        public var useLocalStorage: Swift.Bool?
+
+        public init(
+            useLocalStorage: Swift.Bool? = nil
+        ) {
+            self.useLocalStorage = useLocalStorage
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The network configuration for Amazon ECS Managed Instances. Specifies the VPC subnets and security groups where instances are launched.
+    public struct ManagedInstancesNetworkConfiguration: Swift.Sendable {
+        /// The VPC security groups to associate with the managed instances.
+        /// This member is required.
+        public var securityGroups: [Swift.String]?
+        /// The VPC subnets where managed instances are launched. If your subnets don't provide public IP addresses, they must have a NAT gateway for outbound internet access.
+        /// This member is required.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The storage configuration for Amazon ECS Managed Instances.
+    public struct ManagedInstancesStorageConfiguration: Swift.Sendable {
+        /// The size of the root EBS volume in GiB for the managed instances.
+        public var storageSizeGiB: Swift.Int?
+
+        public init(
+            storageSizeGiB: Swift.Int? = nil
+        ) {
+            self.storageSizeGiB = storageSizeGiB
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The instance launch configuration for an Amazon ECS Managed Instances capacity provider. Specifies the instance profile, networking, instance selection constraints, capacity pricing model, storage, and monitoring settings.
+    public struct InstanceLaunchTemplate: Swift.Sendable {
+        /// The capacity pricing model for the managed instances. Valid values:
+        ///
+        /// * ON_DEMAND (default) — On-Demand pricing.
+        ///
+        /// * SPOT — Spot Instances, which can provide significant cost savings for fault-tolerant workloads.
+        public var capacityOptionType: Swift.String?
+        /// The capacity reservation configuration for the managed instances. Use this to target On-Demand Capacity Reservations or Reserved Instances for predictable capacity and cost optimization.
+        public var capacityReservations: BatchClientTypes.CapacityReservationRequest?
+        /// The Amazon Resource Name (ARN) of the Amazon EC2 instance profile for the managed instances. The instance profile must use the AmazonECSInstanceRolePolicyForManagedInstances managed policy with a trust policy for ec2.amazonaws.com.
+        /// This member is required.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// Specifies whether FIPS 140-2 validated cryptographic modules are enabled on the managed instances. Not available in all Regions.
+        public var fipsEnabled: Swift.Bool?
+        /// Specifies whether instance tags are accessible from the instance metadata service (IMDS). If not specified, instance tags are not accessible from IMDS.
+        public var instanceMetadataTagsPropagation: Swift.Bool?
+        /// The instance type requirements for the capacity provider. Use this to constrain which Amazon EC2 instance types Amazon ECS can launch. If not specified, all available instance types are eligible.
+        public var instanceRequirements: BatchClientTypes.InstanceRequirementsRequest?
+        /// The local storage configuration for the managed instances. If not specified, instance store volumes are not available to containers.
+        public var localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration?
+        /// The level of CloudWatch monitoring for the managed instances. Valid values are BASIC and DETAILED.
+        public var monitoring: Swift.String?
+        /// The network configuration for the managed instances. Specifies the VPC subnets and security groups where instances are launched.
+        /// This member is required.
+        public var networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The storage configuration for the managed instances. Configures the root EBS volume size. If not specified, the service uses the default EBS volume size for the instance type.
+        public var storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            capacityOptionType: Swift.String? = nil,
+            capacityReservations: BatchClientTypes.CapacityReservationRequest? = nil,
+            ec2InstanceProfileArn: Swift.String? = nil,
+            fipsEnabled: Swift.Bool? = nil,
+            instanceMetadataTagsPropagation: Swift.Bool? = nil,
+            instanceRequirements: BatchClientTypes.InstanceRequirementsRequest? = nil,
+            localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
+            monitoring: Swift.String? = nil,
+            networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.capacityOptionType = capacityOptionType
+            self.capacityReservations = capacityReservations
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.fipsEnabled = fipsEnabled
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
+            self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The configuration for an Amazon ECS Managed Instances capacity provider. This object is required when creating a compute environment with computeResources.type set to ECS_MANAGED_INSTANCES.
+    public struct ManagedInstancesProvider: Swift.Sendable {
+        /// The infrastructure optimization configuration for the capacity provider. Specifies the idle-instance scale-in behavior.
+        public var infrastructureOptimization: BatchClientTypes.InfrastructureOptimization?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon ECS assumes to manage Amazon EC2 instances on your behalf. This role must have a trust policy for ecs.amazonaws.com. You must have the iam:PassRole permission for this role with the condition iam:PassedToService: ecs.amazonaws.com.
+        /// This member is required.
+        public var infrastructureRoleArn: Swift.String?
+        /// The instance launch configuration for the Amazon ECS Managed Instances capacity provider. Contains networking, instance profile, instance requirements, capacity type, storage, and monitoring configuration.
+        /// This member is required.
+        public var instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplate?
+        /// Specifies whether tags on the capacity provider are propagated to the Amazon EC2 instances it launches. Valid values:
+        ///
+        /// * CAPACITY_PROVIDER — Propagates tags to instances.
+        ///
+        /// * NONE (default) — Does not propagate tags to instances.
+        public var propagateTags: Swift.String?
+
+        public init(
+            infrastructureOptimization: BatchClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplate? = nil,
+            propagateTags: Swift.String? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// An object that represents a scaling policy for a compute environment.
     public struct ComputeScalingPolicy: Swift.Sendable {
         /// The minimum time (in minutes) that Batch keeps instances running in the compute environment after their jobs complete. For each instance, the delay period begins when the last job finishes. If no new jobs are placed on the instance during this delay, Batch terminates the instance once the delay expires. Valid Range: Minimum value of 20. Maximum value of 10080. Use 0 to unset and disable the scale down delay. Idle instances retained during the scale-down delay period are billable at standard EC2 pricing. The scale down delay does not apply to:
@@ -570,6 +766,7 @@ extension BatchClientTypes {
 
     public enum CRType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2
+        case ecsManagedInstances
         case fargate
         case fargateSpot
         case spot
@@ -578,6 +775,7 @@ extension BatchClientTypes {
         public static var allCases: [CRType] {
             return [
                 .ec2,
+                .ecsManagedInstances,
                 .fargate,
                 .fargateSpot,
                 .spot
@@ -592,6 +790,7 @@ extension BatchClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .ec2: return "EC2"
+            case .ecsManagedInstances: return "ECS_MANAGED_INSTANCES"
             case .fargate: return "FARGATE"
             case .fargateSpot: return "FARGATE_SPOT"
             case .spot: return "SPOT"
@@ -609,6 +808,8 @@ extension BatchClientTypes {
         public var allocationStrategy: BatchClientTypes.CRAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price. For most use cases, we recommend leaving this field empty. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
+        /// The tags to apply to the Amazon ECS capacity provider and Amazon EC2 instances launched by the compute environment. These tags are separate from the compute environment resource tags (the top-level tags parameter). Use capacityTags for cost allocation and organization of the underlying infrastructure resources. This parameter is only valid for ECS_MANAGED_INSTANCES compute environments. You must have the batch:SetCapacityTags permission on the compute environment resource to use this parameter.
+        public var capacityTags: [Swift.String: Swift.String]?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var desiredvCpus: Swift.Int?
         /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -633,6 +834,8 @@ extension BatchClientTypes {
         public var instanceTypes: [Swift.String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a [CreateComputeEnvironment](https://docs.aws.amazon.com/batch/latest/APIReference/API_CreateComputeEnvironment.html) API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
+        /// The configuration for the Amazon ECS Managed Instances capacity provider. This parameter is required when computeResources.type is ECS_MANAGED_INSTANCES and must not be specified for other compute environment types. For more information, see [Amazon ECS Managed Instances compute environments](https://docs.aws.amazon.com/batch/latest/userguide/ecs_managed_instances.html) in the Batch User Guide.
+        public var managedInstancesProvider: BatchClientTypes.ManagedInstancesProvider?
         /// The maximum number of vCPUs that a compute environment can support. With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         /// This member is required.
         public var maxvCpus: Swift.Int?
@@ -650,13 +853,14 @@ extension BatchClientTypes {
         public var subnets: [Swift.String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String: Swift.String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. Multi-node parallel jobs aren't supported on Spot Instances.
+        /// The type of compute environment: EC2, SPOT, FARGATE, FARGATE_SPOT, or ECS_MANAGED_INSTANCES. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. If you choose ECS_MANAGED_INSTANCES, you must also specify a managedInstancesProvider configuration. To use Spot capacity, set capacityOptionType to SPOT in the managedInstancesProvider.instanceLaunchTemplate configuration. For more information, see [Amazon ECS Managed Instances compute environments](https://docs.aws.amazon.com/batch/latest/userguide/ecs_managed_instances.html) in the Batch User Guide. Multi-node parallel jobs aren't supported on Spot Instances or Amazon ECS Managed Instances.
         /// This member is required.
         public var type: BatchClientTypes.CRType?
 
         public init(
             allocationStrategy: BatchClientTypes.CRAllocationStrategy? = nil,
             bidPercentage: Swift.Int? = nil,
+            capacityTags: [Swift.String: Swift.String]? = nil,
             desiredvCpus: Swift.Int? = nil,
             ec2Configuration: [BatchClientTypes.Ec2Configuration]? = nil,
             ec2KeyPair: Swift.String? = nil,
@@ -664,6 +868,7 @@ extension BatchClientTypes {
             instanceRole: Swift.String? = nil,
             instanceTypes: [Swift.String]? = nil,
             launchTemplate: BatchClientTypes.LaunchTemplateSpecification? = nil,
+            managedInstancesProvider: BatchClientTypes.ManagedInstancesProvider? = nil,
             maxvCpus: Swift.Int? = nil,
             minvCpus: Swift.Int? = nil,
             placementGroup: Swift.String? = nil,
@@ -676,6 +881,7 @@ extension BatchClientTypes {
         ) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -683,6 +889,7 @@ extension BatchClientTypes {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -692,6 +899,54 @@ extension BatchClientTypes {
             self.subnets = subnets
             self.tags = tags
             self.type = type
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Specifies the CloudWatch Container Insights mode for the compute environment.
+    public enum ContainerInsights: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case enhanced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerInsights] {
+            return [
+                .disabled,
+                .enabled,
+                .enhanced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .enhanced: return "ENHANCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The Amazon ECS settings for a compute environment, including the CloudWatch Container Insights mode. Use this structure with CreateComputeEnvironment and UpdateComputeEnvironment.
+    public struct EcsSettings: Swift.Sendable {
+        /// Specifies the CloudWatch Container Insights mode for the compute environment. Valid values are: ENABLED Turns on standard Container Insights, which collects CPU, memory, disk, and network utilization metrics for the compute environment. ENHANCED Turns on enhanced Container Insights, which collects the standard metrics along with additional per-task observability metrics. DISABLED Turns off Container Insights for the compute environment. If you don't specify a value, the default is DISABLED. For more information, see [Container Insights](https://docs.aws.amazon.com/batch/latest/userguide/cloudwatch-container-insights.html) in the Batch User Guide.
+        public var containerInsights: BatchClientTypes.ContainerInsights?
+
+        public init(
+            containerInsights: BatchClientTypes.ContainerInsights? = nil
+        ) {
+            self.containerInsights = containerInsights
         }
     }
 }
@@ -784,6 +1039,8 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
     public var computeResources: BatchClientTypes.ComputeResource?
     /// Reserved.
     public var context: Swift.String?
+    /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
+    public var ecsSettings: BatchClientTypes.EcsSettings?
     /// The details for the Amazon EKS cluster that supports the compute environment. To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
     public var eksConfiguration: BatchClientTypes.EksConfiguration?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole. If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
@@ -802,6 +1059,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
         computeEnvironmentName: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResource? = nil,
         context: Swift.String? = nil,
+        ecsSettings: BatchClientTypes.EcsSettings? = nil,
         eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
@@ -812,6 +1070,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
         self.computeEnvironmentName = computeEnvironmentName
         self.computeResources = computeResources
         self.context = context
+        self.ecsSettings = ecsSettings
         self.eksConfiguration = eksConfiguration
         self.serviceRole = serviceRole
         self.state = state
@@ -907,6 +1166,7 @@ extension BatchClientTypes {
     public enum JobQueueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ecs
         case ecsFargate
+        case ecsManagedInstances
         case eks
         case sagemakerTraining
         case sdkUnknown(Swift.String)
@@ -915,6 +1175,7 @@ extension BatchClientTypes {
             return [
                 .ecs,
                 .ecsFargate,
+                .ecsManagedInstances,
                 .eks,
                 .sagemakerTraining
             ]
@@ -929,6 +1190,7 @@ extension BatchClientTypes {
             switch self {
             case .ecs: return "ECS"
             case .ecsFargate: return "ECS_FARGATE"
+            case .ecsManagedInstances: return "ECS_MANAGED_INSTANCES"
             case .eks: return "EKS"
             case .sagemakerTraining: return "SAGEMAKER_TRAINING"
             case let .sdkUnknown(s): return s
@@ -1835,6 +2097,8 @@ extension BatchClientTypes {
         public var context: Swift.String?
         /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster that the compute environment uses.
         public var ecsClusterArn: Swift.String?
+        /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection.
+        public var ecsSettings: BatchClientTypes.EcsSettings?
         /// The configuration for the Amazon EKS cluster that supports the Batch compute environment. Only specify this parameter if the containerOrchestrationType is EKS.
         public var eksConfiguration: BatchClientTypes.EksConfiguration?
         /// The service role that's associated with the compute environment that allows Batch to make calls to Amazon Web Services API operations on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide.
@@ -1863,6 +2127,7 @@ extension BatchClientTypes {
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
             context: Swift.String? = nil,
             ecsClusterArn: Swift.String? = nil,
+            ecsSettings: BatchClientTypes.EcsSettings? = nil,
             eksConfiguration: BatchClientTypes.EksConfiguration? = nil,
             serviceRole: Swift.String? = nil,
             state: BatchClientTypes.CEState? = nil,
@@ -1880,6 +2145,7 @@ extension BatchClientTypes {
             self.containerOrchestrationType = containerOrchestrationType
             self.context = context
             self.ecsClusterArn = ecsClusterArn
+            self.ecsSettings = ecsSettings
             self.eksConfiguration = eksConfiguration
             self.serviceRole = serviceRole
             self.state = state
@@ -2163,7 +2429,7 @@ extension BatchClientTypes {
 
     /// Linux-specific modifications that are applied to the container, such as details for device mappings.
     public struct LinuxParameters: Swift.Sendable {
-        /// Any of the host devices to expose to the container. This parameter maps to Devices in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --device option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
+        /// Any of the host devices to expose to the container. This parameter maps to Devices in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --device option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
         public var devices: [BatchClientTypes.Device]?
         /// If true, run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         public var initProcessEnabled: Swift.Bool?
@@ -2304,7 +2570,7 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
-    /// Details for a Docker volume mount point that's used in a job's container properties. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.43/#tag/Container/operation/ContainerCreate) section of the Docker Remote API and the --volume option to docker run.
+    /// Details for a Docker volume mount point that's used in a job's container properties. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the Docker Remote API and the --volume option to docker run.
     public struct MountPoint: Swift.Sendable {
         /// The path on the container where the host volume is mounted.
         public var containerPath: Swift.String?
@@ -2395,7 +2661,7 @@ extension BatchClientTypes {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         /// This member is required.
         public var type: BatchClientTypes.ResourceType?
-        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified. type="GPU" The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on. GPUs aren't available for jobs that are running on Fargate resources. type="MEMORY" The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on Amazon EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value. value = 512 VCPU = 0.25 value = 1024 VCPU = 0.25 or 0.5 value = 2048 VCPU = 0.25, 0.5, or 1 value = 3072 VCPU = 0.5, or 1 value = 4096 VCPU = 0.5, 1, or 2 value = 5120, 6144, or 7168 VCPU = 1 or 2 value = 8192 VCPU = 1, 2, or 4 value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360 VCPU = 2 or 4 value = 16384 VCPU = 2, 4, or 8 value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720 VCPU = 4 value = 20480, 24576, or 28672 VCPU = 4 or 8 value = 36864, 45056, 53248, or 61440 VCPU = 8 value = 32768, 40960, 49152, or 57344 VCPU = 8 or 16 value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880 VCPU = 16 type="VCPU" The number of vCPUs reserved for the container. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. For Amazon EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see [Fargate quotas](https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate) in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16 value = 0.25 MEMORY = 512, 1024, or 2048 value = 0.5 MEMORY = 1024, 2048, 3072, or 4096 value = 1 MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192 value = 2 MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384 value = 4 MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720 value = 8 MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440 value = 16 MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
+        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified. type="GPU" The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on. GPUs aren't available for jobs that are running on Fargate resources. type="MEMORY" The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on Amazon EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value. value = 512 VCPU = 0.25 value = 1024 VCPU = 0.25 or 0.5 value = 2048 VCPU = 0.25, 0.5, or 1 value = 3072 VCPU = 0.5, or 1 value = 4096 VCPU = 0.5, 1, or 2 value = 5120, 6144, or 7168 VCPU = 1 or 2 value = 8192 VCPU = 1, 2, or 4 value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360 VCPU = 2 or 4 value = 16384 VCPU = 2, 4, or 8 value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720 VCPU = 4 value = 20480, 24576, or 28672 VCPU = 4 or 8 value = 36864, 45056, or 53248 VCPU = 8 value = 61440 VCPU = 8 or 32 value = 32768, 40960, 49152, or 57344 VCPU = 8 or 16 value = 65536, 73728, 81920, 90112, 98304, 106496, or 114688 VCPU = 16 value = 122880 VCPU = 16 or 32 value = 249856 VCPU = 32 type="VCPU" The number of vCPUs reserved for the container. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. For Amazon EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see [Fargate quotas](https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate) in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, 16, and 32. value = 0.25 MEMORY = 512, 1024, or 2048 value = 0.5 MEMORY = 1024, 2048, 3072, or 4096 value = 1 MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192 value = 2 MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384 value = 4 MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720 value = 8 MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440 value = 16 MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880 value = 32 MEMORY = 61440, 122880, or 249856
         /// This member is required.
         public var value: Swift.String?
 
@@ -2637,11 +2903,11 @@ extension BatchClientTypes {
 
     /// Container properties are used for Amazon ECS based job definitions. These properties to describe the container that's launched as part of a job.
     public struct ContainerProperties: Swift.Sendable {
-        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [https://docs.docker.com/engine/reference/builder/#cmd](https://docs.docker.com/engine/reference/builder/#cmd).
+        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [https://docs.docker.com/engine/reference/builder/#cmd](https://docs.docker.com/engine/reference/builder/#cmd).
         public var command: [Swift.String]?
         /// Determines whether execute command functionality is turned on for this task. If true, execute command functionality is turned on all the containers in the task.
         public var enableExecuteCommand: Swift.Bool?
-        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
+        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
@@ -2649,7 +2915,7 @@ extension BatchClientTypes {
         public var executionRoleArn: Swift.String?
         /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var fargatePlatformConfiguration: BatchClientTypes.FargatePlatformConfiguration?
-        /// Required. The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . It can be 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), underscores (_), colons (:), periods (.), forward slashes (/), and number signs (#). This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the IMAGE parameter of [docker run](https://docs.docker.com/engine/reference/run/). Docker image architecture must match the processor architecture of the compute resources that they're scheduled on. For example, ARM-based Docker images can only run on ARM-based compute resources.
+        /// Required. The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . It can be 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), underscores (_), colons (:), periods (.), forward slashes (/), and number signs (#). This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the IMAGE parameter of [docker run](https://docs.docker.com/engine/reference/run/). Docker image architecture must match the processor architecture of the compute resources that they're scheduled on. For example, ARM-based Docker images can only run on ARM-based compute resources.
         ///
         /// * Images in Amazon ECR Public repositories use the full registry/repository[:tag] or registry/repository[@digest] naming conventions. For example, public.ecr.aws/registry_alias/my-web-app:latest .
         ///
@@ -2667,18 +2933,18 @@ extension BatchClientTypes {
         public var jobRoleArn: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as details for device mappings.
         public var linuxParameters: BatchClientTypes.LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html) data type). This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html) data type). This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
         public var logConfiguration: BatchClientTypes.LogConfiguration?
         /// This parameter is deprecated, use resourceRequirements to specify the memory requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on Amazon EC2 resources, it specifies the memory hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated. You must specify at least 4 MiB of memory for a job using this parameter. The memory hard limit can be specified in several places. It must be specified for each node at least once.
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var memory: Swift.Int?
-        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --volume option to [docker run](https://docs.docker.com/engine/reference/run/).
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --volume option to [docker run](https://docs.docker.com/engine/reference/run/).
         public var mountPoints: [BatchClientTypes.MountPoint]?
         /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
-        /// When this parameter is true, the container is given elevated permissions on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/). The default value is false. This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided, or specified as false.
+        /// When this parameter is true, the container is given elevated permissions on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/). The default value is false. This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided, or specified as false.
         public var privileged: Swift.Bool?
-        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --read-only option to docker run.
+        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --read-only option to docker run.
         public var readonlyRootFilesystem: Swift.Bool?
         /// The private repository authentication credentials to use.
         public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
@@ -2688,11 +2954,11 @@ extension BatchClientTypes {
         public var runtimePlatform: BatchClientTypes.RuntimePlatform?
         /// The secrets for the container. For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html) in the Batch User Guide.
         public var secrets: [BatchClientTypes.Secret]?
-        /// A list of ulimits to set in the container. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided.
+        /// A list of ulimits to set in the container. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided.
         public var ulimits: [BatchClientTypes.Ulimit]?
-        /// The user name to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/).
+        /// The user name to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/).
         public var user: Swift.String?
-        /// This parameter is deprecated, use resourceRequirements to specify the vCPU requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs running on Amazon EC2 resources, it specifies the number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). The number of vCPUs must be specified but can be specified in several places. You must specify it at least once for each node.
+        /// This parameter is deprecated, use resourceRequirements to specify the vCPU requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs running on Amazon EC2 resources, it specifies the number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). The number of vCPUs must be specified but can be specified in several places. You must specify it at least once for each node.
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var vcpus: Swift.Int?
         /// A list of data volumes used in a job.
@@ -2830,30 +3096,30 @@ extension BatchClientTypes {
 
     /// Container properties are used for Amazon ECS-based job definitions. These properties to describe the container that's launched as part of a job.
     public struct TaskContainerProperties: Swift.Sendable {
-        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd).
+        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd).
         public var command: [Swift.String]?
         /// A list of containers that this container depends on.
         public var dependsOn: [BatchClientTypes.TaskContainerDependency]?
-        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env parameter to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
+        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --env parameter to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
         public var essential: Swift.Bool?
         /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see [Custom log](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html) routing in the Amazon Elastic Container Service Developer Guide.
         public var firelensConfiguration: BatchClientTypes.FirelensConfiguration?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
+        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
         /// This member is required.
         public var image: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information, see [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
         public var linuxParameters: BatchClientTypes.LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). By default, containers use the same logging driver that the Docker daemon uses. However the container can use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information about the options for different supported log drivers, see [Configure logging drivers ](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). By default, containers use the same logging driver that the Docker daemon uses. However the container can use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information about the options for different supported log drivers, see [Configure logging drivers ](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
         public var logConfiguration: BatchClientTypes.LogConfiguration?
-        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the [--volume] option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives.
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the [--volume] option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives.
         public var mountPoints: [BatchClientTypes.MountPoint]?
         /// The name of a container. The name can be used as a unique identifier to target your dependsOn and Overrides objects.
         public var name: Swift.String?
-        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers or tasks run on Fargate.
+        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers or tasks run on Fargate.
         public var privileged: Swift.Bool?
-        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers.
+        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers.
         public var readonlyRootFilesystem: Swift.Bool?
         /// The private repository authentication credentials to use.
         public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
@@ -2865,7 +3131,7 @@ extension BatchClientTypes {
         public var startTimeout: Swift.Int?
         /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
         public var stopTimeout: Swift.Int?
-        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
+        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
         ///
@@ -2942,15 +3208,17 @@ extension BatchClientTypes {
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For jobs that run on Fargate resources, you must provide an execution role. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
         public var executionRoleArn: Swift.String?
-        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, the IPC resources within the containers of a task are private, and are not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see [IPC settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc) in the Docker run reference.
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, the IPC resources within the containers of a task are private, and are not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see [IPC settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc) in the Docker run reference. This parameter is not supported for jobs that run on Fargate resources.
         public var ipcMode: Swift.String?
-        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources or Amazon ECS Managed Instances must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
+        /// The network mode to use for the task. Valid values: host. When not specified, the default is host. With host mode, the container shares the host instance's network stack directly. When running tasks that use the host network mode, do not run containers using the root user (UID 0). Running as root grants unrestricted access to host resources and increases the attack surface. This parameter only applies to jobs running on Amazon ECS Managed Instances (MANAGED_INSTANCES platform capability). It cannot be specified for Fargate or Amazon EC2 platform job definitions.
+        public var networkMode: Swift.String?
         /// The process namespace to use for the containers in the task. The valid values are host or task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see [PID settings](https://docs.docker.com/engine/reference/run/#pid-settings---pid) in the Docker run reference.
         public var pidMode: Swift.String?
         /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
         public var platformVersion: Swift.String?
-        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate or Amazon ECS Managed Instances. Use this to specify the operating system family (operatingSystemFamily) and CPU architecture (cpuArchitecture). For Amazon ECS Managed Instances, the valid value for operatingSystemFamily is LINUX (default). The valid values for cpuArchitecture are X86_64 and ARM64.
         public var runtimePlatform: BatchClientTypes.RuntimePlatform?
         /// The Amazon Resource Name (ARN) that's associated with the Amazon ECS task. This is object is comparable to [ContainerProperties:jobRoleArn](https://docs.aws.amazon.com/batch/latest/APIReference/API_ContainerProperties.html).
         public var taskRoleArn: Swift.String?
@@ -2964,6 +3232,7 @@ extension BatchClientTypes {
             executionRoleArn: Swift.String? = nil,
             ipcMode: Swift.String? = nil,
             networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
+            networkMode: Swift.String? = nil,
             pidMode: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
@@ -2976,6 +3245,7 @@ extension BatchClientTypes {
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
             self.networkConfiguration = networkConfiguration
+            self.networkMode = networkMode
             self.pidMode = pidMode
             self.platformVersion = platformVersion
             self.runtimePlatform = runtimePlatform
@@ -3442,12 +3712,14 @@ extension BatchClientTypes {
     public enum PlatformCapability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2
         case fargate
+        case managedInstances
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformCapability] {
             return [
                 .ec2,
-                .fargate
+                .fargate,
+                .managedInstances
             ]
         }
 
@@ -3460,6 +3732,7 @@ extension BatchClientTypes {
             switch self {
             case .ec2: return "EC2"
             case .fargate: return "FARGATE"
+            case .managedInstances: return "MANAGED_INSTANCES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3581,7 +3854,7 @@ extension BatchClientTypes {
         public var nodeProperties: BatchClientTypes.NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see [Job definition parameters](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html) in the Batch User Guide.
         public var parameters: [Swift.String: Swift.String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE. Jobs run on Amazon ECS Managed Instances specify MANAGED_INSTANCES.
         public var platformCapabilities: [BatchClientTypes.PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the tasks when the tasks are created. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.
         public var propagateTags: Swift.Bool?
@@ -3840,7 +4113,7 @@ extension BatchClientTypes {
         public var jobRoleArn: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as details for device mappings.
         public var linuxParameters: BatchClientTypes.LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance. Or, alternatively, it must be configured on a different log server for remote logging options. For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html) data type). Additional log drivers might be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance. Or, alternatively, it must be configured on a different log server for remote logging options. For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html) data type). Additional log drivers might be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
         public var logConfiguration: BatchClientTypes.LogConfiguration?
         /// The name of the Amazon CloudWatch Logs log stream that's associated with the container. The log group for Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public var logStreamName: Swift.String?
@@ -3854,7 +4127,7 @@ extension BatchClientTypes {
         public var networkInterfaces: [BatchClientTypes.NetworkInterface]?
         /// When this parameter is true, the container is given elevated permissions on the host container instance (similar to the root user). The default value is false. This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided, or specified as false.
         public var privileged: Swift.Bool?
-        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/commandline/run/).
+        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/commandline/run/).
         public var readonlyRootFilesystem: Swift.Bool?
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
@@ -3868,11 +4141,11 @@ extension BatchClientTypes {
         public var secrets: [BatchClientTypes.Secret]?
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that's associated with the container job. Each container attempt receives a task ARN when they reach the STARTING status.
         public var taskArn: Swift.String?
-        /// A list of ulimit values to set in the container. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources.
+        /// A list of ulimit values to set in the container. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/). This parameter isn't applicable to jobs that are running on Fargate resources.
         public var ulimits: [BatchClientTypes.Ulimit]?
-        /// The user name to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/).
+        /// The user name to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/).
         public var user: Swift.String?
-        /// The number of vCPUs reserved for the container. For jobs that run on Amazon EC2 resources, you can specify the vCPU requirement for the job using resourceRequirements, but you can't specify the vCPU requirements in both the vcpus and resourceRequirements object. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU. This is required but can be specified in several places. It must be specified for each node at least once. This parameter isn't applicable to jobs that run on Fargate resources. For jobs that run on Fargate resources, you must specify the vCPU requirement for the job using resourceRequirements.
+        /// The number of vCPUs reserved for the container. For jobs that run on Amazon EC2 resources, you can specify the vCPU requirement for the job using resourceRequirements, but you can't specify the vCPU requirements in both the vcpus and resourceRequirements object. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU. This is required but can be specified in several places. It must be specified for each node at least once. This parameter isn't applicable to jobs that run on Fargate resources. For jobs that run on Fargate resources, you must specify the vCPU requirement for the job using resourceRequirements.
         public var vcpus: Swift.Int?
         /// A list of volumes that are associated with the job.
         public var volumes: [BatchClientTypes.Volume]?
@@ -3966,11 +4239,11 @@ extension BatchClientTypes {
 
     /// The details for the container in this task attempt.
     public struct TaskContainerDetails: Swift.Sendable {
-        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [https://docs.docker.com/engine/reference/builder/#cmd](https://docs.docker.com/engine/reference/builder/#cmd).
+        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [https://docs.docker.com/engine/reference/builder/#cmd](https://docs.docker.com/engine/reference/builder/#cmd).
         public var command: [Swift.String]?
         /// A list of containers that this container depends on.
         public var dependsOn: [BatchClientTypes.TaskContainerDependency]?
-        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data.
+        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data.
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
         public var essential: Swift.Bool?
@@ -3978,23 +4251,23 @@ extension BatchClientTypes {
         public var exitCode: Swift.Int?
         /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs. For more information, see [Custom log](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html) routing in the Amazon Elastic Container Service Developer Guide.
         public var firelensConfiguration: BatchClientTypes.FirelensConfiguration?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
+        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
         public var image: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information, see [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html). This parameter is not supported for Windows containers.
         public var linuxParameters: BatchClientTypes.LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). By default, containers use the same logging driver that the Docker daemon uses. However the container can use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information about the options for different supported log drivers, see [Configure logging drivers ](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). By default, containers use the same logging driver that the Docker daemon uses. However the container can use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information about the options for different supported log drivers, see [Configure logging drivers ](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
         public var logConfiguration: BatchClientTypes.LogConfiguration?
         /// The name of the CloudWatch Logs log stream that's associated with the container. The log group for Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public var logStreamName: Swift.String?
-        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the [--volume] option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives.
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the [--volume] option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives.
         public var mountPoints: [BatchClientTypes.MountPoint]?
         /// The name of a container.
         public var name: Swift.String?
         /// The network interfaces that are associated with the job.
         public var networkInterfaces: [BatchClientTypes.NetworkInterface]?
-        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers or tasks run on Fargate.
+        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers or tasks run on Fargate.
         public var privileged: Swift.Bool?
-        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers.
+        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers.
         public var readonlyRootFilesystem: Swift.Bool?
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
@@ -4008,7 +4281,7 @@ extension BatchClientTypes {
         public var startTimeout: Swift.Int?
         /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
         public var stopTimeout: Swift.Int?
-        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
+        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/latest/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
         ///
@@ -4099,11 +4372,13 @@ extension BatchClientTypes {
         public var ipcMode: Swift.String?
         /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
+        /// The network mode configured for the task. This field is populated for jobs running on Amazon ECS Managed Instances (MANAGED_INSTANCES platform capability) and always returns host.
+        public var networkMode: Swift.String?
         /// The process namespace to use for the containers in the task. The valid values are host, or task. For more information see pidMode in [EcsTaskProperties](https://docs.aws.amazon.com/batch/latest/APIReference/API_EcsTaskProperties.html).
         public var pidMode: Swift.String?
         /// The Fargate platform version where the jobs are running.
         public var platformVersion: Swift.String?
-        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate or Amazon ECS Managed Instances. Contains the operating system family and CPU architecture of the task.
         public var runtimePlatform: BatchClientTypes.RuntimePlatform?
         /// The ARN of the Amazon ECS task.
         public var taskArn: Swift.String?
@@ -4120,6 +4395,7 @@ extension BatchClientTypes {
             executionRoleArn: Swift.String? = nil,
             ipcMode: Swift.String? = nil,
             networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
+            networkMode: Swift.String? = nil,
             pidMode: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
@@ -4134,6 +4410,7 @@ extension BatchClientTypes {
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
             self.networkConfiguration = networkConfiguration
+            self.networkMode = networkMode
             self.pidMode = pidMode
             self.platformVersion = platformVersion
             self.runtimePlatform = runtimePlatform
@@ -4467,7 +4744,7 @@ extension BatchClientTypes {
         public var nodeProperties: BatchClientTypes.NodeProperties?
         /// Additional parameters that are passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition.
         public var parameters: [Swift.String: Swift.String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE. Jobs run on Amazon ECS Managed Instances specify MANAGED_INSTANCES.
         public var platformCapabilities: [BatchClientTypes.PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the tasks when the tasks are created. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.
         public var propagateTags: Swift.Bool?
@@ -6288,7 +6565,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
     public var nodeProperties: BatchClientTypes.NodeProperties?
     /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
     public var parameters: [Swift.String: Swift.String]?
-    /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE. If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
+    /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE. To run the job on Amazon ECS Managed Instances, specify MANAGED_INSTANCES. Jobs with the MANAGED_INSTANCES platform capability must use ecsProperties (not containerProperties) and do not support multi-node parallel jobs. If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
     public var platformCapabilities: [BatchClientTypes.PlatformCapability]?
     /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags are not propagated. Tags can only be propagated to the tasks during task creation. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state. If the job runs on Amazon EKS resources, then you must not specify propagateTags.
     public var propagateTags: Swift.Bool?
@@ -6905,12 +7182,88 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The instance launch configuration for updating an Amazon ECS Managed Instances capacity provider. You cannot change capacityOptionType or fipsEnabled after the compute environment is created.
+    public struct InstanceLaunchTemplateUpdate: Swift.Sendable {
+        /// The updated capacity reservation configuration.
+        public var capacityReservations: BatchClientTypes.CapacityReservationRequest?
+        /// The updated Amazon Resource Name (ARN) of the Amazon EC2 instance profile for the managed instances.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// Specifies whether instance tags are accessible from the instance metadata service (IMDS).
+        public var instanceMetadataTagsPropagation: Swift.Bool?
+        /// The updated instance type requirements for the capacity provider.
+        public var instanceRequirements: BatchClientTypes.InstanceRequirementsRequest?
+        /// The updated local storage configuration.
+        public var localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration?
+        /// The updated monitoring level. Valid values are BASIC and DETAILED.
+        public var monitoring: Swift.String?
+        /// The updated network configuration for the managed instances.
+        public var networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The updated storage configuration for the managed instances.
+        public var storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            capacityReservations: BatchClientTypes.CapacityReservationRequest? = nil,
+            ec2InstanceProfileArn: Swift.String? = nil,
+            instanceMetadataTagsPropagation: Swift.Bool? = nil,
+            instanceRequirements: BatchClientTypes.InstanceRequirementsRequest? = nil,
+            localStorageConfiguration: BatchClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
+            monitoring: Swift.String? = nil,
+            networkConfiguration: BatchClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: BatchClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.capacityReservations = capacityReservations
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
+            self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The configuration for updating an Amazon ECS Managed Instances capacity provider. Used in UpdateComputeEnvironment requests. The capacityOptionType and fipsEnabled fields cannot be changed on update.
+    public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The updated infrastructure optimization configuration.
+        public var infrastructureOptimization: BatchClientTypes.InfrastructureOptimization?
+        /// The updated Amazon Resource Name (ARN) of the IAM role that Amazon ECS assumes to manage Amazon EC2 instances on your behalf.
+        public var infrastructureRoleArn: Swift.String?
+        /// The updated instance launch configuration for the Amazon ECS Managed Instances capacity provider.
+        public var instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplateUpdate?
+        /// Specifies whether tags on the capacity provider are propagated to the Amazon EC2 instances it launches. Valid values:
+        ///
+        /// * CAPACITY_PROVIDER — Propagates tags to instances.
+        ///
+        /// * NONE — Does not propagate tags to instances.
+        public var propagateTags: Swift.String?
+
+        public init(
+            infrastructureOptimization: BatchClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: BatchClientTypes.InstanceLaunchTemplateUpdate? = nil,
+            propagateTags: Swift.String? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// An object that represents the attributes of a compute environment that can be updated. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public struct ComputeResourceUpdate: Swift.Sendable {
         /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html). For more information, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html) in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. BEST_FIT_PROGRESSIVE Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types. BEST_FIT_PROGRESSIVE_ORDERED This is an advanced allocation strategy only for customers who want to control which instance types are preferred during scaling. Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus. Batch selects instance types in the order they appear in the instanceTypes list. When an instance family is specified, sizes within that family are expanded using BEST_FIT_PROGRESSIVE logic—preferring sizes that best fit the jobs, with larger sizes as fallback. Instance types that cannot meet the resource requirements of the jobs are skipped. This strategy is only available for On-Demand Instance (EC2) compute resources. If an instance family and an explicit instance type from that family both appear in instanceTypes, the explicit type takes its listed position and is excluded from the family expansion. For example, in ["m7a.4xlarge", "m7a", "m6a"], m7a.4xlarge is always placed first and is excluded from the m7a family expansion. SPOT_CAPACITY_OPTIMIZED Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources. SPOT_PRICE_CAPACITY_OPTIMIZED The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources. SPOT_CAPACITY_OPTIMIZED_PRIORITIZED This is an advanced allocation strategy for customers who want to influence instance type selection during scaling. This strategy optimizes for capacity first, and honors instance type priorities on a best-effort basis (priorities are honored when they do not significantly reduce available Spot capacity). Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus. Batch selects instance types in the order they appear in the instanceTypes list, but optimizes for capacity first. The customer-defined priority is honored on a best-effort basis. When Spot Instance capacity pools are similarly available, priority order is respected. When capacity is constrained, Batch selects from the most available pools regardless of priority to minimize the likelihood of Spot Instance interruptions. This strategy is only available for Spot Instance compute resources. With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
+        /// The updated tags to apply to the Amazon ECS capacity provider and Amazon EC2 instances. This parameter is only valid for ECS_MANAGED_INSTANCES compute environments. You must have the batch:SetCapacityTags permission on the compute environment resource to use this parameter.
+        public var capacityTags: [Swift.String: Swift.String]?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
         /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -6934,6 +7287,8 @@ extension BatchClientTypes {
         public var instanceTypes: [Swift.String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
+        /// The updated configuration for the Amazon ECS Managed Instances capacity provider. This parameter is only valid when the compute environment type is ECS_MANAGED_INSTANCES. You cannot change capacityOptionType or fipsEnabled on update.
+        public var managedInstancesProvider: BatchClientTypes.UpdateManagedInstancesProviderConfiguration?
         /// The maximum number of Amazon EC2 vCPUs that an environment can reach. With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var maxvCpus: Swift.Int?
         /// The minimum number of vCPUs that an environment should maintain (even if the compute environment is DISABLED). This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -6948,7 +7303,7 @@ extension BatchClientTypes {
         public var subnets: [Swift.String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String: Swift.String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
+        /// The type of compute environment: EC2, SPOT, FARGATE, FARGATE_SPOT, or ECS_MANAGED_INSTANCES. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. You cannot change the type to or from ECS_MANAGED_INSTANCES.
         public var type: BatchClientTypes.CRType?
         /// Specifies whether the AMI ID is updated to the latest one that's supported by Batch when the compute environment has an infrastructure update. The default value is false. An AMI ID can either be specified in the imageId or imageIdOverride parameters or be determined by the launch template that's specified in the launchTemplate parameter. If an AMI ID is specified any of these ways, this parameter is ignored. For more information about to update AMI IDs during an infrastructure update, see [Updating the AMI ID](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html#updating-compute-environments-ami) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var updateToLatestImageVersion: Swift.Bool?
@@ -6956,6 +7311,7 @@ extension BatchClientTypes {
         public init(
             allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy? = nil,
             bidPercentage: Swift.Int? = nil,
+            capacityTags: [Swift.String: Swift.String]? = nil,
             desiredvCpus: Swift.Int? = nil,
             ec2Configuration: [BatchClientTypes.Ec2Configuration]? = nil,
             ec2KeyPair: Swift.String? = nil,
@@ -6963,6 +7319,7 @@ extension BatchClientTypes {
             instanceRole: Swift.String? = nil,
             instanceTypes: [Swift.String]? = nil,
             launchTemplate: BatchClientTypes.LaunchTemplateSpecification? = nil,
+            managedInstancesProvider: BatchClientTypes.UpdateManagedInstancesProviderConfiguration? = nil,
             maxvCpus: Swift.Int? = nil,
             minvCpus: Swift.Int? = nil,
             placementGroup: Swift.String? = nil,
@@ -6975,6 +7332,7 @@ extension BatchClientTypes {
         ) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -6982,6 +7340,7 @@ extension BatchClientTypes {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -7004,6 +7363,8 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
     public var computeResources: BatchClientTypes.ComputeResourceUpdate?
     /// Reserved.
     public var context: Swift.String?
+    /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
+    public var ecsSettings: BatchClientTypes.EcsSettings?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
     /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -7017,6 +7378,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         computeEnvironment: Swift.String? = nil,
         computeResources: BatchClientTypes.ComputeResourceUpdate? = nil,
         context: Swift.String? = nil,
+        ecsSettings: BatchClientTypes.EcsSettings? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
         unmanagedvCpus: Swift.Int? = nil,
@@ -7025,6 +7387,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         self.computeEnvironment = computeEnvironment
         self.computeResources = computeResources
         self.context = context
+        self.ecsSettings = ecsSettings
         self.serviceRole = serviceRole
         self.state = state
         self.unmanagedvCpus = unmanagedvCpus
@@ -7648,6 +8011,7 @@ extension CreateComputeEnvironmentInput {
         try writer["computeEnvironmentName"].write(value.computeEnvironmentName)
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResource.write(value:to:))
         try writer["context"].write(value.context)
+        try writer["ecsSettings"].write(value.ecsSettings, with: BatchClientTypes.EcsSettings.write(value:to:))
         try writer["eksConfiguration"].write(value.eksConfiguration, with: BatchClientTypes.EksConfiguration.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
@@ -8030,6 +8394,7 @@ extension UpdateComputeEnvironmentInput {
         try writer["computeEnvironment"].write(value.computeEnvironment)
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResourceUpdate.write(value:to:))
         try writer["context"].write(value.context)
+        try writer["ecsSettings"].write(value.ecsSettings, with: BatchClientTypes.EcsSettings.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
         try writer["unmanagedvCpus"].write(value.unmanagedvCpus)
@@ -9455,6 +9820,23 @@ extension BatchClientTypes.CapacityLimit {
     }
 }
 
+extension BatchClientTypes.CapacityReservationRequest {
+
+    static func write(value: BatchClientTypes.CapacityReservationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["reservationGroupArn"].write(value.reservationGroupArn)
+        try writer["reservationPreference"].write(value.reservationPreference)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.CapacityReservationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.CapacityReservationRequest()
+        value.reservationGroupArn = try reader["reservationGroupArn"].readIfPresent()
+        value.reservationPreference = try reader["reservationPreference"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.ComputeEnvironmentDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ComputeEnvironmentDetail {
@@ -9476,6 +9858,7 @@ extension BatchClientTypes.ComputeEnvironmentDetail {
         value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
         value.uuid = try reader["uuid"].readIfPresent()
         value.context = try reader["context"].readIfPresent()
+        value.ecsSettings = try reader["ecsSettings"].readIfPresent(with: BatchClientTypes.EcsSettings.read(from:))
         return value
     }
 }
@@ -9503,6 +9886,7 @@ extension BatchClientTypes.ComputeResource {
         guard let value else { return }
         try writer["allocationStrategy"].write(value.allocationStrategy)
         try writer["bidPercentage"].write(value.bidPercentage)
+        try writer["capacityTags"].writeMap(value.capacityTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["desiredvCpus"].write(value.desiredvCpus)
         try writer["ec2Configuration"].writeList(value.ec2Configuration, memberWritingClosure: BatchClientTypes.Ec2Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2KeyPair"].write(value.ec2KeyPair)
@@ -9510,6 +9894,7 @@ extension BatchClientTypes.ComputeResource {
         try writer["instanceRole"].write(value.instanceRole)
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["launchTemplate"].write(value.launchTemplate, with: BatchClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["managedInstancesProvider"].write(value.managedInstancesProvider, with: BatchClientTypes.ManagedInstancesProvider.write(value:to:))
         try writer["maxvCpus"].write(value.maxvCpus)
         try writer["minvCpus"].write(value.minvCpus)
         try writer["placementGroup"].write(value.placementGroup)
@@ -9542,6 +9927,8 @@ extension BatchClientTypes.ComputeResource {
         value.launchTemplate = try reader["launchTemplate"].readIfPresent(with: BatchClientTypes.LaunchTemplateSpecification.read(from:))
         value.ec2Configuration = try reader["ec2Configuration"].readListIfPresent(memberReadingClosure: BatchClientTypes.Ec2Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingPolicy = try reader["scalingPolicy"].readIfPresent(with: BatchClientTypes.ComputeScalingPolicy.read(from:))
+        value.managedInstancesProvider = try reader["managedInstancesProvider"].readIfPresent(with: BatchClientTypes.ManagedInstancesProvider.read(from:))
+        value.capacityTags = try reader["capacityTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -9552,6 +9939,7 @@ extension BatchClientTypes.ComputeResourceUpdate {
         guard let value else { return }
         try writer["allocationStrategy"].write(value.allocationStrategy)
         try writer["bidPercentage"].write(value.bidPercentage)
+        try writer["capacityTags"].writeMap(value.capacityTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["desiredvCpus"].write(value.desiredvCpus)
         try writer["ec2Configuration"].writeList(value.ec2Configuration, memberWritingClosure: BatchClientTypes.Ec2Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2KeyPair"].write(value.ec2KeyPair)
@@ -9559,6 +9947,7 @@ extension BatchClientTypes.ComputeResourceUpdate {
         try writer["instanceRole"].write(value.instanceRole)
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["launchTemplate"].write(value.launchTemplate, with: BatchClientTypes.LaunchTemplateSpecification.write(value:to:))
+        try writer["managedInstancesProvider"].write(value.managedInstancesProvider, with: BatchClientTypes.UpdateManagedInstancesProviderConfiguration.write(value:to:))
         try writer["maxvCpus"].write(value.maxvCpus)
         try writer["minvCpus"].write(value.minvCpus)
         try writer["placementGroup"].write(value.placementGroup)
@@ -9829,6 +10218,21 @@ extension BatchClientTypes.EcsPropertiesOverride {
     }
 }
 
+extension BatchClientTypes.EcsSettings {
+
+    static func write(value: BatchClientTypes.EcsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerInsights"].write(value.containerInsights)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EcsSettings()
+        value.containerInsights = try reader["containerInsights"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.EcsTaskDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EcsTaskDetails {
@@ -9847,6 +10251,7 @@ extension BatchClientTypes.EcsTaskDetails {
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
+        value.networkMode = try reader["networkMode"].readIfPresent()
         return value
     }
 }
@@ -9861,6 +10266,7 @@ extension BatchClientTypes.EcsTaskProperties {
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["ipcMode"].write(value.ipcMode)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.NetworkConfiguration.write(value:to:))
+        try writer["networkMode"].write(value.networkMode)
         try writer["pidMode"].write(value.pidMode)
         try writer["platformVersion"].write(value.platformVersion)
         try writer["runtimePlatform"].write(value.runtimePlatform, with: BatchClientTypes.RuntimePlatform.write(value:to:))
@@ -9882,6 +10288,7 @@ extension BatchClientTypes.EcsTaskProperties {
         value.runtimePlatform = try reader["runtimePlatform"].readIfPresent(with: BatchClientTypes.RuntimePlatform.read(from:))
         value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: BatchClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent()
+        value.networkMode = try reader["networkMode"].readIfPresent()
         return value
     }
 }
@@ -10514,6 +10921,84 @@ extension BatchClientTypes.ImagePullSecret {
     }
 }
 
+extension BatchClientTypes.InfrastructureOptimization {
+
+    static func write(value: BatchClientTypes.InfrastructureOptimization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleInAfter"].write(value.scaleInAfter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.InfrastructureOptimization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.InfrastructureOptimization()
+        value.scaleInAfter = try reader["scaleInAfter"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.InstanceLaunchTemplate {
+
+    static func write(value: BatchClientTypes.InstanceLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityOptionType"].write(value.capacityOptionType)
+        try writer["capacityReservations"].write(value.capacityReservations, with: BatchClientTypes.CapacityReservationRequest.write(value:to:))
+        try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["fipsEnabled"].write(value.fipsEnabled)
+        try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
+        try writer["instanceRequirements"].write(value.instanceRequirements, with: BatchClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["localStorageConfiguration"].write(value.localStorageConfiguration, with: BatchClientTypes.ManagedInstancesLocalStorageConfiguration.write(value:to:))
+        try writer["monitoring"].write(value.monitoring)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BatchClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.InstanceLaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.InstanceLaunchTemplate()
+        value.ec2InstanceProfileArn = try reader["ec2InstanceProfileArn"].readIfPresent() ?? ""
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BatchClientTypes.ManagedInstancesNetworkConfiguration.read(from:))
+        value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: BatchClientTypes.InstanceRequirementsRequest.read(from:))
+        value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: BatchClientTypes.ManagedInstancesStorageConfiguration.read(from:))
+        value.monitoring = try reader["monitoring"].readIfPresent()
+        value.fipsEnabled = try reader["fipsEnabled"].readIfPresent()
+        value.capacityReservations = try reader["capacityReservations"].readIfPresent(with: BatchClientTypes.CapacityReservationRequest.read(from:))
+        value.instanceMetadataTagsPropagation = try reader["instanceMetadataTagsPropagation"].readIfPresent()
+        value.localStorageConfiguration = try reader["localStorageConfiguration"].readIfPresent(with: BatchClientTypes.ManagedInstancesLocalStorageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.InstanceLaunchTemplateUpdate {
+
+    static func write(value: BatchClientTypes.InstanceLaunchTemplateUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityReservations"].write(value.capacityReservations, with: BatchClientTypes.CapacityReservationRequest.write(value:to:))
+        try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["instanceMetadataTagsPropagation"].write(value.instanceMetadataTagsPropagation)
+        try writer["instanceRequirements"].write(value.instanceRequirements, with: BatchClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["localStorageConfiguration"].write(value.localStorageConfiguration, with: BatchClientTypes.ManagedInstancesLocalStorageConfiguration.write(value:to:))
+        try writer["monitoring"].write(value.monitoring)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: BatchClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: BatchClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.InstanceRequirementsRequest {
+
+    static func write(value: BatchClientTypes.InstanceRequirementsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.InstanceRequirementsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.InstanceRequirementsRequest()
+        value.allowedInstanceTypes = try reader["allowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchClientTypes.JobCapacityUsageSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobCapacityUsageSummary {
@@ -10831,6 +11316,74 @@ extension BatchClientTypes.LogConfiguration {
         value.logDriver = try reader["logDriver"].readIfPresent() ?? .sdkUnknown("")
         value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.secretOptions = try reader["secretOptions"].readListIfPresent(memberReadingClosure: BatchClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesLocalStorageConfiguration {
+
+    static func write(value: BatchClientTypes.ManagedInstancesLocalStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["useLocalStorage"].write(value.useLocalStorage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesLocalStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesLocalStorageConfiguration()
+        value.useLocalStorage = try reader["useLocalStorage"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesNetworkConfiguration {
+
+    static func write(value: BatchClientTypes.ManagedInstancesNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesNetworkConfiguration()
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesProvider {
+
+    static func write(value: BatchClientTypes.ManagedInstancesProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: BatchClientTypes.InfrastructureOptimization.write(value:to:))
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: BatchClientTypes.InstanceLaunchTemplate.write(value:to:))
+        try writer["propagateTags"].write(value.propagateTags)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesProvider()
+        value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.infrastructureRoleArn = try reader["infrastructureRoleArn"].readIfPresent() ?? ""
+        value.instanceLaunchTemplate = try reader["instanceLaunchTemplate"].readIfPresent(with: BatchClientTypes.InstanceLaunchTemplate.read(from:))
+        value.infrastructureOptimization = try reader["infrastructureOptimization"].readIfPresent(with: BatchClientTypes.InfrastructureOptimization.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.ManagedInstancesStorageConfiguration {
+
+    static func write(value: BatchClientTypes.ManagedInstancesStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageSizeGiB"].write(value.storageSizeGiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ManagedInstancesStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ManagedInstancesStorageConfiguration()
+        value.storageSizeGiB = try reader["storageSizeGiB"].readIfPresent()
         return value
     }
 }
@@ -11596,6 +12149,17 @@ extension BatchClientTypes.Ulimit {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.softLimit = try reader["softLimit"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension BatchClientTypes.UpdateManagedInstancesProviderConfiguration {
+
+    static func write(value: BatchClientTypes.UpdateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: BatchClientTypes.InfrastructureOptimization.write(value:to:))
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: BatchClientTypes.InstanceLaunchTemplateUpdate.write(value:to:))
+        try writer["propagateTags"].write(value.propagateTags)
     }
 }
 

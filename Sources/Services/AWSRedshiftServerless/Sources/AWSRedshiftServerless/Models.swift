@@ -760,6 +760,67 @@ public struct CreateNamespaceInput: Swift.Sendable {
 
 extension RedshiftServerlessClientTypes {
 
+    /// Granularity for S3 Table scoping in serverless.
+    public enum S3TableGranularity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case namespace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3TableGranularity] {
+            return [
+                .account,
+                .namespace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .namespace: return "namespace"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// Describes the state of Amazon S3 Tables system-table log publishing for a namespace.
+    public struct S3TablePublishStatus: Swift.Sendable {
+        /// true when the namespace is enrolled in every current and future system table rather than an explicit list of tables.
+        public var enabledAll: Swift.Bool?
+        /// A map of system table name to the time that table last received data, as an ISO-8601 timestamp. A table that has not yet been ingested is absent from the map. Use it to judge data freshness.
+        public var lastIngestionTimes: [Swift.String: Swift.String]?
+        /// The scope currently in effect. Values are namespace or account.
+        public var s3TableGranularity: RedshiftServerlessClientTypes.S3TableGranularity?
+        /// The identifier of the namespace in the S3 table bucket that holds the published tables.
+        public var s3TableNamespace: Swift.String?
+        /// The system tables currently being published.
+        public var s3Tables: [Swift.String]?
+
+        public init(
+            enabledAll: Swift.Bool? = nil,
+            lastIngestionTimes: [Swift.String: Swift.String]? = nil,
+            s3TableGranularity: RedshiftServerlessClientTypes.S3TableGranularity? = nil,
+            s3TableNamespace: Swift.String? = nil,
+            s3Tables: [Swift.String]? = nil
+        ) {
+            self.enabledAll = enabledAll
+            self.lastIngestionTimes = lastIngestionTimes
+            self.s3TableGranularity = s3TableGranularity
+            self.s3TableNamespace = s3TableNamespace
+            self.s3Tables = s3Tables
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
     public enum NamespaceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deleting
@@ -822,6 +883,8 @@ extension RedshiftServerlessClientTypes {
         public var namespaceId: Swift.String?
         /// The name of the namespace. Must be between 3-64 alphanumeric characters in lowercase, and it cannot be a reserved word. A list of reserved words can be found in [Reserved Words](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html) in the Amazon Redshift Database Developer Guide.
         public var namespaceName: Swift.String?
+        /// The current Amazon S3 Tables log-publishing status for the namespace. Not returned when S3 Tables publishing has never been configured for the namespace.
+        public var s3TablePublishStatus: RedshiftServerlessClientTypes.S3TablePublishStatus?
         /// The status of the namespace.
         public var status: RedshiftServerlessClientTypes.NamespaceStatus?
 
@@ -840,6 +903,7 @@ extension RedshiftServerlessClientTypes {
             namespaceArn: Swift.String? = nil,
             namespaceId: Swift.String? = nil,
             namespaceName: Swift.String? = nil,
+            s3TablePublishStatus: RedshiftServerlessClientTypes.S3TablePublishStatus? = nil,
             status: RedshiftServerlessClientTypes.NamespaceStatus? = nil
         ) {
             self.adminPasswordSecretArn = adminPasswordSecretArn
@@ -856,6 +920,7 @@ extension RedshiftServerlessClientTypes {
             self.namespaceArn = namespaceArn
             self.namespaceId = namespaceId
             self.namespaceName = namespaceName
+            self.s3TablePublishStatus = s3TablePublishStatus
             self.status = status
         }
     }
@@ -3403,6 +3468,36 @@ public struct ListWorkgroupsOutput: Swift.Sendable {
     }
 }
 
+extension RedshiftServerlessClientTypes {
+
+    /// Destination type for log publishing.
+    public enum LogDestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatch
+        case s3table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogDestinationType] {
+            return [
+                .cloudwatch,
+                .s3table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatch: return "cloudwatch"
+            case .s3table: return "s3table"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct UpdateLakehouseConfigurationInput: Swift.Sendable {
     /// The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
     public var catalogName: Swift.String?
@@ -3458,6 +3553,36 @@ public struct UpdateLakehouseConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension RedshiftServerlessClientTypes {
+
+    /// Action to perform for S3 Table log publishing.
+    public enum S3TableAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3TableAction] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "Disable"
+            case .enable: return "Enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct UpdateNamespaceInput: Swift.Sendable {
     /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     public var adminPasswordSecretKmsKeyId: Swift.String?
@@ -3471,6 +3596,8 @@ public struct UpdateNamespaceInput: Swift.Sendable {
     public var iamRoles: [Swift.String]?
     /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
     public var kmsKeyId: Swift.String?
+    /// The destination for the log data. Valid values are s3table and cloudwatch. Set this to s3table to manage Amazon S3 Tables system-table publishing for the namespace.
+    public var logDestinationType: RedshiftServerlessClientTypes.LogDestinationType?
     /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
     public var logExports: [RedshiftServerlessClientTypes.LogExport]?
     /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
@@ -3478,6 +3605,14 @@ public struct UpdateNamespaceInput: Swift.Sendable {
     /// The name of the namespace to update. You can't update the name of a namespace once it is created.
     /// This member is required.
     public var namespaceName: Swift.String?
+    /// Whether to enable or disable Amazon S3 Tables publishing. Valid values are Enable and Disable, matched case-insensitively. When omitted, defaults to Enable. Valid only when logDestinationType is s3table.
+    public var s3TableAction: RedshiftServerlessClientTypes.S3TableAction?
+    /// The scope of the Amazon S3 Tables destination. Valid values are namespace and account, matched case-insensitively. namespace scopes the published tables to this namespace; account scopes them to the Amazon Web Services account. Required when enabling. Omitting this parameter or passing a blank value fails with ValidationException. Valid only when logDestinationType is s3table.
+    public var s3TableGranularity: RedshiftServerlessClientTypes.S3TableGranularity?
+    /// The identifier of the Key Management Service key used to encrypt the published Amazon S3 Tables data. When omitted, the data is encrypted with SSE-S3 (Amazon S3 managed keys). Valid only when logDestinationType is s3table.
+    public var s3TableKmsKeyId: Swift.String?
+    /// The system tables to publish (on enable) or to stop publishing (on disable). Each value is either a system table view name that begins with sys_ or the keyword all. Omitting this parameter, passing an empty list, or including all each select every current and future system table. Each name must be 1-128 characters, and the list can contain up to 256 names. Valid only when logDestinationType is s3table.
+    public var s3TableNames: [Swift.String]?
 
     public init(
         adminPasswordSecretKmsKeyId: Swift.String? = nil,
@@ -3486,9 +3621,14 @@ public struct UpdateNamespaceInput: Swift.Sendable {
         defaultIamRoleArn: Swift.String? = nil,
         iamRoles: [Swift.String]? = nil,
         kmsKeyId: Swift.String? = nil,
+        logDestinationType: RedshiftServerlessClientTypes.LogDestinationType? = nil,
         logExports: [RedshiftServerlessClientTypes.LogExport]? = nil,
         manageAdminPassword: Swift.Bool? = nil,
-        namespaceName: Swift.String? = nil
+        namespaceName: Swift.String? = nil,
+        s3TableAction: RedshiftServerlessClientTypes.S3TableAction? = nil,
+        s3TableGranularity: RedshiftServerlessClientTypes.S3TableGranularity? = nil,
+        s3TableKmsKeyId: Swift.String? = nil,
+        s3TableNames: [Swift.String]? = nil
     ) {
         self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
         self.adminUserPassword = adminUserPassword
@@ -3496,9 +3636,14 @@ public struct UpdateNamespaceInput: Swift.Sendable {
         self.defaultIamRoleArn = defaultIamRoleArn
         self.iamRoles = iamRoles
         self.kmsKeyId = kmsKeyId
+        self.logDestinationType = logDestinationType
         self.logExports = logExports
         self.manageAdminPassword = manageAdminPassword
         self.namespaceName = namespaceName
+        self.s3TableAction = s3TableAction
+        self.s3TableGranularity = s3TableGranularity
+        self.s3TableKmsKeyId = s3TableKmsKeyId
+        self.s3TableNames = s3TableNames
     }
 }
 

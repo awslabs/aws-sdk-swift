@@ -695,7 +695,7 @@ extension PricingPlanManagerClient {
 
     /// Performs the `AssociateResourcesToSubscription` operation on the `PricingPlanManager` service.
     ///
-    /// Adds one or more resources to an existing subscription. The subscription must be in an active state that is not pending other changes. For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one AWS WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores.
+    /// Adds one or more resources to an existing subscription. The subscription must be in an active state that is not pending other changes. For subscriptions in the CloudFront plan family, the associated resources must include exactly one Amazon CloudFront distribution and one WAF web ACL. You can also include other supported resources, such as Amazon Route 53 hosted zones, and CloudFront KeyValueStores.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateResourcesToSubscriptionInput`)
     ///
@@ -1007,7 +1007,7 @@ extension PricingPlanManagerClient {
 
     /// Performs the `DisassociateResourcesFromSubscription` operation on the `PricingPlanManager` service.
     ///
-    /// Removes one or more resources from an existing subscription. For subscriptions in the CloudFront plan family, the associated resources must always include exactly one Amazon CloudFront distribution and exactly one AWS WAF web ACL. You cannot remove these required resources.
+    /// Removes one or more resources from an existing subscription. For subscriptions in the CloudFront plan family, the associated resources must always include exactly one Amazon CloudFront distribution and exactly one WAF web ACL. You cannot remove these required resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisassociateResourcesFromSubscriptionInput`)
     ///

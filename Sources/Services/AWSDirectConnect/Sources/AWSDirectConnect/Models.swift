@@ -614,6 +614,14 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -645,6 +653,10 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -670,6 +682,10 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -819,6 +835,14 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -850,6 +874,10 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -875,6 +903,10 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -1272,6 +1304,10 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
     public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
@@ -1333,6 +1369,8 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -1362,6 +1400,8 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
@@ -1530,6 +1570,10 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
     public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
@@ -1591,6 +1635,8 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -1620,6 +1666,8 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
@@ -1788,6 +1836,10 @@ extension DirectConnectClientTypes {
         public var mtu: Swift.Int?
         /// The ID of the Amazon Web Services account that owns the virtual interface.
         public var ownerAccount: Swift.String?
+        /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+        public var prefixPoolAllocatedCountIpv4: Swift.Int?
+        /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+        public var prefixPoolAllocatedCountIpv6: Swift.Int?
         /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
         public var rateLimit: Swift.String?
         /// The Amazon Web Services Region where the virtual interface is located.
@@ -1849,6 +1901,8 @@ extension DirectConnectClientTypes {
             location: Swift.String? = nil,
             mtu: Swift.Int? = nil,
             ownerAccount: Swift.String? = nil,
+            prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+            prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
             rateLimit: Swift.String? = nil,
             region: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -1878,6 +1932,8 @@ extension DirectConnectClientTypes {
             self.location = location
             self.mtu = mtu
             self.ownerAccount = ownerAccount
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.region = region
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -2028,6 +2084,14 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -2059,6 +2123,10 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -2084,6 +2152,10 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -2168,6 +2240,14 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -2199,6 +2279,10 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -2224,6 +2308,10 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -2342,6 +2430,10 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
     public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
@@ -2403,6 +2495,8 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -2432,6 +2526,8 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
@@ -2712,6 +2808,14 @@ extension DirectConnectClientTypes {
         public var partnerName: Swift.String?
         /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
         public var portEncryptionStatus: Swift.String?
+        /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+        public var prefixPoolSizeIpv4: Swift.Int?
+        /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+        public var prefixPoolSizeIpv6: Swift.Int?
+        /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+        public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+        /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+        public var prefixPoolUnallocatedCountIpv6: Swift.Int?
         /// The name of the service provider associated with the connection.
         public var providerName: Swift.String?
         /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -2743,6 +2847,10 @@ extension DirectConnectClientTypes {
             partnerInterconnectMacSecCapable: Swift.Bool? = nil,
             partnerName: Swift.String? = nil,
             portEncryptionStatus: Swift.String? = nil,
+            prefixPoolSizeIpv4: Swift.Int? = nil,
+            prefixPoolSizeIpv6: Swift.Int? = nil,
+            prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+            prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
             providerName: Swift.String? = nil,
             rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
             region: Swift.String? = nil,
@@ -2768,6 +2876,10 @@ extension DirectConnectClientTypes {
             self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
+            self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+            self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+            self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+            self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
             self.providerName = providerName
             self.rateLimiterStatus = rateLimiterStatus
             self.region = region
@@ -2935,6 +3047,14 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -2966,6 +3086,10 @@ public struct CreateConnectionOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -2991,6 +3115,10 @@ public struct CreateConnectionOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -3080,6 +3208,8 @@ extension DirectConnectClientTypes {
         public var stateChangeError: Swift.String?
         /// Information about a tag.
         public var tags: [DirectConnectClientTypes.Tag]?
+        /// The total number of inbound route prefixes allocated to the attachments on the Direct Connect gateway. The count combines the IPv4 and IPv6 address families.
+        public var totalPrefixPoolAllocations: Swift.Int?
 
         public init(
             amazonSideAsn: Swift.Int? = nil,
@@ -3088,7 +3218,8 @@ extension DirectConnectClientTypes {
             directConnectGatewayState: DirectConnectClientTypes.DirectConnectGatewayState? = nil,
             ownerAccount: Swift.String? = nil,
             stateChangeError: Swift.String? = nil,
-            tags: [DirectConnectClientTypes.Tag]? = nil
+            tags: [DirectConnectClientTypes.Tag]? = nil,
+            totalPrefixPoolAllocations: Swift.Int? = nil
         ) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
@@ -3097,6 +3228,7 @@ extension DirectConnectClientTypes {
             self.ownerAccount = ownerAccount
             self.stateChangeError = stateChangeError
             self.tags = tags
+            self.totalPrefixPoolAllocations = totalPrefixPoolAllocations
         }
     }
 }
@@ -3590,6 +3722,14 @@ public struct CreateLagOutput: Swift.Sendable {
     public var numberOfConnections: Swift.Int
     /// The ID of the Amazon Web Services account that owns the LAG.
     public var ownerAccount: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
     /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
@@ -3618,6 +3758,10 @@ public struct CreateLagOutput: Swift.Sendable {
         minimumLinks: Swift.Int = 0,
         numberOfConnections: Swift.Int = 0,
         ownerAccount: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -3641,6 +3785,10 @@ public struct CreateLagOutput: Swift.Sendable {
         self.minimumLinks = minimumLinks
         self.numberOfConnections = numberOfConnections
         self.ownerAccount = ownerAccount
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -3691,6 +3839,10 @@ extension DirectConnectClientTypes {
         public var enableSiteLink: Swift.Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
+        /// The number of inbound IPv4 route prefixes to allocate to the virtual interface.
+        public var prefixPoolAllocatedCountIpv4: Swift.Int?
+        /// The number of inbound IPv6 route prefixes to allocate to the virtual interface.
+        public var prefixPoolAllocatedCountIpv6: Swift.Int?
         /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
         public var rateLimit: Swift.String?
         /// The tags associated with the private virtual interface.
@@ -3714,6 +3866,8 @@ extension DirectConnectClientTypes {
             directConnectGatewayId: Swift.String? = nil,
             enableSiteLink: Swift.Bool? = nil,
             mtu: Swift.Int? = nil,
+            prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+            prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
             rateLimit: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualGatewayId: Swift.String? = nil,
@@ -3729,6 +3883,8 @@ extension DirectConnectClientTypes {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.tags = tags
             self.virtualGatewayId = virtualGatewayId
@@ -3809,6 +3965,10 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
     public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
@@ -3870,6 +4030,8 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -3899,6 +4061,8 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
@@ -4059,6 +4223,10 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
     public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
@@ -4120,6 +4288,8 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -4149,6 +4319,8 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes
@@ -4203,6 +4375,10 @@ extension DirectConnectClientTypes {
         public var enableSiteLink: Swift.Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
+        /// The number of inbound IPv4 route prefixes to allocate to the virtual interface.
+        public var prefixPoolAllocatedCountIpv4: Swift.Int?
+        /// The number of inbound IPv6 route prefixes to allocate to the virtual interface.
+        public var prefixPoolAllocatedCountIpv6: Swift.Int?
         /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
         public var rateLimit: Swift.String?
         /// The tags associated with the transitive virtual interface.
@@ -4222,6 +4398,8 @@ extension DirectConnectClientTypes {
             directConnectGatewayId: Swift.String? = nil,
             enableSiteLink: Swift.Bool? = nil,
             mtu: Swift.Int? = nil,
+            prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+            prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
             rateLimit: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
@@ -4236,6 +4414,8 @@ extension DirectConnectClientTypes {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -4399,6 +4579,14 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -4430,6 +4618,10 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -4455,6 +4647,10 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -4641,6 +4837,14 @@ public struct DeleteLagOutput: Swift.Sendable {
     public var numberOfConnections: Swift.Int
     /// The ID of the Amazon Web Services account that owns the LAG.
     public var ownerAccount: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
     /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
@@ -4669,6 +4873,10 @@ public struct DeleteLagOutput: Swift.Sendable {
         minimumLinks: Swift.Int = 0,
         numberOfConnections: Swift.Int = 0,
         ownerAccount: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -4692,6 +4900,10 @@ public struct DeleteLagOutput: Swift.Sendable {
         self.minimumLinks = minimumLinks
         self.numberOfConnections = numberOfConnections
         self.ownerAccount = ownerAccount
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -5479,6 +5691,14 @@ extension DirectConnectClientTypes {
         public var numberOfConnections: Swift.Int
         /// The ID of the Amazon Web Services account that owns the LAG.
         public var ownerAccount: Swift.String?
+        /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+        public var prefixPoolSizeIpv4: Swift.Int?
+        /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+        public var prefixPoolSizeIpv6: Swift.Int?
+        /// The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+        public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+        /// The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+        public var prefixPoolUnallocatedCountIpv6: Swift.Int?
         /// The name of the service provider associated with the LAG.
         public var providerName: Swift.String?
         /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
@@ -5507,6 +5727,10 @@ extension DirectConnectClientTypes {
             minimumLinks: Swift.Int = 0,
             numberOfConnections: Swift.Int = 0,
             ownerAccount: Swift.String? = nil,
+            prefixPoolSizeIpv4: Swift.Int? = nil,
+            prefixPoolSizeIpv6: Swift.Int? = nil,
+            prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+            prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
             providerName: Swift.String? = nil,
             rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
             region: Swift.String? = nil,
@@ -5530,6 +5754,10 @@ extension DirectConnectClientTypes {
             self.minimumLinks = minimumLinks
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
+            self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+            self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+            self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+            self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
             self.providerName = providerName
             self.rateLimiterStatus = rateLimiterStatus
             self.region = region
@@ -5904,6 +6132,14 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -5935,6 +6171,10 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -5960,6 +6200,10 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -6407,6 +6651,14 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
     public var portEncryptionStatus: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the connection.
     public var providerName: Swift.String?
     /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -6438,6 +6690,10 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -6463,6 +6719,10 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -6606,6 +6866,14 @@ public struct UpdateLagOutput: Swift.Sendable {
     public var numberOfConnections: Swift.Int
     /// The ID of the Amazon Web Services account that owns the LAG.
     public var ownerAccount: Swift.String?
+    /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolSizeIpv4: Swift.Int?
+    /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolSizeIpv6: Swift.Int?
+    /// The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolUnallocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+    public var prefixPoolUnallocatedCountIpv6: Swift.Int?
     /// The name of the service provider associated with the LAG.
     public var providerName: Swift.String?
     /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
@@ -6634,6 +6902,10 @@ public struct UpdateLagOutput: Swift.Sendable {
         minimumLinks: Swift.Int = 0,
         numberOfConnections: Swift.Int = 0,
         ownerAccount: Swift.String? = nil,
+        prefixPoolSizeIpv4: Swift.Int? = nil,
+        prefixPoolSizeIpv6: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolUnallocatedCountIpv6: Swift.Int? = nil,
         providerName: Swift.String? = nil,
         rateLimiterStatus: DirectConnectClientTypes.RateLimiterStatus? = nil,
         region: Swift.String? = nil,
@@ -6657,6 +6929,10 @@ public struct UpdateLagOutput: Swift.Sendable {
         self.minimumLinks = minimumLinks
         self.numberOfConnections = numberOfConnections
         self.ownerAccount = ownerAccount
+        self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+        self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+        self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+        self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
         self.providerName = providerName
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
@@ -6669,6 +6945,10 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Sendable {
     public var enableSiteLink: Swift.Bool?
     /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
     public var mtu: Swift.Int?
+    /// The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
     public var rateLimit: Swift.String?
     /// The ID of the virtual private interface.
@@ -6680,12 +6960,16 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Sendable {
     public init(
         enableSiteLink: Swift.Bool? = nil,
         mtu: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil,
         virtualInterfaceName: Swift.String? = nil
     ) {
         self.enableSiteLink = enableSiteLink
         self.mtu = mtu
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.virtualInterfaceId = virtualInterfaceId
         self.virtualInterfaceName = virtualInterfaceName
@@ -6746,6 +7030,10 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     public var mtu: Swift.Int?
     /// The ID of the Amazon Web Services account that owns the virtual interface.
     public var ownerAccount: Swift.String?
+    /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv4: Swift.Int?
+    /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+    public var prefixPoolAllocatedCountIpv6: Swift.Int?
     /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
     public var rateLimit: Swift.String?
     /// The Amazon Web Services Region where the virtual interface is located.
@@ -6807,6 +7095,8 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         location: Swift.String? = nil,
         mtu: Swift.Int? = nil,
         ownerAccount: Swift.String? = nil,
+        prefixPoolAllocatedCountIpv4: Swift.Int? = nil,
+        prefixPoolAllocatedCountIpv6: Swift.Int? = nil,
         rateLimit: Swift.String? = nil,
         region: Swift.String? = nil,
         routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -6836,6 +7126,8 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         self.location = location
         self.mtu = mtu
         self.ownerAccount = ownerAccount
+        self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+        self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
         self.rateLimit = rateLimit
         self.region = region
         self.routeFilterPrefixes = routeFilterPrefixes

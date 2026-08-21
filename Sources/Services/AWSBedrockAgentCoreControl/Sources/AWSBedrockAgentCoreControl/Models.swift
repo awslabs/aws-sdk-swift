@@ -7380,7 +7380,7 @@ public struct UpdateEvaluatorOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Time period for rate limiting
+    /// The time period for rate limiting.
     public enum Period: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case minute
         case second
@@ -7410,9 +7410,13 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Rate configuration for a metric (requests or tokens)
+    /// Contains the rate configuration for a rate limit metric, specifying the allowed rate and time period.
     public struct RateConfig: Swift.Sendable {
-        /// Time period for rate limiting
+        /// The time period for the rate limit. Valid values:
+        ///
+        /// * second—Measures the rate limit over a one-second window.
+        ///
+        /// * minute—Measures the rate limit over a one-minute window.
         /// This member is required.
         public var period: BedrockAgentCoreControlClientTypes.Period?
         /// The rate value for the limit. For request limits, this is the number of requests allowed per period. For token limits, this is the number of tokens allowed per period. For connection limits, this is the number of concurrent connections allowed.
@@ -7431,16 +7435,16 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// A single rule entry within a limit, mapping dimension values to rate configurations
+    /// A single rule entry within a rate limit that maps dimension values to rate configurations. Each entry defines the rate limits for a specific combination of dimension values.
     public struct LimitEntry: Swift.Sendable {
-        /// Connection rate limits (per second only). Limited to 1 entry for now. — P2
+        /// The connection rate limit configuration. Specifies the maximum number of concurrent connections allowed.
         public var connections: [BedrockAgentCoreControlClientTypes.RateConfig]?
-        /// Map of dimension name to dimension value, matching the parent limit's dimensionKeys. Keys must exactly match the dimensionKeys. Values may be "" as a wildcard. "" may only appear at trailing positions (based on dimensionKeys ordering).
+        /// A map of dimension names to dimension values for this rule entry. Keys must match the parent rate limit's dimension keys. Values may use * as a wildcard, but only in trailing positions based on the dimension keys ordering.
         /// This member is required.
         public var dimensions: [Swift.String: Swift.String]?
-        /// Request rate limits (RPS or RPM). Limited to 1 entry for now.
+        /// The request rate limit configuration. Specifies the maximum number of requests allowed per time period.
         public var requests: [BedrockAgentCoreControlClientTypes.RateConfig]?
-        /// Token rate limits (TPM). Limited to 1 entry for now. — P1
+        /// The token rate limit configuration. Specifies the maximum number of tokens allowed per time period.
         public var tokens: [BedrockAgentCoreControlClientTypes.RateConfig]?
 
         public init(
@@ -7459,17 +7463,17 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// A limit definition within a BatchPut request (rateLimitId used for upsert matching)
+    /// A rate limit definition within a batch put request. If you provide a rateLimitId, the service uses it for upsert matching against existing rate limits.
     public struct BatchPutLimitEntry: Swift.Sendable {
-        /// Optional human-readable description for this limit.
+        /// An optional human-readable description for this rate limit. If not provided, the rate limit is created without a description.
         public var description: Swift.String?
-        /// Ordered list of dimension key names defining the scope of a limit
+        /// The ordered list of dimension key names that define the scope of this rate limit.
         /// This member is required.
         public var dimensionKeys: [Swift.String]?
-        /// List of rule entries within a limit
+        /// The list of rule entries that map dimension values to rate configurations.
         /// This member is required.
         public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
-        /// Optional — if provided, used for upsert matching against existing limits.
+        /// The unique identifier of the rate limit. If provided, the service uses it for upsert matching against existing rate limits.
         public var rateLimitId: Swift.String?
 
         public init(
@@ -7492,7 +7496,7 @@ public struct BatchPutGatewayRateLimitsInput: Swift.Sendable {
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
-    /// Complete set of rate limits for this gateway. Replaces all existing limits atomically.
+    /// The complete set of rate limits for this gateway. This operation replaces all existing rate limits in a single request. If the operation fails, no rate limits are changed.
     /// This member is required.
     public var rateLimits: [BedrockAgentCoreControlClientTypes.BatchPutLimitEntry]?
 
@@ -7509,7 +7513,7 @@ public struct BatchPutGatewayRateLimitsInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Status of a gateway limit
+    /// The status of a gateway limit.
     public enum GatewayRateLimitStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
@@ -7545,26 +7549,26 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Shared fields for GatewayRateLimit responses
+    /// Contains detailed information about a gateway rate limit, including its configuration and current status.
     public struct GatewayRateLimitDetail: Swift.Sendable {
         /// The timestamp when the rate limit was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// Optional human-readable description for this limit.
+        /// The human-readable description of the rate limit.
         public var description: Swift.String?
-        /// Ordered list of dimension key names defining the scope of a limit
+        /// The ordered list of dimension key names that define the scope of this rate limit.
         /// This member is required.
         public var dimensionKeys: [Swift.String]?
-        /// List of rule entries within a limit
+        /// The list of rule entries that map dimension values to rate configurations.
         /// This member is required.
         public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
         /// The unique identifier of the gateway.
         /// This member is required.
         public var gatewayIdentifier: Swift.String?
-        /// Limit identifier. Optional on Create (system-generates if not provided by customer). Always present in responses.
+        /// The unique identifier of the rate limit.
         /// This member is required.
         public var rateLimitId: Swift.String?
-        /// Status of a gateway limit
+        /// The current status of the rate limit.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.GatewayRateLimitStatus?
         /// The timestamp when the rate limit was last updated.
@@ -7608,18 +7612,18 @@ public struct BatchPutGatewayRateLimitsOutput: Swift.Sendable {
 public struct CreateGatewayRateLimitInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
-    /// Optional human-readable description for this limit.
+    /// An optional human-readable description for this rate limit. If not provided, the rate limit is created without a description.
     public var description: Swift.String?
-    /// Ordered list of dimension names defining the scope of this limit. Unique per gateway — no two limits can share the same dimensionKeys.
+    /// The ordered list of dimension key names that define the scope of this rate limit. Must be unique per gateway—no two rate limits can share the same dimension keys.
     /// This member is required.
     public var dimensionKeys: [Swift.String]?
-    /// Rule entries mapping dimension values to rate configurations.
+    /// The rule entries that map dimension values to rate configurations.
     /// This member is required.
     public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
     /// The unique identifier of the gateway to create the rate limit for.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
-    /// Optional customer-defined limit ID. If not provided, system generates one.
+    /// An optional customer-defined identifier for the rate limit. If not provided, the system generates one.
     public var rateLimitId: Swift.String?
 
     public init(
@@ -7639,26 +7643,26 @@ public struct CreateGatewayRateLimitInput: Swift.Sendable {
     }
 }
 
-/// Shared fields for GatewayRateLimit responses
+/// Shared fields for GatewayRateLimit responses.
 public struct CreateGatewayRateLimitOutput: Swift.Sendable {
     /// The timestamp when the rate limit was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// Optional human-readable description for this limit.
+    /// The human-readable description of the rate limit.
     public var description: Swift.String?
-    /// Ordered list of dimension key names defining the scope of a limit
+    /// The ordered list of dimension key names that define the scope of this rate limit.
     /// This member is required.
     public var dimensionKeys: [Swift.String]?
-    /// List of rule entries within a limit
+    /// The list of rule entries that map dimension values to rate configurations.
     /// This member is required.
     public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
-    /// Limit identifier. Optional on Create (system-generates if not provided by customer). Always present in responses.
+    /// The unique identifier of the created rate limit.
     /// This member is required.
     public var rateLimitId: Swift.String?
-    /// Status of a gateway limit
+    /// The current status of the rate limit.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.GatewayRateLimitStatus?
     /// The timestamp when the rate limit was last updated.
@@ -7704,10 +7708,10 @@ public struct DeleteGatewayRateLimitInput: Swift.Sendable {
 }
 
 public struct DeleteGatewayRateLimitOutput: Swift.Sendable {
-    /// Limit identifier. Optional on Create (system-generates if not provided by customer). Always present in responses.
+    /// The unique identifier of the deleted rate limit.
     /// This member is required.
     public var rateLimitId: Swift.String?
-    /// Status of a gateway limit
+    /// The current status of the rate limit deletion.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.GatewayRateLimitStatus?
 
@@ -7737,26 +7741,26 @@ public struct GetGatewayRateLimitInput: Swift.Sendable {
     }
 }
 
-/// Shared fields for GatewayRateLimit responses
+/// Shared fields for GatewayRateLimit responses.
 public struct GetGatewayRateLimitOutput: Swift.Sendable {
     /// The timestamp when the rate limit was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// Optional human-readable description for this limit.
+    /// The human-readable description of the rate limit.
     public var description: Swift.String?
-    /// Ordered list of dimension key names defining the scope of a limit
+    /// The ordered list of dimension key names that define the scope of this rate limit.
     /// This member is required.
     public var dimensionKeys: [Swift.String]?
-    /// List of rule entries within a limit
+    /// The list of rule entries that map dimension values to rate configurations.
     /// This member is required.
     public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
-    /// Limit identifier. Optional on Create (system-generates if not provided by customer). Always present in responses.
+    /// The unique identifier of the rate limit.
     /// This member is required.
     public var rateLimitId: Swift.String?
-    /// Status of a gateway limit
+    /// The current status of the rate limit.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.GatewayRateLimitStatus?
     /// The timestamp when the rate limit was last updated.
@@ -7821,9 +7825,9 @@ public struct ListGatewayRateLimitsOutput: Swift.Sendable {
 }
 
 public struct UpdateGatewayRateLimitInput: Swift.Sendable {
-    /// Optional human-readable description for this limit.
+    /// The updated human-readable description for this rate limit.
     public var description: Swift.String?
-    /// Updated rule entries. key and dimensionKeys are immutable and cannot be changed.
+    /// The updated rule entries. The dimension keys are immutable after creation and cannot be changed.
     /// This member is required.
     public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
     /// The unique identifier of the gateway.
@@ -7846,26 +7850,26 @@ public struct UpdateGatewayRateLimitInput: Swift.Sendable {
     }
 }
 
-/// Shared fields for GatewayRateLimit responses
+/// Shared fields for GatewayRateLimit responses.
 public struct UpdateGatewayRateLimitOutput: Swift.Sendable {
     /// The timestamp when the rate limit was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// Optional human-readable description for this limit.
+    /// The human-readable description of the rate limit.
     public var description: Swift.String?
-    /// Ordered list of dimension key names defining the scope of a limit
+    /// The ordered list of dimension key names that define the scope of this rate limit.
     /// This member is required.
     public var dimensionKeys: [Swift.String]?
-    /// List of rule entries within a limit
+    /// The list of rule entries that map dimension values to rate configurations.
     /// This member is required.
     public var entries: [BedrockAgentCoreControlClientTypes.LimitEntry]?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayIdentifier: Swift.String?
-    /// Limit identifier. Optional on Create (system-generates if not provided by customer). Always present in responses.
+    /// The unique identifier of the rate limit.
     /// This member is required.
     public var rateLimitId: Swift.String?
-    /// Status of a gateway limit
+    /// The current status of the rate limit.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.GatewayRateLimitStatus?
     /// The timestamp when the rate limit was last updated.
@@ -13725,6 +13729,45 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The validation rules for namespace variable values. When you specify multiple rules, the service enforces a logical AND across all provided key-value pairs.
+    public struct NamespaceKeyValidation: Swift.Sendable {
+        /// The allowed values for this namespace variable key.
+        public var allowedValues: [Swift.String]?
+        /// A regex pattern that the namespace variable key-value must match.
+        public var regexPattern: Swift.String?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            regexPattern: Swift.String? = nil
+        ) {
+            self.allowedValues = allowedValues
+            self.regexPattern = regexPattern
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A namespace variable key definition with optional NamespaceKeyValidation rules.
+    public struct NamespaceKeyEntry: Swift.Sendable {
+        /// The namespace variable key name.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The validation rules that constrain values for this namespace variable at runtime (CreateEvent API).
+        public var validation: BedrockAgentCoreControlClientTypes.NamespaceKeyValidation?
+
+        public init(
+            key: Swift.String? = nil,
+            validation: BedrockAgentCoreControlClientTypes.NamespaceKeyValidation? = nil
+        ) {
+            self.key = key
+            self.validation = validation
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum ContentLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullContent
         case metadataOnly
@@ -13864,6 +13907,8 @@ public struct CreateMemoryInput: Swift.Sendable {
     /// The name of the memory. The name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
+    /// The namespace variable key definitions with optional validation rules. Use these namespaceKeys in namespaceTemplates to control namespace hierarchy.
+    public var namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]?
     /// Configuration for streaming memory record data to external resources.
     public var streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?
     /// A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
@@ -13878,6 +13923,7 @@ public struct CreateMemoryInput: Swift.Sendable {
         memoryExecutionRoleArn: Swift.String? = nil,
         memoryStrategies: [BedrockAgentCoreControlClientTypes.MemoryStrategyInput]? = nil,
         name: Swift.String? = nil,
+        namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]? = nil,
         streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -13889,6 +13935,7 @@ public struct CreateMemoryInput: Swift.Sendable {
         self.memoryExecutionRoleArn = memoryExecutionRoleArn
         self.memoryStrategies = memoryStrategies
         self.name = name
+        self.namespaceKeys = namespaceKeys
         self.streamDeliveryResources = streamDeliveryResources
         self.tags = tags
     }
@@ -13896,7 +13943,7 @@ public struct CreateMemoryInput: Swift.Sendable {
 
 extension CreateMemoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), indexedKeys: \(Swift.String(describing: indexedKeys)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), name: \(Swift.String(describing: name)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateMemoryInput(clientToken: \(Swift.String(describing: clientToken)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), indexedKeys: \(Swift.String(describing: indexedKeys)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), name: \(Swift.String(describing: name)), namespaceKeys: \(Swift.String(describing: namespaceKeys)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -14599,6 +14646,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// The name of the memory.
         /// This member is required.
         public var name: Swift.String?
+        /// The namespace variable key definitions for this memory. Namespace keys define custom variables used in namespaceTemplates with optional validation rules.
+        public var namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]?
         /// The current status of the memory.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.MemoryStatus?
@@ -14622,6 +14671,7 @@ extension BedrockAgentCoreControlClientTypes {
             managedByResourceArn: Swift.String? = nil,
             memoryExecutionRoleArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]? = nil,
             status: BedrockAgentCoreControlClientTypes.MemoryStatus? = nil,
             strategies: [BedrockAgentCoreControlClientTypes.MemoryStrategy]? = nil,
             streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources? = nil,
@@ -14638,6 +14688,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.managedByResourceArn = managedByResourceArn
             self.memoryExecutionRoleArn = memoryExecutionRoleArn
             self.name = name
+            self.namespaceKeys = namespaceKeys
             self.status = status
             self.strategies = strategies
             self.streamDeliveryResources = streamDeliveryResources
@@ -14648,7 +14699,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.Memory: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Memory(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), failureReason: \(Swift.String(describing: failureReason)), id: \(Swift.String(describing: id)), indexedKeys: \(Swift.String(describing: indexedKeys)), managedByResourceArn: \(Swift.String(describing: managedByResourceArn)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), strategies: \(Swift.String(describing: strategies)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "Memory(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), failureReason: \(Swift.String(describing: failureReason)), id: \(Swift.String(describing: id)), indexedKeys: \(Swift.String(describing: indexedKeys)), managedByResourceArn: \(Swift.String(describing: managedByResourceArn)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), name: \(Swift.String(describing: name)), namespaceKeys: \(Swift.String(describing: namespaceKeys)), status: \(Swift.String(describing: status)), strategies: \(Swift.String(describing: strategies)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMemoryOutput: Swift.Sendable {
@@ -15057,6 +15108,8 @@ public struct UpdateMemoryInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The memory strategies to add, modify, or delete.
     public var memoryStrategies: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies?
+    /// The namespace variable key definitions with validation rules for this memory. Use this parameter to update existing namespaceKey validation rules or add new keys when namespace templates change.
+    public var namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]?
     /// Configuration for streaming memory record data to external resources.
     public var streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?
 
@@ -15068,6 +15121,7 @@ public struct UpdateMemoryInput: Swift.Sendable {
         memoryExecutionRoleArn: Swift.String? = nil,
         memoryId: Swift.String? = nil,
         memoryStrategies: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies? = nil,
+        namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]? = nil,
         streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources? = nil
     ) {
         self.addIndexedKeys = addIndexedKeys
@@ -15077,13 +15131,14 @@ public struct UpdateMemoryInput: Swift.Sendable {
         self.memoryExecutionRoleArn = memoryExecutionRoleArn
         self.memoryId = memoryId
         self.memoryStrategies = memoryStrategies
+        self.namespaceKeys = namespaceKeys
         self.streamDeliveryResources = streamDeliveryResources
     }
 }
 
 extension UpdateMemoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateMemoryInput(addIndexedKeys: \(Swift.String(describing: addIndexedKeys)), clientToken: \(Swift.String(describing: clientToken)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryId: \(Swift.String(describing: memoryId)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), description: \"CONTENT_REDACTED\")"}
+        "UpdateMemoryInput(addIndexedKeys: \(Swift.String(describing: addIndexedKeys)), clientToken: \(Swift.String(describing: clientToken)), eventExpiryDuration: \(Swift.String(describing: eventExpiryDuration)), memoryExecutionRoleArn: \(Swift.String(describing: memoryExecutionRoleArn)), memoryId: \(Swift.String(describing: memoryId)), memoryStrategies: \(Swift.String(describing: memoryStrategies)), namespaceKeys: \(Swift.String(describing: namespaceKeys)), streamDeliveryResources: \(Swift.String(describing: streamDeliveryResources)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateMemoryOutput: Swift.Sendable {
@@ -15440,7 +15495,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Configuration for private_key_jwt client authentication (RFC 7523). On Create: privateKeySource and signingAlgorithm are required (enforced server-side). On Update: all fields are optional — only provided fields are updated.
+    /// The private key configuration for private_key_jwt client authentication.
     public struct PrivateKeyJwtConfig: Swift.Sendable {
         /// A map of additional claims to include in the JWT client assertion header. Standard header claims such as alg and typ cannot be added.
         public var additionalHeaderClaims: [Swift.String: Swift.String]?
@@ -15493,7 +15548,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
         /// The private endpoint overrides for the custom OAuth2 provider configuration.
         public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
-        /// Configuration for private_key_jwt client authentication (RFC 7523). On Create: privateKeySource and signingAlgorithm are required (enforced server-side). On Update: all fields are optional — only provided fields are updated.
+        /// The private_key_jwt client authentication configuration for this credential provider. When specified, the credential provider uses JWT client assertions to authenticate with the token endpoint.
         public var privateKeyJwtConfig: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig?
 
         public init(
@@ -15863,7 +15918,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint?
         /// The private endpoint overrides for the custom OAuth2 provider configuration.
         public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
-        /// Configuration for private_key_jwt client authentication (RFC 7523). On Create: privateKeySource and signingAlgorithm are required (enforced server-side). On Update: all fields are optional — only provided fields are updated.
+        /// The configuration for private_key_jwt client authentication used by this OAuth2 credential provider.
         public var privateKeyJwtConfig: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig?
 
         public init(
@@ -25790,6 +25845,7 @@ extension CreateMemoryInput {
         try writer["memoryExecutionRoleArn"].write(value.memoryExecutionRoleArn)
         try writer["memoryStrategies"].writeList(value.memoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["namespaceKeys"].writeList(value.namespaceKeys, memberWritingClosure: BedrockAgentCoreControlClientTypes.NamespaceKeyEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["streamDeliveryResources"].write(value.streamDeliveryResources, with: BedrockAgentCoreControlClientTypes.StreamDeliveryResources.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -26304,6 +26360,7 @@ extension UpdateMemoryInput {
         try writer["eventExpiryDuration"].write(value.eventExpiryDuration)
         try writer["memoryExecutionRoleArn"].write(value.memoryExecutionRoleArn)
         try writer["memoryStrategies"].write(value.memoryStrategies, with: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies.write(value:to:))
+        try writer["namespaceKeys"].writeList(value.namespaceKeys, memberWritingClosure: BedrockAgentCoreControlClientTypes.NamespaceKeyEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["streamDeliveryResources"].write(value.streamDeliveryResources, with: BedrockAgentCoreControlClientTypes.StreamDeliveryResources.write(value:to:))
     }
 }
@@ -36459,6 +36516,7 @@ extension BedrockAgentCoreControlClientTypes.Memory {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.strategies = try reader["strategies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.indexedKeys = try reader["indexedKeys"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.IndexedKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespaceKeys = try reader["namespaceKeys"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.NamespaceKeyEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.streamDeliveryResources = try reader["streamDeliveryResources"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StreamDeliveryResources.read(from:))
         value.managedByResourceArn = try reader["managedByResourceArn"].readIfPresent()
         return value
@@ -36738,6 +36796,40 @@ extension BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration {
         try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration.write(value:to:))
         try writer["reflection"].write(value.reflection, with: BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration.write(value:to:))
         try writer["selfManagedConfiguration"].write(value.selfManagedConfiguration, with: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.NamespaceKeyEntry {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.NamespaceKeyEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["validation"].write(value.validation, with: BedrockAgentCoreControlClientTypes.NamespaceKeyValidation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NamespaceKeyEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.NamespaceKeyEntry()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.validation = try reader["validation"].readIfPresent(with: BedrockAgentCoreControlClientTypes.NamespaceKeyValidation.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.NamespaceKeyValidation {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.NamespaceKeyValidation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["regexPattern"].write(value.regexPattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NamespaceKeyValidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.NamespaceKeyValidation()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regexPattern = try reader["regexPattern"].readIfPresent()
+        return value
     }
 }
 

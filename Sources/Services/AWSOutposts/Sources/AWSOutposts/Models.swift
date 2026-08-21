@@ -1692,6 +1692,117 @@ public struct CreateOutpostOutput: Swift.Sendable {
 
 extension OutpostsClientTypes {
 
+    /// Information about a VPC used for private connectivity, including its subnets and an associated VPC endpoint.
+    public struct VpcInformation: Swift.Sendable {
+        /// The IDs of the subnets associated with the VPC endpoint. Currently, only one subnet is supported.
+        public var subnetIds: [Swift.String]?
+        /// The ID of the interface VPC endpoint for the Amazon Web Services Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be associated with it.
+        public var vpcEndpointId: Swift.String?
+        /// The ID of the VPC used for private connectivity.
+        public var vpcId: Swift.String?
+
+        public init(
+            subnetIds: [Swift.String]? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.subnetIds = subnetIds
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+public struct CreatePrivateConnectivityConfigInput: Swift.Sendable {
+    /// The ID or ARN of the Outpost.
+    /// This member is required.
+    public var outpostId: Swift.String?
+    /// Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can specify at most one entry.
+    /// This member is required.
+    public var vpcInformationList: [OutpostsClientTypes.VpcInformation]?
+
+    public init(
+        outpostId: Swift.String? = nil,
+        vpcInformationList: [OutpostsClientTypes.VpcInformation]? = nil
+    ) {
+        self.outpostId = outpostId
+        self.vpcInformationList = vpcInformationList
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum PrivateConnectivityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivateConnectivityStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// Information about the private connectivity configuration for an Outpost.
+    public struct PrivateConnectivityConfig: Swift.Sendable {
+        /// The status of private connectivity for the Outpost. Valid values are ENABLED and DISABLED.
+        public var privateConnectivityStatus: OutpostsClientTypes.PrivateConnectivityStatus?
+        /// The Amazon Resource Name (ARN) of the provisioning role in your account that Amazon Web Services Outposts uses to establish the service link connection during Outpost installation. This field is present only when VPC endpoint-based provisioning is configured.
+        public var provisioningRoleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the service-linked role that Amazon Web Services Outposts creates and uses to provision and attach the network interfaces for private connectivity in your VPC. The role's permissions are scoped to the specific Outpost and VPC.
+        public var roleArn: Swift.String?
+        /// Information about the VPC used for private connectivity.
+        public var vpcInformationList: [OutpostsClientTypes.VpcInformation]?
+
+        public init(
+            privateConnectivityStatus: OutpostsClientTypes.PrivateConnectivityStatus? = nil,
+            provisioningRoleArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            vpcInformationList: [OutpostsClientTypes.VpcInformation]? = nil
+        ) {
+            self.privateConnectivityStatus = privateConnectivityStatus
+            self.provisioningRoleArn = provisioningRoleArn
+            self.roleArn = roleArn
+            self.vpcInformationList = vpcInformationList
+        }
+    }
+}
+
+public struct CreatePrivateConnectivityConfigOutput: Swift.Sendable {
+    /// The ID of the Outpost.
+    public var outpostId: Swift.String?
+    /// The private connectivity configuration for the Outpost.
+    public var privateConnectivityConfig: OutpostsClientTypes.PrivateConnectivityConfig?
+
+    public init(
+        outpostId: Swift.String? = nil,
+        privateConnectivityConfig: OutpostsClientTypes.PrivateConnectivityConfig? = nil
+    ) {
+        self.outpostId = outpostId
+        self.privateConnectivityConfig = privateConnectivityConfig
+    }
+}
+
+extension OutpostsClientTypes {
+
     public enum QuoteConstraintType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rackMaximum
         case rackMaxPowerKva
@@ -3720,6 +3831,29 @@ public struct GetOutpostSupportedInstanceTypesOutput: Swift.Sendable {
     }
 }
 
+public struct GetPrivateConnectivityConfigInput: Swift.Sendable {
+    /// The ID or ARN of the Outpost.
+    /// This member is required.
+    public var outpostId: Swift.String?
+
+    public init(
+        outpostId: Swift.String? = nil
+    ) {
+        self.outpostId = outpostId
+    }
+}
+
+public struct GetPrivateConnectivityConfigOutput: Swift.Sendable {
+    /// The private connectivity configuration for the Outpost.
+    public var privateConnectivityConfig: OutpostsClientTypes.PrivateConnectivityConfig?
+
+    public init(
+        privateConnectivityConfig: OutpostsClientTypes.PrivateConnectivityConfig? = nil
+    ) {
+        self.privateConnectivityConfig = privateConnectivityConfig
+    }
+}
+
 public struct GetQuoteInput: Swift.Sendable {
     /// The ID of the quote.
     /// This member is required.
@@ -4966,6 +5100,16 @@ extension CreateOutpostInput {
     }
 }
 
+extension CreatePrivateConnectivityConfigInput {
+
+    static func urlPathProvider(_ value: CreatePrivateConnectivityConfigInput) -> Swift.String? {
+        guard let outpostId = value.outpostId else {
+            return nil
+        }
+        return "/outposts/\(outpostId.urlPercentEncoding())/privateConnectivity"
+    }
+}
+
 extension CreateQuoteInput {
 
     static func urlPathProvider(_ value: CreateQuoteInput) -> Swift.String? {
@@ -5153,6 +5297,16 @@ extension GetOutpostSupportedInstanceTypesInput {
             items.append(assetIdQueryItem)
         }
         return items
+    }
+}
+
+extension GetPrivateConnectivityConfigInput {
+
+    static func urlPathProvider(_ value: GetPrivateConnectivityConfigInput) -> Swift.String? {
+        guard let outpostId = value.outpostId else {
+            return nil
+        }
+        return "/outposts/\(outpostId.urlPercentEncoding())/privateConnectivity"
     }
 }
 
@@ -5716,6 +5870,14 @@ extension CreateOutpostInput {
     }
 }
 
+extension CreatePrivateConnectivityConfigInput {
+
+    static func write(value: CreatePrivateConnectivityConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcInformationList"].writeList(value.vpcInformationList, memberWritingClosure: OutpostsClientTypes.VpcInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateQuoteInput {
 
     static func write(value: CreateQuoteInput?, to writer: SmithyJSON.Writer) throws {
@@ -5888,6 +6050,19 @@ extension CreateOutpostOutput {
         let reader = responseReader
         var value = CreateOutpostOutput()
         value.outpost = try reader["Outpost"].readIfPresent(with: OutpostsClientTypes.Outpost.read(from:))
+        return value
+    }
+}
+
+extension CreatePrivateConnectivityConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePrivateConnectivityConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePrivateConnectivityConfigOutput()
+        value.outpostId = try reader["OutpostId"].readIfPresent()
+        value.privateConnectivityConfig = try reader["PrivateConnectivityConfig"].readIfPresent(with: OutpostsClientTypes.PrivateConnectivityConfig.read(from:))
         return value
     }
 }
@@ -6067,6 +6242,18 @@ extension GetOutpostSupportedInstanceTypesOutput {
         var value = GetOutpostSupportedInstanceTypesOutput()
         value.instanceTypes = try reader["InstanceTypes"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.InstanceTypeItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetPrivateConnectivityConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPrivateConnectivityConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPrivateConnectivityConfigOutput()
+        value.privateConnectivityConfig = try reader["PrivateConnectivityConfig"].readIfPresent(with: OutpostsClientTypes.PrivateConnectivityConfig.read(from:))
         return value
     }
 }
@@ -6463,6 +6650,24 @@ enum CreateOutpostOutputError {
     }
 }
 
+enum CreatePrivateConnectivityConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateQuoteOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6686,6 +6891,23 @@ enum GetOutpostInstanceTypesOutputError {
 }
 
 enum GetOutpostSupportedInstanceTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPrivateConnectivityConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7588,6 +7810,19 @@ extension OutpostsClientTypes.PricingOption {
     }
 }
 
+extension OutpostsClientTypes.PrivateConnectivityConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.PrivateConnectivityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.PrivateConnectivityConfig()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.privateConnectivityStatus = try reader["PrivateConnectivityStatus"].readIfPresent()
+        value.vpcInformationList = try reader["VpcInformationList"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.VpcInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provisioningRoleArn = try reader["ProvisioningRoleArn"].readIfPresent()
+        return value
+    }
+}
+
 extension OutpostsClientTypes.Quote {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.Quote {
@@ -7824,6 +8059,25 @@ extension OutpostsClientTypes.SubscriptionPricingDetails {
         value.upfrontPrice = try reader["UpfrontPrice"].readIfPresent()
         value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
         value.currency = try reader["Currency"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.VpcInformation {
+
+    static func write(value: OutpostsClientTypes.VpcInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+        try writer["VpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.VpcInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.VpcInformation()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }

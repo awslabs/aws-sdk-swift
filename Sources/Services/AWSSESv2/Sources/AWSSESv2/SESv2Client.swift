@@ -6003,7 +6003,7 @@ extension SESv2Client {
 
     /// Performs the `PutAccountPricingAttributes` operation on the `SESv2` service.
     ///
-    /// Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan that packages multiple Amazon SES features at a single rate.
+    /// Set the pricing plan for your Amazon SES account.
     ///
     /// - Parameter input: A request to set the pricing plan for your Amazon SES account. (Type: `PutAccountPricingAttributesInput`)
     ///

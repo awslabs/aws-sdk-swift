@@ -1051,7 +1051,7 @@ extension EntityResolutionClient {
 
     /// Performs the `DeleteIdMappingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
+    /// Deletes the IdMappingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteIdMappingWorkflowInput`)
     ///
@@ -1063,6 +1063,7 @@ extension EntityResolutionClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func deleteIdMappingWorkflow(input: DeleteIdMappingWorkflowInput) async throws -> DeleteIdMappingWorkflowOutput {
@@ -1120,7 +1121,7 @@ extension EntityResolutionClient {
 
     /// Performs the `DeleteIdNamespace` operation on the `EntityResolution` service.
     ///
-    /// Deletes the IdNamespace with a given name.
+    /// Deletes the IdNamespace with a given name. This operation returns a ResourceNotFoundException if an ID namespace with the given name does not exist.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteIdNamespaceInput`)
     ///
@@ -1131,6 +1132,7 @@ extension EntityResolutionClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func deleteIdNamespace(input: DeleteIdNamespaceInput) async throws -> DeleteIdNamespaceOutput {
@@ -1188,7 +1190,7 @@ extension EntityResolutionClient {
 
     /// Performs the `DeleteMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
+    /// Deletes the MatchingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteMatchingWorkflowInput`)
     ///
@@ -1200,6 +1202,7 @@ extension EntityResolutionClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutput {
@@ -1327,7 +1330,7 @@ extension EntityResolutionClient {
 
     /// Performs the `DeleteSchemaMapping` operation on the `EntityResolution` service.
     ///
-    /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
+    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteSchemaMappingInput`)
     ///
@@ -1339,6 +1342,7 @@ extension EntityResolutionClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution.
     public func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutput {

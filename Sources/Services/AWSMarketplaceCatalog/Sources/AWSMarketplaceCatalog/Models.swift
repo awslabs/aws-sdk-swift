@@ -298,6 +298,173 @@ extension MarketplaceCatalogClientTypes {
     }
 }
 
+extension MarketplaceCatalogClientTypes {
+
+    /// Filters that apply to assessments performed against the AMI Security framework.
+    public struct AMISecurityFilters: Swift.Sendable {
+        /// The unique ID of the delivery option whose AMI Security assessments you want to list.
+        public var deliveryOptionId: Swift.String?
+
+        public init(
+            deliveryOptionId: Swift.String? = nil
+        ) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The details of the resource assessed under the AMI Security framework.
+    public struct AMISecuritySummary: Swift.Sendable {
+        /// The unique ID of the delivery option that was evaluated.
+        public var deliveryOptionId: Swift.String?
+
+        public init(
+            deliveryOptionId: Swift.String? = nil
+        ) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum AssessmentResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssessmentResult] {
+            return [
+                .fail,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Identifies the entity or change set that was assessed.
+    public struct AssessmentTargetSummary: Swift.Sendable {
+        /// The unique ID of the change set that was assessed.
+        public var changeSetId: Swift.String?
+        /// The unique ID of the entity that was assessed.
+        public var entityId: Swift.String?
+
+        public init(
+            changeSetId: Swift.String? = nil,
+            entityId: Swift.String? = nil
+        ) {
+            self.changeSetId = changeSetId
+            self.entityId = entityId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The details of the resource assessed under the Container Security framework.
+    public struct ContainerSecuritySummary: Swift.Sendable {
+        /// The unique ID of the delivery option that was evaluated.
+        public var deliveryOptionId: Swift.String?
+
+        public init(
+            deliveryOptionId: Swift.String? = nil
+        ) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The framework-specific details of the assessed resource. Exactly one member is set, corresponding to the framework that was assessed.
+    public enum FrameworkSummary: Swift.Sendable {
+        /// The details of the resource assessed under the AMI Security framework.
+        case amisecuritysummary(MarketplaceCatalogClientTypes.AMISecuritySummary)
+        /// The details of the resource assessed under the Container Security framework.
+        case containersecuritysummary(MarketplaceCatalogClientTypes.ContainerSecuritySummary)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Summarized information about an assessment.
+    public struct AssessmentSummary: Swift.Sendable {
+        /// The ARN associated with the assessment.
+        public var assessmentArn: Swift.String?
+        /// The unique ID of the assessment.
+        public var assessmentId: Swift.String?
+        /// The overall result of the assessment.
+        public var assessmentResult: MarketplaceCatalogClientTypes.AssessmentResult?
+        /// Identifies the entity or change set that was assessed.
+        public var assessmentTargetSummary: MarketplaceCatalogClientTypes.AssessmentTargetSummary?
+        /// The date and time the assessment was created, in ISO 8601 format (2018-02-27T13:45:22Z).
+        public var createdAt: Swift.String?
+        /// The date and time the assessment expires, in ISO 8601 format (2018-02-27T13:45:22Z).
+        public var expiresAt: Swift.String?
+        /// The identifier of the framework that was evaluated by this assessment, in the format frameworkId@version (for example, AMISecurity@1.0).
+        public var frameworkId: Swift.String?
+        /// The framework-specific details of the assessed resource. The set member corresponds to the framework identified by FrameworkId.
+        public var frameworkSummary: MarketplaceCatalogClientTypes.FrameworkSummary?
+
+        public init(
+            assessmentArn: Swift.String? = nil,
+            assessmentId: Swift.String? = nil,
+            assessmentResult: MarketplaceCatalogClientTypes.AssessmentResult? = nil,
+            assessmentTargetSummary: MarketplaceCatalogClientTypes.AssessmentTargetSummary? = nil,
+            createdAt: Swift.String? = nil,
+            expiresAt: Swift.String? = nil,
+            frameworkId: Swift.String? = nil,
+            frameworkSummary: MarketplaceCatalogClientTypes.FrameworkSummary? = nil
+        ) {
+            self.assessmentArn = assessmentArn
+            self.assessmentId = assessmentId
+            self.assessmentResult = assessmentResult
+            self.assessmentTargetSummary = assessmentTargetSummary
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.frameworkId = frameworkId
+            self.frameworkSummary = frameworkSummary
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Filters assessment list results by the resource that was assessed. Provide an entity identifier, a change set identifier, or both.
+    public struct AssessmentTargetFilter: Swift.Sendable {
+        /// The unique ID of the change set that triggered the assessments you want to list.
+        public var changeSetId: Swift.String?
+        /// The unique ID of the entity whose assessments you want to list.
+        public var entityId: Swift.String?
+
+        public init(
+            changeSetId: Swift.String? = nil,
+            entityId: Swift.String? = nil
+        ) {
+            self.changeSetId = changeSetId
+            self.entityId = entityId
+        }
+    }
+}
+
 /// There was an internal service exception. HTTP status code: 500
 public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -344,11 +511,83 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+extension MarketplaceCatalogClientTypes {
+
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cannotParse
+        case fieldValidationFailed
+        case other
+        case unknownOperation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .cannotParse,
+                .fieldValidationFailed,
+                .other,
+                .unknownOperation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cannotParse: return "CannotParse"
+            case .fieldValidationFailed: return "FieldValidationFailed"
+            case .other: return "Other"
+            case .unknownOperation: return "UnknownOperation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Detailed information about a single request field that failed validation, including the field's location, the reason it failed, and a human-readable message.
+    public struct ValidationExceptionField: Swift.Sendable {
+        /// The change type the failing field applies to, if the field is part of a change request. For example, AddDeliveryOptions.
+        public var changeType: Swift.String?
+        /// The entity identifier the failing field applies to, if the field is on a specific entity.
+        public var entityId: Swift.String?
+        /// The entity type the failing field applies to, if the field is on a specific entity. For example, AmiProduct@1.0.
+        public var entityType: Swift.String?
+        /// The name of the request field that failed validation, expressed as a JSON path (for example, Details.DeliveryOptions[0].Type).
+        public var field: Swift.String?
+        /// A human-readable message describing why the field failed validation.
+        public var message: Swift.String?
+        /// The reason the field failed validation.
+        public var reason: MarketplaceCatalogClientTypes.ValidationExceptionReason?
+
+        public init(
+            changeType: Swift.String? = nil,
+            entityId: Swift.String? = nil,
+            entityType: Swift.String? = nil,
+            field: Swift.String? = nil,
+            message: Swift.String? = nil,
+            reason: MarketplaceCatalogClientTypes.ValidationExceptionReason? = nil
+        ) {
+            self.changeType = changeType
+            self.entityId = entityId
+            self.entityType = entityType
+            self.field = field
+            self.message = message
+            self.reason = reason
+        }
+    }
+}
+
 /// An error occurred during validation. HTTP status code: 422
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// A list of detailed entries describing the request fields that failed validation. Present when the failure can be attributed to one or more specific fields.
+        public internal(set) var validationExceptionFieldList: [MarketplaceCatalogClientTypes.ValidationExceptionField]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -361,9 +600,11 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        validationExceptionFieldList: [MarketplaceCatalogClientTypes.ValidationExceptionField]? = nil
     ) {
         self.properties.message = message
+        self.properties.validationExceptionFieldList = validationExceptionFieldList
     }
 }
 
@@ -558,6 +799,178 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DescribeAssessmentInput: Swift.Sendable {
+    /// The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345) or the full assessment ARN (for example, arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345).
+    /// This member is required.
+    public var assessmentIdentifier: Swift.String?
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the upper limit of ControlAssessment elements returned on a single page. If a value isn't provided, the default value is 50. Valid values range from 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The value of the next token, if it exists. null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentIdentifier: Swift.String? = nil,
+        catalog: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessmentIdentifier = assessmentIdentifier
+        self.catalog = catalog
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum ControlAssessmentResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exemptionPass
+        case fail
+        case notExecuted
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlAssessmentResult] {
+            return [
+                .exemptionPass,
+                .fail,
+                .notExecuted,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exemptionPass: return "EXEMPTION_PASS"
+            case .fail: return "FAIL"
+            case .notExecuted: return "NOT_EXECUTED"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A name-value pair that identifies the resource or attribute that a ControlError applies to.
+    public struct ErrorScope: Swift.Sendable {
+        /// The name of the resource field the error applies to (for example, AMI_ID, FILE_PATH, or PACKAGE_NAME).
+        public var name: Swift.String?
+        /// The value of the resource field the error applies to.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// An error reported during the evaluation of a single control.
+    public struct ControlError: Swift.Sendable {
+        /// The error code that identifies the type of error.
+        public var code: Swift.String?
+        /// The message for the error.
+        public var message: Swift.String?
+        /// The list of name-value pairs that identify the resource or attribute that the error applies to.
+        public var scope: [MarketplaceCatalogClientTypes.ErrorScope]?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            scope: [MarketplaceCatalogClientTypes.ErrorScope]? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.scope = scope
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The result of evaluating a single control as part of an assessment.
+    public struct ControlAssessment: Swift.Sendable {
+        /// The result of the control evaluation.
+        public var controlAssessmentResult: MarketplaceCatalogClientTypes.ControlAssessmentResult?
+        /// The unique ID of the control that was evaluated.
+        public var controlId: Swift.String?
+        /// An array of ControlError objects associated with the control evaluation.
+        public var errors: [MarketplaceCatalogClientTypes.ControlError]?
+
+        public init(
+            controlAssessmentResult: MarketplaceCatalogClientTypes.ControlAssessmentResult? = nil,
+            controlId: Swift.String? = nil,
+            errors: [MarketplaceCatalogClientTypes.ControlError]? = nil
+        ) {
+            self.controlAssessmentResult = controlAssessmentResult
+            self.controlId = controlId
+            self.errors = errors
+        }
+    }
+}
+
+public struct DescribeAssessmentOutput: Swift.Sendable {
+    /// The ARN associated with the assessment.
+    public var assessmentArn: Swift.String?
+    /// The unique ID of the assessment.
+    public var assessmentId: Swift.String?
+    /// The overall result of the assessment.
+    public var assessmentResult: MarketplaceCatalogClientTypes.AssessmentResult?
+    /// Identifies the entity or change set that was assessed.
+    public var assessmentTargetSummary: MarketplaceCatalogClientTypes.AssessmentTargetSummary?
+    /// An array of ControlAssessment objects, each containing the result of an individual control evaluated as part of the assessment.
+    public var controlAssessments: [MarketplaceCatalogClientTypes.ControlAssessment]?
+    /// The date and time the assessment was created, in ISO 8601 format (2018-02-27T13:45:22Z).
+    public var createdAt: Swift.String?
+    /// The date and time the assessment expires, in ISO 8601 format (2018-02-27T13:45:22Z).
+    public var expiresAt: Swift.String?
+    /// The identifier of the framework that was evaluated by this assessment, in the format frameworkId@version (for example, AMISecurity@1.0).
+    public var frameworkId: Swift.String?
+    /// The framework-specific details of the assessed resource. The set member corresponds to the framework identified by FrameworkId.
+    public var frameworkSummary: MarketplaceCatalogClientTypes.FrameworkSummary?
+    /// The value of the next token, if it exists. null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        assessmentId: Swift.String? = nil,
+        assessmentResult: MarketplaceCatalogClientTypes.AssessmentResult? = nil,
+        assessmentTargetSummary: MarketplaceCatalogClientTypes.AssessmentTargetSummary? = nil,
+        controlAssessments: [MarketplaceCatalogClientTypes.ControlAssessment]? = nil,
+        createdAt: Swift.String? = nil,
+        expiresAt: Swift.String? = nil,
+        frameworkId: Swift.String? = nil,
+        frameworkSummary: MarketplaceCatalogClientTypes.FrameworkSummary? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessmentArn = assessmentArn
+        self.assessmentId = assessmentId
+        self.assessmentResult = assessmentResult
+        self.assessmentTargetSummary = assessmentTargetSummary
+        self.controlAssessments = controlAssessments
+        self.createdAt = createdAt
+        self.expiresAt = expiresAt
+        self.frameworkId = frameworkId
+        self.frameworkSummary = frameworkSummary
+        self.nextToken = nextToken
+    }
 }
 
 public struct DescribeChangeSetInput: Swift.Sendable {
@@ -885,6 +1298,80 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
         policy: Swift.String? = nil
     ) {
         self.policy = policy
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Filters that apply to assessments performed against the Container Security framework.
+    public struct ContainerSecurityFilters: Swift.Sendable {
+        /// The unique ID of the delivery option whose Container Security assessments you want to list.
+        public var deliveryOptionId: Swift.String?
+
+        public init(
+            deliveryOptionId: Swift.String? = nil
+        ) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Framework-specific filters used to scope ListAssessments results. Set exactly one member, corresponding to the framework you want to filter by.
+    public enum FrameworkFilters: Swift.Sendable {
+        /// Filters that apply to assessments performed against the AMI Security framework.
+        case amisecurityfilters(MarketplaceCatalogClientTypes.AMISecurityFilters)
+        /// Filters that apply to assessments performed against the Container Security framework.
+        case containersecurityfilters(MarketplaceCatalogClientTypes.ContainerSecurityFilters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListAssessmentsInput: Swift.Sendable {
+    /// Filters the list of assessments to those performed against a specific entity or change set.
+    public var assessmentTargetFilter: MarketplaceCatalogClientTypes.AssessmentTargetFilter?
+    /// The catalog related to the request. Fixed value: AWSMarketplace
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework.
+    public var frameworkFilters: MarketplaceCatalogClientTypes.FrameworkFilters?
+    /// The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity.
+    public var frameworkId: Swift.String?
+    /// Specifies the upper limit of the elements on a single page. If a value isn't provided, the default value is 20. Valid values range from 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The value of the next token, if it exists. null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentTargetFilter: MarketplaceCatalogClientTypes.AssessmentTargetFilter? = nil,
+        catalog: Swift.String? = nil,
+        frameworkFilters: MarketplaceCatalogClientTypes.FrameworkFilters? = nil,
+        frameworkId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessmentTargetFilter = assessmentTargetFilter
+        self.catalog = catalog
+        self.frameworkFilters = frameworkFilters
+        self.frameworkId = frameworkId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAssessmentsOutput: Swift.Sendable {
+    /// An array of AssessmentSummary objects.
+    public var assessmentSummaryList: [MarketplaceCatalogClientTypes.AssessmentSummary]?
+    /// The value of the next token, if it exists. null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentSummaryList: [MarketplaceCatalogClientTypes.AssessmentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessmentSummaryList = assessmentSummaryList
+        self.nextToken = nextToken
     }
 }
 
@@ -3871,6 +4358,13 @@ extension DeleteResourcePolicyInput {
     }
 }
 
+extension DescribeAssessmentInput {
+
+    static func urlPathProvider(_ value: DescribeAssessmentInput) -> Swift.String? {
+        return "/DescribeAssessment"
+    }
+}
+
 extension DescribeChangeSetInput {
 
     static func urlPathProvider(_ value: DescribeChangeSetInput) -> Swift.String? {
@@ -3946,6 +4440,13 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension ListAssessmentsInput {
+
+    static func urlPathProvider(_ value: ListAssessmentsInput) -> Swift.String? {
+        return "/ListAssessments"
+    }
+}
+
 extension ListChangeSetsInput {
 
     static func urlPathProvider(_ value: ListChangeSetsInput) -> Swift.String? {
@@ -4000,6 +4501,30 @@ extension BatchDescribeEntitiesInput {
     static func write(value: BatchDescribeEntitiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EntityRequestList"].writeList(value.entityRequestList, memberWritingClosure: MarketplaceCatalogClientTypes.EntityRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeAssessmentInput {
+
+    static func write(value: DescribeAssessmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssessmentIdentifier"].write(value.assessmentIdentifier)
+        try writer["Catalog"].write(value.catalog)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListAssessmentsInput {
+
+    static func write(value: ListAssessmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssessmentTargetFilter"].write(value.assessmentTargetFilter, with: MarketplaceCatalogClientTypes.AssessmentTargetFilter.write(value:to:))
+        try writer["Catalog"].write(value.catalog)
+        try writer["FrameworkFilters"].write(value.frameworkFilters, with: MarketplaceCatalogClientTypes.FrameworkFilters.write(value:to:))
+        try writer["FrameworkId"].write(value.frameworkId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -4112,6 +4637,27 @@ extension DeleteResourcePolicyOutput {
     }
 }
 
+extension DescribeAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAssessmentOutput()
+        value.assessmentArn = try reader["AssessmentArn"].readIfPresent()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.assessmentResult = try reader["AssessmentResult"].readIfPresent()
+        value.assessmentTargetSummary = try reader["AssessmentTargetSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.AssessmentTargetSummary.read(from:))
+        value.controlAssessments = try reader["ControlAssessments"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ControlAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["CreatedAt"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readIfPresent()
+        value.frameworkId = try reader["FrameworkId"].readIfPresent()
+        value.frameworkSummary = try reader["FrameworkSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.FrameworkSummary.read(from:))
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeChangeSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeChangeSetOutput {
@@ -4158,6 +4704,19 @@ extension GetResourcePolicyOutput {
         let reader = responseReader
         var value = GetResourcePolicyOutput()
         value.policy = try reader["Policy"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAssessmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssessmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssessmentsOutput()
+        value.assessmentSummaryList = try reader["AssessmentSummaryList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.AssessmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -4289,6 +4848,24 @@ enum DeleteResourcePolicyOutputError {
     }
 }
 
+enum DescribeAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeChangeSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4337,6 +4914,23 @@ enum GetResourcePolicyOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssessmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4516,6 +5110,7 @@ extension ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.validationExceptionFieldList = try reader["ValidationExceptionFieldList"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4648,6 +5243,61 @@ extension MarketplaceCatalogClientTypes.AmiProductVisibilityFilter {
     }
 }
 
+extension MarketplaceCatalogClientTypes.AMISecurityFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.AMISecurityFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeliveryOptionId"].write(value.deliveryOptionId)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AMISecuritySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AMISecuritySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.AMISecuritySummary()
+        value.deliveryOptionId = try reader["DeliveryOptionId"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.AssessmentSummary()
+        value.assessmentArn = try reader["AssessmentArn"].readIfPresent()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.frameworkId = try reader["FrameworkId"].readIfPresent()
+        value.assessmentTargetSummary = try reader["AssessmentTargetSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.AssessmentTargetSummary.read(from:))
+        value.frameworkSummary = try reader["FrameworkSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.FrameworkSummary.read(from:))
+        value.assessmentResult = try reader["AssessmentResult"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AssessmentTargetFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.AssessmentTargetFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChangeSetId"].write(value.changeSetId)
+        try writer["EntityId"].write(value.entityId)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AssessmentTargetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AssessmentTargetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.AssessmentTargetSummary()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
+        return value
+    }
+}
+
 extension MarketplaceCatalogClientTypes.BatchDescribeErrorDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.BatchDescribeErrorDetail {
@@ -4774,6 +5424,48 @@ extension MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter {
     static func write(value: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ContainerProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerSecurityFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerSecurityFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeliveryOptionId"].write(value.deliveryOptionId)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerSecuritySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerSecuritySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ContainerSecuritySummary()
+        value.deliveryOptionId = try reader["DeliveryOptionId"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ControlAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ControlAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ControlAssessment()
+        value.controlId = try reader["ControlId"].readIfPresent()
+        value.controlAssessmentResult = try reader["ControlAssessmentResult"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ControlError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ControlError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ControlError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ControlError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: MarketplaceCatalogClientTypes.ErrorScope.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -4978,12 +5670,54 @@ extension MarketplaceCatalogClientTypes.ErrorDetail {
     }
 }
 
+extension MarketplaceCatalogClientTypes.ErrorScope {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ErrorScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ErrorScope()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension MarketplaceCatalogClientTypes.Filter {
 
     static func write(value: MarketplaceCatalogClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.FrameworkFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.FrameworkFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amisecurityfilters(amisecurityfilters):
+                try writer["AMISecurityFilters"].write(amisecurityfilters, with: MarketplaceCatalogClientTypes.AMISecurityFilters.write(value:to:))
+            case let .containersecurityfilters(containersecurityfilters):
+                try writer["ContainerSecurityFilters"].write(containersecurityfilters, with: MarketplaceCatalogClientTypes.ContainerSecurityFilters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.FrameworkSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.FrameworkSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "AMISecuritySummary":
+                return .amisecuritysummary(try reader["AMISecuritySummary"].read(with: MarketplaceCatalogClientTypes.AMISecuritySummary.read(from:)))
+            case "ContainerSecuritySummary":
+                return .containersecuritysummary(try reader["ContainerSecuritySummary"].read(with: MarketplaceCatalogClientTypes.ContainerSecuritySummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -5656,6 +6390,21 @@ extension MarketplaceCatalogClientTypes.Tag {
         var value = MarketplaceCatalogClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ValidationExceptionField()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.entityType = try reader["EntityType"].readIfPresent()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.changeType = try reader["ChangeType"].readIfPresent()
+        value.field = try reader["Field"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }

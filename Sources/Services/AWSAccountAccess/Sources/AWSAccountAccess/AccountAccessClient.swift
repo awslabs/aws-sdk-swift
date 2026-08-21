@@ -629,6 +629,7 @@ extension AccountAccessClient {
     /// - `AlreadyCreatedException` : The resource you are trying to create already exists. To retrieve the existing resource, use the corresponding Get operation.
     /// - `ConflictException` : The request conflicts with the current state of the resource.
     /// - `InternalServerException` : An internal service error occurred. Try your request again later.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Try your request again later.
     /// - `ValidationException` : The input does not satisfy the constraints specified by the service. Check your request parameters and retry the request.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = Smithy.ContextBuilder()
@@ -775,6 +776,7 @@ extension AccountAccessClient {
     /// - `ConflictException` : The request conflicts with the current state of the resource.
     /// - `InternalServerException` : An internal service error occurred. Try your request again later.
     /// - `ResourceNotFoundException` : The specified resource does not exist. Verify that the resource identifier is correct and that the resource exists in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Try your request again later.
     /// - `ValidationException` : The input does not satisfy the constraints specified by the service. Check your request parameters and retry the request.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = Smithy.ContextBuilder()
@@ -914,6 +916,7 @@ extension AccountAccessClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this operation.
     /// - `InternalServerException` : An internal service error occurred. Try your request again later.
     /// - `ResourceNotFoundException` : The specified resource does not exist. Verify that the resource identifier is correct and that the resource exists in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Try your request again later.
     /// - `ValidationException` : The input does not satisfy the constraints specified by the service. Check your request parameters and retry the request.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = Smithy.ContextBuilder()

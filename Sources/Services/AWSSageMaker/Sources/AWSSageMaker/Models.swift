@@ -26603,6 +26603,8 @@ public struct CreateMlflowAppInput: Swift.Sendable {
     public var artifactStoreUri: Swift.String?
     /// List of SageMaker domain IDs for which this MLflow App is used as the default.
     public var defaultDomainIdList: [Swift.String]?
+    /// The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. If you don't specify a value, the MLflow App is not encrypted with a customer-managed key.
+    public var kmsKeyId: Swift.String?
     /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationDisabled.
     public var modelRegistrationMode: SageMakerClientTypes.ModelRegistrationMode?
     /// A string identifying the MLflow app name. This string is not part of the tracking server ARN.
@@ -26620,6 +26622,7 @@ public struct CreateMlflowAppInput: Swift.Sendable {
         accountDefaultStatus: SageMakerClientTypes.AccountDefaultStatus? = nil,
         artifactStoreUri: Swift.String? = nil,
         defaultDomainIdList: [Swift.String]? = nil,
+        kmsKeyId: Swift.String? = nil,
         modelRegistrationMode: SageMakerClientTypes.ModelRegistrationMode? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -26629,6 +26632,7 @@ public struct CreateMlflowAppInput: Swift.Sendable {
         self.accountDefaultStatus = accountDefaultStatus
         self.artifactStoreUri = artifactStoreUri
         self.defaultDomainIdList = defaultDomainIdList
+        self.kmsKeyId = kmsKeyId
         self.modelRegistrationMode = modelRegistrationMode
         self.name = name
         self.roleArn = roleArn
@@ -29780,11 +29784,13 @@ extension SageMakerClientTypes {
 
     public enum PartnerAppAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case iam
+        case idc
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PartnerAppAuthType] {
             return [
-                .iam
+                .iam,
+                .idc
             ]
         }
 
@@ -29796,8 +29802,25 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .iam: return "IAM"
+            case .idc: return "IDC"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the Amazon Web Services IAM Identity Center configuration to use for a SageMaker Partner AI App that uses IDC authorization.
+    public struct IdcConfigInput: Swift.Sendable {
+        /// The ARN of the Amazon Web Services IAM Identity Center instance that the SageMaker Partner AI App uses to authenticate users.
+        /// This member is required.
+        public var instanceArn: Swift.String?
+
+        public init(
+            instanceArn: Swift.String? = nil
+        ) {
+            self.instanceArn = instanceArn
         }
     }
 }
@@ -29855,7 +29878,11 @@ extension SageMakerClientTypes {
 public struct CreatePartnerAppInput: Swift.Sendable {
     /// Configuration settings for the SageMaker Partner AI App.
     public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
-    /// The authorization type that users use to access the SageMaker Partner AI App.
+    /// The authorization type that users use to access the SageMaker Partner AI App. Valid values:
+    ///
+    /// * IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.
+    ///
+    /// * IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig.
     /// This member is required.
     public var authType: SageMakerClientTypes.PartnerAppAuthType?
     /// A unique token that guarantees that the call to this API is idempotent.
@@ -29867,6 +29894,8 @@ public struct CreatePartnerAppInput: Swift.Sendable {
     /// The ARN of the IAM role that the partner application uses.
     /// This member is required.
     public var executionRoleArn: Swift.String?
+    /// Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when AuthType is IDC. Apps that use IAM authorization don't use this parameter.
+    public var idcConfig: SageMakerClientTypes.IdcConfigInput?
     /// SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     public var kmsKeyId: Swift.String?
     /// Maintenance configuration settings for the SageMaker Partner AI App.
@@ -29890,6 +29919,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         enableAutoMinorVersionUpgrade: Swift.Bool? = nil,
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         executionRoleArn: Swift.String? = nil,
+        idcConfig: SageMakerClientTypes.IdcConfigInput? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
         name: Swift.String? = nil,
@@ -29903,6 +29933,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.executionRoleArn = executionRoleArn
+        self.idcConfig = idcConfig
         self.kmsKeyId = kmsKeyId
         self.maintenanceConfig = maintenanceConfig
         self.name = name
@@ -40038,6 +40069,8 @@ public struct DescribeMlflowAppOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// List of SageMaker Domain IDs for which this MLflow App is the default.
     public var defaultDomainIdList: [Swift.String]?
+    /// The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. This field is absent if the MLflow App is not encrypted with a customer-managed key.
+    public var kmsKeyId: Swift.String?
     /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The timestamp when the MLflow App was last modified.
@@ -40064,6 +40097,7 @@ public struct DescribeMlflowAppOutput: Swift.Sendable {
         createdBy: SageMakerClientTypes.UserContext? = nil,
         creationTime: Foundation.Date? = nil,
         defaultDomainIdList: [Swift.String]? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         maintenanceStatus: SageMakerClientTypes.MaintenanceStatus? = nil,
@@ -40080,6 +40114,7 @@ public struct DescribeMlflowAppOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.defaultDomainIdList = defaultDomainIdList
+        self.kmsKeyId = kmsKeyId
         self.lastModifiedBy = lastModifiedBy
         self.lastModifiedTime = lastModifiedTime
         self.maintenanceStatus = maintenanceStatus
@@ -41862,6 +41897,26 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Contains the Amazon Web Services IAM Identity Center configuration of a SageMaker Partner AI App that uses IDC authorization.
+    public struct IdcConfigOutput: Swift.Sendable {
+        /// The ARN of the Amazon Web Services IAM Identity Center application that SageMaker creates for the SageMaker Partner AI App.
+        public var applicationArn: Swift.String?
+        /// The ARN of the Amazon Web Services IAM Identity Center instance that the SageMaker Partner AI App uses to authenticate users.
+        /// This member is required.
+        public var instanceArn: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            instanceArn: Swift.String? = nil
+        ) {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum PartnerAppStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case creating
@@ -41909,7 +41964,11 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
     public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
     /// The ARN of the SageMaker Partner AI App that was described.
     public var arn: Swift.String?
-    /// The authorization type that users use to access the SageMaker Partner AI App.
+    /// The authorization type that users use to access the SageMaker Partner AI App. Valid values:
+    ///
+    /// * IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.
+    ///
+    /// * IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity.
     public var authType: SageMakerClientTypes.PartnerAppAuthType?
     /// A map of available minor version upgrades for the SageMaker Partner AI App. The key is the semantic version number, and the value is a list of release notes for that version. A null value indicates no upgrades are available.
     public var availableUpgrade: SageMakerClientTypes.AvailableUpgrade?
@@ -41927,6 +41986,8 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
     public var error: SageMakerClientTypes.ErrorInfo?
     /// The ARN of the IAM role associated with the SageMaker Partner AI App.
     public var executionRoleArn: Swift.String?
+    /// Contains the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App, including the Identity Center instance and the Identity Center application that SageMaker creates for the app. The service returns this field for apps that use IDC authorization.
+    public var idcConfig: SageMakerClientTypes.IdcConfigOutput?
     /// The Amazon Web Services KMS customer managed key used to encrypt the data at rest associated with SageMaker Partner AI Apps.
     public var kmsKeyId: Swift.String?
     /// The time that the SageMaker Partner AI App was last modified.
@@ -41970,6 +42031,7 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         error: SageMakerClientTypes.ErrorInfo? = nil,
         executionRoleArn: Swift.String? = nil,
+        idcConfig: SageMakerClientTypes.IdcConfigOutput? = nil,
         kmsKeyId: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
@@ -41990,6 +42052,7 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.error = error
         self.executionRoleArn = executionRoleArn
+        self.idcConfig = idcConfig
         self.kmsKeyId = kmsKeyId
         self.lastModifiedTime = lastModifiedTime
         self.maintenanceConfig = maintenanceConfig
@@ -61514,12 +61577,20 @@ public struct UpdatePartnerAppInput: Swift.Sendable {
     /// The ARN of the SageMaker Partner AI App to update.
     /// This member is required.
     public var arn: Swift.String?
+    /// The authorization type that users use to access the SageMaker Partner AI App. Use this parameter to migrate an existing SageMaker Partner AI App from IAM authorization to IDC authorization. Valid values:
+    ///
+    /// * IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.
+    ///
+    /// * IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig.
+    public var authType: SageMakerClientTypes.PartnerAppAuthType?
     /// A unique token that guarantees that the call to this API is idempotent.
     public var clientToken: Swift.String?
     /// When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available.
     public var enableAutoMinorVersionUpgrade: Swift.Bool?
     /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when AuthType is IDC. Apps that use IAM authorization don't use this parameter.
+    public var idcConfig: SageMakerClientTypes.IdcConfigInput?
     /// Maintenance configuration settings for the SageMaker Partner AI App.
     public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
     /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
@@ -61531,9 +61602,11 @@ public struct UpdatePartnerAppInput: Swift.Sendable {
         appVersion: Swift.String? = nil,
         applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
         arn: Swift.String? = nil,
+        authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
         clientToken: Swift.String? = nil,
         enableAutoMinorVersionUpgrade: Swift.Bool? = nil,
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        idcConfig: SageMakerClientTypes.IdcConfigInput? = nil,
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         tier: Swift.String? = nil
@@ -61541,9 +61614,11 @@ public struct UpdatePartnerAppInput: Swift.Sendable {
         self.appVersion = appVersion
         self.applicationConfig = applicationConfig
         self.arn = arn
+        self.authType = authType
         self.clientToken = clientToken
         self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.idcConfig = idcConfig
         self.maintenanceConfig = maintenanceConfig
         self.tags = tags
         self.tier = tier

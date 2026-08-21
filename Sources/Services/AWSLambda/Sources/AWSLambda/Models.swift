@@ -76,6 +76,11 @@ public struct DeleteProvisionedConcurrencyConfigOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct RemoveLayerVersionPermissionOutput: Swift.Sendable {
 
     public init() { }
@@ -441,7 +446,7 @@ public struct AddLayerVersionPermissionOutput: Swift.Sendable {
     }
 }
 
-/// The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see [Block public access to Lambda resources](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#access-control-block-public-access).
+/// The resource-based policy you tried to add to the Lambda resource would grant public access to it, which isn't allowed.
 public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1917,6 +1922,22 @@ public struct DeleteFunctionEventInvokeConfigInput: Swift.Sendable {
     ) {
         self.functionName = functionName
         self.qualifier = qualifier
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Lambda resource you want to delete the policy from. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The revision ID that the existing policy must match for the deletion to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the [GetResourcePolicy] operation.
+    public var revisionId: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.revisionId = revisionId
     }
 }
 
@@ -3898,7 +3919,7 @@ extension LambdaClientTypes {
 
     /// The [ provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source.
     public struct ProvisionedPollerConfig: Swift.Sendable {
-        /// The maximum number of event pollers this event source can scale up to. For Amazon SQS events source mappings, default is 200, and minimum value allowed is 2. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 200, and minimum value allowed is 1.
+        /// The maximum number of event pollers this event source can scale up to. For Amazon SQS event source mappings, the accepted range is between 2 and 10,000, with a default of 200. For Amazon MSK and self-managed Apache Kafka event source mappings, the accepted range is between 1 and 2,000, with a default of 200.
         public var maximumPollers: Swift.Int?
         /// The minimum number of event pollers this event source can scale down to. For Amazon SQS events source mappings, default is 2, and minimum 2 required. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 1.
         public var minimumPollers: Swift.Int?
@@ -11151,6 +11172,33 @@ public struct GetFunctionEventInvokeConfigOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Lambda resource you want to retrieve the policy for. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The resource-based policy attached to the Lambda resource you specified.
+    public var policy: Swift.String?
+    /// The revision ID of the policy. Pass this value as the RevisionId in a [PutResourcePolicy] or [DeleteResourcePolicy] request. Doing so ensures the operation acts on the expected version of the policy.
+    public var revisionId: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.revisionId = revisionId
+    }
+}
+
 public struct ListLayersInput: Swift.Sendable {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
@@ -12046,6 +12094,42 @@ public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
     }
 }
 
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see [Working with resource-based policies in Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) in the Lambda Developer Guide.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The revision ID that the existing policy must match for the replacement to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the [GetResourcePolicy] operation.
+    public var revisionId: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+        self.revisionId = revisionId
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The resource-based policy that Lambda adds to the resource.
+    public var policy: Swift.String?
+    /// The revision ID of the policy that Lambda adds to your Lambda resource.
+    public var revisionId: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.revisionId = revisionId
+    }
+}
+
 /// The callback ID token has either expired or the callback associated with the token has already been closed.
 public struct CallbackTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -12544,6 +12628,28 @@ extension DeleteProvisionedConcurrencyConfigInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2026-07-09/resource-policy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let revisionId = value.revisionId {
+            let revisionIdQueryItem = Smithy.URIQueryItem(name: "RevisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            items.append(revisionIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetAccountSettingsInput {
 
     static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
@@ -12915,6 +13021,16 @@ extension GetProvisionedConcurrencyConfigInput {
         let qualifierQueryItem = Smithy.URIQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
         items.append(qualifierQueryItem)
         return items
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2026-07-09/resource-policy/\(resourceArn.urlPercentEncoding())"
     }
 }
 
@@ -13583,6 +13699,16 @@ extension PutProvisionedConcurrencyConfigInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2026-07-09/resource-policy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension PutRuntimeManagementConfigInput {
 
     static func urlPathProvider(_ value: PutRuntimeManagementConfigInput) -> Swift.String? {
@@ -14098,6 +14224,15 @@ extension PutProvisionedConcurrencyConfigInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Policy"].write(value.policy)
+        try writer["RevisionId"].write(value.revisionId)
+    }
+}
+
 extension PutRuntimeManagementConfigInput {
 
     static func write(value: PutRuntimeManagementConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -14576,6 +14711,13 @@ extension DeleteProvisionedConcurrencyConfigOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
+    }
+}
+
 extension GetAccountSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountSettingsOutput {
@@ -14955,6 +15097,19 @@ extension GetProvisionedConcurrencyConfigOutput {
         value.requestedProvisionedConcurrentExecutions = try reader["RequestedProvisionedConcurrentExecutions"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.revisionId = try reader["RevisionId"].readIfPresent()
         return value
     }
 }
@@ -15375,6 +15530,19 @@ extension PutProvisionedConcurrencyConfigOutput {
         value.requestedProvisionedConcurrentExecutions = try reader["RequestedProvisionedConcurrentExecutions"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.revisionId = try reader["RevisionId"].readIfPresent()
         return value
     }
 }
@@ -16045,6 +16213,25 @@ enum DeleteProvisionedConcurrencyConfigOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAccountSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16404,6 +16591,23 @@ enum GetProvisionedConcurrencyConfigOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ProvisionedConcurrencyConfigNotFoundException": return try ProvisionedConcurrencyConfigNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16965,6 +17169,27 @@ enum PutProvisionedConcurrencyConfigOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PolicyLengthExceededException": return try PolicyLengthExceededException.makeError(baseError: baseError)
+            case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
