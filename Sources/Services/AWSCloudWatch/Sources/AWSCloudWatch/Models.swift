@@ -1868,6 +1868,26 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    /// The configuration settings that define the warm-up behavior for an alarm. Use these settings to delay alarm evaluation after you create or update the alarm, which reduces alarm noise while a new resource or service starts publishing data. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions.
+    public struct WarmUpConfiguration: Swift.Sendable {
+        /// Specifies whether the alarm waits for the full warm-up period before it starts to evaluate. The default is false. If true, the alarm waits the entire WarmUpPeriodDurationInMinutes before it starts to evaluate, even if metric data arrives earlier. If false, the alarm ends the warm-up period early. Evaluation begins as soon as the alarm has enough metric data to fill its evaluation window.
+        public var onlyStartEvaluatingAfterWarmUpPeriodEnds: Swift.Bool?
+        /// The length of the warm-up period, in minutes. After you create or update the alarm, the alarm stays in INSUFFICIENT_DATA for this duration. During this time, the alarm does not perform alarm actions. You can change this value at any time, including after the warm-up period ends. If you change it after the warm-up period ends, the new value does not restart the warm-up period.
+        /// This member is required.
+        public var warmUpPeriodDurationInMinutes: Swift.Int?
+
+        public init(
+            onlyStartEvaluatingAfterWarmUpPeriodEnds: Swift.Bool? = nil,
+            warmUpPeriodDurationInMinutes: Swift.Int? = nil
+        ) {
+            self.onlyStartEvaluatingAfterWarmUpPeriodEnds = onlyStartEvaluatingAfterWarmUpPeriodEnds
+            self.warmUpPeriodDurationInMinutes = warmUpPeriodDurationInMinutes
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// The details about a log alarm.
     public struct LogAlarm: Swift.Sendable {
         /// The number of log lines from the most recent scheduled query execution that are included in alarm action notifications. Valid range is 0 through 50. A value of 0 means no log lines are included.
@@ -1914,6 +1934,8 @@ extension CloudWatchClientTypes {
         public var threshold: Swift.Double?
         /// How this alarm handles missing data points. Valid values are breaching, notBreaching, ignore, and missing.
         public var treatMissingData: Swift.String?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions. For more information, see [Alarm warm-up periods](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-warm-up.html) in the Amazon CloudWatch User Guide.
+        public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
         public init(
             actionLogLineCount: Swift.Int? = nil,
@@ -1937,7 +1959,8 @@ extension CloudWatchClientTypes {
             stateUpdatedTimestamp: Foundation.Date? = nil,
             stateValue: CloudWatchClientTypes.StateValue? = nil,
             threshold: Swift.Double? = nil,
-            treatMissingData: Swift.String? = nil
+            treatMissingData: Swift.String? = nil,
+            warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
         ) {
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
@@ -1961,6 +1984,7 @@ extension CloudWatchClientTypes {
             self.stateValue = stateValue
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+            self.warmUpConfiguration = warmUpConfiguration
         }
     }
 }
@@ -2117,6 +2141,8 @@ extension CloudWatchClientTypes {
         public var treatMissingData: Swift.String?
         /// The unit of the metric associated with the alarm.
         public var unit: CloudWatchClientTypes.StandardUnit?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions. For more information, see [Alarm warm-up periods](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-warm-up.html) in the Amazon CloudWatch User Guide.
+        public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
         public init(
             actionsEnabled: Swift.Bool? = nil,
@@ -2150,7 +2176,8 @@ extension CloudWatchClientTypes {
             threshold: Swift.Double? = nil,
             thresholdMetricId: Swift.String? = nil,
             treatMissingData: Swift.String? = nil,
-            unit: CloudWatchClientTypes.StandardUnit? = nil
+            unit: CloudWatchClientTypes.StandardUnit? = nil,
+            warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
         ) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
@@ -2184,6 +2211,7 @@ extension CloudWatchClientTypes {
             self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
+            self.warmUpConfiguration = warmUpConfiguration
         }
     }
 }
@@ -3358,9 +3386,9 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
-    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. This structure contains information for one metric that includes additional statistics in the stream. For more information about statistics, see CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html).
+    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. This structure contains information for one metric that includes additional statistics in the stream. For more information about statistics, see CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html).
     public struct MetricStreamStatisticsConfiguration: Swift.Sendable {
-        /// The list of additional statistics that are to be streamed for the metrics listed in the IncludeMetrics array in this structure. This list can include as many as 20 statistics. If the OutputFormat for the stream is opentelemetry1.0 or opentelemetry0.7, the only valid values are p??  percentile statistics such as p90, p99 and so on. If the OutputFormat for the stream is json, the valid values include the abbreviations for all of the statistics listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). For example, this includes tm98, wm90, PR(:300), and so on.
+        /// The list of additional statistics that are to be streamed for the metrics listed in the IncludeMetrics array in this structure. This list can include as many as 20 statistics. If the OutputFormat for the stream is opentelemetry1.0 or opentelemetry0.7, the only valid values are p??  percentile statistics such as p90, p99 and so on. If the OutputFormat for the stream is json, the valid values include the abbreviations for all of the statistics listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html). For example, this includes tm98, wm90, PR(:300), and so on.
         /// This member is required.
         public var additionalStatistics: [Swift.String]?
         /// An array of metric name and namespace pairs that stream the additional statistics listed in the value of the AdditionalStatistics parameter. There can be as many as 100 pairs in the array. All metrics that match the combination of metric name and namespace will be streamed with the additional statistics, no matter their dimensions.
@@ -3400,7 +3428,7 @@ public struct GetMetricStreamOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The state of the metric stream. The possible values are running and stopped.
     public var state: Swift.String?
-    /// Each entry in this array displays information about one or more metrics that include additional statistics in the metric stream. For more information about the additional statistics, see [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html).
+    /// Each entry in this array displays information about one or more metrics that include additional statistics in the metric stream. For more information about the additional statistics, see [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html).
     public var statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]?
 
     public init(
@@ -4210,6 +4238,8 @@ public struct PutLogAlarmInput: Swift.Sendable {
     public var threshold: Swift.Double?
     /// Sets how this alarm is to handle missing data points. Valid values are breaching, notBreaching, ignore, and missing. If this parameter is omitted, the default behavior of missing is used.
     public var treatMissingData: Swift.String?
+    /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing data. For more information, see [Alarm warm-up periods](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-warm-up.html) in the Amazon CloudWatch User Guide.
+    public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
     public init(
         actionLogLineCount: Swift.Int? = nil,
@@ -4226,7 +4256,8 @@ public struct PutLogAlarmInput: Swift.Sendable {
         scheduledQueryConfiguration: CloudWatchClientTypes.ScheduledQueryConfiguration? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil,
         threshold: Swift.Double? = nil,
-        treatMissingData: Swift.String? = nil
+        treatMissingData: Swift.String? = nil,
+        warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
     ) {
         self.actionLogLineCount = actionLogLineCount
         self.actionLogLineRoleArn = actionLogLineRoleArn
@@ -4243,6 +4274,7 @@ public struct PutLogAlarmInput: Swift.Sendable {
         self.tags = tags
         self.threshold = threshold
         self.treatMissingData = treatMissingData
+        self.warmUpConfiguration = warmUpConfiguration
     }
 }
 
@@ -4500,6 +4532,8 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var treatMissingData: Swift.String?
     /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
     public var unit: CloudWatchClientTypes.StandardUnit?
+    /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing metrics. For more information, see [Alarm warm-up periods](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-warm-up.html) in the Amazon CloudWatch User Guide.
+    public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
     public init(
         actionsEnabled: Swift.Bool? = nil,
@@ -4526,7 +4560,8 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         threshold: Swift.Double? = nil,
         thresholdMetricId: Swift.String? = nil,
         treatMissingData: Swift.String? = nil,
-        unit: CloudWatchClientTypes.StandardUnit? = nil
+        unit: CloudWatchClientTypes.StandardUnit? = nil,
+        warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
     ) {
         self.actionsEnabled = actionsEnabled
         self.alarmActions = alarmActions
@@ -4553,6 +4588,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         self.thresholdMetricId = thresholdMetricId
         self.treatMissingData = treatMissingData
         self.unit = unit
+        self.warmUpConfiguration = warmUpConfiguration
     }
 }
 
@@ -4625,7 +4661,7 @@ public struct PutMetricStreamInput: Swift.Sendable {
     /// * firehose:PutRecordBatch
     /// This member is required.
     public var roleArn: Swift.String?
-    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). If the OutputFormat is opentelemetry1.0 or opentelemetry0.7, you can stream percentile statistics such as p95, p99.9, and so on.
+    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html). If the OutputFormat is opentelemetry1.0 or opentelemetry0.7, you can stream percentile statistics such as p95, p99.9, and so on.
     public var statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]?
     /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. You can use this parameter only when you are creating a new metric stream. If you are using this operation to update an existing metric stream, any tags you specify in this parameter are ignored. To change the tags of an existing metric stream, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
     public var tags: [CloudWatchClientTypes.Tag]?
