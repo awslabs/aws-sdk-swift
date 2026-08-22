@@ -107,7 +107,9 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         case .data(let data):
             try await calculateAndAddChecksumHeader(data: data)
         case .stream(let stream):
-            if stream.isEligibleForChunkedStreaming {
+            // Use aws-chunked encoding only when the stream is eligible AND the client has not
+            // disabled it via the `enableAwsChunked` config flag (defaults to true when unset).
+            if stream.isEligibleForChunkedStreaming && attributes.enableAwsChunked {
                 try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
                 // Handle calculating and adding checksum header in ChunkedStream
                 builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
