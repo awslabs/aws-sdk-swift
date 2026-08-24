@@ -166,12 +166,12 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
 
 extension ConnectContactLensClientTypes {
 
-    /// The section of the contact audio where that category rule was detected.
+    /// The section of the contact audio where a match was detected.
     public struct PointOfInterest: Swift.Sendable {
-        /// The beginning offset in milliseconds where the category rule was detected.
+        /// The beginning offset (in milliseconds) where the match was detected.
         /// This member is required.
         public var beginOffsetMillis: Swift.Int?
-        /// The ending offset in milliseconds where the category rule was detected.
+        /// The ending offset (in milliseconds) where the match was detected.
         /// This member is required.
         public var endOffsetMillis: Swift.Int?
 
@@ -218,6 +218,108 @@ extension ConnectContactLensClientTypes {
         ) {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// An individual value extracted from the conversation, including its content and the locations where it was found.
+    public struct ExtractedInformationValue: Swift.Sendable {
+        /// The text content of the extracted value.
+        /// This member is required.
+        public var content: Swift.String?
+        /// The sections in the conversation that indicate where the extracted value was found.
+        /// This member is required.
+        public var pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]?
+
+        public init(
+            content: Swift.String? = nil,
+            pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]? = nil
+        ) {
+            self.content = content
+            self.pointsOfInterest = pointsOfInterest
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    public enum ExtractedInformationFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedSafetyGuidelines
+        case insufficientConversationContent
+        case internalError
+        case maxPackageFeatureOnly
+        case quotaExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtractedInformationFailureCode] {
+            return [
+                .failedSafetyGuidelines,
+                .insufficientConversationContent,
+                .internalError,
+                .maxPackageFeatureOnly,
+                .quotaExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedSafetyGuidelines: return "FAILED_SAFETY_GUIDELINES"
+            case .insufficientConversationContent: return "INSUFFICIENT_CONVERSATION_CONTENT"
+            case .internalError: return "INTERNAL_ERROR"
+            case .maxPackageFeatureOnly: return "MAX_PACKAGE_FEATURE_ONLY"
+            case .quotaExceeded: return "QUOTA_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// Segment containing information extracted from the conversation. Each segment represents the results for a single extraction definition.
+    public struct ExtractedInformation: Swift.Sendable {
+        /// The list of values extracted from the conversation for this extraction definition. This field is empty when a FailureCode is present.
+        public var extractedValues: [ConnectContactLensClientTypes.ExtractedInformationValue]?
+        /// The display label of the extraction definition that produced this result.
+        public var extractionDefinitionDisplayLabel: Swift.String?
+        /// The identifier of the extraction definition that produced this result.
+        /// This member is required.
+        public var extractionDefinitionId: Swift.String?
+        /// The name of the extraction definition that produced this result.
+        /// This member is required.
+        public var extractionDefinitionName: Swift.String?
+        /// If the information failed to be extracted, one of the following failure codes occurs:
+        ///
+        /// * QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.
+        ///
+        /// * INSUFFICIENT_CONVERSATION_CONTENT: Information extraction requires a conversation with at least one turn from each participant.
+        ///
+        /// * FAILED_SAFETY_GUIDELINES: The extracted information cannot be provided because it failed to meet system safety guidelines.
+        ///
+        /// * INTERNAL_ERROR: Internal system error.
+        ///
+        /// * MAX_PACKAGE_FEATURE_ONLY: Information extraction is only available in Amazon Connect Customer instances.
+        public var failureCode: ConnectContactLensClientTypes.ExtractedInformationFailureCode?
+
+        public init(
+            extractedValues: [ConnectContactLensClientTypes.ExtractedInformationValue]? = nil,
+            extractionDefinitionDisplayLabel: Swift.String? = nil,
+            extractionDefinitionId: Swift.String? = nil,
+            extractionDefinitionName: Swift.String? = nil,
+            failureCode: ConnectContactLensClientTypes.ExtractedInformationFailureCode? = nil
+        ) {
+            self.extractedValues = extractedValues
+            self.extractionDefinitionDisplayLabel = extractionDefinitionDisplayLabel
+            self.extractionDefinitionId = extractionDefinitionId
+            self.extractionDefinitionName = extractionDefinitionName
+            self.failureCode = failureCode
         }
     }
 }
@@ -447,6 +549,8 @@ extension ConnectContactLensClientTypes {
     public struct RealtimeContactAnalysisSegment: Swift.Sendable {
         /// The matched category rules.
         public var categories: ConnectContactLensClientTypes.Categories?
+        /// The extracted information from the conversation.
+        public var extractedInformation: ConnectContactLensClientTypes.ExtractedInformation?
         /// Information about the post-contact summary.
         public var postContactSummary: ConnectContactLensClientTypes.PostContactSummary?
         /// The analyzed transcript.
@@ -454,10 +558,12 @@ extension ConnectContactLensClientTypes {
 
         public init(
             categories: ConnectContactLensClientTypes.Categories? = nil,
+            extractedInformation: ConnectContactLensClientTypes.ExtractedInformation? = nil,
             postContactSummary: ConnectContactLensClientTypes.PostContactSummary? = nil,
             transcript: ConnectContactLensClientTypes.Transcript? = nil
         ) {
             self.categories = categories
+            self.extractedInformation = extractedInformation
             self.postContactSummary = postContactSummary
             self.transcript = transcript
         }
@@ -633,6 +739,31 @@ extension ConnectContactLensClientTypes.CharacterOffsets {
     }
 }
 
+extension ConnectContactLensClientTypes.ExtractedInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.ExtractedInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.ExtractedInformation()
+        value.extractionDefinitionId = try reader["ExtractionDefinitionId"].readIfPresent() ?? ""
+        value.extractionDefinitionName = try reader["ExtractionDefinitionName"].readIfPresent() ?? ""
+        value.extractionDefinitionDisplayLabel = try reader["ExtractionDefinitionDisplayLabel"].readIfPresent()
+        value.extractedValues = try reader["ExtractedValues"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.ExtractedInformationValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.ExtractedInformationValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.ExtractedInformationValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.ExtractedInformationValue()
+        value.content = try reader["Content"].readIfPresent() ?? ""
+        value.pointsOfInterest = try reader["PointsOfInterest"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.PointOfInterest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ConnectContactLensClientTypes.IssueDetected {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.IssueDetected {
@@ -674,6 +805,7 @@ extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
         value.transcript = try reader["Transcript"].readIfPresent(with: ConnectContactLensClientTypes.Transcript.read(from:))
         value.categories = try reader["Categories"].readIfPresent(with: ConnectContactLensClientTypes.Categories.read(from:))
         value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
+        value.extractedInformation = try reader["ExtractedInformation"].readIfPresent(with: ConnectContactLensClientTypes.ExtractedInformation.read(from:))
         return value
     }
 }

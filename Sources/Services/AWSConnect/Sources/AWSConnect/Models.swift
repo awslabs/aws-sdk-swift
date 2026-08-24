@@ -25489,6 +25489,7 @@ extension ConnectClientTypes {
         case attachments
         case categories
         case event
+        case extractedinformation
         case issues
         case postcontactsummary
         case transcript
@@ -25499,6 +25500,7 @@ extension ConnectClientTypes {
                 .attachments,
                 .categories,
                 .event,
+                .extractedinformation,
                 .issues,
                 .postcontactsummary,
                 .transcript
@@ -25515,6 +25517,7 @@ extension ConnectClientTypes {
             case .attachments: return "Attachments"
             case .categories: return "Categories"
             case .event: return "Event"
+            case .extractedinformation: return "ExtractedInformation"
             case .issues: return "Issues"
             case .postcontactsummary: return "PostContactSummary"
             case .transcript: return "Transcript"
@@ -25827,6 +25830,108 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// An individual value extracted from the conversation, including its content and the locations where it was found.
+    public struct RealTimeContactAnalysisExtractedInformationValue: Swift.Sendable {
+        /// The text content of the extracted value.
+        /// This member is required.
+        public var content: Swift.String?
+        /// The sections in the conversation that indicate where the extracted value was found.
+        /// This member is required.
+        public var pointsOfInterest: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]?
+
+        public init(
+            content: Swift.String? = nil,
+            pointsOfInterest: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]? = nil
+        ) {
+            self.content = content
+            self.pointsOfInterest = pointsOfInterest
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum RealTimeContactAnalysisExtractedInformationFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedSafetyGuidelines
+        case insufficientConversationContent
+        case internalError
+        case maxPackageFeatureOnly
+        case quotaExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RealTimeContactAnalysisExtractedInformationFailureCode] {
+            return [
+                .failedSafetyGuidelines,
+                .insufficientConversationContent,
+                .internalError,
+                .maxPackageFeatureOnly,
+                .quotaExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedSafetyGuidelines: return "FAILED_SAFETY_GUIDELINES"
+            case .insufficientConversationContent: return "INSUFFICIENT_CONVERSATION_CONTENT"
+            case .internalError: return "INTERNAL_ERROR"
+            case .maxPackageFeatureOnly: return "MAX_PACKAGE_FEATURE_ONLY"
+            case .quotaExceeded: return "QUOTA_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Segment containing information extracted from the conversation. Each segment represents the results for a single extraction definition.
+    public struct RealTimeContactAnalysisSegmentExtractedInformation: Swift.Sendable {
+        /// The list of values extracted from the conversation for this extraction definition. This field is empty when a FailureCode is present.
+        public var extractedValues: [ConnectClientTypes.RealTimeContactAnalysisExtractedInformationValue]?
+        /// The display label of the extraction definition that produced this result.
+        public var extractionDefinitionDisplayLabel: Swift.String?
+        /// The identifier of the extraction definition that produced this result.
+        /// This member is required.
+        public var extractionDefinitionId: Swift.String?
+        /// The name of the extraction definition that produced this result.
+        /// This member is required.
+        public var extractionDefinitionName: Swift.String?
+        /// If the information failed to be extracted, one of the following failure codes occurs:
+        ///
+        /// * QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.
+        ///
+        /// * INSUFFICIENT_CONVERSATION_CONTENT: Information extraction requires a conversation with at least one turn from each participant.
+        ///
+        /// * FAILED_SAFETY_GUIDELINES: The extracted information cannot be provided because it failed to meet system safety guidelines.
+        ///
+        /// * INTERNAL_ERROR: Internal system error.
+        ///
+        /// * MAX_PACKAGE_FEATURE_ONLY: Information extraction is only available in Amazon Connect Customer instances.
+        public var failureCode: ConnectClientTypes.RealTimeContactAnalysisExtractedInformationFailureCode?
+
+        public init(
+            extractedValues: [ConnectClientTypes.RealTimeContactAnalysisExtractedInformationValue]? = nil,
+            extractionDefinitionDisplayLabel: Swift.String? = nil,
+            extractionDefinitionId: Swift.String? = nil,
+            extractionDefinitionName: Swift.String? = nil,
+            failureCode: ConnectClientTypes.RealTimeContactAnalysisExtractedInformationFailureCode? = nil
+        ) {
+            self.extractedValues = extractedValues
+            self.extractionDefinitionDisplayLabel = extractionDefinitionDisplayLabel
+            self.extractionDefinitionId = extractionDefinitionId
+            self.extractionDefinitionName = extractionDefinitionName
+            self.failureCode = failureCode
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Transcript representation containing Id, Content and list of character intervals that are associated with analysis data. For example, this object within an issue detected would describe both content that contains identified issue and intervals where that content is taken from.
     public struct RealTimeContactAnalysisTranscriptItemWithContent: Swift.Sendable {
         /// Begin and end offsets for a part of text.
@@ -26097,6 +26202,8 @@ extension ConnectClientTypes {
         case attachments(ConnectClientTypes.RealTimeContactAnalysisSegmentAttachments)
         /// Information about the post-contact summary.
         case postcontactsummary(ConnectClientTypes.RealTimeContactAnalysisSegmentPostContactSummary)
+        /// The extracted information from the conversation.
+        case extractedinformation(ConnectClientTypes.RealTimeContactAnalysisSegmentExtractedInformation)
         case sdkUnknown(Swift.String)
     }
 }
@@ -65832,6 +65939,17 @@ extension ConnectClientTypes.RealTimeContactAnalysisCharacterInterval {
     }
 }
 
+extension ConnectClientTypes.RealTimeContactAnalysisExtractedInformationValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisExtractedInformationValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RealTimeContactAnalysisExtractedInformationValue()
+        value.content = try reader["Content"].readIfPresent() ?? ""
+        value.pointsOfInterest = try reader["PointsOfInterest"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ConnectClientTypes.RealTimeContactAnalysisIssueDetected {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisIssueDetected {
@@ -65870,6 +65988,8 @@ extension ConnectClientTypes.RealtimeContactAnalysisSegment {
                 return .attachments(try reader["Attachments"].read(with: ConnectClientTypes.RealTimeContactAnalysisSegmentAttachments.read(from:)))
             case "PostContactSummary":
                 return .postcontactsummary(try reader["PostContactSummary"].read(with: ConnectClientTypes.RealTimeContactAnalysisSegmentPostContactSummary.read(from:)))
+            case "ExtractedInformation":
+                return .extractedinformation(try reader["ExtractedInformation"].read(with: ConnectClientTypes.RealTimeContactAnalysisSegmentExtractedInformation.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -65912,6 +66032,20 @@ extension ConnectClientTypes.RealTimeContactAnalysisSegmentEvent {
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.eventType = try reader["EventType"].readIfPresent() ?? ""
         value.time = try reader["Time"].readIfPresent(with: ConnectClientTypes.RealTimeContactAnalysisTimeData.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.RealTimeContactAnalysisSegmentExtractedInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RealTimeContactAnalysisSegmentExtractedInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RealTimeContactAnalysisSegmentExtractedInformation()
+        value.extractionDefinitionId = try reader["ExtractionDefinitionId"].readIfPresent() ?? ""
+        value.extractionDefinitionName = try reader["ExtractionDefinitionName"].readIfPresent() ?? ""
+        value.extractionDefinitionDisplayLabel = try reader["ExtractionDefinitionDisplayLabel"].readIfPresent()
+        value.extractedValues = try reader["ExtractedValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealTimeContactAnalysisExtractedInformationValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
         return value
     }
 }
