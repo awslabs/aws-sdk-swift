@@ -461,6 +461,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIAM](/sdk-for-swift/latest/api/awsiam/documentation/awsiam)
 
+[AWSIAMToolbox](/sdk-for-swift/latest/api/awsiamtoolbox/documentation/awsiamtoolbox)
+
 [AWSIVSRealTime](/sdk-for-swift/latest/api/awsivsrealtime/documentation/awsivsrealtime)
 
 [AWSIdentitystore](/sdk-for-swift/latest/api/awsidentitystore/documentation/awsidentitystore)

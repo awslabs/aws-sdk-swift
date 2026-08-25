@@ -882,6 +882,115 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    /// The batching configuration of an InfluxDB rule action. IoT closes a batch and writes it to InfluxDB when the first of the configured limits is reached.
+    public struct InfluxDBBatchConfig: Swift.Sendable {
+        /// Specifies whether to collect data points from different topics into the same batch. If omitted or false, IoT batches data points for each topic separately.
+        public var batchAcrossTopics: Swift.Bool
+        /// The maximum length of time, in milliseconds, to keep a batch open before writing it to InfluxDB. If you don't specify a value, this limit doesn't apply. IoT then closes each batch when another configured limit is reached.
+        public var maxBatchOpenMs: Swift.Int?
+        /// The maximum number of data points to collect in a batch. If you don't specify a value, this limit doesn't apply. IoT then closes each batch when another configured limit is reached.
+        public var maxBatchSize: Swift.Int?
+        /// The maximum size of a batch, in bytes, before IoT writes it to InfluxDB. If you don't specify a value, this limit doesn't apply. IoT then closes each batch when another configured limit is reached.
+        public var maxBatchSizeBytes: Swift.Int?
+
+        public init(
+            batchAcrossTopics: Swift.Bool = false,
+            maxBatchOpenMs: Swift.Int? = nil,
+            maxBatchSize: Swift.Int? = nil,
+            maxBatchSizeBytes: Swift.Int? = nil
+        ) {
+            self.batchAcrossTopics = batchAcrossTopics
+            self.maxBatchOpenMs = maxBatchOpenMs
+            self.maxBatchSize = maxBatchSize
+            self.maxBatchSizeBytes = maxBatchSizeBytes
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum InfluxDBTimestampUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case microseconds
+        case milliseconds
+        case nanoseconds
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InfluxDBTimestampUnit] {
+            return [
+                .microseconds,
+                .milliseconds,
+                .nanoseconds,
+                .seconds
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .microseconds: return "us"
+            case .milliseconds: return "ms"
+            case .nanoseconds: return "ns"
+            case .seconds: return "s"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The InfluxDB rule action converts the message payload into InfluxDB line protocol. It writes the result to a table in an InfluxDB database. The database can be an Amazon Timestream for InfluxDB instance or a self-managed InfluxDB cluster. The action connects to InfluxDB through an InfluxDB topic rule destination, which must be in the ENABLED state before the action can write data.
+    public struct InfluxDBAction: Swift.Sendable {
+        /// The batching configuration for the action. When present, IoT collects data points from multiple messages and writes them to InfluxDB in a single request. If omitted, each message is written to InfluxDB in its own request.
+        public var batchConfig: IoTClientTypes.InfluxDBBatchConfig?
+        /// The name of the InfluxDB database to write to. In InfluxDB 2, this is the name of the bucket.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The ARN of the InfluxDB topic rule destination that identifies the InfluxDB instance to write to.
+        /// This member is required.
+        public var destinationArn: Swift.String?
+        /// The name of the InfluxDB organization that owns the database. A write to an InfluxDB 2 instance fails if this value isn't set. This value isn't used when the destination is an InfluxDB 3 instance.
+        public var organization: Swift.String?
+        /// The ARN of the role that grants permission to retrieve the InfluxDB API token from Amazon Web Services Secrets Manager.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The name of the table to write the data point to. This is the measurement name of the InfluxDB line protocol record. Accepts substitution templates.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The set of tags to write with each data point. Tags are the indexed metadata of an InfluxDB data point. Tag names and tag values accept substitution templates. A tag name can't use the @{...} per-element form. A tag name must resolve to the same value for every element of an array payload.
+        public var tags: [Swift.String: Swift.String]?
+        /// The precision of the timestamp written with each data point. Valid values are s (seconds), ms (milliseconds), us (microseconds), and ns (nanoseconds). If omitted, the topic rule action uses ms.
+        public var timestampUnit: IoTClientTypes.InfluxDBTimestampUnit?
+
+        public init(
+            batchConfig: IoTClientTypes.InfluxDBBatchConfig? = nil,
+            databaseName: Swift.String? = nil,
+            destinationArn: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            timestampUnit: IoTClientTypes.InfluxDBTimestampUnit? = nil
+        ) {
+            self.batchConfig = batchConfig
+            self.databaseName = databaseName
+            self.destinationArn = destinationArn
+            self.organization = organization
+            self.roleArn = roleArn
+            self.tableName = tableName
+            self.tags = tags
+            self.timestampUnit = timestampUnit
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// Sends message data to an IoT Analytics channel.
     public struct IotAnalyticsAction: Swift.Sendable {
         /// Whether to process the action as a batch. The default value is false. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is delivered as a separate message when passed by [BatchPutMessage](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_BatchPutMessage.html) to the IoT Analytics channel. The resulting array can't have more than 100 messages.
@@ -1630,6 +1739,8 @@ extension IoTClientTypes {
         public var firehose: IoTClientTypes.FirehoseAction?
         /// Send data to an HTTPS endpoint.
         public var http: IoTClientTypes.HttpAction?
+        /// Write data to an InfluxDB database.
+        public var influxDB: IoTClientTypes.InfluxDBAction?
         /// Sends message data to an IoT Analytics channel.
         public var iotAnalytics: IoTClientTypes.IotAnalyticsAction?
         /// Sends an input to an IoT Events detector.
@@ -1670,6 +1781,7 @@ extension IoTClientTypes {
             elasticsearch: IoTClientTypes.ElasticsearchAction? = nil,
             firehose: IoTClientTypes.FirehoseAction? = nil,
             http: IoTClientTypes.HttpAction? = nil,
+            influxDB: IoTClientTypes.InfluxDBAction? = nil,
             iotAnalytics: IoTClientTypes.IotAnalyticsAction? = nil,
             iotEvents: IoTClientTypes.IotEventsAction? = nil,
             iotSiteWise: IoTClientTypes.IotSiteWiseAction? = nil,
@@ -1694,6 +1806,7 @@ extension IoTClientTypes {
             self.elasticsearch = elasticsearch
             self.firehose = firehose
             self.http = http
+            self.influxDB = influxDB
             self.iotAnalytics = iotAnalytics
             self.iotEvents = iotEvents
             self.iotSiteWise = iotSiteWise
@@ -8104,6 +8217,98 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum InfluxDBVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case v2
+        case v3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InfluxDBVersion] {
+            return [
+                .v2,
+                .v3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .v2: return "V2"
+            case .v3: return "V3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum InfluxDBSecretType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case secretBinary
+        case secretString
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InfluxDBSecretType] {
+            return [
+                .secretBinary,
+                .secretString
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .secretBinary: return "SecretBinary"
+            case .secretString: return "SecretString"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The configuration of an InfluxDB topic rule destination.
+    public struct InfluxDBDestinationConfiguration: Swift.Sendable {
+        /// The URL of the InfluxDB instance to write to.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The major version of the InfluxDB instance. Valid values are V2 and V3.
+        /// This member is required.
+        public var influxDBVersion: IoTClientTypes.InfluxDBVersion?
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token.
+        /// This member is required.
+        public var secretId: Swift.String?
+        /// The key to read from the secret value when the secret contains a JSON object. If omitted, IoT uses the entire secret value as the InfluxDB API token.
+        public var secretKey: Swift.String?
+        /// The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary. If omitted, IoT reads the secret as a string.
+        public var secretType: IoTClientTypes.InfluxDBSecretType?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            influxDBVersion: IoTClientTypes.InfluxDBVersion? = nil,
+            secretId: Swift.String? = nil,
+            secretKey: Swift.String? = nil,
+            secretType: IoTClientTypes.InfluxDBSecretType? = nil
+        ) {
+            self.endpoint = endpoint
+            self.influxDBVersion = influxDBVersion
+            self.secretId = secretId
+            self.secretKey = secretKey
+            self.secretType = secretType
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The configuration information for a virtual private cloud (VPC) destination.
     public struct VpcDestinationConfiguration: Swift.Sendable {
         /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
@@ -8138,14 +8343,18 @@ extension IoTClientTypes {
     public struct TopicRuleDestinationConfiguration: Swift.Sendable {
         /// Configuration of the HTTP URL.
         public var httpUrlConfiguration: IoTClientTypes.HttpUrlDestinationConfiguration?
+        /// The configuration of an InfluxDB topic rule destination, which you specify when you call CreateTopicRuleDestination.
+        public var influxDBConfiguration: IoTClientTypes.InfluxDBDestinationConfiguration?
         /// Configuration of the virtual private cloud (VPC) connection.
         public var vpcConfiguration: IoTClientTypes.VpcDestinationConfiguration?
 
         public init(
             httpUrlConfiguration: IoTClientTypes.HttpUrlDestinationConfiguration? = nil,
+            influxDBConfiguration: IoTClientTypes.InfluxDBDestinationConfiguration? = nil,
             vpcConfiguration: IoTClientTypes.VpcDestinationConfiguration? = nil
         ) {
             self.httpUrlConfiguration = httpUrlConfiguration
+            self.influxDBConfiguration = influxDBConfiguration
             self.vpcConfiguration = vpcConfiguration
         }
     }
@@ -8174,6 +8383,37 @@ extension IoTClientTypes {
             confirmationUrl: Swift.String? = nil
         ) {
             self.confirmationUrl = confirmationUrl
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The properties of an existing InfluxDB topic rule destination, as returned by CreateTopicRuleDestination and GetTopicRuleDestination.
+    public struct InfluxDBDestinationProperties: Swift.Sendable {
+        /// The URL of the InfluxDB instance that the destination writes to.
+        public var endpoint: Swift.String?
+        /// The major version of the InfluxDB instance. Valid values are V2 and V3.
+        public var influxDBVersion: IoTClientTypes.InfluxDBVersion?
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token.
+        public var secretId: Swift.String?
+        /// The key that is read from the secret value when the secret contains a JSON object.
+        public var secretKey: Swift.String?
+        /// The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary.
+        public var secretType: IoTClientTypes.InfluxDBSecretType?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            influxDBVersion: IoTClientTypes.InfluxDBVersion? = nil,
+            secretId: Swift.String? = nil,
+            secretKey: Swift.String? = nil,
+            secretType: IoTClientTypes.InfluxDBSecretType? = nil
+        ) {
+            self.endpoint = endpoint
+            self.influxDBVersion = influxDBVersion
+            self.secretId = secretId
+            self.secretKey = secretKey
+            self.secretType = secretType
         }
     }
 }
@@ -8253,6 +8493,8 @@ extension IoTClientTypes {
         public var createdAt: Foundation.Date?
         /// Properties of the HTTP URL.
         public var httpUrlProperties: IoTClientTypes.HttpUrlDestinationProperties?
+        /// The properties of an InfluxDB topic rule destination, as returned by CreateTopicRuleDestination and GetTopicRuleDestination.
+        public var influxDBProperties: IoTClientTypes.InfluxDBDestinationProperties?
         /// The date and time when the topic rule destination was last updated.
         public var lastUpdatedAt: Foundation.Date?
         /// The status of the topic rule destination. Valid values are: IN_PROGRESS A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint. ENABLED Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination. DISABLED Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination. ERROR Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
@@ -8266,6 +8508,7 @@ extension IoTClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             httpUrlProperties: IoTClientTypes.HttpUrlDestinationProperties? = nil,
+            influxDBProperties: IoTClientTypes.InfluxDBDestinationProperties? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             status: IoTClientTypes.TopicRuleDestinationStatus? = nil,
             statusReason: Swift.String? = nil,
@@ -8274,6 +8517,7 @@ extension IoTClientTypes {
             self.arn = arn
             self.createdAt = createdAt
             self.httpUrlProperties = httpUrlProperties
+            self.influxDBProperties = influxDBProperties
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusReason = statusReason
@@ -17562,6 +17806,37 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    /// A summary of an InfluxDB topic rule destination, as returned by ListTopicRuleDestinations. For the full set of destination properties, see InfluxDBDestinationProperties.
+    public struct InfluxDBDestinationSummary: Swift.Sendable {
+        /// The URL of the InfluxDB instance that the destination writes to.
+        public var endpoint: Swift.String?
+        /// The major version of the InfluxDB instance. Valid values are V2 and V3.
+        public var influxDBVersion: IoTClientTypes.InfluxDBVersion?
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token.
+        public var secretId: Swift.String?
+        /// The key that is read from the secret value when the secret contains a JSON object.
+        public var secretKey: Swift.String?
+        /// The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary.
+        public var secretType: IoTClientTypes.InfluxDBSecretType?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            influxDBVersion: IoTClientTypes.InfluxDBVersion? = nil,
+            secretId: Swift.String? = nil,
+            secretKey: Swift.String? = nil,
+            secretType: IoTClientTypes.InfluxDBSecretType? = nil
+        ) {
+            self.endpoint = endpoint
+            self.influxDBVersion = influxDBVersion
+            self.secretId = secretId
+            self.secretKey = secretKey
+            self.secretType = secretType
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The summary of a virtual private cloud (VPC) destination.
     public struct VpcDestinationSummary: Swift.Sendable {
         /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
@@ -17597,6 +17872,8 @@ extension IoTClientTypes {
         public var createdAt: Foundation.Date?
         /// Information about the HTTP URL.
         public var httpUrlSummary: IoTClientTypes.HttpUrlDestinationSummary?
+        /// A summary of an InfluxDB topic rule destination, as returned by ListTopicRuleDestinations.
+        public var influxDBSummary: IoTClientTypes.InfluxDBDestinationSummary?
         /// The date and time when the topic rule destination was last updated.
         public var lastUpdatedAt: Foundation.Date?
         /// The status of the topic rule destination. Valid values are: IN_PROGRESS A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint. ENABLED Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination. DISABLED Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination. ERROR Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
@@ -17610,6 +17887,7 @@ extension IoTClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             httpUrlSummary: IoTClientTypes.HttpUrlDestinationSummary? = nil,
+            influxDBSummary: IoTClientTypes.InfluxDBDestinationSummary? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             status: IoTClientTypes.TopicRuleDestinationStatus? = nil,
             statusReason: Swift.String? = nil,
@@ -17618,6 +17896,7 @@ extension IoTClientTypes {
             self.arn = arn
             self.createdAt = createdAt
             self.httpUrlSummary = httpUrlSummary
+            self.influxDBSummary = influxDBSummary
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusReason = statusReason
@@ -34660,6 +34939,7 @@ extension IoTClientTypes.Action {
         try writer["elasticsearch"].write(value.elasticsearch, with: IoTClientTypes.ElasticsearchAction.write(value:to:))
         try writer["firehose"].write(value.firehose, with: IoTClientTypes.FirehoseAction.write(value:to:))
         try writer["http"].write(value.http, with: IoTClientTypes.HttpAction.write(value:to:))
+        try writer["influxDB"].write(value.influxDB, with: IoTClientTypes.InfluxDBAction.write(value:to:))
         try writer["iotAnalytics"].write(value.iotAnalytics, with: IoTClientTypes.IotAnalyticsAction.write(value:to:))
         try writer["iotEvents"].write(value.iotEvents, with: IoTClientTypes.IotEventsAction.write(value:to:))
         try writer["iotSiteWise"].write(value.iotSiteWise, with: IoTClientTypes.IotSiteWiseAction.write(value:to:))
@@ -34703,6 +34983,7 @@ extension IoTClientTypes.Action {
         value.kafka = try reader["kafka"].readIfPresent(with: IoTClientTypes.KafkaAction.read(from:))
         value.openSearch = try reader["openSearch"].readIfPresent(with: IoTClientTypes.OpenSearchAction.read(from:))
         value.location = try reader["location"].readIfPresent(with: IoTClientTypes.LocationAction.read(from:))
+        value.influxDB = try reader["influxDB"].readIfPresent(with: IoTClientTypes.InfluxDBAction.read(from:))
         return value
     }
 }
@@ -36290,6 +36571,96 @@ extension IoTClientTypes.IndexingFilter {
         value.namedShadowNames = try reader["namedShadowNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.geoLocations = try reader["geoLocations"].readListIfPresent(memberReadingClosure: IoTClientTypes.GeoLocationTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectivity = try reader["connectivity"].readIfPresent(with: IoTClientTypes.ConnectivityFilter.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.InfluxDBAction {
+
+    static func write(value: IoTClientTypes.InfluxDBAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchConfig"].write(value.batchConfig, with: IoTClientTypes.InfluxDBBatchConfig.write(value:to:))
+        try writer["databaseName"].write(value.databaseName)
+        try writer["destinationArn"].write(value.destinationArn)
+        try writer["organization"].write(value.organization)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["tableName"].write(value.tableName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timestampUnit"].write(value.timestampUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.InfluxDBAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.InfluxDBAction()
+        value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.organization = try reader["organization"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.timestampUnit = try reader["timestampUnit"].readIfPresent()
+        value.batchConfig = try reader["batchConfig"].readIfPresent(with: IoTClientTypes.InfluxDBBatchConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.InfluxDBBatchConfig {
+
+    static func write(value: IoTClientTypes.InfluxDBBatchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchAcrossTopics"].write(value.batchAcrossTopics)
+        try writer["maxBatchOpenMs"].write(value.maxBatchOpenMs)
+        try writer["maxBatchSize"].write(value.maxBatchSize)
+        try writer["maxBatchSizeBytes"].write(value.maxBatchSizeBytes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.InfluxDBBatchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.InfluxDBBatchConfig()
+        value.maxBatchSize = try reader["maxBatchSize"].readIfPresent()
+        value.maxBatchOpenMs = try reader["maxBatchOpenMs"].readIfPresent()
+        value.maxBatchSizeBytes = try reader["maxBatchSizeBytes"].readIfPresent()
+        value.batchAcrossTopics = try reader["batchAcrossTopics"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IoTClientTypes.InfluxDBDestinationConfiguration {
+
+    static func write(value: IoTClientTypes.InfluxDBDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpoint"].write(value.endpoint)
+        try writer["influxDBVersion"].write(value.influxDBVersion)
+        try writer["secretId"].write(value.secretId)
+        try writer["secretKey"].write(value.secretKey)
+        try writer["secretType"].write(value.secretType)
+    }
+}
+
+extension IoTClientTypes.InfluxDBDestinationProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.InfluxDBDestinationProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.InfluxDBDestinationProperties()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.influxDBVersion = try reader["influxDBVersion"].readIfPresent()
+        value.secretId = try reader["secretId"].readIfPresent()
+        value.secretType = try reader["secretType"].readIfPresent()
+        value.secretKey = try reader["secretKey"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.InfluxDBDestinationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.InfluxDBDestinationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.InfluxDBDestinationSummary()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.influxDBVersion = try reader["influxDBVersion"].readIfPresent()
+        value.secretId = try reader["secretId"].readIfPresent()
+        value.secretType = try reader["secretType"].readIfPresent()
+        value.secretKey = try reader["secretKey"].readIfPresent()
         return value
     }
 }
@@ -38284,6 +38655,7 @@ extension IoTClientTypes.TopicRuleDestination {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.httpUrlProperties = try reader["httpUrlProperties"].readIfPresent(with: IoTClientTypes.HttpUrlDestinationProperties.read(from:))
         value.vpcProperties = try reader["vpcProperties"].readIfPresent(with: IoTClientTypes.VpcDestinationProperties.read(from:))
+        value.influxDBProperties = try reader["influxDBProperties"].readIfPresent(with: IoTClientTypes.InfluxDBDestinationProperties.read(from:))
         return value
     }
 }
@@ -38293,6 +38665,7 @@ extension IoTClientTypes.TopicRuleDestinationConfiguration {
     static func write(value: IoTClientTypes.TopicRuleDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["httpUrlConfiguration"].write(value.httpUrlConfiguration, with: IoTClientTypes.HttpUrlDestinationConfiguration.write(value:to:))
+        try writer["influxDBConfiguration"].write(value.influxDBConfiguration, with: IoTClientTypes.InfluxDBDestinationConfiguration.write(value:to:))
         try writer["vpcConfiguration"].write(value.vpcConfiguration, with: IoTClientTypes.VpcDestinationConfiguration.write(value:to:))
     }
 }
@@ -38309,6 +38682,7 @@ extension IoTClientTypes.TopicRuleDestinationSummary {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.httpUrlSummary = try reader["httpUrlSummary"].readIfPresent(with: IoTClientTypes.HttpUrlDestinationSummary.read(from:))
         value.vpcDestinationSummary = try reader["vpcDestinationSummary"].readIfPresent(with: IoTClientTypes.VpcDestinationSummary.read(from:))
+        value.influxDBSummary = try reader["influxDBSummary"].readIfPresent(with: IoTClientTypes.InfluxDBDestinationSummary.read(from:))
         return value
     }
 }

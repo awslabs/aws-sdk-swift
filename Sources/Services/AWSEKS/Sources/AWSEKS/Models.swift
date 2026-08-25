@@ -3101,15 +3101,34 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The pod garbage collection controller configuration for the Kubernetes controller manager.
+    public struct PodGcControllerConfigRequest: Swift.Sendable {
+        /// The number of terminated pods that can exist before the garbage collector starts deleting them.
+        public var terminatedPodGcThreshold: Swift.Int?
+
+        public init(
+            terminatedPodGcThreshold: Swift.Int? = nil
+        ) {
+            self.terminatedPodGcThreshold = terminatedPodGcThreshold
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The configuration for the Kubernetes controller manager on an Amazon EKS cluster.
     public struct KubeControllerManagerConfigRequest: Swift.Sendable {
         /// The horizontal pod autoscaler controller configuration.
         public var horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest?
+        /// The pod garbage collection controller configuration.
+        public var podGcControllerConfig: EKSClientTypes.PodGcControllerConfigRequest?
 
         public init(
-            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest? = nil
+            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest? = nil,
+            podGcControllerConfig: EKSClientTypes.PodGcControllerConfigRequest? = nil
         ) {
             self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+            self.podGcControllerConfig = podGcControllerConfig
         }
     }
 }
@@ -4064,15 +4083,34 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The pod garbage collection controller configuration for the Kubernetes controller manager.
+    public struct PodGcControllerConfigResponse: Swift.Sendable {
+        /// The number of terminated pods that can exist before the garbage collector starts deleting them.
+        public var terminatedPodGcThreshold: Swift.Int?
+
+        public init(
+            terminatedPodGcThreshold: Swift.Int? = nil
+        ) {
+            self.terminatedPodGcThreshold = terminatedPodGcThreshold
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The Kubernetes controller manager configuration for an Amazon EKS cluster.
     public struct KubeControllerManagerConfigResponse: Swift.Sendable {
         /// The horizontal pod autoscaler controller configuration.
         public var horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse?
+        /// The pod garbage collection controller configuration.
+        public var podGcControllerConfig: EKSClientTypes.PodGcControllerConfigResponse?
 
         public init(
-            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse? = nil
+            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse? = nil,
+            podGcControllerConfig: EKSClientTypes.PodGcControllerConfigResponse? = nil
         ) {
             self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+            self.podGcControllerConfig = podGcControllerConfig
         }
     }
 }
@@ -6730,15 +6768,72 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// Constraints for an integer parameter specifying allowed range.
+    public struct IntegerConstraints: Swift.Sendable {
+        /// The maximum allowed value.
+        public var max: Swift.Int?
+        /// The minimum allowed value.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An integer parameter configuration with default value and constraints.
+    public struct IntegerParameterConfig: Swift.Sendable {
+        /// The constraints for the integer parameter.
+        public var constraints: EKSClientTypes.IntegerConstraints?
+        /// The default value for the integer parameter.
+        public var defaultValue: Swift.Int?
+
+        public init(
+            constraints: EKSClientTypes.IntegerConstraints? = nil,
+            defaultValue: Swift.Int? = nil
+        ) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The pod garbage collection controller version configuration.
+    public struct PodGcControllerVersionConfig: Swift.Sendable {
+        /// The terminated pod garbage collection threshold configuration with default value and constraints.
+        public var terminatedPodGcThreshold: EKSClientTypes.IntegerParameterConfig?
+
+        public init(
+            terminatedPodGcThreshold: EKSClientTypes.IntegerParameterConfig? = nil
+        ) {
+            self.terminatedPodGcThreshold = terminatedPodGcThreshold
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The Kubernetes controller manager version-specific configuration defaults and constraints.
     public struct KubeControllerManagerVersionConfig: Swift.Sendable {
         /// The horizontal pod autoscaler controller configuration with default value and constraints.
         public var horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig?
+        /// The pod garbage collection controller configuration with default value and constraints.
+        public var podGcControllerConfig: EKSClientTypes.PodGcControllerVersionConfig?
 
         public init(
-            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig? = nil
+            horizontalPodAutoscalerControllerConfig: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig? = nil,
+            podGcControllerConfig: EKSClientTypes.PodGcControllerVersionConfig? = nil
         ) {
             self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+            self.podGcControllerConfig = podGcControllerConfig
         }
     }
 }
@@ -14107,6 +14202,28 @@ extension EKSClientTypes.InsightSummary {
     }
 }
 
+extension EKSClientTypes.IntegerConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IntegerConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.IntegerConstraints()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.IntegerParameterConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IntegerParameterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.IntegerParameterConfig()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.constraints = try reader["constraints"].readIfPresent(with: EKSClientTypes.IntegerConstraints.read(from:))
+        return value
+    }
+}
+
 extension EKSClientTypes.IntegerRangeConstraint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IntegerRangeConstraint {
@@ -14166,6 +14283,7 @@ extension EKSClientTypes.KubeControllerManagerConfigRequest {
     static func write(value: EKSClientTypes.KubeControllerManagerConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["horizontalPodAutoscalerControllerConfig"].write(value.horizontalPodAutoscalerControllerConfig, with: EKSClientTypes.HorizontalPodAutoscalerControllerConfigRequest.write(value:to:))
+        try writer["podGcControllerConfig"].write(value.podGcControllerConfig, with: EKSClientTypes.PodGcControllerConfigRequest.write(value:to:))
     }
 }
 
@@ -14174,6 +14292,7 @@ extension EKSClientTypes.KubeControllerManagerConfigResponse {
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeControllerManagerConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.KubeControllerManagerConfigResponse()
+        value.podGcControllerConfig = try reader["podGcControllerConfig"].readIfPresent(with: EKSClientTypes.PodGcControllerConfigResponse.read(from:))
         value.horizontalPodAutoscalerControllerConfig = try reader["horizontalPodAutoscalerControllerConfig"].readIfPresent(with: EKSClientTypes.HorizontalPodAutoscalerControllerConfigResponse.read(from:))
         return value
     }
@@ -14184,6 +14303,7 @@ extension EKSClientTypes.KubeControllerManagerVersionConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubeControllerManagerVersionConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.KubeControllerManagerVersionConfig()
+        value.podGcControllerConfig = try reader["podGcControllerConfig"].readIfPresent(with: EKSClientTypes.PodGcControllerVersionConfig.read(from:))
         value.horizontalPodAutoscalerControllerConfig = try reader["horizontalPodAutoscalerControllerConfig"].readIfPresent(with: EKSClientTypes.HorizontalPodAutoscalerControllerVersionConfig.read(from:))
         return value
     }
@@ -14545,6 +14665,34 @@ extension EKSClientTypes.OutpostConfigResponse {
         value.controlPlanePlacement = try reader["controlPlanePlacement"].readIfPresent(with: EKSClientTypes.ControlPlanePlacementResponse.read(from:))
         value.etcdInstanceType = try reader["etcdInstanceType"].readIfPresent()
         value.etcdPlacement = try reader["etcdPlacement"].readIfPresent(with: EKSClientTypes.EtcdPlacementResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.PodGcControllerConfigRequest {
+
+    static func write(value: EKSClientTypes.PodGcControllerConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["terminatedPodGcThreshold"].write(value.terminatedPodGcThreshold)
+    }
+}
+
+extension EKSClientTypes.PodGcControllerConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.PodGcControllerConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.PodGcControllerConfigResponse()
+        value.terminatedPodGcThreshold = try reader["terminatedPodGcThreshold"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.PodGcControllerVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.PodGcControllerVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.PodGcControllerVersionConfig()
+        value.terminatedPodGcThreshold = try reader["terminatedPodGcThreshold"].readIfPresent(with: EKSClientTypes.IntegerParameterConfig.read(from:))
         return value
     }
 }

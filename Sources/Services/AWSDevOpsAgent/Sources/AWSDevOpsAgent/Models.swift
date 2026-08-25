@@ -336,6 +336,7 @@ extension DevOpsAgentClientTypes {
     public enum NewRelicRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// EU region
         case eu
+        case jp
         /// US region
         case us
         case sdkUnknown(Swift.String)
@@ -343,6 +344,7 @@ extension DevOpsAgentClientTypes {
         public static var allCases: [NewRelicRegion] {
             return [
                 .eu,
+                .jp,
                 .us
             ]
         }
@@ -355,6 +357,7 @@ extension DevOpsAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .eu: return "EU"
+            case .jp: return "JP"
             case .us: return "US"
             case let .sdkUnknown(s): return s
             }
@@ -683,6 +686,33 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// The key of a preference that can be configured on an agent space. The `elevatedActionsEnabled` key controls whether elevated directed actions are permitted in the agent space. Elevated directed actions are mutating operations that also require per-action operator approval, and default to `false` when not set.
+    public enum AgentSpacePreferenceKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case elevatedActionsEnabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentSpacePreferenceKey] {
+            return [
+                .elevatedActionsEnabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .elevatedActionsEnabled: return "elevatedActionsEnabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Represents a complete AgentSpace with all its properties, timestamps, encryption settings, and unique identifier.
     public struct AgentSpace: Swift.Sendable {
         /// The unique identifier of the AgentSpace
@@ -700,6 +730,8 @@ extension DevOpsAgentClientTypes {
         /// The name of the AgentSpace.
         /// This member is required.
         public var name: Swift.String?
+        /// The preferences configured on the agent space. Preferences that are not set take their default values.
+        public var preferences: [Swift.String: Swift.Bool]?
         /// The timestamp when the resource was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
@@ -711,6 +743,7 @@ extension DevOpsAgentClientTypes {
             kmsKeyArn: Swift.String? = nil,
             locale: Swift.String? = nil,
             name: Swift.String? = nil,
+            preferences: [Swift.String: Swift.Bool]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.agentSpaceId = agentSpaceId
@@ -719,6 +752,7 @@ extension DevOpsAgentClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.locale = locale
             self.name = name
+            self.preferences = preferences
             self.updatedAt = updatedAt
         }
     }
@@ -726,7 +760,7 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes.AgentSpace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgentSpace(agentSpaceId: \(Swift.String(describing: agentSpaceId)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "AgentSpace(agentSpaceId: \(Swift.String(describing: agentSpaceId)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// The request conflicts with the current state of the resource.
@@ -979,6 +1013,42 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Represents the validation state of an association.
+    public enum ValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The association has failed validation and requires attention.
+        case invalid
+        /// The association is awaiting user confirmation before validation can be completed.
+        case pendingConfirmation
+        /// The association has been validated and is functioning correctly.
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationStatus] {
+            return [
+                .invalid,
+                .pendingConfirmation,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "invalid"
+            case .pendingConfirmation: return "pending-confirmation"
+            case .valid: return "valid"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Configuration for AWS monitor account integration, allowing AIDevOps to monitor AWS resources.
     public struct AWSConfiguration: Swift.Sendable {
         /// AWS Account Id corresponding to provided resources.
@@ -987,6 +1057,10 @@ extension DevOpsAgentClientTypes {
         /// Account Type 'monitor' for AIDevOps monitoring.
         /// This member is required.
         public var accountType: DevOpsAgentClientTypes.MonitorAccountType?
+        /// Optional IAM role ARN to be assumed by AIDevOps for elevated directed actions on behalf of the customer. Used for mutating operations gated by elevatedActionsEnabled on the AgentSpace. When not provided, only non-elevated directed actions are available for this AWS account.
+        public var agentElevatedRoleArn: Swift.String?
+        /// Validation status of the agentElevatedRoleArn. Updated asynchronously after the customer registers an elevated role. Possible values: PENDING_CONFIRMATION (validation in progress), VALID (role validated), INVALID (validation failed).
+        public var agentElevatedRoleArnStatus: DevOpsAgentClientTypes.ValidationStatus?
         /// Role ARN to be assumed by AIDevOps to operate on behalf of customer.
         /// This member is required.
         public var assumableRoleArn: Swift.String?
@@ -994,10 +1068,14 @@ extension DevOpsAgentClientTypes {
         public init(
             accountId: Swift.String? = nil,
             accountType: DevOpsAgentClientTypes.MonitorAccountType? = nil,
+            agentElevatedRoleArn: Swift.String? = nil,
+            agentElevatedRoleArnStatus: DevOpsAgentClientTypes.ValidationStatus? = nil,
             assumableRoleArn: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.accountType = accountType
+            self.agentElevatedRoleArn = agentElevatedRoleArn
+            self.agentElevatedRoleArnStatus = agentElevatedRoleArnStatus
             self.assumableRoleArn = assumableRoleArn
         }
     }
@@ -1093,6 +1171,7 @@ extension DevOpsAgentClientTypes {
         /// This member is required.
         public var repoName: Swift.String?
         /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
+        @available(*, deprecated, message: "Superseded by the ReleaseManagement association. Configure the runtime role on the ReleaseManagement association and reference it via releaseManagementAssociationId. API deprecated since 2026-08-04")
         public var runtimeRoleArn: Swift.String?
 
         public init(
@@ -1126,6 +1205,7 @@ extension DevOpsAgentClientTypes {
         /// This member is required.
         public var projectPath: Swift.String?
         /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
+        @available(*, deprecated, message: "Superseded by the ReleaseManagement association. Configure the runtime role on the ReleaseManagement association and reference it via releaseManagementAssociationId. API deprecated since 2026-08-04")
         public var runtimeRoleArn: Swift.String?
 
         public init(
@@ -1144,15 +1224,71 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    public enum ToolClassification: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case destructive
+        case mutative
+        case readOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToolClassification] {
+            return [
+                .destructive,
+                .mutative,
+                .readOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .destructive: return "DESTRUCTIVE"
+            case .mutative: return "MUTATIVE"
+            case .readOnly: return "READ_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// An MCP tool together with its access categorization.
+    public struct MCPToolDetail: Swift.Sendable {
+        /// The name of the MCP tool.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The access categorization of the MCP tool.
+        public var toolClassification: DevOpsAgentClientTypes.ToolClassification?
+
+        public init(
+            name: Swift.String? = nil,
+            toolClassification: DevOpsAgentClientTypes.ToolClassification? = nil
+        ) {
+            self.name = name
+            self.toolClassification = toolClassification
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Configuration for Model Context Protocol (MCP) server integration.
     public struct MCPServerConfiguration: Swift.Sendable {
+        /// List of MCP tools with their access categorization. When provided, the tool names must match those in the tools member.
+        public var toolDetails: [DevOpsAgentClientTypes.MCPToolDetail]?
         /// List of MCP tools can be used with the association.
         /// This member is required.
         public var tools: [Swift.String]?
 
         public init(
+            toolDetails: [DevOpsAgentClientTypes.MCPToolDetail]? = nil,
             tools: [Swift.String]? = nil
         ) {
+            self.toolDetails = toolDetails
             self.tools = tools
         }
     }
@@ -1162,8 +1298,14 @@ extension DevOpsAgentClientTypes {
 
     /// Mixin for webhook update support.
     public struct MCPServerDatadogConfiguration: Swift.Sendable {
+        /// The subset of elevated-access tools enabled for this integration.
+        public var enabledElevatedTools: [DevOpsAgentClientTypes.MCPToolDetail]?
 
-        public init() { }
+        public init(
+            enabledElevatedTools: [DevOpsAgentClientTypes.MCPToolDetail]? = nil
+        ) {
+            self.enabledElevatedTools = enabledElevatedTools
+        }
     }
 }
 
@@ -1171,6 +1313,8 @@ extension DevOpsAgentClientTypes {
 
     /// Configuration for Grafana MCP server integration, used with an AWS-hosted MCP server.
     public struct MCPServerGrafanaConfiguration: Swift.Sendable {
+        /// The subset of elevated-access tools enabled for this integration.
+        public var enabledElevatedTools: [DevOpsAgentClientTypes.MCPToolDetail]?
         /// Grafana instance URL (e.g., https://your-instance.grafana.net)
         /// This member is required.
         public var endpoint: Swift.String?
@@ -1180,10 +1324,12 @@ extension DevOpsAgentClientTypes {
         public var tools: [Swift.String]?
 
         public init(
+            enabledElevatedTools: [DevOpsAgentClientTypes.MCPToolDetail]? = nil,
             endpoint: Swift.String? = nil,
             organizationId: Swift.String? = nil,
             tools: [Swift.String]? = nil
         ) {
+            self.enabledElevatedTools = enabledElevatedTools
             self.endpoint = endpoint
             self.organizationId = organizationId
             self.tools = tools
@@ -1216,13 +1362,17 @@ extension DevOpsAgentClientTypes {
 
     /// Configuration for SigV4-authenticated MCP server integration.
     public struct MCPServerSigV4Configuration: Swift.Sendable {
+        /// List of MCP tools with their access categorization. When provided, the tool names must match those in the tools member.
+        public var toolDetails: [DevOpsAgentClientTypes.MCPToolDetail]?
         /// List of MCP tools available for the association.
         /// This member is required.
         public var tools: [Swift.String]?
 
         public init(
+            toolDetails: [DevOpsAgentClientTypes.MCPToolDetail]? = nil,
             tools: [Swift.String]? = nil
         ) {
+            self.toolDetails = toolDetails
             self.tools = tools
         }
     }
@@ -1395,7 +1545,7 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
-    /// Configuration for AWS source account integration. Note: passRole check on 'assumableRoleArn' is not supported.
+    /// Configuration for AWS source account integration. Setting the role ARNs on this configuration requires the caller to have at least the iam:PassRole permission (see assumableRoleArn).
     public struct SourceAwsConfiguration: Swift.Sendable {
         /// AWS Account Id corresponding to provided resources.
         /// This member is required.
@@ -1403,7 +1553,11 @@ extension DevOpsAgentClientTypes {
         /// Account Type 'source' for AIDevOps monitoring.
         /// This member is required.
         public var accountType: DevOpsAgentClientTypes.SourceAccountType?
-        /// Role ARN to be assumed by AIDevOps to operate on behalf of customer.
+        /// Optional IAM role ARN to be assumed by AIDevOps for elevated directed actions on behalf of the customer. Used for mutating operations gated by elevatedActionsEnabled on the AgentSpace. When not provided, only non-elevated directed actions are available for this AWS account. Setting this role is subject to the same minimum iam:PassRole requirement described on assumableRoleArn.
+        public var agentElevatedRoleArn: Swift.String?
+        /// Validation status of the agentElevatedRoleArn. Updated asynchronously after the customer registers an elevated role. Possible values: PENDING_CONFIRMATION (validation in progress), VALID (role validated), INVALID (validation failed).
+        public var agentElevatedRoleArnStatus: DevOpsAgentClientTypes.ValidationStatus?
+        /// Role ARN to be assumed by AIDevOps to operate on behalf of customer. To set this role ARN on AssociateService or UpdateAssociation, the caller must have at least the iam:PassRole permission on arn:aws:iam::<account-id>:role/* in the caller's own account, with the condition iam:PassedToService set to aidevops.amazonaws.com. A broader iam:PassRole grant also satisfies this requirement.
         /// This member is required.
         public var assumableRoleArn: Swift.String?
         /// External ID for additional security when assuming the role. Used to prevent the confused deputy problem.
@@ -1412,11 +1566,15 @@ extension DevOpsAgentClientTypes {
         public init(
             accountId: Swift.String? = nil,
             accountType: DevOpsAgentClientTypes.SourceAccountType? = nil,
+            agentElevatedRoleArn: Swift.String? = nil,
+            agentElevatedRoleArnStatus: DevOpsAgentClientTypes.ValidationStatus? = nil,
             assumableRoleArn: Swift.String? = nil,
             externalId: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.accountType = accountType
+            self.agentElevatedRoleArn = agentElevatedRoleArn
+            self.agentElevatedRoleArnStatus = agentElevatedRoleArnStatus
             self.assumableRoleArn = assumableRoleArn
             self.externalId = externalId
         }
@@ -1493,42 +1651,6 @@ public struct AssociateServiceInput: Swift.Sendable {
         self.capabilities = capabilities
         self.configuration = configuration
         self.serviceId = serviceId
-    }
-}
-
-extension DevOpsAgentClientTypes {
-
-    /// Represents the validation state of an association.
-    public enum ValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The association has failed validation and requires attention.
-        case invalid
-        /// The association is awaiting user confirmation before validation can be completed.
-        case pendingConfirmation
-        /// The association has been validated and is functioning correctly.
-        case valid
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationStatus] {
-            return [
-                .invalid,
-                .pendingConfirmation,
-                .valid
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .invalid: return "invalid"
-            case .pendingConfirmation: return "pending-confirmation"
-            case .valid: return "valid"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -1928,6 +2050,8 @@ public struct CreateAgentSpaceInput: Swift.Sendable {
     /// The name of the AgentSpace.
     /// This member is required.
     public var name: Swift.String?
+    /// The preferences to configure on the agent space. Preferences not provided take their default values.
+    public var preferences: [Swift.String: Swift.Bool]?
     /// Tags to add to the AgentSpace at creation time.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1937,6 +2061,7 @@ public struct CreateAgentSpaceInput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         locale: Swift.String? = nil,
         name: Swift.String? = nil,
+        preferences: [Swift.String: Swift.Bool]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
@@ -1944,13 +2069,14 @@ public struct CreateAgentSpaceInput: Swift.Sendable {
         self.kmsKeyArn = kmsKeyArn
         self.locale = locale
         self.name = name
+        self.preferences = preferences
         self.tags = tags
     }
 }
 
 extension CreateAgentSpaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentSpaceInput(clientToken: \(Swift.String(describing: clientToken)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateAgentSpaceInput(clientToken: \(Swift.String(describing: clientToken)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Output containing the newly created AgentSpace.
@@ -2358,23 +2484,27 @@ public struct UpdateAgentSpaceInput: Swift.Sendable {
     public var locale: Swift.String?
     /// The updated name of the AgentSpace.
     public var name: Swift.String?
+    /// The preferences to configure on the agent space. When provided, this replaces the full set of configured preferences; preferences not included revert to their default values. When omitted, the current preferences are left unchanged.
+    public var preferences: [Swift.String: Swift.Bool]?
 
     public init(
         agentSpaceId: Swift.String? = nil,
         description: Swift.String? = nil,
         locale: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        preferences: [Swift.String: Swift.Bool]? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.description = description
         self.locale = locale
         self.name = name
+        self.preferences = preferences
     }
 }
 
 extension UpdateAgentSpaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentSpaceInput(agentSpaceId: \(Swift.String(describing: agentSpaceId)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+        "UpdateAgentSpaceInput(agentSpaceId: \(Swift.String(describing: agentSpaceId)), locale: \(Swift.String(describing: locale)), name: \(Swift.String(describing: name)), preferences: \(Swift.String(describing: preferences)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Output containing the updated AgentSpace.
@@ -2427,6 +2557,134 @@ public struct UpdateOperatorAppIdpConfigOutput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.idp = idp
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// The action to take on an approval request — APPROVED or REJECTED.
+    public enum ApprovalActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The agent's tool invocation is approved; finalPattern and ttlSeconds carry the finalized scope and lifetime.
+        case approved
+        /// The agent's tool invocation is rejected; reason optionally carries a free-text rationale.
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApprovalActionType] {
+            return [
+                .approved,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// An approval decision supplied when resuming a paused agent execution. When an agent execution pauses to request approval for an elevated action, SendMessage streams an approval request carrying interrupt identifiers. This structure carries the decision back to the service — which paused tool invocation is being resumed, the opaque interrupt identifier that resumes it, the identifier of the approval request being resolved, optional display text of the control the user chose, and the action taken (APPROVED or REJECTED) — so the service can resume the paused execution. All members are optional on the wire; service-side validation is applied against the populated subset.
+    public struct ApprovalAction: Swift.Sendable {
+        /// The action taken on the approval request — APPROVED or REJECTED.
+        public var action: DevOpsAgentClientTypes.ApprovalActionType?
+        /// Identifier of the approval request being resolved.
+        public var approvalId: Swift.String?
+        /// Optional display text of the UI control the user chose (for example, "Approve Exact", "Approve Broader", or "Reject"), provided as auxiliary decision context.
+        public var buttonText: Swift.String?
+        /// An opaque resume identifier issued by the service when an agent execution pauses for approval. Provide it when resuming so the service can resume the correct paused execution.
+        public var interruptId: Swift.String?
+        /// Identifier of the specific paused tool invocation that requested approval. Correlates the approval decision back to the paused invocation.
+        public var toolUseId: Swift.String?
+
+        public init(
+            action: DevOpsAgentClientTypes.ApprovalActionType? = nil,
+            approvalId: Swift.String? = nil,
+            buttonText: Swift.String? = nil,
+            interruptId: Swift.String? = nil,
+            toolUseId: Swift.String? = nil
+        ) {
+            self.action = action
+            self.approvalId = approvalId
+            self.buttonText = buttonText
+            self.interruptId = interruptId
+            self.toolUseId = toolUseId
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Tool-invocation pattern primitive used to express both an agent-requested approval and a finalized approval. The primitive is uniform across AWS and third-party tools: a tool identifier plus a map of argument pins that narrow which invocations the pattern matches.
+    public struct ApprovalPattern: Swift.Sendable {
+        /// Argument constraints that narrow which tool invocations the pattern matches. For AWS tools, the map must include `operation` (the IAM action, e.g. `ec2:AuthorizeSecurityGroupIngress`) and `resource_arn` (the resource ARN or ARN glob); additional narrowing arguments go in further pin keys. The same `{tool, argumentPins}` shape is used uniformly for AWS and third-party tools, with tool-specific keys for third-party tools. Requests whose argument pins are collectively too large are rejected with a ValidationException.
+        /// This member is required.
+        public var argumentPins: [Swift.String: Swift.String]?
+        /// Identifier of the tool the pattern applies to (e.g. `use_aws` for AWS actions, or a third-party tool name).
+        /// This member is required.
+        public var tool: Swift.String?
+
+        public init(
+            argumentPins: [Swift.String: Swift.String]? = nil,
+            tool: Swift.String? = nil
+        ) {
+            self.argumentPins = argumentPins
+            self.tool = tool
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Lifecycle status of an approval request, distinct from the action verb. State machine: PENDING (awaiting a decision) -> APPROVED (the action was APPROVED; redeemable until revoked or fully redeemed) or REJECTED (the action was REJECTED; terminal). APPROVED -> REDEEMED (consumed by a credential mint at least once; non-single-use approvals stay re-redeemable until expiry) or REVOKED (administratively invalidated; terminal).
+    public enum ApprovalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The action was APPROVED; the approval request is live and may be redeemed via a credential mint until it is revoked or fully redeemed.
+        case approved
+        /// The approval request is awaiting a decision.
+        case pending
+        /// The approval was consumed by a credential mint at least once. Non-single-use approvals stay re-redeemable until expiry; single-use approvals are terminal.
+        case redeemed
+        /// The action was REJECTED; no further redemption is possible.
+        case rejected
+        /// The approval was administratively invalidated; no further redemption is possible.
+        case revoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApprovalStatus] {
+            return [
+                .approved,
+                .pending,
+                .redeemed,
+                .rejected,
+                .revoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .pending: return "PENDING"
+            case .redeemed: return "REDEEMED"
+            case .rejected: return "REJECTED"
+            case .revoked: return "REVOKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -2512,7 +2770,7 @@ extension DevOpsAgentClientTypes {
 
     /// Content for an asset sourced from an external URL.
     public struct AssetSourceUrlContent: Swift.Sendable {
-        /// The source URL to import asset content from
+        /// The source URL to import asset content from.
         /// This member is required.
         public var url: Swift.String?
 
@@ -3052,6 +3310,7 @@ extension DevOpsAgentClientTypes {
         case skipped
         /// Task has exceeded its time limit
         case timedOut
+        case waiting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TaskStatus] {
@@ -3065,7 +3324,8 @@ extension DevOpsAgentClientTypes {
                 .pendingStart,
                 .pendingTriage,
                 .skipped,
-                .timedOut
+                .timedOut,
+                .waiting
             ]
         }
 
@@ -3086,6 +3346,7 @@ extension DevOpsAgentClientTypes {
             case .pendingTriage: return "PENDING_TRIAGE"
             case .skipped: return "SKIPPED"
             case .timedOut: return "TIMED_OUT"
+            case .waiting: return "WAITING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3231,7 +3492,7 @@ extension DevOpsAgentClientTypes {
 
 /// Request structure for creating a new chat
 public struct CreateChatInput: Swift.Sendable {
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space where the chat will be created.
     /// This member is required.
     public var agentSpaceId: Swift.String?
     /// The user identifier for the chat. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
@@ -4724,7 +4985,7 @@ public struct ListBacklogTasksOutput: Swift.Sendable {
 
 /// Request structure for listing chats
 public struct ListChatsInput: Swift.Sendable {
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space to list chats from.
     /// This member is required.
     public var agentSpaceId: Swift.String?
     /// Maximum number of results to return
@@ -4805,6 +5066,7 @@ extension DevOpsAgentClientTypes {
         case stopped
         /// Unlike in the case of user-initiated Cancelation, a customer won't be billed
         case timedOut
+        case waiting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExecutionStatus] {
@@ -4813,7 +5075,8 @@ extension DevOpsAgentClientTypes {
                 .failed,
                 .running,
                 .stopped,
-                .timedOut
+                .timedOut,
+                .waiting
             ]
         }
 
@@ -4829,6 +5092,7 @@ extension DevOpsAgentClientTypes {
             case .running: return "RUNNING"
             case .stopped: return "STOPPED"
             case .timedOut: return "TIMED_OUT"
+            case .waiting: return "WAITING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5670,18 +5934,22 @@ extension DevOpsAgentClientTypes {
 
     /// Context object for additional message metadata
     public struct SendMessageContext: Swift.Sendable {
+        /// An approval decision supplied when resuming a paused agent execution. When an agent execution pauses to request approval for an elevated action, SendMessage streams an approval request carrying interrupt identifiers. To resume the paused execution, call SendMessage again with `userActionResponse` set to `"APPROVAL_ACTION"` and this member populated with those identifiers and the decision (APPROVED or REJECTED). Optional; omit it for messages that are not resuming an approval.
+        public var approvalAction: DevOpsAgentClientTypes.ApprovalAction?
         /// The current page or view the user is on
         public var currentPage: Swift.String?
         /// The ID of the last message in the conversation
         public var lastMessage: Swift.String?
-        /// Response to a UI prompt (not a text conversation message). Operator App SDK clients set this to the control-string sentinel `"APPROVAL_ACTION"` when the request is resuming a paused tool call after an operator approval decision; in that case the structured decision context lives on the sibling `approvalAction` member and the chat agent reads from there. Preserved as a String for back-compat: pre-typed-approval clients still encode arbitrary UI-prompt responses as JSON in this field, and the chat agent parses them out during the transition.
+        /// Response to a UI prompt (not a text conversation message). Set this to the sentinel value `"APPROVAL_ACTION"` when the request is resuming a paused execution after an approval decision; in that case the structured decision is provided on the sibling `approvalAction` member. Preserved as a String for backward compatibility: clients that predate the typed approval field may still encode UI-prompt responses as JSON in this field.
         public var userActionResponse: Swift.String?
 
         public init(
+            approvalAction: DevOpsAgentClientTypes.ApprovalAction? = nil,
             currentPage: Swift.String? = nil,
             lastMessage: Swift.String? = nil,
             userActionResponse: Swift.String? = nil
         ) {
+            self.approvalAction = approvalAction
             self.currentPage = currentPage
             self.lastMessage = lastMessage
             self.userActionResponse = userActionResponse
@@ -5704,6 +5972,8 @@ public struct SendMessageInput: Swift.Sendable {
     /// The execution identifier for the chat session
     /// This member is required.
     public var executionId: Swift.String?
+    /// Optional model tier selection. Valid values: smart, balanced, fast. Absent or unrecognized values default to balanced.
+    public var modelTier: Swift.String?
     /// User identifier. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
     @available(*, deprecated, message: "userId is managed by the service and should not be provided by the caller API deprecated since 2026-04-15")
     public var userId: Swift.String?
@@ -5714,6 +5984,7 @@ public struct SendMessageInput: Swift.Sendable {
         content: Swift.String? = nil,
         context: DevOpsAgentClientTypes.SendMessageContext? = nil,
         executionId: Swift.String? = nil,
+        modelTier: Swift.String? = nil,
         userId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
@@ -5721,6 +5992,7 @@ public struct SendMessageInput: Swift.Sendable {
         self.content = content
         self.context = context
         self.executionId = executionId
+        self.modelTier = modelTier
         self.userId = userId
     }
 }
@@ -6138,6 +6410,9 @@ extension DevOpsAgentClientTypes {
         public var accessibleResources: [Smithy.Document]?
         /// Additional details specific to the service type.
         public var additionalServiceDetails: DevOpsAgentClientTypes.AdditionalServiceDetails?
+        /// The timestamp when the service was registered.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
         /// The ARN of the AWS Key Management Service (AWS KMS) customer managed key that's used to encrypt resources.
         public var kmsKeyArn: Swift.String?
         /// The display name of the registered service.
@@ -6150,23 +6425,30 @@ extension DevOpsAgentClientTypes {
         /// The service type e.g github or dynatrace
         /// This member is required.
         public var serviceType: DevOpsAgentClientTypes.Service?
+        /// The timestamp when the service was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
 
         public init(
             accessibleResources: [Smithy.Document]? = nil,
             additionalServiceDetails: DevOpsAgentClientTypes.AdditionalServiceDetails? = nil,
+            createdAt: Foundation.Date? = nil,
             kmsKeyArn: Swift.String? = nil,
             name: Swift.String? = nil,
             privateConnectionName: Swift.String? = nil,
             serviceId: Swift.String? = nil,
-            serviceType: DevOpsAgentClientTypes.Service? = nil
+            serviceType: DevOpsAgentClientTypes.Service? = nil,
+            updatedAt: Foundation.Date? = nil
         ) {
             self.accessibleResources = accessibleResources
             self.additionalServiceDetails = additionalServiceDetails
+            self.createdAt = createdAt
             self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.privateConnectionName = privateConnectionName
             self.serviceId = serviceId
             self.serviceType = serviceType
+            self.updatedAt = updatedAt
         }
     }
 }
@@ -7326,6 +7608,67 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Request structure for UpdateApprovalAction. Submits the terminal decision (APPROVED or REJECTED) against an approval request, optionally carrying the finalized pattern and time-to-live when the action is APPROVED, or a free-text rationale when the action is REJECTED. Cross-field invariants between `action` and the approve-only / reject-only members are enforced by service-side validation.
+public struct UpdateApprovalActionInput: Swift.Sendable {
+    /// The action to take on the approval request — APPROVED or REJECTED.
+    /// This member is required.
+    public var action: DevOpsAgentClientTypes.ApprovalActionType?
+    /// The agent space identifier — multi-tenant workspace scope. Bound from the request URI.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// Identifier of the approval request being resolved. A UUID. Bound from the request URI.
+    /// This member is required.
+    public var approvalId: Swift.String?
+    /// The finalized pattern (tool + argumentPins) that scopes the approval. Required when `action` is APPROVED; must be absent when `action` is REJECTED. The pattern narrows, and must not widen, the invocation originally requested by the agent. This cross-field invariant is enforced by service-side validation.
+    public var finalPattern: DevOpsAgentClientTypes.ApprovalPattern?
+    /// Optional free-text rationale for the decision. Permitted when `action` is REJECTED; ignored when `action` is APPROVED.
+    public var reason: Swift.String?
+    /// Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when `action` is APPROVED; must be absent when `action` is REJECTED. When true, ttlSeconds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse window. Cross-field invariants are enforced by service-side validation.
+    public var singleUse: Swift.Bool?
+    /// Approval lifetime in seconds, starting from when the decision is submitted. Required when `action` is APPROVED AND `singleUse` is false; must be absent when `action` is REJECTED or when `singleUse` is true (a single-use approval backs one executed action and the redemption window collapses). Cross-field invariants are enforced by service-side validation; the @range bound here is the operation-boundary check that always applies (a maximum of 4 hours).
+    public var ttlSeconds: Swift.Int?
+
+    public init(
+        action: DevOpsAgentClientTypes.ApprovalActionType? = nil,
+        agentSpaceId: Swift.String? = nil,
+        approvalId: Swift.String? = nil,
+        finalPattern: DevOpsAgentClientTypes.ApprovalPattern? = nil,
+        reason: Swift.String? = nil,
+        singleUse: Swift.Bool? = nil,
+        ttlSeconds: Swift.Int? = nil
+    ) {
+        self.action = action
+        self.agentSpaceId = agentSpaceId
+        self.approvalId = approvalId
+        self.finalPattern = finalPattern
+        self.reason = reason
+        self.singleUse = singleUse
+        self.ttlSeconds = ttlSeconds
+    }
+}
+
+/// Response structure for UpdateApprovalAction. Reports the post-submission lifecycle status of the approval request and, when applicable, the absolute expiry timestamp. The status is a lifecycle state distinct from the action verb — an APPROVED submission transitions the request to APPROVED status (live, redeemable); a REJECTED submission transitions it to REJECTED status (terminal).
+public struct UpdateApprovalActionOutput: Swift.Sendable {
+    /// Identifier of the approval request that was resolved. Echoed back so the client can correlate the response with the request.
+    /// This member is required.
+    public var approvalId: Swift.String?
+    /// Absolute timestamp at which the approval expires. Set when status is APPROVED (computed as the submission time plus ttlSeconds); absent when status is REJECTED.
+    public var expiresAt: Foundation.Date?
+    /// Lifecycle status of the approval request immediately after submission. Expected post-submission states are APPROVED (when the action is APPROVED) or REJECTED (when the action is REJECTED); PENDING is not returned from this operation, and REVOKED and REDEEMED are reachable only via subsequent reads.
+    /// This member is required.
+    public var status: DevOpsAgentClientTypes.ApprovalStatus?
+
+    public init(
+        approvalId: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
+        status: DevOpsAgentClientTypes.ApprovalStatus? = nil
+    ) {
+        self.approvalId = approvalId
+        self.expiresAt = expiresAt
+        self.status = status
+    }
+}
+
 /// Request structure for updating an asset
 public struct UpdateAssetInput: Swift.Sendable {
     /// The unique identifier for the agent space containing the asset
@@ -8413,6 +8756,19 @@ extension UpdateAgentSpaceInput {
     }
 }
 
+extension UpdateApprovalActionInput {
+
+    static func urlPathProvider(_ value: UpdateApprovalActionInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let approvalId = value.approvalId else {
+            return nil
+        }
+        return "/agents/agent-space/\(agentSpaceId.urlPercentEncoding())/approvals/\(approvalId.urlPercentEncoding())/update-action"
+    }
+}
+
 extension UpdateAssetInput {
 
     static func urlPathProvider(_ value: UpdateAssetInput) -> Swift.String? {
@@ -8556,6 +8912,7 @@ extension CreateAgentSpaceInput {
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["locale"].write(value.locale)
         try writer["name"].write(value.name)
+        try writer["preferences"].writeMap(value.preferences, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -8718,6 +9075,7 @@ extension SendMessageInput {
         try writer["content"].write(value.content)
         try writer["context"].write(value.context, with: DevOpsAgentClientTypes.SendMessageContext.write(value:to:))
         try writer["executionId"].write(value.executionId)
+        try writer["modelTier"].write(value.modelTier)
         try writer["userId"].write(value.userId)
     }
 }
@@ -8737,6 +9095,19 @@ extension UpdateAgentSpaceInput {
         try writer["description"].write(value.description)
         try writer["locale"].write(value.locale)
         try writer["name"].write(value.name)
+        try writer["preferences"].writeMap(value.preferences, valueWritingClosure: SmithyReadWrite.WritingClosures.writeBool(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateApprovalActionInput {
+
+    static func write(value: UpdateApprovalActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["finalPattern"].write(value.finalPattern, with: DevOpsAgentClientTypes.ApprovalPattern.write(value:to:))
+        try writer["reason"].write(value.reason)
+        try writer["singleUse"].write(value.singleUse)
+        try writer["ttlSeconds"].write(value.ttlSeconds)
     }
 }
 
@@ -9461,6 +9832,20 @@ extension UpdateAgentSpaceOutput {
     }
 }
 
+extension UpdateApprovalActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApprovalActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateApprovalActionOutput()
+        value.approvalId = try reader["approvalId"].readIfPresent() ?? ""
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension UpdateAssetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssetOutput {
@@ -9730,6 +10115,7 @@ enum CreatePrivateConnectionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10572,6 +10958,27 @@ enum UpdateAgentSpaceOutputError {
     }
 }
 
+enum UpdateApprovalActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAssetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11021,7 +11428,29 @@ extension DevOpsAgentClientTypes.AgentSpace {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.preferences = try reader["preferences"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readBool(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension DevOpsAgentClientTypes.ApprovalAction {
+
+    static func write(value: DevOpsAgentClientTypes.ApprovalAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["approvalId"].write(value.approvalId)
+        try writer["buttonText"].write(value.buttonText)
+        try writer["interruptId"].write(value.interruptId)
+        try writer["toolUseId"].write(value.toolUseId)
+    }
+}
+
+extension DevOpsAgentClientTypes.ApprovalPattern {
+
+    static func write(value: DevOpsAgentClientTypes.ApprovalPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["argumentPins"].writeMap(value.argumentPins, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tool"].write(value.tool)
     }
 }
 
@@ -11209,6 +11638,8 @@ extension DevOpsAgentClientTypes.AWSConfiguration {
         guard let value else { return }
         try writer["accountId"].write(value.accountId)
         try writer["accountType"].write(value.accountType)
+        try writer["agentElevatedRoleArn"].write(value.agentElevatedRoleArn)
+        try writer["agentElevatedRoleArnStatus"].write(value.agentElevatedRoleArnStatus)
         try writer["assumableRoleArn"].write(value.assumableRoleArn)
     }
 
@@ -11218,6 +11649,8 @@ extension DevOpsAgentClientTypes.AWSConfiguration {
         value.assumableRoleArn = try reader["assumableRoleArn"].readIfPresent() ?? ""
         value.accountId = try reader["accountId"].readIfPresent() ?? ""
         value.accountType = try reader["accountType"].readIfPresent() ?? .sdkUnknown("")
+        value.agentElevatedRoleArn = try reader["agentElevatedRoleArn"].readIfPresent()
+        value.agentElevatedRoleArnStatus = try reader["agentElevatedRoleArnStatus"].readIfPresent()
         return value
     }
 }
@@ -11641,6 +12074,7 @@ extension DevOpsAgentClientTypes.MCPServerConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.MCPServerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["toolDetails"].writeList(value.toolDetails, memberWritingClosure: DevOpsAgentClientTypes.MCPToolDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tools"].writeList(value.tools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -11648,6 +12082,7 @@ extension DevOpsAgentClientTypes.MCPServerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsAgentClientTypes.MCPServerConfiguration()
         value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.toolDetails = try reader["toolDetails"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.MCPToolDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11655,13 +12090,15 @@ extension DevOpsAgentClientTypes.MCPServerConfiguration {
 extension DevOpsAgentClientTypes.MCPServerDatadogConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.MCPServerDatadogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["enabledElevatedTools"].writeList(value.enabledElevatedTools, memberWritingClosure: DevOpsAgentClientTypes.MCPToolDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPServerDatadogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return DevOpsAgentClientTypes.MCPServerDatadogConfiguration()
+        var value = DevOpsAgentClientTypes.MCPServerDatadogConfiguration()
+        value.enabledElevatedTools = try reader["enabledElevatedTools"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.MCPToolDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -11680,6 +12117,7 @@ extension DevOpsAgentClientTypes.MCPServerGrafanaConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.MCPServerGrafanaConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["enabledElevatedTools"].writeList(value.enabledElevatedTools, memberWritingClosure: DevOpsAgentClientTypes.MCPToolDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["endpoint"].write(value.endpoint)
         try writer["organizationId"].write(value.organizationId)
         try writer["tools"].writeList(value.tools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11691,6 +12129,7 @@ extension DevOpsAgentClientTypes.MCPServerGrafanaConfiguration {
         value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
         value.organizationId = try reader["organizationId"].readIfPresent()
         value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledElevatedTools = try reader["enabledElevatedTools"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.MCPToolDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11757,6 +12196,7 @@ extension DevOpsAgentClientTypes.MCPServerSigV4Configuration {
 
     static func write(value: DevOpsAgentClientTypes.MCPServerSigV4Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["toolDetails"].writeList(value.toolDetails, memberWritingClosure: DevOpsAgentClientTypes.MCPToolDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tools"].writeList(value.tools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -11764,6 +12204,7 @@ extension DevOpsAgentClientTypes.MCPServerSigV4Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsAgentClientTypes.MCPServerSigV4Configuration()
         value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.toolDetails = try reader["toolDetails"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.MCPToolDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11789,6 +12230,23 @@ extension DevOpsAgentClientTypes.MCPServerSplunkConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPServerSplunkConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return DevOpsAgentClientTypes.MCPServerSplunkConfiguration()
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPToolDetail {
+
+    static func write(value: DevOpsAgentClientTypes.MCPToolDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["toolClassification"].write(value.toolClassification)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MCPToolDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MCPToolDetail()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.toolClassification = try reader["toolClassification"].readIfPresent()
+        return value
     }
 }
 
@@ -12168,6 +12626,8 @@ extension DevOpsAgentClientTypes.RegisteredService {
         value.additionalServiceDetails = try reader["additionalServiceDetails"].readIfPresent(with: DevOpsAgentClientTypes.AdditionalServiceDetails.read(from:))
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -12385,6 +12845,7 @@ extension DevOpsAgentClientTypes.SendMessageContext {
 
     static func write(value: DevOpsAgentClientTypes.SendMessageContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["approvalAction"].write(value.approvalAction, with: DevOpsAgentClientTypes.ApprovalAction.write(value:to:))
         try writer["currentPage"].write(value.currentPage)
         try writer["lastMessage"].write(value.lastMessage)
         try writer["userActionResponse"].write(value.userActionResponse)
@@ -12749,6 +13210,8 @@ extension DevOpsAgentClientTypes.SourceAwsConfiguration {
         guard let value else { return }
         try writer["accountId"].write(value.accountId)
         try writer["accountType"].write(value.accountType)
+        try writer["agentElevatedRoleArn"].write(value.agentElevatedRoleArn)
+        try writer["agentElevatedRoleArnStatus"].write(value.agentElevatedRoleArnStatus)
         try writer["assumableRoleArn"].write(value.assumableRoleArn)
         try writer["externalId"].write(value.externalId)
     }
@@ -12760,6 +13223,8 @@ extension DevOpsAgentClientTypes.SourceAwsConfiguration {
         value.accountType = try reader["accountType"].readIfPresent() ?? .sdkUnknown("")
         value.assumableRoleArn = try reader["assumableRoleArn"].readIfPresent() ?? ""
         value.externalId = try reader["externalId"].readIfPresent()
+        value.agentElevatedRoleArn = try reader["agentElevatedRoleArn"].readIfPresent()
+        value.agentElevatedRoleArnStatus = try reader["agentElevatedRoleArnStatus"].readIfPresent()
         return value
     }
 }

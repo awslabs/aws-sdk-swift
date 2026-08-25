@@ -19416,13 +19416,13 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    public enum FleetReservationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case interruptibleCapacityReservation
+    public enum ReservedCapacityAllocationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case prioritized
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [FleetReservationType] {
+        public static var allCases: [ReservedCapacityAllocationStrategy] {
             return [
-                .interruptibleCapacityReservation
+                .prioritized
             ]
         }
 
@@ -19433,7 +19433,7 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .interruptibleCapacityReservation: return "interruptible-capacity-reservation"
+            case .prioritized: return "prioritized"
             case let .sdkUnknown(s): return s
             }
         }
@@ -19442,15 +19442,119 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    /// Defines EC2 Fleet preferences for utilizing reserved capacity when DefaultTargetCapacityType is set to reserved-capacity. This configuration can only be used if the EC2 Fleet is of type instant. When you specify ReservedCapacityOptions, you must also set DefaultTargetCapacityType to reserved-capacity in the TargetCapacitySpecification. For more information about Interruptible Capacity Reservations, see [Launch instances into an Interruptible Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-launch-instances-interruptible-cr-walkthrough.html) in the Amazon EC2 User Guide.
-    public struct ReservedCapacityOptionsRequest: Swift.Sendable {
-        /// The types of Capacity Reservations to use for fulfilling the EC2 Fleet request.
-        public var reservationTypes: [EC2ClientTypes.FleetReservationType]?
+    /// Describes the target Capacity Reservations or Capacity Reservation Resource Groups for an EC2 Fleet that launches into reserved capacity. You can specify Capacity Reservation IDs or a Capacity Reservation Resource Group ARN, but not both.
+    public struct FleetCapacityReservationTargetRequest: Swift.Sendable {
+        /// The IDs of the Capacity Reservations in which to launch the instances.
+        public var capacityReservationIds: [Swift.String]?
+        /// The ARNs of the Capacity Reservation Resource Groups in which to launch the instances.
+        public var capacityReservationResourceGroupArns: [Swift.String]?
 
         public init(
-            reservationTypes: [EC2ClientTypes.FleetReservationType]? = nil
+            capacityReservationIds: [Swift.String]? = nil,
+            capacityReservationResourceGroupArns: [Swift.String]? = nil
         ) {
+            self.capacityReservationIds = capacityReservationIds
+            self.capacityReservationResourceGroupArns = capacityReservationResourceGroupArns
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum FleetReservationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityBlock
+        case interruptibleCapacityReservation
+        case onDemandCapacityReservation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetReservationType] {
+            return [
+                .capacityBlock,
+                .interruptibleCapacityReservation,
+                .onDemandCapacityReservation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityBlock: return "capacity-block"
+            case .interruptibleCapacityReservation: return "interruptible-capacity-reservation"
+            case .onDemandCapacityReservation: return "on-demand-capacity-reservation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum ReservedCapacityFallbackMarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityFallbackMarketType] {
+            return [
+                .onDemand
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "on-demand"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the fallback behavior for an EC2 Fleet that uses reserved capacity when the reserved capacity is not enough to meet the target capacity. If you don't specify fallback options, EC2 Fleet does not fall back to any other market type after the specified reservation types are exhausted.
+    public struct ReservedCapacityFallbackOptionsRequest: Swift.Sendable {
+        /// The instance purchasing options to fall back to when the reserved capacity is not enough to meet the target capacity. The only supported value is on-demand, which launches On-Demand Instances to fulfill the remaining target capacity.
+        public var marketTypes: [EC2ClientTypes.ReservedCapacityFallbackMarketType]?
+
+        public init(
+            marketTypes: [EC2ClientTypes.ReservedCapacityFallbackMarketType]? = nil
+        ) {
+            self.marketTypes = marketTypes
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Defines EC2 Fleet preferences for utilizing reserved capacity when DefaultTargetCapacityType is set to reserved-capacity. EC2 Fleet can fulfill reserved capacity using On-Demand Capacity Reservations, Capacity Blocks for ML, and interruptible Capacity Reservations. This configuration can only be used if the EC2 Fleet is of type instant. When you specify ReservedCapacityOptions, you must also set DefaultTargetCapacityType to reserved-capacity in the TargetCapacitySpecification. For more information about interruptible Capacity Reservations, see [Launch instances into an interruptible Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-launch-instances-interruptible-cr-walkthrough.html) in the Amazon EC2 User Guide.
+    public struct ReservedCapacityOptionsRequest: Swift.Sendable {
+        /// The strategy that determines the order in which EC2 Fleet launches instances across the reservation types that you specify. The only supported value is prioritized, which launches instances in the priority order that you specify in your launch template overrides. If you don't specify an allocation strategy, instances are launched in a random order.
+        public var allocationStrategy: EC2ClientTypes.ReservedCapacityAllocationStrategy?
+        /// The Capacity Reservations or Capacity Reservation Resource Groups to use for fulfilling the EC2 Fleet request. You can specify Capacity Reservation IDs or a Capacity Reservation Resource Group ARN, but not both.
+        public var capacityReservationTarget: EC2ClientTypes.FleetCapacityReservationTargetRequest?
+        /// The types of Capacity Reservations to use for fulfilling the EC2 Fleet request. This is an ordered list: EC2 Fleet attempts to launch instances into each Capacity Reservation type in the order that you specify them before moving on to the next type.
+        public var reservationTypes: [EC2ClientTypes.FleetReservationType]?
+        /// The fallback behavior for the EC2 Fleet when there is not enough reserved capacity available to meet the target capacity. This member takes a ReservedCapacityFallbackOptionsRequest structure, in which you set MarketTypes to the instance purchasing options to fall back to.
+        public var reservedCapacityFallbackOptions: EC2ClientTypes.ReservedCapacityFallbackOptionsRequest?
+
+        public init(
+            allocationStrategy: EC2ClientTypes.ReservedCapacityAllocationStrategy? = nil,
+            capacityReservationTarget: EC2ClientTypes.FleetCapacityReservationTargetRequest? = nil,
+            reservationTypes: [EC2ClientTypes.FleetReservationType]? = nil,
+            reservedCapacityFallbackOptions: EC2ClientTypes.ReservedCapacityFallbackOptionsRequest? = nil
+        ) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationTarget = capacityReservationTarget
             self.reservationTypes = reservationTypes
+            self.reservedCapacityFallbackOptions = reservedCapacityFallbackOptions
         }
     }
 }
@@ -20516,7 +20620,7 @@ extension EC2ClientTypes {
         public var errorMessage: Swift.String?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public var launchTemplateAndOverrides: EC2ClientTypes.LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance. If you are using ReservedCapacityOptions with on-demand-capacity-reservation in the ReservationTypes list, the value can also be on-demand-capacity-reservation.
         public var lifecycle: EC2ClientTypes.InstanceLifecycle?
 
         public init(
@@ -20573,7 +20677,7 @@ extension EC2ClientTypes {
         public var instanceType: EC2ClientTypes.InstanceType?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public var launchTemplateAndOverrides: EC2ClientTypes.LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance.
         public var lifecycle: EC2ClientTypes.InstanceLifecycle?
         /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public var platform: EC2ClientTypes.PlatformValues?
@@ -24918,6 +25022,7 @@ extension EC2ClientTypes {
     public enum MarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityBlock
         case interruptibleCapacityReservation
+        case onDemand
         case spot
         case sdkUnknown(Swift.String)
 
@@ -24925,6 +25030,7 @@ extension EC2ClientTypes {
             return [
                 .capacityBlock,
                 .interruptibleCapacityReservation,
+                .onDemand,
                 .spot
             ]
         }
@@ -24938,6 +25044,7 @@ extension EC2ClientTypes {
             switch self {
             case .capacityBlock: return "capacity-block"
             case .interruptibleCapacityReservation: return "interruptible-capacity-reservation"
+            case .onDemand: return "on-demand"
             case .spot: return "spot"
             case let .sdkUnknown(s): return s
             }
@@ -48408,7 +48515,7 @@ extension EC2ClientTypes {
         public var errorMessage: Swift.String?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public var launchTemplateAndOverrides: EC2ClientTypes.LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance. If you are using ReservedCapacityOptions with on-demand-capacity-reservation in the ReservationTypes list, the value can also be on-demand-capacity-reservation.
         public var lifecycle: EC2ClientTypes.InstanceLifecycle?
 
         public init(
@@ -48435,7 +48542,7 @@ extension EC2ClientTypes {
         public var instanceType: EC2ClientTypes.InstanceType?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public var launchTemplateAndOverrides: EC2ClientTypes.LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance.
         public var lifecycle: EC2ClientTypes.InstanceLifecycle?
         /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public var platform: EC2ClientTypes.PlatformValues?
@@ -48527,15 +48634,38 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    /// Defines EC2 Fleet preferences for utilizing reserved capacity when DefaultTargetCapacityType is set to reserved-capacity.
-    public struct ReservedCapacityOptions: Swift.Sendable {
-        /// The types of Capacity Reservations used for fulfilling the EC2 Fleet request.
-        public var reservationTypes: [EC2ClientTypes.FleetReservationType]?
+    /// Describes the fallback behavior for an EC2 Fleet that uses reserved capacity when the reserved capacity is not enough to meet the target capacity. If you don't specify fallback options, EC2 Fleet does not fall back to any other market type after the specified reservation types are exhausted.
+    public struct ReservedCapacityFallbackOptions: Swift.Sendable {
+        /// The instance purchasing options to fall back to when the reserved capacity is not enough to meet the target capacity. The only supported value is on-demand, which launches On-Demand Instances to fulfill the remaining target capacity.
+        public var marketTypes: [EC2ClientTypes.ReservedCapacityFallbackMarketType]?
 
         public init(
-            reservationTypes: [EC2ClientTypes.FleetReservationType]? = nil
+            marketTypes: [EC2ClientTypes.ReservedCapacityFallbackMarketType]? = nil
         ) {
+            self.marketTypes = marketTypes
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Defines EC2 Fleet preferences for utilizing reserved capacity when DefaultTargetCapacityType is set to reserved-capacity. EC2 Fleet can fulfill reserved capacity using On-Demand Capacity Reservations, Capacity Blocks for ML, and interruptible Capacity Reservations.
+    public struct ReservedCapacityOptions: Swift.Sendable {
+        /// The strategy that determines the order in which EC2 Fleet launches instances across the reservation types that you specify. The only supported value is prioritized, which launches instances in the priority order that you specify in your launch template overrides. If you don't specify an allocation strategy, instances are launched in a random order.
+        public var allocationStrategy: EC2ClientTypes.ReservedCapacityAllocationStrategy?
+        /// The types of Capacity Reservations used for fulfilling the EC2 Fleet request.
+        public var reservationTypes: [EC2ClientTypes.FleetReservationType]?
+        /// The fallback behavior for the EC2 Fleet when there is not enough reserved capacity available to meet the target capacity.
+        public var reservedCapacityFallbackOptions: EC2ClientTypes.ReservedCapacityFallbackOptions?
+
+        public init(
+            allocationStrategy: EC2ClientTypes.ReservedCapacityAllocationStrategy? = nil,
+            reservationTypes: [EC2ClientTypes.FleetReservationType]? = nil,
+            reservedCapacityFallbackOptions: EC2ClientTypes.ReservedCapacityFallbackOptions? = nil
+        ) {
+            self.allocationStrategy = allocationStrategy
             self.reservationTypes = reservationTypes
+            self.reservedCapacityFallbackOptions = reservedCapacityFallbackOptions
         }
     }
 }
@@ -130105,6 +130235,19 @@ extension EC2ClientTypes.FleetCapacityReservation {
     }
 }
 
+extension EC2ClientTypes.FleetCapacityReservationTargetRequest {
+
+    static func write(value: EC2ClientTypes.FleetCapacityReservationTargetRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.capacityReservationIds?.isEmpty ?? true) {
+            try writer["CapacityReservationId"].writeList(value.capacityReservationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.capacityReservationResourceGroupArns?.isEmpty ?? true) {
+            try writer["CapacityReservationResourceGroupArn"].writeList(value.capacityReservationResourceGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+}
+
 extension EC2ClientTypes.FleetData {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FleetData {
@@ -136154,12 +136297,34 @@ extension EC2ClientTypes.ReservationValue {
     }
 }
 
+extension EC2ClientTypes.ReservedCapacityFallbackOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ReservedCapacityFallbackOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ReservedCapacityFallbackOptions()
+        value.marketTypes = try reader["marketTypeSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.ReservedCapacityFallbackMarketType>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ReservedCapacityFallbackOptionsRequest {
+
+    static func write(value: EC2ClientTypes.ReservedCapacityFallbackOptionsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.marketTypes?.isEmpty ?? true) {
+            try writer["MarketType"].writeList(value.marketTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.ReservedCapacityFallbackMarketType>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+}
+
 extension EC2ClientTypes.ReservedCapacityOptions {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ReservedCapacityOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.ReservedCapacityOptions()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
         value.reservationTypes = try reader["reservationTypeSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FleetReservationType>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.reservedCapacityFallbackOptions = try reader["reservedCapacityFallbackOptions"].readIfPresent(with: EC2ClientTypes.ReservedCapacityFallbackOptions.read(from:))
         return value
     }
 }
@@ -136168,9 +136333,12 @@ extension EC2ClientTypes.ReservedCapacityOptionsRequest {
 
     static func write(value: EC2ClientTypes.ReservedCapacityOptionsRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AllocationStrategy"].write(value.allocationStrategy)
+        try writer["CapacityReservationTarget"].write(value.capacityReservationTarget, with: EC2ClientTypes.FleetCapacityReservationTargetRequest.write(value:to:))
         if !(value.reservationTypes?.isEmpty ?? true) {
             try writer["ReservationType"].writeList(value.reservationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FleetReservationType>().write(value:to:), memberNodeInfo: "ReservationType", isFlattened: true)
         }
+        try writer["ReservedCapacityFallbackOptions"].write(value.reservedCapacityFallbackOptions, with: EC2ClientTypes.ReservedCapacityFallbackOptionsRequest.write(value:to:))
     }
 }
 

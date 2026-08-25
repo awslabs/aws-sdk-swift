@@ -1311,8 +1311,60 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Use this structure to specify the distribution of On-Demand Instances and Spot Instances and the allocation strategies used to fulfill On-Demand and Spot capacities for a mixed instances policy.
+    public enum TargetCapacityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityBlock
+        case interruptibleCapacityReservation
+        case onDemand
+        case onDemandCapacityReservation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetCapacityType] {
+            return [
+                .capacityBlock,
+                .interruptibleCapacityReservation,
+                .onDemand,
+                .onDemandCapacityReservation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityBlock: return "capacity-block"
+            case .interruptibleCapacityReservation: return "interruptible-capacity-reservation"
+            case .onDemand: return "on-demand"
+            case .onDemandCapacityReservation: return "on-demand-capacity-reservation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Use this structure to specify the capacity types that Amazon EC2 Auto Scaling prioritizes when it launches instances.
+    public struct DistributionSegment: Swift.Sendable {
+        /// The capacity types to prioritize, in order. Amazon EC2 Auto Scaling attempts to launch instances in the priority order of the capacity types, and within each capacity type, in the order of instance types listed in your launch template Overrides. The following lists the valid values: on-demand-capacity-reservation On-Demand Capacity Reservations. capacity-block Capacity Blocks. interruptible-capacity-reservation Interruptible Capacity Reservations. on-demand On-Demand capacity. Include this value to allow the group to fall back to On-Demand capacity when the preceding capacity types are unavailable.
+        public var targetCapacityTypes: [AutoScalingClientTypes.TargetCapacityType]?
+
+        public init(
+            targetCapacityTypes: [AutoScalingClientTypes.TargetCapacityType]? = nil
+        ) {
+            self.targetCapacityTypes = targetCapacityTypes
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Use this structure to specify how a mixed instances policy distributes capacity across On-Demand, Spot, and supported Capacity Reservation types, and to specify the allocation strategies that are used to fulfill the capacity.
     public struct InstancesDistribution: Swift.Sendable {
+        /// The Distribution Segments configuration. Each segment contains an ordered list of capacity types to prioritize. For more information, see [Use Distribution Segments to target multiple capacity types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/use-distribution-segments.html) in the Amazon EC2 Auto Scaling User Guide.
+        public var distributionSegments: [AutoScalingClientTypes.DistributionSegment]?
         /// The allocation strategy to apply to your On-Demand Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: lowest-price Uses price to determine which instance types are the highest priority, launching the lowest priced instance types within an Availability Zone first. This is the default value for Auto Scaling groups that specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html). prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling launches your highest priority instance types first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance type, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. This is the default value for Auto Scaling groups that don't specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) and cannot be used for groups that do.
         public var onDemandAllocationStrategy: Swift.String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is launched first as your group scales. This number has the same unit of measurement as the group's desired capacity. If you change the default unit of measurement (number of instances) by specifying weighted capacity values in your launch template overrides list, or by changing the default desired capacity type setting of the group, you must specify this number using the same unit of measurement. Default: 0
@@ -1327,6 +1379,7 @@ extension AutoScalingClientTypes {
         public var spotMaxPrice: Swift.String?
 
         public init(
+            distributionSegments: [AutoScalingClientTypes.DistributionSegment]? = nil,
             onDemandAllocationStrategy: Swift.String? = nil,
             onDemandBaseCapacity: Swift.Int? = nil,
             onDemandPercentageAboveBaseCapacity: Swift.Int? = nil,
@@ -1334,6 +1387,7 @@ extension AutoScalingClientTypes {
             spotInstancePools: Swift.Int? = nil,
             spotMaxPrice: Swift.String? = nil
         ) {
+            self.distributionSegments = distributionSegments
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandBaseCapacity = onDemandBaseCapacity
             self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
@@ -1979,11 +2033,11 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Use this structure to launch multiple instance types and configure how capacity is distributed across On-Demand, Spot, and supported Capacity Reservation types within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances, prioritize capacity types, and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide. To learn how to prioritize multiple capacity types, see [Use Distribution Segments to target multiple capacity types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/use-distribution-segments.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct MixedInstancesPolicy: Swift.Sendable {
         /// The instances distribution.
         public var instancesDistribution: AutoScalingClientTypes.InstancesDistribution?
-        /// One or more launch templates and the instance types (overrides) that are used to launch EC2 instances to fulfill On-Demand and Spot capacities.
+        /// One or more launch templates and the instance types (overrides) that are used to launch EC2 instances to fulfill the configured capacities.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplate?
 
         public init(
@@ -2098,7 +2152,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     /// The minimum size of the group.
     /// This member is required.
     public var minSize: Swift.Int?
-    /// The mixed instances policy. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// The mixed instances policy. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide. To learn how to prioritize multiple capacity types, see [Use Distribution Segments to target multiple capacity types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/use-distribution-segments.html) in the Amazon EC2 Auto Scaling User Guide.
     public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
     /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var newInstancesProtectedFromScaleIn: Swift.Bool?
@@ -3547,7 +3601,7 @@ extension AutoScalingClientTypes {
     public struct DesiredConfiguration: Swift.Sendable {
         /// Describes the launch template and the version of the launch template that Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more information about launch templates, see [Launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html) in the Amazon EC2 Auto Scaling User Guide.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
-        /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
+        /// Use this structure to launch multiple instance types and configure how capacity is distributed across On-Demand, Spot, and supported Capacity Reservation types within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances, prioritize capacity types, and help optimize your costs. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
 
         public init(
@@ -6964,7 +7018,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var maxSize: Swift.Int?
     /// The minimum size of the Auto Scaling group.
     public var minSize: Swift.Int?
-    /// The mixed instances policy. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// The mixed instances policy. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html) in the Amazon EC2 Auto Scaling User Guide. You can remove the Distribution Segments configuration by specifying OnDemandBaseCapacity or OnDemandPercentageAboveBaseCapacity. You can also remove it explicitly by specifying an empty list for DistributionSegments.
     public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
     /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var newInstancesProtectedFromScaleIn: Swift.Bool?
@@ -10528,6 +10582,21 @@ extension AutoScalingClientTypes.DesiredConfiguration {
     }
 }
 
+extension AutoScalingClientTypes.DistributionSegment {
+
+    static func write(value: AutoScalingClientTypes.DistributionSegment?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["TargetCapacityTypes"].writeList(value.targetCapacityTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AutoScalingClientTypes.TargetCapacityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.DistributionSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.DistributionSegment()
+        value.targetCapacityTypes = try reader["TargetCapacityTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AutoScalingClientTypes.TargetCapacityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension AutoScalingClientTypes.Ebs {
 
     static func write(value: AutoScalingClientTypes.Ebs?, to writer: SmithyFormURL.Writer) throws {
@@ -10825,6 +10894,7 @@ extension AutoScalingClientTypes.InstancesDistribution {
 
     static func write(value: AutoScalingClientTypes.InstancesDistribution?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DistributionSegments"].writeList(value.distributionSegments, memberWritingClosure: AutoScalingClientTypes.DistributionSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnDemandAllocationStrategy"].write(value.onDemandAllocationStrategy)
         try writer["OnDemandBaseCapacity"].write(value.onDemandBaseCapacity)
         try writer["OnDemandPercentageAboveBaseCapacity"].write(value.onDemandPercentageAboveBaseCapacity)
@@ -10842,6 +10912,7 @@ extension AutoScalingClientTypes.InstancesDistribution {
         value.spotAllocationStrategy = try reader["SpotAllocationStrategy"].readIfPresent()
         value.spotInstancePools = try reader["SpotInstancePools"].readIfPresent()
         value.spotMaxPrice = try reader["SpotMaxPrice"].readIfPresent()
+        value.distributionSegments = try reader["DistributionSegments"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.DistributionSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -527,12 +527,14 @@ extension EvsClientTypes {
     public enum InstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case i4iMetal
         case i7iMetal24xl
+        case i7iMetal48xl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceType] {
             return [
                 .i4iMetal,
-                .i7iMetal24xl
+                .i7iMetal24xl,
+                .i7iMetal48xl
             ]
         }
 
@@ -545,6 +547,7 @@ extension EvsClientTypes {
             switch self {
             case .i4iMetal: return "i4i.metal"
             case .i7iMetal24xl: return "i7i.metal-24xl"
+            case .i7iMetal48xl: return "i7i.metal-48xl"
             case let .sdkUnknown(s): return s
             }
         }
