@@ -17718,12 +17718,14 @@ extension EC2ClientTypes {
 
     public enum VpcState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
+        case deleting
         case pending
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VpcState] {
             return [
                 .available,
+                .deleting,
                 .pending
             ]
         }
@@ -17736,6 +17738,7 @@ extension EC2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "available"
+            case .deleting: return "deleting"
             case .pending: return "pending"
             case let .sdkUnknown(s): return s
             }
@@ -20581,6 +20584,7 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum InstanceLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityBlock
         case interruptibleCapacityReservation
         case onDemand
         case spot
@@ -20588,6 +20592,7 @@ extension EC2ClientTypes {
 
         public static var allCases: [InstanceLifecycle] {
             return [
+                .capacityBlock,
                 .interruptibleCapacityReservation,
                 .onDemand,
                 .spot
@@ -20601,6 +20606,7 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .capacityBlock: return "capacity-block"
             case .interruptibleCapacityReservation: return "interruptible-capacity-reservation"
             case .onDemand: return "on-demand"
             case .spot: return "spot"

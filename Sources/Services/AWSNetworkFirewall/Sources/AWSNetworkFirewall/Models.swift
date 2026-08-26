@@ -1794,6 +1794,7 @@ extension NetworkFirewallClientTypes {
 
     public enum FirewallStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleting
+        case failed
         case provisioning
         case ready
         case sdkUnknown(Swift.String)
@@ -1801,6 +1802,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [FirewallStatusValue] {
             return [
                 .deleting,
+                .failed,
                 .provisioning,
                 .ready
             ]
@@ -1814,6 +1816,7 @@ extension NetworkFirewallClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deleting: return "DELETING"
+            case .failed: return "FAILED"
             case .provisioning: return "PROVISIONING"
             case .ready: return "READY"
             case let .sdkUnknown(s): return s

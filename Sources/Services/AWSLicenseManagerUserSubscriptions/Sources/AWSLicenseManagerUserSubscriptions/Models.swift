@@ -745,7 +745,7 @@ public struct DeregisterIdentityProviderInput: Swift.Sendable {
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     /// The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
     public var identityProviderArn: Swift.String?
-    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     public var product: Swift.String?
 
     public init(
@@ -1068,7 +1068,7 @@ public struct ListProductSubscriptionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
-    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     public var product: Swift.String?
 
     public init(
@@ -1095,6 +1095,8 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         /// An object that specifies details for the identity provider.
         /// This member is required.
         public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
+        /// The expiration date of the license associated with this subscription, in ISO 8601 UTC format (for example, 2025-03-15T00:00:00Z). This field applies only to subscriptions that use license server endpoints, such as Remote Desktop Services (RDS) Subscriber Access License (SAL). It returns null for products that don't use license-based subscriptions.
+        public var licenseExpirationDate: Swift.String?
         /// The name of the user-based subscription product.
         /// This member is required.
         public var product: Swift.String?
@@ -1116,6 +1118,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public init(
             domain: Swift.String? = nil,
             identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider? = nil,
+            licenseExpirationDate: Swift.String? = nil,
             product: Swift.String? = nil,
             productUserArn: Swift.String? = nil,
             status: Swift.String? = nil,
@@ -1126,6 +1129,7 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         ) {
             self.domain = domain
             self.identityProvider = identityProvider
+            self.licenseExpirationDate = licenseExpirationDate
             self.product = product
             self.productUserArn = productUserArn
             self.status = status
@@ -1234,7 +1238,7 @@ public struct RegisterIdentityProviderInput: Swift.Sendable {
     /// An object that specifies details for the identity provider to register.
     /// This member is required.
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
-    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     /// This member is required.
     public var product: Swift.String?
     /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
@@ -1278,7 +1282,7 @@ public struct StartProductSubscriptionInput: Swift.Sendable {
     /// An object that specifies details for the identity provider.
     /// This member is required.
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
-    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     /// This member is required.
     public var product: Swift.String?
     /// The tags that apply to the product subscription.
@@ -1324,7 +1328,7 @@ public struct StopProductSubscriptionInput: Swift.Sendable {
     public var domain: Swift.String?
     /// An object that specifies details for the identity provider.
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
-    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     public var product: Swift.String?
     /// The Amazon Resource Name (ARN) of the product user.
     public var productUserArn: Swift.String?
@@ -1442,7 +1446,7 @@ public struct UpdateIdentityProviderSettingsInput: Swift.Sendable {
     public var identityProvider: LicenseManagerUserSubscriptionsClientTypes.IdentityProvider?
     /// The Amazon Resource Name (ARN) of the identity provider to update.
     public var identityProviderArn: Swift.String?
-    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     public var product: Swift.String?
     /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:
     ///
@@ -2619,6 +2623,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary {
         value.domain = try reader["Domain"].readIfPresent()
         value.subscriptionStartDate = try reader["SubscriptionStartDate"].readIfPresent()
         value.subscriptionEndDate = try reader["SubscriptionEndDate"].readIfPresent()
+        value.licenseExpirationDate = try reader["LicenseExpirationDate"].readIfPresent()
         return value
     }
 }

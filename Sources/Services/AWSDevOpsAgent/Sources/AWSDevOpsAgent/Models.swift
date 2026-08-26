@@ -34,6 +34,7 @@ import struct Smithy.URIQueryItem
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
@@ -971,15 +972,86 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Webhook events that can auto-trigger a capability. PULL_REQUEST_* events apply to RELEASE_READINESS_REVIEW; WORKFLOW_* events apply to RELEASE_SHEPHERDING.
+    public enum TriggerEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A change request is created or updated while in draft state.
+        case pullRequestDraft
+        /// A change request is created, updated, or marked ready for review while in a non-draft state.
+        case pullRequestReadyForReview
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerEvent] {
+            return [
+                .pullRequestDraft,
+                .pullRequestReadyForReview
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pullRequestDraft: return "PULL_REQUEST_DRAFT"
+            case .pullRequestReadyForReview: return "PULL_REQUEST_READY_FOR_REVIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// A regex-based match condition. Passes when the value matches any pattern.
+    public struct PatternFilter: Swift.Sendable {
+        /// Anchored full-match regex patterns. The condition passes when the value matches at least one pattern.
+        /// This member is required.
+        public var patterns: [Swift.String]?
+
+        public init(
+            patterns: [Swift.String]? = nil
+        ) {
+            self.patterns = patterns
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// A group of trigger conditions. The group matches when ALL present conditions pass. A group cannot be empty: at least one condition must be present.
+    public struct TriggerFilterGroup: Swift.Sendable {
+        /// Passes when the webhook event is one of the listed events.
+        public var events: [DevOpsAgentClientTypes.TriggerEvent]?
+        /// Passes when the change request target branch matches. Applicable to RELEASE_READINESS_REVIEW only.
+        public var targetBranches: DevOpsAgentClientTypes.PatternFilter?
+
+        public init(
+            events: [DevOpsAgentClientTypes.TriggerEvent]? = nil,
+            targetBranches: DevOpsAgentClientTypes.PatternFilter? = nil
+        ) {
+            self.events = events
+            self.targetBranches = targetBranches
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Capability configuration for the AWS DevOps Agent.
     public struct CapabilityConfiguration: Swift.Sendable {
         /// Whether the capability is enabled.
         public var enabled: Swift.Bool?
+        /// Optional trigger filter groups. Evaluated only when enabled=true; retained while the capability is disabled, so re-enabling restores the prior trigger behavior.
+        public var triggerFilterGroups: [DevOpsAgentClientTypes.TriggerFilterGroup]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            triggerFilterGroups: [DevOpsAgentClientTypes.TriggerFilterGroup]? = nil
         ) {
             self.enabled = enabled
+            self.triggerFilterGroups = triggerFilterGroups
         }
     }
 }
@@ -11694,12 +11766,14 @@ extension DevOpsAgentClientTypes.CapabilityConfiguration {
     static func write(value: DevOpsAgentClientTypes.CapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+        try writer["triggerFilterGroups"].writeList(value.triggerFilterGroups, memberWritingClosure: DevOpsAgentClientTypes.TriggerFilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.CapabilityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsAgentClientTypes.CapabilityConfiguration()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.triggerFilterGroups = try reader["triggerFilterGroups"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.TriggerFilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12357,6 +12431,21 @@ extension DevOpsAgentClientTypes.PagerDutyOAuthClientCredentialsConfig {
         try writer["clientName"].write(value.clientName)
         try writer["clientSecret"].write(value.clientSecret)
         try writer["exchangeParameters"].writeMap(value.exchangeParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension DevOpsAgentClientTypes.PatternFilter {
+
+    static func write(value: DevOpsAgentClientTypes.PatternFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["patterns"].writeList(value.patterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.PatternFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.PatternFilter()
+        value.patterns = try reader["patterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -13306,6 +13395,23 @@ extension DevOpsAgentClientTypes.TriggerCondition {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DevOpsAgentClientTypes.TriggerFilterGroup {
+
+    static func write(value: DevOpsAgentClientTypes.TriggerFilterGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.TriggerEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetBranches"].write(value.targetBranches, with: DevOpsAgentClientTypes.PatternFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.TriggerFilterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.TriggerFilterGroup()
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DevOpsAgentClientTypes.TriggerEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetBranches = try reader["targetBranches"].readIfPresent(with: DevOpsAgentClientTypes.PatternFilter.read(from:))
+        return value
     }
 }
 
