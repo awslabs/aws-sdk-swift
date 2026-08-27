@@ -550,6 +550,31 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Nielsen Nw Only
+    public struct NielsenNwOnly: Swift.Sendable {
+        /// Enter the check digit string for the watermark
+        /// This member is required.
+        public var checkDigitString: Swift.String?
+        /// Enter the Nielsen Source ID (SID) to include in the watermark
+        /// This member is required.
+        public var sid: Swift.Double?
+        /// Choose the timezone for the time stamps in the watermark. If not provided, the timestamps will be in Coordinated Universal Time (UTC)
+        public var timezone: MediaLiveClientTypes.NielsenWatermarkTimezones?
+
+        public init(
+            checkDigitString: Swift.String? = nil,
+            sid: Swift.Double? = nil,
+            timezone: MediaLiveClientTypes.NielsenWatermarkTimezones? = nil
+        ) {
+            self.checkDigitString = checkDigitString
+            self.sid = sid
+            self.timezone = timezone
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Nielsen Watermarks Settings
     public struct NielsenWatermarksSettings: Swift.Sendable {
         /// Complete these fields only if you want to insert watermarks of type Nielsen CBET
@@ -562,15 +587,19 @@ extension MediaLiveClientTypes {
         public var nielsenDistributionType: MediaLiveClientTypes.NielsenWatermarksDistributionTypes?
         /// Complete these fields only if you want to insert watermarks of type Nielsen NAES II (N2) and Nielsen NAES VI (NW).
         public var nielsenNaesIiNwSettings: MediaLiveClientTypes.NielsenNaesIiNw?
+        /// Complete these fields only if you want to insert watermarks of type Nielsen NAES VI (NW) only, without inserting NAES II (N2) watermarks.
+        public var nielsenNwOnlySettings: MediaLiveClientTypes.NielsenNwOnly?
 
         public init(
             nielsenCbetSettings: MediaLiveClientTypes.NielsenCBET? = nil,
             nielsenDistributionType: MediaLiveClientTypes.NielsenWatermarksDistributionTypes? = nil,
-            nielsenNaesIiNwSettings: MediaLiveClientTypes.NielsenNaesIiNw? = nil
+            nielsenNaesIiNwSettings: MediaLiveClientTypes.NielsenNaesIiNw? = nil,
+            nielsenNwOnlySettings: MediaLiveClientTypes.NielsenNwOnly? = nil
         ) {
             self.nielsenCbetSettings = nielsenCbetSettings
             self.nielsenDistributionType = nielsenDistributionType
             self.nielsenNaesIiNwSettings = nielsenNaesIiNwSettings
+            self.nielsenNwOnlySettings = nielsenNwOnlySettings
         }
     }
 }
@@ -10168,12 +10197,14 @@ extension MediaLiveClientTypes {
     public enum M2tsScte35Control: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case passthrough
+        case scte35WithoutIdr
         case sdkUnknown(Swift.String)
 
         public static var allCases: [M2tsScte35Control] {
             return [
                 .none,
-                .passthrough
+                .passthrough,
+                .scte35WithoutIdr
             ]
         }
 
@@ -10186,6 +10217,7 @@ extension MediaLiveClientTypes {
             switch self {
             case .none: return "NONE"
             case .passthrough: return "PASSTHROUGH"
+            case .scte35WithoutIdr: return "SCTE_35_WITHOUT_IDR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10374,7 +10406,7 @@ extension MediaLiveClientTypes {
         public var rateMode: MediaLiveClientTypes.M2tsRateMode?
         /// Packet Identifier (PID) for input source SCTE-27 data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values. Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
         public var scte27Pids: Swift.String?
-        /// Optionally pass SCTE-35 signals from the input source to this output.
+        /// SCTE-35 control. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "passthrough" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame, and MediaLive itself will introduce a new segment boundary there.
         public var scte35Control: MediaLiveClientTypes.M2tsScte35Control?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public var scte35Pid: Swift.String?
@@ -11350,7 +11382,7 @@ extension MediaLiveClientTypes {
         public var pcrControl: MediaLiveClientTypes.M2tsPcrControl?
         /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
         public var pcrPeriod: Swift.Int?
-        /// Optionally pass SCTE-35 signals from the input source to this output.
+        /// SCTE-35 control. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "passthrough" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame, and MediaLive itself will introduce a new segment boundary there.
         public var scte35Control: MediaLiveClientTypes.M2tsScte35Control?
         /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on the output. Preroll is the amount of time between the presence of a SCTE-35 indication in a transport stream and the PTS of the video frame it references. Zero means don't add pullup (it doesn't mean set the preroll to zero). Negative pullup is not supported, which means that you can't make the preroll shorter. Be aware that latency in the output will increase by the pullup amount.
         public var scte35PrerollPullupMilliseconds: Swift.Double?
@@ -11917,12 +11949,14 @@ extension MediaLiveClientTypes {
     /// Scte35 Type
     public enum Scte35Type: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
+        case scte35WithoutIdr
         case scte35WithoutSegmentation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Scte35Type] {
             return [
                 .none,
+                .scte35WithoutIdr,
                 .scte35WithoutSegmentation
             ]
         }
@@ -11935,6 +11969,7 @@ extension MediaLiveClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .none: return "NONE"
+            case .scte35WithoutIdr: return "SCTE_35_WITHOUT_IDR"
             case .scte35WithoutSegmentation: return "SCTE_35_WITHOUT_SEGMENTATION"
             case let .sdkUnknown(s): return s
             }
@@ -12060,7 +12095,7 @@ extension MediaLiveClientTypes {
         public var nielsenId3NameModifier: Swift.String?
         /// Change the modifier that MediaLive automatically adds to the Streams() name for a SCTE 35 track. The default is "scte", which means the default name will be Streams(scte.cmfm). Any string you enter here will replace the "scte" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
         public var scte35NameModifier: Swift.String?
-        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        /// SCTE-35 insertion type. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "scte35WithoutSegmentation" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame so that a downstream re-packager might split the segment there, but MediaLive itself will not introduce a new segment boundary there.
         public var scte35Type: MediaLiveClientTypes.Scte35Type?
         /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
         public var segmentLength: Swift.Int?
@@ -13373,7 +13408,7 @@ extension MediaLiveClientTypes {
         public var klvBehavior: MediaLiveClientTypes.CmafKLVBehavior?
         /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
         public var nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior?
-        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        /// SCTE-35 insertion type. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "scte35WithoutSegmentation" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame so that a downstream re-packager might split the segment there, but MediaLive itself will not introduce a new segment boundary there.
         public var scte35Type: MediaLiveClientTypes.Scte35Type?
         /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
         public var segmentLength: Swift.Int?
@@ -19293,6 +19328,37 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// A rectangle defined by position (x, y) and dimensions (width, height) in pixels. Used for output positioning and input cropping.
+    public struct VideoPositionRectangle: Swift.Sendable {
+        /// Height in pixels. Must be an even number.
+        /// This member is required.
+        public var height: Swift.Int?
+        /// Width in pixels. Must be an even number.
+        /// This member is required.
+        public var width: Swift.Int?
+        /// Left offset in pixels. Must be an even number.
+        /// This member is required.
+        public var x: Swift.Int?
+        /// Top offset in pixels. Must be an even number.
+        /// This member is required.
+        public var y: Swift.Int?
+
+        public init(
+            height: Swift.Int? = nil,
+            width: Swift.Int? = nil,
+            x: Swift.Int? = nil,
+            y: Swift.Int? = nil
+        ) {
+            self.height = height
+            self.width = width
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Video Description Respond To Afd
     public enum VideoDescriptionRespondToAfd: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
@@ -19363,11 +19429,15 @@ extension MediaLiveClientTypes {
     public struct VideoDescription: Swift.Sendable {
         /// Video codec settings.
         public var codecSettings: MediaLiveClientTypes.VideoCodecSettings?
+        /// Region of the input video to crop before scaling. If not specified, the entire input frame is used. Note: Unlike {@link outputPositionRectangle}, the bounds of cropRectangle are validated at ingest time by the encoder/scaler rather than at the API level, because the input resolution is not known until the source is probed. Field-level constraints on (x, y, width, height) defined on {@link VideoPositionRectangle} still apply.
+        public var cropRectangle: MediaLiveClientTypes.VideoPositionRectangle?
         /// Output video height, in pixels. Must be an even number. For most codecs, you can leave this field and width blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
         public var height: Swift.Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description. Description names should be unique within this Live Event.
         /// This member is required.
         public var name: Swift.String?
+        /// Position of the encoded video within the output frame. The area outside the rectangle is filled with black. If not specified, the video fills the entire output frame. When used, both {@link width} and {@link height} of the VideoDescription must be explicitly specified so that the rectangle can be validated against the output frame.
+        public var outputPositionRectangle: MediaLiveClientTypes.VideoPositionRectangle?
         /// Indicates how MediaLive will respond to the AFD values that might be in the input video. If you do not know what AFD signaling is, or if your downstream system has not given you guidance, choose PASSTHROUGH. RESPOND: MediaLive clips the input video using a formula that uses the AFD values (configured in afdSignaling ), the input display aspect ratio, and the output display aspect ratio. MediaLive also includes the AFD values in the output, unless the codec for this encode is FRAME_CAPTURE. PASSTHROUGH: MediaLive ignores the AFD values and does not clip the video. But MediaLive does include the values in the output. NONE: MediaLive does not clip the input video and does not include the AFD values in the output
         public var respondToAfd: MediaLiveClientTypes.VideoDescriptionRespondToAfd?
         /// Configures how MediaLive transforms the video picture to match the output frame. Use STRETCH_TO_OUTPUT to stretch the video to fill the output frame. The video might get distorted. Use DEFAULT to insert pillar boxes or letter boxes around the video to fill the output frame. The video won't get distorted. Use SMART_CROP to enable the smart crop feature that uses the Elemental Inference service to crop the frame using AI - see the MediaLive User Guide for more information.
@@ -19379,16 +19449,20 @@ extension MediaLiveClientTypes {
 
         public init(
             codecSettings: MediaLiveClientTypes.VideoCodecSettings? = nil,
+            cropRectangle: MediaLiveClientTypes.VideoPositionRectangle? = nil,
             height: Swift.Int? = nil,
             name: Swift.String? = nil,
+            outputPositionRectangle: MediaLiveClientTypes.VideoPositionRectangle? = nil,
             respondToAfd: MediaLiveClientTypes.VideoDescriptionRespondToAfd? = nil,
             scalingBehavior: MediaLiveClientTypes.VideoDescriptionScalingBehavior? = nil,
             sharpness: Swift.Int? = nil,
             width: Swift.Int? = nil
         ) {
             self.codecSettings = codecSettings
+            self.cropRectangle = cropRectangle
             self.height = height
             self.name = name
+            self.outputPositionRectangle = outputPositionRectangle
             self.respondToAfd = respondToAfd
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
@@ -39897,6 +39971,25 @@ extension MediaLiveClientTypes.NielsenNaesIiNw {
     }
 }
 
+extension MediaLiveClientTypes.NielsenNwOnly {
+
+    static func write(value: MediaLiveClientTypes.NielsenNwOnly?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["checkDigitString"].write(value.checkDigitString)
+        try writer["sid"].write(value.sid)
+        try writer["timezone"].write(value.timezone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.NielsenNwOnly {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.NielsenNwOnly()
+        value.checkDigitString = try reader["checkDigitString"].readIfPresent() ?? ""
+        value.sid = try reader["sid"].readIfPresent() ?? 0.0
+        value.timezone = try reader["timezone"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.NielsenWatermarksSettings {
 
     static func write(value: MediaLiveClientTypes.NielsenWatermarksSettings?, to writer: SmithyJSON.Writer) throws {
@@ -39904,6 +39997,7 @@ extension MediaLiveClientTypes.NielsenWatermarksSettings {
         try writer["nielsenCbetSettings"].write(value.nielsenCbetSettings, with: MediaLiveClientTypes.NielsenCBET.write(value:to:))
         try writer["nielsenDistributionType"].write(value.nielsenDistributionType)
         try writer["nielsenNaesIiNwSettings"].write(value.nielsenNaesIiNwSettings, with: MediaLiveClientTypes.NielsenNaesIiNw.write(value:to:))
+        try writer["nielsenNwOnlySettings"].write(value.nielsenNwOnlySettings, with: MediaLiveClientTypes.NielsenNwOnly.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.NielsenWatermarksSettings {
@@ -39912,6 +40006,7 @@ extension MediaLiveClientTypes.NielsenWatermarksSettings {
         value.nielsenCbetSettings = try reader["nielsenCbetSettings"].readIfPresent(with: MediaLiveClientTypes.NielsenCBET.read(from:))
         value.nielsenDistributionType = try reader["nielsenDistributionType"].readIfPresent()
         value.nielsenNaesIiNwSettings = try reader["nielsenNaesIiNwSettings"].readIfPresent(with: MediaLiveClientTypes.NielsenNaesIiNw.read(from:))
+        value.nielsenNwOnlySettings = try reader["nielsenNwOnlySettings"].readIfPresent(with: MediaLiveClientTypes.NielsenNwOnly.read(from:))
         return value
     }
 }
@@ -41618,8 +41713,10 @@ extension MediaLiveClientTypes.VideoDescription {
     static func write(value: MediaLiveClientTypes.VideoDescription?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["codecSettings"].write(value.codecSettings, with: MediaLiveClientTypes.VideoCodecSettings.write(value:to:))
+        try writer["cropRectangle"].write(value.cropRectangle, with: MediaLiveClientTypes.VideoPositionRectangle.write(value:to:))
         try writer["height"].write(value.height)
         try writer["name"].write(value.name)
+        try writer["outputPositionRectangle"].write(value.outputPositionRectangle, with: MediaLiveClientTypes.VideoPositionRectangle.write(value:to:))
         try writer["respondToAfd"].write(value.respondToAfd)
         try writer["scalingBehavior"].write(value.scalingBehavior)
         try writer["sharpness"].write(value.sharpness)
@@ -41636,6 +41733,29 @@ extension MediaLiveClientTypes.VideoDescription {
         value.scalingBehavior = try reader["scalingBehavior"].readIfPresent()
         value.sharpness = try reader["sharpness"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
+        value.cropRectangle = try reader["cropRectangle"].readIfPresent(with: MediaLiveClientTypes.VideoPositionRectangle.read(from:))
+        value.outputPositionRectangle = try reader["outputPositionRectangle"].readIfPresent(with: MediaLiveClientTypes.VideoPositionRectangle.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.VideoPositionRectangle {
+
+    static func write(value: MediaLiveClientTypes.VideoPositionRectangle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["height"].write(value.height)
+        try writer["width"].write(value.width)
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.VideoPositionRectangle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.VideoPositionRectangle()
+        value.height = try reader["height"].readIfPresent() ?? 0
+        value.width = try reader["width"].readIfPresent() ?? 0
+        value.x = try reader["x"].readIfPresent() ?? 0
+        value.y = try reader["y"].readIfPresent() ?? 0
         return value
     }
 }

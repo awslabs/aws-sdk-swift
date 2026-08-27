@@ -8427,11 +8427,15 @@ extension BedrockAgentCoreClientTypes {
         /// The unique ID of the memory record to be deleted.
         /// This member is required.
         public var memoryRecordId: Swift.String?
+        /// The namespace of the memory record being deleted. This value is used for IAM condition key authorization.
+        public var namespace: Swift.String?
 
         public init(
-            memoryRecordId: Swift.String? = nil
+            memoryRecordId: Swift.String? = nil,
+            namespace: Swift.String? = nil
         ) {
             self.memoryRecordId = memoryRecordId
+            self.namespace = namespace
         }
     }
 }
@@ -8485,6 +8489,8 @@ extension BedrockAgentCoreClientTypes {
         public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]?
         /// The updated list of namespace identifiers for categorizing the memory record.
         public var namespaces: [Swift.String]?
+        /// The namespaces of the source memory record being updated. This value is used for IAM condition key authorization.
+        public var sourceNamespaces: [Swift.String]?
         /// Time at which the memory record was updated
         /// This member is required.
         public var timestamp: Foundation.Date?
@@ -8495,6 +8501,7 @@ extension BedrockAgentCoreClientTypes {
             memoryStrategyId: Swift.String? = nil,
             metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
             namespaces: [Swift.String]? = nil,
+            sourceNamespaces: [Swift.String]? = nil,
             timestamp: Foundation.Date? = nil
         ) {
             self.content = content
@@ -8502,6 +8509,7 @@ extension BedrockAgentCoreClientTypes {
             self.memoryStrategyId = memoryStrategyId
             self.metadata = metadata
             self.namespaces = namespaces
+            self.sourceNamespaces = sourceNamespaces
             self.timestamp = timestamp
         }
     }
@@ -8581,6 +8589,21 @@ extension BedrockAgentCoreClientTypes {
         ) {
             self.name = name
             self.rootEventId = rootEventId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The configuration for extraction behavior. Use this structure to specify namespace variable keys and their values for namespace substitution during long-term memory extraction.
+    public struct ExtractionConfig: Swift.Sendable {
+        /// A map of namespaceKeys to their values. The service substitutes these values into namespaceTemplates during long-term memory extraction to control namespace hierarchy.
+        public var namespaceVariables: [Swift.String: Swift.String]?
+
+        public init(
+            namespaceVariables: [Swift.String: Swift.String]? = nil
+        ) {
+            self.namespaceVariables = namespaceVariables
         }
     }
 }
@@ -8689,12 +8712,36 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Contains non-conversational, JSON-formatted content for an event payload. JSON payloads are extracted into long-term memory.
+    public struct MemoryJsonData: Swift.Sendable {
+        /// The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB.
+        /// This member is required.
+        public var content: Smithy.Document?
+
+        public init(
+            content: Smithy.Document? = nil
+        ) {
+            self.content = content
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.MemoryJsonData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Contains the payload content for an event.
     public enum PayloadType: Swift.Sendable {
         /// The conversational content of the payload.
         case conversational(BedrockAgentCoreClientTypes.Conversational)
         /// The binary content of the payload.
         case blob(Smithy.Document)
+        /// The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events.
+        case json(BedrockAgentCoreClientTypes.MemoryJsonData)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8710,6 +8757,8 @@ public struct CreateEventInput: Swift.Sendable {
     /// The timestamp when the event occurred. If not specified, the current time is used.
     /// This member is required.
     public var eventTimestamp: Foundation.Date?
+    /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction.
+    public var extractionConfig: BedrockAgentCoreClientTypes.ExtractionConfig?
     /// Controls long-term memory extraction for this event. When set to SKIP, the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual.
     public var extractionMode: BedrockAgentCoreClientTypes.ExtractionMode?
     /// The identifier of the AgentCore Memory resource in which to create the event.
@@ -8717,7 +8766,7 @@ public struct CreateEventInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The key-value metadata to attach to the event.
     public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]?
-    /// The content payload of the event. This can include conversational data or binary content.
+    /// The content payload of the event. This can include conversational data, JSON data, or binary content.
     /// This member is required.
     public var payload: [BedrockAgentCoreClientTypes.PayloadType]?
     /// The identifier of the session in which this event occurs. A session represents a sequence of related events.
@@ -8728,6 +8777,7 @@ public struct CreateEventInput: Swift.Sendable {
         branch: BedrockAgentCoreClientTypes.Branch? = nil,
         clientToken: Swift.String? = nil,
         eventTimestamp: Foundation.Date? = nil,
+        extractionConfig: BedrockAgentCoreClientTypes.ExtractionConfig? = nil,
         extractionMode: BedrockAgentCoreClientTypes.ExtractionMode? = nil,
         memoryId: Swift.String? = nil,
         metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
@@ -8738,6 +8788,7 @@ public struct CreateEventInput: Swift.Sendable {
         self.branch = branch
         self.clientToken = clientToken
         self.eventTimestamp = eventTimestamp
+        self.extractionConfig = extractionConfig
         self.extractionMode = extractionMode
         self.memoryId = memoryId
         self.metadata = metadata
@@ -8853,13 +8904,17 @@ public struct DeleteMemoryRecordInput: Swift.Sendable {
     /// The identifier of the memory record to delete.
     /// This member is required.
     public var memoryRecordId: Swift.String?
+    /// The namespace of the memory record to delete. This value is used for IAM condition key authorization.
+    public var namespace: Swift.String?
 
     public init(
         memoryId: Swift.String? = nil,
-        memoryRecordId: Swift.String? = nil
+        memoryRecordId: Swift.String? = nil,
+        namespace: Swift.String? = nil
     ) {
         self.memoryId = memoryId
         self.memoryRecordId = memoryRecordId
+        self.namespace = namespace
     }
 }
 
@@ -8921,13 +8976,17 @@ public struct GetMemoryRecordInput: Swift.Sendable {
     /// The identifier of the memory record to retrieve.
     /// This member is required.
     public var memoryRecordId: Swift.String?
+    /// The namespace of the memory record to retrieve. This value is used for IAM condition key authorization.
+    public var namespace: Swift.String?
 
     public init(
         memoryId: Swift.String? = nil,
-        memoryRecordId: Swift.String? = nil
+        memoryRecordId: Swift.String? = nil,
+        namespace: Swift.String? = nil
     ) {
         self.memoryId = memoryId
         self.memoryRecordId = memoryRecordId
+        self.namespace = namespace
     }
 }
 
@@ -11664,6 +11723,18 @@ extension DeleteMemoryRecordInput {
     }
 }
 
+extension DeleteMemoryRecordInput {
+
+    static func queryItemProvider(_ value: DeleteMemoryRecordInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeletePaymentInstrumentInput {
 
     static func urlPathProvider(_ value: DeletePaymentInstrumentInput) -> Swift.String? {
@@ -11850,6 +11921,18 @@ extension GetMemoryRecordInput {
             return nil
         }
         return "/memories/\(memoryId.urlPercentEncoding())/memoryRecord/\(memoryRecordId.urlPercentEncoding())"
+    }
+}
+
+extension GetMemoryRecordInput {
+
+    static func queryItemProvider(_ value: GetMemoryRecordInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
@@ -12732,6 +12815,7 @@ extension CreateEventInput {
         try writer["branch"].write(value.branch, with: BedrockAgentCoreClientTypes.Branch.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["eventTimestamp"].writeTimestamp(value.eventTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["extractionConfig"].write(value.extractionConfig, with: BedrockAgentCoreClientTypes.ExtractionConfig.write(value:to:))
         try writer["extractionMode"].write(value.extractionMode)
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["payload"].writeList(value.payload, memberWritingClosure: BedrockAgentCoreClientTypes.PayloadType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -16961,6 +17045,14 @@ extension BedrockAgentCoreClientTypes.ExternalProxy {
     }
 }
 
+extension BedrockAgentCoreClientTypes.ExtractionConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.ExtractionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespaceVariables"].writeMap(value.namespaceVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.ExtractionJob {
 
     static func write(value: BedrockAgentCoreClientTypes.ExtractionJob?, to writer: SmithyJSON.Writer) throws {
@@ -17981,6 +18073,21 @@ extension BedrockAgentCoreClientTypes.MemoryContent {
     }
 }
 
+extension BedrockAgentCoreClientTypes.MemoryJsonData {
+
+    static func write(value: BedrockAgentCoreClientTypes.MemoryJsonData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.MemoryJsonData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.MemoryJsonData()
+        value.content = try reader["content"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression {
 
     static func write(value: BedrockAgentCoreClientTypes.MemoryMetadataFilterExpression?, to writer: SmithyJSON.Writer) throws {
@@ -18024,6 +18131,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordDeleteInput {
     static func write(value: BedrockAgentCoreClientTypes.MemoryRecordDeleteInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["memoryRecordId"].write(value.memoryRecordId)
+        try writer["namespace"].write(value.namespace)
     }
 }
 
@@ -18128,6 +18236,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordUpdateInput {
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceNamespaces"].writeList(value.sourceNamespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
@@ -18368,6 +18477,8 @@ extension BedrockAgentCoreClientTypes.PayloadType {
                 try writer["blob"].write(blob)
             case let .conversational(conversational):
                 try writer["conversational"].write(conversational, with: BedrockAgentCoreClientTypes.Conversational.write(value:to:))
+            case let .json(json):
+                try writer["json"].write(json, with: BedrockAgentCoreClientTypes.MemoryJsonData.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -18381,6 +18492,8 @@ extension BedrockAgentCoreClientTypes.PayloadType {
                 return .conversational(try reader["conversational"].read(with: BedrockAgentCoreClientTypes.Conversational.read(from:)))
             case "blob":
                 return .blob(try reader["blob"].read())
+            case "json":
+                return .json(try reader["json"].read(with: BedrockAgentCoreClientTypes.MemoryJsonData.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

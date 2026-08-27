@@ -1668,7 +1668,7 @@ extension BedrockAgentCoreControlClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateGatewayRateLimitInput`)
     ///
-    /// - Returns: Shared fields for GatewayRateLimit responses (Type: `CreateGatewayRateLimitOutput`)
+    /// - Returns: Shared fields for GatewayRateLimit responses. (Type: `CreateGatewayRateLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4079,7 +4079,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteMemory` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes an Amazon Bedrock AgentCore Memory resource.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteMemoryInput`)
     ///
@@ -5774,7 +5774,7 @@ extension BedrockAgentCoreControlClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `GetGatewayRateLimitInput`)
     ///
-    /// - Returns: Shared fields for GatewayRateLimit responses (Type: `GetGatewayRateLimitOutput`)
+    /// - Returns: Shared fields for GatewayRateLimit responses. (Type: `GetGatewayRateLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11228,7 +11228,7 @@ extension BedrockAgentCoreControlClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGatewayRateLimitInput`)
     ///
-    /// - Returns: Shared fields for GatewayRateLimit responses (Type: `UpdateGatewayRateLimitOutput`)
+    /// - Returns: Shared fields for GatewayRateLimit responses. (Type: `UpdateGatewayRateLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

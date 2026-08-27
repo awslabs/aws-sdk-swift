@@ -807,6 +807,8 @@ extension ElementalInferenceClientTypes {
 }
 
 public struct CreateFeedOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that you specified in the request. This property is absent if you didn't specify an IAM role.
+    public var accessRoleArn: Swift.String?
     /// A unique ARN that Elemental Inference assigns to the feed.
     /// This member is required.
     public var arn: Swift.String?
@@ -831,6 +833,7 @@ public struct CreateFeedOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        accessRoleArn: Swift.String? = nil,
         arn: Swift.String? = nil,
         association: ElementalInferenceClientTypes.FeedAssociation? = nil,
         dataEndpoints: [Swift.String]? = nil,
@@ -840,6 +843,7 @@ public struct CreateFeedOutput: Swift.Sendable {
         status: ElementalInferenceClientTypes.FeedStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.accessRoleArn = accessRoleArn
         self.arn = arn
         self.association = association
         self.dataEndpoints = dataEndpoints
@@ -1205,6 +1209,8 @@ public struct GetFeedInput: Swift.Sendable {
 }
 
 public struct GetFeedOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that Elemental Inference assumes. Elemental Inference uses this role to access resources in your account on your behalf. This property is absent if the feed doesn't have an IAM role.
+    public var accessRoleArn: Swift.String?
     /// The ARN of the feed.
     /// This member is required.
     public var arn: Swift.String?
@@ -1229,6 +1235,7 @@ public struct GetFeedOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        accessRoleArn: Swift.String? = nil,
         arn: Swift.String? = nil,
         association: ElementalInferenceClientTypes.FeedAssociation? = nil,
         dataEndpoints: [Swift.String]? = nil,
@@ -1238,6 +1245,7 @@ public struct GetFeedOutput: Swift.Sendable {
         status: ElementalInferenceClientTypes.FeedStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.accessRoleArn = accessRoleArn
         self.arn = arn
         self.association = association
         self.dataEndpoints = dataEndpoints
@@ -1376,6 +1384,8 @@ public struct UpdateFeedInput: Swift.Sendable {
 }
 
 public struct UpdateFeedOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role for the feed, after the update. This property is absent if the feed doesn't have an IAM role.
+    public var accessRoleArn: Swift.String?
     /// The ARN of the feed.
     /// This member is required.
     public var arn: Swift.String?
@@ -1400,6 +1410,7 @@ public struct UpdateFeedOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        accessRoleArn: Swift.String? = nil,
         arn: Swift.String? = nil,
         association: ElementalInferenceClientTypes.FeedAssociation? = nil,
         dataEndpoints: [Swift.String]? = nil,
@@ -1409,6 +1420,7 @@ public struct UpdateFeedOutput: Swift.Sendable {
         status: ElementalInferenceClientTypes.FeedStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.accessRoleArn = accessRoleArn
         self.arn = arn
         self.association = association
         self.dataEndpoints = dataEndpoints
@@ -1416,29 +1428,6 @@ public struct UpdateFeedOutput: Swift.Sendable {
         self.name = name
         self.outputs = outputs
         self.status = status
-        self.tags = tags
-    }
-}
-
-public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN of the resource whose tags you want to query.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    ) {
-        self.resourceArn = resourceArn
-    }
-}
-
-public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// A list of the tags that belong to this resource.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
         self.tags = tags
     }
 }
@@ -1488,6 +1477,76 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct GetFixtureInput: Swift.Sendable {
+    /// The ID of the fixture to retrieve, as returned by SearchFixtures.
+    /// This member is required.
+    public var fixtureId: Swift.String?
+
+    public init(
+        fixtureId: Swift.String? = nil
+    ) {
+        self.fixtureId = fixtureId
+    }
+}
+
+public struct GetFixtureOutput: Swift.Sendable {
+    /// An array of the competitors (the teams or individuals) in the fixture.
+    /// This member is required.
+    public var competitors: [ElementalInferenceClientTypes.Competitor]?
+    /// The group that the fixture belongs to, such as the competition, league, or tournament. The data source doesn't provide this information for every fixture.
+    public var fixtureGroup: Swift.String?
+    /// The ID that you specified in the request.
+    /// This member is required.
+    public var fixtureId: Swift.String?
+    /// The name of the fixture, as provided by the data source. For example, the names of the two competing teams.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The scheduled start time of the fixture, as provided by the data source. The actual start time might differ.
+    public var scheduledStart: Foundation.Date?
+    /// The status of the fixture in its lifecycle, as provided by the data source. For example, Scheduled or Completed.
+    /// This member is required.
+    public var status: Swift.String?
+
+    public init(
+        competitors: [ElementalInferenceClientTypes.Competitor]? = nil,
+        fixtureGroup: Swift.String? = nil,
+        fixtureId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        scheduledStart: Foundation.Date? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.competitors = competitors
+        self.fixtureGroup = fixtureGroup
+        self.fixtureId = fixtureId
+        self.name = name
+        self.scheduledStart = scheduledStart
+        self.status = status
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The ARN of the resource whose tags you want to query.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// A list of the tags that belong to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
     }
 }
 
@@ -1744,6 +1803,16 @@ extension GetFeedInput {
     }
 }
 
+extension GetFixtureInput {
+
+    static func urlPathProvider(_ value: GetFixtureInput) -> Swift.String? {
+        guard let fixtureId = value.fixtureId else {
+            return nil
+        }
+        return "/v1/fixtures/\(fixtureId.urlPercentEncoding())"
+    }
+}
+
 extension ListDictionariesInput {
 
     static func urlPathProvider(_ value: ListDictionariesInput) -> Swift.String? {
@@ -1983,6 +2052,7 @@ extension CreateFeedOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFeedOutput()
+        value.accessRoleArn = try reader["accessRoleArn"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.association = try reader["association"].readIfPresent(with: ElementalInferenceClientTypes.FeedAssociation.read(from:))
         value.dataEndpoints = try reader["dataEndpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -2073,6 +2143,7 @@ extension GetFeedOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFeedOutput()
+        value.accessRoleArn = try reader["accessRoleArn"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.association = try reader["association"].readIfPresent(with: ElementalInferenceClientTypes.FeedAssociation.read(from:))
         value.dataEndpoints = try reader["dataEndpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -2081,6 +2152,23 @@ extension GetFeedOutput {
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.GetOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetFixtureOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFixtureOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFixtureOutput()
+        value.competitors = try reader["competitors"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.Competitor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.fixtureGroup = try reader["fixtureGroup"].readIfPresent()
+        value.fixtureId = try reader["fixtureId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.scheduledStart = try reader["scheduledStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2175,6 +2263,7 @@ extension UpdateFeedOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFeedOutput()
+        value.accessRoleArn = try reader["accessRoleArn"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.association = try reader["association"].readIfPresent(with: ElementalInferenceClientTypes.FeedAssociation.read(from:))
         value.dataEndpoints = try reader["dataEndpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -2350,6 +2439,26 @@ enum GetFeedOutputError {
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFixtureOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "GatewayTimedOutException": return try GatewayTimedOutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

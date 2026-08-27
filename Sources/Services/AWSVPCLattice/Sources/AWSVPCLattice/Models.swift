@@ -5949,17 +5949,24 @@ public struct UpdateServiceNetworkOutput: Swift.Sendable {
 }
 
 public struct UpdateServiceNetworkVpcAssociationInput: Swift.Sendable {
+    /// DNS options for the service network VPC association.
+    public var dnsOptions: VPCLatticeClientTypes.DnsOptions?
+    /// Indicates if private DNS is enabled for the VPC association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The IDs of the security groups.
-    /// This member is required.
     public var securityGroupIds: [Swift.String]?
     /// The ID or ARN of the association.
     /// This member is required.
     public var serviceNetworkVpcAssociationIdentifier: Swift.String?
 
     public init(
+        dnsOptions: VPCLatticeClientTypes.DnsOptions? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
     ) {
+        self.dnsOptions = dnsOptions
+        self.privateDnsEnabled = privateDnsEnabled
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
@@ -5970,8 +5977,12 @@ public struct UpdateServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The account that created the association.
     public var createdBy: Swift.String?
+    /// DNS options for the service network VPC association.
+    public var dnsOptions: VPCLatticeClientTypes.DnsOptions?
     /// The ID of the association.
     public var id: Swift.String?
+    /// Indicates if private DNS is enabled for the VPC association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The IDs of the security groups.
     public var securityGroupIds: [Swift.String]?
     /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
@@ -5980,13 +5991,17 @@ public struct UpdateServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         createdBy: Swift.String? = nil,
+        dnsOptions: VPCLatticeClientTypes.DnsOptions? = nil,
         id: Swift.String? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
     ) {
         self.arn = arn
         self.createdBy = createdBy
+        self.dnsOptions = dnsOptions
         self.id = id
+        self.privateDnsEnabled = privateDnsEnabled
         self.securityGroupIds = securityGroupIds
         self.status = status
     }
@@ -7431,6 +7446,8 @@ extension UpdateServiceNetworkVpcAssociationInput {
 
     static func write(value: UpdateServiceNetworkVpcAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["dnsOptions"].write(value.dnsOptions, with: VPCLatticeClientTypes.DnsOptions.write(value:to:))
+        try writer["privateDnsEnabled"].write(value.privateDnsEnabled)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -8549,7 +8566,9 @@ extension UpdateServiceNetworkVpcAssociationOutput {
         var value = UpdateServiceNetworkVpcAssociationOutput()
         value.arn = try reader["arn"].readIfPresent()
         value.createdBy = try reader["createdBy"].readIfPresent()
+        value.dnsOptions = try reader["dnsOptions"].readIfPresent(with: VPCLatticeClientTypes.DnsOptions.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         return value

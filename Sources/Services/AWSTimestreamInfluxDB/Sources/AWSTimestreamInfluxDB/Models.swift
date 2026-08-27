@@ -1632,6 +1632,8 @@ public struct GetDbClusterOutput: Swift.Sendable {
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
     /// Deployment type of the DB cluster.
     public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
+    /// The ID of the DB parameter group actually applied to your DB cluster. When the service applies optimized defaults, it creates a service-managed DB parameter group and this field reflects that group, while dbParameterGroupIdentifier reflects the customer-provided DB parameter group. When no service-managed DB parameter group is applied, this value matches dbParameterGroupIdentifier.
+    public var effectiveDbParameterGroupIdentifier: Swift.String?
     /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
     public var endpoint: Swift.String?
     /// The engine type of your DB cluster.
@@ -1680,6 +1682,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
+        effectiveDbParameterGroupIdentifier: Swift.String? = nil,
         endpoint: Swift.String? = nil,
         engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
         failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
@@ -1707,6 +1710,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
         self.deploymentType = deploymentType
+        self.effectiveDbParameterGroupIdentifier = effectiveDbParameterGroupIdentifier
         self.endpoint = endpoint
         self.engineType = engineType
         self.failoverMode = failoverMode

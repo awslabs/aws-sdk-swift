@@ -4490,6 +4490,82 @@ extension DevOpsAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateApprovalAction` operation on the `DevOpsAgent` service.
+    ///
+    /// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
+    ///
+    /// - Parameter input: Request structure for UpdateApprovalAction. Submits the terminal decision (APPROVED or REJECTED) against an approval request, optionally carrying the finalized pattern and time-to-live when the action is APPROVED, or a free-text rationale when the action is REJECTED. Cross-field invariants between action and the approve-only / reject-only members are enforced by service-side validation. (Type: `UpdateApprovalActionInput`)
+    ///
+    /// - Returns: Response structure for UpdateApprovalAction. Reports the post-submission lifecycle status of the approval request and, when applicable, the absolute expiry timestamp. The status is a lifecycle state distinct from the action verb — an APPROVED submission transitions the request to APPROVED status (live, redeemable); a REJECTED submission transitions it to REJECTED status (terminal). (Type: `UpdateApprovalActionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the requested resource is denied due to insufficient permissions.
+    /// - `ConflictException` : The request conflicts with the current state of the resource.
+    /// - `ContentSizeExceededException` : This exception is thrown when the content size exceeds the allowed limit.
+    /// - `InternalServerException` : This exception is thrown when an unexpected error occurs in the processing of a request.
+    /// - `InvalidParameterException` : One or more parameters provided in the request are invalid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : The request would exceed the service quota limit.
+    /// - `ThrottlingException` : The request was throttled due to too many requests. Please slow down and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func updateApprovalAction(input: UpdateApprovalActionInput) async throws -> UpdateApprovalActionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateApprovalAction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aidevops")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateApprovalActionInput, UpdateApprovalActionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>(UpdateApprovalActionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>(hostPrefix: "dp."))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateApprovalActionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApprovalActionOutput>(UpdateApprovalActionOutput.httpOutput(from:), UpdateApprovalActionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApprovalActionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DevOps Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateApprovalActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApprovalActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DevOps Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateApprovalActionInput, UpdateApprovalActionOutput>(serviceID: serviceName, version: DevOpsAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DevOpsAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApprovalAction")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateAsset` operation on the `DevOpsAgent` service.
     ///
     /// Updates an asset in the specified agent space

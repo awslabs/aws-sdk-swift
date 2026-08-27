@@ -614,7 +614,7 @@ extension ConnectContactLensClient {
 extension ConnectContactLensClient {
     /// Performs the `ListRealtimeContactAnalysisSegments` operation on the `ConnectContactLens` service.
     ///
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time analysis session for voice. Voice data is retained for 24 hours. You must invoke this API during that time.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsInput`)
     ///

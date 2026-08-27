@@ -11,6 +11,72 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension MarketplaceCatalogClient {
+    /// Paginate over `[DescribeAssessmentOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAssessmentInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAssessmentOutput`
+    public func describeAssessmentPaginated(input: DescribeAssessmentInput) -> ClientRuntime.PaginatorSequence<DescribeAssessmentInput, DescribeAssessmentOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAssessmentInput, DescribeAssessmentOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAssessment(input:))
+    }
+}
+
+extension DescribeAssessmentInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeAssessmentInput {
+        return DescribeAssessmentInput(
+            assessmentIdentifier: self.assessmentIdentifier,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeAssessmentInput, OperationStackOutput == DescribeAssessmentOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAssessmentPaginated`
+    /// to access the nested member `[MarketplaceCatalogClientTypes.ControlAssessment]`
+    /// - Returns: `[MarketplaceCatalogClientTypes.ControlAssessment]`
+    public func controlAssessments() async throws -> [MarketplaceCatalogClientTypes.ControlAssessment] {
+        return try await self.asyncCompactMap { item in item.controlAssessments }
+    }
+}
+extension MarketplaceCatalogClient {
+    /// Paginate over `[ListAssessmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssessmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentsOutput`
+    public func listAssessmentsPaginated(input: ListAssessmentsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentsInput, ListAssessmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAssessmentsInput, ListAssessmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessments(input:))
+    }
+}
+
+extension ListAssessmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAssessmentsInput {
+        return ListAssessmentsInput(
+            assessmentTargetFilter: self.assessmentTargetFilter,
+            catalog: self.catalog,
+            frameworkFilters: self.frameworkFilters,
+            frameworkId: self.frameworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAssessmentsInput, OperationStackOutput == ListAssessmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssessmentsPaginated`
+    /// to access the nested member `[MarketplaceCatalogClientTypes.AssessmentSummary]`
+    /// - Returns: `[MarketplaceCatalogClientTypes.AssessmentSummary]`
+    public func assessmentSummaryList() async throws -> [MarketplaceCatalogClientTypes.AssessmentSummary] {
+        return try await self.asyncCompactMap { item in item.assessmentSummaryList }
+    }
+}
+extension MarketplaceCatalogClient {
     /// Paginate over `[ListChangeSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

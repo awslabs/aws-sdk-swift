@@ -351,4 +351,53 @@ extension EKSClient {
         let waiter = SmithyWaitersAPI.Waiter(config: try Self.nodegroupDeletedWaiterConfig(), operation: self.describeNodegroup(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
+
+    static func certificateAuthorityUpdateCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeUpdateInput, DescribeUpdateOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeUpdateInput, DescribeUpdateOutput>.Acceptor] = [
+            .init(state: .failure, matcher: { (input: DescribeUpdateInput, result: Swift.Result<DescribeUpdateOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "update.status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "Failed"
+                guard case .success(let output) = result else { return false }
+                let update = output.update
+                let status = update?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "Failed")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeUpdateInput, result: Swift.Result<DescribeUpdateOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "update.status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "Cancelled"
+                guard case .success(let output) = result else { return false }
+                let update = output.update
+                let status = update?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "Cancelled")
+            }),
+            .init(state: .success, matcher: { (input: DescribeUpdateInput, result: Swift.Result<DescribeUpdateOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "update.status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "Successful"
+                guard case .success(let output) = result else { return false }
+                let update = output.update
+                let status = update?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "Successful")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeUpdateInput, DescribeUpdateOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the CertificateAuthorityUpdateComplete event on the describeUpdate operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeUpdateInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilCertificateAuthorityUpdateComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeUpdateInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeUpdateOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.certificateAuthorityUpdateCompleteWaiterConfig(), operation: self.describeUpdate(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
 }

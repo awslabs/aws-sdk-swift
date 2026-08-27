@@ -4988,7 +4988,7 @@ extension BackupClient {
 
     /// Performs the `ListBackupJobSummaries` operation on the `Backup` service.
     ///
-    /// This is a request for a summary of backup jobs created or running within the most recent 30 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    /// This is a request for a summary of backup jobs created or running within the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListBackupJobSummariesInput`)
     ///
@@ -5467,7 +5467,7 @@ extension BackupClient {
 
     /// Performs the `ListCopyJobSummaries` operation on the `Backup` service.
     ///
-    /// This request obtains a list of copy jobs created or running within the the most recent 30 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    /// This request obtains a list of copy jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCopyJobSummariesInput`)
     ///
@@ -6348,7 +6348,7 @@ extension BackupClient {
 
     /// Performs the `ListRestoreJobSummaries` operation on the `Backup` service.
     ///
-    /// This request obtains a summary of restore jobs created or running within the the most recent 30 days. You can include parameters AccountID, State, ResourceType, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    /// This request obtains a summary of restore jobs created or running within the the most recent 14 days. You can include parameters AccountID, State, ResourceType, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRestoreJobSummariesInput`)
     ///
@@ -6688,7 +6688,7 @@ extension BackupClient {
 
     /// Performs the `ListScanJobSummaries` operation on the `Backup` service.
     ///
-    /// This is a request for a summary of scan jobs created or running within the most recent 30 days.
+    /// This is a request for a summary of scan jobs created or running within the most recent 14 days.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListScanJobSummariesInput`)
     ///
