@@ -1348,6 +1348,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
+    /// - `ThrottlingException` : An API function was called too frequently.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1443,11 +1444,14 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
     /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
+    /// - `InvalidECSServiceException` : The Amazon ECS service identifier is not valid.
     /// - `InvalidFileExistsBehaviorException` : An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
     /// - `InvalidGitHubAccountTokenException` : The GitHub token is not valid.
     /// - `InvalidIgnoreApplicationStopFailuresValueException` : The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
+    /// - `InvalidInputException` : The input was specified in an invalid format.
     /// - `InvalidLoadBalancerInfoException` : An invalid load balancer name, or no load balancer name, was specified.
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
@@ -3123,7 +3127,9 @@ extension CodeDeployClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
@@ -3206,7 +3212,9 @@ extension CodeDeployClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.

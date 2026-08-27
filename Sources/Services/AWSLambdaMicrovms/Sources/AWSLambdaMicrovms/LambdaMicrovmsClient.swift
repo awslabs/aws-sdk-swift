@@ -627,6 +627,7 @@ extension LambdaMicrovmsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
     /// - `InternalServerException` : An internal server error occurred. Retry the request later.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request later.
@@ -774,6 +775,7 @@ extension LambdaMicrovmsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
     /// - `InternalServerException` : An internal server error occurred. Retry the request later.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request later.
@@ -1679,10 +1681,14 @@ extension LambdaMicrovmsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry the request later.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceException` : The AWS Lambda MicroVMs service encountered an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request later.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. Retry the request later.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by the service.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1819,6 +1825,7 @@ extension LambdaMicrovmsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InsufficientCapacityException` : There is insufficient capacity to fulfill the request. Retry the request later.
     /// - `InternalServerException` : An internal server error occurred. Retry the request later.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded a service quota for Lambda MicroVMs.
@@ -1962,11 +1969,15 @@ extension LambdaMicrovmsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry the request later.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceException` : The AWS Lambda MicroVMs service encountered an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request later.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. Retry the request later.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by the service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2104,11 +2115,15 @@ extension LambdaMicrovmsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry the request later.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceException` : The AWS Lambda MicroVMs service encountered an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Retry the request later.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. Retry the request later.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by the service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)

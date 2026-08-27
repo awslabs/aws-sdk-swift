@@ -48444,6 +48444,78 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ReplaceImageInstanceTypeSpecification` operation on the `EC2` service.
+    ///
+    /// Replaces or removes the instance type specification for an AMI. The instance type specification defines which instance types are compatible with the AMI. When you launch an instance using [RunInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html), Amazon EC2 validates the requested instance type against the AMI's instance type specification. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation logic is as follows:
+    ///
+    /// * No specification set – all instance types are allowed.
+    ///
+    /// * Only UnsupportedInstanceTypes set – All instance types are allowed except those that match the unsupported list.
+    ///
+    /// * SupportedInstanceTypes set – The instance type must match the supported list and must not match the unsupported list.
+    ///
+    ///
+    /// Instance type entries support wildcard patterns using * (for example, t3.* matches all t3 sizes). To remove an existing instance type specification, omit the InstanceTypeSpecification parameter or set it to null. To set the instance type specification, you must be the AMI owner. You cannot set an instance type specification on an AMI that is listed in Amazon Web Services Marketplace, and you cannot list an AMI in Amazon Web Services Marketplace if it has an instance type specification set.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ReplaceImageInstanceTypeSpecificationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ReplaceImageInstanceTypeSpecificationOutput`)
+    public func replaceImageInstanceTypeSpecification(input: ReplaceImageInstanceTypeSpecificationInput) async throws -> ReplaceImageInstanceTypeSpecificationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "replaceImageInstanceTypeSpecification")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>(ReplaceImageInstanceTypeSpecificationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceImageInstanceTypeSpecificationOutput>(ReplaceImageInstanceTypeSpecificationOutput.httpOutput(from:), ReplaceImageInstanceTypeSpecificationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceImageInstanceTypeSpecificationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReplaceImageInstanceTypeSpecificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ReplaceImageInstanceTypeSpecificationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReplaceImageInstanceTypeSpecificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReplaceImageInstanceTypeSpecificationInput, ReplaceImageInstanceTypeSpecificationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceImageInstanceTypeSpecification")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ReplaceNetworkAclAssociation` operation on the `EC2` service.
     ///
     /// Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide. This is an idempotent operation.

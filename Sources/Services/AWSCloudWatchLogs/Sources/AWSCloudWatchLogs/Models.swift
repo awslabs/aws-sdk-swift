@@ -5923,6 +5923,8 @@ extension CloudWatchLogsClientTypes {
         public var recordsMatched: Swift.Double
         /// The total number of log events scanned during the query.
         public var recordsScanned: Swift.Double
+        /// The number of rows in the final query result set. This value represents the total number of output rows across all pages. For queries that include post-aggregation filters (such as stats count(*) by field | filter count > threshold), this value might be less than recordsMatched. It reflects only the rows that survived all operations in the query.
+        public var resultCount: Swift.Double
 
         public init(
             bytesScanned: Swift.Double = 0.0,
@@ -5930,7 +5932,8 @@ extension CloudWatchLogsClientTypes {
             estimatedRecordsSkipped: Swift.Double = 0.0,
             logGroupsScanned: Swift.Double = 0.0,
             recordsMatched: Swift.Double = 0.0,
-            recordsScanned: Swift.Double = 0.0
+            recordsScanned: Swift.Double = 0.0,
+            resultCount: Swift.Double = 0.0
         ) {
             self.bytesScanned = bytesScanned
             self.estimatedBytesSkipped = estimatedBytesSkipped
@@ -5938,6 +5941,7 @@ extension CloudWatchLogsClientTypes {
             self.logGroupsScanned = logGroupsScanned
             self.recordsMatched = recordsMatched
             self.recordsScanned = recordsScanned
+            self.resultCount = resultCount
         }
     }
 }

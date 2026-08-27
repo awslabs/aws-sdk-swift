@@ -3758,6 +3758,30 @@ public struct InvalidTagsToAddException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// An API function was called too frequently.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Represents the input of a CreateApplication operation.
 public struct CreateApplicationInput: Swift.Sendable {
     /// The name of the application. This name must be unique with the applicable user or Amazon Web Services account.
@@ -3969,6 +3993,30 @@ public struct InvalidDeploymentConfigNameException: ClientRuntime.ModeledError, 
     }
 }
 
+/// The Amazon ECS service identifier is not valid.
+public struct InvalidECSServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidECSServiceException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
 public struct InvalidFileExistsBehaviorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4027,6 +4075,30 @@ public struct InvalidIgnoreApplicationStopFailuresValueException: ClientRuntime.
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidIgnoreApplicationStopFailuresValueException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The input was specified in an invalid format.
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4193,27 +4265,32 @@ public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// An API function was called too frequently.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension CodeDeployClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// The message that corresponds to the exception thrown by CodeDeploy.
-        public internal(set) var message: Swift.String? = nil
-    }
+    public enum DeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case restart
+        case standard
+        case sdkUnknown(Swift.String)
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+        public static var allCases: [DeploymentMode] {
+            return [
+                .restart,
+                .standard
+            ]
+        }
 
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .restart: return "RESTART"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -4228,6 +4305,8 @@ public struct CreateDeploymentInput: Swift.Sendable {
     public var deploymentConfigName: Swift.String?
     /// The name of the deployment group.
     public var deploymentGroupName: Swift.String?
+    /// The deployment mode to use for the deployment. When set to STANDARD (the default), the deployment runs the standard set of deployment lifecycle events. When set to RESTART, an EC2/On-premises in-place deployment runs a shortened set of lifecycle events to quickly restart the application on the target instances.
+    public var deploymentMode: CodeDeployClientTypes.DeploymentMode?
     /// A comment about the deployment.
     public var description: Swift.String?
     /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:
@@ -4254,6 +4333,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         autoRollbackConfiguration: CodeDeployClientTypes.AutoRollbackConfiguration? = nil,
         deploymentConfigName: Swift.String? = nil,
         deploymentGroupName: Swift.String? = nil,
+        deploymentMode: CodeDeployClientTypes.DeploymentMode? = nil,
         description: Swift.String? = nil,
         fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior? = nil,
         ignoreApplicationStopFailures: Swift.Bool? = false,
@@ -4266,6 +4346,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         self.autoRollbackConfiguration = autoRollbackConfiguration
         self.deploymentConfigName = deploymentConfigName
         self.deploymentGroupName = deploymentGroupName
+        self.deploymentMode = deploymentMode
         self.description = description
         self.fileExistsBehavior = fileExistsBehavior
         self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
@@ -4829,54 +4910,6 @@ public struct InvalidEC2TagException: ClientRuntime.ModeledError, AWSClientRunti
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidEC2TagException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The Amazon ECS service identifier is not valid.
-public struct InvalidECSServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The message that corresponds to the exception thrown by CodeDeploy.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidECSServiceException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The input was specified in an invalid format.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The message that corresponds to the exception thrown by CodeDeploy.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidInputException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }

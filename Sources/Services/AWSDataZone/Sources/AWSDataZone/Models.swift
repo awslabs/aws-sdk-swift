@@ -14502,19 +14502,23 @@ public struct DisassociateGovernedTermsOutput: Swift.Sendable {
 }
 
 public struct DeleteDomainInput: Swift.Sendable {
+    /// Specifies whether to delete the domain along with all of its associated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck. If you don't specify a value, the default is false.
+    public var cascadeDelete: Swift.Bool?
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Web Services domain that is to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
-    /// Specifies the optional flag to delete all child entities within the domain.
+    /// Specifies whether to skip the check that prevents deletion of a domain that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascadeDelete instead. You can't use this parameter together with cascadeDelete.
     public var skipDeletionCheck: Swift.Bool?
 
     public init(
+        cascadeDelete: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         identifier: Swift.String? = nil,
         skipDeletionCheck: Swift.Bool? = nil
     ) {
+        self.cascadeDelete = cascadeDelete
         self.clientToken = clientToken
         self.identifier = identifier
         self.skipDeletionCheck = skipDeletionCheck
@@ -14530,6 +14534,40 @@ public struct DeleteDomainOutput: Swift.Sendable {
         status: DataZoneClientTypes.DomainStatus? = nil
     ) {
         self.status = status
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The progress of a domain deletion, including the number of projects that Amazon DataZone successfully deleted. Amazon DataZone returns this structure in the response to a GetDomain request while a cascade deletion is in progress.
+    public struct DeleteProgress: Swift.Sendable {
+        /// The number of projects that Amazon DataZone successfully deleted during the domain deletion.
+        public var successfullyDeletedProjectCount: Swift.Int?
+
+        public init(
+            successfullyDeletedProjectCount: Swift.Int? = nil
+        ) {
+            self.successfullyDeletedProjectCount = successfullyDeletedProjectCount
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details of a resource deletion failure during a cascade deletion of the domain.
+    public struct FailureReason: Swift.Sendable {
+        /// The identifier of the resource that failed to delete.
+        public var id: Swift.String?
+        /// The error message associated with the resource that failed to delete.
+        public var message: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.id = id
+            self.message = message
+        }
     }
 }
 
@@ -14550,6 +14588,8 @@ public struct GetDomainOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The timestamp of when the Amazon DataZone domain was created.
     public var createdAt: Foundation.Date?
+    /// The progress of the current domain deletion, including the number of projects that Amazon DataZone successfully deleted.
+    public var deleteProgress: DataZoneClientTypes.DeleteProgress?
     /// The description of the Amazon DataZone domain.
     public var description: Swift.String?
     /// The domain execution role with which the Amazon DataZone domain is created.
@@ -14557,6 +14597,8 @@ public struct GetDomainOutput: Swift.Sendable {
     public var domainExecutionRole: Swift.String?
     /// The version of the domain.
     public var domainVersion: DataZoneClientTypes.DomainVersion?
+    /// The list of failure reasons for resources that Amazon DataZone could not delete during a cascade deletion of the domain.
+    public var failureReasons: [DataZoneClientTypes.FailureReason]?
     /// The identifier of the specified Amazon DataZone domain.
     /// This member is required.
     public var id: Swift.String?
@@ -14583,9 +14625,11 @@ public struct GetDomainOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
+        deleteProgress: DataZoneClientTypes.DeleteProgress? = nil,
         description: Swift.String? = nil,
         domainExecutionRole: Swift.String? = nil,
         domainVersion: DataZoneClientTypes.DomainVersion? = nil,
+        failureReasons: [DataZoneClientTypes.FailureReason]? = nil,
         id: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
@@ -14599,9 +14643,11 @@ public struct GetDomainOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.createdAt = createdAt
+        self.deleteProgress = deleteProgress
         self.description = description
         self.domainExecutionRole = domainExecutionRole
         self.domainVersion = domainVersion
+        self.failureReasons = failureReasons
         self.id = id
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastUpdatedAt = lastUpdatedAt
@@ -27217,6 +27263,10 @@ extension DeleteDomainInput {
             let skipDeletionCheckQueryItem = Smithy.URIQueryItem(name: "skipDeletionCheck".urlPercentEncoding(), value: Swift.String(skipDeletionCheck).urlPercentEncoding())
             items.append(skipDeletionCheckQueryItem)
         }
+        if let cascadeDelete = value.cascadeDelete {
+            let cascadeDeleteQueryItem = Smithy.URIQueryItem(name: "cascadeDelete".urlPercentEncoding(), value: Swift.String(cascadeDelete).urlPercentEncoding())
+            items.append(cascadeDeleteQueryItem)
+        }
         return items
     }
 }
@@ -32531,9 +32581,11 @@ extension GetDomainOutput {
         var value = GetDomainOutput()
         value.arn = try reader["arn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteProgress = try reader["deleteProgress"].readIfPresent(with: DataZoneClientTypes.DeleteProgress.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent() ?? ""
         value.domainVersion = try reader["domainVersion"].readIfPresent()
+        value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FailureReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -39720,6 +39772,16 @@ extension DataZoneClientTypes.DataSourceSummary {
     }
 }
 
+extension DataZoneClientTypes.DeleteProgress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DeleteProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DeleteProgress()
+        value.successfullyDeletedProjectCount = try reader["successfullyDeletedProjectCount"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.Deployment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Deployment {
@@ -40243,6 +40305,17 @@ extension DataZoneClientTypes.FailureCause {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FailureCause {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.FailureCause()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.FailureReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FailureReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.FailureReason()
+        value.id = try reader["id"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         return value
     }
