@@ -50537,6 +50537,8 @@ public struct DescribeImagesInput: Swift.Sendable {
     ///
     /// * block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.
     ///
+    /// * boot-mode – The boot mode of the image (legacy-bios | uefi | uefi-preferred).
+    ///
     /// * creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.
     ///
     /// * description - The description of the image (provided during image creation).
@@ -50562,6 +50564,10 @@ public struct DescribeImagesInput: Swift.Sendable {
     /// * image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
     ///
     /// * image-type - The image type (machine | kernel | ramdisk).
+    ///
+    /// * instance-type-specification.supported-instance-type – The instance types that are compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).
+    ///
+    /// * instance-type-specification.unsupported-instance-type – The instance types that are not compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).
     ///
     /// * is-public - A Boolean that indicates whether the image is public.
     ///
@@ -50835,6 +50841,40 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// An instance type name or wildcard pattern in an instance type specification.
+    public struct InstanceTypeItem: Swift.Sendable {
+        /// The instance type or wildcard pattern (for example, t3.* or m5.large).
+        public var instanceType: Swift.String?
+
+        public init(
+            instanceType: Swift.String? = nil
+        ) {
+            self.instanceType = instanceType
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the instance type compatibility rules for an AMI, including lists of supported and unsupported instance type patterns.
+    public struct InstanceTypeSpecification: Swift.Sendable {
+        /// The instance types that the AMI supports.
+        public var supportedInstanceTypes: [EC2ClientTypes.InstanceTypeItem]?
+        /// The instance types that the AMI does not support.
+        public var unsupportedInstanceTypes: [EC2ClientTypes.InstanceTypeItem]?
+
+        public init(
+            supportedInstanceTypes: [EC2ClientTypes.InstanceTypeItem]? = nil,
+            unsupportedInstanceTypes: [EC2ClientTypes.InstanceTypeItem]? = nil
+        ) {
+            self.supportedInstanceTypes = supportedInstanceTypes
+            self.unsupportedInstanceTypes = unsupportedInstanceTypes
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum DeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ebs
         case instanceStore
@@ -51006,6 +51046,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermark]?
         /// If v2.0, it indicates that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see [Configure the AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration) in the Amazon EC2 User Guide.
         public var imdsSupport: EC2ClientTypes.ImdsSupportValues?
+        /// The instance type specification for the AMI, which defines which instance types are compatible with this image.
+        public var instanceTypeSpecification: EC2ClientTypes.InstanceTypeSpecification?
         /// The kernel associated with the image, if any. Only applicable for machine images.
         public var kernelId: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the AMI was last used to launch an EC2 instance. When the AMI is used to launch an instance, there is a 24-hour delay before that usage is reported. lastLaunchedTime data is available starting April 2017.
@@ -51069,6 +51111,7 @@ extension EC2ClientTypes {
             imageType: EC2ClientTypes.ImageTypeValues? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermark]? = nil,
             imdsSupport: EC2ClientTypes.ImdsSupportValues? = nil,
+            instanceTypeSpecification: EC2ClientTypes.InstanceTypeSpecification? = nil,
             kernelId: Swift.String? = nil,
             lastLaunchedTime: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -51109,6 +51152,7 @@ extension EC2ClientTypes {
             self.imageType = imageType
             self.imageWatermarks = imageWatermarks
             self.imdsSupport = imdsSupport
+            self.instanceTypeSpecification = instanceTypeSpecification
             self.kernelId = kernelId
             self.lastLaunchedTime = lastLaunchedTime
             self.name = name
@@ -85284,6 +85328,56 @@ public struct ReplaceImageCriteriaInAllowedImagesSettingsOutput: Swift.Sendable 
     }
 }
 
+extension EC2ClientTypes {
+
+    /// The instance type specification for an AMI, which contains lists of supported and unsupported instance types that define which instance types are compatible with the AMI.
+    public struct InstanceTypeSpecificationRequest: Swift.Sendable {
+        /// The instance types that the AMI supports. You can specify instance type names or use wildcard patterns (for example, t3.*). Constraints: Maximum 100 entries. Each entry must be 1-24 characters and match the pattern ^[A-Za-z0-9_.*-]+$. Consecutive wildcard characters (**) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail.
+        public var supportedInstanceTypes: [Swift.String]?
+        /// The instance types that the AMI does not support. You can specify instance type names or use wildcard patterns (for example, t3.*). Constraints: Maximum 100 entries. Each entry must be 1-24 characters and match the pattern ^[A-Za-z0-9_.*-]+$. Consecutive wildcard characters (**) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail.
+        public var unsupportedInstanceTypes: [Swift.String]?
+
+        public init(
+            supportedInstanceTypes: [Swift.String]? = nil,
+            unsupportedInstanceTypes: [Swift.String]? = nil
+        ) {
+            self.supportedInstanceTypes = supportedInstanceTypes
+            self.unsupportedInstanceTypes = unsupportedInstanceTypes
+        }
+    }
+}
+
+public struct ReplaceImageInstanceTypeSpecificationInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The instance type specification to set on the AMI. Omit this parameter to remove the existing instance type specification.
+    public var instanceTypeSpecification: EC2ClientTypes.InstanceTypeSpecificationRequest?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        instanceTypeSpecification: EC2ClientTypes.InstanceTypeSpecificationRequest? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.instanceTypeSpecification = instanceTypeSpecification
+    }
+}
+
+public struct ReplaceImageInstanceTypeSpecificationOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var returnValue: Swift.Bool?
+
+    public init(
+        returnValue: Swift.Bool? = nil
+    ) {
+        self.returnValue = returnValue
+    }
+}
+
 public struct ReplaceNetworkAclAssociationInput: Swift.Sendable {
     /// The ID of the current association between the original network ACL and the subnet.
     /// This member is required.
@@ -93700,6 +93794,13 @@ extension ReplaceIamInstanceProfileAssociationInput {
 extension ReplaceImageCriteriaInAllowedImagesSettingsInput {
 
     static func urlPathProvider(_ value: ReplaceImageCriteriaInAllowedImagesSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ReplaceImageInstanceTypeSpecificationInput {
+
+    static func urlPathProvider(_ value: ReplaceImageInstanceTypeSpecificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -105623,6 +105724,18 @@ extension ReplaceImageCriteriaInAllowedImagesSettingsInput {
     }
 }
 
+extension ReplaceImageInstanceTypeSpecificationInput {
+
+    static func write(value: ReplaceImageInstanceTypeSpecificationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["InstanceTypeSpecification"].write(value.instanceTypeSpecification, with: EC2ClientTypes.InstanceTypeSpecificationRequest.write(value:to:))
+        try writer["Action"].write("ReplaceImageInstanceTypeSpecification")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ReplaceNetworkAclAssociationInput {
 
     static func write(value: ReplaceNetworkAclAssociationInput?, to writer: SmithyFormURL.Writer) throws {
@@ -115761,6 +115874,18 @@ extension ReplaceImageCriteriaInAllowedImagesSettingsOutput {
         let reader = responseReader
         var value = ReplaceImageCriteriaInAllowedImagesSettingsOutput()
         value.returnValue = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
+extension ReplaceImageInstanceTypeSpecificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ReplaceImageInstanceTypeSpecificationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ReplaceImageInstanceTypeSpecificationOutput()
+        value.returnValue = try reader["returnValue"].readIfPresent()
         return value
     }
 }
@@ -126108,6 +126233,19 @@ enum ReplaceImageCriteriaInAllowedImagesSettingsOutputError {
     }
 }
 
+enum ReplaceImageInstanceTypeSpecificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ReplaceNetworkAclAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -130954,6 +131092,7 @@ extension EC2ClientTypes.Image {
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
         value.publicSsmParameterName = try reader["publicSsmParameterName"].readIfPresent()
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.instanceTypeSpecification = try reader["instanceTypeSpecification"].readIfPresent(with: EC2ClientTypes.InstanceTypeSpecification.read(from:))
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
         value.state = try reader["imageState"].readIfPresent()
@@ -132374,6 +132513,16 @@ extension EC2ClientTypes.InstanceTypeInfoFromInstanceRequirements {
     }
 }
 
+extension EC2ClientTypes.InstanceTypeItem {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceTypeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceTypeItem()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.InstanceTypeOffering {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceTypeOffering {
@@ -132383,6 +132532,30 @@ extension EC2ClientTypes.InstanceTypeOffering {
         value.locationType = try reader["locationType"].readIfPresent()
         value.location = try reader["location"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.InstanceTypeSpecification {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceTypeSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceTypeSpecification()
+        value.supportedInstanceTypes = try reader["supportedInstanceTypeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.InstanceTypeItem.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.unsupportedInstanceTypes = try reader["unsupportedInstanceTypeSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.InstanceTypeItem.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.InstanceTypeSpecificationRequest {
+
+    static func write(value: EC2ClientTypes.InstanceTypeSpecificationRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.supportedInstanceTypes?.isEmpty ?? true) {
+            try writer["SupportedInstanceType"].writeList(value.supportedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.unsupportedInstanceTypes?.isEmpty ?? true) {
+            try writer["UnsupportedInstanceType"].writeList(value.unsupportedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
     }
 }
 

@@ -2419,6 +2419,8 @@ extension RDSClientTypes {
         public var engine: Swift.String?
         /// Specifies the version of the database engine.
         public var engineVersion: Swift.String?
+        /// The full size of the DB snapshot, in bytes. This is not the incremental size of the snapshot. This is the full snapshot size and represents the size of all the blocks that were written to the source volume at the time the snapshot was created.
+        public var fullSnapshotSizeInBytes: Swift.Int?
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance, from which the snapshot was taken, was created.
@@ -2496,6 +2498,7 @@ extension RDSClientTypes {
             encrypted: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            fullSnapshotSizeInBytes: Swift.Int? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             instanceCreateTime: Foundation.Date? = nil,
             iops: Swift.Int? = nil,
@@ -2538,6 +2541,7 @@ extension RDSClientTypes {
             self.encrypted = encrypted
             self.engine = engine
             self.engineVersion = engineVersion
+            self.fullSnapshotSizeInBytes = fullSnapshotSizeInBytes
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.instanceCreateTime = instanceCreateTime
             self.iops = iops
@@ -34766,6 +34770,7 @@ extension RDSClientTypes.DBSnapshot {
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
+        value.fullSnapshotSizeInBytes = try reader["FullSnapshotSizeInBytes"].readIfPresent()
         return value
     }
 }

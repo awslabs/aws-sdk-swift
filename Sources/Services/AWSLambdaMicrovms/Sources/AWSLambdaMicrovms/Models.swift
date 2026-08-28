@@ -202,7 +202,7 @@ extension LambdaMicrovmsClientTypes {
 
     /// Contains the location of the code artifact for a MicroVM image.
     public enum CodeArtifact: Swift.Sendable {
-        /// The URI of the code artifact, such as an Amazon S3 path or Amazon ECR image URI.
+        /// The URI of the code artifact in Amazon S3.
         case uri(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -724,6 +724,11 @@ public struct CreateMicrovmImageInput: Swift.Sendable {
     }
 }
 
+extension CreateMicrovmImageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMicrovmImageInput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), clientToken: \(Swift.String(describing: clientToken)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), tags: \(Swift.String(describing: tags)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
 extension LambdaMicrovmsClientTypes {
 
     public enum MicrovmImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -871,6 +876,11 @@ public struct CreateMicrovmImageOutput: Swift.Sendable {
         self.tags = tags
         self.updatedAt = updatedAt
     }
+}
+
+extension CreateMicrovmImageOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMicrovmImageOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), latestActiveImageVersion: \(Swift.String(describing: latestActiveImageVersion)), latestFailedImageVersion: \(Swift.String(describing: latestFailedImageVersion)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct CreateMicrovmShellAuthTokenInput: Swift.Sendable {
@@ -1463,6 +1473,35 @@ public struct GetMicrovmImageVersionOutput: Swift.Sendable {
     }
 }
 
+extension GetMicrovmImageVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMicrovmImageVersionOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+/// There is insufficient capacity to fulfill the request. Retry the request later.
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientCapacityException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// One of the parameters in the request is not valid.
 public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1546,6 +1585,328 @@ public struct ListManagedMicrovmImagesOutput: Swift.Sendable {
     }
 }
 
+/// The AWS Lambda MicroVMs service encountered an internal error.
+public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The request throughput limit was exceeded. Retry the request later.
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct ListTagsInput: Swift.Sendable {
+    /// The ARN of the resource to list tags for.
+    /// This member is required.
+    public var resource: Swift.String?
+
+    public init(
+        resource: Swift.String? = nil
+    ) {
+        self.resource = resource
+    }
+}
+
+public struct ListTagsOutput: Swift.Sendable {
+    /// The key-value pairs of tags associated with the resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct ListMicrovmsInput: Swift.Sendable {
+    /// Optional filter to list only MicroVMs running the specified image.
+    public var imageIdentifier: Swift.String?
+    /// Optional filter to list only MicroVMs running the specified image version.
+    public var imageVersion: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous call. Use this token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        imageIdentifier: Swift.String? = nil,
+        imageVersion: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.imageIdentifier = imageIdentifier
+        self.imageVersion = imageVersion
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension LambdaMicrovmsClientTypes {
+
+    /// Contains summary information about a MicroVM instance.
+    public struct MicrovmItem: Swift.Sendable {
+        /// The ARN of the MicroVM image used to run this MicroVM.
+        /// This member is required.
+        public var imageArn: Swift.String?
+        /// The version of the MicroVM image used to run this MicroVM.
+        /// This member is required.
+        public var imageVersion: Swift.String?
+        /// The unique identifier of the MicroVM.
+        /// This member is required.
+        public var microvmId: Swift.String?
+        /// The timestamp when the MicroVM started.
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// The current lifecycle state of the MicroVM.
+        /// This member is required.
+        public var state: LambdaMicrovmsClientTypes.MicrovmState?
+
+        public init(
+            imageArn: Swift.String? = nil,
+            imageVersion: Swift.String? = nil,
+            microvmId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            state: LambdaMicrovmsClientTypes.MicrovmState? = nil
+        ) {
+            self.imageArn = imageArn
+            self.imageVersion = imageVersion
+            self.microvmId = microvmId
+            self.startedAt = startedAt
+            self.state = state
+        }
+    }
+}
+
+public struct ListMicrovmsOutput: Swift.Sendable {
+    /// The list of MicroVMs.
+    /// This member is required.
+    public var items: [LambdaMicrovmsClientTypes.MicrovmItem]?
+    /// The pagination token to use in a subsequent request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [LambdaMicrovmsClientTypes.MicrovmItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ResumeMicrovmInput: Swift.Sendable {
+    /// The ID of the MicroVM to resume.
+    /// This member is required.
+    public var microvmIdentifier: Swift.String?
+
+    public init(
+        microvmIdentifier: Swift.String? = nil
+    ) {
+        self.microvmIdentifier = microvmIdentifier
+    }
+}
+
+public struct ResumeMicrovmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct RunMicrovmInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The list of egress network connectors to configure for the MicroVM.
+    public var egressNetworkConnectors: [Swift.String]?
+    /// The ARN of the IAM role to be assumed by the MicroVM during execution.
+    public var executionRoleArn: Swift.String?
+    /// Configuration to control auto-suspend and auto-resume behavior.
+    public var idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy?
+    /// The identifier (ARN or ID) of the MicroVM image to run.
+    /// This member is required.
+    public var imageIdentifier: Swift.String?
+    /// The version of the MicroVM image to run.
+    public var imageVersion: Swift.String?
+    /// The list of ingress network connectors to configure for the MicroVM.
+    public var ingressNetworkConnectors: [Swift.String]?
+    /// The logging configuration for this MicroVM instance. Specify {"cloudWatch": {"logGroup": "..."}} to stream application logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging.
+    public var logging: LambdaMicrovmsClientTypes.Logging?
+    /// The maximum duration in seconds that the MicroVM can exist before being terminated by the platform. Valid range: 1–28,800 (8 hours).
+    public var maximumDurationInSeconds: Swift.Int?
+    /// Per-MicroVM initialization data delivered as the request body of the /run lifecycle hook. Use to pass tenant-specific configuration such as session IDs or secret references. Maximum: 16,384 bytes.
+    public var runHookPayload: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        egressNetworkConnectors: [Swift.String]? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy? = nil,
+        imageIdentifier: Swift.String? = nil,
+        imageVersion: Swift.String? = nil,
+        ingressNetworkConnectors: [Swift.String]? = nil,
+        logging: LambdaMicrovmsClientTypes.Logging? = nil,
+        maximumDurationInSeconds: Swift.Int? = nil,
+        runHookPayload: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.egressNetworkConnectors = egressNetworkConnectors
+        self.executionRoleArn = executionRoleArn
+        self.idlePolicy = idlePolicy
+        self.imageIdentifier = imageIdentifier
+        self.imageVersion = imageVersion
+        self.ingressNetworkConnectors = ingressNetworkConnectors
+        self.logging = logging
+        self.maximumDurationInSeconds = maximumDurationInSeconds
+        self.runHookPayload = runHookPayload
+    }
+}
+
+extension RunMicrovmInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RunMicrovmInput(clientToken: \(Swift.String(describing: clientToken)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), idlePolicy: \(Swift.String(describing: idlePolicy)), imageIdentifier: \(Swift.String(describing: imageIdentifier)), imageVersion: \(Swift.String(describing: imageVersion)), ingressNetworkConnectors: \(Swift.String(describing: ingressNetworkConnectors)), logging: \(Swift.String(describing: logging)), maximumDurationInSeconds: \(Swift.String(describing: maximumDurationInSeconds)), runHookPayload: \"CONTENT_REDACTED\")"}
+}
+
+public struct RunMicrovmOutput: Swift.Sendable {
+    /// The list of egress network connectors configured for the MicroVM.
+    public var egressNetworkConnectors: [Swift.String]?
+    /// The HTTPS endpoint URL for communicating with the MicroVM. Include a valid authentication token in the X-aws-proxy-auth header when sending requests.
+    /// This member is required.
+    public var endpoint: Swift.String?
+    /// The ARN of the IAM execution role assumed by the MicroVM.
+    public var executionRoleArn: Swift.String?
+    /// The idle policy configuration of the MicroVM.
+    public var idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy?
+    /// The ARN of the MicroVM image used to run this MicroVM.
+    /// This member is required.
+    public var imageArn: Swift.String?
+    /// The version of the MicroVM image used to run this MicroVM.
+    /// This member is required.
+    public var imageVersion: Swift.String?
+    /// The list of ingress network connectors configured for the MicroVM.
+    public var ingressNetworkConnectors: [Swift.String]?
+    /// The maximum duration in seconds that the MicroVM can exist.
+    /// This member is required.
+    public var maximumDurationInSeconds: Swift.Int?
+    /// The unique identifier of the MicroVM.
+    /// This member is required.
+    public var microvmId: Swift.String?
+    /// The timestamp when the MicroVM first started.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current lifecycle state of the MicroVM.
+    /// This member is required.
+    public var state: LambdaMicrovmsClientTypes.MicrovmState?
+    /// The reason for why the MicroVM is in the current state.
+    public var stateReason: Swift.String?
+    /// The timestamp when the MicroVM terminated.
+    public var terminatedAt: Foundation.Date?
+
+    public init(
+        egressNetworkConnectors: [Swift.String]? = nil,
+        endpoint: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy? = nil,
+        imageArn: Swift.String? = nil,
+        imageVersion: Swift.String? = nil,
+        ingressNetworkConnectors: [Swift.String]? = nil,
+        maximumDurationInSeconds: Swift.Int? = nil,
+        microvmId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        state: LambdaMicrovmsClientTypes.MicrovmState? = nil,
+        stateReason: Swift.String? = nil,
+        terminatedAt: Foundation.Date? = nil
+    ) {
+        self.egressNetworkConnectors = egressNetworkConnectors
+        self.endpoint = endpoint
+        self.executionRoleArn = executionRoleArn
+        self.idlePolicy = idlePolicy
+        self.imageArn = imageArn
+        self.imageVersion = imageVersion
+        self.ingressNetworkConnectors = ingressNetworkConnectors
+        self.maximumDurationInSeconds = maximumDurationInSeconds
+        self.microvmId = microvmId
+        self.startedAt = startedAt
+        self.state = state
+        self.stateReason = stateReason
+        self.terminatedAt = terminatedAt
+    }
+}
+
+public struct SuspendMicrovmInput: Swift.Sendable {
+    /// The ID of the MicroVM to suspend.
+    /// This member is required.
+    public var microvmIdentifier: Swift.String?
+
+    public init(
+        microvmIdentifier: Swift.String? = nil
+    ) {
+        self.microvmIdentifier = microvmIdentifier
+    }
+}
+
+public struct SuspendMicrovmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct TerminateMicrovmInput: Swift.Sendable {
+    /// The ID of the MicroVM to terminate.
+    /// This member is required.
+    public var microvmIdentifier: Swift.String?
+
+    public init(
+        microvmIdentifier: Swift.String? = nil
+    ) {
+        self.microvmIdentifier = microvmIdentifier
+    }
+}
+
+public struct TerminateMicrovmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct ListManagedMicrovmImageVersionsInput: Swift.Sendable {
     /// The unique identifier (ARN or ID) of the managed MicroVM image to list versions for.
     /// This member is required.
@@ -1568,6 +1929,38 @@ public struct ListManagedMicrovmImageVersionsInput: Swift.Sendable {
 
 extension LambdaMicrovmsClientTypes {
 
+    /// The lifecycle status of a managed MicroVM image version.
+    public enum ManagedMicrovmImageVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The version is available for use.
+        case available
+        /// The version is deprecated. Do not use this version for new MicroVM images. Existing MicroVM images that use this version will continue to function.
+        case deprecated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedMicrovmImageVersionStatus] {
+            return [
+                .available,
+                .deprecated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .deprecated: return "DEPRECATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaMicrovmsClientTypes {
+
     /// Contains version information for a managed MicroVM image.
     public struct ManagedMicrovmImageVersion: Swift.Sendable {
         /// The timestamp when the version was created.
@@ -1579,6 +1972,8 @@ extension LambdaMicrovmsClientTypes {
         /// The version of the managed MicroVM image.
         /// This member is required.
         public var imageVersion: Swift.String?
+        /// The lifecycle status of the managed MicroVM image version. Valid values: AVAILABLE (the version is available for use) or DEPRECATED (the version is deprecated; do not use it for new MicroVM images).
+        public var status: LambdaMicrovmsClientTypes.ManagedMicrovmImageVersionStatus?
         /// The timestamp when the version was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -1586,11 +1981,13 @@ extension LambdaMicrovmsClientTypes {
             createdAt: Foundation.Date? = nil,
             imageArn: Swift.String? = nil,
             imageVersion: Swift.String? = nil,
+            status: LambdaMicrovmsClientTypes.ManagedMicrovmImageVersionStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
             self.imageArn = imageArn
             self.imageVersion = imageVersion
+            self.status = status
             self.updatedAt = updatedAt
         }
     }
@@ -1913,6 +2310,11 @@ extension LambdaMicrovmsClientTypes {
     }
 }
 
+extension LambdaMicrovmsClientTypes.MicrovmImageVersionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MicrovmImageVersionSummary(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
 public struct ListMicrovmImageVersionsOutput: Swift.Sendable {
     /// The list of MicroVM image versions.
     /// This member is required.
@@ -1926,384 +2328,6 @@ public struct ListMicrovmImageVersionsOutput: Swift.Sendable {
     ) {
         self.items = items
         self.nextToken = nextToken
-    }
-}
-
-/// The AWS Lambda MicroVMs service encountered an internal error.
-public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The exception type.
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// The request throughput limit was exceeded. Retry the request later.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The exception type.
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TooManyRequestsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-public struct ListTagsInput: Swift.Sendable {
-    /// The ARN of the resource to list tags for.
-    /// This member is required.
-    public var resource: Swift.String?
-
-    public init(
-        resource: Swift.String? = nil
-    ) {
-        self.resource = resource
-    }
-}
-
-public struct ListTagsOutput: Swift.Sendable {
-    /// The key-value pairs of tags associated with the resource.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.tags = tags
-    }
-}
-
-public struct ListMicrovmsInput: Swift.Sendable {
-    /// Optional filter to list only MicroVMs running the specified image.
-    public var imageIdentifier: Swift.String?
-    /// Optional filter to list only MicroVMs running the specified image version.
-    public var imageVersion: Swift.String?
-    /// The maximum number of results to return in a single call.
-    public var maxResults: Swift.Int?
-    /// The pagination token from a previous call. Use this token to retrieve the next page of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        imageIdentifier: Swift.String? = nil,
-        imageVersion: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.imageIdentifier = imageIdentifier
-        self.imageVersion = imageVersion
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension LambdaMicrovmsClientTypes {
-
-    /// Contains summary information about a MicroVM instance.
-    public struct MicrovmItem: Swift.Sendable {
-        /// The ARN of the MicroVM image used to run this MicroVM.
-        /// This member is required.
-        public var imageArn: Swift.String?
-        /// The version of the MicroVM image used to run this MicroVM.
-        /// This member is required.
-        public var imageVersion: Swift.String?
-        /// The unique identifier of the MicroVM.
-        /// This member is required.
-        public var microvmId: Swift.String?
-        /// The timestamp when the MicroVM started.
-        /// This member is required.
-        public var startedAt: Foundation.Date?
-        /// The current lifecycle state of the MicroVM.
-        /// This member is required.
-        public var state: LambdaMicrovmsClientTypes.MicrovmState?
-
-        public init(
-            imageArn: Swift.String? = nil,
-            imageVersion: Swift.String? = nil,
-            microvmId: Swift.String? = nil,
-            startedAt: Foundation.Date? = nil,
-            state: LambdaMicrovmsClientTypes.MicrovmState? = nil
-        ) {
-            self.imageArn = imageArn
-            self.imageVersion = imageVersion
-            self.microvmId = microvmId
-            self.startedAt = startedAt
-            self.state = state
-        }
-    }
-}
-
-public struct ListMicrovmsOutput: Swift.Sendable {
-    /// The list of MicroVMs.
-    /// This member is required.
-    public var items: [LambdaMicrovmsClientTypes.MicrovmItem]?
-    /// The pagination token to use in a subsequent request to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-
-    public init(
-        items: [LambdaMicrovmsClientTypes.MicrovmItem]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.items = items
-        self.nextToken = nextToken
-    }
-}
-
-public struct ResumeMicrovmInput: Swift.Sendable {
-    /// The ID of the MicroVM to resume.
-    /// This member is required.
-    public var microvmIdentifier: Swift.String?
-
-    public init(
-        microvmIdentifier: Swift.String? = nil
-    ) {
-        self.microvmIdentifier = microvmIdentifier
-    }
-}
-
-public struct ResumeMicrovmOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct RunMicrovmInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-    public var clientToken: Swift.String?
-    /// The list of egress network connectors to configure for the MicroVM.
-    public var egressNetworkConnectors: [Swift.String]?
-    /// The ARN of the IAM role to be assumed by the MicroVM during execution.
-    public var executionRoleArn: Swift.String?
-    /// Configuration to control auto-suspend and auto-resume behavior.
-    public var idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy?
-    /// The identifier (ARN or ID) of the MicroVM image to run.
-    /// This member is required.
-    public var imageIdentifier: Swift.String?
-    /// The version of the MicroVM image to run.
-    public var imageVersion: Swift.String?
-    /// The list of ingress network connectors to configure for the MicroVM.
-    public var ingressNetworkConnectors: [Swift.String]?
-    /// The logging configuration for this MicroVM instance. Specify {"cloudWatch": {"logGroup": "..."}} to stream application logs to a custom CloudWatch log group, or {"disabled": {}} to turn off logging.
-    public var logging: LambdaMicrovmsClientTypes.Logging?
-    /// The maximum duration in seconds that the MicroVM can exist before being terminated by the platform. Valid range: 1–28,800 (8 hours).
-    public var maximumDurationInSeconds: Swift.Int?
-    /// Per-MicroVM initialization data delivered as the request body of the /run lifecycle hook. Use to pass tenant-specific configuration such as session IDs or secret references. Maximum: 16,384 bytes.
-    public var runHookPayload: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        egressNetworkConnectors: [Swift.String]? = nil,
-        executionRoleArn: Swift.String? = nil,
-        idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy? = nil,
-        imageIdentifier: Swift.String? = nil,
-        imageVersion: Swift.String? = nil,
-        ingressNetworkConnectors: [Swift.String]? = nil,
-        logging: LambdaMicrovmsClientTypes.Logging? = nil,
-        maximumDurationInSeconds: Swift.Int? = nil,
-        runHookPayload: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.egressNetworkConnectors = egressNetworkConnectors
-        self.executionRoleArn = executionRoleArn
-        self.idlePolicy = idlePolicy
-        self.imageIdentifier = imageIdentifier
-        self.imageVersion = imageVersion
-        self.ingressNetworkConnectors = ingressNetworkConnectors
-        self.logging = logging
-        self.maximumDurationInSeconds = maximumDurationInSeconds
-        self.runHookPayload = runHookPayload
-    }
-}
-
-public struct RunMicrovmOutput: Swift.Sendable {
-    /// The list of egress network connectors configured for the MicroVM.
-    public var egressNetworkConnectors: [Swift.String]?
-    /// The HTTPS endpoint URL for communicating with the MicroVM. Include a valid authentication token in the X-aws-proxy-auth header when sending requests.
-    /// This member is required.
-    public var endpoint: Swift.String?
-    /// The ARN of the IAM execution role assumed by the MicroVM.
-    public var executionRoleArn: Swift.String?
-    /// The idle policy configuration of the MicroVM.
-    public var idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy?
-    /// The ARN of the MicroVM image used to run this MicroVM.
-    /// This member is required.
-    public var imageArn: Swift.String?
-    /// The version of the MicroVM image used to run this MicroVM.
-    /// This member is required.
-    public var imageVersion: Swift.String?
-    /// The list of ingress network connectors configured for the MicroVM.
-    public var ingressNetworkConnectors: [Swift.String]?
-    /// The maximum duration in seconds that the MicroVM can exist.
-    /// This member is required.
-    public var maximumDurationInSeconds: Swift.Int?
-    /// The unique identifier of the MicroVM.
-    /// This member is required.
-    public var microvmId: Swift.String?
-    /// The timestamp when the MicroVM first started.
-    /// This member is required.
-    public var startedAt: Foundation.Date?
-    /// The current lifecycle state of the MicroVM.
-    /// This member is required.
-    public var state: LambdaMicrovmsClientTypes.MicrovmState?
-    /// The reason for why the MicroVM is in the current state.
-    public var stateReason: Swift.String?
-    /// The timestamp when the MicroVM terminated.
-    public var terminatedAt: Foundation.Date?
-
-    public init(
-        egressNetworkConnectors: [Swift.String]? = nil,
-        endpoint: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        idlePolicy: LambdaMicrovmsClientTypes.IdlePolicy? = nil,
-        imageArn: Swift.String? = nil,
-        imageVersion: Swift.String? = nil,
-        ingressNetworkConnectors: [Swift.String]? = nil,
-        maximumDurationInSeconds: Swift.Int? = nil,
-        microvmId: Swift.String? = nil,
-        startedAt: Foundation.Date? = nil,
-        state: LambdaMicrovmsClientTypes.MicrovmState? = nil,
-        stateReason: Swift.String? = nil,
-        terminatedAt: Foundation.Date? = nil
-    ) {
-        self.egressNetworkConnectors = egressNetworkConnectors
-        self.endpoint = endpoint
-        self.executionRoleArn = executionRoleArn
-        self.idlePolicy = idlePolicy
-        self.imageArn = imageArn
-        self.imageVersion = imageVersion
-        self.ingressNetworkConnectors = ingressNetworkConnectors
-        self.maximumDurationInSeconds = maximumDurationInSeconds
-        self.microvmId = microvmId
-        self.startedAt = startedAt
-        self.state = state
-        self.stateReason = stateReason
-        self.terminatedAt = terminatedAt
-    }
-}
-
-public struct SuspendMicrovmInput: Swift.Sendable {
-    /// The ID of the MicroVM to suspend.
-    /// This member is required.
-    public var microvmIdentifier: Swift.String?
-
-    public init(
-        microvmIdentifier: Swift.String? = nil
-    ) {
-        self.microvmIdentifier = microvmIdentifier
-    }
-}
-
-public struct SuspendMicrovmOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct TerminateMicrovmInput: Swift.Sendable {
-    /// The ID of the MicroVM to terminate.
-    /// This member is required.
-    public var microvmIdentifier: Swift.String?
-
-    public init(
-        microvmIdentifier: Swift.String? = nil
-    ) {
-        self.microvmIdentifier = microvmIdentifier
-    }
-}
-
-public struct TerminateMicrovmOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-/// The resource already exists, or another operation is in progress.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The exception type.
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-public struct TagResourceInput: Swift.Sendable {
-    /// The ARN of the resource to tag.
-    /// This member is required.
-    public var resource: Swift.String?
-    /// The key-value pairs of tags to add to the resource.
-    /// This member is required.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        resource: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.resource = resource
-        self.tags = tags
-    }
-}
-
-public struct UntagResourceInput: Swift.Sendable {
-    /// The ARN of the resource to remove tags from.
-    /// This member is required.
-    public var resource: Swift.String?
-    /// The list of tag keys to remove from the resource.
-    /// This member is required.
-    public var tagKeys: [Swift.String]?
-
-    public init(
-        resource: Swift.String? = nil,
-        tagKeys: [Swift.String]? = nil
-    ) {
-        self.resource = resource
-        self.tagKeys = tagKeys
     }
 }
 
@@ -2372,6 +2396,11 @@ public struct UpdateMicrovmImageInput: Swift.Sendable {
         self.logging = logging
         self.resources = resources
     }
+}
+
+extension UpdateMicrovmImageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateMicrovmImageInput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), clientToken: \(Swift.String(describing: clientToken)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageIdentifier: \(Swift.String(describing: imageIdentifier)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct UpdateMicrovmImageOutput: Swift.Sendable {
@@ -2468,6 +2497,11 @@ public struct UpdateMicrovmImageOutput: Swift.Sendable {
         self.state = state
         self.updatedAt = updatedAt
     }
+}
+
+extension UpdateMicrovmImageOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateMicrovmImageOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), latestActiveImageVersion: \(Swift.String(describing: latestActiveImageVersion)), latestFailedImageVersion: \(Swift.String(describing: latestFailedImageVersion)), logging: \(Swift.String(describing: logging)), name: \(Swift.String(describing: name)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 public struct UpdateMicrovmImageVersionInput: Swift.Sendable {
@@ -2584,6 +2618,72 @@ public struct UpdateMicrovmImageVersionOutput: Swift.Sendable {
         self.status = status
         self.tags = tags
         self.updatedAt = updatedAt
+    }
+}
+
+extension UpdateMicrovmImageVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateMicrovmImageVersionOutput(additionalOsCapabilities: \(Swift.String(describing: additionalOsCapabilities)), baseImageArn: \(Swift.String(describing: baseImageArn)), baseImageVersion: \(Swift.String(describing: baseImageVersion)), buildRoleArn: \(Swift.String(describing: buildRoleArn)), codeArtifact: \(Swift.String(describing: codeArtifact)), cpuConfigurations: \(Swift.String(describing: cpuConfigurations)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), egressNetworkConnectors: \(Swift.String(describing: egressNetworkConnectors)), hooks: \(Swift.String(describing: hooks)), imageArn: \(Swift.String(describing: imageArn)), imageVersion: \(Swift.String(describing: imageVersion)), logging: \(Swift.String(describing: logging)), resources: \(Swift.String(describing: resources)), state: \(Swift.String(describing: state)), stateReason: \(Swift.String(describing: stateReason)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), updatedAt: \(Swift.String(describing: updatedAt)), environmentVariables: [keys: \(Swift.String(describing: environmentVariables?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+/// The resource already exists, or another operation is in progress.
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The ARN of the resource to tag.
+    /// This member is required.
+    public var resource: Swift.String?
+    /// The key-value pairs of tags to add to the resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resource: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resource = resource
+        self.tags = tags
+    }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The ARN of the resource to remove tags from.
+    /// This member is required.
+    public var resource: Swift.String?
+    /// The list of tag keys to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resource: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resource = resource
+        self.tagKeys = tagKeys
     }
 }
 
@@ -3447,6 +3547,16 @@ extension UpdateMicrovmImageVersionOutput {
     }
 }
 
+func httpServiceError(baseError: ClientRuntime.RestJSONError) throws -> Swift.Error? {
+    switch baseError.code {
+        case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+        case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+        case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+        case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+        default: return nil
+    }
+}
+
 enum CreateMicrovmAuthTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3454,8 +3564,10 @@ enum CreateMicrovmAuthTokenOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -3472,6 +3584,7 @@ enum CreateMicrovmImageOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3492,8 +3605,10 @@ enum CreateMicrovmShellAuthTokenOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -3510,6 +3625,7 @@ enum DeleteMicrovmImageOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3529,6 +3645,7 @@ enum DeleteMicrovmImageVersionOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3548,6 +3665,7 @@ enum GetMicrovmOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3566,6 +3684,7 @@ enum GetMicrovmImageOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3584,6 +3703,7 @@ enum GetMicrovmImageBuildOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3602,6 +3722,7 @@ enum GetMicrovmImageVersionOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3620,6 +3741,7 @@ enum ListManagedMicrovmImagesOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3637,6 +3759,7 @@ enum ListManagedMicrovmImageVersionsOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3655,6 +3778,7 @@ enum ListMicrovmImageBuildsOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3673,6 +3797,7 @@ enum ListMicrovmImagesOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3690,6 +3815,7 @@ enum ListMicrovmImageVersionsOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3708,6 +3834,7 @@ enum ListMicrovmsOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
@@ -3726,6 +3853,7 @@ enum ListTagsOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -3743,6 +3871,7 @@ enum ResumeMicrovmOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3762,9 +3891,11 @@ enum RunMicrovmOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3782,6 +3913,7 @@ enum SuspendMicrovmOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3801,6 +3933,7 @@ enum TagResourceOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -3819,6 +3952,7 @@ enum TerminateMicrovmOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3838,6 +3972,7 @@ enum UntagResourceOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
@@ -3856,6 +3991,7 @@ enum UpdateMicrovmImageOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3876,6 +4012,7 @@ enum UpdateMicrovmImageVersionOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3894,6 +4031,21 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3965,21 +4117,6 @@ extension ValidationException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -4032,6 +4169,19 @@ extension TooManyRequestsException {
         var value = TooManyRequestsException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientCapacityException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InsufficientCapacityException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientCapacityException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4207,6 +4357,7 @@ extension LambdaMicrovmsClientTypes.ManagedMicrovmImageVersion {
         var value = LambdaMicrovmsClientTypes.ManagedMicrovmImageVersion()
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
