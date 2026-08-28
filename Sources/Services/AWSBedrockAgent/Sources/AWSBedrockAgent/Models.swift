@@ -3325,6 +3325,127 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// A daily sync. The run time is system-chosen (off-peak) and not configurable.
+    public struct DailySchedule: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The option to run the monthly sync on the last calendar day of each month.
+    public struct LastDayOfMonth: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The day of the month on which a monthly sync runs. Specify exactly one of dayNumber or lastDayOfMonth.
+    public enum DayOfMonth: Swift.Sendable {
+        /// A specific day of the month, from 1 to 28. Values are capped at 28, so a monthly sync runs in every month, including February.
+        case daynumber(Swift.Int)
+        /// Set this option to run the monthly sync on the last calendar day of each month.
+        case lastdayofmonth(BedrockAgentClientTypes.LastDayOfMonth)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// A monthly sync on a specified day of the month.
+    public struct MonthlySchedule: Swift.Sendable {
+        /// The day of the month on which the monthly sync runs.
+        /// This member is required.
+        public var dayOfMonth: BedrockAgentClientTypes.DayOfMonth?
+
+        public init(
+            dayOfMonth: BedrockAgentClientTypes.DayOfMonth? = nil
+        ) {
+            self.dayOfMonth = dayOfMonth
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The day of the week on which a weekly sync runs. Valid values are the standard English day names, for example, MONDAY or TUESDAY.
+    public enum DayOfWeek: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DayOfWeek] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// A weekly sync on a specified day of the week.
+    public struct WeeklySchedule: Swift.Sendable {
+        /// The day of the week on which the weekly sync runs.
+        /// This member is required.
+        public var dayOfWeek: BedrockAgentClientTypes.DayOfWeek?
+
+        public init(
+            dayOfWeek: BedrockAgentClientTypes.DayOfWeek? = nil
+        ) {
+            self.dayOfWeek = dayOfWeek
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The recurring schedule on which a managed knowledge base connector automatically syncs its data source. Specify exactly one of daily, weekly, or monthly.
+    public enum SyncSchedule: Swift.Sendable {
+        /// A daily sync that runs once a day at a system-chosen off-peak time. The run time is not configurable.
+        case daily(BedrockAgentClientTypes.DailySchedule)
+        /// A weekly sync that runs once a week on the specified day of the week.
+        case weekly(BedrockAgentClientTypes.WeeklySchedule)
+        /// A monthly sync that runs once a month on the specified day of the month.
+        case monthly(BedrockAgentClientTypes.MonthlySchedule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Configuration for managed knowledge base connector data sources.
     public struct ManagedKnowledgeBaseConnectorConfiguration: Swift.Sendable {
         /// Connector-specific parameters. For more information, see [Connect a data source](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-connect-ds.html).
@@ -3333,15 +3454,19 @@ extension BedrockAgentClientTypes {
         public var deletionProtectionConfiguration: BedrockAgentClientTypes.DeletionProtectionConfiguration?
         /// Configuration for extracting media (images, audio, video) from data source files.
         public var mediaExtractionConfiguration: BedrockAgentClientTypes.MediaExtractionConfiguration?
+        /// The recurring schedule on which the connector automatically syncs this data source. If not specified, the data source is not synced automatically and you start each sync yourself. Not supported for the Custom connector.
+        public var syncSchedule: BedrockAgentClientTypes.SyncSchedule?
 
         public init(
             connectorParameters: Smithy.Document? = nil,
             deletionProtectionConfiguration: BedrockAgentClientTypes.DeletionProtectionConfiguration? = nil,
-            mediaExtractionConfiguration: BedrockAgentClientTypes.MediaExtractionConfiguration? = nil
+            mediaExtractionConfiguration: BedrockAgentClientTypes.MediaExtractionConfiguration? = nil,
+            syncSchedule: BedrockAgentClientTypes.SyncSchedule? = nil
         ) {
             self.connectorParameters = connectorParameters
             self.deletionProtectionConfiguration = deletionProtectionConfiguration
             self.mediaExtractionConfiguration = mediaExtractionConfiguration
+            self.syncSchedule = syncSchedule
         }
     }
 }
@@ -17361,6 +17486,19 @@ extension BedrockAgentClientTypes.CyclicConnectionFlowValidationDetails {
     }
 }
 
+extension BedrockAgentClientTypes.DailySchedule {
+
+    static func write(value: BedrockAgentClientTypes.DailySchedule?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DailySchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return BedrockAgentClientTypes.DailySchedule()
+    }
+}
+
 extension BedrockAgentClientTypes.DataSource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DataSource {
@@ -17421,6 +17559,34 @@ extension BedrockAgentClientTypes.DataSourceSummary {
         value.description = try reader["description"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension BedrockAgentClientTypes.DayOfMonth {
+
+    static func write(value: BedrockAgentClientTypes.DayOfMonth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .daynumber(daynumber):
+                try writer["dayNumber"].write(daynumber)
+            case let .lastdayofmonth(lastdayofmonth):
+                try writer["lastDayOfMonth"].write(lastdayofmonth, with: BedrockAgentClientTypes.LastDayOfMonth.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DayOfMonth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "dayNumber":
+                return .daynumber(try reader["dayNumber"].read())
+            case "lastDayOfMonth":
+                return .lastdayofmonth(try reader["lastDayOfMonth"].read(with: BedrockAgentClientTypes.LastDayOfMonth.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -18478,6 +18644,19 @@ extension BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration {
     }
 }
 
+extension BedrockAgentClientTypes.LastDayOfMonth {
+
+    static func write(value: BedrockAgentClientTypes.LastDayOfMonth?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LastDayOfMonth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return BedrockAgentClientTypes.LastDayOfMonth()
+    }
+}
+
 extension BedrockAgentClientTypes.LexFlowNodeConfiguration {
 
     static func write(value: BedrockAgentClientTypes.LexFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -18604,6 +18783,7 @@ extension BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration {
         try writer["connectorParameters"].write(value.connectorParameters)
         try writer["deletionProtectionConfiguration"].write(value.deletionProtectionConfiguration, with: BedrockAgentClientTypes.DeletionProtectionConfiguration.write(value:to:))
         try writer["mediaExtractionConfiguration"].write(value.mediaExtractionConfiguration, with: BedrockAgentClientTypes.MediaExtractionConfiguration.write(value:to:))
+        try writer["syncSchedule"].write(value.syncSchedule, with: BedrockAgentClientTypes.SyncSchedule.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration {
@@ -18612,6 +18792,7 @@ extension BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration {
         value.deletionProtectionConfiguration = try reader["deletionProtectionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.DeletionProtectionConfiguration.read(from:))
         value.mediaExtractionConfiguration = try reader["mediaExtractionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MediaExtractionConfiguration.read(from:))
         value.connectorParameters = try reader["connectorParameters"].readIfPresent()
+        value.syncSchedule = try reader["syncSchedule"].readIfPresent(with: BedrockAgentClientTypes.SyncSchedule.read(from:))
         return value
     }
 }
@@ -18865,6 +19046,21 @@ extension BedrockAgentClientTypes.MongoDbAtlasFieldMapping {
         value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
         value.textField = try reader["textField"].readIfPresent() ?? ""
         value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MonthlySchedule {
+
+    static func write(value: BedrockAgentClientTypes.MonthlySchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dayOfMonth"].write(value.dayOfMonth, with: BedrockAgentClientTypes.DayOfMonth.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MonthlySchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MonthlySchedule()
+        value.dayOfMonth = try reader["dayOfMonth"].readIfPresent(with: BedrockAgentClientTypes.DayOfMonth.read(from:))
         return value
     }
 }
@@ -20305,6 +20501,38 @@ extension BedrockAgentClientTypes.SupplementalDataStorageLocation {
     }
 }
 
+extension BedrockAgentClientTypes.SyncSchedule {
+
+    static func write(value: BedrockAgentClientTypes.SyncSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .daily(daily):
+                try writer["daily"].write(daily, with: BedrockAgentClientTypes.DailySchedule.write(value:to:))
+            case let .monthly(monthly):
+                try writer["monthly"].write(monthly, with: BedrockAgentClientTypes.MonthlySchedule.write(value:to:))
+            case let .weekly(weekly):
+                try writer["weekly"].write(weekly, with: BedrockAgentClientTypes.WeeklySchedule.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SyncSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "daily":
+                return .daily(try reader["daily"].read(with: BedrockAgentClientTypes.DailySchedule.read(from:)))
+            case "weekly":
+                return .weekly(try reader["weekly"].read(with: BedrockAgentClientTypes.WeeklySchedule.read(from:)))
+            case "monthly":
+                return .monthly(try reader["monthly"].read(with: BedrockAgentClientTypes.MonthlySchedule.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentClientTypes.SystemContentBlock {
 
     static func write(value: BedrockAgentClientTypes.SystemContentBlock?, to writer: SmithyJSON.Writer) throws {
@@ -20874,6 +21102,21 @@ extension BedrockAgentClientTypes.WebSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.WebSourceConfiguration()
         value.urlConfiguration = try reader["urlConfiguration"].readIfPresent(with: BedrockAgentClientTypes.UrlConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.WeeklySchedule {
+
+    static func write(value: BedrockAgentClientTypes.WeeklySchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dayOfWeek"].write(value.dayOfWeek)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.WeeklySchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.WeeklySchedule()
+        value.dayOfWeek = try reader["dayOfWeek"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

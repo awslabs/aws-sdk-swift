@@ -1318,7 +1318,7 @@ extension HealthLakeClient {
 
     /// Performs the `ListDataTransformationJobs` operation on the `HealthLake` service.
     ///
-    /// Lists data transformation jobs for your AWS account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    /// Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
     ///
     /// - Parameter input: The request parameters for the ListDataTransformationJobs operation. (Type: `ListDataTransformationJobsInput`)
     ///
@@ -1934,9 +1934,89 @@ extension HealthLakeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RestoreFHIRDatastore` operation on the `HealthLake` service.
+    ///
+    /// Restore a backup-enabled data store to a point in time. Creates a new data store from the backup.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestoreFHIRDatastoreInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestoreFHIRDatastoreOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `ConflictException` : The data store is in a transition state and the user requested action cannot be performed.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
+    public func restoreFHIRDatastore(input: RestoreFHIRDatastoreInput) async throws -> RestoreFHIRDatastoreOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = HealthLakeClient.restoreFHIRDatastoreOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restoreFHIRDatastore")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "healthlake")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestoreFHIRDatastoreOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("HealthLake", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreFHIRDatastoreOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>(overrides: ["X-Amz-Target": "HealthLake.RestoreFHIRDatastore"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreFHIRDatastoreOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "HealthLake"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreFHIRDatastoreInput, RestoreFHIRDatastoreOutput>(serviceID: serviceName, version: HealthLakeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "HealthLake")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreFHIRDatastore")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartDataTransformationJob` operation on the `HealthLake` service.
     ///
-    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or AWS HealthLake.
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake.
     ///
     /// - Parameter input: The request parameters for the StartDataTransformationJob operation. (Type: `StartDataTransformationJobInput`)
     ///
@@ -2497,7 +2577,7 @@ extension HealthLakeClient {
     /// - `NotImplementedOperationException` : The requested operation is not yet available. Check the service documentation for a list of supported operations.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
-    /// - `UnauthorizedException` : You are not authorized to make this request. Verify that your AWS credentials are valid and that you have the required permissions.
+    /// - `UnauthorizedException` : You are not authorized to make this request. Verify that your Amazon Web Services credentials are valid and that you have the required permissions.
     /// - `UnsupportedMIMETypeException` : The content type in your request is not supported. Use a supported content type for this operation.
     /// - `ValidationException` : The user input parameter was invalid.
     public func updateProfileWithAgent(input: UpdateProfileWithAgentInput) async throws -> UpdateProfileWithAgentOutput {

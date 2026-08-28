@@ -1738,6 +1738,7 @@ extension PartnerCentralSellingClientTypes {
         case isvsm
         case pdm
         case psm
+        case signatory
         case wwpspdm
         case sdkUnknown(Swift.String)
 
@@ -1748,6 +1749,7 @@ extension PartnerCentralSellingClientTypes {
                 .isvsm,
                 .pdm,
                 .psm,
+                .signatory,
                 .wwpspdm
             ]
         }
@@ -1764,6 +1766,7 @@ extension PartnerCentralSellingClientTypes {
             case .isvsm: return "ISVSM"
             case .pdm: return "PDM"
             case .psm: return "PSM"
+            case .signatory: return "Signatory"
             case .wwpspdm: return "WWPSPDM"
             case let .sdkUnknown(s): return s
             }
@@ -2980,6 +2983,54 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Specifies payments details.
+    public struct MonetaryValue: Swift.Sendable {
+        /// Specifies the payment amount.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// Specifies the payment currency. Accepted values are USD (US Dollars) and EUR (Euros). If the AWS Partition is aws-eusc (AWS European Sovereign Cloud), the currency code must be EUR.
+        /// This member is required.
+        public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
+
+        public init(
+            amount: Swift.String? = nil,
+            currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil
+        ) {
+            self.amount = amount
+            self.currencyCode = currencyCode
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Seller-provided PARC deal terms for the opportunity, including commitment value, discount percentage, and contract dates.
+    public struct AwsSoftwareRevenue: Swift.Sendable {
+        /// Discount percentage offered on the software revenue. Percent convention: 15.00 means 15%.
+        public var discount: Swift.String?
+        /// Contract effective (start) date in YYYY-MM-DD format.
+        public var effectiveDate: Swift.String?
+        /// Contract expiration (end) date in YYYY-MM-DD format.
+        public var expirationDate: Swift.String?
+        /// Specifies payments details.
+        public var value: PartnerCentralSellingClientTypes.MonetaryValue?
+
+        public init(
+            discount: Swift.String? = nil,
+            effectiveDate: Swift.String? = nil,
+            expirationDate: Swift.String? = nil,
+            value: PartnerCentralSellingClientTypes.MonetaryValue? = nil
+        ) {
+            self.discount = discount
+            self.effectiveDate = effectiveDate
+            self.expirationDate = expirationDate
+            self.value = value
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case full
         case limited
@@ -3033,6 +3084,8 @@ extension PartnerCentralSellingClientTypes {
         public var relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities?
         /// Identifier of the related partner opportunity.
         public var relatedOpportunityId: Swift.String?
+        /// Seller-provided PARC deal terms: commitment value, discount, and contract dates.
+        public var softwareRevenue: PartnerCentralSellingClientTypes.AwsSoftwareRevenue?
         /// Visibility level for the AWS opportunity.
         public var visibility: PartnerCentralSellingClientTypes.Visibility?
 
@@ -3048,6 +3101,7 @@ extension PartnerCentralSellingClientTypes {
             project: PartnerCentralSellingClientTypes.AwsOpportunityProject? = nil,
             relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities? = nil,
             relatedOpportunityId: Swift.String? = nil,
+            softwareRevenue: PartnerCentralSellingClientTypes.AwsSoftwareRevenue? = nil,
             visibility: PartnerCentralSellingClientTypes.Visibility? = nil
         ) {
             self.cosellMotion = cosellMotion
@@ -3061,6 +3115,7 @@ extension PartnerCentralSellingClientTypes {
             self.project = project
             self.relatedEntityIds = relatedEntityIds
             self.relatedOpportunityId = relatedOpportunityId
+            self.softwareRevenue = softwareRevenue
             self.visibility = visibility
         }
     }
@@ -6262,27 +6317,6 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Specifies payments details.
-    public struct MonetaryValue: Swift.Sendable {
-        /// Specifies the payment amount.
-        /// This member is required.
-        public var amount: Swift.String?
-        /// Specifies the payment currency. Accepted values are USD (US Dollars) and EUR (Euros). If the AWS Partition is aws-eusc (AWS European Sovereign Cloud), the currency code must be EUR.
-        /// This member is required.
-        public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
-
-        public init(
-            amount: Swift.String? = nil,
-            currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil
-        ) {
-            self.amount = amount
-            self.currencyCode = currencyCode
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
     /// Specifies a customer's procurement terms details. Required only for partners in eligible programs.
     public struct SoftwareRevenue: Swift.Sendable {
         /// Specifies the customer's intended payment type agreement or procurement method to acquire the solution or service outlined in the Opportunity.
@@ -6485,6 +6519,8 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
     public var relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities?
     /// Provides the unique identifier of the related partner opportunity, allowing partners to link the AWS Opportunity to their corresponding opportunity in their CRM system.
     public var relatedOpportunityId: Swift.String?
+    /// Seller-provided PARC deal terms: commitment value, discount, and contract dates.
+    public var softwareRevenue: PartnerCentralSellingClientTypes.AwsSoftwareRevenue?
     /// Defines the visibility level for the AWS Opportunity. Use Full visibility for most cases, while Limited visibility is reserved for special programs or sensitive opportunities.
     public var visibility: PartnerCentralSellingClientTypes.Visibility?
 
@@ -6501,6 +6537,7 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
         project: PartnerCentralSellingClientTypes.AwsOpportunityProject? = nil,
         relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities? = nil,
         relatedOpportunityId: Swift.String? = nil,
+        softwareRevenue: PartnerCentralSellingClientTypes.AwsSoftwareRevenue? = nil,
         visibility: PartnerCentralSellingClientTypes.Visibility? = nil
     ) {
         self.catalog = catalog
@@ -6515,6 +6552,7 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
         self.project = project
         self.relatedEntityIds = relatedEntityIds
         self.relatedOpportunityId = relatedOpportunityId
+        self.softwareRevenue = softwareRevenue
         self.visibility = visibility
     }
 }

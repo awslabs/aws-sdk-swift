@@ -9042,6 +9042,99 @@ public struct GetMemoryRecordOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// A single content payload item to ingest. A payload item contains either conversational or JSON content.
+    public enum IngestPayloadType: Swift.Sendable {
+        /// The conversational content for this payload item.
+        case conversational(BedrockAgentCoreClientTypes.Conversational)
+        /// The JSON content for this payload item.
+        case json(BedrockAgentCoreClientTypes.MemoryJsonData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The content included directly in the request as one or more payload items.
+    public struct InlineMemoryContent: Swift.Sendable {
+        /// The list of content payload items to ingest.
+        /// This member is required.
+        public var payload: [BedrockAgentCoreClientTypes.IngestPayloadType]?
+
+        public init(
+            payload: [BedrockAgentCoreClientTypes.IngestPayloadType]? = nil
+        ) {
+            self.payload = payload
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The source of the content to ingest. Only inline content is supported.
+    public enum ContentSource: Swift.Sendable {
+        /// The content included directly in the request.
+        case inline(BedrockAgentCoreClientTypes.InlineMemoryContent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct IngestDataInput: Swift.Sendable {
+    /// The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content.
+    /// This member is required.
+    public var actorId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The timestamp of when the content occurred.
+    /// This member is required.
+    public var contentTimestamp: Foundation.Date?
+    /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction.
+    public var extractionConfig: BedrockAgentCoreClientTypes.ExtractionConfig?
+    /// The identifier of the AgentCore Memory resource to ingest content into.
+    /// This member is required.
+    public var memoryId: Swift.String?
+    /// The key-value metadata to attach to the content.
+    public var metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]?
+    /// The identifier of the session that the content belongs to. If not provided, a session identifier is generated and returned in the response.
+    public var sessionId: Swift.String?
+    /// The content to ingest. Only inline content is supported.
+    /// This member is required.
+    public var source: BedrockAgentCoreClientTypes.ContentSource?
+
+    public init(
+        actorId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        contentTimestamp: Foundation.Date? = nil,
+        extractionConfig: BedrockAgentCoreClientTypes.ExtractionConfig? = nil,
+        memoryId: Swift.String? = nil,
+        metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
+        sessionId: Swift.String? = nil,
+        source: BedrockAgentCoreClientTypes.ContentSource? = nil
+    ) {
+        self.actorId = actorId
+        self.clientToken = clientToken
+        self.contentTimestamp = contentTimestamp
+        self.extractionConfig = extractionConfig
+        self.memoryId = memoryId
+        self.metadata = metadata
+        self.sessionId = sessionId
+        self.source = source
+    }
+}
+
+public struct IngestDataOutput: Swift.Sendable {
+    /// The identifier of the session that the service ingested the content into. This value echoes the session identifier from the request, or the identifier that the service generated when you did not provide one.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        sessionId: Swift.String? = nil
+    ) {
+        self.sessionId = sessionId
+    }
+}
+
 public struct ListActorsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. The default value is 20.
     public var maxResults: Swift.Int?
@@ -12051,6 +12144,16 @@ extension GetWorkloadAccessTokenForUserIdInput {
     }
 }
 
+extension IngestDataInput {
+
+    static func urlPathProvider(_ value: IngestDataInput) -> Swift.String? {
+        guard let memoryId = value.memoryId else {
+            return nil
+        }
+        return "/memories/\(memoryId.urlPercentEncoding())/ingest"
+    }
+}
+
 extension InvokeAgentRuntimeInput {
 
     static func urlPathProvider(_ value: InvokeAgentRuntimeInput) -> Swift.String? {
@@ -12969,6 +13072,20 @@ extension GetWorkloadAccessTokenForUserIdInput {
     }
 }
 
+extension IngestDataInput {
+
+    static func write(value: IngestDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actorId"].write(value.actorId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["contentTimestamp"].writeTimestamp(value.contentTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["extractionConfig"].write(value.extractionConfig, with: BedrockAgentCoreClientTypes.ExtractionConfig.write(value:to:))
+        try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["sessionId"].write(value.sessionId)
+        try writer["source"].write(value.source, with: BedrockAgentCoreClientTypes.ContentSource.write(value:to:))
+    }
+}
+
 extension InvokeAgentRuntimeInput {
 
     static func write(value: InvokeAgentRuntimeInput?, to writer: SmithyJSON.Writer) throws {
@@ -13762,6 +13879,18 @@ extension GetWorkloadAccessTokenForUserIdOutput {
         let reader = responseReader
         var value = GetWorkloadAccessTokenForUserIdOutput()
         value.workloadAccessToken = try reader["workloadAccessToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IngestDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IngestDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = IngestDataOutput()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14916,6 +15045,25 @@ enum GetWorkloadAccessTokenForUserIdOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum IngestDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16619,6 +16767,19 @@ extension BedrockAgentCoreClientTypes.ContentDeltaEvent {
     }
 }
 
+extension BedrockAgentCoreClientTypes.ContentSource {
+
+    static func write(value: BedrockAgentCoreClientTypes.ContentSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inline(inline):
+                try writer["inline"].write(inline, with: BedrockAgentCoreClientTypes.InlineMemoryContent.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.ContentStartEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ContentStartEvent {
@@ -17768,6 +17929,21 @@ extension BedrockAgentCoreClientTypes.HarnessToolUseBlockStart {
     }
 }
 
+extension BedrockAgentCoreClientTypes.IngestPayloadType {
+
+    static func write(value: BedrockAgentCoreClientTypes.IngestPayloadType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .conversational(conversational):
+                try writer["conversational"].write(conversational, with: BedrockAgentCoreClientTypes.Conversational.write(value:to:))
+            case let .json(json):
+                try writer["json"].write(json, with: BedrockAgentCoreClientTypes.MemoryJsonData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension BedrockAgentCoreClientTypes.InlineGroundTruth {
 
     static func write(value: BedrockAgentCoreClientTypes.InlineGroundTruth?, to writer: SmithyJSON.Writer) throws {
@@ -17775,6 +17951,14 @@ extension BedrockAgentCoreClientTypes.InlineGroundTruth {
         try writer["assertions"].writeList(value.assertions, memberWritingClosure: BedrockAgentCoreClientTypes.EvaluationContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["expectedTrajectory"].write(value.expectedTrajectory, with: BedrockAgentCoreClientTypes.EvaluationExpectedTrajectory.write(value:to:))
         try writer["turns"].writeList(value.turns, memberWritingClosure: BedrockAgentCoreClientTypes.GroundTruthTurn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.InlineMemoryContent {
+
+    static func write(value: BedrockAgentCoreClientTypes.InlineMemoryContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload"].writeList(value.payload, memberWritingClosure: BedrockAgentCoreClientTypes.IngestPayloadType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

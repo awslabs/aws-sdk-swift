@@ -7898,6 +7898,39 @@ public struct DescribeTermsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTermsByClientInput: Swift.Sendable {
+    /// The ID of the app client that the terms documents are associated with.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The name of the terms documents that you want to describe.
+    /// This member is required.
+    public var termsName: Swift.String?
+    /// The ID of the user pool that contains the terms documents that you want to describe.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        termsName: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.termsName = termsName
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct DescribeTermsByClientOutput: Swift.Sendable {
+    /// A summary of the requested terms documents. Includes a unique identifier for later changes to the terms documents.
+    public var terms: CognitoIdentityProviderClientTypes.TermsType?
+
+    public init(
+        terms: CognitoIdentityProviderClientTypes.TermsType? = nil
+    ) {
+        self.terms = terms
+    }
+}
+
 /// Represents the request to describe the user import job.
 public struct DescribeUserImportJobInput: Swift.Sendable {
     /// The Id of the user import job that you want to describe.
@@ -8184,6 +8217,71 @@ public struct ForgotPasswordOutput: Swift.Sendable {
         codeDeliveryDetails: CognitoIdentityProviderClientTypes.CodeDeliveryDetailsType? = nil
     ) {
         self.codeDeliveryDetails = codeDeliveryDetails
+    }
+}
+
+public struct GetClientTokenInput: Swift.Sendable {
+    /// The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH authentication flow.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see [ Connecting API actions to Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    ///
+    /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
+    ///
+    /// * Validate the ClientMetadata value.
+    ///
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
+    public var clientMetadata: [Swift.String: Swift.String]?
+    /// The custom scopes to authorize in the access token, in the format resource-server-identifier/scope-name. Each scope must belong to a resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the scopes that are configured for the app client.
+    public var scopes: [Swift.String]?
+    /// An active secret for the app client.
+    /// This member is required.
+    public var secret: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientMetadata: [Swift.String: Swift.String]? = nil,
+        scopes: [Swift.String]? = nil,
+        secret: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientMetadata = clientMetadata
+        self.scopes = scopes
+        self.secret = secret
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The access token and its metadata from a machine-to-machine (M2M) client credentials grant.
+    public struct ClientAuthenticationResultType: Swift.Sendable {
+        /// The access token for the requested app client. Present this token to a resource server to authorize a request, using the scopes granted in the token.
+        public var accessToken: Swift.String?
+        /// The number of seconds until the access token expires.
+        public var expiresIn: Swift.Int
+        /// The type of the token. For example, Bearer.
+        public var tokenType: Swift.String?
+
+        public init(
+            accessToken: Swift.String? = nil,
+            expiresIn: Swift.Int = 0,
+            tokenType: Swift.String? = nil
+        ) {
+            self.accessToken = accessToken
+            self.expiresIn = expiresIn
+            self.tokenType = tokenType
+        }
+    }
+}
+
+public struct GetClientTokenOutput: Swift.Sendable {
+    /// The access token that Amazon Cognito issues for the app client, and its metadata.
+    public var clientAuthenticationResult: CognitoIdentityProviderClientTypes.ClientAuthenticationResultType?
+
+    public init(
+        clientAuthenticationResult: CognitoIdentityProviderClientTypes.ClientAuthenticationResultType? = nil
+    ) {
+        self.clientAuthenticationResult = clientAuthenticationResult
     }
 }
 
