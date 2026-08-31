@@ -461,6 +461,21 @@ extension AgentRegistryClientTypes.AgentSkillsDefinitionDescriptor: Swift.Custom
 
 extension AgentRegistryClientTypes {
 
+    /// A descriptor for a registry record that exposes an AG-UI protocol endpoint. This descriptor is source-only: it identifies where the endpoint is located and carries no descriptor payload data or schema version.
+    public struct AgUiDescriptor: Swift.Sendable {
+        /// The source location of the AG-UI protocol endpoint.
+        public var source: AgentRegistryClientTypes.DescriptorSource?
+
+        public init(
+            source: AgentRegistryClientTypes.DescriptorSource? = nil
+        ) {
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryClientTypes {
+
     /// Custom descriptor for user-defined content
     public struct CustomDescriptor: Swift.Sendable {
         /// The custom descriptor content, serialized as descriptor payload data.
@@ -477,6 +492,21 @@ extension AgentRegistryClientTypes {
 extension AgentRegistryClientTypes.CustomDescriptor: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CustomDescriptor(data: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryClientTypes {
+
+    /// A descriptor for a registry record that exposes an HTTP endpoint. This descriptor is source-only: it identifies where the endpoint is located and carries no descriptor payload data or schema version.
+    public struct HttpDescriptor: Swift.Sendable {
+        /// The source location of the HTTP endpoint.
+        public var source: AgentRegistryClientTypes.DescriptorSource?
+
+        public init(
+            source: AgentRegistryClientTypes.DescriptorSource? = nil
+        ) {
+            self.source = source
+        }
+    }
 }
 
 extension AgentRegistryClientTypes {
@@ -558,20 +588,28 @@ extension AgentRegistryClientTypes {
         public var a2aAgentCard: AgentRegistryClientTypes.A2aAgentCardDescriptor?
         /// The agent skills definition descriptor, populated when the record type is SKILL.
         public var agentSkillsDefinition: AgentRegistryClientTypes.AgentSkillsDefinitionDescriptor?
+        /// The AG-UI descriptor, populated when the record exposes an AG-UI protocol endpoint.
+        public var agui: AgentRegistryClientTypes.AgUiDescriptor?
         /// The custom descriptor, populated when the record type is CUSTOM.
         public var custom: AgentRegistryClientTypes.CustomDescriptor?
+        /// The HTTP descriptor, populated when the record exposes an HTTP endpoint.
+        public var http: AgentRegistryClientTypes.HttpDescriptor?
         /// The MCP server descriptor, populated when the record type is MCP.
         public var mcpServer: AgentRegistryClientTypes.McpServerDescriptor?
 
         public init(
             a2aAgentCard: AgentRegistryClientTypes.A2aAgentCardDescriptor? = nil,
             agentSkillsDefinition: AgentRegistryClientTypes.AgentSkillsDefinitionDescriptor? = nil,
+            agui: AgentRegistryClientTypes.AgUiDescriptor? = nil,
             custom: AgentRegistryClientTypes.CustomDescriptor? = nil,
+            http: AgentRegistryClientTypes.HttpDescriptor? = nil,
             mcpServer: AgentRegistryClientTypes.McpServerDescriptor? = nil
         ) {
             self.a2aAgentCard = a2aAgentCard
             self.agentSkillsDefinition = agentSkillsDefinition
+            self.agui = agui
             self.custom = custom
+            self.http = http
             self.mcpServer = mcpServer
         }
     }
@@ -1239,6 +1277,16 @@ extension AgentRegistryClientTypes.AgentSkillsMdDescriptor {
     }
 }
 
+extension AgentRegistryClientTypes.AgUiDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryClientTypes.AgUiDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryClientTypes.AgUiDescriptor()
+        value.source = try reader["source"].readIfPresent(with: AgentRegistryClientTypes.DescriptorSource.read(from:))
+        return value
+    }
+}
+
 extension AgentRegistryClientTypes.BatchGetDiscoverableRegistryRecordError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryClientTypes.BatchGetDiscoverableRegistryRecordError {
@@ -1271,6 +1319,8 @@ extension AgentRegistryClientTypes.Descriptors {
         value.a2aAgentCard = try reader["a2aAgentCard"].readIfPresent(with: AgentRegistryClientTypes.A2aAgentCardDescriptor.read(from:))
         value.agentSkillsDefinition = try reader["agentSkillsDefinition"].readIfPresent(with: AgentRegistryClientTypes.AgentSkillsDefinitionDescriptor.read(from:))
         value.custom = try reader["custom"].readIfPresent(with: AgentRegistryClientTypes.CustomDescriptor.read(from:))
+        value.http = try reader["http"].readIfPresent(with: AgentRegistryClientTypes.HttpDescriptor.read(from:))
+        value.agui = try reader["agui"].readIfPresent(with: AgentRegistryClientTypes.AgUiDescriptor.read(from:))
         return value
     }
 }
@@ -1312,6 +1362,16 @@ extension AgentRegistryClientTypes.DiscoverableRegistryRecordSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.descriptorTypes = try reader["descriptorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AgentRegistryClientTypes.HttpDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryClientTypes.HttpDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryClientTypes.HttpDescriptor()
+        value.source = try reader["source"].readIfPresent(with: AgentRegistryClientTypes.DescriptorSource.read(from:))
         return value
     }
 }
