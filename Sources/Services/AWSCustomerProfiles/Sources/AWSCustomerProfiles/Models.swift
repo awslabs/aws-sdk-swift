@@ -362,7 +362,7 @@ extension CustomerProfilesClientTypes {
         /// The action to segment on.
         /// This member is required.
         public var dimensionType: CustomerProfilesClientTypes.StringDimensionType?
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -1556,6 +1556,105 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes {
 
+    public enum EventSubscriptionSegmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case starting
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSubscriptionSegmentStatus] {
+            return [
+                .failed,
+                .running,
+                .starting,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Represents a segment associated with a membership event stream.
+    public struct AssociatedSegment: Swift.Sendable {
+        /// An optional message providing context, such as a failure reason.
+        public var message: Swift.String?
+        /// The unique name of the segment definition.
+        public var segmentName: Swift.String?
+        /// The subscription status of the segment. The following are valid values:
+        ///
+        /// * STARTING: The segment is being prepared to publish membership events.
+        ///
+        /// * RUNNING: The segment is actively publishing membership events to the stream.
+        ///
+        /// * STOPPED: The segment has stopped publishing membership events.
+        ///
+        /// * FAILED: The segment failed to publish membership events.
+        public var status: CustomerProfilesClientTypes.EventSubscriptionSegmentStatus?
+
+        public init(
+            message: Swift.String? = nil,
+            segmentName: Swift.String? = nil,
+            status: CustomerProfilesClientTypes.EventSubscriptionSegmentStatus? = nil
+        ) {
+            self.message = message
+            self.segmentName = segmentName
+            self.status = status
+        }
+    }
+}
+
+public struct AssociateStreamForSegmentsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
+    /// This member is required.
+    public var destinationArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver segment membership events to the stream:
+    ///
+    /// * kinesis:PutRecord
+    ///
+    /// * kinesis:PutRecords
+    ///
+    /// * kinesis:DescribeStream
+    /// This member is required.
+    public var destinationRoleArn: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        destinationArn: Swift.String? = nil,
+        destinationRoleArn: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    ) {
+        self.destinationArn = destinationArn
+        self.destinationRoleArn = destinationRoleArn
+        self.domainName = domainName
+    }
+}
+
+public struct AssociateStreamForSegmentsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// The details of a single attribute item specified in the mathematical expression.
     public struct AttributeItem: Swift.Sendable {
         /// The name of an attribute defined in a profile object type.
@@ -1613,6 +1712,8 @@ extension CustomerProfilesClientTypes {
         case inclusive
         case lessThan
         case lessThanOrEqual
+        case listContains
+        case listContainsAll
         case notBetween
         case on
         case sdkUnknown(Swift.String)
@@ -1632,6 +1733,8 @@ extension CustomerProfilesClientTypes {
                 .inclusive,
                 .lessThan,
                 .lessThanOrEqual,
+                .listContains,
+                .listContainsAll,
                 .notBetween,
                 .on
             ]
@@ -1657,6 +1760,8 @@ extension CustomerProfilesClientTypes {
             case .inclusive: return "INCLUSIVE"
             case .lessThan: return "LESS_THAN"
             case .lessThanOrEqual: return "LESS_THAN_OR_EQUAL"
+            case .listContains: return "LIST_CONTAINS"
+            case .listContainsAll: return "LIST_CONTAINS_ALL"
             case .notBetween: return "NOT_BETWEEN"
             case .on: return "ON"
             case let .sdkUnknown(s): return s
@@ -1672,7 +1777,7 @@ extension CustomerProfilesClientTypes {
         /// The action to segment with.
         /// This member is required.
         public var dimensionType: CustomerProfilesClientTypes.AttributeDimensionType?
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -2758,7 +2863,7 @@ extension CustomerProfilesClientTypes {
         /// The action to segment with.
         /// This member is required.
         public var dimensionType: CustomerProfilesClientTypes.AttributeDimensionType?
-        /// The values to apply the DimensionType with.
+        /// The values to apply the DimensionType with. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -3270,6 +3375,7 @@ extension CustomerProfilesClientTypes {
         case maximum
         case maxOccurrence
         case minimum
+        case recentOccurrences
         case sum
         case sdkUnknown(Swift.String)
 
@@ -3282,6 +3388,7 @@ extension CustomerProfilesClientTypes {
                 .maximum,
                 .maxOccurrence,
                 .minimum,
+                .recentOccurrences,
                 .sum
             ]
         }
@@ -3300,6 +3407,7 @@ extension CustomerProfilesClientTypes {
             case .maximum: return "MAXIMUM"
             case .maxOccurrence: return "MAX_OCCURRENCE"
             case .minimum: return "MINIMUM"
+            case .recentOccurrences: return "RECENT_OCCURRENCES"
             case .sum: return "SUM"
             case let .sdkUnknown(s): return s
             }
@@ -5052,7 +5160,7 @@ extension CustomerProfilesClientTypes {
         /// The action to segment with.
         /// This member is required.
         public var dimensionType: CustomerProfilesClientTypes.StringDimensionType?
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -5111,7 +5219,7 @@ extension CustomerProfilesClientTypes {
         /// The action to segment with.
         /// This member is required.
         public var dimensionType: CustomerProfilesClientTypes.DateDimensionType?
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -6282,6 +6390,34 @@ public struct DeleteSegmentDefinitionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteSegmentSubscriptionInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+public struct DeleteSegmentSubscriptionOutput: Swift.Sendable {
+    /// A confirmation message indicating the subscription was deleted successfully.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.message = message
+    }
+}
+
 public struct DeleteWorkflowInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -6464,6 +6600,29 @@ public struct DetectProfileObjectTypeOutput: Swift.Sendable {
         detectedProfileObjectTypes: [CustomerProfilesClientTypes.DetectedProfileObjectType]? = nil
     ) {
         self.detectedProfileObjectTypes = detectedProfileObjectTypes
+    }
+}
+
+public struct DisassociateStreamForSegmentsInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+public struct DisassociateStreamForSegmentsOutput: Swift.Sendable {
+    /// A confirmation message indicating the stream was disassociated successfully.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.message = message
     }
 }
 
@@ -8769,6 +8928,164 @@ public struct GetSegmentSnapshotOutput: Swift.Sendable {
     }
 }
 
+public struct GetSegmentSubscriptionInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum ScheduleConfigurationUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hourly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleConfigurationUnit] {
+            return [
+                .hourly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hourly: return "HOURLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Configuration for scheduled segment membership event notifications.
+    public struct ScheduleConfiguration: Swift.Sendable {
+        /// The interval between scheduled executions.
+        /// This member is required.
+        public var interval: Swift.Int?
+        /// The unit for the interval. The following are valid values:
+        ///
+        /// * HOURLY: The interval is measured in hours.
+        public var unit: CustomerProfilesClientTypes.ScheduleConfigurationUnit?
+
+        public init(
+            interval: Swift.Int? = nil,
+            unit: CustomerProfilesClientTypes.ScheduleConfigurationUnit? = nil
+        ) {
+            self.interval = interval
+            self.unit = unit
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Information about scheduled execution timestamps.
+    public struct ScheduledExecutions: Swift.Sendable {
+        /// The timestamp of the last successful scheduled execution.
+        public var lastExecutedAt: Foundation.Date?
+        /// The timestamp of the next scheduled execution.
+        public var nextExecutedAt: Foundation.Date?
+
+        public init(
+            lastExecutedAt: Foundation.Date? = nil,
+            nextExecutedAt: Foundation.Date? = nil
+        ) {
+            self.lastExecutedAt = lastExecutedAt
+            self.nextExecutedAt = nextExecutedAt
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SegmentSubscriptionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case starting
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentSubscriptionStatus] {
+            return [
+                .failed,
+                .running,
+                .starting,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSegmentSubscriptionOutput: Swift.Sendable {
+    /// The timestamp of the most recent configuration change.
+    public var lastUpdatedAt: Foundation.Date?
+    /// A status message providing additional context, such as a failure reason.
+    public var message: Swift.String?
+    /// The schedule configuration for periodic membership event notifications.
+    public var scheduleConfiguration: CustomerProfilesClientTypes.ScheduleConfiguration?
+    /// Information about scheduled execution timestamps.
+    public var scheduledExecutions: CustomerProfilesClientTypes.ScheduledExecutions?
+    /// The timestamp of when the subscription was first started.
+    public var startedAt: Foundation.Date?
+    /// The current lifecycle status of the subscription. The following are valid values:
+    ///
+    /// * STARTING: Initial snapshot is in progress.
+    ///
+    /// * RUNNING: Notifications are active and running.
+    ///
+    /// * STOPPED: Notifications have been stopped.
+    ///
+    /// * FAILED: Notifications failed (for example, the Amazon Kinesis data stream became inaccessible).
+    public var status: CustomerProfilesClientTypes.SegmentSubscriptionStatus?
+
+    public init(
+        lastUpdatedAt: Foundation.Date? = nil,
+        message: Swift.String? = nil,
+        scheduleConfiguration: CustomerProfilesClientTypes.ScheduleConfiguration? = nil,
+        scheduledExecutions: CustomerProfilesClientTypes.ScheduledExecutions? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: CustomerProfilesClientTypes.SegmentSubscriptionStatus? = nil
+    ) {
+        self.lastUpdatedAt = lastUpdatedAt
+        self.message = message
+        self.scheduleConfiguration = scheduleConfiguration
+        self.scheduledExecutions = scheduledExecutions
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 extension CustomerProfilesClientTypes {
 
     public enum MatchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -8861,6 +9178,95 @@ public struct GetSimilarProfilesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.profileIds = profileIds
         self.ruleLevel = ruleLevel
+    }
+}
+
+public struct GetStreamForSegmentsInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum EventSubscriptionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case running
+        case stopped
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSubscriptionState] {
+            return [
+                .running,
+                .stopped,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetStreamForSegmentsOutput: Swift.Sendable {
+    /// The timestamp of when the stream was associated.
+    public var associatedAt: Foundation.Date?
+    /// A list of segments currently associated with the stream and their subscription status.
+    public var associatedSegments: [CustomerProfilesClientTypes.AssociatedSegment]?
+    /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream receiving segment membership events.
+    public var destinationArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role used for Amazon Kinesis and AWS Key Management Service (KMS) operations.
+    public var destinationRoleArn: Swift.String?
+    /// The timestamp of when the stream was disassociated.
+    public var disassociatedAt: Foundation.Date?
+    /// The unique name of the domain.
+    public var domainName: Swift.String?
+    /// The reason why the stream is in an unhealthy state, if applicable.
+    public var failureReason: Swift.String?
+    /// The operational state of the destination stream. The following are valid values:
+    ///
+    /// * RUNNING: The stream is associated and healthy. Segment membership events are being published.
+    ///
+    /// * UNHEALTHY: The stream is associated but events cannot currently be published. See FailureReason for details.
+    ///
+    /// * STOPPED: The stream is no longer publishing segment membership events.
+    public var state: CustomerProfilesClientTypes.EventSubscriptionState?
+
+    public init(
+        associatedAt: Foundation.Date? = nil,
+        associatedSegments: [CustomerProfilesClientTypes.AssociatedSegment]? = nil,
+        destinationArn: Swift.String? = nil,
+        destinationRoleArn: Swift.String? = nil,
+        disassociatedAt: Foundation.Date? = nil,
+        domainName: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        state: CustomerProfilesClientTypes.EventSubscriptionState? = nil
+    ) {
+        self.associatedAt = associatedAt
+        self.associatedSegments = associatedSegments
+        self.destinationArn = destinationArn
+        self.destinationRoleArn = destinationRoleArn
+        self.disassociatedAt = disassociatedAt
+        self.domainName = domainName
+        self.failureReason = failureReason
+        self.state = state
     }
 }
 
@@ -10861,6 +11267,139 @@ public struct ListSegmentDefinitionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListSegmentSubscriptionEventsInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of events to return per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous call to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SubscriptionEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case joined
+        case `left`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionEvent] {
+            return [
+                .joined,
+                .left
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .joined: return "JOINED"
+            case .left: return "LEFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SubscriptionEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case live
+        case schedule
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionEventType] {
+            return [
+                .live,
+                .schedule
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .live: return "LIVE"
+            case .schedule: return "SCHEDULE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Represents a single segment membership event.
+    public struct SubscriptionEventItem: Swift.Sendable {
+        /// Whether the profile joined or left the segment. The following are valid values:
+        ///
+        /// * JOINED: The profile joined the segment.
+        ///
+        /// * LEFT: The profile left the segment.
+        public var event: CustomerProfilesClientTypes.SubscriptionEvent?
+        /// The type of event that triggered the membership change. The following are valid values:
+        ///
+        /// * LIVE: Real-time event triggered by a profile or calculated attribute change (Classic segments only).
+        ///
+        /// * SCHEDULE: Event generated during a scheduled execution.
+        public var eventType: CustomerProfilesClientTypes.SubscriptionEventType?
+        /// The unique identifier of a customer profile.
+        public var profileId: Swift.String?
+        /// The timestamp of when the membership change was detected.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            event: CustomerProfilesClientTypes.SubscriptionEvent? = nil,
+            eventType: CustomerProfilesClientTypes.SubscriptionEventType? = nil,
+            profileId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.event = event
+            self.eventType = eventType
+            self.profileId = profileId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListSegmentSubscriptionEventsOutput: Swift.Sendable {
+    /// A list of segment membership events.
+    public var events: [CustomerProfilesClientTypes.SubscriptionEventItem]?
+    /// The pagination token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        events: [CustomerProfilesClientTypes.SubscriptionEventItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource for which you want to view tags.
     /// This member is required.
@@ -11554,6 +12093,54 @@ public struct PutProfileObjectTypeOutput: Swift.Sendable {
 extension PutProfileObjectTypeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PutProfileObjectTypeOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), maxAvailableProfileObjectCount: \(Swift.String(describing: maxAvailableProfileObjectCount)), maxProfileObjectCount: \(Swift.String(describing: maxProfileObjectCount)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), sourcePriority: \(Swift.String(describing: sourcePriority)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+}
+
+public struct PutSegmentSubscriptionInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The optional schedule configuration that controls how often membership snapshots are run. If not provided, the subscription defaults to a 24-hour interval.
+    public var scheduleConfiguration: CustomerProfilesClientTypes.ScheduleConfiguration?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        scheduleConfiguration: CustomerProfilesClientTypes.ScheduleConfiguration? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.scheduleConfiguration = scheduleConfiguration
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+public struct PutSegmentSubscriptionOutput: Swift.Sendable {
+    /// The schedule configuration for the subscription, if configured.
+    public var scheduleConfiguration: CustomerProfilesClientTypes.ScheduleConfiguration?
+    /// The timestamp of when the subscription was started.
+    public var startedAt: Foundation.Date?
+    /// The current lifecycle status of the subscription. The following are valid values:
+    ///
+    /// * STARTING: Initial snapshot is in progress.
+    ///
+    /// * RUNNING: Notifications are active and running.
+    ///
+    /// * STOPPED: Notifications have been stopped.
+    ///
+    /// * FAILED: Notifications failed (for example, the Amazon Kinesis data stream became inaccessible).
+    public var status: CustomerProfilesClientTypes.SegmentSubscriptionStatus?
+
+    public init(
+        scheduleConfiguration: CustomerProfilesClientTypes.ScheduleConfiguration? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: CustomerProfilesClientTypes.SegmentSubscriptionStatus? = nil
+    ) {
+        self.scheduleConfiguration = scheduleConfiguration
+        self.startedAt = startedAt
+        self.status = status
+    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -12394,6 +12981,16 @@ extension AddProfileKeyInput {
     }
 }
 
+extension AssociateStreamForSegmentsInput {
+
+    static func urlPathProvider(_ value: AssociateStreamForSegmentsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-streams"
+    }
+}
+
 extension BatchGetCalculatedAttributeForProfileInput {
 
     static func urlPathProvider(_ value: BatchGetCalculatedAttributeForProfileInput) -> Swift.String? {
@@ -12774,6 +13371,19 @@ extension DeleteSegmentDefinitionInput {
     }
 }
 
+extension DeleteSegmentSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteSegmentSubscriptionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())/subscriptions"
+    }
+}
+
 extension DeleteWorkflowInput {
 
     static func urlPathProvider(_ value: DeleteWorkflowInput) -> Swift.String? {
@@ -12794,6 +13404,16 @@ extension DetectProfileObjectTypeInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/detect/object-types"
+    }
+}
+
+extension DisassociateStreamForSegmentsInput {
+
+    static func urlPathProvider(_ value: DisassociateStreamForSegmentsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-streams"
     }
 }
 
@@ -13121,6 +13741,19 @@ extension GetSegmentSnapshotInput {
     }
 }
 
+extension GetSegmentSubscriptionInput {
+
+    static func urlPathProvider(_ value: GetSegmentSubscriptionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())/subscriptions"
+    }
+}
+
 extension GetSimilarProfilesInput {
 
     static func urlPathProvider(_ value: GetSimilarProfilesInput) -> Swift.String? {
@@ -13144,6 +13777,16 @@ extension GetSimilarProfilesInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension GetStreamForSegmentsInput {
+
+    static func urlPathProvider(_ value: GetStreamForSegmentsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-streams"
     }
 }
 
@@ -13808,6 +14451,35 @@ extension ListSegmentDefinitionsInput {
     }
 }
 
+extension ListSegmentSubscriptionEventsInput {
+
+    static func urlPathProvider(_ value: ListSegmentSubscriptionEventsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())/subscription-events"
+    }
+}
+
+extension ListSegmentSubscriptionEventsInput {
+
+    static func queryItemProvider(_ value: ListSegmentSubscriptionEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -13923,6 +14595,19 @@ extension PutProfileObjectTypeInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/object-types/\(objectTypeName.urlPercentEncoding())"
+    }
+}
+
+extension PutSegmentSubscriptionInput {
+
+    static func urlPathProvider(_ value: PutSegmentSubscriptionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())/subscriptions"
     }
 }
 
@@ -14119,6 +14804,15 @@ extension AddProfileKeyInput {
         try writer["KeyName"].write(value.keyName)
         try writer["ProfileId"].write(value.profileId)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension AssociateStreamForSegmentsInput {
+
+    static func write(value: AssociateStreamForSegmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationArn"].write(value.destinationArn)
+        try writer["DestinationRoleArn"].write(value.destinationRoleArn)
     }
 }
 
@@ -14530,6 +15224,14 @@ extension PutProfileObjectTypeInput {
     }
 }
 
+extension PutSegmentSubscriptionInput {
+
+    static func write(value: PutSegmentSubscriptionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScheduleConfiguration"].write(value.scheduleConfiguration, with: CustomerProfilesClientTypes.ScheduleConfiguration.write(value:to:))
+    }
+}
+
 extension SearchProfilesInput {
 
     static func write(value: SearchProfilesInput?, to writer: SmithyJSON.Writer) throws {
@@ -14650,6 +15352,13 @@ extension AddProfileKeyOutput {
         value.keyName = try reader["KeyName"].readIfPresent()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension AssociateStreamForSegmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateStreamForSegmentsOutput {
+        return AssociateStreamForSegmentsOutput()
     }
 }
 
@@ -15070,6 +15779,18 @@ extension DeleteSegmentDefinitionOutput {
     }
 }
 
+extension DeleteSegmentSubscriptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSegmentSubscriptionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSegmentSubscriptionOutput()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkflowOutput {
@@ -15085,6 +15806,18 @@ extension DetectProfileObjectTypeOutput {
         let reader = responseReader
         var value = DetectProfileObjectTypeOutput()
         value.detectedProfileObjectTypes = try reader["DetectedProfileObjectTypes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.DetectedProfileObjectType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DisassociateStreamForSegmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateStreamForSegmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateStreamForSegmentsOutput()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -15520,6 +16253,23 @@ extension GetSegmentSnapshotOutput {
     }
 }
 
+extension GetSegmentSubscriptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSegmentSubscriptionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSegmentSubscriptionOutput()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.message = try reader["Message"].readIfPresent()
+        value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: CustomerProfilesClientTypes.ScheduleConfiguration.read(from:))
+        value.scheduledExecutions = try reader["ScheduledExecutions"].readIfPresent(with: CustomerProfilesClientTypes.ScheduledExecutions.read(from:))
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetSimilarProfilesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSimilarProfilesOutput {
@@ -15533,6 +16283,25 @@ extension GetSimilarProfilesOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.profileIds = try reader["ProfileIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ruleLevel = try reader["RuleLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension GetStreamForSegmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetStreamForSegmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStreamForSegmentsOutput()
+        value.associatedAt = try reader["AssociatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.associatedSegments = try reader["AssociatedSegments"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.AssociatedSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinationArn = try reader["DestinationArn"].readIfPresent()
+        value.destinationRoleArn = try reader["DestinationRoleArn"].readIfPresent()
+        value.disassociatedAt = try reader["DisassociatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
@@ -15907,6 +16676,19 @@ extension ListSegmentDefinitionsOutput {
     }
 }
 
+extension ListSegmentSubscriptionEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSegmentSubscriptionEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSegmentSubscriptionEventsOutput()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.SubscriptionEventItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -16032,6 +16814,20 @@ extension PutProfileObjectTypeOutput {
         value.sourcePriority = try reader["SourcePriority"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateId = try reader["TemplateId"].readIfPresent()
+        return value
+    }
+}
+
+extension PutSegmentSubscriptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSegmentSubscriptionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutSegmentSubscriptionOutput()
+        value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: CustomerProfilesClientTypes.ScheduleConfiguration.read(from:))
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -16201,6 +16997,24 @@ extension UpdateRecommenderOutput {
 }
 
 enum AddProfileKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateStreamForSegmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16794,6 +17608,24 @@ enum DeleteSegmentDefinitionOutputError {
     }
 }
 
+enum DeleteSegmentSubscriptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteWorkflowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16813,6 +17645,24 @@ enum DeleteWorkflowOutputError {
 }
 
 enum DetectProfileObjectTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateStreamForSegmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17244,7 +18094,43 @@ enum GetSegmentSnapshotOutputError {
     }
 }
 
+enum GetSegmentSubscriptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSimilarProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetStreamForSegmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17747,6 +18633,24 @@ enum ListSegmentDefinitionsOutputError {
     }
 }
 
+enum ListSegmentSubscriptionEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17871,6 +18775,24 @@ enum PutProfileObjectOutputError {
 }
 
 enum PutProfileObjectTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutSegmentSubscriptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -18296,6 +19218,18 @@ extension CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep {
         value.batchRecordsEndTime = try reader["BatchRecordsEndTime"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.AssociatedSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AssociatedSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.AssociatedSegment()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -20007,6 +20941,34 @@ extension CustomerProfilesClientTypes.SalesforceSourceProperties {
     }
 }
 
+extension CustomerProfilesClientTypes.ScheduleConfiguration {
+
+    static func write(value: CustomerProfilesClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Interval"].write(value.interval)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ScheduleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ScheduleConfiguration()
+        value.interval = try reader["Interval"].readIfPresent() ?? 0
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ScheduledExecutions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ScheduledExecutions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ScheduledExecutions()
+        value.nextExecutedAt = try reader["NextExecutedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastExecutedAt = try reader["LastExecutedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.ScheduledTriggerProperties {
 
     static func write(value: CustomerProfilesClientTypes.ScheduledTriggerProperties?, to writer: SmithyJSON.Writer) throws {
@@ -20141,6 +21103,19 @@ extension CustomerProfilesClientTypes.SourceSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.SourceSegment()
         value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.SubscriptionEventItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SubscriptionEventItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SubscriptionEventItem()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eventType = try reader["EventType"].readIfPresent()
+        value.event = try reader["Event"].readIfPresent()
         return value
     }
 }

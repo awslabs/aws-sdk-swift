@@ -32,11 +32,11 @@ import struct Smithy.URIQueryItem
 
 extension AgentRegistryControlClientTypes {
 
-    /// The configuration for an IAM role credential provider that signs requests to a registry record's source with AWS Signature Version 4 (SigV4).
+    /// The configuration for an IAM role credential provider that signs requests to a registry record's source with Amazon Web Services Signature Version 4 (SigV4).
     public struct RegistryRecordIamCredentialProvider: Swift.Sendable {
-        /// The AWS Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry.
+        /// The Amazon Web Services Region to use for request signing. If not specified, the Region is derived from the source URL hostname, falling back to the Region of the registry.
         public var region: Swift.String?
-        /// The &ARN; of the IAM role to assume for request signing.
+        /// The Amazon Resource Name (ARN) of the IAM role to assume for request signing.
         public var roleArn: Swift.String?
         /// The service name to use for request signing, such as execute-api.
         public var service: Swift.String?
@@ -87,7 +87,7 @@ extension AgentRegistryControlClientTypes {
         public var customParameters: [Swift.String: Swift.String]?
         /// The OAuth 2.0 grant type used to obtain access tokens.
         public var grantType: AgentRegistryControlClientTypes.RegistryRecordOAuthGrantType?
-        /// The &ARN; of the OAuth 2.0 credential provider resource in Amazon Bedrock AgentCore Identity.
+        /// The Amazon Resource Name (ARN) of the OAuth 2.0 credential provider resource in Amazon Bedrock AgentCore Identity.
         /// This member is required.
         public var providerArn: Swift.String?
         /// The OAuth 2.0 scopes to request when obtaining access tokens.
@@ -255,6 +255,433 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension AgentRegistryControlClientTypes {
+
+    /// The protocol type of an AgentCore Gateway.
+    public enum AgentCoreGatewayProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentCoreGatewayProtocolType] {
+            return [
+                .mcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mcp: return "MCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The operator used to compare a claim value against the expected value during JWT validation.
+    public enum ClaimMatchOperatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case containsAny
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClaimMatchOperatorType] {
+            return [
+                .contains,
+                .containsAny,
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .containsAny: return "CONTAINS_ANY"
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The expected value used to match a claim. Exactly one member is set.
+    public enum ClaimMatchValueType: Swift.Sendable {
+        /// A single string value to match the claim against.
+        case matchvaluestring(Swift.String)
+        /// A list of string values to match the claim against.
+        case matchvaluestringlist([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The value and match operator used to authorize a claim during JWT validation.
+    public struct AuthorizingClaimMatchValueType: Swift.Sendable {
+        /// The operator used to compare the claim value against the expected value.
+        /// This member is required.
+        public var claimMatchOperator: AgentRegistryControlClientTypes.ClaimMatchOperatorType?
+        /// The expected value or values that the claim is compared against.
+        /// This member is required.
+        public var claimMatchValue: AgentRegistryControlClientTypes.ClaimMatchValueType?
+
+        public init(
+            claimMatchOperator: AgentRegistryControlClientTypes.ClaimMatchOperatorType? = nil,
+            claimMatchValue: AgentRegistryControlClientTypes.ClaimMatchValueType? = nil
+        ) {
+            self.claimMatchOperator = claimMatchOperator
+            self.claimMatchValue = claimMatchValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The value type of a claim in an inbound JWT.
+    public enum InboundTokenClaimValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case string
+        case stringArray
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InboundTokenClaimValueType] {
+            return [
+                .string,
+                .stringArray
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .string: return "STRING"
+            case .stringArray: return "STRING_ARRAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// A validation rule applied to a single claim of an inbound JWT.
+    public struct CustomClaimValidationType: Swift.Sendable {
+        /// The value and match operator used to authorize the claim.
+        /// This member is required.
+        public var authorizingClaimMatchValue: AgentRegistryControlClientTypes.AuthorizingClaimMatchValueType?
+        /// The name of the claim in the inbound token to validate.
+        /// This member is required.
+        public var inboundTokenClaimName: Swift.String?
+        /// The value type of the claim in the inbound token, either a string or an array of strings.
+        /// This member is required.
+        public var inboundTokenClaimValueType: AgentRegistryControlClientTypes.InboundTokenClaimValueType?
+
+        public init(
+            authorizingClaimMatchValue: AgentRegistryControlClientTypes.AuthorizingClaimMatchValueType? = nil,
+            inboundTokenClaimName: Swift.String? = nil,
+            inboundTokenClaimValueType: AgentRegistryControlClientTypes.InboundTokenClaimValueType? = nil
+        ) {
+            self.authorizingClaimMatchValue = authorizingClaimMatchValue
+            self.inboundTokenClaimName = inboundTokenClaimName
+            self.inboundTokenClaimValueType = inboundTokenClaimValueType
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The IP address type used by a private endpoint.
+    public enum EndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointIpAddressType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// A service-managed private endpoint provisioned within a customer VPC.
+    public struct ManagedVpcResource: Swift.Sendable {
+        /// The IP address type used by the private endpoint, either IPV4 or IPV6.
+        /// This member is required.
+        public var endpointIpAddressType: AgentRegistryControlClientTypes.EndpointIpAddressType?
+        /// The routing domain used to resolve traffic through the private endpoint.
+        public var routingDomain: Swift.String?
+        /// The identifiers of the security groups associated with the private endpoint network interfaces.
+        public var securityGroupIds: [Swift.String]?
+        /// The identifiers of the subnets in which the private endpoint network interfaces are placed.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The tags applied to the service-managed VPC resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The identifier of the VPC in which the private endpoint is provisioned.
+        /// This member is required.
+        public var vpcIdentifier: Swift.String?
+
+        public init(
+            endpointIpAddressType: AgentRegistryControlClientTypes.EndpointIpAddressType? = nil,
+            routingDomain: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            vpcIdentifier: Swift.String? = nil
+        ) {
+            self.endpointIpAddressType = endpointIpAddressType
+            self.routingDomain = routingDomain
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.tags = tags
+            self.vpcIdentifier = vpcIdentifier
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// A self-managed private endpoint backed by a VPC Lattice resource configuration. Exactly one member is set.
+    public enum SelfManagedLatticeResource: Swift.Sendable {
+        /// The identifier of the VPC Lattice resource configuration, specified as a resource configuration ID or ARN.
+        case resourceconfigurationidentifier(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// A private network endpoint used to reach a resource over a private path. Exactly one member is set.
+    public enum PrivateEndpoint: Swift.Sendable {
+        /// A private endpoint backed by a self-managed VPC Lattice resource configuration.
+        case selfmanagedlatticeresource(AgentRegistryControlClientTypes.SelfManagedLatticeResource)
+        /// A private endpoint backed by a service-managed VPC resource.
+        case managedvpcresource(AgentRegistryControlClientTypes.ManagedVpcResource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// A mapping of a domain to the private endpoint used to reach it.
+    public struct PrivateEndpointOverride: Swift.Sendable {
+        /// The domain name to which this private endpoint override applies.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The private endpoint used to reach the specified domain.
+        /// This member is required.
+        public var privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint?
+
+        public init(
+            domain: Swift.String? = nil,
+            privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint? = nil
+        ) {
+            self.domain = domain
+            self.privateEndpoint = privateEndpoint
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Configuration for a custom JWT authorizer that validates inbound bearer tokens against an OpenID Connect identity provider.
+    public struct CustomJWTAuthorizerConfiguration: Swift.Sendable {
+        /// The audience values accepted during JWT validation. A token is rejected if none of its audience claims match.
+        public var allowedAudience: [Swift.String]?
+        /// The client identifiers accepted during JWT validation. A token is rejected if it was not issued to one of these clients.
+        public var allowedClients: [Swift.String]?
+        /// The scopes accepted during JWT validation. A token is rejected if it does not carry one of these scopes.
+        public var allowedScopes: [Swift.String]?
+        /// Additional custom claim validations applied to the inbound JWT.
+        public var customClaims: [AgentRegistryControlClientTypes.CustomClaimValidationType]?
+        /// The OpenID Connect discovery URL used to retrieve the identity provider's metadata and signing keys.
+        /// This member is required.
+        public var discoveryUrl: Swift.String?
+        /// The private endpoint used to reach the identity provider's discovery URL over a private network path.
+        public var privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint?
+        /// Per-domain private endpoint overrides that route specific identity provider domains through distinct private endpoints.
+        public var privateEndpointOverrides: [AgentRegistryControlClientTypes.PrivateEndpointOverride]?
+
+        public init(
+            allowedAudience: [Swift.String]? = nil,
+            allowedClients: [Swift.String]? = nil,
+            allowedScopes: [Swift.String]? = nil,
+            customClaims: [AgentRegistryControlClientTypes.CustomClaimValidationType]? = nil,
+            discoveryUrl: Swift.String? = nil,
+            privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint? = nil,
+            privateEndpointOverrides: [AgentRegistryControlClientTypes.PrivateEndpointOverride]? = nil
+        ) {
+            self.allowedAudience = allowedAudience
+            self.allowedClients = allowedClients
+            self.allowedScopes = allowedScopes
+            self.customClaims = customClaims
+            self.discoveryUrl = discoveryUrl
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointOverrides = privateEndpointOverrides
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The authorizer configuration for a registry. Exactly one member is set.
+    public enum AuthorizerConfiguration: Swift.Sendable {
+        /// Configuration for a custom JWT authorizer.
+        case customjwtauthorizer(AgentRegistryControlClientTypes.CustomJWTAuthorizerConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Workload identity details associated with a source resource.
+    public struct WorkloadIdentityDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the workload identity associated with the source resource.
+        /// This member is required.
+        public var workloadIdentityArn: Swift.String?
+
+        public init(
+            workloadIdentityArn: Swift.String? = nil
+        ) {
+            self.workloadIdentityArn = workloadIdentityArn
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Source details for a record auto-detected from an AgentCore Gateway resource.
+    public struct AgentCoreGatewaySourceDetails: Swift.Sendable {
+        /// The authorizer configuration for a registry. Exactly one member is set.
+        public var authorizerConfiguration: AgentRegistryControlClientTypes.AuthorizerConfiguration?
+        /// The type of authorizer configured on the AgentCore Gateway resource that the registry record was detected from.
+        public var authorizerType: Swift.String?
+        /// The protocol type of an AgentCore Gateway.
+        public var protocolType: AgentRegistryControlClientTypes.AgentCoreGatewayProtocolType?
+        /// Workload identity details associated with a source resource.
+        public var workloadIdentityDetails: AgentRegistryControlClientTypes.WorkloadIdentityDetails?
+
+        public init(
+            authorizerConfiguration: AgentRegistryControlClientTypes.AuthorizerConfiguration? = nil,
+            authorizerType: Swift.String? = nil,
+            protocolType: AgentRegistryControlClientTypes.AgentCoreGatewayProtocolType? = nil,
+            workloadIdentityDetails: AgentRegistryControlClientTypes.WorkloadIdentityDetails? = nil
+        ) {
+            self.authorizerConfiguration = authorizerConfiguration
+            self.authorizerType = authorizerType
+            self.protocolType = protocolType
+            self.workloadIdentityDetails = workloadIdentityDetails
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The server protocol used by an AgentCore Runtime.
+    public enum AgentCoreRuntimeServerProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a2a
+        case agui
+        case http
+        case mcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentCoreRuntimeServerProtocol] {
+            return [
+                .a2a,
+                .agui,
+                .http,
+                .mcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .a2a: return "A2A"
+            case .agui: return "AGUI"
+            case .http: return "HTTP"
+            case .mcp: return "MCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Protocol configuration for an AgentCore Runtime.
+    public struct AgentCoreRuntimeProtocolConfiguration: Swift.Sendable {
+        /// The server protocol used by an AgentCore Runtime.
+        public var serverProtocol: AgentRegistryControlClientTypes.AgentCoreRuntimeServerProtocol?
+
+        public init(
+            serverProtocol: AgentRegistryControlClientTypes.AgentCoreRuntimeServerProtocol? = nil
+        ) {
+            self.serverProtocol = serverProtocol
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Source details for a record auto-detected from an AgentCore Runtime resource.
+    public struct AgentCoreRuntimeSourceDetails: Swift.Sendable {
+        /// The authorizer configuration for a registry. Exactly one member is set.
+        public var authorizerConfiguration: AgentRegistryControlClientTypes.AuthorizerConfiguration?
+        /// Protocol configuration for an AgentCore Runtime.
+        public var protocolConfiguration: AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration?
+        /// Workload identity details associated with a source resource.
+        public var workloadIdentityDetails: AgentRegistryControlClientTypes.WorkloadIdentityDetails?
+
+        public init(
+            authorizerConfiguration: AgentRegistryControlClientTypes.AuthorizerConfiguration? = nil,
+            protocolConfiguration: AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration? = nil,
+            workloadIdentityDetails: AgentRegistryControlClientTypes.WorkloadIdentityDetails? = nil
+        ) {
+            self.authorizerConfiguration = authorizerConfiguration
+            self.protocolConfiguration = protocolConfiguration
+            self.workloadIdentityDetails = workloadIdentityDetails
+        }
+    }
+}
+
 /// The request failed due to an unexpected internal error; the caller may retry.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -417,7 +844,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// ARN of a taggable Agent Registry resource.
+    /// The Amazon Resource Name (ARN) of the resource to list tags for. Supported resources include registries and registry records.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -429,7 +856,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// A map of tag keys to tag values returned by read operations (may be empty).
+    /// The tags currently associated with the resource, as a map of tag keys to tag values.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -558,9 +985,24 @@ extension AgentRegistryControlClientTypes.AgentSkillsDefinitionDescriptor: Swift
 
 extension AgentRegistryControlClientTypes {
 
+    /// A registry record descriptor for the AG-UI (Agent-User Interaction) protocol.
+    public struct AgUiDescriptor: Swift.Sendable {
+        /// The source configuration that defines where descriptor content is retrieved from.
+        public var source: AgentRegistryControlClientTypes.DescriptorSource?
+
+        public init(
+            source: AgentRegistryControlClientTypes.DescriptorSource? = nil
+        ) {
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// Custom descriptor for user-defined content
     public struct CustomDescriptor: Swift.Sendable {
-        /// Descriptor payload data
+        /// The custom descriptor content, serialized as descriptor payload data.
         public var data: Swift.String?
 
         public init(
@@ -578,11 +1020,26 @@ extension AgentRegistryControlClientTypes.CustomDescriptor: Swift.CustomDebugStr
 
 extension AgentRegistryControlClientTypes {
 
+    /// A registry record descriptor for the HTTP protocol. This descriptor is source-only: its content is synchronized from the configured source URL rather than supplied inline.
+    public struct HttpDescriptor: Swift.Sendable {
+        /// The source configuration that defines where descriptor content is retrieved from.
+        public var source: AgentRegistryControlClientTypes.DescriptorSource?
+
+        public init(
+            source: AgentRegistryControlClientTypes.DescriptorSource? = nil
+        ) {
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// MCP tools descriptor containing tool definitions
     public struct McpToolsDescriptor: Swift.Sendable {
-        /// Descriptor payload data
+        /// The MCP tools descriptor content, serialized as descriptor payload data.
         public var data: Swift.String?
-        /// Version of the descriptor type schema
+        /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
 
         public init(
@@ -604,7 +1061,7 @@ extension AgentRegistryControlClientTypes {
 
     /// Additional data for an MCP server descriptor
     public struct McpServerAdditionalData: Swift.Sendable {
-        /// MCP tools descriptor containing tool definitions
+        /// The MCP tools descriptor that defines the tools exposed by the MCP server.
         public var tools: AgentRegistryControlClientTypes.McpToolsDescriptor?
 
         public init(
@@ -655,21 +1112,126 @@ extension AgentRegistryControlClientTypes {
         public var a2aAgentCard: AgentRegistryControlClientTypes.A2aAgentCardDescriptor?
         /// The agent skills definition descriptor, populated when the record type is SKILL.
         public var agentSkillsDefinition: AgentRegistryControlClientTypes.AgentSkillsDefinitionDescriptor?
+        /// The AG-UI descriptor, populated for records detected from an AG-UI protocol source.
+        public var agui: AgentRegistryControlClientTypes.AgUiDescriptor?
         /// The custom descriptor, populated when the record type is CUSTOM.
         public var custom: AgentRegistryControlClientTypes.CustomDescriptor?
+        /// The HTTP descriptor, populated for records detected from an HTTP protocol source.
+        public var http: AgentRegistryControlClientTypes.HttpDescriptor?
         /// The MCP server descriptor, populated when the record type is MCP.
         public var mcpServer: AgentRegistryControlClientTypes.McpServerDescriptor?
 
         public init(
             a2aAgentCard: AgentRegistryControlClientTypes.A2aAgentCardDescriptor? = nil,
             agentSkillsDefinition: AgentRegistryControlClientTypes.AgentSkillsDefinitionDescriptor? = nil,
+            agui: AgentRegistryControlClientTypes.AgUiDescriptor? = nil,
             custom: AgentRegistryControlClientTypes.CustomDescriptor? = nil,
+            http: AgentRegistryControlClientTypes.HttpDescriptor? = nil,
             mcpServer: AgentRegistryControlClientTypes.McpServerDescriptor? = nil
         ) {
             self.a2aAgentCard = a2aAgentCard
             self.agentSkillsDefinition = agentSkillsDefinition
+            self.agui = agui
             self.custom = custom
+            self.http = http
             self.mcpServer = mcpServer
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The relationship between the registry record and its provenance source.
+    public enum ProvenanceRelation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detectedFrom
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProvenanceRelation] {
+            return [
+                .detectedFrom
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detectedFrom: return "DETECTED_FROM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The details about the upstream source from which a registry record was detected. Exactly one member is populated, corresponding to the source type.
+    public enum SourceDetails: Swift.Sendable {
+        /// Source details for a record auto-detected from an AgentCore Runtime resource.
+        case agentcoreruntime(AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails)
+        /// Source details for a record auto-detected from an AgentCore Gateway resource.
+        case agentcoregateway(AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    public enum SourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsBedrockAgentcoreGateway
+        case awsBedrockAgentcoreRuntime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceType] {
+            return [
+                .awsBedrockAgentcoreGateway,
+                .awsBedrockAgentcoreRuntime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsBedrockAgentcoreGateway: return "AWS::BedrockAgentCore::Gateway"
+            case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// One provenance entry describing the lineage of a registry record.
+    public struct Provenance: Swift.Sendable {
+        /// The relationship between the registry record and its provenance source.
+        /// This member is required.
+        public var relation: AgentRegistryControlClientTypes.ProvenanceRelation?
+        /// Additional details about the upstream source that the registry record was detected from, such as the AgentCore Gateway or Runtime configuration. The populated member corresponds to the source type.
+        public var sourceDetails: AgentRegistryControlClientTypes.SourceDetails?
+        /// The identifier of the upstream source that the registry record was detected from.
+        /// This member is required.
+        public var sourceId: Swift.String?
+        /// The type of the upstream source that the registry record was detected from.
+        public var sourceType: AgentRegistryControlClientTypes.SourceType?
+
+        public init(
+            relation: AgentRegistryControlClientTypes.ProvenanceRelation? = nil,
+            sourceDetails: AgentRegistryControlClientTypes.SourceDetails? = nil,
+            sourceId: Swift.String? = nil,
+            sourceType: AgentRegistryControlClientTypes.SourceType? = nil
+        ) {
+            self.relation = relation
+            self.sourceDetails = sourceDetails
+            self.sourceId = sourceId
+            self.sourceType = sourceType
         }
     }
 }
@@ -680,6 +1242,7 @@ extension AgentRegistryControlClientTypes {
     public enum RecordType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
         case custom
+        case gateway
         case mcp
         case skill
         case sdkUnknown(Swift.String)
@@ -688,6 +1251,7 @@ extension AgentRegistryControlClientTypes {
             return [
                 .agent,
                 .custom,
+                .gateway,
                 .mcp,
                 .skill
             ]
@@ -702,6 +1266,7 @@ extension AgentRegistryControlClientTypes {
             switch self {
             case .agent: return "AGENT"
             case .custom: return "CUSTOM"
+            case .gateway: return "GATEWAY"
             case .mcp: return "MCP"
             case .skill: return "SKILL"
             case let .sdkUnknown(s): return s
@@ -723,6 +1288,8 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
     /// The name of the registry record
     /// This member is required.
     public var name: Swift.String?
+    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    public var provenance: [AgentRegistryControlClientTypes.Provenance]?
     /// The type of the registry record, which determines the descriptor format
     /// This member is required.
     public var recordType: AgentRegistryControlClientTypes.RecordType?
@@ -740,6 +1307,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
         descriptors: AgentRegistryControlClientTypes.Descriptors? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
+        provenance: [AgentRegistryControlClientTypes.Provenance]? = nil,
         recordType: AgentRegistryControlClientTypes.RecordType? = nil,
         recordVersion: Swift.String? = nil,
         registryId: Swift.String? = nil,
@@ -750,6 +1318,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
         self.descriptors = descriptors
         self.displayName = displayName
         self.name = name
+        self.provenance = provenance
         self.recordType = recordType
         self.recordVersion = recordVersion
         self.registryId = registryId
@@ -759,7 +1328,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
 
 extension CreateRegistryRecordInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRegistryRecordInput(clientToken: \(Swift.String(describing: clientToken)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateRegistryRecordInput(clientToken: \(Swift.String(describing: clientToken)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -876,6 +1445,10 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     /// The timestamp when the registry record was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The ID of the Amazon Web Services account that created the registry record.
+    public var createdBy: Swift.String?
+    /// Specifies whether the registry record was created by auto-detection. true indicates the record was automatically created by the service based on the registry's auto-detection configuration; false indicates the record was created through a control-plane API call.
+    public var createdByAutoDetection: Swift.Bool?
     /// A description of the registry record.
     public var description: Swift.String?
     /// The typed descriptors that define the content of the registry record.
@@ -885,7 +1458,9 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     /// The name of the registry record. Names are unique within a registry.
     /// This member is required.
     public var name: Swift.String?
-    /// The &ARN; of the registry record.
+    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    public var provenance: [AgentRegistryControlClientTypes.Provenance]?
+    /// The Amazon Resource Name (ARN) of the registry record.
     /// This member is required.
     public var recordArn: Swift.String?
     /// The unique identifier of the registry record.
@@ -896,7 +1471,7 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     public var recordType: AgentRegistryControlClientTypes.RecordType?
     /// The version identifier of the registry record.
     public var recordVersion: Swift.String?
-    /// The &ARN; of the parent registry that owns the record.
+    /// The Amazon Resource Name (ARN) of the parent registry that owns the record.
     /// This member is required.
     public var registryArn: Swift.String?
     /// The lifecycle status of the registry record.
@@ -910,10 +1485,13 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
 
     public init(
         createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        createdByAutoDetection: Swift.Bool? = nil,
         description: Swift.String? = nil,
         descriptors: AgentRegistryControlClientTypes.Descriptors? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
+        provenance: [AgentRegistryControlClientTypes.Provenance]? = nil,
         recordArn: Swift.String? = nil,
         recordId: Swift.String? = nil,
         recordType: AgentRegistryControlClientTypes.RecordType? = nil,
@@ -924,10 +1502,13 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.createdByAutoDetection = createdByAutoDetection
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
         self.name = name
+        self.provenance = provenance
         self.recordArn = recordArn
         self.recordId = recordId
         self.recordType = recordType
@@ -941,7 +1522,7 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
 
 extension GetRegistryRecordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -1023,11 +1604,40 @@ public struct ListRegistryRecordsInput: Swift.Sendable {
 
 extension AgentRegistryControlClientTypes {
 
+    /// Condensed provenance entry for list results — the key triple only (no sourceDetails union). Enough to display and client-side-filter lineage without the full-read config payload.
+    public struct ProvenanceSummary: Swift.Sendable {
+        /// The relationship between the registry record and its provenance source.
+        /// This member is required.
+        public var relation: AgentRegistryControlClientTypes.ProvenanceRelation?
+        /// The identifier of the upstream source that the registry record was detected from.
+        /// This member is required.
+        public var sourceId: Swift.String?
+        /// The type of the upstream source that the registry record was detected from.
+        public var sourceType: AgentRegistryControlClientTypes.SourceType?
+
+        public init(
+            relation: AgentRegistryControlClientTypes.ProvenanceRelation? = nil,
+            sourceId: Swift.String? = nil,
+            sourceType: AgentRegistryControlClientTypes.SourceType? = nil
+        ) {
+            self.relation = relation
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// A summary of a registry record returned by list operations. Contains identifying and lifecycle fields but omits descriptor content.
     public struct RegistryRecordSummary: Swift.Sendable {
         /// The timestamp when the registry record was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The ID of the Amazon Web Services account that created the registry record.
+        public var createdBy: Swift.String?
+        /// Specifies whether the registry record was created by auto-detection. true indicates the record was automatically created by the service based on the registry's auto-detection configuration; false indicates the record was created through a control-plane API call.
+        public var createdByAutoDetection: Swift.Bool?
         /// A description of the registry record.
         public var description: Swift.String?
         /// The human-readable display name of the registry record.
@@ -1035,7 +1645,9 @@ extension AgentRegistryControlClientTypes {
         /// The name of the registry record. Names are unique within a registry.
         /// This member is required.
         public var name: Swift.String?
-        /// The &ARN; of the registry record.
+        /// List of condensed provenance entries surfaced on RegistryRecordSummary. Mirrors ProvenanceList's cardinality (one entry today); modeled as a list for forward-compatibility.
+        public var provenanceSummaryList: [AgentRegistryControlClientTypes.ProvenanceSummary]?
+        /// The Amazon Resource Name (ARN) of the registry record.
         /// This member is required.
         public var recordArn: Swift.String?
         /// The unique identifier of the registry record.
@@ -1047,7 +1659,7 @@ extension AgentRegistryControlClientTypes {
         /// The version identifier of the registry record.
         /// This member is required.
         public var recordVersion: Swift.String?
-        /// The &ARN; of the parent registry that owns the record.
+        /// The Amazon Resource Name (ARN) of the parent registry that owns the record.
         /// This member is required.
         public var registryArn: Swift.String?
         /// The lifecycle status of the registry record.
@@ -1059,9 +1671,12 @@ extension AgentRegistryControlClientTypes {
 
         public init(
             createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            createdByAutoDetection: Swift.Bool? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil,
+            provenanceSummaryList: [AgentRegistryControlClientTypes.ProvenanceSummary]? = nil,
             recordArn: Swift.String? = nil,
             recordId: Swift.String? = nil,
             recordType: AgentRegistryControlClientTypes.RecordType? = nil,
@@ -1071,9 +1686,12 @@ extension AgentRegistryControlClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.createdByAutoDetection = createdByAutoDetection
             self.description = description
             self.displayName = displayName
             self.name = name
+            self.provenanceSummaryList = provenanceSummaryList
             self.recordArn = recordArn
             self.recordId = recordId
             self.recordType = recordType
@@ -1087,7 +1705,7 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes.RegistryRecordSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenanceSummaryList: \(Swift.String(describing: provenanceSummaryList)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Response structure for listing registry records
@@ -1161,7 +1779,7 @@ extension AgentRegistryControlClientTypes {
 
     /// Wrapper for updating an optional Description field with PATCH semantics
     public struct UpdatedDescription: Swift.Sendable {
-        /// Description of the Resource
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
         public var optionalValue: Swift.String?
 
         public init(
@@ -1373,6 +1991,36 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
+    /// The set of AG-UI descriptor fields that can be individually updated.
+    public struct UpdatedAgUiDescriptorFields: Swift.Sendable {
+        /// The patch for the descriptor's source field.
+        public var source: AgentRegistryControlClientTypes.UpdatedDescriptorSource?
+
+        public init(
+            source: AgentRegistryControlClientTypes.UpdatedDescriptorSource? = nil
+        ) {
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The AG-UI descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.
+    public struct UpdatedAgUiDescriptor: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.UpdatedAgUiDescriptorFields?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.UpdatedAgUiDescriptorFields? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// The set of custom descriptor fields that can be individually updated.
     public struct UpdatedCustomDescriptorFields: Swift.Sendable {
         /// The patch for the descriptor's data field.
@@ -1395,6 +2043,36 @@ extension AgentRegistryControlClientTypes {
 
         public init(
             optionalValue: AgentRegistryControlClientTypes.UpdatedCustomDescriptorFields? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The set of HTTP descriptor fields that can be individually updated.
+    public struct UpdatedHttpDescriptorFields: Swift.Sendable {
+        /// The patch for the descriptor's source field.
+        public var source: AgentRegistryControlClientTypes.UpdatedDescriptorSource?
+
+        public init(
+            source: AgentRegistryControlClientTypes.UpdatedDescriptorSource? = nil
+        ) {
+            self.source = source
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The HTTP descriptor patch wrapper. Omit to leave the descriptor unchanged; supply an empty object to remove it; supply optionalValue to patch its fields.
+    public struct UpdatedHttpDescriptor: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.UpdatedHttpDescriptorFields?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.UpdatedHttpDescriptorFields? = nil
         ) {
             self.optionalValue = optionalValue
         }
@@ -1515,20 +2193,28 @@ extension AgentRegistryControlClientTypes {
         public var a2aAgentCard: AgentRegistryControlClientTypes.UpdatedA2aAgentCardDescriptor?
         /// The patch for the agent skills definition descriptor.
         public var agentSkillsDefinition: AgentRegistryControlClientTypes.UpdatedAgentSkillsDefinitionDescriptor?
+        /// The patch for the AG-UI descriptor.
+        public var agui: AgentRegistryControlClientTypes.UpdatedAgUiDescriptor?
         /// The patch for the custom descriptor.
         public var custom: AgentRegistryControlClientTypes.UpdatedCustomDescriptor?
+        /// The patch for the HTTP descriptor.
+        public var http: AgentRegistryControlClientTypes.UpdatedHttpDescriptor?
         /// The patch for the MCP server descriptor.
         public var mcpServer: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor?
 
         public init(
             a2aAgentCard: AgentRegistryControlClientTypes.UpdatedA2aAgentCardDescriptor? = nil,
             agentSkillsDefinition: AgentRegistryControlClientTypes.UpdatedAgentSkillsDefinitionDescriptor? = nil,
+            agui: AgentRegistryControlClientTypes.UpdatedAgUiDescriptor? = nil,
             custom: AgentRegistryControlClientTypes.UpdatedCustomDescriptor? = nil,
+            http: AgentRegistryControlClientTypes.UpdatedHttpDescriptor? = nil,
             mcpServer: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor? = nil
         ) {
             self.a2aAgentCard = a2aAgentCard
             self.agentSkillsDefinition = agentSkillsDefinition
+            self.agui = agui
             self.custom = custom
+            self.http = http
             self.mcpServer = mcpServer
         }
     }
@@ -1573,6 +2259,8 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
     public var displayName: AgentRegistryControlClientTypes.UpdatedDisplayName?
     /// The updated name of the registry record. Omit to leave the name unchanged.
     public var name: Swift.String?
+    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    public var provenance: [AgentRegistryControlClientTypes.Provenance]?
     /// The identifier of the registry record to update (ARN or ID)
     /// This member is required.
     public var recordId: Swift.String?
@@ -1591,6 +2279,7 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
         descriptors: AgentRegistryControlClientTypes.UpdatedDescriptors? = nil,
         displayName: AgentRegistryControlClientTypes.UpdatedDisplayName? = nil,
         name: Swift.String? = nil,
+        provenance: [AgentRegistryControlClientTypes.Provenance]? = nil,
         recordId: Swift.String? = nil,
         recordType: AgentRegistryControlClientTypes.RecordType? = nil,
         recordVersion: Swift.String? = nil,
@@ -1601,6 +2290,7 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
         self.descriptors = descriptors
         self.displayName = displayName
         self.name = name
+        self.provenance = provenance
         self.recordId = recordId
         self.recordType = recordType
         self.recordVersion = recordVersion
@@ -1614,6 +2304,10 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     /// The timestamp when the registry record was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The ID of the Amazon Web Services account that created the registry record.
+    public var createdBy: Swift.String?
+    /// Specifies whether the registry record was created by auto-detection. true indicates the record was automatically created by the service based on the registry's auto-detection configuration; false indicates the record was created through a control-plane API call.
+    public var createdByAutoDetection: Swift.Bool?
     /// A description of the registry record.
     public var description: Swift.String?
     /// The typed descriptors that define the content of the registry record.
@@ -1623,7 +2317,9 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     /// The name of the registry record. Names are unique within a registry.
     /// This member is required.
     public var name: Swift.String?
-    /// The &ARN; of the registry record.
+    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    public var provenance: [AgentRegistryControlClientTypes.Provenance]?
+    /// The Amazon Resource Name (ARN) of the registry record.
     /// This member is required.
     public var recordArn: Swift.String?
     /// The unique identifier of the registry record.
@@ -1634,7 +2330,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     public var recordType: AgentRegistryControlClientTypes.RecordType?
     /// The version identifier of the registry record.
     public var recordVersion: Swift.String?
-    /// The &ARN; of the parent registry that owns the record.
+    /// The Amazon Resource Name (ARN) of the parent registry that owns the record.
     /// This member is required.
     public var registryArn: Swift.String?
     /// The lifecycle status of the registry record.
@@ -1648,10 +2344,13 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
 
     public init(
         createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        createdByAutoDetection: Swift.Bool? = nil,
         description: Swift.String? = nil,
         descriptors: AgentRegistryControlClientTypes.Descriptors? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil,
+        provenance: [AgentRegistryControlClientTypes.Provenance]? = nil,
         recordArn: Swift.String? = nil,
         recordId: Swift.String? = nil,
         recordType: AgentRegistryControlClientTypes.RecordType? = nil,
@@ -1662,10 +2361,13 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.createdByAutoDetection = createdByAutoDetection
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
         self.name = name
+        self.provenance = provenance
         self.recordArn = recordArn
         self.recordId = recordId
         self.recordType = recordType
@@ -1679,7 +2381,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
 
 extension UpdateRegistryRecordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "UpdateRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateRegistryRecordStatusInput: Swift.Sendable {
@@ -1790,18 +2492,13 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// The operator used to compare a claim value against the expected value during JWT validation.
-    public enum ClaimMatchOperatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case contains
-        case containsAny
-        case equals
+    public enum AutoDetectionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organization
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ClaimMatchOperatorType] {
+        public static var allCases: [AutoDetectionScope] {
             return [
-                .contains,
-                .containsAny,
-                .equals
+                .organization
             ]
         }
 
@@ -1812,9 +2509,7 @@ extension AgentRegistryControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .contains: return "CONTAINS"
-            case .containsAny: return "CONTAINS_ANY"
-            case .equals: return "EQUALS"
+            case .organization: return "ORGANIZATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1823,251 +2518,22 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// The expected value used to match a claim. Exactly one member is set.
-    public enum ClaimMatchValueType: Swift.Sendable {
-        /// A single string value to match the claim against.
-        case matchvaluestring(Swift.String)
-        /// A list of string values to match the claim against.
-        case matchvaluestringlist([Swift.String])
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// The value and match operator used to authorize a claim during JWT validation.
-    public struct AuthorizingClaimMatchValueType: Swift.Sendable {
-        /// The operator used to compare the claim value against the expected value.
+    /// The customer-defined auto-detection settings for a registry.
+    public struct AutoDetectionConfiguration: Swift.Sendable {
+        /// Specifies whether auto-detection is requested for the registry. Setting this to true is necessary but not sufficient for auto-detection to become active; the preconditions of the configured scope must also be met.
         /// This member is required.
-        public var claimMatchOperator: AgentRegistryControlClientTypes.ClaimMatchOperatorType?
-        /// The expected value or values that the claim is compared against.
+        public var enabled: Swift.Bool?
+        /// The source from which resources are detected. For example, ORGANIZATION sources resources from all member accounts of an Amazon Web Services organization.
         /// This member is required.
-        public var claimMatchValue: AgentRegistryControlClientTypes.ClaimMatchValueType?
+        public var scope: AgentRegistryControlClientTypes.AutoDetectionScope?
 
         public init(
-            claimMatchOperator: AgentRegistryControlClientTypes.ClaimMatchOperatorType? = nil,
-            claimMatchValue: AgentRegistryControlClientTypes.ClaimMatchValueType? = nil
+            enabled: Swift.Bool? = nil,
+            scope: AgentRegistryControlClientTypes.AutoDetectionScope? = nil
         ) {
-            self.claimMatchOperator = claimMatchOperator
-            self.claimMatchValue = claimMatchValue
+            self.enabled = enabled
+            self.scope = scope
         }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// The value type of a claim in an inbound JWT.
-    public enum InboundTokenClaimValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case string
-        case stringArray
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InboundTokenClaimValueType] {
-            return [
-                .string,
-                .stringArray
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .string: return "STRING"
-            case .stringArray: return "STRING_ARRAY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// A validation rule applied to a single claim of an inbound JWT.
-    public struct CustomClaimValidationType: Swift.Sendable {
-        /// The value and match operator used to authorize the claim.
-        /// This member is required.
-        public var authorizingClaimMatchValue: AgentRegistryControlClientTypes.AuthorizingClaimMatchValueType?
-        /// The name of the claim in the inbound token to validate.
-        /// This member is required.
-        public var inboundTokenClaimName: Swift.String?
-        /// The value type of the claim in the inbound token, either a string or an array of strings.
-        /// This member is required.
-        public var inboundTokenClaimValueType: AgentRegistryControlClientTypes.InboundTokenClaimValueType?
-
-        public init(
-            authorizingClaimMatchValue: AgentRegistryControlClientTypes.AuthorizingClaimMatchValueType? = nil,
-            inboundTokenClaimName: Swift.String? = nil,
-            inboundTokenClaimValueType: AgentRegistryControlClientTypes.InboundTokenClaimValueType? = nil
-        ) {
-            self.authorizingClaimMatchValue = authorizingClaimMatchValue
-            self.inboundTokenClaimName = inboundTokenClaimName
-            self.inboundTokenClaimValueType = inboundTokenClaimValueType
-        }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// The IP address type used by a private endpoint.
-    public enum EndpointIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ipv4
-        case ipv6
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EndpointIpAddressType] {
-            return [
-                .ipv4,
-                .ipv6
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ipv4: return "IPV4"
-            case .ipv6: return "IPV6"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// A service-managed private endpoint provisioned within a customer VPC.
-    public struct ManagedVpcResource: Swift.Sendable {
-        /// The IP address type used by the private endpoint, either IPV4 or IPV6.
-        /// This member is required.
-        public var endpointIpAddressType: AgentRegistryControlClientTypes.EndpointIpAddressType?
-        /// The routing domain used to resolve traffic through the private endpoint.
-        public var routingDomain: Swift.String?
-        /// The identifiers of the security groups associated with the private endpoint network interfaces.
-        public var securityGroupIds: [Swift.String]?
-        /// The identifiers of the subnets in which the private endpoint network interfaces are placed.
-        /// This member is required.
-        public var subnetIds: [Swift.String]?
-        /// A map of tag keys to tag values.
-        public var tags: [Swift.String: Swift.String]?
-        /// The identifier of the VPC in which the private endpoint is provisioned.
-        /// This member is required.
-        public var vpcIdentifier: Swift.String?
-
-        public init(
-            endpointIpAddressType: AgentRegistryControlClientTypes.EndpointIpAddressType? = nil,
-            routingDomain: Swift.String? = nil,
-            securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
-            vpcIdentifier: Swift.String? = nil
-        ) {
-            self.endpointIpAddressType = endpointIpAddressType
-            self.routingDomain = routingDomain
-            self.securityGroupIds = securityGroupIds
-            self.subnetIds = subnetIds
-            self.tags = tags
-            self.vpcIdentifier = vpcIdentifier
-        }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// A self-managed private endpoint backed by a VPC Lattice resource configuration. Exactly one member is set.
-    public enum SelfManagedLatticeResource: Swift.Sendable {
-        /// The identifier of the VPC Lattice resource configuration, specified as a resource configuration ID or ARN.
-        case resourceconfigurationidentifier(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// A private network endpoint used to reach a resource over a private path. Exactly one member is set.
-    public enum PrivateEndpoint: Swift.Sendable {
-        /// A private endpoint backed by a self-managed VPC Lattice resource configuration.
-        case selfmanagedlatticeresource(AgentRegistryControlClientTypes.SelfManagedLatticeResource)
-        /// A private endpoint backed by a service-managed VPC resource.
-        case managedvpcresource(AgentRegistryControlClientTypes.ManagedVpcResource)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// A mapping of a domain to the private endpoint used to reach it.
-    public struct PrivateEndpointOverride: Swift.Sendable {
-        /// The domain name to which this private endpoint override applies.
-        /// This member is required.
-        public var domain: Swift.String?
-        /// The private endpoint used to reach the specified domain.
-        /// This member is required.
-        public var privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint?
-
-        public init(
-            domain: Swift.String? = nil,
-            privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint? = nil
-        ) {
-            self.domain = domain
-            self.privateEndpoint = privateEndpoint
-        }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// Configuration for a custom JWT authorizer that validates inbound bearer tokens against an OpenID Connect identity provider.
-    public struct CustomJWTAuthorizerConfiguration: Swift.Sendable {
-        /// The audience values accepted during JWT validation. A token is rejected if none of its audience claims match.
-        public var allowedAudience: [Swift.String]?
-        /// The client identifiers accepted during JWT validation. A token is rejected if it was not issued to one of these clients.
-        public var allowedClients: [Swift.String]?
-        /// The scopes accepted during JWT validation. A token is rejected if it does not carry one of these scopes.
-        public var allowedScopes: [Swift.String]?
-        /// Additional custom claim validations applied to the inbound JWT.
-        public var customClaims: [AgentRegistryControlClientTypes.CustomClaimValidationType]?
-        /// The OpenID Connect discovery URL used to retrieve the identity provider's metadata and signing keys.
-        /// This member is required.
-        public var discoveryUrl: Swift.String?
-        /// The private endpoint used to reach the identity provider's discovery URL over a private network path.
-        public var privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint?
-        /// Per-domain private endpoint overrides that route specific identity provider domains through distinct private endpoints.
-        public var privateEndpointOverrides: [AgentRegistryControlClientTypes.PrivateEndpointOverride]?
-
-        public init(
-            allowedAudience: [Swift.String]? = nil,
-            allowedClients: [Swift.String]? = nil,
-            allowedScopes: [Swift.String]? = nil,
-            customClaims: [AgentRegistryControlClientTypes.CustomClaimValidationType]? = nil,
-            discoveryUrl: Swift.String? = nil,
-            privateEndpoint: AgentRegistryControlClientTypes.PrivateEndpoint? = nil,
-            privateEndpointOverrides: [AgentRegistryControlClientTypes.PrivateEndpointOverride]? = nil
-        ) {
-            self.allowedAudience = allowedAudience
-            self.allowedClients = allowedClients
-            self.allowedScopes = allowedScopes
-            self.customClaims = customClaims
-            self.discoveryUrl = discoveryUrl
-            self.privateEndpoint = privateEndpoint
-            self.privateEndpointOverrides = privateEndpointOverrides
-        }
-    }
-}
-
-extension AgentRegistryControlClientTypes {
-
-    /// The authorizer configuration for a registry. Exactly one member is set.
-    public enum AuthorizerConfiguration: Swift.Sendable {
-        /// Configuration for a custom JWT authorizer.
-        case customjwtauthorizer(AgentRegistryControlClientTypes.CustomJWTAuthorizerConfiguration)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2119,16 +2585,36 @@ extension AgentRegistryControlClientTypes {
     }
 }
 
+extension AgentRegistryControlClientTypes {
+
+    /// The server-side encryption configuration for a registry. Specifies a customer-managed Amazon Web Services KMS key used to encrypt the registry's content.
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the registry's content. The key must be a symmetric encryption key in the same Amazon Web Services account and Region as the registry.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
 /// Request structure for creating a registry
 public struct CreateRegistryInput: Swift.Sendable {
     /// Approval configuration for registry records
     public var approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration?
-    /// Client token for idempotency
+    /// The optional auto-detection configuration for the registry. When provided, the registry is automatically populated with resources discovered according to the configuration. Omit this field for registries whose records are managed exclusively through the Agent Registry Control API.
+    public var autoDetectionConfiguration: AgentRegistryControlClientTypes.AutoDetectionConfiguration?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the registry
     public var description: Swift.String?
     /// Discovery configuration for the registry
     public var discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration?
+    /// The optional server-side encryption configuration for the registry. When you provide this field, the specified customer-managed Amazon Web Services KMS key encrypts the registry's content. Omit this field to use an Amazon Web Services-owned encryption key. You cannot change the encryption configuration after registry creation.
+    public var encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration?
     /// The name of the registry
     /// This member is required.
     public var name: Swift.String?
@@ -2137,16 +2623,20 @@ public struct CreateRegistryInput: Swift.Sendable {
 
     public init(
         approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil,
+        autoDetectionConfiguration: AgentRegistryControlClientTypes.AutoDetectionConfiguration? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
+        encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.approvalConfiguration = approvalConfiguration
+        self.autoDetectionConfiguration = autoDetectionConfiguration
         self.clientToken = clientToken
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
         self.name = name
         self.tags = tags
     }
@@ -2154,7 +2644,7 @@ public struct CreateRegistryInput: Swift.Sendable {
 
 extension CreateRegistryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRegistryInput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), clientToken: \(Swift.String(describing: clientToken)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateRegistryInput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetectionConfiguration: \(Swift.String(describing: autoDetectionConfiguration)), clientToken: \(Swift.String(describing: clientToken)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Response structure for creating a registry
@@ -2253,10 +2743,66 @@ public struct GetRegistryInput: Swift.Sendable {
     }
 }
 
+extension AgentRegistryControlClientTypes {
+
+    public enum AutoDetectionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoDetectionStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The auto-detection properties for a registry, including the requested configuration and the current detection status. When auto-detection is enabled and the scope preconditions are met, the registry is automatically populated with discovered resources.
+    public struct AutoDetection: Swift.Sendable {
+        /// The auto-detection settings that control how resources are discovered for the registry.
+        /// This member is required.
+        public var configuration: AgentRegistryControlClientTypes.AutoDetectionConfiguration?
+        /// The current auto-detection status. ACTIVE indicates that the registry is actively being populated with detected resources. INACTIVE indicates that the preconditions required at the configured scope are not currently met.
+        /// This member is required.
+        public var status: AgentRegistryControlClientTypes.AutoDetectionStatus?
+        /// A human-readable explanation of the current auto-detection status. Typically populated when the status requires additional context.
+        public var statusReason: Swift.String?
+
+        public init(
+            configuration: AgentRegistryControlClientTypes.AutoDetectionConfiguration? = nil,
+            status: AgentRegistryControlClientTypes.AutoDetectionStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.configuration = configuration
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
 /// Response structure for getting a registry
 public struct GetRegistryOutput: Swift.Sendable {
     /// Approval configuration for registry records
     public var approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration?
+    /// The registry's auto-detection properties, including the requested configuration and the current detection status. Present only when auto-detection was configured for the registry.
+    public var autoDetection: AgentRegistryControlClientTypes.AutoDetection?
     /// The timestamp when the registry was created
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2264,6 +2810,8 @@ public struct GetRegistryOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Discovery configuration for the registry
     public var discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration?
+    /// The server-side encryption configuration for the registry. Appears only when a customer-managed Amazon Web Services KMS key encrypts the registry.
+    public var encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration?
     /// The name of the registry
     /// This member is required.
     public var name: Swift.String?
@@ -2284,9 +2832,11 @@ public struct GetRegistryOutput: Swift.Sendable {
 
     public init(
         approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil,
+        autoDetection: AgentRegistryControlClientTypes.AutoDetection? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
+        encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
         registryArn: Swift.String? = nil,
         registryId: Swift.String? = nil,
@@ -2295,9 +2845,11 @@ public struct GetRegistryOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.approvalConfiguration = approvalConfiguration
+        self.autoDetection = autoDetection
         self.createdAt = createdAt
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
         self.name = name
         self.registryArn = registryArn
         self.registryId = registryId
@@ -2309,7 +2861,7 @@ public struct GetRegistryOutput: Swift.Sendable {
 
 extension GetRegistryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -2386,6 +2938,8 @@ extension AgentRegistryControlClientTypes {
 
     /// Registry summary for list operations
     public struct RegistrySummary: Swift.Sendable {
+        /// The registry's auto-detection properties, including the requested configuration and the current detection status. Present only when auto-detection was configured for the registry.
+        public var autoDetection: AgentRegistryControlClientTypes.AutoDetection?
         /// The timestamp when the registry was created
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -2412,6 +2966,7 @@ extension AgentRegistryControlClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            autoDetection: AgentRegistryControlClientTypes.AutoDetection? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
@@ -2422,6 +2977,7 @@ extension AgentRegistryControlClientTypes {
             statusReason: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.autoDetection = autoDetection
             self.createdAt = createdAt
             self.description = description
             self.discoveryConfiguration = discoveryConfiguration
@@ -2437,7 +2993,7 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes.RegistrySummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegistrySummary(createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "RegistrySummary(autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Response structure for listing registries
@@ -2466,6 +3022,21 @@ extension AgentRegistryControlClientTypes {
 
         public init(
             optionalValue: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// A wrapper for updating the auto-detection configuration of a registry with PATCH semantics. Include this wrapper to replace the auto-detection configuration with the specified value. Omit it to leave the auto-detection configuration unchanged. To clear the configuration, include the wrapper with a null optionalValue.
+    public struct UpdatedAutoDetectionConfiguration: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.AutoDetectionConfiguration?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.AutoDetectionConfiguration? = nil
         ) {
             self.optionalValue = optionalValue
         }
@@ -2506,6 +3077,8 @@ extension AgentRegistryControlClientTypes {
 public struct UpdateRegistryInput: Swift.Sendable {
     /// The updated approval configuration. The change applies only to records that move to PENDING_APPROVAL after the update; records already in PENDING_APPROVAL are unaffected.
     public var approvalConfiguration: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration?
+    /// The updated auto-detection configuration for the registry, with PATCH semantics. Omit this field to leave the current configuration unchanged. Supply an empty wrapper to unset it. Supply optionalValue to replace it.
+    public var autoDetectionConfiguration: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration?
     /// The updated description of the registry
     public var description: AgentRegistryControlClientTypes.UpdatedDescription?
     /// The updated discovery configuration. Changing the discovery authorization can break existing consumers that rely on the previous authorization type.
@@ -2518,12 +3091,14 @@ public struct UpdateRegistryInput: Swift.Sendable {
 
     public init(
         approvalConfiguration: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration? = nil,
+        autoDetectionConfiguration: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration? = nil,
         description: AgentRegistryControlClientTypes.UpdatedDescription? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.UpdatedDiscoveryConfiguration? = nil,
         name: Swift.String? = nil,
         registryId: Swift.String? = nil
     ) {
         self.approvalConfiguration = approvalConfiguration
+        self.autoDetectionConfiguration = autoDetectionConfiguration
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
         self.name = name
@@ -2535,6 +3110,8 @@ public struct UpdateRegistryInput: Swift.Sendable {
 public struct UpdateRegistryOutput: Swift.Sendable {
     /// Approval configuration for registry records
     public var approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration?
+    /// The registry's auto-detection properties, including the requested configuration and the current detection status. Present only when auto-detection was configured for the registry.
+    public var autoDetection: AgentRegistryControlClientTypes.AutoDetection?
     /// The timestamp when the registry was created
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2542,6 +3119,8 @@ public struct UpdateRegistryOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Discovery configuration for the registry
     public var discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration?
+    /// The server-side encryption configuration for the registry. Appears only when a customer-managed Amazon Web Services KMS key encrypts the registry.
+    public var encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration?
     /// The name of the registry
     /// This member is required.
     public var name: Swift.String?
@@ -2562,9 +3141,11 @@ public struct UpdateRegistryOutput: Swift.Sendable {
 
     public init(
         approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil,
+        autoDetection: AgentRegistryControlClientTypes.AutoDetection? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
+        encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
         registryArn: Swift.String? = nil,
         registryId: Swift.String? = nil,
@@ -2573,9 +3154,11 @@ public struct UpdateRegistryOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.approvalConfiguration = approvalConfiguration
+        self.autoDetection = autoDetection
         self.createdAt = createdAt
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
         self.name = name
         self.registryArn = registryArn
         self.registryId = registryId
@@ -2587,14 +3170,14 @@ public struct UpdateRegistryOutput: Swift.Sendable {
 
 extension UpdateRegistryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "UpdateRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// ARN of a taggable Agent Registry resource.
+    /// The Amazon Resource Name (ARN) of the resource to tag. Supported resources include registries and registry records.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A map of tag keys to tag values.
+    /// The tags to apply to the resource, as a map of tag keys to tag values. Tag keys must be unique within the request.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -2613,10 +3196,10 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// ARN of a taggable Agent Registry resource.
+    /// The Amazon Resource Name (ARN) of the resource to remove tags from. Supported resources include registries and registry records.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A list of tag keys.
+    /// The keys of the tags to remove from the resource. Tags with keys not included in this list remain on the resource.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -2814,9 +3397,11 @@ extension CreateRegistryInput {
     static func write(value: CreateRegistryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["approvalConfiguration"].write(value.approvalConfiguration, with: AgentRegistryControlClientTypes.ApprovalConfiguration.write(value:to:))
+        try writer["autoDetectionConfiguration"].write(value.autoDetectionConfiguration, with: AgentRegistryControlClientTypes.AutoDetectionConfiguration.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["discoveryConfiguration"].write(value.discoveryConfiguration, with: AgentRegistryControlClientTypes.DiscoveryConfiguration.write(value:to:))
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: AgentRegistryControlClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -2831,6 +3416,7 @@ extension CreateRegistryRecordInput {
         try writer["descriptors"].write(value.descriptors, with: AgentRegistryControlClientTypes.Descriptors.write(value:to:))
         try writer["displayName"].write(value.displayName)
         try writer["name"].write(value.name)
+        try writer["provenance"].writeList(value.provenance, memberWritingClosure: AgentRegistryControlClientTypes.Provenance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["recordType"].write(value.recordType)
         try writer["recordVersion"].write(value.recordVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2870,6 +3456,7 @@ extension UpdateRegistryInput {
     static func write(value: UpdateRegistryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["approvalConfiguration"].write(value.approvalConfiguration, with: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration.write(value:to:))
+        try writer["autoDetectionConfiguration"].write(value.autoDetectionConfiguration, with: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration.write(value:to:))
         try writer["description"].write(value.description, with: AgentRegistryControlClientTypes.UpdatedDescription.write(value:to:))
         try writer["discoveryConfiguration"].write(value.discoveryConfiguration, with: AgentRegistryControlClientTypes.UpdatedDiscoveryConfiguration.write(value:to:))
         try writer["name"].write(value.name)
@@ -2884,6 +3471,7 @@ extension UpdateRegistryRecordInput {
         try writer["descriptors"].write(value.descriptors, with: AgentRegistryControlClientTypes.UpdatedDescriptors.write(value:to:))
         try writer["displayName"].write(value.displayName, with: AgentRegistryControlClientTypes.UpdatedDisplayName.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["provenance"].writeList(value.provenance, memberWritingClosure: AgentRegistryControlClientTypes.Provenance.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["recordType"].write(value.recordType)
         try writer["recordVersion"].write(value.recordVersion)
         try writer["triggerSynchronization"].write(value.triggerSynchronization)
@@ -2951,9 +3539,11 @@ extension GetRegistryOutput {
         let reader = responseReader
         var value = GetRegistryOutput()
         value.approvalConfiguration = try reader["approvalConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.ApprovalConfiguration.read(from:))
+        value.autoDetection = try reader["autoDetection"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetection.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.discoveryConfiguration = try reader["discoveryConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.DiscoveryConfiguration.read(from:))
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.EncryptionConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
         value.registryId = try reader["registryId"].readIfPresent() ?? ""
@@ -2972,10 +3562,13 @@ extension GetRegistryRecordOutput {
         let reader = responseReader
         var value = GetRegistryRecordOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.descriptors = try reader["descriptors"].readIfPresent(with: AgentRegistryControlClientTypes.Descriptors.read(from:))
         value.displayName = try reader["displayName"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.provenance = try reader["provenance"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.Provenance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
         value.recordId = try reader["recordId"].readIfPresent() ?? ""
         value.recordType = try reader["recordType"].readIfPresent() ?? .sdkUnknown("")
@@ -3064,9 +3657,11 @@ extension UpdateRegistryOutput {
         let reader = responseReader
         var value = UpdateRegistryOutput()
         value.approvalConfiguration = try reader["approvalConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.ApprovalConfiguration.read(from:))
+        value.autoDetection = try reader["autoDetection"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetection.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.discoveryConfiguration = try reader["discoveryConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.DiscoveryConfiguration.read(from:))
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.EncryptionConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.registryArn = try reader["registryArn"].readIfPresent() ?? ""
         value.registryId = try reader["registryId"].readIfPresent() ?? ""
@@ -3085,10 +3680,13 @@ extension UpdateRegistryRecordOutput {
         let reader = responseReader
         var value = UpdateRegistryRecordOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.descriptors = try reader["descriptors"].readIfPresent(with: AgentRegistryControlClientTypes.Descriptors.read(from:))
         value.displayName = try reader["displayName"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.provenance = try reader["provenance"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.Provenance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.recordArn = try reader["recordArn"].readIfPresent() ?? ""
         value.recordId = try reader["recordId"].readIfPresent() ?? ""
         value.recordType = try reader["recordType"].readIfPresent() ?? .sdkUnknown("")
@@ -3512,6 +4110,61 @@ extension AgentRegistryControlClientTypes.A2aAgentCardDescriptor {
     }
 }
 
+extension AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails {
+
+    static func write(value: AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: AgentRegistryControlClientTypes.AuthorizerConfiguration.write(value:to:))
+        try writer["authorizerType"].write(value.authorizerType)
+        try writer["protocolType"].write(value.protocolType)
+        try writer["workloadIdentityDetails"].write(value.workloadIdentityDetails, with: AgentRegistryControlClientTypes.WorkloadIdentityDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails()
+        value.protocolType = try reader["protocolType"].readIfPresent()
+        value.authorizerType = try reader["authorizerType"].readIfPresent()
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.workloadIdentityDetails = try reader["workloadIdentityDetails"].readIfPresent(with: AgentRegistryControlClientTypes.WorkloadIdentityDetails.read(from:))
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serverProtocol"].write(value.serverProtocol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration()
+        value.serverProtocol = try reader["serverProtocol"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails {
+
+    static func write(value: AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: AgentRegistryControlClientTypes.AuthorizerConfiguration.write(value:to:))
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration.write(value:to:))
+        try writer["workloadIdentityDetails"].write(value.workloadIdentityDetails, with: AgentRegistryControlClientTypes.WorkloadIdentityDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails()
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration.read(from:))
+        value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.AuthorizerConfiguration.read(from:))
+        value.workloadIdentityDetails = try reader["workloadIdentityDetails"].readIfPresent(with: AgentRegistryControlClientTypes.WorkloadIdentityDetails.read(from:))
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.AgentSkillsAdditionalData {
 
     static func write(value: AgentRegistryControlClientTypes.AgentSkillsAdditionalData?, to writer: SmithyJSON.Writer) throws {
@@ -3560,6 +4213,21 @@ extension AgentRegistryControlClientTypes.AgentSkillsMdDescriptor {
         var value = AgentRegistryControlClientTypes.AgentSkillsMdDescriptor()
         value.data = try reader["data"].readIfPresent()
         value.dataSchemaVersion = try reader["dataSchemaVersion"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: AgentRegistryControlClientTypes.DescriptorSource.read(from:))
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AgUiDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.AgUiDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.DescriptorSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AgUiDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AgUiDescriptor()
         value.source = try reader["source"].readIfPresent(with: AgentRegistryControlClientTypes.DescriptorSource.read(from:))
         return value
     }
@@ -3617,6 +4285,35 @@ extension AgentRegistryControlClientTypes.AuthorizingClaimMatchValueType {
         var value = AgentRegistryControlClientTypes.AuthorizingClaimMatchValueType()
         value.claimMatchValue = try reader["claimMatchValue"].readIfPresent(with: AgentRegistryControlClientTypes.ClaimMatchValueType.read(from:))
         value.claimMatchOperator = try reader["claimMatchOperator"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AutoDetection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AutoDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AutoDetection()
+        value.configuration = try reader["configuration"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetectionConfiguration.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.AutoDetectionConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.AutoDetectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["scope"].write(value.scope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.AutoDetectionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.AutoDetectionConfiguration()
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -3716,7 +4413,9 @@ extension AgentRegistryControlClientTypes.Descriptors {
         guard let value else { return }
         try writer["a2aAgentCard"].write(value.a2aAgentCard, with: AgentRegistryControlClientTypes.A2aAgentCardDescriptor.write(value:to:))
         try writer["agentSkillsDefinition"].write(value.agentSkillsDefinition, with: AgentRegistryControlClientTypes.AgentSkillsDefinitionDescriptor.write(value:to:))
+        try writer["agui"].write(value.agui, with: AgentRegistryControlClientTypes.AgUiDescriptor.write(value:to:))
         try writer["custom"].write(value.custom, with: AgentRegistryControlClientTypes.CustomDescriptor.write(value:to:))
+        try writer["http"].write(value.http, with: AgentRegistryControlClientTypes.HttpDescriptor.write(value:to:))
         try writer["mcpServer"].write(value.mcpServer, with: AgentRegistryControlClientTypes.McpServerDescriptor.write(value:to:))
     }
 
@@ -3727,6 +4426,8 @@ extension AgentRegistryControlClientTypes.Descriptors {
         value.a2aAgentCard = try reader["a2aAgentCard"].readIfPresent(with: AgentRegistryControlClientTypes.A2aAgentCardDescriptor.read(from:))
         value.agentSkillsDefinition = try reader["agentSkillsDefinition"].readIfPresent(with: AgentRegistryControlClientTypes.AgentSkillsDefinitionDescriptor.read(from:))
         value.custom = try reader["custom"].readIfPresent(with: AgentRegistryControlClientTypes.CustomDescriptor.read(from:))
+        value.http = try reader["http"].readIfPresent(with: AgentRegistryControlClientTypes.HttpDescriptor.read(from:))
+        value.agui = try reader["agui"].readIfPresent(with: AgentRegistryControlClientTypes.AgUiDescriptor.read(from:))
         return value
     }
 }
@@ -3776,6 +4477,36 @@ extension AgentRegistryControlClientTypes.DiscoveryConfiguration {
         var value = AgentRegistryControlClientTypes.DiscoveryConfiguration()
         value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.AuthorizerConfiguration.read(from:))
         value.authorizerType = try reader["authorizerType"].readIfPresent()
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.EncryptionConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.EncryptionConfiguration()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.HttpDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.HttpDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.DescriptorSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.HttpDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.HttpDescriptor()
+        value.source = try reader["source"].readIfPresent(with: AgentRegistryControlClientTypes.DescriptorSource.read(from:))
         return value
     }
 }
@@ -3903,6 +4634,39 @@ extension AgentRegistryControlClientTypes.PrivateEndpointOverride {
     }
 }
 
+extension AgentRegistryControlClientTypes.Provenance {
+
+    static func write(value: AgentRegistryControlClientTypes.Provenance?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["relation"].write(value.relation)
+        try writer["sourceDetails"].write(value.sourceDetails, with: AgentRegistryControlClientTypes.SourceDetails.write(value:to:))
+        try writer["sourceId"].write(value.sourceId)
+        try writer["sourceType"].write(value.sourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.Provenance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.Provenance()
+        value.relation = try reader["relation"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceId = try reader["sourceId"].readIfPresent() ?? ""
+        value.sourceType = try reader["sourceType"].readIfPresent()
+        value.sourceDetails = try reader["sourceDetails"].readIfPresent(with: AgentRegistryControlClientTypes.SourceDetails.read(from:))
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.ProvenanceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.ProvenanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.ProvenanceSummary()
+        value.relation = try reader["relation"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceId = try reader["sourceId"].readIfPresent() ?? ""
+        value.sourceType = try reader["sourceType"].readIfPresent()
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.RegistryFilter {
 
     static func write(value: AgentRegistryControlClientTypes.RegistryFilter?, to writer: SmithyJSON.Writer) throws {
@@ -4022,6 +4786,9 @@ extension AgentRegistryControlClientTypes.RegistryRecordSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.provenanceSummaryList = try reader["provenanceSummaryList"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.ProvenanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4038,6 +4805,7 @@ extension AgentRegistryControlClientTypes.RegistrySummary {
         value.discoveryConfiguration = try reader["discoveryConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.DiscoveryConfiguration.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
+        value.autoDetection = try reader["autoDetection"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetection.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -4062,6 +4830,34 @@ extension AgentRegistryControlClientTypes.SelfManagedLatticeResource {
         switch name {
             case "resourceConfigurationIdentifier":
                 return .resourceconfigurationidentifier(try reader["resourceConfigurationIdentifier"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.SourceDetails {
+
+    static func write(value: AgentRegistryControlClientTypes.SourceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentcoregateway(agentcoregateway):
+                try writer["agentcoreGateway"].write(agentcoregateway, with: AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails.write(value:to:))
+            case let .agentcoreruntime(agentcoreruntime):
+                try writer["agentcoreRuntime"].write(agentcoreruntime, with: AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.SourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentcoreRuntime":
+                return .agentcoreruntime(try reader["agentcoreRuntime"].read(with: AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails.read(from:)))
+            case "agentcoreGateway":
+                return .agentcoregateway(try reader["agentcoreGateway"].read(with: AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -4138,6 +4934,22 @@ extension AgentRegistryControlClientTypes.UpdatedAgentSkillsMdDescriptorFields {
     }
 }
 
+extension AgentRegistryControlClientTypes.UpdatedAgUiDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedAgUiDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.UpdatedAgUiDescriptorFields.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedAgUiDescriptorFields {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedAgUiDescriptorFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.UpdatedDescriptorSource.write(value:to:))
+    }
+}
+
 extension AgentRegistryControlClientTypes.UpdatedApprovalConfiguration {
 
     static func write(value: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4151,6 +4963,14 @@ extension AgentRegistryControlClientTypes.UpdatedAuthorizerConfiguration {
     static func write(value: AgentRegistryControlClientTypes.UpdatedAuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.AuthorizerConfiguration.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.AutoDetectionConfiguration.write(value:to:))
     }
 }
 
@@ -4208,7 +5028,9 @@ extension AgentRegistryControlClientTypes.UpdatedDescriptorsFields {
         guard let value else { return }
         try writer["a2aAgentCard"].write(value.a2aAgentCard, with: AgentRegistryControlClientTypes.UpdatedA2aAgentCardDescriptor.write(value:to:))
         try writer["agentSkillsDefinition"].write(value.agentSkillsDefinition, with: AgentRegistryControlClientTypes.UpdatedAgentSkillsDefinitionDescriptor.write(value:to:))
+        try writer["agui"].write(value.agui, with: AgentRegistryControlClientTypes.UpdatedAgUiDescriptor.write(value:to:))
         try writer["custom"].write(value.custom, with: AgentRegistryControlClientTypes.UpdatedCustomDescriptor.write(value:to:))
+        try writer["http"].write(value.http, with: AgentRegistryControlClientTypes.UpdatedHttpDescriptor.write(value:to:))
         try writer["mcpServer"].write(value.mcpServer, with: AgentRegistryControlClientTypes.UpdatedMcpServerDescriptor.write(value:to:))
     }
 }
@@ -4234,6 +5056,22 @@ extension AgentRegistryControlClientTypes.UpdatedDisplayName {
     static func write(value: AgentRegistryControlClientTypes.UpdatedDisplayName?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["optionalValue"].write(value.optionalValue)
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedHttpDescriptor {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedHttpDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.UpdatedHttpDescriptorFields.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedHttpDescriptorFields {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedHttpDescriptorFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source, with: AgentRegistryControlClientTypes.UpdatedDescriptorSource.write(value:to:))
     }
 }
 
@@ -4296,6 +5134,21 @@ extension AgentRegistryControlClientTypes.ValidationExceptionField {
         var value = AgentRegistryControlClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AgentRegistryControlClientTypes.WorkloadIdentityDetails {
+
+    static func write(value: AgentRegistryControlClientTypes.WorkloadIdentityDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workloadIdentityArn"].write(value.workloadIdentityArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.WorkloadIdentityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.WorkloadIdentityDetails()
+        value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
         return value
     }
 }

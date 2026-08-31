@@ -670,22 +670,55 @@ extension WorkspacesInstancesClientTypes {
 
 extension WorkspacesInstancesClientTypes {
 
+    public enum NestedVirtualizationEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NestedVirtualizationEnum] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkspacesInstancesClientTypes {
+
     /// Configures CPU-specific settings for WorkSpace Instance.
     public struct CpuOptionsRequest: Swift.Sendable {
         /// AMD Secure Encrypted Virtualization configuration.
         public var amdSevSnp: WorkspacesInstancesClientTypes.AmdSevSnpEnum?
         /// Number of CPU cores to allocate.
         public var coreCount: Swift.Int?
+        /// Specifies whether to enable or disable nested virtualization.
+        public var nestedVirtualization: WorkspacesInstancesClientTypes.NestedVirtualizationEnum?
         /// Number of threads per CPU core.
         public var threadsPerCore: Swift.Int?
 
         public init(
             amdSevSnp: WorkspacesInstancesClientTypes.AmdSevSnpEnum? = nil,
             coreCount: Swift.Int? = nil,
+            nestedVirtualization: WorkspacesInstancesClientTypes.NestedVirtualizationEnum? = nil,
             threadsPerCore: Swift.Int? = nil
         ) {
             self.amdSevSnp = amdSevSnp
             self.coreCount = coreCount
+            self.nestedVirtualization = nestedVirtualization
             self.threadsPerCore = threadsPerCore
         }
     }

@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
@@ -28,9 +29,9 @@ import struct Smithy.Document
 
 extension AgentRegistryClientTypes {
 
-    /// Base mixin for descriptor source from URL
+    /// A URL-based descriptor source that identifies where descriptor content is retrieved from.
     public struct DescriptorSourceFromUrl: Swift.Sendable {
-        /// URL source for descriptor content
+        /// The URL from which the descriptor content is retrieved.
         /// This member is required.
         public var url: Swift.String?
 
@@ -46,7 +47,7 @@ extension AgentRegistryClientTypes {
 
     /// The source location from which a descriptor's content was retrieved.
     public struct DescriptorSource: Swift.Sendable {
-        /// Base mixin for descriptor source from URL
+        /// The URL-based descriptor source, populated when descriptor content is synchronized from a URL.
         public var fromUrl: AgentRegistryClientTypes.DescriptorSourceFromUrl?
 
         public init(
@@ -59,11 +60,11 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes {
 
-    /// Base mixin for A2A agent card descriptor content
+    /// Descriptor that defines the content of an A2A (Agent-to-Agent) agent card registry record. The content is validated against the A2A protocol schema.
     public struct A2aAgentCardDescriptor: Swift.Sendable {
-        /// Descriptor payload data
+        /// The A2A agent card content, serialized as descriptor payload data.
         public var data: Swift.String?
-        /// Version of the descriptor type schema
+        /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
         /// The source location from which the A2A (Agent-to-Agent) agent card descriptor content was retrieved.
         public var source: AgentRegistryClientTypes.DescriptorSource?
@@ -299,7 +300,7 @@ extension AgentRegistryClientTypes {
         /// The record IDs to retrieve from the registry. You can specify 1 through 100 record IDs.
         /// This member is required.
         public var recordIds: [Swift.String]?
-        /// Registry identifier that accepts either ARN or ID format
+        /// The identifier of the registry to retrieve the records from. You can provide either the full Amazon Resource Name (ARN) or the registry ID.
         /// This member is required.
         public var registryId: Swift.String?
 
@@ -366,10 +367,10 @@ extension AgentRegistryClientTypes {
         public var errorCode: AgentRegistryClientTypes.BatchGetDiscoverableRegistryRecordErrorCode?
         /// An optional human-readable detail about the error. Do not parse this value programmatically.
         public var message: Swift.String?
-        /// Record identifier that accepts either ARN or ID format
+        /// The identifier of the record that could not be retrieved, echoed from the request in the same format that you supplied (ARN or record ID).
         /// This member is required.
         public var recordId: Swift.String?
-        /// Registry identifier that accepts either ARN or ID format
+        /// The identifier of the registry the record was requested from, echoed from the request.
         /// This member is required.
         public var registryId: Swift.String?
 
@@ -389,11 +390,11 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes {
 
-    /// Base mixin for agent skills markdown descriptor content
+    /// Markdown-format descriptor containing an agent skills document.
     public struct AgentSkillsMdDescriptor: Swift.Sendable {
-        /// Descriptor payload data
+        /// The agent skills markdown content, serialized as descriptor payload data.
         public var data: Swift.String?
-        /// Version of the descriptor type schema
+        /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
         /// The source location from which the agent skills markdown content was retrieved.
         public var source: AgentRegistryClientTypes.DescriptorSource?
@@ -419,7 +420,7 @@ extension AgentRegistryClientTypes {
 
     /// Additional data for an agent skills definition descriptor.
     public struct AgentSkillsAdditionalData: Swift.Sendable {
-        /// Base mixin for agent skills markdown descriptor content
+        /// The agent skills markdown descriptor associated with the agent skills definition.
         public var skillMd: AgentRegistryClientTypes.AgentSkillsMdDescriptor?
 
         public init(
@@ -432,13 +433,13 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes {
 
-    /// Base mixin for agent skills definition descriptor content
+    /// Descriptor that defines an agent skills registry record and its associated content.
     public struct AgentSkillsDefinitionDescriptor: Swift.Sendable {
         /// Additional data for the agent skills definition, such as the skills markdown descriptor.
         public var additionalData: AgentRegistryClientTypes.AgentSkillsAdditionalData?
-        /// Descriptor payload data
+        /// The agent skills definition content, serialized as descriptor payload data.
         public var data: Swift.String?
-        /// Version of the descriptor type schema
+        /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
 
         public init(
@@ -462,7 +463,7 @@ extension AgentRegistryClientTypes {
 
     /// Custom descriptor for user-defined content
     public struct CustomDescriptor: Swift.Sendable {
-        /// Descriptor payload data
+        /// The custom descriptor content, serialized as descriptor payload data.
         public var data: Swift.String?
 
         public init(
@@ -482,9 +483,9 @@ extension AgentRegistryClientTypes {
 
     /// MCP tools descriptor containing tool definitions
     public struct McpToolsDescriptor: Swift.Sendable {
-        /// Descriptor payload data
+        /// The MCP tools descriptor content, serialized as descriptor payload data.
         public var data: Swift.String?
-        /// Version of the descriptor type schema
+        /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
 
         public init(
@@ -506,7 +507,7 @@ extension AgentRegistryClientTypes {
 
     /// Additional data for an MCP server descriptor
     public struct McpServerAdditionalData: Swift.Sendable {
-        /// MCP tools descriptor containing tool definitions
+        /// The MCP tools descriptor that defines the tools exposed by the MCP server.
         public var tools: AgentRegistryClientTypes.McpToolsDescriptor?
 
         public init(
@@ -519,13 +520,13 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes {
 
-    /// Base mixin for MCP server descriptor content
+    /// Descriptor that defines the content of an MCP (Model Context Protocol) server registry record, including the server definition and its tool definitions. The content is validated against the MCP protocol schema.
     public struct McpServerDescriptor: Swift.Sendable {
-        /// Additional data for an MCP server descriptor
+        /// Additional data associated with the MCP server descriptor, such as tool definitions.
         public var additionalData: AgentRegistryClientTypes.McpServerAdditionalData?
-        /// Descriptor payload data
+        /// The MCP server descriptor content, serialized as descriptor payload data.
         public var data: Swift.String?
-        /// Version of the descriptor type schema
+        /// The schema version of the descriptor payload.
         public var dataSchemaVersion: Swift.String?
         /// The source location from which the MCP (Model Context Protocol) server descriptor content was retrieved.
         public var source: AgentRegistryClientTypes.DescriptorSource?
@@ -553,13 +554,13 @@ extension AgentRegistryClientTypes {
 
     /// The protocol-specific descriptors that describe how to connect to and use the registry record.
     public struct Descriptors: Swift.Sendable {
-        /// Base mixin for A2A agent card descriptor content
+        /// The A2A agent card descriptor, populated when the record type is AGENT.
         public var a2aAgentCard: AgentRegistryClientTypes.A2aAgentCardDescriptor?
-        /// Base mixin for agent skills definition descriptor content
+        /// The agent skills definition descriptor, populated when the record type is SKILL.
         public var agentSkillsDefinition: AgentRegistryClientTypes.AgentSkillsDefinitionDescriptor?
-        /// Custom descriptor for user-defined content
+        /// The custom descriptor, populated when the record type is CUSTOM.
         public var custom: AgentRegistryClientTypes.CustomDescriptor?
-        /// Base mixin for MCP server descriptor content
+        /// The MCP server descriptor, populated when the record type is MCP.
         public var mcpServer: AgentRegistryClientTypes.McpServerDescriptor?
 
         public init(
@@ -582,6 +583,7 @@ extension AgentRegistryClientTypes {
     public enum RecordType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
         case custom
+        case gateway
         case mcp
         case skill
         case sdkUnknown(Swift.String)
@@ -590,6 +592,7 @@ extension AgentRegistryClientTypes {
             return [
                 .agent,
                 .custom,
+                .gateway,
                 .mcp,
                 .skill
             ]
@@ -604,6 +607,7 @@ extension AgentRegistryClientTypes {
             switch self {
             case .agent: return "AGENT"
             case .custom: return "CUSTOM"
+            case .gateway: return "GATEWAY"
             case .mcp: return "MCP"
             case .skill: return "SKILL"
             case let .sdkUnknown(s): return s
@@ -667,38 +671,38 @@ extension AgentRegistryClientTypes {
 
     /// Summary information about a registry record, including its descriptors.
     public struct RegistryRecordSummary: Swift.Sendable {
-        /// Timestamp in ISO 8601 date-time format
+        /// The timestamp when the registry record was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// Description of the Resource
+        /// A human-readable description of the registry record. Use this field to explain the record's purpose or content to consumers discovering it in the registry.
         public var description: Swift.String?
         /// The protocol-specific descriptors that describe how to connect to and use the record.
         /// This member is required.
         public var descriptors: AgentRegistryClientTypes.Descriptors?
-        /// Display name for a registry record
+        /// The human-readable display name of the registry record.
         public var displayName: Swift.String?
-        /// Registry Record name
+        /// The name of the registry record. Names are unique within a registry.
         /// This member is required.
         public var name: Swift.String?
-        /// Registry Record Amazon Resource Name
+        /// The Amazon Resource Name (ARN) of the registry record.
         /// This member is required.
         public var recordArn: Swift.String?
-        /// Registry Record unique identifier - 12-character alphanumeric string
+        /// The unique identifier of the registry record.
         /// This member is required.
         public var recordId: Swift.String?
-        /// Record type enum for registry record classification
+        /// The type of the registry record. MCP is a Model Context Protocol server record, AGENT is an Agent-to-Agent (A2A) agent card record, SKILL is an agent skills definition record, and CUSTOM is a record with a custom descriptor.
         /// This member is required.
         public var recordType: AgentRegistryClientTypes.RecordType?
-        /// Version of the registry record
+        /// The version identifier of the registry record.
         /// This member is required.
         public var recordVersion: Swift.String?
-        /// Registry Amazon Resource Name
+        /// The Amazon Resource Name (ARN) of the parent registry that owns the record.
         /// This member is required.
         public var registryArn: Swift.String?
-        /// Registry record status
+        /// The lifecycle status of the registry record. A record is DRAFT before it is submitted, PENDING_APPROVAL while awaiting curator review, and APPROVED once it is approved and discoverable. REJECTED and DEPRECATED records are not discoverable. The CREATING, UPDATING, CREATE_FAILED, and UPDATE_FAILED values reflect the state of an in-progress or failed asynchronous change.
         /// This member is required.
         public var status: AgentRegistryClientTypes.RegistryRecordStatus?
-        /// Timestamp in ISO 8601 date-time format
+        /// The timestamp when the registry record was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
 
@@ -813,7 +817,7 @@ public struct ListDiscoverableRegistryRecordsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The pagination token returned by a previous request. Use this value to retrieve the next page of results.
     public var nextToken: Swift.String?
-    /// Registry identifier that accepts either ARN or ID format
+    /// The identifier of the registry whose discoverable records are listed. You can provide either the full Amazon Resource Name (ARN) or the registry ID.
     /// This member is required.
     public var registryId: Swift.String?
 
@@ -834,41 +838,44 @@ extension AgentRegistryClientTypes {
 
     /// Summary information about a discoverable registry record returned by  ListDiscoverableRegistryRecords. This summary does not include descriptors.
     public struct DiscoverableRegistryRecordSummary: Swift.Sendable {
-        /// Timestamp in ISO 8601 date-time format
+        /// The timestamp when the registry record was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// Description of the Resource
+        /// A human-readable description of the registry record. Use this field to explain the record's purpose or content to consumers discovering it in the registry.
         public var description: Swift.String?
-        /// Display name for a registry record
+        /// The descriptor types that are present on this registry record. Each value corresponds to a descriptor entry key on the approved record.
+        public var descriptorTypes: [Swift.String]?
+        /// The human-readable display name of the registry record.
         public var displayName: Swift.String?
-        /// Registry Record name
+        /// The name of the registry record. Names are unique within a registry.
         /// This member is required.
         public var name: Swift.String?
-        /// Registry Record Amazon Resource Name
+        /// The Amazon Resource Name (ARN) of the registry record.
         /// This member is required.
         public var recordArn: Swift.String?
-        /// Registry Record unique identifier - 12-character alphanumeric string
+        /// The unique identifier of the registry record.
         /// This member is required.
         public var recordId: Swift.String?
-        /// Record type enum for registry record classification
+        /// The type of the registry record. MCP is a Model Context Protocol server record, AGENT is an Agent-to-Agent (A2A) agent card record, SKILL is an agent skills definition record, and CUSTOM is a record with a custom descriptor.
         /// This member is required.
         public var recordType: AgentRegistryClientTypes.RecordType?
-        /// Version of the registry record
+        /// The version identifier of the registry record.
         /// This member is required.
         public var recordVersion: Swift.String?
-        /// Registry Amazon Resource Name
+        /// The Amazon Resource Name (ARN) of the parent registry that owns the record.
         /// This member is required.
         public var registryArn: Swift.String?
-        /// Registry record status
+        /// The lifecycle status of the registry record. A record is DRAFT before it is submitted, PENDING_APPROVAL while awaiting curator review, and APPROVED once it is approved and discoverable. REJECTED and DEPRECATED records are not discoverable. The CREATING, UPDATING, CREATE_FAILED, and UPDATE_FAILED values reflect the state of an in-progress or failed asynchronous change.
         /// This member is required.
         public var status: AgentRegistryClientTypes.RegistryRecordStatus?
-        /// Timestamp in ISO 8601 date-time format
+        /// The timestamp when the registry record was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
 
         public init(
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            descriptorTypes: [Swift.String]? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil,
             recordArn: Swift.String? = nil,
@@ -881,6 +888,7 @@ extension AgentRegistryClientTypes {
         ) {
             self.createdAt = createdAt
             self.description = description
+            self.descriptorTypes = descriptorTypes
             self.displayName = displayName
             self.name = name
             self.recordArn = recordArn
@@ -896,7 +904,7 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes.DiscoverableRegistryRecordSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DiscoverableRegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "DiscoverableRegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), descriptorTypes: \(Swift.String(describing: descriptorTypes)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDiscoverableRegistryRecordsOutput: Swift.Sendable {
@@ -1303,6 +1311,7 @@ extension AgentRegistryClientTypes.DiscoverableRegistryRecordSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.descriptorTypes = try reader["descriptorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

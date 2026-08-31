@@ -40,7 +40,7 @@ extension QuickSightClientTypes {
 
     /// The access control settings for a knowledge base. Use this structure to enable or disable document-level access control lists (ACLs) that filter query results based on the permissions from the source data connector.
     public struct AccessControlConfiguration: Swift.Sendable {
-        /// Specifies whether ACLs are enabled for the knowledge base.
+        /// Specifies whether ACLs are enabled for the knowledge base. This setting works together with the data source connector's ACL crawling. To enforce document-level access control end to end, set isACLEnabled to true and enable ACL crawling on the connector. For example, for an Amazon S3 data source, set accessControlConfiguration.crawlAcl to true in the connector template. For more information, see KbTemplateConfiguration. Enabling only one of the two settings does not produce a fully ACL-enforced knowledge base.
         public var isACLEnabled: Swift.Bool?
 
         public init(
@@ -22681,6 +22681,75 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The visibility of an app. Valid values are:
+    ///
+    /// * PRIVATE – The app is reachable only by authorized Amazon QuickSight principals.
+    ///
+    /// * PUBLIC – The published app is reachable by anyone on the internet without signing in.
+    public enum AppVisibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppVisibility] {
+            return [
+                .private,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of an app, including its identifier, name, and metadata.
+    public struct AppSummary: Swift.Sendable {
+        /// The ID of the app.
+        public var appId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the app.
+        public var arn: Swift.String?
+        /// The time that the app was created.
+        public var createdTime: Foundation.Date?
+        /// The time that the app was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The display name of the app.
+        public var name: Swift.String?
+        /// The sharing status of the app: PUBLIC if the app is shared publicly, or PRIVATE if it is private.
+        public var visibility: QuickSightClientTypes.AppVisibility?
+
+        public init(
+            appId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            visibility: QuickSightClientTypes.AppVisibility? = nil
+        ) {
+            self.appId = appId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.visibility = visibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum AssetBundleExportJobAnalysisPropertyToOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case name
         case sdkUnknown(Swift.String)
@@ -24485,12 +24554,25 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The parameters that are required to connect to a S3 Knowledge Base data source.
+    /// The parameters that are required to connect to an S3 knowledge base data source. Prerequisites: Amazon S3 bucket access Before you call CreateKnowledgeBase for an Amazon S3 knowledge base, an administrator must grant Amazon QuickSight access to the source S3 bucket. If access has not been granted for the bucket, knowledge base creation fails. To grant access, an administrator adds the bucket in the Amazon QuickSight admin console, under Permissions, Amazon Web Services resources, Amazon S3, Select S3 buckets. This authorizes the Amazon QuickSight service role to read the bucket. The bucket can be in the same Amazon Web Services account or, when the bucket owner has authorized your account, in a different account. The service role requires at least the following permissions on the bucket:
+    ///
+    /// * s3:GetObject
+    ///
+    /// * s3:ListBucket
+    ///
+    /// * s3:GetBucketLocation
+    ///
+    /// * s3:GetObjectVersion
+    ///
+    /// * s3:ListBucketVersions
+    ///
+    ///
+    /// For the full procedure, including cross-account buckets and KMS-encrypted buckets, see the Amazon S3 knowledge base administrator setup guide. To grant access for a specific S3 knowledge base data source without granting account-wide S3 access, provide a custom IAM role on the data source by using RoleArn.
     public struct S3KnowledgeBaseParameters: Swift.Sendable {
         /// The URL of the S3 bucket that contains the knowledge base data.
         /// This member is required.
         public var bucketUrl: Swift.String?
-        /// The location of metadata files within the S3 bucket that describe the structure and content of the knowledge base.
+        /// The Amazon S3 location (prefix) of per-document metadata files. Each metadata file describes a single source document and its indexable attributes, such as title, category, and version. This is not the global ACL configuration file. To apply a single global ACL file to the entire knowledge base, use the access control configuration instead.
         public var metadataFilesLocation: Swift.String?
         /// Use the RoleArn structure to override an account-wide role for a specific S3 Knowledge Base data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 Knowledge Base data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
         public var roleArn: Swift.String?
@@ -36014,20 +36096,62 @@ extension QuickSightClientTypes {
 
     /// The template configuration for a knowledge base. This object contains connector-specific configuration that defines how data is crawled and indexed.
     public struct KbTemplateConfiguration: Swift.Sendable {
-        /// The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by DataSourceArn. The template must be a JSON object. The required fields vary by connector type:
+        /// The connector configuration for the knowledge base data source. The structure depends on the connector type of the data source referenced by DataSourceArn. The template must be a JSON object. All connector types share the following top-level keys. The value of type and the contents of connectionConfiguration vary by connector type.
         ///
-        /// * Amazon S3 (S3V2) – Requires connectionConfiguration with bucketName. Supports filterConfiguration for inclusion and exclusion prefixes and patterns. Supports accessControlConfiguration and deletionProtectionConfiguration.
+        /// * type – (Required) The connector type of the data source. This value identifies the connector. Valid values: S3V2, WEBCRAWLERV3, GOOGLEDRIVEV3, ONEDRIVEV3, SHAREPOINTV3. For the fields required by each connector, see the connector-specific list that follows.
         ///
-        /// * Google Drive (GOOGLEDRIVEV3) – Requires connectionConfiguration with authType set to SERVICE_ACCOUNT. Supports dataEntityConfiguration with crawlMyDrive, crawlSharedWithMe, and crawlSharedDrives.
+        /// * connectionConfiguration – (Required) The connection details for the data source. The keys in this object vary by connector type; see the connector-specific list that follows.
         ///
-        /// * OneDrive (ONEDRIVEV3) – Requires authType at the template root level set to TWO_LEGGED_OAUTH. Requires connectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with crawlPersonalDrives and crawlSharedWithMe.
+        /// * filterConfiguration – (Optional) Rules that determine which content is crawled, such as inclusion and exclusion prefixes, patterns, or file-size limits.
         ///
-        /// * SharePoint (SHAREPOINTV3) – Requires connectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with siteUrls, crawlFiles, and crawlPages.
+        /// * accessControlConfiguration – (Optional) Document-level access control (ACL) settings. Supported by all connector types except Web Crawler (WEBCRAWLERV3). The available fields depend on the connector type.
         ///
-        /// * Web Crawler (WEBCRAWLERV3) – Requires connectionConfiguration with seedUrls or siteMapUrls (mutually exclusive) and authType. Supports crawlConfiguration for crawl depth, rate limits, and scope. Supports filterConfiguration for file size limits and URL patterns. Valid values for authType: NO_AUTH, BASIC_AUTH, FORM, SAML.
+        /// * deletionProtectionConfiguration – (Optional) Deletion-protection settings, supported by all connector types. Contains enableDeletionProtection (Boolean) and deletionProtectionThreshold (String; a value from 1 to 100).
         ///
         ///
-        /// The optional deletionProtectionConfiguration object is supported by all connector types. It contains enableDeletionProtection and deletionProtectionThreshold.
+        /// The following list describes the valid type value, the connectionConfiguration contents, and any connector-specific fields for each connector type:
+        ///
+        /// * Amazon S3 (type: S3V2) – The type value must be S3V2. connectionConfiguration is required and contains:
+        ///
+        /// * bucketName – (Required) The name of the Amazon S3 bucket to crawl. Type: String. Length: 3–63 characters. Pattern: ^[a-z0-9][.\-a-z0-9]{1,61}[a-z0-9]$.
+        ///
+        /// * bucketOwnerAccountId – (Required) The ID of the AWS account that owns the bucket. Type: String. Pattern: ^\d{12}$.
+        ///
+        ///
+        /// Amazon S3 supports the following optional filterConfiguration fields:
+        ///
+        /// * inclusionPrefixes or exclusionPrefixes – Amazon S3 key prefixes to include or exclude. Type: Array of String. Up to 350 items, each 1–1,024 characters.
+        ///
+        /// * inclusionPatterns or exclusionPatterns – Patterns to include or exclude objects. Type: Array of String. Up to 350 items, each 1–1,024 characters.
+        ///
+        /// * maxFileSizeInMegaBytes – The maximum size, in MB, of a file to ingest. Type: String. Pattern: ^\d+$.
+        ///
+        ///
+        /// For Amazon S3, accessControlConfiguration supports the following fields:
+        ///
+        /// * crawlAcl – Specifies whether the connector crawls and enforces document access control lists (ACLs). Type: Boolean. When set to true, provide ACLs either in a global ACL configuration file (aclConfigurationFilePath) or in per-document metadata files.
+        ///
+        /// * aclConfigurationFilePath – The Amazon S3 URI of the global ACL configuration file. Type: String. Length: 1–1,024 characters. Optional. If you don't provide a global ACL configuration file, define ACLs in per-document metadata files.
+        ///
+        /// * defaultAccessType – The access behavior applied to Amazon S3 prefixes that are not listed in the ACL configuration. Type: String. The only supported value is ALLOW.
+        ///
+        ///
+        /// metadataFilesPrefix – (Optional) The Amazon S3 prefix under which per-document metadata files are stored. Each metadata file describes a single source document and its indexable attributes. This is not the global ACL configuration file. For a single global ACL file, use accessControlConfiguration.aclConfigurationFilePath. Type: String. Length: 1–1,024 characters.
+        ///
+        /// * Google Drive (type: GOOGLEDRIVEV3) – Requires connectionConfiguration with authType set to SERVICE_ACCOUNT. Supports dataEntityConfiguration with crawlMyDrive, crawlSharedWithMe, and crawlSharedDrives.
+        ///
+        /// * OneDrive (type: ONEDRIVEV3) – Requires authType at the template root level set to TWO_LEGGED_OAUTH. Requires connectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with crawlPersonalDrives and crawlSharedWithMe.
+        ///
+        /// * SharePoint (type: SHAREPOINTV3) – Requires connectionConfiguration with tenantId in UUID format. Supports dataEntityConfiguration with siteUrls, crawlFiles, and crawlPages.
+        ///
+        /// * Web Crawler (type: WEBCRAWLERV3) – Requires connectionConfiguration with seedUrls or siteMapUrls (mutually exclusive) and authType. Supports crawlConfiguration for crawl depth, rate limits, and scope. Supports filterConfiguration for file size limits and URL patterns. Valid values for authType: NO_AUTH, BASIC_AUTH, FORM, SAML.
+        ///
+        ///
+        /// Enabling document-level access control for Amazon S3 For an Amazon S3 (S3V2) knowledge base, document-level access control is governed by two settings that must both be enabled:
+        ///
+        /// * In this template, set accessControlConfiguration.crawlAcl to true. Define ACLs either in a global ACL configuration file, referenced by accessControlConfiguration.aclConfigurationFilePath, or in per-document metadata files. To control access for prefixes that are not listed in the ACL file, you can also set accessControlConfiguration.defaultAccessType.
+        ///
+        /// * In the CreateKnowledgeBase or UpdateKnowledgeBase request, set the top-level AccessControlConfiguration.isACLEnabled to true.
         public var template: Smithy.Document?
 
         public init(
@@ -36229,7 +36353,7 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of resource permissions on the knowledge base. Each entry grants a specified Amazon QuickSight principal either owner or viewer access. If you don't specify permissions, only the primary owner (if provided) receives owner access.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The Amazon Resource Name (ARN) of the primary owner for the knowledge base. The specified user is always granted owner access, regardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+    /// The Amazon Resource Name (ARN) of the Amazon QuickSight user or group to set as the primary owner of the knowledge base. The specified principal is always granted owner access, regardless of what is specified in the Permissions field. This must be an Amazon QuickSight principal ARN, not an IAM user or role ARN. The API caller is never assigned as the owner automatically. If you don't specify a primary owner and don't grant owner access in Permissions, the knowledge base is created without an owner, even when you call the operation as an Amazon QuickSight user. When you call CreateKnowledgeBase as an IAM user or an assumed IAM role, specify PrimaryOwnerArn (as an Amazon QuickSight principal ARN) or an owner entry in Permissions so that the knowledge base has an owner. Although optional, specifying a primary owner is recommended.
     public var primaryOwnerArn: Swift.String?
     /// The tags to assign to the knowledge base. If you don't specify tags, the knowledge base is created without tags.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -40805,6 +40929,61 @@ public struct DeleteAnalysisOutput: Swift.Sendable {
     }
 }
 
+/// One or more parameter has a value that isn't valid.
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+public struct DeleteAppInput: Swift.Sendable {
+    /// The ID of the app that you want to delete.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the app.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.appId = appId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DeleteAppOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+    }
+}
+
 public struct DeleteApprovalPolicyInput: Swift.Sendable {
     /// The unique identifier of the approval policy to delete.
     /// This member is required.
@@ -42637,6 +42816,79 @@ public struct DescribeAnalysisPermissionsOutput: Swift.Sendable {
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct DescribeAppInput: Swift.Sendable {
+    /// The ID of the app that you want to describe.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the app.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.appId = appId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeAppOutput: Swift.Sendable {
+    /// The information about the app.
+    /// This member is required.
+    public var app: QuickSightClientTypes.AppSummary?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        app: QuickSightClientTypes.AppSummary? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.app = app
+        self.requestId = requestId
+    }
+}
+
+public struct DescribeAppPermissionsInput: Swift.Sendable {
+    /// The ID of the app.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the app.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.appId = appId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeAppPermissionsOutput: Swift.Sendable {
+    /// The ID of the app.
+    public var appId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the app.
+    public var arn: Swift.String?
+    /// The resource permissions for the app.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.appId = appId
+        self.arn = arn
+        self.permissions = permissions
+        self.requestId = requestId
     }
 }
 
@@ -45859,33 +46111,6 @@ public struct DescribeRoleCustomPermissionOutput: Swift.Sendable {
         self.customPermissionsName = customPermissionsName
         self.requestId = requestId
         self.status = status
-    }
-}
-
-/// One or more parameter has a value that isn't valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.requestId = requestId
     }
 }
 
@@ -49632,6 +49857,46 @@ public struct ListApprovalPoliciesOutput: Swift.Sendable {
     }
 }
 
+public struct ListAppsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the apps.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAppsOutput: Swift.Sendable {
+    /// A list of app summaries.
+    /// This member is required.
+    public var appSummaryList: [QuickSightClientTypes.AppSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        appSummaryList: [QuickSightClientTypes.AppSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.appSummaryList = appSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+    }
+}
+
 public struct ListAssetBundleExportJobsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that the export jobs were executed in.
     /// This member is required.
@@ -52657,6 +52922,126 @@ public struct SearchAnalysesOutput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    /// The name of a field that you can use to filter app search results. Valid values are:
+    ///
+    /// * APP_ID – The unique identifier of the app.
+    ///
+    /// * APP_NAME – The display name of the app.
+    ///
+    /// * DIRECT_QUICKSIGHT_SOLE_OWNER – An Amazon QuickSight user or group that is the sole direct owner.
+    ///
+    /// * DIRECT_QUICKSIGHT_OWNER – An Amazon QuickSight user or group with direct owner permissions.
+    ///
+    /// * DIRECT_QUICKSIGHT_VIEWER_OR_OWNER – An Amazon QuickSight user or group with direct viewer or owner permissions.
+    public enum SearchAppsFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case appId
+        case appName
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchAppsFilterName] {
+            return [
+                .appId,
+                .appName,
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .appId: return "APP_ID"
+            case .appName: return "APP_NAME"
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter to apply when searching for apps.
+    public struct SearchAppsFilter: Swift.Sendable {
+        /// The name of the filter attribute.
+        /// This member is required.
+        public var name: QuickSightClientTypes.SearchAppsFilterName?
+        /// The comparison operator for the filter.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.FilterOperator?
+        /// The value to filter on.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.SearchAppsFilterName? = nil,
+            `operator`: QuickSightClientTypes.FilterOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+public struct SearchAppsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the apps to search.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters to apply to the search.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.SearchAppsFilter]?
+    /// The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.SearchAppsFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchAppsOutput: Swift.Sendable {
+    /// A list of app summaries that match the search criteria.
+    /// This member is required.
+    public var appSummaryList: [QuickSightClientTypes.AppSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        appSummaryList: [QuickSightClientTypes.AppSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.appSummaryList = appSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+    }
+}
+
 public struct SearchDashboardsInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the user whose dashboards you're searching for.
     /// This member is required.
@@ -54376,6 +54761,62 @@ public struct UpdateApplicationWithTokenExchangeGrantOutput: Swift.Sendable {
     ) {
         self.requestId = requestId
         self.status = status
+    }
+}
+
+public struct UpdateAppPermissionsInput: Swift.Sendable {
+    /// The ID of the app.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the app.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The permissions that you want to grant on the app.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The permissions that you want to revoke from the app.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The visibility to set for the app. Currently, only PRIVATE is accepted, which removes public (anonymous) access from the app. If you don't specify a value, the app's visibility is unchanged. Setting an app to PUBLIC through this operation is not supported.
+    public var visibility: QuickSightClientTypes.AppVisibility?
+
+    public init(
+        appId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        visibility: QuickSightClientTypes.AppVisibility? = nil
+    ) {
+        self.appId = appId
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+        self.visibility = visibility
+    }
+}
+
+public struct UpdateAppPermissionsOutput: Swift.Sendable {
+    /// The ID of the app.
+    public var appId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the app.
+    public var arn: Swift.String?
+    /// The updated resource permissions for the app.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The visibility of the app after the update (PRIVATE or PUBLIC).
+    public var visibility: QuickSightClientTypes.AppVisibility?
+
+    public init(
+        appId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        visibility: QuickSightClientTypes.AppVisibility? = nil
+    ) {
+        self.appId = appId
+        self.arn = arn
+        self.permissions = permissions
+        self.requestId = requestId
+        self.visibility = visibility
     }
 }
 
@@ -58064,6 +58505,19 @@ extension DeleteAnalysisInput {
     }
 }
 
+extension DeleteAppInput {
+
+    static func urlPathProvider(_ value: DeleteAppInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let appId = value.appId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/apps/\(appId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteApprovalPolicyInput {
 
     static func urlPathProvider(_ value: DeleteApprovalPolicyInput) -> Swift.String? {
@@ -58763,6 +59217,32 @@ extension DescribeAnalysisPermissionsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension DescribeAppInput {
+
+    static func urlPathProvider(_ value: DescribeAppInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let appId = value.appId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/apps/\(appId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeAppPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeAppPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let appId = value.appId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/apps/\(appId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -59983,6 +60463,32 @@ extension ListApprovalPoliciesInput {
 extension ListApprovalPoliciesInput {
 
     static func queryItemProvider(_ value: ListApprovalPoliciesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAppsInput {
+
+    static func urlPathProvider(_ value: ListAppsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/apps"
+    }
+}
+
+extension ListAppsInput {
+
+    static func queryItemProvider(_ value: ListAppsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -61225,6 +61731,16 @@ extension SearchAnalysesInput {
     }
 }
 
+extension SearchAppsInput {
+
+    static func urlPathProvider(_ value: SearchAppsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/search/apps"
+    }
+}
+
 extension SearchDashboardsInput {
 
     static func urlPathProvider(_ value: SearchDashboardsInput) -> Swift.String? {
@@ -61586,6 +62102,19 @@ extension UpdateApplicationWithTokenExchangeGrantInput {
         let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
         items.append(namespaceQueryItem)
         return items
+    }
+}
+
+extension UpdateAppPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateAppPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let appId = value.appId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/apps/\(appId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -62864,6 +63393,16 @@ extension SearchAnalysesInput {
     }
 }
 
+extension SearchAppsInput {
+
+    static func write(value: SearchAppsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.SearchAppsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension SearchDashboardsInput {
 
     static func write(value: SearchDashboardsInput?, to writer: SmithyJSON.Writer) throws {
@@ -63111,6 +63650,16 @@ extension UpdateAnalysisPermissionsInput {
         guard let value else { return }
         try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateAppPermissionsInput {
+
+    static func write(value: UpdateAppPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Visibility"].write(value.visibility)
     }
 }
 
@@ -64309,6 +64858,18 @@ extension DeleteAnalysisOutput {
     }
 }
 
+extension DeleteAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteAppOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteApprovalPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApprovalPolicyOutput {
@@ -64969,6 +65530,34 @@ extension DescribeAnalysisPermissionsOutput {
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAppOutput()
+        value.app = try reader["App"].readIfPresent(with: QuickSightClientTypes.AppSummary.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeAppPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAppPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAppPermissionsOutput()
+        value.appId = try reader["AppId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -66059,6 +66648,20 @@ extension ListApprovalPoliciesOutput {
     }
 }
 
+extension ListAppsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAppsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAppsOutput()
+        value.appSummaryList = try reader["AppSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AppSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAssetBundleExportJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetBundleExportJobsOutput {
@@ -66802,6 +67405,20 @@ extension SearchAnalysesOutput {
     }
 }
 
+extension SearchAppsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchAppsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchAppsOutput()
+        value.appSummaryList = try reader["AppSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AppSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension SearchDashboardsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchDashboardsOutput {
@@ -67202,6 +67819,22 @@ extension UpdateApplicationWithTokenExchangeGrantOutput {
         var value = UpdateApplicationWithTokenExchangeGrantOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateAppPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAppPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAppPermissionsOutput()
+        value.appId = try reader["AppId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
         return value
     }
 }
@@ -68925,6 +69558,24 @@ enum DeleteAnalysisOutputError {
     }
 }
 
+enum DeleteAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteApprovalPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -69827,6 +70478,42 @@ enum DescribeAnalysisPermissionsOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAppPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -71165,6 +71852,23 @@ enum ListApprovalPoliciesOutputError {
     }
 }
 
+enum ListAppsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAssetBundleExportJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -72122,6 +72826,23 @@ enum SearchAnalysesOutputError {
     }
 }
 
+enum SearchAppsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchDashboardsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -72646,6 +73367,25 @@ enum UpdateApplicationWithTokenExchangeGrantOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAppPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -73955,11 +74695,11 @@ extension ConcurrentUpdatingException {
     }
 }
 
-extension InvalidNextTokenException {
+extension InvalidParameterException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -73969,11 +74709,11 @@ extension InvalidNextTokenException {
     }
 }
 
-extension InvalidParameterException {
+extension InvalidNextTokenException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -74772,6 +75512,21 @@ extension QuickSightClientTypes.ApprovalPolicy {
         value.approvalGroups = try reader["ApprovalGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AppSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AppSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AppSummary()
+        value.appId = try reader["AppId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.visibility = try reader["Visibility"].readIfPresent()
         return value
     }
 }
@@ -90118,6 +90873,16 @@ extension QuickSightClientTypes.ScrollBarOptions {
         value.visibility = try reader["Visibility"].readIfPresent()
         value.visibleRange = try reader["VisibleRange"].readIfPresent(with: QuickSightClientTypes.VisibleRangeOptions.read(from:))
         return value
+    }
+}
+
+extension QuickSightClientTypes.SearchAppsFilter {
+
+    static func write(value: QuickSightClientTypes.SearchAppsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
     }
 }
 

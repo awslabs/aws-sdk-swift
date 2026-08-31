@@ -1208,6 +1208,104 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    /// Per-rule validation constraints that override the field's default validation when the containing rule matches. All fields are optional; only the constraints that need to differ from the field's default validation are provided.
+    public struct ConditionalValidation: Swift.Sendable {
+        /// The allowed values for a select field when this rule applies. A subset of the field's full option list.
+        public var allowedValues: [Swift.String]?
+        /// The maximum length for the field value when this rule applies.
+        public var maxLength: Swift.Int?
+        /// The minimum length for the field value when this rule applies.
+        public var minLength: Swift.Int?
+        /// A regular expression that the field value must match when this rule applies.
+        public var pattern: Swift.String?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            maxLength: Swift.Int? = nil,
+            minLength: Swift.Int? = nil,
+            pattern: Swift.String? = nil
+        ) {
+            self.allowedValues = allowedValues
+            self.maxLength = maxLength
+            self.minLength = minLength
+            self.pattern = pattern
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A single condition on a dependency field's value. Conditions are combined into a ConditionalRule and evaluated together with logical AND.
+    public struct FieldCondition: Swift.Sendable {
+        /// The path of the field whose value determines this condition, for example companyInfo.businessType.
+        /// This member is required.
+        public var dependsOnFieldPath: Swift.String?
+        /// The comparison operator to apply between the dependency field's value and Values. Valid values are EQUALS, NOT_EQUALS, IN, NOT_IN, HAS_VALUE, and NO_VALUE. Operators not in this list are treated as evaluating to false, which causes the containing rule to be skipped. This allows forward-compatible additions of new operators without breaking older SDK clients.
+        /// This member is required.
+        public var `operator`: Swift.String?
+        /// The values to compare the dependency field's value against. Required for the EQUALS, NOT_EQUALS, IN, and NOT_IN operators. Omitted for HAS_VALUE and NO_VALUE, which test only presence.
+        public var values: [Swift.String]?
+
+        public init(
+            dependsOnFieldPath: Swift.String? = nil,
+            `operator`: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.dependsOnFieldPath = dependsOnFieldPath
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A single conditional rule that resolves to a field behavior when all of its conditions evaluate to true. Conditions within a rule are combined with logical AND: all conditions must match for the rule to fire.
+    public struct ConditionalRule: Swift.Sendable {
+        /// Optional per-rule validation constraints (minimum length, maximum length, regex pattern, allowed select values) that override the field's default validation when this rule matches.
+        public var conditionalValidation: PinpointSMSVoiceV2ClientTypes.ConditionalValidation?
+        /// The conditions that must all evaluate to true for this rule to match. Conditions are combined with logical AND. Use multiple rules with the same RuleBehavior to express logical OR.
+        /// This member is required.
+        public var conditions: [PinpointSMSVoiceV2ClientTypes.FieldCondition]?
+        /// The field behavior that applies when all conditions in this rule match. Valid values are REQUIRED, OPTIONAL, and DISALLOWED.
+        /// This member is required.
+        public var ruleBehavior: Swift.String?
+
+        public init(
+            conditionalValidation: PinpointSMSVoiceV2ClientTypes.ConditionalValidation? = nil,
+            conditions: [PinpointSMSVoiceV2ClientTypes.FieldCondition]? = nil,
+            ruleBehavior: Swift.String? = nil
+        ) {
+            self.conditionalValidation = conditionalValidation
+            self.conditions = conditions
+            self.ruleBehavior = ruleBehavior
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The set of conditional rules that determine a field's resolved requirement based on the values of other fields in the same registration form. Attached to fields whose FieldRequirement is CONDITIONAL. Evaluation proceeds top-to-bottom through Rules. The first rule whose conditions all evaluate to true wins and its behavior is returned. If no rule matches, the DefaultBehavior is returned.
+    public struct ConditionalBehavior: Swift.Sendable {
+        /// The field behavior that applies when no conditional rule in Rules matches. Valid values are REQUIRED, OPTIONAL, and DISALLOWED.
+        /// This member is required.
+        public var defaultBehavior: Swift.String?
+        /// An ordered list of conditional rules. Rules are evaluated top-to-bottom and the first rule whose conditions all evaluate to true determines the field's behavior. Rules whose conditions do not all match are skipped and evaluation continues to the next rule.
+        /// This member is required.
+        public var rules: [PinpointSMSVoiceV2ClientTypes.ConditionalRule]?
+
+        public init(
+            defaultBehavior: Swift.String? = nil,
+            rules: [PinpointSMSVoiceV2ClientTypes.ConditionalRule]? = nil
+        ) {
+            self.defaultBehavior = defaultBehavior
+            self.rules = rules
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
     public enum ConfigurationSetFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultMessageFeedbackEnabled
         case defaultMessageType
@@ -2740,7 +2838,7 @@ public struct CreateRegistrationAssociationOutput: Swift.Sendable {
 }
 
 public struct CreateRegistrationAttachmentInput: Swift.Sendable {
-    /// The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
+    /// The registration file to upload. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG.
     public var attachmentBody: Foundation.Data?
     /// Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
     public var attachmentUrl: Swift.String?
@@ -6550,6 +6648,8 @@ extension PinpointSMSVoiceV2ClientTypes {
 
     /// Provides a description of the specified field.
     public struct RegistrationFieldDefinition: Swift.Sendable {
+        /// The conditional behavior rules for this field. Only present when FieldRequirement is CONDITIONAL. Rules are evaluated in order and the first matching rule determines the field's resolved requirement. If no rule matches, the DefaultBehavior applies.
+        public var conditionalBehavior: PinpointSMSVoiceV2ClientTypes.ConditionalBehavior?
         /// An array of RegistrationFieldDisplayHints objects for the field.
         /// This member is required.
         public var displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints?
@@ -6571,6 +6671,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var textValidation: PinpointSMSVoiceV2ClientTypes.TextValidation?
 
         public init(
+            conditionalBehavior: PinpointSMSVoiceV2ClientTypes.ConditionalBehavior? = nil,
             displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationFieldDisplayHints? = nil,
             fieldPath: Swift.String? = nil,
             fieldRequirement: PinpointSMSVoiceV2ClientTypes.FieldRequirement? = nil,
@@ -6579,6 +6680,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             selectValidation: PinpointSMSVoiceV2ClientTypes.SelectValidation? = nil,
             textValidation: PinpointSMSVoiceV2ClientTypes.TextValidation? = nil
         ) {
+            self.conditionalBehavior = conditionalBehavior
             self.displayHints = displayHints
             self.fieldPath = fieldPath
             self.fieldRequirement = fieldRequirement

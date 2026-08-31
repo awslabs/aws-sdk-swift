@@ -12,6 +12,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension KinesisClient {
+    /// Paginate over `[ListChannelsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChannelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
+    public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
+    }
+}
+
+extension ListChannelsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListChannelsInput {
+        return ListChannelsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            streamFilter: self.streamFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListChannelsInput, OperationStackOutput == ListChannelsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listChannelsPaginated`
+    /// to access the nested member `[KinesisClientTypes.ChannelSummary]`
+    /// - Returns: `[KinesisClientTypes.ChannelSummary]`
+    public func channelSummaries() async throws -> [KinesisClientTypes.ChannelSummary] {
+        return try await self.asyncCompactMap { item in item.channelSummaries }
+    }
+}
+extension KinesisClient {
     /// Paginate over `[ListStreamConsumersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

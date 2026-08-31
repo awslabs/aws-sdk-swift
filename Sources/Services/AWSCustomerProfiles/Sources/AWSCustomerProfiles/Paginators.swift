@@ -386,6 +386,38 @@ extension PaginatorSequence where OperationStackInput == ListSegmentDefinitionsI
     }
 }
 extension CustomerProfilesClient {
+    /// Paginate over `[ListSegmentSubscriptionEventsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSegmentSubscriptionEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSegmentSubscriptionEventsOutput`
+    public func listSegmentSubscriptionEventsPaginated(input: ListSegmentSubscriptionEventsInput) -> ClientRuntime.PaginatorSequence<ListSegmentSubscriptionEventsInput, ListSegmentSubscriptionEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSegmentSubscriptionEventsInput, ListSegmentSubscriptionEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSegmentSubscriptionEvents(input:))
+    }
+}
+
+extension ListSegmentSubscriptionEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSegmentSubscriptionEventsInput {
+        return ListSegmentSubscriptionEventsInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            segmentDefinitionName: self.segmentDefinitionName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSegmentSubscriptionEventsInput, OperationStackOutput == ListSegmentSubscriptionEventsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSegmentSubscriptionEventsPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.SubscriptionEventItem]`
+    /// - Returns: `[CustomerProfilesClientTypes.SubscriptionEventItem]`
+    public func events() async throws -> [CustomerProfilesClientTypes.SubscriptionEventItem] {
+        return try await self.asyncCompactMap { item in item.events }
+    }
+}
+extension CustomerProfilesClient {
     /// Paginate over `[ListUploadJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

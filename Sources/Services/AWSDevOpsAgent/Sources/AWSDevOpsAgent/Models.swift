@@ -1524,6 +1524,26 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Configuration for bidirectional Slack communication.
+    public struct SlackBidirectionalConfiguration: Swift.Sendable {
+        /// Whether bidirectional communication is enabled for this association. When you set this value to true, you can mention the agent in a configured Slack channel and it responds in that channel. When you omit this value or set it to false, the agent ignores mentions and only sends notifications.
+        public var enabled: Swift.Bool?
+        /// IAM role ARN that AWS DevOps Agent assumes to exchange messages with your Slack workspace on behalf of this association.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Represents a Slack channel with its ID and optional name.
     public struct SlackChannel: Swift.Sendable {
         /// Slack channel ID
@@ -1566,6 +1586,8 @@ extension DevOpsAgentClientTypes {
 
     /// Configuration for Slack workspace integration.
     public struct SlackConfiguration: Swift.Sendable {
+        /// Optional bidirectional communication configuration. Supply this configuration and set enabled to true so you can interact with the agent directly from Slack.
+        public var bidirectional: DevOpsAgentClientTypes.SlackBidirectionalConfiguration?
         /// Transmission targets for agent notifications
         /// This member is required.
         public var transmissionTarget: DevOpsAgentClientTypes.SlackTransmissionTarget?
@@ -1577,10 +1599,12 @@ extension DevOpsAgentClientTypes {
         public var workspaceName: Swift.String?
 
         public init(
+            bidirectional: DevOpsAgentClientTypes.SlackBidirectionalConfiguration? = nil,
             transmissionTarget: DevOpsAgentClientTypes.SlackTransmissionTarget? = nil,
             workspaceId: Swift.String? = nil,
             workspaceName: Swift.String? = nil
         ) {
+            self.bidirectional = bidirectional
             self.transmissionTarget = transmissionTarget
             self.workspaceId = workspaceId
             self.workspaceName = workspaceName
@@ -13240,6 +13264,23 @@ extension DevOpsAgentClientTypes.ServiceNowServiceDetails {
     }
 }
 
+extension DevOpsAgentClientTypes.SlackBidirectionalConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.SlackBidirectionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.SlackBidirectionalConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.SlackBidirectionalConfiguration()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.SlackChannel {
 
     static func write(value: DevOpsAgentClientTypes.SlackChannel?, to writer: SmithyJSON.Writer) throws {
@@ -13261,6 +13302,7 @@ extension DevOpsAgentClientTypes.SlackConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.SlackConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bidirectional"].write(value.bidirectional, with: DevOpsAgentClientTypes.SlackBidirectionalConfiguration.write(value:to:))
         try writer["transmissionTarget"].write(value.transmissionTarget, with: DevOpsAgentClientTypes.SlackTransmissionTarget.write(value:to:))
         try writer["workspaceId"].write(value.workspaceId)
         try writer["workspaceName"].write(value.workspaceName)
@@ -13272,6 +13314,7 @@ extension DevOpsAgentClientTypes.SlackConfiguration {
         value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
         value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
         value.transmissionTarget = try reader["transmissionTarget"].readIfPresent(with: DevOpsAgentClientTypes.SlackTransmissionTarget.read(from:))
+        value.bidirectional = try reader["bidirectional"].readIfPresent(with: DevOpsAgentClientTypes.SlackBidirectionalConfiguration.read(from:))
         return value
     }
 }

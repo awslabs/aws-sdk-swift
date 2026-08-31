@@ -1696,6 +1696,78 @@ extension KafkaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RestartConnector` operation on the `KafkaConnect` service.
+    ///
+    /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnectorOperation to track the state of the restart.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestartConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestartConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
+    public func restartConnector(input: RestartConnectorInput) async throws -> RestartConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restartConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kafkaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RestartConnectorInput, RestartConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestartConnectorInput, RestartConnectorOutput>(RestartConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestartConnectorInput, RestartConnectorOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<RestartConnectorInput, RestartConnectorOutput>(RestartConnectorInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartConnectorOutput>(RestartConnectorOutput.httpOutput(from:), RestartConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartConnectorInput, RestartConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestartConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("KafkaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestartConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestartConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestartConnectorInput, RestartConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestartConnectorInput, RestartConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "KafkaConnect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestartConnectorInput, RestartConnectorOutput>(serviceID: serviceName, version: KafkaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KafkaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestartConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `KafkaConnect` service.
     ///
     /// Attaches tags to the specified resource.

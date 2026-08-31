@@ -16,6 +16,73 @@ import struct SmithyWaitersAPI.WaiterOutcome
 
 extension KinesisClient {
 
+    static func channelActiveWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeChannelInput, DescribeChannelOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeChannelInput, DescribeChannelOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ChannelDescription.ChannelStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ACTIVE"
+                guard case .success(let output) = result else { return false }
+                let channelDescription = output.channelDescription
+                let channelStatus = channelDescription?.channelStatus
+                return SmithyWaitersAPI.JMESUtils.compare(channelStatus, ==, "ACTIVE")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ChannelDescription.ChannelStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATING"
+                guard case .success(let output) = result else { return false }
+                let channelDescription = output.channelDescription
+                let channelStatus = channelDescription?.channelStatus
+                return SmithyWaitersAPI.JMESUtils.compare(channelStatus, ==, "CREATING")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ChannelDescription.ChannelStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UPDATING"
+                guard case .success(let output) = result else { return false }
+                let channelDescription = output.channelDescription
+                let channelStatus = channelDescription?.channelStatus
+                return SmithyWaitersAPI.JMESUtils.compare(channelStatus, ==, "UPDATING")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ChannelDescription.ChannelStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETING"
+                guard case .success(let output) = result else { return false }
+                let channelDescription = output.channelDescription
+                let channelStatus = channelDescription?.channelStatus
+                return SmithyWaitersAPI.JMESUtils.compare(channelStatus, ==, "DELETING")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ChannelDescription.ChannelStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let channelDescription = output.channelDescription
+                let channelStatus = channelDescription?.channelStatus
+                return SmithyWaitersAPI.JMESUtils.compare(channelStatus, ==, "FAILED")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeChannelInput, DescribeChannelOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the ChannelActive event on the describeChannel operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeChannelInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilChannelActive(options: SmithyWaitersAPI.WaiterOptions, input: DescribeChannelInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeChannelOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.channelActiveWaiterConfig(), operation: self.describeChannel(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func streamExistsWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeStreamInput, DescribeStreamOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeStreamInput, result: Swift.Result<DescribeStreamOutput, Swift.Error>) -> Bool in

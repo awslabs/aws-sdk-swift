@@ -31,6 +31,7 @@ extension DescribeCasesInput: ClientRuntime.PaginateToken {
             beforeTime: self.beforeTime,
             caseIdList: self.caseIdList,
             displayId: self.displayId,
+            dryRun: self.dryRun,
             includeCommunications: self.includeCommunications,
             includeResolvedCases: self.includeResolvedCases,
             language: self.language,
@@ -67,6 +68,7 @@ extension DescribeCommunicationsInput: ClientRuntime.PaginateToken {
             afterTime: self.afterTime,
             beforeTime: self.beforeTime,
             caseId: self.caseId,
+            dryRun: self.dryRun,
             maxResults: self.maxResults,
             nextToken: token
         )}

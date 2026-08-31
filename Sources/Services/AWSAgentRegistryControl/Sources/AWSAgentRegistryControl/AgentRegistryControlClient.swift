@@ -1189,7 +1189,7 @@ extension AgentRegistryControlClient {
 
     /// Performs the `ListTagsForResource` operation on the `AgentRegistryControl` service.
     ///
-    /// List the tags on a resource
+    /// Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -1328,7 +1328,7 @@ extension AgentRegistryControlClient {
 
     /// Performs the `TagResource` operation on the `AgentRegistryControl` service.
     ///
-    /// Tag a resource with key-value pairs
+    /// Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -1401,7 +1401,7 @@ extension AgentRegistryControlClient {
 
     /// Performs the `UntagResource` operation on the `AgentRegistryControl` service.
     ///
-    /// Remove tags from a resource by key
+    /// Removes one or more tags from the specified Amazon Web Services Agent Registry resource. The operation removes only the tags whose keys you supply; other tags on the resource remain unchanged.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
