@@ -5799,6 +5799,7 @@ public struct UpdateConfigurationBundleInput: Swift.Sendable {
     /// Optional KMS key ARN for encrypting component configurations. If provided, components will be encrypted with this key. If the bundle already has a KMS key, this rotates to the new key.
     public var kmsKeyArn: Swift.String?
     /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch already exists, the first parent must be the latest version on that branch.
+    /// This member is required.
     public var parentVersionIds: [Swift.String]?
 
     public init(
@@ -8143,7 +8144,7 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The configuration for a policy engine associated with a gateway. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with a gateway, the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies.
     public struct GatewayPolicyEngineConfiguration: Swift.Sendable {
-        /// The ARN of the policy engine. The policy engine contains Cedar policies that define fine-grained authorization rules specifying who can perform what actions on which resources as agents interact through the gateway.
+        /// The ARN of the policy engine. The policy engine contains Cedar or Dogwood policies that define fine-grained authorization rules specifying who can perform what actions on which resources as agents interact through the gateway.
         /// This member is required.
         public var arn: Swift.String?
         /// The enforcement mode for the policy engine. Valid values include:
@@ -19524,9 +19525,9 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// An AgentCore policy statement, which supports plain Cedar policies as well as guardrails definitions.
+    /// An AgentCore Cedar or Dogwood policy statement, which supports plain Cedar policies, temporal policies, and guardrails definitions.
     public struct PolicyStatement: Swift.Sendable {
-        /// The body of the AgentCore policy statement. Contains the policy logic, which can be a Cedar policy or a guardrails definition.
+        /// The body of the AgentCore Cedar or Dogwood policy statement. Contains the policy logic, which can be a Cedar policy, a temporal policy, or a guardrails definition.
         /// This member is required.
         public var statement: Swift.String?
 
@@ -19540,7 +19541,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Represents the information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Cedar policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
+    /// Represents the information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dogwood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
     public struct PolicyGenerationDetails: Swift.Sendable {
         /// The unique identifier for this generated policy asset within the policy generation request.
         /// This member is required.
@@ -19565,9 +19566,9 @@ extension BedrockAgentCoreControlClientTypes {
     public enum PolicyDefinition: Swift.Sendable {
         /// The Cedar policy definition within the policy definition structure. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can access), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained control. Cedar provides a formal policy language designed for authorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies.
         case cedar(BedrockAgentCoreControlClientTypes.CedarPolicy)
-        /// The generated policy asset information within the policy definition structure. This contains information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Cedar policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
+        /// The generated policy asset information within the policy definition structure. This contains information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dogwood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
         case policygeneration(BedrockAgentCoreControlClientTypes.PolicyGenerationDetails)
-        /// An AgentCore policy statement that defines the access control rules. The statement can be a Cedar policy or a guardrails definition.
+        /// The Dogwood policy statement that defines the access control rules. This policy definition can include Dogwood policies and supports temporal conditions and information providers such as guardrails.
         case policy(BedrockAgentCoreControlClientTypes.PolicyStatement)
         case sdkUnknown(Swift.String)
     }
@@ -19638,7 +19639,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Represents a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Cedar policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
+    /// Represents a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Dogwood policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
     public struct PolicyGenerationAsset: Swift.Sendable {
         /// Represents the definition structure for policies within the AgentCore Policy system. This structure encapsulates different policy formats and languages that can be used to define access control rules.
         public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
@@ -19648,7 +19649,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The unique identifier for this generated policy asset within the policy generation request. This ID can be used to reference specific generated policy options when creating actual policies from the generation results.
         /// This member is required.
         public var policyGenerationAssetId: Swift.String?
-        /// The portion of the original natural language input that this generated policy asset addresses. This helps users understand which part of their policy description was translated into this specific Cedar policy statement, enabling better policy selection and refinement. When a single natural language input describes multiple authorization requirements, the generation process creates separate policy assets for each requirement, with each asset's rawTextFragment showing which requirement it addresses. Use this mapping to verify that all parts of your natural language input were correctly translated into Cedar policies.
+        /// The portion of the original natural language input that this generated policy asset addresses. This helps users understand which part of their policy description was translated into this specific Dogwood policy statement, enabling better policy selection and refinement. When a single natural language input describes multiple authorization requirements, the generation process creates separate policy assets for each requirement, with each asset's rawTextFragment showing which requirement it addresses. Use this mapping to verify that all parts of your natural language input were correctly translated into Dogwood policies.
         /// This member is required.
         public var rawTextFragment: Swift.String?
 
@@ -19669,7 +19670,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct ListPolicyGenerationAssetsOutput: Swift.Sendable {
     /// A pagination token that can be used in subsequent [ListPolicyGenerationAssets](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_ListPolicyGenerationAssets.html) calls to retrieve additional assets. This token is only present when there are more generated policy assets available beyond the current response.
     public var nextToken: Swift.String?
-    /// An array of generated policy assets including Cedar policies and related artifacts from the AI-powered policy generation process. Each asset represents a different policy option or variation generated from the original natural language input.
+    /// An array of generated policy assets including Dogwood policies and related artifacts from the AI-powered policy generation process. Each asset represents a different policy option or variation generated from the original natural language input.
     public var policyGenerationAssets: [BedrockAgentCoreControlClientTypes.PolicyGenerationAsset]?
 
     public init(
@@ -19703,7 +19704,7 @@ public struct ListPolicyGenerationsInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Represents a policy generation request within the AgentCore Policy system. Tracks the AI-powered conversion of natural language descriptions into Cedar policy statements, enabling users to author policies by describing authorization requirements in plain English. The generation process analyzes the natural language input along with the Gateway's tool context and Cedar schema to produce one or more validated policy options. Each generation request tracks the status of the conversion process and maintains findings about the generated policies, including validation results and potential issues. Generated policy assets remain available for one week after successful generation, allowing time to review and create policies from the generated options.
+    /// Represents a policy generation request within the AgentCore Policy system. Tracks the AI-powered conversion of natural language descriptions into Dogwood policy statements, enabling users to author policies by describing authorization requirements in plain English. The generation process analyzes the natural language input along with the Gateway's tool context and Cedar schema to produce one or more validated policy options. Each generation request tracks the status of the conversion process and maintains findings about the generated policies, including validation results and potential issues. Generated policy assets remain available for one week after successful generation, allowing time to review and create policies from the generated options.
     public struct PolicyGeneration: Swift.Sendable {
         /// The timestamp when this policy generation request was created.
         /// This member is required.
@@ -19872,7 +19873,7 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// Represents content input for policy generation operations. This structure encapsulates the natural language descriptions or other content formats that are used as input for AI-powered policy generation.
     public enum Content: Swift.Sendable {
-        /// The raw text content containing natural language descriptions of desired policy behavior. This text is processed by AI to generate corresponding Cedar policy statements that match the described intent.
+        /// The raw text content containing natural language descriptions of desired policy behavior. This text is processed by AI to generate corresponding Dogwood policy statements that match the described intent.
         case rawtext(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -19881,7 +19882,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct StartPolicyGenerationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
     public var clientToken: Swift.String?
-    /// The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Cedar policy statements that match the described intent.
+    /// The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent.
     /// This member is required.
     public var content: BedrockAgentCoreControlClientTypes.Content?
     /// A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when running multiple generations simultaneously.
@@ -20027,7 +20028,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct CreatePolicyInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
     public var clientToken: Swift.String?
-    /// The Cedar policy statement that defines the access control rules. This contains the actual policy logic written in Cedar policy language, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
+    /// The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
     /// This member is required.
     public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
     /// A human-readable description of the policy's purpose and functionality (1-4,096 characters). This helps policy administrators understand the policy's intent, business rules, and operational scope. Use this field to document why the policy exists, what business requirement it addresses, and any special considerations for maintenance. Clear descriptions are essential for policy governance, auditing, and troubleshooting.
@@ -20115,7 +20116,7 @@ public struct CreatePolicyOutput: Swift.Sendable {
     /// The timestamp when the policy was created. This is automatically set by the service and used for auditing and lifecycle management.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The Cedar policy statement that was created. This is the validated policy definition that will be used for agent behavior control and access decisions.
+    /// The Cedar or Dogwood policy statement that was created. This is the validated policy definition that will be used for agent behavior control and access decisions.
     /// This member is required.
     public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
     /// The human-readable description of the policy's purpose and functionality. This helps administrators understand and manage the policy.
@@ -20279,7 +20280,7 @@ public struct GetPolicyOutput: Swift.Sendable {
     /// The timestamp when the policy was originally created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The Cedar policy statement that defines the access control rules. This contains the actual policy logic used for agent behavior control and access decisions.
+    /// The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic used for agent behavior control and access decisions.
     /// This member is required.
     public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
     /// The human-readable description of the policy's purpose and functionality. This helps administrators understand and manage the policy.
@@ -20429,12 +20430,12 @@ public struct ListPoliciesInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Represents a complete policy resource within the AgentCore Policy system. Policies are ARN-able resources that contain Cedar policy statements and associated metadata for controlling agent behavior and access decisions. Each policy belongs to a policy engine and defines fine-grained authorization rules that are evaluated in real-time as agents interact with tools through Gateway. Policies use the Cedar policy language to specify who (principals based on OAuth claims like username, role, or scope) can perform what actions (tool calls) on which resources (Gateways), with optional conditions for attribute-based access control. Multiple policies can apply to a single request, with Cedar's forbid-wins semantics ensuring that security restrictions are never accidentally overridden.
+    /// Represents a complete policy resource within the AgentCore Policy system. Policies are ARN-able resources that contain Cedar or Dogwood policy statements and associated metadata for controlling agent behavior and access decisions. Each policy belongs to a policy engine and defines fine-grained authorization rules that are evaluated in real-time as agents interact with tools through Gateway. Policies use Cedar or Dogwood to specify who (principals based on OAuth claims like username, role, or scope) can perform what actions (tool calls) on which resources (Gateways), with optional conditions for attribute-based access control. Multiple policies can apply to a single request, with forbid-wins semantics ensuring that security restrictions are never accidentally overridden.
     public struct Policy: Swift.Sendable {
         /// The timestamp when the policy was originally created. This is automatically set by the service and used for auditing and lifecycle management.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// The Cedar policy statement that defines the access control rules. This contains the actual policy logic used for agent behavior control and access decisions.
+        /// The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic used for agent behavior control and access decisions.
         /// This member is required.
         public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
         /// A human-readable description of the policy's purpose and functionality. Limited to 4,096 characters, this helps administrators understand and manage the policy.
@@ -20603,7 +20604,7 @@ public struct ListPolicySummariesOutput: Swift.Sendable {
 }
 
 public struct UpdatePolicyInput: Swift.Sendable {
-    /// The new Cedar policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
+    /// The new Cedar or Dogwood policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
     public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
     /// The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic.
     public var description: BedrockAgentCoreControlClientTypes.UpdatedDescription?
@@ -20639,7 +20640,7 @@ public struct UpdatePolicyOutput: Swift.Sendable {
     /// The original creation timestamp of the policy.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The updated Cedar policy statement.
+    /// The updated Cedar or Dogwood policy statement.
     /// This member is required.
     public var definition: BedrockAgentCoreControlClientTypes.PolicyDefinition?
     /// The updated description of the policy.

@@ -689,6 +689,7 @@ extension LightsailClientTypes {
         case databaseconnections
         case diskqueuedepth
         case freestoragespace
+        case freeablememory
         case httpcodeInstance2xxCount
         case httpcodeInstance3xxCount
         case httpcodeInstance4xxCount
@@ -706,6 +707,7 @@ extension LightsailClientTypes {
         case statuscheckfailed
         case statuscheckfailedInstance
         case statuscheckfailedSystem
+        case swapusage
         case unhealthyhostcount
         case sdkUnknown(Swift.String)
 
@@ -718,6 +720,7 @@ extension LightsailClientTypes {
                 .databaseconnections,
                 .diskqueuedepth,
                 .freestoragespace,
+                .freeablememory,
                 .httpcodeInstance2xxCount,
                 .httpcodeInstance3xxCount,
                 .httpcodeInstance4xxCount,
@@ -735,6 +738,7 @@ extension LightsailClientTypes {
                 .statuscheckfailed,
                 .statuscheckfailedInstance,
                 .statuscheckfailedSystem,
+                .swapusage,
                 .unhealthyhostcount
             ]
         }
@@ -753,6 +757,7 @@ extension LightsailClientTypes {
             case .databaseconnections: return "DatabaseConnections"
             case .diskqueuedepth: return "DiskQueueDepth"
             case .freestoragespace: return "FreeStorageSpace"
+            case .freeablememory: return "FreeableMemory"
             case .httpcodeInstance2xxCount: return "HTTPCode_Instance_2XX_Count"
             case .httpcodeInstance3xxCount: return "HTTPCode_Instance_3XX_Count"
             case .httpcodeInstance4xxCount: return "HTTPCode_Instance_4XX_Count"
@@ -770,6 +775,7 @@ extension LightsailClientTypes {
             case .statuscheckfailed: return "StatusCheckFailed"
             case .statuscheckfailedInstance: return "StatusCheckFailed_Instance"
             case .statuscheckfailedSystem: return "StatusCheckFailed_System"
+            case .swapusage: return "SwapUsage"
             case .unhealthyhostcount: return "UnhealthyHostCount"
             case let .sdkUnknown(s): return s
             }
@@ -1493,6 +1499,7 @@ extension LightsailClientTypes {
         case enableaddon
         case getalarms
         case getcontactmethods
+        case getprofile
         case openinstancepublicports
         case putalarm
         case putinstancepublicports
@@ -1580,6 +1587,7 @@ extension LightsailClientTypes {
                 .enableaddon,
                 .getalarms,
                 .getcontactmethods,
+                .getprofile,
                 .openinstancepublicports,
                 .putalarm,
                 .putinstancepublicports,
@@ -1673,6 +1681,7 @@ extension LightsailClientTypes {
             case .enableaddon: return "EnableAddOn"
             case .getalarms: return "GetAlarms"
             case .getcontactmethods: return "GetContactMethods"
+            case .getprofile: return "GetProfile"
             case .openinstancepublicports: return "OpenInstancePublicPorts"
             case .putalarm: return "PutAlarm"
             case .putinstancepublicports: return "PutInstancePublicPorts"
@@ -11137,6 +11146,153 @@ public struct GetOperationsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct GetProfileInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension LightsailClientTypes {
+
+    public enum PartnerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerStatus] {
+            return [
+                .active,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .suspended: return "Suspended"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum TierName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accelerate
+        case essential
+        case growth
+        case premier
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TierName] {
+            return [
+                .accelerate,
+                .essential,
+                .growth,
+                .premier
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accelerate: return "Accelerate"
+            case .essential: return "Essential"
+            case .growth: return "Growth"
+            case .premier: return "Premier"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// An object that contains information about the Lightsail partner program membership of an Amazon Lightsail account.
+    public struct PartnerInfo: Swift.Sendable {
+        /// The timestamp when the account was enrolled in the Lightsail partner program.
+        /// This member is required.
+        public var enrolledAt: Foundation.Date?
+        /// The status of the partner membership. The following statuses are possible:
+        ///
+        /// * Active – The membership is active, and the benefits of the current tier are available to the account.
+        ///
+        /// * Suspended – The membership is suspended, and the benefits of the tier are not available to the account.
+        /// This member is required.
+        public var status: LightsailClientTypes.PartnerStatus?
+        /// The tier of the partner membership.
+        public var tierName: LightsailClientTypes.TierName?
+
+        public init(
+            enrolledAt: Foundation.Date? = nil,
+            status: LightsailClientTypes.PartnerStatus? = nil,
+            tierName: LightsailClientTypes.TierName? = nil
+        ) {
+            self.enrolledAt = enrolledAt
+            self.status = status
+            self.tierName = tierName
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum ProfileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lightsailpartner
+        case lightsailor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileType] {
+            return [
+                .lightsailpartner,
+                .lightsailor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lightsailpartner: return "LightsailPartner"
+            case .lightsailor: return "Lightsailor"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetProfileOutput: Swift.Sendable {
+    /// An object that describes the partner membership of the account, such as the tier of the membership, its status, and when the account was enrolled. This parameter is returned only for accounts that have a profileType of LightsailPartner.
+    public var partner: LightsailClientTypes.PartnerInfo?
+    /// The type of the profile. The following profile types are possible:
+    ///
+    /// * Lightsailor – The account is not enrolled in the Lightsail partner program.
+    ///
+    /// * LightsailPartner – The account is enrolled in the Lightsail partner program.
+    /// This member is required.
+    public var profileType: LightsailClientTypes.ProfileType?
+
+    public init(
+        partner: LightsailClientTypes.PartnerInfo? = nil,
+        profileType: LightsailClientTypes.ProfileType? = nil
+    ) {
+        self.partner = partner
+        self.profileType = profileType
+    }
+}
+
 public struct GetRegionsInput: Swift.Sendable {
     /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: us-east-2a.
     public var includeAvailabilityZones: Swift.Bool?
@@ -11822,8 +11978,10 @@ extension LightsailClientTypes {
         case databaseconnections
         case diskqueuedepth
         case freestoragespace
+        case freeablememory
         case networkreceivethroughput
         case networktransmitthroughput
+        case swapusage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RelationalDatabaseMetricName] {
@@ -11832,8 +11990,10 @@ extension LightsailClientTypes {
                 .databaseconnections,
                 .diskqueuedepth,
                 .freestoragespace,
+                .freeablememory,
                 .networkreceivethroughput,
-                .networktransmitthroughput
+                .networktransmitthroughput,
+                .swapusage
             ]
         }
 
@@ -11848,8 +12008,10 @@ extension LightsailClientTypes {
             case .databaseconnections: return "DatabaseConnections"
             case .diskqueuedepth: return "DiskQueueDepth"
             case .freestoragespace: return "FreeStorageSpace"
+            case .freeablememory: return "FreeableMemory"
             case .networkreceivethroughput: return "NetworkReceiveThroughput"
             case .networktransmitthroughput: return "NetworkTransmitThroughput"
+            case .swapusage: return "SwapUsage"
             case let .sdkUnknown(s): return s
             }
         }

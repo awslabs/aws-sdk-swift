@@ -1293,7 +1293,7 @@ extension MarketplaceAgreementClientTypes {
 
     /// Additional parameters specified by the acceptor while accepting the term.
     public struct RenewalTermConfiguration: Swift.Sendable {
-        /// Defines whether the acceptor has chosen to auto-renew the agreement at the end of its lifecycle. Can be set to True or False.
+        /// Defines whether the acceptor has chosen to auto-renew the agreement when it reaches its end date. Can be set to True or False. The acceptor can change this value within the limits set by LockoutPeriod and MaxRenewals.
         /// This member is required.
         public var enableAutoRenew: Swift.Bool?
 
@@ -1307,22 +1307,140 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
-    /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. The presence of RenewalTerm in the offer document means that auto-renewal is allowed. Buyers will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. Buyers can also change this flag from True to False or False to True at anytime during the agreement's lifecycle.
+    /// A fixed price increase that is applied each time the agreement renews.
+    public struct FixedPercentage: Swift.Sendable {
+        /// The percentage by which the price increases at each renewal, from 0.00 to 100.00 with up to two decimal places. A value of 0.00 means that the agreement renews at the same price.
+        public var value: Swift.String?
+
+        public init(
+            value: Swift.String? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A range of price increase percentages that the proposer can choose from before the adjustment deadline of the agreement. MinValue will be less than MaxValue, and DefaultValue will fall within the range. When the proposer authorizes a single percentage instead of a range, PriceIncrease is a FixedPercentage rather than a PercentageRange.
+    public struct PercentageRange: Swift.Sendable {
+        /// The percentage that is applied if the proposer doesn't choose a value before the adjustment deadline. Valid values range from 0.00 to 100.00, with up to two decimal places.
+        public var defaultValue: Swift.String?
+        /// The highest percentage that the proposer can choose, from 0.00 to 100.00 with up to two decimal places.
+        public var maxValue: Swift.String?
+        /// The lowest percentage that the proposer can choose, from 0.00 to 100.00 with up to two decimal places.
+        public var minValue: Swift.String?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            maxValue: Swift.String? = nil,
+            minValue: Swift.String? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The price increase that is applied each time the agreement renews. Exactly one of the following fields is set.
+    public enum PriceIncrease: Swift.Sendable {
+        /// A fixed price increase percentage that is applied at each renewal.
+        case fixedpercentage(MarketplaceAgreementClientTypes.FixedPercentage)
+        /// A range of price increase percentages that the proposer can choose from before the adjustment deadline of the agreement.
+        case percentagerange(MarketplaceAgreementClientTypes.PercentageRange)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// A single installment in a payment schedule template. Because the start date of the renewed agreement isn't known when the offer is created, the charge date of each installment is expressed as an offset from that start date rather than as an absolute date.
+    public struct PaymentScheduleEntry: Swift.Sendable {
+        /// The time between the start date of the renewed agreement and the date this installment is charged. The duration is represented in the ISO 8601 format in either whole months or whole days (for example, P1M for 1 month or P30D for 30 days). All installments in a schedule use the same unit.
+        public var chargeDateOffset: Swift.String?
+        /// The percentage of the total contract value of the renewed agreement that is charged in this installment. Valid values range from 0.01 to 100.00, with up to two decimal places.
+        public var chargePercentage: Swift.String?
+        /// The day of the month on which this installment is charged, from 1 to 31. Use this field to anchor the charge to a specific calendar day within the month identified by ChargeDateOffset. This field is supported only when ChargeDateOffset is expressed in months.
+        public var dayOfMonth: Swift.Int?
+
+        public init(
+            chargeDateOffset: Swift.String? = nil,
+            chargePercentage: Swift.String? = nil,
+            dayOfMonth: Swift.Int? = nil
+        ) {
+            self.chargeDateOffset = chargeDateOffset
+            self.chargePercentage = chargePercentage
+            self.dayOfMonth = dayOfMonth
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Defines the payment schedule that is applied to the renewed agreement.
+    public struct PaymentScheduleTermTemplate: Swift.Sendable {
+        /// The installments that make up the payment schedule of the renewed agreement. The ChargePercentage values of all installments add up to 100.
+        public var schedule: [MarketplaceAgreementClientTypes.PaymentScheduleEntry]?
+
+        public init(
+            schedule: [MarketplaceAgreementClientTypes.PaymentScheduleEntry]? = nil
+        ) {
+            self.schedule = schedule
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Defines how a specific type of term changes each time the agreement renews. Exactly one of the following fields is set.
+    public enum TermTemplate: Swift.Sendable {
+        /// Defines the payment schedule that is applied to the renewed agreement.
+        case paymentscheduletermtemplate(MarketplaceAgreementClientTypes.PaymentScheduleTermTemplate)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. Presence of RenewalTerm in the offer document means that auto-renewal is allowed. The acceptor will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. The acceptor can also change this flag from True to False or False to True, within the limits set by LockoutPeriod and MaxRenewals. Setting the flag to True doesn't by itself guarantee that the agreement renews, because the proposer can also opt out.
     public struct RenewalTerm: Swift.Sendable {
+        /// The date by which the proposer must finalize the price increase for the next renewal, measured back from the end date of the agreement. The duration is represented in the ISO 8601 format in whole days (for example, P30D for 30 days or P60D for 60 days). This field applies only when PriceIncrease is a PercentageRange. The field is null when PriceIncrease is a FixedPercentage, because the price increase is already fixed and there is nothing for the proposer to finalize. If the proposer doesn't finalize a value by the adjustment deadline, the DefaultValue of the range applies. AdjustmentDeadline must be greater than LockoutPeriod.
+        public var adjustmentDeadline: Swift.String?
         /// Additional parameters specified by the acceptor while accepting the term.
         public var configuration: MarketplaceAgreementClientTypes.RenewalTermConfiguration?
         /// The unique identifier for the term.
         public var id: Swift.String?
+        /// The renewal decision deadline, measured back from the end date of the agreement. This is the last day either party can opt in to or opt out of the renewal. The duration is represented in the ISO 8601 format in whole days (for example, P30D for 30 days or P60D for 60 days). The field is null when no renewal decision deadline is set. In that case, either party can change the auto-renewal decision up to the end date of the agreement.
+        public var lockoutPeriod: Swift.String?
+        /// The maximum number of times the agreement can be renewed. The field is null when the number of renewals is unlimited. After the agreement reaches this limit, it expires on its end date instead of renewing.
+        public var maxRenewals: Swift.Int?
+        /// The price increase that is applied each time the agreement renews. The field is null when the price doesn't change at renewal.
+        public var priceIncrease: MarketplaceAgreementClientTypes.PriceIncrease?
+        /// Defines how specific terms change each time the agreement renews. The field is null when no terms change at renewal.
+        public var termTemplates: [MarketplaceAgreementClientTypes.TermTemplate]?
         /// Category of the term being updated.
         public var type: Swift.String?
 
         public init(
+            adjustmentDeadline: Swift.String? = nil,
             configuration: MarketplaceAgreementClientTypes.RenewalTermConfiguration? = nil,
             id: Swift.String? = nil,
+            lockoutPeriod: Swift.String? = nil,
+            maxRenewals: Swift.Int? = nil,
+            priceIncrease: MarketplaceAgreementClientTypes.PriceIncrease? = nil,
+            termTemplates: [MarketplaceAgreementClientTypes.TermTemplate]? = nil,
             type: Swift.String? = nil
         ) {
+            self.adjustmentDeadline = adjustmentDeadline
             self.configuration = configuration
             self.id = id
+            self.lockoutPeriod = lockoutPeriod
+            self.maxRenewals = maxRenewals
+            self.priceIncrease = priceIncrease
+            self.termTemplates = termTemplates
             self.type = type
         }
     }
@@ -1512,7 +1630,7 @@ extension MarketplaceAgreementClientTypes {
         case legalterm(MarketplaceAgreementClientTypes.LegalTerm)
         /// Defines the customer support available for the acceptors when they purchase the software.
         case supportterm(MarketplaceAgreementClientTypes.SupportTerm)
-        /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. Presence of RenewalTerm in the offer document means that auto-renewal is allowed. Buyers will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. Buyers can also change this flag from True to False or False to True at anytime during the agreement's lifecycle.
+        /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. Presence of RenewalTerm in the offer document means that auto-renewal is allowed. The acceptor will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. The acceptor can also change this flag from True to False or False to True, within the limits set by LockoutPeriod and MaxRenewals. Setting the flag to True doesn't by itself guarantee that the agreement renews, because the proposer can also opt out.
         case renewalterm(MarketplaceAgreementClientTypes.RenewalTerm)
         /// Defines a usage-based pricing model (typically, pay-as-you-go pricing), where the customers are charged based on product usage.
         case usagebasedpricingterm(MarketplaceAgreementClientTypes.UsageBasedPricingTerm)
@@ -1921,6 +2039,73 @@ extension MarketplaceAgreementClientTypes {
 
 extension MarketplaceAgreementClientTypes {
 
+    public enum EndTimeBehaviorReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acceptorRenewOptedOut
+        case noRenewalTerm
+        case proposerRenewOptedOut
+        case renewalLimitExhausted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndTimeBehaviorReasonCode] {
+            return [
+                .acceptorRenewOptedOut,
+                .noRenewalTerm,
+                .proposerRenewOptedOut,
+                .renewalLimitExhausted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .acceptorRenewOptedOut: return "ACCEPTOR_RENEW_OPTED_OUT"
+            case .noRenewalTerm: return "NO_RENEWAL_TERM"
+            case .proposerRenewOptedOut: return "PROPOSER_RENEW_OPTED_OUT"
+            case .renewalLimitExhausted: return "RENEWAL_LIMIT_EXHAUSTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    public enum EndTimeBehaviorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case expire
+        case renew
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndTimeBehaviorType] {
+            return [
+                .expire,
+                .renew,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .expire: return "EXPIRE"
+            case .renew: return "RENEW"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     /// Represents an entitlement associated with an agreement.
     public struct Entitlement: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the AWS License Manager license associated with the entitlement.
@@ -1986,8 +2171,30 @@ extension MarketplaceAgreementClientTypes {
         public var agreementType: Swift.String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public var endTime: Foundation.Date?
+        /// The reason why the agreement doesn't renew at its end date. The field is null when the agreement renews. More than one reason can apply to the same agreement. When that happens, the operation returns only one reason code, and PROPOSER_RENEW_OPTED_OUT takes precedence over all others. The EnableAutoRenew field reflects only the acceptor's preference, and doesn't reflect the other reasons an agreement might not renew. Reason codes include:
+        ///
+        /// * PROPOSER_RENEW_OPTED_OUT – The proposer opted out of renewing the agreement.
+        ///
+        /// * ACCEPTOR_RENEW_OPTED_OUT – The acceptor opted out of renewing the agreement.
+        ///
+        /// * NO_RENEWAL_TERM – The accepted terms of the agreement don't include a renewal term, which is required for an agreement to renew.
+        ///
+        /// * RENEWAL_LIMIT_EXHAUSTED – The agreement reached the maximum number of renewals allowed by its renewal term.
+        public var endTimeBehaviorReasonCode: MarketplaceAgreementClientTypes.EndTimeBehaviorReasonCode?
+        /// The behavior of the agreement when it reaches its end date. The field is null for agreements that have no end date, because those agreements never reach an end time. Types include:
+        ///
+        /// * RENEW – A new agreement is created from the accepted terms of this agreement.
+        ///
+        /// * REPLACE – A new agreement is created from a different offer than the one this agreement was created from. This happens, for example, when a private offer reaches its end date and the acceptor transitions to the public offer for the product.
+        ///
+        /// * EXPIRE – The agreement ends and isn't renewed or replaced.
+        public var endTimeBehaviorType: MarketplaceAgreementClientTypes.EndTimeBehaviorType?
         /// A list of entitlements associated with the agreement.
         public var entitlements: [MarketplaceAgreementClientTypes.Entitlement]?
+        /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. You can also use it as the InitialAgreementId filter value to return every agreement in the same chain.
+        public var initialAgreementId: Swift.String?
+        /// The date and time when the agreement was last updated. An agreement is updated when any of its attributes or accepted terms change. Amendments, renewals, and a party changing whether the agreement renews are all examples. Use the BeforeLastUpdateTime and AfterLastUpdateTime filters to search on this value, and LastUpdateTime as the SortBy value to sort by it. Sorting by LastUpdateTime is supported only when PartyType is Proposer.
+        public var lastUpdateTime: Foundation.Date?
         /// A summary of the proposal
         public var proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary?
         /// Details of the party proposing the agreement terms, most commonly the seller for PurchaseAgreement.
@@ -2003,7 +2210,11 @@ extension MarketplaceAgreementClientTypes {
             agreementId: Swift.String? = nil,
             agreementType: Swift.String? = nil,
             endTime: Foundation.Date? = nil,
+            endTimeBehaviorReasonCode: MarketplaceAgreementClientTypes.EndTimeBehaviorReasonCode? = nil,
+            endTimeBehaviorType: MarketplaceAgreementClientTypes.EndTimeBehaviorType? = nil,
             entitlements: [MarketplaceAgreementClientTypes.Entitlement]? = nil,
+            initialAgreementId: Swift.String? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
             proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
             startTime: Foundation.Date? = nil,
@@ -2014,7 +2225,11 @@ extension MarketplaceAgreementClientTypes {
             self.agreementId = agreementId
             self.agreementType = agreementType
             self.endTime = endTime
+            self.endTimeBehaviorReasonCode = endTimeBehaviorReasonCode
+            self.endTimeBehaviorType = endTimeBehaviorType
             self.entitlements = entitlements
+            self.initialAgreementId = initialAgreementId
+            self.lastUpdateTime = lastUpdateTime
             self.proposalSummary = proposalSummary
             self.proposer = proposer
             self.startTime = startTime
@@ -2766,6 +2981,59 @@ public struct DescribeAgreementInput: Swift.Sendable {
 
 extension MarketplaceAgreementClientTypes {
 
+    /// The details of the renewal that applies at the end date of an agreement.
+    public struct RenewalSummary: Swift.Sendable {
+        /// The unique identifier of the offer that provides the terms for the next renewal cycle. For most renewals, this is the same offer that the agreement was created from.
+        public var offerId: Swift.String?
+
+        public init(
+            offerId: Swift.String? = nil
+        ) {
+            self.offerId = offerId
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
+    /// The behavior of an agreement when it reaches its end date. For example, whether the agreement renews, and if it doesn't, the reason why.
+    public struct EndTimeBehavior: Swift.Sendable {
+        /// The reason why the agreement doesn't renew at its end date. The field is null when the agreement renews. More than one reason can apply to the same agreement. When that happens, the operation returns only one reason code, and PROPOSER_RENEW_OPTED_OUT takes precedence over all others. The EnableAutoRenew field reflects only the acceptor's preference, and doesn't reflect the other reasons an agreement might not renew. Reason codes include:
+        ///
+        /// * PROPOSER_RENEW_OPTED_OUT – The proposer opted out of renewing the agreement.
+        ///
+        /// * ACCEPTOR_RENEW_OPTED_OUT – The acceptor opted out of renewing the agreement.
+        ///
+        /// * NO_RENEWAL_TERM – The accepted terms of the agreement don't include a renewal term, which is required for an agreement to renew.
+        ///
+        /// * RENEWAL_LIMIT_EXHAUSTED – The agreement reached the maximum number of renewals allowed by its renewal term.
+        public var reasonCode: MarketplaceAgreementClientTypes.EndTimeBehaviorReasonCode?
+        /// The details of the renewal that applies at the end date of the agreement. This field is present when Type is RENEW. It is also present when ReasonCode is PROPOSER_RENEW_OPTED_OUT or ACCEPTOR_RENEW_OPTED_OUT. In those cases, it identifies the offer that the agreement would otherwise have renewed from. The field is null in all other cases.
+        public var renewalSummary: MarketplaceAgreementClientTypes.RenewalSummary?
+        /// The behavior of the agreement when it reaches its end date. Types include:
+        ///
+        /// * RENEW – A new agreement is created from the accepted terms of this agreement.
+        ///
+        /// * REPLACE – A new agreement is created from a different offer than the one this agreement was created from. This happens, for example, when a private offer reaches its end date and the acceptor transitions to the public offer for the product.
+        ///
+        /// * EXPIRE – The agreement ends and isn't renewed or replaced.
+        /// This member is required.
+        public var type: MarketplaceAgreementClientTypes.EndTimeBehaviorType?
+
+        public init(
+            reasonCode: MarketplaceAgreementClientTypes.EndTimeBehaviorReasonCode? = nil,
+            renewalSummary: MarketplaceAgreementClientTypes.RenewalSummary? = nil,
+            type: MarketplaceAgreementClientTypes.EndTimeBehaviorType? = nil
+        ) {
+            self.reasonCode = reasonCode
+            self.renewalSummary = renewalSummary
+            self.type = type
+        }
+    }
+}
+
+extension MarketplaceAgreementClientTypes {
+
     /// Estimated cost of the agreement.
     public struct EstimatedCharges: Swift.Sendable {
         /// The total known amount customer has to pay across the lifecycle of the agreement. This is the total contract value if accepted terms contain ConfigurableUpfrontPricingTerm or FixedUpfrontPricingTerm. In the case of pure contract pricing, this will be the total value of the contract. In the case of contracts with consumption pricing, this will only include the committed value and not include any overages that occur. If the accepted terms contain PaymentScheduleTerm, it will be the total payment schedule amount. This occurs when flexible payment schedule is used, and is the sum of all invoice charges in the payment schedule. In case a customer has amended an agreement, by purchasing more units of any dimension, this will include both the original cost as well as the added cost incurred due to addition of new units. This is 0 if the accepted terms contain UsageBasedPricingTerm without ConfigurableUpfrontPricingTerm or RecurringPaymentTerm. This occurs for usage-based pricing (such as SaaS metered or AMI/container hourly or monthly), because the exact usage is not known upfront.
@@ -2794,8 +3062,12 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     public var agreementType: Swift.String?
     /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
     public var endTime: Foundation.Date?
+    /// The behavior of the agreement when it reaches its end date. For example, whether the agreement renews, and if it doesn't, the reason why. This field is present for every active agreement that has an end date. It is not present for an agreement that has no end date, because such an agreement never reaches an end time. Pay-as-you-go agreements are the most common example. It is also not present for an agreement that is no longer active.
+    public var endTimeBehavior: MarketplaceAgreementClientTypes.EndTimeBehavior?
     /// The estimated cost of the agreement.
     public var estimatedCharges: MarketplaceAgreementClientTypes.EstimatedCharges?
+    /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. When an agreement isn't derived from another agreement, its InitialAgreementId is its own AgreementId.
+    public var initialAgreementId: Swift.String?
     /// A summary of the proposal received from the proposer.
     public var proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary?
     /// The details of the party proposing the agreement terms. This is commonly the seller for PurchaseAgreement.
@@ -2805,8 +3077,6 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     /// The current status of the agreement. Statuses include:
     ///
     /// * ACTIVE – The terms of the agreement are active.
-    ///
-    /// * ARCHIVED – The agreement ended without a specified reason.
     ///
     /// * CANCELLED – The acceptor ended the agreement before the defined end date.
     ///
@@ -2825,7 +3095,9 @@ public struct DescribeAgreementOutput: Swift.Sendable {
         agreementId: Swift.String? = nil,
         agreementType: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
+        endTimeBehavior: MarketplaceAgreementClientTypes.EndTimeBehavior? = nil,
         estimatedCharges: MarketplaceAgreementClientTypes.EstimatedCharges? = nil,
+        initialAgreementId: Swift.String? = nil,
         proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
         proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
         startTime: Foundation.Date? = nil,
@@ -2836,7 +3108,9 @@ public struct DescribeAgreementOutput: Swift.Sendable {
         self.agreementId = agreementId
         self.agreementType = agreementType
         self.endTime = endTime
+        self.endTimeBehavior = endTimeBehavior
         self.estimatedCharges = estimatedCharges
+        self.initialAgreementId = initialAgreementId
         self.proposalSummary = proposalSummary
         self.proposer = proposer
         self.startTime = startTime
@@ -3777,9 +4051,9 @@ extension MarketplaceAgreementClientTypes {
 
     /// An object that contains the SortBy and SortOrder attributes.
     public struct Sort: Swift.Sendable {
-        /// The attribute on which the data is grouped, which can be by StartTime and EndTime. The default value is EndTime.
+        /// The attribute on which the data is grouped, which can be EndTime, StartTime, or LastUpdateTime. StartTime and LastUpdateTime are supported only when PartyType is Proposer. The default value is EndTime.
         public var sortBy: Swift.String?
-        /// The sorting order, which can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        /// The sorting order, which can be ASCENDING or DESCENDING. The default value is ASCENDING.
         public var sortOrder: MarketplaceAgreementClientTypes.SortOrder?
 
         public init(
@@ -3807,21 +4081,79 @@ public struct SearchAgreementsInput: Swift.Sendable {
     ///
     /// * OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.
     ///
-    /// * Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.
+    /// * Status – The current status of the agreement. Values include ACTIVE, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.
     ///
     /// * BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.
     ///
     /// * AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.
     ///
+    /// * BeforeStartTime – A date used to filter agreements with a date before the startTime of an agreement.
+    ///
+    /// * AfterStartTime – A date used to filter agreements with a date after the startTime of an agreement.
+    ///
+    /// * BeforeLastUpdateTime – A date used to filter agreements with a date before the lastUpdateTime of an agreement.
+    ///
+    /// * AfterLastUpdateTime – A date used to filter agreements with a date after the lastUpdateTime of an agreement.
+    ///
     /// * AgreementType – The type of agreement. Supported value includes PurchaseAgreement.
     ///
     /// * OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+    ///
+    /// * EndTimeBehaviorType – What happens to the agreement when it reaches its end date. Values include RENEW, REPLACE, and EXPIRE.
+    ///
+    /// * EndTimeBehaviorReasonCode – The reason why the agreement doesn't renew at its end date. Values include PROPOSER_RENEW_OPTED_OUT, ACCEPTOR_RENEW_OPTED_OUT, NO_RENEWAL_TERM, and RENEWAL_LIMIT_EXHAUSTED.
+    ///
+    /// * InitialAgreementId – The unique identifier of the very first agreement in a chain of related agreements. Use this filter to return every agreement in the same chain.
+    ///
+    /// * LicenseArn – The Amazon Resource Name (ARN) of the AWS License Manager license associated with an entitlement granted by the agreement.
+    ///
+    ///
+    /// A proposer can use any combination of the preceding filters along with AgreementType, which is required. The following filter combinations are supported when the PartyType is Acceptor:
+    ///
+    /// * AgreementType
+    ///
+    /// * AgreementType + Status
+    ///
+    /// * AgreementType + EndTime
+    ///
+    /// * AgreementType + Status + EndTime
+    ///
+    /// * AgreementType + ResourceIdentifier
+    ///
+    /// * AgreementType + ResourceIdentifier + EndTime
+    ///
+    /// * AgreementType + ResourceIdentifier + Status
+    ///
+    /// * AgreementType + ResourceIdentifier + Status + EndTime
+    ///
+    /// * AgreementType + ResourceType
+    ///
+    /// * AgreementType + ResourceType + EndTime
+    ///
+    /// * AgreementType + OfferId
+    ///
+    /// * AgreementType + OfferId + EndTime
+    ///
+    /// * AgreementType + OfferId + Status
+    ///
+    /// * AgreementType + OfferId + Status + EndTime
+    ///
+    /// * AgreementType + OfferSetId
+    ///
+    /// * AgreementType + OfferSetId + EndTime
+    ///
+    /// * AgreementType + OfferSetId + Status
+    ///
+    /// * AgreementType + OfferSetId + Status + EndTime
+    ///
+    ///
+    /// To filter by EndTime, you can use BeforeEndTime, AfterEndTime, or both.
     public var filters: [MarketplaceAgreementClientTypes.Filter]?
     /// The maximum number of agreements to return in the response.
     public var maxResults: Swift.Int?
     /// A token to specify where to start pagination.
     public var nextToken: Swift.String?
-    /// An object that contains the SortBy and SortOrder attributes. Only EndTime is supported for SearchAgreements. The default sort is EndTime descending.
+    /// An object that contains the SortBy and SortOrder attributes. For SearchAgreements, SortBy supports EndTime for both party types, and StartTime and LastUpdateTime only when PartyType is Proposer. The default SortBy value is EndTime.
     public var sort: MarketplaceAgreementClientTypes.Sort?
 
     public init(

@@ -823,6 +823,152 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCustomDetectionRuleAssociation` operation on the `GuardDuty` service.
+    ///
+    /// Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDetectionRuleAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCustomDetectionRuleAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `ConflictException` : A request conflict exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func createCustomDetectionRuleAssociation(input: CreateCustomDetectionRuleAssociationInput) async throws -> CreateCustomDetectionRuleAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCustomDetectionRuleAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>(CreateCustomDetectionRuleAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCustomDetectionRuleAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomDetectionRuleAssociationOutput>(CreateCustomDetectionRuleAssociationOutput.httpOutput(from:), CreateCustomDetectionRuleAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomDetectionRuleAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCustomDetectionRuleAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCustomDetectionRuleAssociationInput, CreateCustomDetectionRuleAssociationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCustomDetectionRuleAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateCustomDetectionRuleOrgConfiguration` operation on the `GuardDuty` service.
+    ///
+    /// Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDetectionRuleOrgConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCustomDetectionRuleOrgConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `ConflictException` : A request conflict exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func createCustomDetectionRuleOrgConfiguration(input: CreateCustomDetectionRuleOrgConfigurationInput) async throws -> CreateCustomDetectionRuleOrgConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCustomDetectionRuleOrgConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>(CreateCustomDetectionRuleOrgConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCustomDetectionRuleOrgConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomDetectionRuleOrgConfigurationOutput>(CreateCustomDetectionRuleOrgConfigurationOutput.httpOutput(from:), CreateCustomDetectionRuleOrgConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomDetectionRuleOrgConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCustomDetectionRuleOrgConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCustomDetectionRuleOrgConfigurationInput, CreateCustomDetectionRuleOrgConfigurationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCustomDetectionRuleOrgConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateDetector` operation on the `GuardDuty` service.
     ///
     /// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
@@ -1660,6 +1806,144 @@ extension GuardDutyClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeclineInvitations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteCustomDetectionRuleAssociation` operation on the `GuardDuty` service.
+    ///
+    /// Disables a custom detection rule by deleting its association. This operation is idempotent.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDetectionRuleAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCustomDetectionRuleAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func deleteCustomDetectionRuleAssociation(input: DeleteCustomDetectionRuleAssociationInput) async throws -> DeleteCustomDetectionRuleAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCustomDetectionRuleAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput>(DeleteCustomDetectionRuleAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomDetectionRuleAssociationOutput>(DeleteCustomDetectionRuleAssociationOutput.httpOutput(from:), DeleteCustomDetectionRuleAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomDetectionRuleAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCustomDetectionRuleAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCustomDetectionRuleAssociationInput, DeleteCustomDetectionRuleAssociationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCustomDetectionRuleAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteCustomDetectionRuleOrgConfiguration` operation on the `GuardDuty` service.
+    ///
+    /// Deletes the organization-level configuration for a custom detection rule. This operation is available only to the delegated administrator account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDetectionRuleOrgConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCustomDetectionRuleOrgConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `ConflictException` : A request conflict exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func deleteCustomDetectionRuleOrgConfiguration(input: DeleteCustomDetectionRuleOrgConfigurationInput) async throws -> DeleteCustomDetectionRuleOrgConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCustomDetectionRuleOrgConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>(DeleteCustomDetectionRuleOrgConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>(DeleteCustomDetectionRuleOrgConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomDetectionRuleOrgConfigurationOutput>(DeleteCustomDetectionRuleOrgConfigurationOutput.httpOutput(from:), DeleteCustomDetectionRuleOrgConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomDetectionRuleOrgConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCustomDetectionRuleOrgConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCustomDetectionRuleOrgConfigurationInput, DeleteCustomDetectionRuleOrgConfigurationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCustomDetectionRuleOrgConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3011,6 +3295,211 @@ extension GuardDutyClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCoverageStatistics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCustomDetectionRule` operation on the `GuardDuty` service.
+    ///
+    /// Returns details for a custom detection rule in GuardDuty, including its detection logic.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCustomDetectionRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCustomDetectionRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func getCustomDetectionRule(input: GetCustomDetectionRuleInput) async throws -> GetCustomDetectionRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomDetectionRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput>(GetCustomDetectionRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomDetectionRuleOutput>(GetCustomDetectionRuleOutput.httpOutput(from:), GetCustomDetectionRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomDetectionRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomDetectionRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomDetectionRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomDetectionRuleInput, GetCustomDetectionRuleOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomDetectionRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCustomDetectionRuleAssociation` operation on the `GuardDuty` service.
+    ///
+    /// Returns details for a custom detection rule association.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCustomDetectionRuleAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCustomDetectionRuleAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func getCustomDetectionRuleAssociation(input: GetCustomDetectionRuleAssociationInput) async throws -> GetCustomDetectionRuleAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomDetectionRuleAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput>(GetCustomDetectionRuleAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomDetectionRuleAssociationOutput>(GetCustomDetectionRuleAssociationOutput.httpOutput(from:), GetCustomDetectionRuleAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomDetectionRuleAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomDetectionRuleAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomDetectionRuleAssociationInput, GetCustomDetectionRuleAssociationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomDetectionRuleAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCustomDetectionRuleOrgConfiguration` operation on the `GuardDuty` service.
+    ///
+    /// Returns the organization-level configuration for a custom detection rule.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCustomDetectionRuleOrgConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCustomDetectionRuleOrgConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func getCustomDetectionRuleOrgConfiguration(input: GetCustomDetectionRuleOrgConfigurationInput) async throws -> GetCustomDetectionRuleOrgConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCustomDetectionRuleOrgConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>(GetCustomDetectionRuleOrgConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>(GetCustomDetectionRuleOrgConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomDetectionRuleOrgConfigurationOutput>(GetCustomDetectionRuleOrgConfigurationOutput.httpOutput(from:), GetCustomDetectionRuleOrgConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomDetectionRuleOrgConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomDetectionRuleOrgConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomDetectionRuleOrgConfigurationInput, GetCustomDetectionRuleOrgConfigurationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomDetectionRuleOrgConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4427,6 +4916,212 @@ extension GuardDutyClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCoverage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCustomDetectionRuleAssociations` operation on the `GuardDuty` service.
+    ///
+    /// Returns all custom detection rule associations for your account. You can filter by rule ID and mode.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCustomDetectionRuleAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCustomDetectionRuleAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func listCustomDetectionRuleAssociations(input: ListCustomDetectionRuleAssociationsInput) async throws -> ListCustomDetectionRuleAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCustomDetectionRuleAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>(ListCustomDetectionRuleAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>(ListCustomDetectionRuleAssociationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomDetectionRuleAssociationsOutput>(ListCustomDetectionRuleAssociationsOutput.httpOutput(from:), ListCustomDetectionRuleAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomDetectionRuleAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCustomDetectionRuleAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomDetectionRuleAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCustomDetectionRuleAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCustomDetectionRuleOrgConfigurations` operation on the `GuardDuty` service.
+    ///
+    /// Returns all organization-level configurations for custom detection rules. You can filter the results by status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCustomDetectionRuleOrgConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCustomDetectionRuleOrgConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func listCustomDetectionRuleOrgConfigurations(input: ListCustomDetectionRuleOrgConfigurationsInput) async throws -> ListCustomDetectionRuleOrgConfigurationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCustomDetectionRuleOrgConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>(ListCustomDetectionRuleOrgConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>(ListCustomDetectionRuleOrgConfigurationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomDetectionRuleOrgConfigurationsOutput>(ListCustomDetectionRuleOrgConfigurationsOutput.httpOutput(from:), ListCustomDetectionRuleOrgConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomDetectionRuleOrgConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCustomDetectionRuleOrgConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomDetectionRuleOrgConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCustomDetectionRuleOrgConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListCustomDetectionRules` operation on the `GuardDuty` service.
+    ///
+    /// Returns all available custom detection rules in GuardDuty. You can filter the results by data source, severity, tactic, technique, and service.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCustomDetectionRulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCustomDetectionRulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func listCustomDetectionRules(input: ListCustomDetectionRulesInput) async throws -> ListCustomDetectionRulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCustomDetectionRules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>(ListCustomDetectionRulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCustomDetectionRulesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomDetectionRulesOutput>(ListCustomDetectionRulesOutput.httpOutput(from:), ListCustomDetectionRulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomDetectionRulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCustomDetectionRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCustomDetectionRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCustomDetectionRules")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5927,6 +6622,150 @@ extension GuardDutyClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCustomDetectionRuleAssociation` operation on the `GuardDuty` service.
+    ///
+    /// Updates the mode of an existing custom detection rule association.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomDetectionRuleAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCustomDetectionRuleAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `ConflictException` : A request conflict exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func updateCustomDetectionRuleAssociation(input: UpdateCustomDetectionRuleAssociationInput) async throws -> UpdateCustomDetectionRuleAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCustomDetectionRuleAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>(UpdateCustomDetectionRuleAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCustomDetectionRuleAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomDetectionRuleAssociationOutput>(UpdateCustomDetectionRuleAssociationOutput.httpOutput(from:), UpdateCustomDetectionRuleAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomDetectionRuleAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCustomDetectionRuleAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCustomDetectionRuleAssociationInput, UpdateCustomDetectionRuleAssociationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCustomDetectionRuleAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCustomDetectionRuleOrgConfiguration` operation on the `GuardDuty` service.
+    ///
+    /// Updates the organization-level configuration for a custom detection rule, including the mode and include/exclude account lists.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomDetectionRuleOrgConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCustomDetectionRuleOrgConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `ConflictException` : A request conflict exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func updateCustomDetectionRuleOrgConfiguration(input: UpdateCustomDetectionRuleOrgConfigurationInput) async throws -> UpdateCustomDetectionRuleOrgConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCustomDetectionRuleOrgConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>(UpdateCustomDetectionRuleOrgConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCustomDetectionRuleOrgConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomDetectionRuleOrgConfigurationOutput>(UpdateCustomDetectionRuleOrgConfigurationOutput.httpOutput(from:), UpdateCustomDetectionRuleOrgConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomDetectionRuleOrgConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCustomDetectionRuleOrgConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCustomDetectionRuleOrgConfigurationInput, UpdateCustomDetectionRuleOrgConfigurationOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCustomDetectionRuleOrgConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

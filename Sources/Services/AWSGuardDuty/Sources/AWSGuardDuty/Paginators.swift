@@ -124,6 +124,100 @@ extension PaginatorSequence where OperationStackInput == ListCoverageInput, Oper
     }
 }
 extension GuardDutyClient {
+    /// Paginate over `[ListCustomDetectionRuleAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomDetectionRuleAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDetectionRuleAssociationsOutput`
+    public func listCustomDetectionRuleAssociationsPaginated(input: ListCustomDetectionRuleAssociationsInput) -> ClientRuntime.PaginatorSequence<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomDetectionRuleAssociationsInput, ListCustomDetectionRuleAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomDetectionRuleAssociations(input:))
+    }
+}
+
+extension ListCustomDetectionRuleAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCustomDetectionRuleAssociationsInput {
+        return ListCustomDetectionRuleAssociationsInput(
+            maxResults: self.maxResults,
+            mode: self.mode,
+            nextToken: token,
+            ruleId: self.ruleId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCustomDetectionRuleAssociationsInput, OperationStackOutput == ListCustomDetectionRuleAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCustomDetectionRuleAssociationsPaginated`
+    /// to access the nested member `[GuardDutyClientTypes.AssociationSummary]`
+    /// - Returns: `[GuardDutyClientTypes.AssociationSummary]`
+    public func ruleAssociations() async throws -> [GuardDutyClientTypes.AssociationSummary] {
+        return try await self.asyncCompactMap { item in item.ruleAssociations }
+    }
+}
+extension GuardDutyClient {
+    /// Paginate over `[ListCustomDetectionRuleOrgConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomDetectionRuleOrgConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDetectionRuleOrgConfigurationsOutput`
+    public func listCustomDetectionRuleOrgConfigurationsPaginated(input: ListCustomDetectionRuleOrgConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomDetectionRuleOrgConfigurationsInput, ListCustomDetectionRuleOrgConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomDetectionRuleOrgConfigurations(input:))
+    }
+}
+
+extension ListCustomDetectionRuleOrgConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCustomDetectionRuleOrgConfigurationsInput {
+        return ListCustomDetectionRuleOrgConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCustomDetectionRuleOrgConfigurationsInput, OperationStackOutput == ListCustomDetectionRuleOrgConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCustomDetectionRuleOrgConfigurationsPaginated`
+    /// to access the nested member `[GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary]`
+    /// - Returns: `[GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary]`
+    public func configurations() async throws -> [GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.configurations }
+    }
+}
+extension GuardDutyClient {
+    /// Paginate over `[ListCustomDetectionRulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomDetectionRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDetectionRulesOutput`
+    public func listCustomDetectionRulesPaginated(input: ListCustomDetectionRulesInput) -> ClientRuntime.PaginatorSequence<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomDetectionRulesInput, ListCustomDetectionRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomDetectionRules(input:))
+    }
+}
+
+extension ListCustomDetectionRulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCustomDetectionRulesInput {
+        return ListCustomDetectionRulesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCustomDetectionRulesInput, OperationStackOutput == ListCustomDetectionRulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCustomDetectionRulesPaginated`
+    /// to access the nested member `[GuardDutyClientTypes.RuleSummary]`
+    /// - Returns: `[GuardDutyClientTypes.RuleSummary]`
+    public func rules() async throws -> [GuardDutyClientTypes.RuleSummary] {
+        return try await self.asyncCompactMap { item in item.rules }
+    }
+}
+extension GuardDutyClient {
     /// Paginate over `[ListDetectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

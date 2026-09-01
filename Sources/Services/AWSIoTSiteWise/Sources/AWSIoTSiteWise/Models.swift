@@ -21,6 +21,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
@@ -6616,6 +6617,151 @@ public struct CreateProjectOutput: Swift.Sendable {
 
 extension IoTSiteWiseClientTypes {
 
+    /// The storage type that determines I/O performance characteristics. Family name indicates workload pattern, level number indicates performance within that family.
+    public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case standard1
+        case standard2
+        case throughput1
+        case throughput2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageClass] {
+            return [
+                .standard1,
+                .standard2,
+                .throughput1,
+                .throughput2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard1: return "STANDARD_1"
+            case .standard2: return "STANDARD_2"
+            case .throughput1: return "THROUGHPUT_1"
+            case .throughput2: return "THROUGHPUT_2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Configuration for ephemeral storage attached to the container task.
+    public struct EphemeralStorageConfiguration: Swift.Sendable {
+        /// Storage type that determines I/O performance family and level.
+        /// This member is required.
+        public var storageClass: IoTSiteWiseClientTypes.StorageClass?
+        /// Storage volume size in GiB.
+        /// This member is required.
+        public var storageSizeInGiB: Swift.Int?
+
+        public init(
+            storageClass: IoTSiteWiseClientTypes.StorageClass? = nil,
+            storageSizeInGiB: Swift.Int? = nil
+        ) {
+            self.storageClass = storageClass
+            self.storageSizeInGiB = storageSizeInGiB
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Configures a mount that reads from an Amazon S3 access point.
+    public struct S3AccessPointSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3 access point.
+        /// This member is required.
+        public var accessPointArn: Swift.String?
+        /// An optional key prefix to scope the mount to a subset of objects at the access point.
+        public var `prefix`: Swift.String?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.accessPointArn = accessPointArn
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The data source configuration for a mount. Specify exactly one of the following.
+    public enum MountSource: Swift.Sendable {
+        /// Configuration for a mount that reads from an Amazon S3 access point.
+        case s3accesspoint(IoTSiteWiseClientTypes.S3AccessPointSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The type of storage used for a mount inside the container.
+    public enum MountStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sharedStorage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MountStorageType] {
+            return [
+                .sharedStorage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sharedStorage: return "SHARED_STORAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Attaches a data source to the container filesystem for a task at a customer-supplied relative path under the service-owned mount root.
+    public struct Mount: Swift.Sendable {
+        /// A unique name for the mount within the task.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The relative path under the service-owned mount root where this mount is attached inside the container.
+        /// This member is required.
+        public var relativePath: Swift.String?
+        /// The data source for the mount.
+        /// This member is required.
+        public var source: IoTSiteWiseClientTypes.MountSource?
+        /// The type of storage used for the mount.
+        /// This member is required.
+        public var storageType: IoTSiteWiseClientTypes.MountStorageType?
+
+        public init(
+            name: Swift.String? = nil,
+            relativePath: Swift.String? = nil,
+            source: IoTSiteWiseClientTypes.MountSource? = nil,
+            storageType: IoTSiteWiseClientTypes.MountStorageType? = nil
+        ) {
+            self.name = name
+            self.relativePath = relativePath
+            self.source = source
+            self.storageType = storageType
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
     /// The processing type for compute resources. Determines whether the task runs on standard CPU or GPU-accelerated hardware.
     public enum ProcessingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case genericComputeProcessing
@@ -6721,6 +6867,10 @@ extension IoTSiteWiseClientTypes {
         public var ecrUri: Swift.String?
         /// Environment variables passed to the container at runtime.
         public var environmentVariables: [Swift.String: Swift.String]?
+        /// Ephemeral storage configuration for the container task.
+        public var ephemeralStorageConfiguration: IoTSiteWiseClientTypes.EphemeralStorageConfiguration?
+        /// Mounts attached to the container filesystem. Each mount exposes an external data source as a local directory inside the container. The service assigns each mount a container path based on the mount name. The container reads files through that path as if the data were on the local filesystem.
+        public var mounts: [IoTSiteWiseClientTypes.Mount]?
         /// The processing type for compute resources.
         /// This member is required.
         public var processingType: IoTSiteWiseClientTypes.ProcessingType?
@@ -6737,6 +6887,8 @@ extension IoTSiteWiseClientTypes {
             command: [Swift.String]? = nil,
             ecrUri: Swift.String? = nil,
             environmentVariables: [Swift.String: Swift.String]? = nil,
+            ephemeralStorageConfiguration: IoTSiteWiseClientTypes.EphemeralStorageConfiguration? = nil,
+            mounts: [IoTSiteWiseClientTypes.Mount]? = nil,
             processingType: IoTSiteWiseClientTypes.ProcessingType? = nil,
             processingUnit: IoTSiteWiseClientTypes.ProcessingUnit? = nil,
             taskExecutionRole: Swift.String? = nil,
@@ -6745,6 +6897,8 @@ extension IoTSiteWiseClientTypes {
             self.command = command
             self.ecrUri = ecrUri
             self.environmentVariables = environmentVariables
+            self.ephemeralStorageConfiguration = ephemeralStorageConfiguration
+            self.mounts = mounts
             self.processingType = processingType
             self.processingUnit = processingUnit
             self.taskExecutionRole = taskExecutionRole
@@ -6755,7 +6909,7 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.ContainerTaskConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContainerTaskConfiguration(processingType: \(Swift.String(describing: processingType)), processingUnit: \(Swift.String(describing: processingUnit)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), command: \"CONTENT_REDACTED\", ecrUri: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\", taskExecutionRole: \"CONTENT_REDACTED\")"}
+        "ContainerTaskConfiguration(ephemeralStorageConfiguration: \(Swift.String(describing: ephemeralStorageConfiguration)), mounts: \(Swift.String(describing: mounts)), processingType: \(Swift.String(describing: processingType)), processingUnit: \(Swift.String(describing: processingUnit)), timeoutSeconds: \(Swift.String(describing: timeoutSeconds)), command: \"CONTENT_REDACTED\", ecrUri: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\", taskExecutionRole: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTSiteWiseClientTypes {
@@ -9654,6 +9808,8 @@ extension IoTSiteWiseClientTypes {
         public var endTime: Foundation.Date?
         /// The fully resolved environment variables used for this compute node execution.
         public var executionEnvironmentVariables: [Swift.String: Swift.String]?
+        /// The fully resolved mounts used for this compute node execution, after merging task-defined mounts with any execution-level mount overrides. Each mount attaches an external data source to the container filesystem at a relative path under the service-owned mount root.
+        public var executionMounts: [IoTSiteWiseClientTypes.Mount]?
         /// The time the compute node execution started, in Unix epoch time.
         public var startTime: Foundation.Date?
         /// The current execution status of the compute node.
@@ -9674,6 +9830,7 @@ extension IoTSiteWiseClientTypes {
             dependsOn: [Swift.String]? = nil,
             endTime: Foundation.Date? = nil,
             executionEnvironmentVariables: [Swift.String: Swift.String]? = nil,
+            executionMounts: [IoTSiteWiseClientTypes.Mount]? = nil,
             startTime: Foundation.Date? = nil,
             status: IoTSiteWiseClientTypes.ComputeNodeExecutionStatus? = nil,
             taskArn: Swift.String? = nil,
@@ -9684,6 +9841,7 @@ extension IoTSiteWiseClientTypes {
             self.dependsOn = dependsOn
             self.endTime = endTime
             self.executionEnvironmentVariables = executionEnvironmentVariables
+            self.executionMounts = executionMounts
             self.startTime = startTime
             self.status = status
             self.taskArn = taskArn
@@ -9695,7 +9853,7 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes.ComputeNodeExecutionDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ComputeNodeExecutionDetails(computeNodeName: \(Swift.String(describing: computeNodeName)), dependsOn: \(Swift.String(describing: dependsOn)), endTime: \(Swift.String(describing: endTime)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), taskArn: \(Swift.String(describing: taskArn)), taskName: \(Swift.String(describing: taskName)), taskVersion: \(Swift.String(describing: taskVersion)), executionEnvironmentVariables: \"CONTENT_REDACTED\")"}
+        "ComputeNodeExecutionDetails(computeNodeName: \(Swift.String(describing: computeNodeName)), dependsOn: \(Swift.String(describing: dependsOn)), endTime: \(Swift.String(describing: endTime)), executionMounts: \(Swift.String(describing: executionMounts)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), taskArn: \(Swift.String(describing: taskArn)), taskName: \(Swift.String(describing: taskName)), taskVersion: \(Swift.String(describing: taskVersion)), executionEnvironmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTSiteWiseClientTypes {
@@ -9720,6 +9878,22 @@ extension IoTSiteWiseClientTypes {
 extension IoTSiteWiseClientTypes.ExecutionEnvironmentVariables: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Runtime mount overrides applied to a single pipeline execution. Overrides are transient — they do not modify the stored task configuration.
+    public struct MountOverrides: Swift.Sendable {
+        /// The mount overrides for each compute node, keyed by compute node name.
+        /// This member is required.
+        public var computeNodes: [Swift.String: [IoTSiteWiseClientTypes.Mount]]?
+
+        public init(
+            computeNodes: [Swift.String: [IoTSiteWiseClientTypes.Mount]]? = nil
+        ) {
+            self.computeNodes = computeNodes
+        }
     }
 }
 
@@ -9826,6 +10000,8 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
     /// The environment variables provided as input for the pipeline execution.
     /// This member is required.
     public var requestEnvironmentVariables: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables?
+    /// The mount overrides provided as input for the pipeline execution. Present when mount overrides were supplied at execution time.
+    public var requestMountOverrides: IoTSiteWiseClientTypes.MountOverrides?
     /// The time the pipeline execution started, in Unix epoch time.
     public var startTime: Foundation.Date?
     /// The current execution status of the pipeline.
@@ -9844,6 +10020,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         pipelineVersion: Swift.String? = nil,
         requestEnvironmentVariables: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables? = nil,
+        requestMountOverrides: IoTSiteWiseClientTypes.MountOverrides? = nil,
         startTime: Foundation.Date? = nil,
         status: IoTSiteWiseClientTypes.PipelineExecutionStatus? = nil,
         workspaceName: Swift.String? = nil
@@ -9856,6 +10033,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         self.pipelineName = pipelineName
         self.pipelineVersion = pipelineVersion
         self.requestEnvironmentVariables = requestEnvironmentVariables
+        self.requestMountOverrides = requestMountOverrides
         self.startTime = startTime
         self.status = status
         self.workspaceName = workspaceName
@@ -9864,7 +10042,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
 
 extension DescribePipelineExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribePipelineExecutionOutput(computeNodeExecutionDetails: \(Swift.String(describing: computeNodeExecutionDetails)), endTime: \(Swift.String(describing: endTime)), executionPriority: \(Swift.String(describing: executionPriority)), nextToken: \(Swift.String(describing: nextToken)), pipelineExecutionId: \(Swift.String(describing: pipelineExecutionId)), pipelineName: \(Swift.String(describing: pipelineName)), pipelineVersion: \(Swift.String(describing: pipelineVersion)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), workspaceName: \(Swift.String(describing: workspaceName)), requestEnvironmentVariables: \"CONTENT_REDACTED\")"}
+        "DescribePipelineExecutionOutput(computeNodeExecutionDetails: \(Swift.String(describing: computeNodeExecutionDetails)), endTime: \(Swift.String(describing: endTime)), executionPriority: \(Swift.String(describing: executionPriority)), nextToken: \(Swift.String(describing: nextToken)), pipelineExecutionId: \(Swift.String(describing: pipelineExecutionId)), pipelineName: \(Swift.String(describing: pipelineName)), pipelineVersion: \(Swift.String(describing: pipelineVersion)), requestMountOverrides: \(Swift.String(describing: requestMountOverrides)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), workspaceName: \(Swift.String(describing: workspaceName)), requestEnvironmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribePortalInput: Swift.Sendable {
@@ -14835,6 +15013,8 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Runtime environment variable overrides for the execution. Includes global variables that apply to all compute nodes and computeNodes for per-node overrides. These take the highest priority in the environment variable hierarchy.
     public var executionEnvironmentVariableOverrides: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables?
+    /// Runtime mount overrides for the execution. Overrides are merged by mount name into each listed compute node's task-defined mounts: a matching name replaces the task-defined mount, a new name adds a mount, and task-defined mounts not referenced remain unchanged. Compute nodes not listed use their task-defined mounts as-is.
+    public var executionMountOverrides: IoTSiteWiseClientTypes.MountOverrides?
     /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified.
     public var executionPriority: Swift.Int?
     /// The name of the pipeline to execute.
@@ -14847,12 +15027,14 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         executionEnvironmentVariableOverrides: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables? = nil,
+        executionMountOverrides: IoTSiteWiseClientTypes.MountOverrides? = nil,
         executionPriority: Swift.Int? = nil,
         pipelineName: Swift.String? = nil,
         workspaceName: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.executionEnvironmentVariableOverrides = executionEnvironmentVariableOverrides
+        self.executionMountOverrides = executionMountOverrides
         self.executionPriority = executionPriority
         self.pipelineName = pipelineName
         self.workspaceName = workspaceName
@@ -14861,7 +15043,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
 
 extension StartPipelineExecutionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartPipelineExecutionInput(clientToken: \(Swift.String(describing: clientToken)), executionPriority: \(Swift.String(describing: executionPriority)), pipelineName: \(Swift.String(describing: pipelineName)), workspaceName: \(Swift.String(describing: workspaceName)), executionEnvironmentVariableOverrides: \"CONTENT_REDACTED\")"}
+        "StartPipelineExecutionInput(clientToken: \(Swift.String(describing: clientToken)), executionMountOverrides: \(Swift.String(describing: executionMountOverrides)), executionPriority: \(Swift.String(describing: executionPriority)), pipelineName: \(Swift.String(describing: pipelineName)), workspaceName: \(Swift.String(describing: workspaceName)), executionEnvironmentVariableOverrides: \"CONTENT_REDACTED\")"}
 }
 
 /// Response structure for StartPipelineExecution operation.
@@ -19429,6 +19611,7 @@ extension StartPipelineExecutionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["executionEnvironmentVariableOverrides"].write(value.executionEnvironmentVariableOverrides, with: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables.write(value:to:))
+        try writer["executionMountOverrides"].write(value.executionMountOverrides, with: IoTSiteWiseClientTypes.MountOverrides.write(value:to:))
         try writer["executionPriority"].write(value.executionPriority)
     }
 }
@@ -20660,6 +20843,7 @@ extension DescribePipelineExecutionOutput {
         value.pipelineName = try reader["pipelineName"].readIfPresent() ?? ""
         value.pipelineVersion = try reader["pipelineVersion"].readIfPresent() ?? ""
         value.requestEnvironmentVariables = try reader["requestEnvironmentVariables"].readIfPresent(with: IoTSiteWiseClientTypes.ExecutionEnvironmentVariables.read(from:))
+        value.requestMountOverrides = try reader["requestMountOverrides"].readIfPresent(with: IoTSiteWiseClientTypes.MountOverrides.read(from:))
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent(with: IoTSiteWiseClientTypes.PipelineExecutionStatus.read(from:))
         value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
@@ -25714,6 +25898,7 @@ extension IoTSiteWiseClientTypes.ComputeNodeExecutionDetails {
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.executionEnvironmentVariables = try reader["executionEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.executionMounts = try reader["executionMounts"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Mount.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -25782,6 +25967,8 @@ extension IoTSiteWiseClientTypes.ContainerTaskConfiguration {
         try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrUri"].write(value.ecrUri)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ephemeralStorageConfiguration"].write(value.ephemeralStorageConfiguration, with: IoTSiteWiseClientTypes.EphemeralStorageConfiguration.write(value:to:))
+        try writer["mounts"].writeList(value.mounts, memberWritingClosure: IoTSiteWiseClientTypes.Mount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["processingType"].write(value.processingType)
         try writer["processingUnit"].write(value.processingUnit)
         try writer["taskExecutionRole"].write(value.taskExecutionRole)
@@ -25795,9 +25982,11 @@ extension IoTSiteWiseClientTypes.ContainerTaskConfiguration {
         value.taskExecutionRole = try reader["taskExecutionRole"].readIfPresent() ?? ""
         value.processingType = try reader["processingType"].readIfPresent() ?? .sdkUnknown("")
         value.processingUnit = try reader["processingUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.ephemeralStorageConfiguration = try reader["ephemeralStorageConfiguration"].readIfPresent(with: IoTSiteWiseClientTypes.EphemeralStorageConfiguration.read(from:))
         value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.mounts = try reader["mounts"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Mount.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -26147,6 +26336,23 @@ extension IoTSiteWiseClientTypes.EnrichmentTrimSettings {
         var value = IoTSiteWiseClientTypes.EnrichmentTrimSettings()
         value.startTime = try reader["startTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
         value.endTime = try reader["endTime"].readIfPresent(with: IoTSiteWiseClientTypes.TimeInNanos.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.EphemeralStorageConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.EphemeralStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageClass"].write(value.storageClass)
+        try writer["storageSizeInGiB"].write(value.storageSizeInGiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.EphemeralStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.EphemeralStorageConfiguration()
+        value.storageClass = try reader["storageClass"].readIfPresent() ?? .sdkUnknown("")
+        value.storageSizeInGiB = try reader["storageSizeInGiB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -26866,6 +27072,66 @@ extension IoTSiteWiseClientTypes.MonitorErrorDetails {
     }
 }
 
+extension IoTSiteWiseClientTypes.Mount {
+
+    static func write(value: IoTSiteWiseClientTypes.Mount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["relativePath"].write(value.relativePath)
+        try writer["source"].write(value.source, with: IoTSiteWiseClientTypes.MountSource.write(value:to:))
+        try writer["storageType"].write(value.storageType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.Mount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.Mount()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.relativePath = try reader["relativePath"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent(with: IoTSiteWiseClientTypes.MountSource.read(from:))
+        value.storageType = try reader["storageType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.MountOverrides {
+
+    static func write(value: IoTSiteWiseClientTypes.MountOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeNodes"].writeMap(value.computeNodes, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: IoTSiteWiseClientTypes.Mount.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MountOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.MountOverrides()
+        value.computeNodes = try reader["computeNodes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: IoTSiteWiseClientTypes.Mount.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.MountSource {
+
+    static func write(value: IoTSiteWiseClientTypes.MountSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3accesspoint(s3accesspoint):
+                try writer["s3AccessPoint"].write(s3accesspoint, with: IoTSiteWiseClientTypes.S3AccessPointSource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.MountSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3AccessPoint":
+                return .s3accesspoint(try reader["s3AccessPoint"].read(with: IoTSiteWiseClientTypes.S3AccessPointSource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension IoTSiteWiseClientTypes.Mp4 {
 
     static func write(value: IoTSiteWiseClientTypes.Mp4?, to writer: SmithyJSON.Writer) throws {
@@ -27303,6 +27569,23 @@ extension IoTSiteWiseClientTypes.Row {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.Row()
         value.data = try reader["data"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.Datum.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.S3AccessPointSource {
+
+    static func write(value: IoTSiteWiseClientTypes.S3AccessPointSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointArn"].write(value.accessPointArn)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.S3AccessPointSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.S3AccessPointSource()
+        value.accessPointArn = try reader["accessPointArn"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
 }
