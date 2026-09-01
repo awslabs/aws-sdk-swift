@@ -631,6 +631,86 @@ extension SESv2Client {
 }
 
 extension SESv2Client {
+    /// Performs the `AssociateEmailIdentityCertificate` operation on the `SESv2` service.
+    ///
+    /// Associates an S/MIME certificate with an email identity. After the certificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is enabled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN).
+    ///
+    /// * If the email identity is a domain, you must specify a FromAddress that belongs to that domain or one of its subdomains. The certificate applies to messages sent from that address.
+    ///
+    /// * If the email identity is an email address, FromAddress is optional. If you specify it, it must exactly match the email identity.
+    ///
+    ///
+    /// When the association is created, the certificate begins provisioning and its status is PROVISIONING. The status changes to ACTIVE when the certificate is ready to use for signing. Each email address can have only one certificate association. If an association already exists for the address, this operation returns an error, unless the existing association is in the DEPROVISIONING state.
+    ///
+    /// - Parameter input: A request to associate an S/MIME certificate with an email identity. (Type: `AssociateEmailIdentityCertificateInput`)
+    ///
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `AssociateEmailIdentityCertificateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The resource specified in your request already exists.
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func associateEmailIdentityCertificate(input: AssociateEmailIdentityCertificateInput) async throws -> AssociateEmailIdentityCertificateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateEmailIdentityCertificate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>(AssociateEmailIdentityCertificateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEmailIdentityCertificateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEmailIdentityCertificateOutput>(AssociateEmailIdentityCertificateOutput.httpOutput(from:), AssociateEmailIdentityCertificateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEmailIdentityCertificateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateEmailIdentityCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEmailIdentityCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SESv2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateEmailIdentityCertificateInput, AssociateEmailIdentityCertificateOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEmailIdentityCertificate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetMetricData` operation on the `SESv2` service.
     ///
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
@@ -2777,6 +2857,78 @@ extension SESv2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTenantResourceAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateEmailIdentityCertificate` operation on the `SESv2` service.
+    ///
+    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose certificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 returns a NotFoundException only when the specified email identity doesn't exist.
+    ///
+    /// - Parameter input: A request to remove the association between an S/MIME certificate and an email identity. (Type: `DisassociateEmailIdentityCertificateInput`)
+    ///
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DisassociateEmailIdentityCertificateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func disassociateEmailIdentityCertificate(input: DisassociateEmailIdentityCertificateInput) async throws -> DisassociateEmailIdentityCertificateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateEmailIdentityCertificate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>(DisassociateEmailIdentityCertificateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEmailIdentityCertificateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEmailIdentityCertificateOutput>(DisassociateEmailIdentityCertificateOutput.httpOutput(from:), DisassociateEmailIdentityCertificateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEmailIdentityCertificateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateEmailIdentityCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEmailIdentityCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SESv2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateEmailIdentityCertificateInput, DisassociateEmailIdentityCertificateOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEmailIdentityCertificate")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5067,6 +5219,78 @@ extension SESv2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEmailIdentities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListEmailIdentityCertificates` operation on the `SESv2` service.
+    ///
+    /// Lists the S/MIME certificates that are associated with the specified email identity. The results include certificates in all states, such as PROVISIONING, ACTIVE, INACTIVE, DEPROVISIONING, and FAILED. If a certificate has passed its expiration time, it's returned with a status of FAILED. We recommend using pagination to ensure that the operation returns quickly and successfully. When there are more results than fit in a single response, the response includes a NextToken value that you use in a subsequent call to retrieve the next set of results.
+    ///
+    /// - Parameter input: A request to list the S/MIME certificates that are associated with an email identity. (Type: `ListEmailIdentityCertificatesInput`)
+    ///
+    /// - Returns: Information about the S/MIME certificates that are associated with an email identity. (Type: `ListEmailIdentityCertificatesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func listEmailIdentityCertificates(input: ListEmailIdentityCertificatesInput) async throws -> ListEmailIdentityCertificatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEmailIdentityCertificates")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>(ListEmailIdentityCertificatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEmailIdentityCertificatesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEmailIdentityCertificatesOutput>(ListEmailIdentityCertificatesOutput.httpOutput(from:), ListEmailIdentityCertificatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEmailIdentityCertificatesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEmailIdentityCertificatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEmailIdentityCertificatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SESv2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEmailIdentityCertificates")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8037,6 +8261,78 @@ extension SESv2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateConfigurationSet` operation on the `SESv2` service.
+    ///
+    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left unchanged.
+    ///
+    /// - Parameter input: A request to update the configuration of an existing configuration set. (Type: `UpdateConfigurationSetInput`)
+    ///
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `UpdateConfigurationSetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    public func updateConfigurationSet(input: UpdateConfigurationSetInput) async throws -> UpdateConfigurationSetOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateConfigurationSet")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateConfigurationSetInput, UpdateConfigurationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>(UpdateConfigurationSetInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConfigurationSetInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetOutput>(UpdateConfigurationSetOutput.httpOutput(from:), UpdateConfigurationSetOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationSetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SESv2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConfigurationSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SESv2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConfigurationSetInput, UpdateConfigurationSetOutput>(serviceID: serviceName, version: SESv2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SESv2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConfigurationSet")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

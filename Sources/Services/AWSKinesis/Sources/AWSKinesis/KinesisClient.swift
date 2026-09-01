@@ -709,7 +709,7 @@ extension KinesisClient {
 
     /// Performs the `CreateChannel` operation on the `Kinesis` service.
     ///
-    /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both. Creating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams returns immediately with the channel in the CREATING state. After provisioning is complete, Amazon Kinesis Data Streams sets the state to ACTIVE. You can use [DescribeChannel] to check the current state. This operation is only supported for data streams with the on-demand capacity mode. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both. To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the iam:PassRole permission on that role). Creating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams returns immediately with the channel in the CREATING state. After provisioning is complete, Amazon Kinesis Data Streams sets the state to ACTIVE. You can use [DescribeChannel] to check the current state. This operation is only supported for data streams with the on-demand capacity mode. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
@@ -959,7 +959,7 @@ extension KinesisClient {
 
     /// Performs the `DeleteChannel` operation on the `Kinesis` service.
     ///
-    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. To delete the stream, first delete all channels attached to it. To find them, use [ListChannels] with a stream filter. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. To delete the stream, first delete all channels attached to it. To find them, use [ListChannels] with a stream filter. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
@@ -1352,7 +1352,7 @@ extension KinesisClient {
 
     /// Performs the `DescribeChannel` operation on the `Kinesis` service.
     ///
-    /// Describes the specified channel, including its configuration and current status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    /// Describes the specified channel, including its configuration and current status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
@@ -1907,6 +1907,7 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `ExpiredIteratorException` : The provided iterator exceeds the maximum age allowed.
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
@@ -2076,6 +2077,7 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `ProvisionedThroughputExceededException` : The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
@@ -2224,7 +2226,7 @@ extension KinesisClient {
 
     /// Performs the `ListChannels` operation on the `Kinesis` service.
     ///
-    /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value returned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to audit the channels configured in an Amazon Web Services Region. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value returned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to audit the channels configured in an Amazon Web Services Region. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
@@ -2786,6 +2788,7 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
@@ -2871,6 +2874,7 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `InternalFailureException` : The processing of the request failed because of an unknown error, exception, or failure.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
@@ -3443,6 +3447,7 @@ extension KinesisClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
@@ -3751,7 +3756,7 @@ extension KinesisClient {
 
     /// Performs the `UpdateChannel` operation on the `Kinesis` service.
     ///
-    /// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After the change is applied, Amazon Kinesis Data Streams sets the channel back to the ACTIVE state. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    /// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After the change is applied, Amazon Kinesis Data Streams sets the channel back to the ACTIVE state. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///

@@ -1618,6 +1618,130 @@ public struct ArchiveFindingsOutput: Swift.Sendable {
 
 extension GuardDutyClientTypes {
 
+    public enum AssociationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dryRun
+        case live
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationMode] {
+            return [
+                .dryRun,
+                .live
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dryRun: return "DRY_RUN"
+            case .live: return "LIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains the full details of a custom detection rule association.
+    public struct AssociationDetail: Swift.Sendable {
+        /// The Amazon Web Services account ID associated with this rule association.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the association.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique identifier for the association.
+        /// This member is required.
+        public var associationId: Swift.String?
+        /// The timestamp when the association was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The timestamp when the association expires.
+        public var expiresAt: Foundation.Date?
+        /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+        /// This member is required.
+        public var mode: GuardDutyClientTypes.AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The timestamp when the association was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            accountId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            associationId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            mode: GuardDutyClientTypes.AssociationMode? = nil,
+            ruleId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.accountId = accountId
+            self.arn = arn
+            self.associationId = associationId
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.mode = mode
+            self.ruleId = ruleId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains summary information about a custom detection rule association.
+    public struct AssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the association.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique identifier for the association.
+        /// This member is required.
+        public var associationId: Swift.String?
+        /// The timestamp when the association was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The timestamp when the association expires.
+        public var expiresAt: Foundation.Date?
+        /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+        /// This member is required.
+        public var mode: GuardDutyClientTypes.AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The timestamp when the association was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associationId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            mode: GuardDutyClientTypes.AssociationMode? = nil,
+            ruleId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associationId = associationId
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.mode = mode
+            self.ruleId = ruleId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     public enum AutoEnableMembers: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case new
@@ -2926,6 +3050,105 @@ extension GuardDutyClientTypes {
             }
         }
     }
+}
+
+/// The requested resource can't be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message.
+        public internal(set) var message: Swift.String? = nil
+        /// The error type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct CreateCustomDetectionRuleAssociationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Maximum 64 characters.
+    public var clientToken: Swift.String?
+    /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+    /// This member is required.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+    /// The tags to be added to the new custom detection rule association resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        ruleId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.mode = mode
+        self.ruleId = ruleId
+        self.tags = tags
+    }
+}
+
+public struct CreateCustomDetectionRuleAssociationOutput: Swift.Sendable {
+    /// The details of the newly created custom detection rule association.
+    /// This member is required.
+    public var ruleAssociation: GuardDutyClientTypes.AssociationDetail?
+
+    public init(
+        ruleAssociation: GuardDutyClientTypes.AssociationDetail? = nil
+    ) {
+        self.ruleAssociation = ruleAssociation
+    }
+}
+
+public struct CreateCustomDetectionRuleOrgConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time.
+    public var clientToken: Swift.String?
+    /// The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds.
+    public var excludeAccountIds: [Swift.String]?
+    /// The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+    public var includeAccountIds: [Swift.String]?
+    /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+    /// This member is required.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        excludeAccountIds: [Swift.String]? = nil,
+        includeAccountIds: [Swift.String]? = nil,
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.excludeAccountIds = excludeAccountIds
+        self.includeAccountIds = includeAccountIds
+        self.mode = mode
+        self.ruleId = ruleId
+    }
+}
+
+public struct CreateCustomDetectionRuleOrgConfigurationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension GuardDutyClientTypes {
@@ -5675,6 +5898,50 @@ extension GuardDutyClientTypes {
     }
 }
 
+public struct DeleteCustomDetectionRuleAssociationInput: Swift.Sendable {
+    /// The unique identifier for the association to delete.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.associationId = associationId
+        self.ruleId = ruleId
+    }
+}
+
+public struct DeleteCustomDetectionRuleAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteCustomDetectionRuleOrgConfigurationInput: Swift.Sendable {
+    /// The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN.
+    /// This member is required.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.mode = mode
+        self.ruleId = ruleId
+    }
+}
+
+public struct DeleteCustomDetectionRuleOrgConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDetectorInput: Swift.Sendable {
     /// The unique ID of the detector that you want to delete. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -5758,34 +6025,6 @@ public struct DeleteIPSetInput: Swift.Sendable {
 public struct DeleteIPSetOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The error message.
-        public internal(set) var message: Swift.String? = nil
-        /// The error type.
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
 }
 
 public struct DeleteMalwareProtectionPlanInput: Swift.Sendable {
@@ -8036,6 +8275,295 @@ extension GuardDutyClientTypes {
         ) {
             self.anomaly = anomaly
             self.sequence = sequence
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum DetectionRuleConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectionRuleConfigurationStatus] {
+            return [
+                .active,
+                .failed,
+                .processing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum DetectionRuleDataSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudtrailManagementEvent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectionRuleDataSource] {
+            return [
+                .cloudtrailManagementEvent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudtrailManagementEvent: return "CloudTrailManagementEvent"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum DetectionRuleFilterCondition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectionRuleFilterCondition] {
+            return [
+                .contains,
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum FilterFieldName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataSource
+        case description
+        case name
+        case service
+        case severity
+        case tactic
+        case technique
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterFieldName] {
+            return [
+                .dataSource,
+                .description,
+                .name,
+                .service,
+                .severity,
+                .tactic,
+                .technique
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataSource: return "dataSource"
+            case .description: return "description"
+            case .name: return "name"
+            case .service: return "service"
+            case .severity: return "severity"
+            case .tactic: return "tactic"
+            case .technique: return "technique"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains filter criteria for listing custom detection rules or associations.
+    public struct DetectionRuleFilter: Swift.Sendable {
+        /// The condition to apply to the filter. For example, EQUALS or CONTAINS.
+        public var condition: GuardDutyClientTypes.DetectionRuleFilterCondition?
+        /// The name of the field to filter by.
+        /// This member is required.
+        public var name: GuardDutyClientTypes.FilterFieldName?
+        /// The values to match against the specified filter name.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            condition: GuardDutyClientTypes.DetectionRuleFilterCondition? = nil,
+            name: GuardDutyClientTypes.FilterFieldName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.condition = condition
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains the organization-level configuration for a custom detection rule.
+    public struct DetectionRuleOrgConfiguration: Swift.Sendable {
+        /// The timestamp when the organization configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A list of member account IDs excluded from the organization configuration. Mutually exclusive with IncludeAccountIds.
+        /// This member is required.
+        public var excludeAccountIds: [Swift.String]?
+        /// The timestamp when the organization configuration expires.
+        public var expiresAt: Foundation.Date?
+        /// A list of member account IDs included in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+        /// This member is required.
+        public var includeAccountIds: [Swift.String]?
+        /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+        /// This member is required.
+        public var mode: GuardDutyClientTypes.AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The configuration status. Valid values: ACTIVE | PROCESSING | FAILED.
+        /// This member is required.
+        public var status: GuardDutyClientTypes.DetectionRuleConfigurationStatus?
+        /// The reason for the current configuration status.
+        public var statusReason: Swift.String?
+        /// The timestamp when the organization configuration was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            excludeAccountIds: [Swift.String]? = nil,
+            expiresAt: Foundation.Date? = nil,
+            includeAccountIds: [Swift.String]? = nil,
+            mode: GuardDutyClientTypes.AssociationMode? = nil,
+            ruleId: Swift.String? = nil,
+            status: GuardDutyClientTypes.DetectionRuleConfigurationStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.excludeAccountIds = excludeAccountIds
+            self.expiresAt = expiresAt
+            self.includeAccountIds = includeAccountIds
+            self.mode = mode
+            self.ruleId = ruleId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains summary information about an organization-level configuration for a custom detection rule.
+    public struct DetectionRuleOrgConfigurationSummary: Swift.Sendable {
+        /// The timestamp when the organization configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The timestamp when the organization configuration expires.
+        public var expiresAt: Foundation.Date?
+        /// The rule execution mode.
+        /// This member is required.
+        public var mode: GuardDutyClientTypes.AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The configuration status.
+        /// This member is required.
+        public var status: GuardDutyClientTypes.DetectionRuleConfigurationStatus?
+        /// The reason for the current configuration status.
+        public var statusReason: Swift.String?
+        /// The timestamp when the organization configuration was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            mode: GuardDutyClientTypes.AssociationMode? = nil,
+            ruleId: Swift.String? = nil,
+            status: GuardDutyClientTypes.DetectionRuleConfigurationStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.mode = mode
+            self.ruleId = ruleId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum DetectionRuleSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectionRuleSeverity] {
+            return [
+                .critical,
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -10389,6 +10917,238 @@ public struct GetCoverageStatisticsOutput: Swift.Sendable {
     }
 }
 
+public struct GetCustomDetectionRuleInput: Swift.Sendable {
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        ruleId: Swift.String? = nil
+    ) {
+        self.ruleId = ruleId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains the detection logic for a custom detection rule.
+    public struct RuleDefinition: Swift.Sendable {
+        /// The detection logic expression for the rule.
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum RuleLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleLanguage] {
+            return [
+                .sql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum RuleSchema: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudTrail
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleSchema] {
+            return [
+                .cloudTrail
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudTrail: return "CloudTrail"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains the full details of a custom detection rule, including its detection logic.
+    public struct RuleDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the rule.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp when the rule was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The data source that the rule analyzes.
+        /// This member is required.
+        public var dataSource: GuardDutyClientTypes.DetectionRuleDataSource?
+        /// The detection logic definition for the rule.
+        /// This member is required.
+        public var definition: GuardDutyClientTypes.RuleDefinition?
+        /// A description of what the rule detects.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The language used for the detection logic expression.
+        public var language: GuardDutyClientTypes.RuleLanguage?
+        /// The display name of the rule.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier for the rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The schema version used by the rule definition.
+        public var schema: GuardDutyClientTypes.RuleSchema?
+        /// The Amazon Web Services service associated with the rule.
+        /// This member is required.
+        public var service: Swift.String?
+        /// The severity level assigned to findings generated by this rule.
+        /// This member is required.
+        public var severity: GuardDutyClientTypes.DetectionRuleSeverity?
+        /// The MITRE ATT&CK tactic associated with the rule.
+        /// This member is required.
+        public var tactic: Swift.String?
+        /// The MITRE ATT&CK technique associated with the rule.
+        /// This member is required.
+        public var technique: Swift.String?
+        /// The timestamp when the rule was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataSource: GuardDutyClientTypes.DetectionRuleDataSource? = nil,
+            definition: GuardDutyClientTypes.RuleDefinition? = nil,
+            description: Swift.String? = nil,
+            language: GuardDutyClientTypes.RuleLanguage? = nil,
+            name: Swift.String? = nil,
+            ruleId: Swift.String? = nil,
+            schema: GuardDutyClientTypes.RuleSchema? = nil,
+            service: Swift.String? = nil,
+            severity: GuardDutyClientTypes.DetectionRuleSeverity? = nil,
+            tactic: Swift.String? = nil,
+            technique: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSource = dataSource
+            self.definition = definition
+            self.description = description
+            self.language = language
+            self.name = name
+            self.ruleId = ruleId
+            self.schema = schema
+            self.service = service
+            self.severity = severity
+            self.tactic = tactic
+            self.technique = technique
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetCustomDetectionRuleOutput: Swift.Sendable {
+    /// The details of the custom detection rule.
+    /// This member is required.
+    public var rule: GuardDutyClientTypes.RuleDetail?
+
+    public init(
+        rule: GuardDutyClientTypes.RuleDetail? = nil
+    ) {
+        self.rule = rule
+    }
+}
+
+public struct GetCustomDetectionRuleAssociationInput: Swift.Sendable {
+    /// The unique identifier for the association.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.associationId = associationId
+        self.ruleId = ruleId
+    }
+}
+
+public struct GetCustomDetectionRuleAssociationOutput: Swift.Sendable {
+    /// The details of the custom detection rule association.
+    /// This member is required.
+    public var ruleAssociation: GuardDutyClientTypes.AssociationDetail?
+    /// The tags associated with the custom detection rule association resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        ruleAssociation: GuardDutyClientTypes.AssociationDetail? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.ruleAssociation = ruleAssociation
+        self.tags = tags
+    }
+}
+
+public struct GetCustomDetectionRuleOrgConfigurationInput: Swift.Sendable {
+    /// The execution mode of the organization configuration to retrieve. Valid values: LIVE | DRY_RUN.
+    /// This member is required.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.mode = mode
+        self.ruleId = ruleId
+    }
+}
+
+public struct GetCustomDetectionRuleOrgConfigurationOutput: Swift.Sendable {
+    /// The details of the organization configuration.
+    /// This member is required.
+    public var configuration: GuardDutyClientTypes.DetectionRuleOrgConfiguration?
+
+    public init(
+        configuration: GuardDutyClientTypes.DetectionRuleOrgConfiguration? = nil
+    ) {
+        self.configuration = configuration
+    }
+}
+
 public struct GetDetectorInput: Swift.Sendable {
     /// The unique ID of the detector that you want to get. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -12733,6 +13493,188 @@ public struct ListCoverageOutput: Swift.Sendable {
     }
 }
 
+public struct ListCustomDetectionRuleAssociationsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The rule execution mode to filter associations by.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// A pagination token from a previous response. Use this token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the custom detection rule to filter associations by.
+    public var ruleId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        nextToken: Swift.String? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.mode = mode
+        self.nextToken = nextToken
+        self.ruleId = ruleId
+    }
+}
+
+public struct ListCustomDetectionRuleAssociationsOutput: Swift.Sendable {
+    /// A pagination token to retrieve the next page of results. If this field is empty, there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of custom detection rule association summaries.
+    /// This member is required.
+    public var ruleAssociations: [GuardDutyClientTypes.AssociationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        ruleAssociations: [GuardDutyClientTypes.AssociationSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.ruleAssociations = ruleAssociations
+    }
+}
+
+public struct ListCustomDetectionRuleOrgConfigurationsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// A pagination token from a previous response. Use this token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The configuration status to filter by.
+    public var status: GuardDutyClientTypes.DetectionRuleConfigurationStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: GuardDutyClientTypes.DetectionRuleConfigurationStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+public struct ListCustomDetectionRuleOrgConfigurationsOutput: Swift.Sendable {
+    /// A list of organization configurations for custom detection rules.
+    /// This member is required.
+    public var configurations: [GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary]?
+    /// A pagination token to retrieve the next page of results. If this field is empty, there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurations: [GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.configurations = configurations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCustomDetectionRulesInput: Swift.Sendable {
+    /// A list of filter criteria to apply when listing custom detection rules.
+    public var filters: [GuardDutyClientTypes.DetectionRuleFilter]?
+    /// The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// A pagination token from a previous response. Use this token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [GuardDutyClientTypes.DetectionRuleFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains summary information about a custom detection rule.
+    public struct RuleSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the rule.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp when the rule was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The data source that the rule analyzes.
+        /// This member is required.
+        public var dataSource: GuardDutyClientTypes.DetectionRuleDataSource?
+        /// A description of what the rule detects.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The language used for the detection logic expression.
+        public var language: GuardDutyClientTypes.RuleLanguage?
+        /// The display name of the rule.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier for the rule.
+        /// This member is required.
+        public var ruleId: Swift.String?
+        /// The schema version used by the rule definition.
+        public var schema: GuardDutyClientTypes.RuleSchema?
+        /// The Amazon Web Services service associated with the rule.
+        /// This member is required.
+        public var service: Swift.String?
+        /// The severity level assigned to findings generated by this rule.
+        /// This member is required.
+        public var severity: GuardDutyClientTypes.DetectionRuleSeverity?
+        /// The MITRE ATT&CK tactic associated with the rule.
+        /// This member is required.
+        public var tactic: Swift.String?
+        /// The MITRE ATT&CK technique associated with the rule.
+        /// This member is required.
+        public var technique: Swift.String?
+        /// The timestamp when the rule was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataSource: GuardDutyClientTypes.DetectionRuleDataSource? = nil,
+            description: Swift.String? = nil,
+            language: GuardDutyClientTypes.RuleLanguage? = nil,
+            name: Swift.String? = nil,
+            ruleId: Swift.String? = nil,
+            schema: GuardDutyClientTypes.RuleSchema? = nil,
+            service: Swift.String? = nil,
+            severity: GuardDutyClientTypes.DetectionRuleSeverity? = nil,
+            tactic: Swift.String? = nil,
+            technique: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSource = dataSource
+            self.description = description
+            self.language = language
+            self.name = name
+            self.ruleId = ruleId
+            self.schema = schema
+            self.service = service
+            self.severity = severity
+            self.tactic = tactic
+            self.technique = technique
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListCustomDetectionRulesOutput: Swift.Sendable {
+    /// A pagination token to retrieve the next page of results. If this field is empty, there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of custom detection rule summaries.
+    /// This member is required.
+    public var rules: [GuardDutyClientTypes.RuleSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rules: [GuardDutyClientTypes.RuleSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.rules = rules
+    }
+}
+
 public struct ListDetectorsInput: Swift.Sendable {
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     public var maxResults: Swift.Int?
@@ -13855,6 +14797,63 @@ public struct UntagResourceInput: Swift.Sendable {
 }
 
 public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateCustomDetectionRuleAssociationInput: Swift.Sendable {
+    /// The unique identifier for the association to update.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+    /// This member is required.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.associationId = associationId
+        self.mode = mode
+        self.ruleId = ruleId
+    }
+}
+
+public struct UpdateCustomDetectionRuleAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateCustomDetectionRuleOrgConfigurationInput: Swift.Sendable {
+    /// The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds.
+    public var excludeAccountIds: [Swift.String]?
+    /// The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+    public var includeAccountIds: [Swift.String]?
+    /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+    /// This member is required.
+    public var mode: GuardDutyClientTypes.AssociationMode?
+    /// The unique identifier for the custom detection rule.
+    /// This member is required.
+    public var ruleId: Swift.String?
+
+    public init(
+        excludeAccountIds: [Swift.String]? = nil,
+        includeAccountIds: [Swift.String]? = nil,
+        mode: GuardDutyClientTypes.AssociationMode? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.excludeAccountIds = excludeAccountIds
+        self.includeAccountIds = includeAccountIds
+        self.mode = mode
+        self.ruleId = ruleId
+    }
+}
+
+public struct UpdateCustomDetectionRuleOrgConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -15807,6 +16806,20 @@ extension ArchiveFindingsInput {
     }
 }
 
+extension CreateCustomDetectionRuleAssociationInput {
+
+    static func urlPathProvider(_ value: CreateCustomDetectionRuleAssociationInput) -> Swift.String? {
+        return "/custom-detection-rule/association"
+    }
+}
+
+extension CreateCustomDetectionRuleOrgConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateCustomDetectionRuleOrgConfigurationInput) -> Swift.String? {
+        return "/custom-detection-rule/org-configuration"
+    }
+}
+
 extension CreateDetectorInput {
 
     static func urlPathProvider(_ value: CreateDetectorInput) -> Swift.String? {
@@ -15915,6 +16928,43 @@ extension DeclineInvitationsInput {
 
     static func urlPathProvider(_ value: DeclineInvitationsInput) -> Swift.String? {
         return "/invitation/decline"
+    }
+}
+
+extension DeleteCustomDetectionRuleAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteCustomDetectionRuleAssociationInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        guard let associationId = value.associationId else {
+            return nil
+        }
+        return "/custom-detection-rule/rule/\(ruleId.urlPercentEncoding())/association/\(associationId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCustomDetectionRuleOrgConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteCustomDetectionRuleOrgConfigurationInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/custom-detection-rule/org-configuration/\(ruleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCustomDetectionRuleOrgConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteCustomDetectionRuleOrgConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let mode = value.mode else {
+            let message = "Creating a URL Query Item failed. mode is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let modeQueryItem = Smithy.URIQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+        items.append(modeQueryItem)
+        return items
     }
 }
 
@@ -16146,6 +17196,53 @@ extension GetCoverageStatisticsInput {
     }
 }
 
+extension GetCustomDetectionRuleInput {
+
+    static func urlPathProvider(_ value: GetCustomDetectionRuleInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/custom-detection-rule/rule/\(ruleId.urlPercentEncoding())"
+    }
+}
+
+extension GetCustomDetectionRuleAssociationInput {
+
+    static func urlPathProvider(_ value: GetCustomDetectionRuleAssociationInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        guard let associationId = value.associationId else {
+            return nil
+        }
+        return "/custom-detection-rule/rule/\(ruleId.urlPercentEncoding())/association/\(associationId.urlPercentEncoding())"
+    }
+}
+
+extension GetCustomDetectionRuleOrgConfigurationInput {
+
+    static func urlPathProvider(_ value: GetCustomDetectionRuleOrgConfigurationInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/custom-detection-rule/org-configuration/\(ruleId.urlPercentEncoding())"
+    }
+}
+
+extension GetCustomDetectionRuleOrgConfigurationInput {
+
+    static func queryItemProvider(_ value: GetCustomDetectionRuleOrgConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let mode = value.mode else {
+            let message = "Creating a URL Query Item failed. mode is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let modeQueryItem = Smithy.URIQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+        items.append(modeQueryItem)
+        return items
+    }
+}
+
 extension GetDetectorInput {
 
     static func urlPathProvider(_ value: GetDetectorInput) -> Swift.String? {
@@ -16365,6 +17462,71 @@ extension ListCoverageInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/coverage"
+    }
+}
+
+extension ListCustomDetectionRuleAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCustomDetectionRuleAssociationsInput) -> Swift.String? {
+        return "/custom-detection-rule/association"
+    }
+}
+
+extension ListCustomDetectionRuleAssociationsInput {
+
+    static func queryItemProvider(_ value: ListCustomDetectionRuleAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let ruleId = value.ruleId {
+            let ruleIdQueryItem = Smithy.URIQueryItem(name: "ruleId".urlPercentEncoding(), value: Swift.String(ruleId).urlPercentEncoding())
+            items.append(ruleIdQueryItem)
+        }
+        if let mode = value.mode {
+            let modeQueryItem = Smithy.URIQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+            items.append(modeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCustomDetectionRuleOrgConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListCustomDetectionRuleOrgConfigurationsInput) -> Swift.String? {
+        return "/custom-detection-rule/org-configuration"
+    }
+}
+
+extension ListCustomDetectionRuleOrgConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListCustomDetectionRuleOrgConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCustomDetectionRulesInput {
+
+    static func urlPathProvider(_ value: ListCustomDetectionRulesInput) -> Swift.String? {
+        return "/custom-detection-rule/rule"
     }
 }
 
@@ -16775,6 +17937,29 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateCustomDetectionRuleAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateCustomDetectionRuleAssociationInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        guard let associationId = value.associationId else {
+            return nil
+        }
+        return "/custom-detection-rule/rule/\(ruleId.urlPercentEncoding())/association/\(associationId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateCustomDetectionRuleOrgConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateCustomDetectionRuleOrgConfigurationInput) -> Swift.String? {
+        guard let ruleId = value.ruleId else {
+            return nil
+        }
+        return "/custom-detection-rule/org-configuration/\(ruleId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDetectorInput {
 
     static func urlPathProvider(_ value: UpdateDetectorInput) -> Swift.String? {
@@ -16936,6 +18121,29 @@ extension ArchiveFindingsInput {
     static func write(value: ArchiveFindingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["findingIds"].writeList(value.findingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateCustomDetectionRuleAssociationInput {
+
+    static func write(value: CreateCustomDetectionRuleAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["mode"].write(value.mode)
+        try writer["ruleId"].write(value.ruleId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateCustomDetectionRuleOrgConfigurationInput {
+
+    static func write(value: CreateCustomDetectionRuleOrgConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["excludeAccountIds"].writeList(value.excludeAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeAccountIds"].writeList(value.includeAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["mode"].write(value.mode)
+        try writer["ruleId"].write(value.ruleId)
     }
 }
 
@@ -17216,6 +18424,16 @@ extension ListCoverageInput {
     }
 }
 
+extension ListCustomDetectionRulesInput {
+
+    static func write(value: ListCustomDetectionRulesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: GuardDutyClientTypes.DetectionRuleFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListFindingsInput {
 
     static func write(value: ListFindingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -17293,6 +18511,24 @@ extension UnarchiveFindingsInput {
     static func write(value: UnarchiveFindingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["findingIds"].writeList(value.findingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateCustomDetectionRuleAssociationInput {
+
+    static func write(value: UpdateCustomDetectionRuleAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+    }
+}
+
+extension UpdateCustomDetectionRuleOrgConfigurationInput {
+
+    static func write(value: UpdateCustomDetectionRuleOrgConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["excludeAccountIds"].writeList(value.excludeAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeAccountIds"].writeList(value.includeAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["mode"].write(value.mode)
     }
 }
 
@@ -17441,6 +18677,25 @@ extension ArchiveFindingsOutput {
     }
 }
 
+extension CreateCustomDetectionRuleAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCustomDetectionRuleAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCustomDetectionRuleAssociationOutput()
+        value.ruleAssociation = try reader["ruleAssociation"].readIfPresent(with: GuardDutyClientTypes.AssociationDetail.read(from:))
+        return value
+    }
+}
+
+extension CreateCustomDetectionRuleOrgConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCustomDetectionRuleOrgConfigurationOutput {
+        return CreateCustomDetectionRuleOrgConfigurationOutput()
+    }
+}
+
 extension CreateDetectorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDetectorOutput {
@@ -17578,6 +18833,20 @@ extension DeclineInvitationsOutput {
         var value = DeclineInvitationsOutput()
         value.unprocessedAccounts = try reader["unprocessedAccounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UnprocessedAccount.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension DeleteCustomDetectionRuleAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCustomDetectionRuleAssociationOutput {
+        return DeleteCustomDetectionRuleAssociationOutput()
+    }
+}
+
+extension DeleteCustomDetectionRuleOrgConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCustomDetectionRuleOrgConfigurationOutput {
+        return DeleteCustomDetectionRuleOrgConfigurationOutput()
     }
 }
 
@@ -17768,6 +19037,43 @@ extension GetCoverageStatisticsOutput {
         let reader = responseReader
         var value = GetCoverageStatisticsOutput()
         value.coverageStatistics = try reader["coverageStatistics"].readIfPresent(with: GuardDutyClientTypes.CoverageStatistics.read(from:))
+        return value
+    }
+}
+
+extension GetCustomDetectionRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCustomDetectionRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCustomDetectionRuleOutput()
+        value.rule = try reader["rule"].readIfPresent(with: GuardDutyClientTypes.RuleDetail.read(from:))
+        return value
+    }
+}
+
+extension GetCustomDetectionRuleAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCustomDetectionRuleAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCustomDetectionRuleAssociationOutput()
+        value.ruleAssociation = try reader["ruleAssociation"].readIfPresent(with: GuardDutyClientTypes.AssociationDetail.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetCustomDetectionRuleOrgConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCustomDetectionRuleOrgConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCustomDetectionRuleOrgConfigurationOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: GuardDutyClientTypes.DetectionRuleOrgConfiguration.read(from:))
         return value
     }
 }
@@ -18095,6 +19401,45 @@ extension ListCoverageOutput {
     }
 }
 
+extension ListCustomDetectionRuleAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomDetectionRuleAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomDetectionRuleAssociationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.ruleAssociations = try reader["ruleAssociations"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.AssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListCustomDetectionRuleOrgConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomDetectionRuleOrgConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomDetectionRuleOrgConfigurationsOutput()
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCustomDetectionRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomDetectionRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomDetectionRulesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListDetectorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDetectorsOutput {
@@ -18353,6 +19698,20 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateCustomDetectionRuleAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomDetectionRuleAssociationOutput {
+        return UpdateCustomDetectionRuleAssociationOutput()
+    }
+}
+
+extension UpdateCustomDetectionRuleOrgConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomDetectionRuleOrgConfigurationOutput {
+        return UpdateCustomDetectionRuleOrgConfigurationOutput()
+    }
+}
+
 extension UpdateDetectorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDetectorOutput {
@@ -18487,6 +19846,42 @@ enum ArchiveFindingsOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCustomDetectionRuleAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCustomDetectionRuleOrgConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18672,6 +20067,41 @@ enum DeclineInvitationsOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCustomDetectionRuleAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCustomDetectionRuleOrgConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18974,6 +20404,57 @@ enum GetCoverageStatisticsOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCustomDetectionRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCustomDetectionRuleAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCustomDetectionRuleOrgConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -19292,6 +20773,54 @@ enum ListCoverageOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomDetectionRuleAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomDetectionRuleOrgConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomDetectionRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -19631,6 +21160,42 @@ enum UntagResourceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCustomDetectionRuleAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCustomDetectionRuleOrgConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -20109,6 +21674,39 @@ extension GuardDutyClientTypes.AnomalyUnusual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AnomalyUnusual()
         value.behavior = try reader["behavior"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: GuardDutyClientTypes.AnomalyObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AssociationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AssociationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AssociationDetail()
+        value.associationId = try reader["associationId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AssociationSummary()
+        value.associationId = try reader["associationId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -20624,6 +22222,50 @@ extension GuardDutyClientTypes.Detection {
         var value = GuardDutyClientTypes.Detection()
         value.anomaly = try reader["anomaly"].readIfPresent(with: GuardDutyClientTypes.Anomaly.read(from:))
         value.sequence = try reader["sequence"].readIfPresent(with: GuardDutyClientTypes.Sequence.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleFilter {
+
+    static func write(value: GuardDutyClientTypes.DetectionRuleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["condition"].write(value.condition)
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleOrgConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleOrgConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleOrgConfiguration()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.includeAccountIds = try reader["includeAccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.excludeAccountIds = try reader["excludeAccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -22407,6 +24049,61 @@ extension GuardDutyClientTypes.ResourceV2 {
         value.cloudPartition = try reader["cloudPartition"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.data = try reader["data"].readIfPresent(with: GuardDutyClientTypes.ResourceData.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RuleDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuleDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RuleDefinition()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RuleDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuleDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RuleDetail()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.severity = try reader["severity"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSource = try reader["dataSource"].readIfPresent() ?? .sdkUnknown("")
+        value.tactic = try reader["tactic"].readIfPresent() ?? ""
+        value.technique = try reader["technique"].readIfPresent() ?? ""
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.definition = try reader["definition"].readIfPresent(with: GuardDutyClientTypes.RuleDefinition.read(from:))
+        value.language = try reader["language"].readIfPresent()
+        value.schema = try reader["schema"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RuleSummary()
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.severity = try reader["severity"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSource = try reader["dataSource"].readIfPresent() ?? .sdkUnknown("")
+        value.tactic = try reader["tactic"].readIfPresent() ?? ""
+        value.technique = try reader["technique"].readIfPresent() ?? ""
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent()
+        value.schema = try reader["schema"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

@@ -1139,6 +1139,7 @@ extension MarketplaceDiscoveryClientTypes {
 extension MarketplaceDiscoveryClientTypes {
 
     public enum PurchaseOptionBadgeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoRenew
         case futureDated
         case privatePricing
         case replacementOffer
@@ -1146,6 +1147,7 @@ extension MarketplaceDiscoveryClientTypes {
 
         public static var allCases: [PurchaseOptionBadgeType] {
             return [
+                .autoRenew,
                 .futureDated,
                 .privatePricing,
                 .replacementOffer
@@ -1159,6 +1161,7 @@ extension MarketplaceDiscoveryClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .autoRenew: return "AUTO_RENEW"
             case .futureDated: return "FUTURE_DATED"
             case .privatePricing: return "PRIVATE_PRICING"
             case .replacementOffer: return "REPLACEMENT_OFFER"
@@ -2016,20 +2019,145 @@ extension MarketplaceDiscoveryClientTypes {
 
 extension MarketplaceDiscoveryClientTypes {
 
+    /// A single fixed price increase percentage applied at each renewal cycle.
+    public struct FixedPercentage: Swift.Sendable {
+        /// The percentage value applied at each renewal cycle.
+        /// This member is required.
+        public var percentageValue: Swift.String?
+
+        public init(
+            percentageValue: Swift.String? = nil
+        ) {
+            self.percentageValue = percentageValue
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
+    /// A price increase percentage range with minimum, maximum, and default values.
+    public struct PercentageRange: Swift.Sendable {
+        /// The percentage increase applied by default when no other value is finalized before the adjustment deadline. Falls between minimumValue and maximumValue.
+        /// This member is required.
+        public var defaultValue: Swift.String?
+        /// The maximum percentage by which the price can increase at each renewal cycle.
+        /// This member is required.
+        public var maximumValue: Swift.String?
+        /// The minimum percentage by which the price can increase at each renewal cycle.
+        /// This member is required.
+        public var minimumValue: Swift.String?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            maximumValue: Swift.String? = nil,
+            minimumValue: Swift.String? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
+    /// The pricing adjustment that applies at each renewal cycle, expressed as either a fixed percentage or a percentage range. Exactly one variant is present.
+    public enum PriceIncrease: Swift.Sendable {
+        /// A single fixed percentage applied uniformly at every renewal cycle.
+        case fixedpercentage(MarketplaceDiscoveryClientTypes.FixedPercentage)
+        /// A percentage band with minimum, maximum, and default values that bound the price increase at each renewal cycle.
+        case percentagerange(MarketplaceDiscoveryClientTypes.PercentageRange)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
+    /// A single installment entry in the renewal payment schedule.
+    public struct PaymentScheduleEntry: Swift.Sendable {
+        /// The relative offset from the renewal agreement start date when this installment is due, in ISO 8601 duration format. The offset uses months only or days only (for example, P1M or P30D); mixed units are not supported, and every offset in a schedule uses the same unit.
+        /// This member is required.
+        public var chargeDateOffset: Swift.String?
+        /// The percentage of the increased TCV to charge in this installment. All entries in a schedule sum to 100.00.
+        /// This member is required.
+        public var chargePercentage: Swift.String?
+        /// The optional calendar day of month on which the charge occurs. When absent, the charge day is derived from chargeDateOffset, and this field does not apply when chargeDateOffset is expressed in days. For months with fewer days than the specified day, the charge occurs on the last day of the month. For example, if dayOfMonth is 31, the charge in April occurs on April 30.
+        public var dayOfMonth: Swift.Int?
+
+        public init(
+            chargeDateOffset: Swift.String? = nil,
+            chargePercentage: Swift.String? = nil,
+            dayOfMonth: Swift.Int? = nil
+        ) {
+            self.chargeDateOffset = chargeDateOffset
+            self.chargePercentage = chargePercentage
+            self.dayOfMonth = dayOfMonth
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
+    /// A template for the payment schedule term on the renewal offer.
+    public struct PaymentScheduleTermTemplate: Swift.Sendable {
+        /// An ordered list of installment entries for the renewal payment schedule.
+        /// This member is required.
+        public var schedule: [MarketplaceDiscoveryClientTypes.PaymentScheduleEntry]?
+
+        public init(
+            schedule: [MarketplaceDiscoveryClientTypes.PaymentScheduleEntry]? = nil
+        ) {
+            self.schedule = schedule
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
+    /// A structural template defining how a specific term type is reshaped on each renewal cycle. Exactly one variant is present.
+    public enum TermTemplate: Swift.Sendable {
+        /// The installment schedule used to structure payments on the renewal offer.
+        case paymentscheduletermtemplate(MarketplaceDiscoveryClientTypes.PaymentScheduleTermTemplate)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
     /// Defines a renewal term that enables automatic agreement renewal.
     public struct RenewalTerm: Swift.Sendable {
+        /// The duration before the agreement end date by which the renewal price is finalized, represented in ISO 8601 format (for example, P30D). Only applicable with PercentageRange.
+        public var adjustmentDeadline: Swift.String?
         /// The unique identifier of the term.
         /// This member is required.
         public var id: Swift.String?
+        /// The duration before the agreement end date when the lockout window begins, in ISO 8601 format (for example, P30D). Absent means no lockout.
+        public var lockoutPeriod: Swift.String?
+        /// The maximum number of renewals allowed on this offer. Absent means unlimited renewals.
+        public var maxRenewals: Swift.Int?
+        /// The price increase applied at each renewal cycle. Absent means identical pricing on renewal.
+        public var priceIncrease: MarketplaceDiscoveryClientTypes.PriceIncrease?
+        /// Structural templates defining how specific terms are reshaped on each renewal cycle. Absent for upfront-only offers.
+        public var termTemplates: [MarketplaceDiscoveryClientTypes.TermTemplate]?
         /// The category of the term.
         /// This member is required.
         public var type: MarketplaceDiscoveryClientTypes.TermType?
 
         public init(
+            adjustmentDeadline: Swift.String? = nil,
             id: Swift.String? = nil,
+            lockoutPeriod: Swift.String? = nil,
+            maxRenewals: Swift.Int? = nil,
+            priceIncrease: MarketplaceDiscoveryClientTypes.PriceIncrease? = nil,
+            termTemplates: [MarketplaceDiscoveryClientTypes.TermTemplate]? = nil,
             type: MarketplaceDiscoveryClientTypes.TermType? = nil
         ) {
+            self.adjustmentDeadline = adjustmentDeadline
             self.id = id
+            self.lockoutPeriod = lockoutPeriod
+            self.maxRenewals = maxRenewals
+            self.priceIncrease = priceIncrease
+            self.termTemplates = termTemplates
             self.type = type
         }
     }
@@ -4454,6 +4582,16 @@ extension MarketplaceDiscoveryClientTypes.EksAddOnOperatingSystem {
     }
 }
 
+extension MarketplaceDiscoveryClientTypes.FixedPercentage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.FixedPercentage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.FixedPercentage()
+        value.percentageValue = try reader["percentageValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MarketplaceDiscoveryClientTypes.FixedUpfrontPricingTerm {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.FixedUpfrontPricingTerm {
@@ -4747,6 +4885,18 @@ extension MarketplaceDiscoveryClientTypes.OfferTerm {
     }
 }
 
+extension MarketplaceDiscoveryClientTypes.PaymentScheduleEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.PaymentScheduleEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.PaymentScheduleEntry()
+        value.chargeDateOffset = try reader["chargeDateOffset"].readIfPresent() ?? ""
+        value.chargePercentage = try reader["chargePercentage"].readIfPresent() ?? ""
+        value.dayOfMonth = try reader["dayOfMonth"].readIfPresent()
+        return value
+    }
+}
+
 extension MarketplaceDiscoveryClientTypes.PaymentScheduleTerm {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.PaymentScheduleTerm {
@@ -4757,6 +4907,44 @@ extension MarketplaceDiscoveryClientTypes.PaymentScheduleTerm {
         value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
         value.schedule = try reader["schedule"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.ScheduleItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes.PaymentScheduleTermTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.PaymentScheduleTermTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.PaymentScheduleTermTemplate()
+        value.schedule = try reader["schedule"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.PaymentScheduleEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes.PercentageRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.PercentageRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.PercentageRange()
+        value.minimumValue = try reader["minimumValue"].readIfPresent() ?? ""
+        value.maximumValue = try reader["maximumValue"].readIfPresent() ?? ""
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes.PriceIncrease {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.PriceIncrease {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fixedPercentage":
+                return .fixedpercentage(try reader["fixedPercentage"].read(with: MarketplaceDiscoveryClientTypes.FixedPercentage.read(from:)))
+            case "percentageRange":
+                return .percentagerange(try reader["percentageRange"].read(with: MarketplaceDiscoveryClientTypes.PercentageRange.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -4934,6 +5122,11 @@ extension MarketplaceDiscoveryClientTypes.RenewalTerm {
         var value = MarketplaceDiscoveryClientTypes.RenewalTerm()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.maxRenewals = try reader["maxRenewals"].readIfPresent()
+        value.lockoutPeriod = try reader["lockoutPeriod"].readIfPresent()
+        value.adjustmentDeadline = try reader["adjustmentDeadline"].readIfPresent()
+        value.priceIncrease = try reader["priceIncrease"].readIfPresent(with: MarketplaceDiscoveryClientTypes.PriceIncrease.read(from:))
+        value.termTemplates = try reader["termTemplates"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.TermTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5107,6 +5300,20 @@ extension MarketplaceDiscoveryClientTypes.SupportTerm {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.refundPolicy = try reader["refundPolicy"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes.TermTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.TermTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "paymentScheduleTermTemplate":
+                return .paymentscheduletermtemplate(try reader["paymentScheduleTermTemplate"].read(with: MarketplaceDiscoveryClientTypes.PaymentScheduleTermTemplate.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

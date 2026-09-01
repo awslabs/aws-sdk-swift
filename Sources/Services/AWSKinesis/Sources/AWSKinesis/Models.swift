@@ -315,7 +315,7 @@ extension KinesisClientTypes {
 
 extension KinesisClientTypes {
 
-    /// The server-side encryption configuration for a channel.
+    /// Specifies the Amazon Web Services KMS key that Amazon Kinesis Data Streams uses to encrypt data delivered to the channel's destination.
     public struct ChannelEncryptionConfiguration: Swift.Sendable {
         /// The encryption type. The only valid value is KMS.
         /// This member is required.
@@ -486,11 +486,11 @@ extension KinesisClientTypes {
         public var outputKeyTemplate: Swift.String?
         /// The Amazon S3 storage class for delivered objects. Valid values:
         ///
-        /// * STANDARD (default)
+        /// * STANDARD - Default storage class for frequently accessed data. (default)
         ///
-        /// * INTELLIGENT_TIERING
+        /// * INTELLIGENT_TIERING - Automatically moves objects to the most cost-effective access tier based on usage patterns.
         ///
-        /// * GLACIER_IR
+        /// * GLACIER_IR - Low-cost storage for rarely accessed data that requires millisecond retrieval.
         public var storageClass: KinesisClientTypes.S3StorageClass?
 
         public init(
@@ -804,13 +804,13 @@ extension KinesisClientTypes {
         public var channelName: Swift.String?
         /// The current status of the channel. Valid values:
         ///
-        /// * CREATING
+        /// * CREATING - The channel is being created.
         ///
-        /// * ACTIVE
+        /// * ACTIVE - The channel is ready to deliver records.
         ///
-        /// * UPDATING
+        /// * UPDATING - The channel configuration is being updated.
         ///
-        /// * DELETING
+        /// * DELETING - The channel is being deleted.
         ///
         /// * FAILED - See ChannelStatusReason for the failure cause.
         /// This member is required.
@@ -999,13 +999,13 @@ extension KinesisClientTypes {
         public var channelName: Swift.String?
         /// The current status of the channel. Valid values:
         ///
-        /// * CREATING
+        /// * CREATING - The channel is being created.
         ///
-        /// * ACTIVE
+        /// * ACTIVE - The channel is ready to deliver records.
         ///
-        /// * UPDATING
+        /// * UPDATING - The channel configuration is being updated.
         ///
-        /// * DELETING
+        /// * DELETING - The channel is being deleted.
         ///
         /// * FAILED - See ChannelStatusReason for the failure cause.
         /// This member is required.
@@ -2350,6 +2350,29 @@ public struct DisableEnhancedMonitoringOutput: Swift.Sendable {
     }
 }
 
+/// The request was rejected because the DryRun parameter was specified.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Represents the input for [EnableEnhancedMonitoring].
 public struct EnableEnhancedMonitoringInput: Swift.Sendable {
     /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.
@@ -2514,6 +2537,8 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
 
 /// Represents the input for [GetRecords].
 public struct GetRecordsInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, [GetRecords] throws InvalidArgumentException. The default value is 10,000.
     public var limit: Swift.Int?
     /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
@@ -2525,11 +2550,13 @@ public struct GetRecordsInput: Swift.Sendable {
     public var streamId: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         shardIterator: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamId: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.limit = limit
         self.shardIterator = shardIterator
         self.streamARN = streamARN
@@ -2668,6 +2695,8 @@ extension KinesisClientTypes {
 
 /// Represents the input for GetShardIterator.
 public struct GetShardIteratorInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
     /// This member is required.
     public var shardId: Swift.String?
@@ -2696,6 +2725,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
     public var timestamp: Foundation.Date?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         shardId: Swift.String? = nil,
         shardIteratorType: KinesisClientTypes.ShardIteratorType? = nil,
         startingSequenceNumber: Swift.String? = nil,
@@ -2704,6 +2734,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
         streamName: Swift.String? = nil,
         timestamp: Foundation.Date? = nil
     ) {
+        self.dryRun = dryRun
         self.shardId = shardId
         self.shardIteratorType = shardIteratorType
         self.startingSequenceNumber = startingSequenceNumber
@@ -3188,6 +3219,8 @@ public struct PutRecordInput: Swift.Sendable {
     /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
     /// This member is required.
     public var data: Foundation.Data?
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
     public var explicitHashKey: Swift.String?
     /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
@@ -3204,6 +3237,7 @@ public struct PutRecordInput: Swift.Sendable {
 
     public init(
         data: Foundation.Data? = nil,
+        dryRun: Swift.Bool? = nil,
         explicitHashKey: Swift.String? = nil,
         partitionKey: Swift.String? = nil,
         sequenceNumberForOrdering: Swift.String? = nil,
@@ -3212,6 +3246,7 @@ public struct PutRecordInput: Swift.Sendable {
         streamName: Swift.String? = nil
     ) {
         self.data = data
+        self.dryRun = dryRun
         self.explicitHashKey = explicitHashKey
         self.partitionKey = partitionKey
         self.sequenceNumberForOrdering = sequenceNumberForOrdering
@@ -3274,6 +3309,8 @@ extension KinesisClientTypes {
 
 /// A PutRecords request.
 public struct PutRecordsInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The records associated with the request.
     /// This member is required.
     public var records: [KinesisClientTypes.PutRecordsRequestEntry]?
@@ -3285,11 +3322,13 @@ public struct PutRecordsInput: Swift.Sendable {
     public var streamName: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         records: [KinesisClientTypes.PutRecordsRequestEntry]? = nil,
         streamARN: Swift.String? = nil,
         streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.records = records
         self.streamARN = streamARN
         self.streamId = streamId
@@ -3568,6 +3607,8 @@ public struct SubscribeToShardInput: Swift.Sendable {
     /// For this parameter, use the value you obtained when you called [RegisterStreamConsumer].
     /// This member is required.
     public var consumerARN: Swift.String?
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The ID of the shard you want to subscribe to. To see a list of all the shards for a given stream, use [ListShards].
     /// This member is required.
     public var shardId: Swift.String?
@@ -3579,11 +3620,13 @@ public struct SubscribeToShardInput: Swift.Sendable {
 
     public init(
         consumerARN: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         shardId: Swift.String? = nil,
         startingPosition: KinesisClientTypes.StartingPosition? = nil,
         streamId: Swift.String? = nil
     ) {
         self.consumerARN = consumerARN
+        self.dryRun = dryRun
         self.shardId = shardId
         self.startingPosition = startingPosition
         self.streamId = streamId

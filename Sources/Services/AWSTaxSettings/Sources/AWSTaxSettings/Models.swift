@@ -317,7 +317,7 @@ extension TaxSettingsClientTypes {
 
     /// Additional tax information associated with your TRN in Chile.
     public struct ChileAdditionalInfo: Swift.Sendable {
-        /// The business activity of the taxpayer in Chile.
+        /// The business activity code of the taxpayer in Chile. This must be the activity code shown on your SII (Servicio de Impuestos Internos) tax profile. For the list of valid activity codes, see [SII activity codes](https://www.sii.cl/ayudas/ayudas_por_servicios/1956-codigos-1959.html).
         public var businessActivity: Swift.String?
         /// The type of tax document. For Chile, this can be Invoice or Receipt.
         public var documentType: TaxSettingsClientTypes.ChileDocumentType?
@@ -371,13 +371,17 @@ extension TaxSettingsClientTypes {
 
     /// Additional tax information associated with your TRN in France.
     public struct FranceAdditionalInfo: Swift.Sendable {
+        /// The routing code used for electronic invoicing (e-invoicing) for the company in France.
+        public var eInvoiceRoutingCode: Swift.String?
         /// The SIREN number for the company in France. Must be a 9-digit number.
         /// This member is required.
         public var sirenNumber: Swift.String?
 
         public init(
+            eInvoiceRoutingCode: Swift.String? = nil,
             sirenNumber: Swift.String? = nil
         ) {
+            self.eInvoiceRoutingCode = eInvoiceRoutingCode
             self.sirenNumber = sirenNumber
         }
     }
@@ -728,6 +732,22 @@ extension TaxSettingsClientTypes {
             self.businessRegistrationNumber = businessRegistrationNumber
             self.serviceTaxCodes = serviceTaxCodes
             self.taxInformationNumber = taxInformationNumber
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Additional tax information associated with your TRN in Monaco.
+    public struct MonacoAdditionalInfo: Swift.Sendable {
+        /// The business number for the company in Monaco. Can be up to 12 alphanumeric characters.
+        /// This member is required.
+        public var businessNumber: Swift.String?
+
+        public init(
+            businessNumber: Swift.String? = nil
+        ) {
+            self.businessNumber = businessNumber
         }
     }
 }
@@ -1187,6 +1207,8 @@ extension TaxSettingsClientTypes {
         public var kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo?
         /// Additional tax information associated with your TRN in Malaysia.
         public var malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo?
+        /// Additional tax information associated with your TRN in Monaco.
+        public var monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo?
         /// Additional tax information associated with your TRN in the Philippines.
         public var philippinesAdditionalInfo: TaxSettingsClientTypes.PhilippinesAdditionalInfo?
         /// Additional tax information associated with your TRN in Poland.
@@ -1224,6 +1246,7 @@ extension TaxSettingsClientTypes {
             italyAdditionalInfo: TaxSettingsClientTypes.ItalyAdditionalInfo? = nil,
             kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo? = nil,
             malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo? = nil,
+            monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo? = nil,
             philippinesAdditionalInfo: TaxSettingsClientTypes.PhilippinesAdditionalInfo? = nil,
             polandAdditionalInfo: TaxSettingsClientTypes.PolandAdditionalInfo? = nil,
             romaniaAdditionalInfo: TaxSettingsClientTypes.RomaniaAdditionalInfo? = nil,
@@ -1250,6 +1273,7 @@ extension TaxSettingsClientTypes {
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.monacoAdditionalInfo = monacoAdditionalInfo
             self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
             self.romaniaAdditionalInfo = romaniaAdditionalInfo
@@ -1523,6 +1547,8 @@ extension TaxSettingsClientTypes {
         public var kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Malaysia.
         public var malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Monaco.
+        public var monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo?
         /// Additional tax information to specify for a TRN in the Philippines.
         public var philippinesAdditionalInfo: TaxSettingsClientTypes.PhilippinesAdditionalInfo?
         /// Additional tax information associated with your TRN in Poland.
@@ -1558,6 +1584,7 @@ extension TaxSettingsClientTypes {
             italyAdditionalInfo: TaxSettingsClientTypes.ItalyAdditionalInfo? = nil,
             kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo? = nil,
             malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo? = nil,
+            monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo? = nil,
             philippinesAdditionalInfo: TaxSettingsClientTypes.PhilippinesAdditionalInfo? = nil,
             polandAdditionalInfo: TaxSettingsClientTypes.PolandAdditionalInfo? = nil,
             romaniaAdditionalInfo: TaxSettingsClientTypes.RomaniaAdditionalInfo? = nil,
@@ -1582,6 +1609,7 @@ extension TaxSettingsClientTypes {
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.monacoAdditionalInfo = monacoAdditionalInfo
             self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
             self.romaniaAdditionalInfo = romaniaAdditionalInfo
@@ -3677,6 +3705,7 @@ extension TaxSettingsClientTypes.AdditionalInfoRequest {
         try writer["italyAdditionalInfo"].write(value.italyAdditionalInfo, with: TaxSettingsClientTypes.ItalyAdditionalInfo.write(value:to:))
         try writer["kenyaAdditionalInfo"].write(value.kenyaAdditionalInfo, with: TaxSettingsClientTypes.KenyaAdditionalInfo.write(value:to:))
         try writer["malaysiaAdditionalInfo"].write(value.malaysiaAdditionalInfo, with: TaxSettingsClientTypes.MalaysiaAdditionalInfo.write(value:to:))
+        try writer["monacoAdditionalInfo"].write(value.monacoAdditionalInfo, with: TaxSettingsClientTypes.MonacoAdditionalInfo.write(value:to:))
         try writer["philippinesAdditionalInfo"].write(value.philippinesAdditionalInfo, with: TaxSettingsClientTypes.PhilippinesAdditionalInfo.write(value:to:))
         try writer["polandAdditionalInfo"].write(value.polandAdditionalInfo, with: TaxSettingsClientTypes.PolandAdditionalInfo.write(value:to:))
         try writer["romaniaAdditionalInfo"].write(value.romaniaAdditionalInfo, with: TaxSettingsClientTypes.RomaniaAdditionalInfo.write(value:to:))
@@ -3720,6 +3749,7 @@ extension TaxSettingsClientTypes.AdditionalInfoResponse {
         value.belgiumAdditionalInfo = try reader["belgiumAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.BelgiumAdditionalInfo.read(from:))
         value.chileAdditionalInfo = try reader["chileAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.ChileAdditionalInfo.read(from:))
         value.franceAdditionalInfo = try reader["franceAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.FranceAdditionalInfo.read(from:))
+        value.monacoAdditionalInfo = try reader["monacoAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.MonacoAdditionalInfo.read(from:))
         return value
     }
 }
@@ -3914,6 +3944,7 @@ extension TaxSettingsClientTypes.FranceAdditionalInfo {
 
     static func write(value: TaxSettingsClientTypes.FranceAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["eInvoiceRoutingCode"].write(value.eInvoiceRoutingCode)
         try writer["sirenNumber"].write(value.sirenNumber)
     }
 
@@ -3921,6 +3952,7 @@ extension TaxSettingsClientTypes.FranceAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TaxSettingsClientTypes.FranceAdditionalInfo()
         value.sirenNumber = try reader["sirenNumber"].readIfPresent() ?? ""
+        value.eInvoiceRoutingCode = try reader["eInvoiceRoutingCode"].readIfPresent()
         return value
     }
 }
@@ -4065,6 +4097,21 @@ extension TaxSettingsClientTypes.MalaysiaAdditionalInfo {
         value.serviceTaxCodes = try reader["serviceTaxCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TaxSettingsClientTypes.MalaysiaServiceTaxCode>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.taxInformationNumber = try reader["taxInformationNumber"].readIfPresent()
         value.businessRegistrationNumber = try reader["businessRegistrationNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.MonacoAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.MonacoAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["businessNumber"].write(value.businessNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.MonacoAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.MonacoAdditionalInfo()
+        value.businessNumber = try reader["businessNumber"].readIfPresent() ?? ""
         return value
     }
 }

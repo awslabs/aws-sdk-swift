@@ -8662,7 +8662,7 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes.S3Storage: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "S3Storage(prefix: \(Swift.String(describing: `prefix`)), awsAccessKeyId: \(Swift.String(describing: awsAccessKeyId)), bucket: \(Swift.String(describing: bucket)), uploadPolicy: \(Swift.String(describing: uploadPolicy)), uploadPolicySignature: \"CONTENT_REDACTED\")"}
+        "S3Storage(prefix: \(Swift.String(describing: `prefix`)), awsAccessKeyId: \(Swift.String(describing: awsAccessKeyId)), bucket: \(Swift.String(describing: bucket)), uploadPolicy: \"CONTENT_REDACTED\", uploadPolicySignature: \"CONTENT_REDACTED\")"}
 }
 
 extension EC2ClientTypes {
@@ -79525,7 +79525,9 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    public struct BlobAttributeValue: Swift.Sendable {
+    /// Describes a value for a resource attribute that is a Base64-encoded binary data object.
+    public struct SecureBlobAttributeValue: Swift.Sendable {
+        /// The attribute value.
         public var value: Foundation.Data?
 
         public init(
@@ -79534,6 +79536,11 @@ extension EC2ClientTypes {
             self.value = value
         }
     }
+}
+
+extension EC2ClientTypes.SecureBlobAttributeValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SecureBlobAttributeValue(value: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyInstanceAttributeInput: Swift.Sendable {
@@ -79571,7 +79578,7 @@ public struct ModifyInstanceAttributeInput: Swift.Sendable {
     /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the instance. There is no way to disable enhanced networking with the Intel 82599 Virtual Function interface at this time. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable.
     public var sriovNetSupport: EC2ClientTypes.AttributeValue?
     /// Changes the instance's user data to the specified value. User data must be base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might be performed for you. For more information, see [Work with instance user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
-    public var userData: EC2ClientTypes.BlobAttributeValue?
+    public var userData: EC2ClientTypes.SecureBlobAttributeValue?
     /// A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
     public var value: Swift.String?
 
@@ -79592,7 +79599,7 @@ public struct ModifyInstanceAttributeInput: Swift.Sendable {
         ramdisk: EC2ClientTypes.AttributeValue? = nil,
         sourceDestCheck: EC2ClientTypes.AttributeBooleanValue? = nil,
         sriovNetSupport: EC2ClientTypes.AttributeValue? = nil,
-        userData: EC2ClientTypes.BlobAttributeValue? = nil,
+        userData: EC2ClientTypes.SecureBlobAttributeValue? = nil,
         value: Swift.String? = nil
     ) {
         self.attribute = attribute
@@ -104198,7 +104205,7 @@ extension ModifyInstanceAttributeInput {
         try writer["Ramdisk"].write(value.ramdisk, with: EC2ClientTypes.AttributeValue.write(value:to:))
         try writer["SourceDestCheck"].write(value.sourceDestCheck, with: EC2ClientTypes.AttributeBooleanValue.write(value:to:))
         try writer["SriovNetSupport"].write(value.sriovNetSupport, with: EC2ClientTypes.AttributeValue.write(value:to:))
-        try writer["UserData"].write(value.userData, with: EC2ClientTypes.BlobAttributeValue.write(value:to:))
+        try writer["UserData"].write(value.userData, with: EC2ClientTypes.SecureBlobAttributeValue.write(value:to:))
         try writer["Value"].write(value.value)
         try writer["Action"].write("ModifyInstanceAttribute")
         try writer["Version"].write("2016-11-15")
@@ -127694,14 +127701,6 @@ extension EC2ClientTypes.BaselinePerformanceFactorsRequest {
     }
 }
 
-extension EC2ClientTypes.BlobAttributeValue {
-
-    static func write(value: EC2ClientTypes.BlobAttributeValue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-}
-
 extension EC2ClientTypes.BlockDeviceMapping {
 
     static func write(value: EC2ClientTypes.BlockDeviceMapping?, to writer: SmithyFormURL.Writer) throws {
@@ -137420,6 +137419,14 @@ extension EC2ClientTypes.SecondarySubnetIpv4CidrBlockAssociation {
         value.state = try reader["state"].readIfPresent()
         value.stateReason = try reader["stateReason"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.SecureBlobAttributeValue {
+
+    static func write(value: EC2ClientTypes.SecureBlobAttributeValue?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
     }
 }
 

@@ -5545,7 +5545,63 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// Details about the connection between a Lambda function and an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    public enum DirectS3Read: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DirectS3Read] {
+            return [
+                .auto,
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Setting controls how your function accesses data from an Amazon S3 file system.
+    public struct S3FilesConfig: Swift.Sendable {
+        /// Specifies if a function reads from the file system for the lowest latency, or through Amazon S3 Files feature "direct Amazon S3 bucket reads" for the highest throughput. Valid values:
+        ///
+        /// * AUTO (default) – Direct reads are active for functions you configure with 512 MB or more of memory.
+        ///
+        /// * ENABLED – Enforces all reads are directly from the Amazon S3 bucket, regardless of available memory (less than 512 MB).
+        ///
+        /// * DISABLED – Routes all reads through the file system, regardless of memory configuration.
+        ///
+        ///
+        /// To use direct reads, you must grant the execution role the s3:GetObject and s3:GetObjectVersion permissions. If a direct read fails, Lambda automatically falls back to reading through the file system.
+        public var directS3Read: LambdaClientTypes.DirectS3Read?
+
+        public init(
+            directS3Read: LambdaClientTypes.DirectS3Read? = nil
+        ) {
+            self.directS3Read = directS3Read
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about the connection between a Lambda function and an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public struct FileSystemConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system.
         /// This member is required.
@@ -5553,13 +5609,17 @@ extension LambdaClientTypes {
         /// The path where the function can access the file system, starting with /mnt/.
         /// This member is required.
         public var localMountPath: Swift.String?
+        /// The configuration for how your function accesses data on an Amazon S3 file system. Valid only when the file system access point ARN is an Amazon S3 Files access point. If you specify a different access point type (for example, Amazon Elastic File System), the operation returns an InvalidParameterException.
+        public var s3FilesConfig: LambdaClientTypes.S3FilesConfig?
 
         public init(
             arn: Swift.String? = nil,
-            localMountPath: Swift.String? = nil
+            localMountPath: Swift.String? = nil,
+            s3FilesConfig: LambdaClientTypes.S3FilesConfig? = nil
         ) {
             self.arn = arn
             self.localMountPath = localMountPath
+            self.s3FilesConfig = s3FilesConfig
         }
     }
 }
@@ -6748,7 +6808,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -7266,7 +7326,7 @@ extension LambdaClientTypes {
         public var environment: LambdaClientTypes.EnvironmentResponse?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
         public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-        /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+        /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
         public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
         public var functionArn: Swift.String?
@@ -7598,7 +7658,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -10017,7 +10077,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -10308,7 +10368,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -10930,7 +10990,7 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var environment: LambdaClientTypes.EnvironmentResponse?
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 Files file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
     /// The function's Amazon Resource Name (ARN).
     public var functionArn: Swift.String?
@@ -19181,6 +19241,7 @@ extension LambdaClientTypes.FileSystemConfig {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
         try writer["LocalMountPath"].write(value.localMountPath)
+        try writer["S3FilesConfig"].write(value.s3FilesConfig, with: LambdaClientTypes.S3FilesConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FileSystemConfig {
@@ -19188,6 +19249,7 @@ extension LambdaClientTypes.FileSystemConfig {
         var value = LambdaClientTypes.FileSystemConfig()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.localMountPath = try reader["LocalMountPath"].readIfPresent() ?? ""
+        value.s3FilesConfig = try reader["S3FilesConfig"].readIfPresent(with: LambdaClientTypes.S3FilesConfig.read(from:))
         return value
     }
 }
@@ -19803,6 +19865,21 @@ extension LambdaClientTypes.RuntimeVersionError {
         var value = LambdaClientTypes.RuntimeVersionError()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.S3FilesConfig {
+
+    static func write(value: LambdaClientTypes.S3FilesConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectS3Read"].write(value.directS3Read)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.S3FilesConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.S3FilesConfig()
+        value.directS3Read = try reader["DirectS3Read"].readIfPresent()
         return value
     }
 }

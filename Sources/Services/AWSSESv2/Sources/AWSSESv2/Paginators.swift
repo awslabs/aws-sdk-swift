@@ -207,6 +207,37 @@ extension ListEmailIdentitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SESv2Client {
+    /// Paginate over `[ListEmailIdentityCertificatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEmailIdentityCertificatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentityCertificatesOutput`
+    public func listEmailIdentityCertificatesPaginated(input: ListEmailIdentityCertificatesInput) -> ClientRuntime.PaginatorSequence<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEmailIdentityCertificatesInput, ListEmailIdentityCertificatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEmailIdentityCertificates(input:))
+    }
+}
+
+extension ListEmailIdentityCertificatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEmailIdentityCertificatesInput {
+        return ListEmailIdentityCertificatesInput(
+            emailIdentity: self.emailIdentity,
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEmailIdentityCertificatesInput, OperationStackOutput == ListEmailIdentityCertificatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEmailIdentityCertificatesPaginated`
+    /// to access the nested member `[SESv2ClientTypes.IdentityCertificate]`
+    /// - Returns: `[SESv2ClientTypes.IdentityCertificate]`
+    public func certificates() async throws -> [SESv2ClientTypes.IdentityCertificate] {
+        return try await self.asyncCompactMap { item in item.certificates }
+    }
+}
+extension SESv2Client {
     /// Paginate over `[ListEmailTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
