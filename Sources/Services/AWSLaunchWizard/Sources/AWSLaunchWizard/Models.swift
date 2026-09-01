@@ -27,6 +27,43 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 
+extension LaunchWizardClientTypes {
+
+    /// The deployment must be initiated from a delegated administrator account for the specified service principal.
+    public struct DelegatedAdminConstraint: Swift.Sendable {
+        /// The service principal for which the account must be a delegated administrator. For example, stacksets.cloudformation.amazonaws.com.
+        /// This member is required.
+        public var servicePrincipal: Swift.String?
+
+        public init(
+            servicePrincipal: Swift.String? = nil
+        ) {
+            self.servicePrincipal = servicePrincipal
+        }
+    }
+}
+
+extension LaunchWizardClientTypes {
+
+    /// The deployment must be initiated from the AWS Organizations management account.
+    public struct ManagementAccountConstraint: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension LaunchWizardClientTypes {
+
+    /// A constraint on which AWS account a deployment can be initiated from. Specify one of the supported constraint types.
+    public enum AccountConstraint: Swift.Sendable {
+        /// The deployment must be initiated from the AWS Organizations management account.
+        case managementaccount(LaunchWizardClientTypes.ManagementAccountConstraint)
+        /// The deployment must be initiated from a delegated administrator account for the specified service principal.
+        case delegatedadmin(LaunchWizardClientTypes.DelegatedAdminConstraint)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -335,6 +372,8 @@ extension LaunchWizardClientTypes {
     public struct DeploymentEventDataSummary: Swift.Sendable {
         /// The description of the deployment event.
         public var description: Swift.String?
+        /// A map of metadata key-value pairs associated with a deployment event. For error detection events, contains workload context and log excerpts used for troubleshooting.
+        public var metadata: [Swift.String: Swift.String]?
         /// The name of the deployment event.
         public var name: Swift.String?
         /// The status of the deployment event.
@@ -346,12 +385,14 @@ extension LaunchWizardClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            metadata: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             status: LaunchWizardClientTypes.EventStatus? = nil,
             statusReason: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
         ) {
             self.description = description
+            self.metadata = metadata
             self.name = name
             self.status = status
             self.statusReason = statusReason
@@ -896,6 +937,8 @@ extension LaunchWizardClientTypes {
 
     /// Describes a workload.
     public struct WorkloadData: Swift.Sendable {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public var accountConstraints: [LaunchWizardClientTypes.AccountConstraint]?
         /// The description of a workload.
         public var description: Swift.String?
         /// The display name of a workload.
@@ -912,6 +955,7 @@ extension LaunchWizardClientTypes {
         public var workloadName: Swift.String?
 
         public init(
+            accountConstraints: [LaunchWizardClientTypes.AccountConstraint]? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             documentationUrl: Swift.String? = nil,
@@ -920,6 +964,7 @@ extension LaunchWizardClientTypes {
             statusMessage: Swift.String? = nil,
             workloadName: Swift.String? = nil
         ) {
+            self.accountConstraints = accountConstraints
             self.description = description
             self.displayName = displayName
             self.documentationUrl = documentationUrl
@@ -998,6 +1043,8 @@ extension LaunchWizardClientTypes {
 
     /// The data that details a workload deployment pattern.
     public struct WorkloadDeploymentPatternData: Swift.Sendable {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public var accountConstraints: [LaunchWizardClientTypes.AccountConstraint]?
         /// The name of the deployment pattern.
         public var deploymentPatternName: Swift.String?
         /// The version name of the deployment pattern.
@@ -1018,6 +1065,7 @@ extension LaunchWizardClientTypes {
         public var workloadVersionName: Swift.String?
 
         public init(
+            accountConstraints: [LaunchWizardClientTypes.AccountConstraint]? = nil,
             deploymentPatternName: Swift.String? = nil,
             deploymentPatternVersionName: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -1028,6 +1076,7 @@ extension LaunchWizardClientTypes {
             workloadName: Swift.String? = nil,
             workloadVersionName: Swift.String? = nil
         ) {
+            self.accountConstraints = accountConstraints
             self.deploymentPatternName = deploymentPatternName
             self.deploymentPatternVersionName = deploymentPatternVersionName
             self.description = description
@@ -1138,6 +1187,8 @@ extension LaunchWizardClientTypes {
 
     /// Describes workload data.
     public struct WorkloadDataSummary: Swift.Sendable {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public var accountConstraints: [LaunchWizardClientTypes.AccountConstraint]?
         /// The display name of the workload data.
         public var displayName: Swift.String?
         /// The status of the workload.
@@ -1146,10 +1197,12 @@ extension LaunchWizardClientTypes {
         public var workloadName: Swift.String?
 
         public init(
+            accountConstraints: [LaunchWizardClientTypes.AccountConstraint]? = nil,
             displayName: Swift.String? = nil,
             status: LaunchWizardClientTypes.WorkloadStatus? = nil,
             workloadName: Swift.String? = nil
         ) {
+            self.accountConstraints = accountConstraints
             self.displayName = displayName
             self.status = status
             self.workloadName = workloadName
@@ -1196,6 +1249,8 @@ extension LaunchWizardClientTypes {
 
     /// Describes a workload deployment pattern.
     public struct WorkloadDeploymentPatternDataSummary: Swift.Sendable {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public var accountConstraints: [LaunchWizardClientTypes.AccountConstraint]?
         /// The name of a workload deployment pattern.
         public var deploymentPatternName: Swift.String?
         /// The version name of a workload deployment pattern.
@@ -1214,6 +1269,7 @@ extension LaunchWizardClientTypes {
         public var workloadVersionName: Swift.String?
 
         public init(
+            accountConstraints: [LaunchWizardClientTypes.AccountConstraint]? = nil,
             deploymentPatternName: Swift.String? = nil,
             deploymentPatternVersionName: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -1223,6 +1279,7 @@ extension LaunchWizardClientTypes {
             workloadName: Swift.String? = nil,
             workloadVersionName: Swift.String? = nil
         ) {
+            self.accountConstraints = accountConstraints
             self.deploymentPatternName = deploymentPatternName
             self.deploymentPatternVersionName = deploymentPatternVersionName
             self.description = description
@@ -1976,6 +2033,32 @@ extension ValidationException {
     }
 }
 
+extension LaunchWizardClientTypes.AccountConstraint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.AccountConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "managementAccount":
+                return .managementaccount(try reader["managementAccount"].read(with: LaunchWizardClientTypes.ManagementAccountConstraint.read(from:)))
+            case "delegatedAdmin":
+                return .delegatedadmin(try reader["delegatedAdmin"].read(with: LaunchWizardClientTypes.DelegatedAdminConstraint.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LaunchWizardClientTypes.DelegatedAdminConstraint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DelegatedAdminConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DelegatedAdminConstraint()
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension LaunchWizardClientTypes.DeploymentConditionalField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentConditionalField {
@@ -2035,6 +2118,7 @@ extension LaunchWizardClientTypes.DeploymentEventDataSummary {
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2085,6 +2169,14 @@ extension LaunchWizardClientTypes.DeploymentSpecificationsField {
     }
 }
 
+extension LaunchWizardClientTypes.ManagementAccountConstraint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.ManagementAccountConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return LaunchWizardClientTypes.ManagementAccountConstraint()
+    }
+}
+
 extension LaunchWizardClientTypes.WorkloadData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadData {
@@ -2093,6 +2185,7 @@ extension LaunchWizardClientTypes.WorkloadData {
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.accountConstraints = try reader["accountConstraints"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.AccountConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent()
         value.documentationUrl = try reader["documentationUrl"].readIfPresent()
         value.iconUrl = try reader["iconUrl"].readIfPresent()
@@ -2109,6 +2202,7 @@ extension LaunchWizardClientTypes.WorkloadDataSummary {
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.accountConstraints = try reader["accountConstraints"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.AccountConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2126,6 +2220,7 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternData {
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.accountConstraints = try reader["accountConstraints"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.AccountConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.specifications = try reader["specifications"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentSpecificationsField.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -2144,6 +2239,7 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.accountConstraints = try reader["accountConstraints"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.AccountConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

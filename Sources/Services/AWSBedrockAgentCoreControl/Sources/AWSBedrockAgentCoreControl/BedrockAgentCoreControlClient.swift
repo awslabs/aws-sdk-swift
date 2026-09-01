@@ -4079,7 +4079,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteMemory` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes an Amazon Bedrock AgentCore Memory resource.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteMemoryInput`)
     ///

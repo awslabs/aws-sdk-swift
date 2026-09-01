@@ -963,7 +963,7 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
-    /// This is a summary of jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    /// This is a summary of jobs created or running within the most recent 14 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     public struct BackupJobSummary: Swift.Sendable {
         /// The account ID that owns the jobs within the summary.
         public var accountId: Swift.String?
@@ -2221,7 +2221,7 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
-    /// This is a summary of copy jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    /// This is a summary of copy jobs created or running within the most recent 14 days. The returned summary may contain the following: Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     public struct CopyJobSummary: Swift.Sendable {
         /// The account ID that owns the jobs within the summary.
         public var accountId: Swift.String?
@@ -3004,7 +3004,7 @@ extension BackupClientTypes {
         public var includeVaults: [Swift.String]?
         /// These are the types of recovery points. Include SNAPSHOT to restore only snapshot recovery points; include CONTINUOUS to restore continuous recovery points (point in time restore / PITR); use both to restore either a snapshot or a continuous recovery point. The recovery point will be determined by the value for Algorithm.
         public var recoveryPointTypes: [BackupClientTypes.RestoreTestingRecoveryPointType]?
-        /// Accepted values are integers from 1 to 365.
+        /// Accepted values are integers from 1 to 365. If not included, the value defaults to 30. The selection window is calculated from the actual job execution time, not the plan's scheduled start time.
         public var selectionWindowDays: Swift.Int
 
         public init(
@@ -7990,7 +7990,7 @@ public struct ListRestoreJobSummariesInput: Swift.Sendable {
 
 extension BackupClientTypes {
 
-    /// This is a summary of restore jobs created or running within the most recent 30 days. The returned summary may contain the following: Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
+    /// This is a summary of restore jobs created or running within the most recent 14 days. The returned summary may contain the following: Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
     public struct RestoreJobSummary: Swift.Sendable {
         /// The account ID that owns the jobs within the summary.
         public var accountId: Swift.String?

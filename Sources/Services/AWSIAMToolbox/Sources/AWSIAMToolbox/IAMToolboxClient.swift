@@ -21,7 +21,6 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -44,49 +43,47 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
-import struct ClientRuntime.ContentLengthMiddleware
-import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct Smithy.Document
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public final class ConnectContactLensClient: AWSClientRuntime.AWSServiceClient {
-    public static let clientName = "ConnectContactLensClient"
+public final class IAMToolboxClient: AWSClientRuntime.AWSServiceClient {
+    public static let clientName = "IAMToolboxClient"
     let client: ClientRuntime.SdkHttpClient
-    public let config: ConnectContactLensClient.ConnectContactLensClientConfig
-    let serviceName = "Connect Contact Lens"
+    public let config: IAMToolboxClient.IAMToolboxClientConfig
+    let serviceName = "IAM Toolbox"
     let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
-    @available(*, deprecated, message: "Use ConnectContactLensClient.ConnectContactLensClientConfig instead")
-    public typealias Config = ConnectContactLensClient.ConnectContactLensClientConfiguration
-    public typealias Configuration = ConnectContactLensClient.ConnectContactLensClientConfig
+    @available(*, deprecated, message: "Use IAMToolboxClient.IAMToolboxClientConfig instead")
+    public typealias Config = IAMToolboxClient.IAMToolboxClientConfiguration
+    public typealias Configuration = IAMToolboxClient.IAMToolboxClientConfig
 
-    public required init(config: ConnectContactLensClient.ConnectContactLensClientConfig) {
+    public required init(config: IAMToolboxClient.IAMToolboxClientConfig) {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
         self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
-    @available(*, deprecated, message: "Use init(config: ConnectContactLensClient.ConnectContactLensClientConfig) instead")
-    public convenience init(config: ConnectContactLensClient.ConnectContactLensClientConfiguration) {
+    @available(*, deprecated, message: "Use init(config: IAMToolboxClient.IAMToolboxClientConfig) instead")
+    public convenience init(config: IAMToolboxClient.IAMToolboxClientConfiguration) {
         do {
             try self.init(config: config.toSendable())
         } catch {
@@ -96,22 +93,22 @@ public final class ConnectContactLensClient: AWSClientRuntime.AWSServiceClient {
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try ConnectContactLensClient.ConnectContactLensClientConfig(region: region)
+        let config = try IAMToolboxClient.IAMToolboxClientConfig(region: region)
         self.init(config: config)
     }
 
     public convenience init() async throws {
-        let config = try await ConnectContactLensClient.ConnectContactLensClientConfig()
+        let config = try await IAMToolboxClient.IAMToolboxClientConfig()
         self.init(config: config)
     }
 }
 
-extension ConnectContactLensClient {
+extension IAMToolboxClient {
 
-    /// Client configuration for ConnectContactLensClient
+    /// Client configuration for IAMToolboxClient
     ///
     /// Conforms to `Sendable` for safe concurrent access across threads.
-    public struct ConnectContactLensClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
+    public struct IAMToolboxClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -197,7 +194,7 @@ extension ConnectContactLensClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Connect Contact Lens")
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "IAM Toolbox")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -205,11 +202,11 @@ extension ConnectContactLensClient {
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
             self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
-            self.authSchemeResolver = authSchemeResolver ?? DefaultConnectContactLensAuthSchemeResolver()
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIAMToolboxAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
-            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: ConnectContactLensClient.clientName)
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IAMToolboxClient.clientName)
         }
 
         public init(
@@ -252,7 +249,7 @@ extension ConnectContactLensClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Connect Contact Lens")
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "IAM Toolbox")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -260,11 +257,11 @@ extension ConnectContactLensClient {
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
             self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
-            self.authSchemeResolver = authSchemeResolver ?? DefaultConnectContactLensAuthSchemeResolver()
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIAMToolboxAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
-            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: ConnectContactLensClient.clientName)
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IAMToolboxClient.clientName)
         }
 
         public init() async throws {
@@ -320,7 +317,7 @@ extension ConnectContactLensClient {
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference: nil,
-                authSchemeResolver: DefaultConnectContactLensAuthSchemeResolver(),
+                authSchemeResolver: DefaultIAMToolboxAuthSchemeResolver(),
                 bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders: [],
                 httpInterceptorProviders: []
@@ -328,7 +325,7 @@ extension ConnectContactLensClient {
         }
 
         public var partitionID: String? {
-            return "\(ConnectContactLensClient.clientName) - \(region ?? "")"
+            return "\(IAMToolboxClient.clientName) - \(region ?? "")"
         }
 
         public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
@@ -341,8 +338,8 @@ extension ConnectContactLensClient {
 
     }
 
-    @available(*, deprecated, message: "Use ConnectContactLensClientConfig instead. This class will be removed in a future version.")
-    public final class ConnectContactLensClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    @available(*, deprecated, message: "Use IAMToolboxClientConfig instead. This class will be removed in a future version.")
+    public final class IAMToolboxClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -428,7 +425,7 @@ extension ConnectContactLensClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Connect Contact Lens")
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "IAM Toolbox")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -436,11 +433,11 @@ extension ConnectContactLensClient {
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
             self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
-            self.authSchemeResolver = authSchemeResolver ?? DefaultConnectContactLensAuthSchemeResolver()
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIAMToolboxAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
-            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: ConnectContactLensClient.clientName)
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IAMToolboxClient.clientName)
         }
 
         public init(
@@ -483,7 +480,7 @@ extension ConnectContactLensClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Connect Contact Lens")
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "IAM Toolbox")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -491,11 +488,11 @@ extension ConnectContactLensClient {
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
             self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
-            self.authSchemeResolver = authSchemeResolver ?? DefaultConnectContactLensAuthSchemeResolver()
+            self.authSchemeResolver = authSchemeResolver ?? DefaultIAMToolboxAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
-            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: ConnectContactLensClient.clientName)
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: IAMToolboxClient.clientName)
         }
 
         public convenience init() async throws {
@@ -551,7 +548,7 @@ extension ConnectContactLensClient {
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference: nil,
-                authSchemeResolver: DefaultConnectContactLensAuthSchemeResolver(),
+                authSchemeResolver: DefaultIAMToolboxAuthSchemeResolver(),
                 bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders: [],
                 httpInterceptorProviders: []
@@ -559,11 +556,11 @@ extension ConnectContactLensClient {
         }
 
         public var partitionID: String? {
-            return "\(ConnectContactLensClient.clientName) - \(region ?? "")"
+            return "\(IAMToolboxClient.clientName) - \(region ?? "")"
         }
 
-        public func toSendable() throws -> ConnectContactLensClientConfig {
-            return try ConnectContactLensClientConfig(
+        public func toSendable() throws -> IAMToolboxClientConfig {
+            return try IAMToolboxClientConfig(
                 useFIPS: self.useFIPS,
                 useDualStack: self.useDualStack,
                 appID: self.appID,
@@ -602,8 +599,8 @@ extension ConnectContactLensClient {
 
     }
 
-    public static func builder() -> ClientRuntime.ClientBuilder<ConnectContactLensClient> {
-        return ClientRuntime.ClientBuilder<ConnectContactLensClient>(defaultPlugins: [
+    public static func builder() -> ClientRuntime.ClientBuilder<IAMToolboxClient> {
+        return ClientRuntime.ClientBuilder<IAMToolboxClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
             AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
             DefaultAWSAuthSchemePlugin()
@@ -611,67 +608,64 @@ extension ConnectContactLensClient {
     }
 }
 
-extension ConnectContactLensClient {
-    /// Performs the `ListRealtimeContactAnalysisSegments` operation on the `ConnectContactLens` service.
+extension IAMToolboxClient {
+    /// Performs the `GetRequestAuthorizationDetails` operation on the `IAMToolbox` service.
     ///
-    /// Provides a list of analysis segments for a real-time analysis session for voice. Voice data is retained for 24 hours. You must invoke this API during that time.
+    /// Retrieves the authorization details for a specific access denied request. The details include the request context, the evaluations performed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error message. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the denial. To use this operation, you must have the iam:GetRequestAuthorizationDetails permission.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsInput`)
+    /// - Parameter input: [no documentation found] (Type: `GetRequestAuthorizationDetailsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsOutput`)
+    /// - Returns: [no documentation found] (Type: `GetRequestAuthorizationDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServiceException` : Request processing failed due to an error or failure with the service.
-    /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
-    /// - `ThrottlingException` : The throttling limit has been exceeded.
-    public func listRealtimeContactAnalysisSegments(input: ListRealtimeContactAnalysisSegmentsInput) async throws -> ListRealtimeContactAnalysisSegmentsOutput {
+    /// - `AccessDeniedException` : The caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request. Try again.
+    /// - `ResourceNotFoundException` : The requested authorization details do not exist in this region or have expired. Verify that the authorization ID from the access denied error message is correct and the call is made in the region where the denial occurred. Ensure that the calling principal belongs to the same account or organization as the original denied request.
+    /// - `ValidationException` : The request is malformed or is missing one or more required parameters. Check the request parameters and try again.
+    public func getRequestAuthorizationDetails(input: GetRequestAuthorizationDetailsInput) async throws -> GetRequestAuthorizationDetailsOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
+                      .withMethod(value: .get)
                       .withServiceName(value: serviceName)
-                      .withOperation(value: "listRealtimeContactAnalysisSegments")
+                      .withOperation(value: "getRequestAuthorizationDetails")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "connect")
+                      .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(ListRealtimeContactAnalysisSegmentsInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRealtimeContactAnalysisSegmentsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRealtimeContactAnalysisSegmentsOutput>(ListRealtimeContactAnalysisSegmentsOutput.httpOutput(from:), ListRealtimeContactAnalysisSegmentsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>(GetRequestAuthorizationDetailsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>(GetRequestAuthorizationDetailsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRequestAuthorizationDetailsOutput>(GetRequestAuthorizationDetailsOutput.httpOutput(from:), GetRequestAuthorizationDetailsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.applySigner(ClientRuntime.SignerMiddleware<ListRealtimeContactAnalysisSegmentsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect Contact Lens", config.ignoreConfiguredEndpointURLs)
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRequestAuthorizationDetailsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM Toolbox", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRealtimeContactAnalysisSegmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRealtimeContactAnalysisSegmentsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRequestAuthorizationDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRequestAuthorizationDetailsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.retryStrategy(self.retryStrategy)
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect Contact Lens"))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(serviceID: serviceName, version: ConnectContactLensClient.version, config: config))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM Toolbox"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRequestAuthorizationDetailsInput, GetRequestAuthorizationDetailsOutput>(serviceID: serviceName, version: IAMToolboxClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectContactLens")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRealtimeContactAnalysisSegments")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAMToolbox")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRequestAuthorizationDetails")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

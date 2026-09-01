@@ -3153,11 +3153,11 @@ extension DeviceFarmClient {
 
     /// Performs the `GetTestGridSession` operation on the `DeviceFarm` service.
     ///
-    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from [CreateTestGridUrlResult$url]. You can use the following to look up sessions:
+    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from  CreateTestGridUrlResult. You can use the following to look up sessions:
     ///
-    /// * The session ARN ([GetTestGridSessionRequest$sessionArn]).
+    /// * The session ARN.
     ///
-    /// * The project ARN and a session ID ([GetTestGridSessionRequest$projectArn] and [GetTestGridSessionRequest$sessionId]).
+    /// * The project ARN and a session ID.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetTestGridSessionInput`)
     ///
@@ -4467,7 +4467,7 @@ extension DeviceFarmClient {
 
     /// Performs the `ListSamples` operation on the `DeviceFarm` service.
     ///
-    /// Gets information about samples, given an AWS Device Farm job ARN.
+    /// Gets information about samples, given an AWS Device Farm job ARN. Device Farm does not support performance data samples during test executions.
     ///
     /// - Parameter input: Represents a request to the list samples operation. (Type: `ListSamplesInput`)
     ///

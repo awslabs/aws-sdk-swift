@@ -2164,6 +2164,176 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Details for SASL/OAUTHBEARER using standard client_credentials grant.
+    public struct KafkaClusterOAuthClientCredentials: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the OAuth client credentials.
+        /// This member is required.
+        public var tokenRequestSecretArn: Swift.String?
+
+        public init(
+            tokenRequestSecretArn: Swift.String? = nil
+        ) {
+            self.tokenRequestSecretArn = tokenRequestSecretArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The algorithm used to sign the STS JWT assertion.
+    public enum JwtSigningAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case es384
+        case rs256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwtSigningAlgorithm] {
+            return [
+                .es384,
+                .rs256
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .es384: return "ES384"
+            case .rs256: return "RS256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details for SASL/OAUTHBEARER using client credentials grant with JWT client assertion.
+    public struct KafkaClusterOAuthClientCredentialsAssertion: Swift.Sendable {
+        /// The audience for the JWT client assertion.
+        /// This member is required.
+        public var audience: Swift.String?
+        /// The signing algorithm for the JWT client assertion.
+        /// This member is required.
+        public var signingAlgorithm: KafkaClientTypes.JwtSigningAlgorithm?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the signing key.
+        public var tokenRequestSecretArn: Swift.String?
+
+        public init(
+            audience: Swift.String? = nil,
+            signingAlgorithm: KafkaClientTypes.JwtSigningAlgorithm? = nil,
+            tokenRequestSecretArn: Swift.String? = nil
+        ) {
+            self.audience = audience
+            self.signingAlgorithm = signingAlgorithm
+            self.tokenRequestSecretArn = tokenRequestSecretArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details for SASL/OAUTHBEARER using JWT Bearer assertion grant.
+    public struct KafkaClusterOAuthIamJwtBearer: Swift.Sendable {
+        /// The audience for the JWT Bearer assertion.
+        /// This member is required.
+        public var audience: Swift.String?
+        /// The signing algorithm for the JWT Bearer assertion.
+        /// This member is required.
+        public var signingAlgorithm: KafkaClientTypes.JwtSigningAlgorithm?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the signing key.
+        public var tokenRequestSecretArn: Swift.String?
+
+        public init(
+            audience: Swift.String? = nil,
+            signingAlgorithm: KafkaClientTypes.JwtSigningAlgorithm? = nil,
+            tokenRequestSecretArn: Swift.String? = nil
+        ) {
+            self.audience = audience
+            self.signingAlgorithm = signingAlgorithm
+            self.tokenRequestSecretArn = tokenRequestSecretArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// How client credentials are sent to the identity provider's token endpoint.
+    public enum TokenEndpointAuthenticationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basic
+        case `none`
+        case post
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TokenEndpointAuthenticationMethod] {
+            return [
+                .basic,
+                .none,
+                .post
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .none: return "NONE"
+            case .post: return "POST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Details for SASL/OAUTHBEARER client authentication.
+    public struct KafkaClusterSaslOAuthBearerAuthentication: Swift.Sendable {
+        /// Details for SASL/OAUTHBEARER using standard client_credentials grant.
+        public var clientCredentials: KafkaClientTypes.KafkaClusterOAuthClientCredentials?
+        /// Details for SASL/OAUTHBEARER using client credentials grant with JWT client assertion.
+        public var clientCredentialsAssertion: KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion?
+        /// Details for SASL/OAUTHBEARER using JWT Bearer assertion grant (RFC 7523).
+        public var iamJwtBearer: KafkaClientTypes.KafkaClusterOAuthIamJwtBearer?
+        /// OAuth scope to request.
+        public var scope: Swift.String?
+        /// How client credentials are sent to the identity provider. Valid values are POST, BASIC, or NONE.
+        /// This member is required.
+        public var tokenEndpointAuthenticationMethod: KafkaClientTypes.TokenEndpointAuthenticationMethod?
+        /// Secrets Manager ARN containing a custom CA certificate for the identity provider.
+        public var tokenEndpointTlsCertificateArn: Swift.String?
+        /// The HTTPS URL of the OAuth token endpoint that vends OAuth Bearer tokens per RFC 6749.
+        /// This member is required.
+        public var tokenEndpointUrl: Swift.String?
+
+        public init(
+            clientCredentials: KafkaClientTypes.KafkaClusterOAuthClientCredentials? = nil,
+            clientCredentialsAssertion: KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion? = nil,
+            iamJwtBearer: KafkaClientTypes.KafkaClusterOAuthIamJwtBearer? = nil,
+            scope: Swift.String? = nil,
+            tokenEndpointAuthenticationMethod: KafkaClientTypes.TokenEndpointAuthenticationMethod? = nil,
+            tokenEndpointTlsCertificateArn: Swift.String? = nil,
+            tokenEndpointUrl: Swift.String? = nil
+        ) {
+            self.clientCredentials = clientCredentials
+            self.clientCredentialsAssertion = clientCredentialsAssertion
+            self.iamJwtBearer = iamJwtBearer
+            self.scope = scope
+            self.tokenEndpointAuthenticationMethod = tokenEndpointAuthenticationMethod
+            self.tokenEndpointTlsCertificateArn = tokenEndpointTlsCertificateArn
+            self.tokenEndpointUrl = tokenEndpointUrl
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// The SASL/SCRAM authentication mechanism.
     public enum KafkaClusterSaslScramMechanism: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sha256
@@ -2219,14 +2389,18 @@ extension KafkaClientTypes {
     public struct KafkaClusterClientAuthentication: Swift.Sendable {
         /// Details for mTLS client authentication.
         public var mtls: KafkaClientTypes.KafkaClusterMTLSAuthentication?
+        /// Details for SASL/OAUTHBEARER client authentication.
+        public var saslOAuthBearer: KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication?
         /// Details for SASL/SCRAM client authentication.
         public var saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication?
 
         public init(
             mtls: KafkaClientTypes.KafkaClusterMTLSAuthentication? = nil,
+            saslOAuthBearer: KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication? = nil,
             saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication? = nil
         ) {
             self.mtls = mtls
+            self.saslOAuthBearer = saslOAuthBearer
             self.saslScram = saslScram
         }
     }
@@ -11338,6 +11512,7 @@ extension KafkaClientTypes.KafkaClusterClientAuthentication {
     static func write(value: KafkaClientTypes.KafkaClusterClientAuthentication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["mTLS"].write(value.mtls, with: KafkaClientTypes.KafkaClusterMTLSAuthentication.write(value:to:))
+        try writer["saslOAuthBearer"].write(value.saslOAuthBearer, with: KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication.write(value:to:))
         try writer["saslScram"].write(value.saslScram, with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.write(value:to:))
     }
 
@@ -11346,6 +11521,7 @@ extension KafkaClientTypes.KafkaClusterClientAuthentication {
         var value = KafkaClientTypes.KafkaClusterClientAuthentication()
         value.saslScram = try reader["saslScram"].readIfPresent(with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.read(from:))
         value.mtls = try reader["mTLS"].readIfPresent(with: KafkaClientTypes.KafkaClusterMTLSAuthentication.read(from:))
+        value.saslOAuthBearer = try reader["saslOAuthBearer"].readIfPresent(with: KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication.read(from:))
         return value
     }
 }
@@ -11410,6 +11586,86 @@ extension KafkaClientTypes.KafkaClusterMTLSAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.KafkaClusterMTLSAuthentication()
         value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterOAuthClientCredentials {
+
+    static func write(value: KafkaClientTypes.KafkaClusterOAuthClientCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tokenRequestSecretArn"].write(value.tokenRequestSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterOAuthClientCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterOAuthClientCredentials()
+        value.tokenRequestSecretArn = try reader["tokenRequestSecretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion {
+
+    static func write(value: KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audience"].write(value.audience)
+        try writer["signingAlgorithm"].write(value.signingAlgorithm)
+        try writer["tokenRequestSecretArn"].write(value.tokenRequestSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion()
+        value.audience = try reader["audience"].readIfPresent() ?? ""
+        value.signingAlgorithm = try reader["signingAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.tokenRequestSecretArn = try reader["tokenRequestSecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterOAuthIamJwtBearer {
+
+    static func write(value: KafkaClientTypes.KafkaClusterOAuthIamJwtBearer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audience"].write(value.audience)
+        try writer["signingAlgorithm"].write(value.signingAlgorithm)
+        try writer["tokenRequestSecretArn"].write(value.tokenRequestSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterOAuthIamJwtBearer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterOAuthIamJwtBearer()
+        value.audience = try reader["audience"].readIfPresent() ?? ""
+        value.signingAlgorithm = try reader["signingAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.tokenRequestSecretArn = try reader["tokenRequestSecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication {
+
+    static func write(value: KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientCredentials"].write(value.clientCredentials, with: KafkaClientTypes.KafkaClusterOAuthClientCredentials.write(value:to:))
+        try writer["clientCredentialsAssertion"].write(value.clientCredentialsAssertion, with: KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion.write(value:to:))
+        try writer["iamJwtBearer"].write(value.iamJwtBearer, with: KafkaClientTypes.KafkaClusterOAuthIamJwtBearer.write(value:to:))
+        try writer["scope"].write(value.scope)
+        try writer["tokenEndpointAuthenticationMethod"].write(value.tokenEndpointAuthenticationMethod)
+        try writer["tokenEndpointTlsCertificateArn"].write(value.tokenEndpointTlsCertificateArn)
+        try writer["tokenEndpointUrl"].write(value.tokenEndpointUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterSaslOAuthBearerAuthentication()
+        value.tokenEndpointUrl = try reader["tokenEndpointUrl"].readIfPresent() ?? ""
+        value.clientCredentials = try reader["clientCredentials"].readIfPresent(with: KafkaClientTypes.KafkaClusterOAuthClientCredentials.read(from:))
+        value.iamJwtBearer = try reader["iamJwtBearer"].readIfPresent(with: KafkaClientTypes.KafkaClusterOAuthIamJwtBearer.read(from:))
+        value.clientCredentialsAssertion = try reader["clientCredentialsAssertion"].readIfPresent(with: KafkaClientTypes.KafkaClusterOAuthClientCredentialsAssertion.read(from:))
+        value.tokenEndpointAuthenticationMethod = try reader["tokenEndpointAuthenticationMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.scope = try reader["scope"].readIfPresent()
+        value.tokenEndpointTlsCertificateArn = try reader["tokenEndpointTlsCertificateArn"].readIfPresent()
         return value
     }
 }

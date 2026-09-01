@@ -5866,15 +5866,15 @@ extension BedrockAgentCoreControlClientTypes {
         case agentcoreEvaluationPredefinedV1
         /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation where each example is a scenario used to generate full conversations.
         case agentcoreEvaluationSimulatedV1
-        /// Unified generic evaluation schema, version 1. Supports single-turn (string input) and multi-turn (message list input) across all evaluation frameworks.
-        case genericEvaluationPredefinedV1
+        /// Third-party evaluation schema, version 1. Supports single-turn (string input) and multi-turn (message list input) across third-party evaluation frameworks.
+        case thirdPartyEvaluationV1
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatasetSchemaType] {
             return [
                 .agentcoreEvaluationPredefinedV1,
                 .agentcoreEvaluationSimulatedV1,
-                .genericEvaluationPredefinedV1
+                .thirdPartyEvaluationV1
             ]
         }
 
@@ -5887,7 +5887,7 @@ extension BedrockAgentCoreControlClientTypes {
             switch self {
             case .agentcoreEvaluationPredefinedV1: return "AGENTCORE_EVALUATION_PREDEFINED_V1"
             case .agentcoreEvaluationSimulatedV1: return "AGENTCORE_EVALUATION_SIMULATED_V1"
-            case .genericEvaluationPredefinedV1: return "GENERIC_EVALUATION_PREDEFINED_V1"
+            case .thirdPartyEvaluationV1: return "THIRD_PARTY_EVALUATION_V1"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9941,8 +9941,44 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The precedence used when a client-supplied query parameter has the same name as a configured static query parameter:
+    ///
+    /// * CLIENT_OVERRIDE - The client-supplied value overrides the configured static value for that parameter name. This is the default.
+    ///
+    /// * STATIC_OVERRIDE - The configured static value is retained, overriding the client-supplied value for that parameter name.
+    public enum StaticQueryParameterConflictResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientOverride
+        case staticOverride
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StaticQueryParameterConflictResolution] {
+            return [
+                .clientOverride,
+                .staticOverride
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientOverride: return "CLIENT_OVERRIDE"
+            case .staticOverride: return "STATIC_OVERRIDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The configuration for session-sticky routing to a target. Session stickiness routes requests that share a session identifier to the same target.
     public struct StickinessConfiguration: Swift.Sendable {
+        /// Additional headers to include in session affinity routing. When set, requests are only considered part of the same session if both the identifier and all composite identifier values match.
+        public var compositeIdentifier: [Swift.String]?
         /// The expression that identifies where to extract the session identifier from the request (for example, $context.header.x-session-id).
         /// This member is required.
         public var identifier: Swift.String?
@@ -9950,9 +9986,11 @@ extension BedrockAgentCoreControlClientTypes {
         public var timeout: Swift.Int?
 
         public init(
+            compositeIdentifier: [Swift.String]? = nil,
             identifier: Swift.String? = nil,
             timeout: Swift.Int? = nil
         ) {
+            self.compositeIdentifier = compositeIdentifier
             self.identifier = identifier
             self.timeout = timeout
         }
@@ -9979,6 +10017,14 @@ extension BedrockAgentCoreControlClientTypes {
         public var protocolType: BedrockAgentCoreControlClientTypes.PassthroughProtocolType?
         /// The API schema configuration that defines the structure of the passthrough target's API.
         public var schema: BedrockAgentCoreControlClientTypes.HttpApiSchemaConfiguration?
+        /// Controls precedence when a client request supplies a query parameter whose name matches a configured static query parameter. If not set, defaults to CLIENT_OVERRIDE:
+        ///
+        /// * CLIENT_OVERRIDE - The client-supplied value overrides the configured static value for that parameter name.
+        ///
+        /// * STATIC_OVERRIDE - The configured static value is retained, overriding the client-supplied value for that parameter name.
+        public var staticQueryParameterConflictResolution: BedrockAgentCoreControlClientTypes.StaticQueryParameterConflictResolution?
+        /// A map of static query parameters that the gateway always appends to the outbound URL when forwarding requests to the target. The total outbound URL length, which includes the endpoint and the percent-encoded query parameters, is enforced by the service.
+        public var staticQueryParameters: [Swift.String: Swift.String]?
         /// The session stickiness configuration for the passthrough target. This configuration routes requests within the same session to the same target.
         public var stickinessConfiguration: BedrockAgentCoreControlClientTypes.StickinessConfiguration?
 
@@ -9986,14 +10032,23 @@ extension BedrockAgentCoreControlClientTypes {
             endpoint: Swift.String? = nil,
             protocolType: BedrockAgentCoreControlClientTypes.PassthroughProtocolType? = nil,
             schema: BedrockAgentCoreControlClientTypes.HttpApiSchemaConfiguration? = nil,
+            staticQueryParameterConflictResolution: BedrockAgentCoreControlClientTypes.StaticQueryParameterConflictResolution? = nil,
+            staticQueryParameters: [Swift.String: Swift.String]? = nil,
             stickinessConfiguration: BedrockAgentCoreControlClientTypes.StickinessConfiguration? = nil
         ) {
             self.endpoint = endpoint
             self.protocolType = protocolType
             self.schema = schema
+            self.staticQueryParameterConflictResolution = staticQueryParameterConflictResolution
+            self.staticQueryParameters = staticQueryParameters
             self.stickinessConfiguration = stickinessConfiguration
         }
     }
+}
+
+extension BedrockAgentCoreControlClientTypes.PassthroughTargetConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PassthroughTargetConfiguration(endpoint: \(Swift.String(describing: endpoint)), protocolType: \(Swift.String(describing: protocolType)), schema: \(Swift.String(describing: schema)), staticQueryParameterConflictResolution: \(Swift.String(describing: staticQueryParameterConflictResolution)), stickinessConfiguration: \(Swift.String(describing: stickinessConfiguration)), staticQueryParameters: [keys: \(Swift.String(describing: staticQueryParameters?.keys)), values: \"CONTENT_REDACTED\"])"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -15108,7 +15163,7 @@ public struct UpdateMemoryInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The memory strategies to add, modify, or delete.
     public var memoryStrategies: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies?
-    /// The namespace variable key definitions with validation rules for this memory. Use this parameter to update existing namespaceKey validation rules or add new keys when namespace templates change.
+    /// The namespace variable key definitions with validation rules for this memory. This value fully replaces the existing set — any key you omit is removed. Any referenced namespaceKey omission will throw ValidationException.
     public var namespaceKeys: [BedrockAgentCoreControlClientTypes.NamespaceKeyEntry]?
     /// Configuration for streaming memory record data to external resources.
     public var streamDeliveryResources: BedrockAgentCoreControlClientTypes.StreamDeliveryResources?
@@ -37121,6 +37176,8 @@ extension BedrockAgentCoreControlClientTypes.PassthroughTargetConfiguration {
         try writer["endpoint"].write(value.endpoint)
         try writer["protocolType"].write(value.protocolType)
         try writer["schema"].write(value.schema, with: BedrockAgentCoreControlClientTypes.HttpApiSchemaConfiguration.write(value:to:))
+        try writer["staticQueryParameterConflictResolution"].write(value.staticQueryParameterConflictResolution)
+        try writer["staticQueryParameters"].writeMap(value.staticQueryParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["stickinessConfiguration"].write(value.stickinessConfiguration, with: BedrockAgentCoreControlClientTypes.StickinessConfiguration.write(value:to:))
     }
 
@@ -37131,6 +37188,8 @@ extension BedrockAgentCoreControlClientTypes.PassthroughTargetConfiguration {
         value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
         value.schema = try reader["schema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HttpApiSchemaConfiguration.read(from:))
         value.stickinessConfiguration = try reader["stickinessConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StickinessConfiguration.read(from:))
+        value.staticQueryParameters = try reader["staticQueryParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.staticQueryParameterConflictResolution = try reader["staticQueryParameterConflictResolution"].readIfPresent()
         return value
     }
 }
@@ -38376,6 +38435,7 @@ extension BedrockAgentCoreControlClientTypes.StickinessConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.StickinessConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["compositeIdentifier"].writeList(value.compositeIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["identifier"].write(value.identifier)
         try writer["timeout"].write(value.timeout)
     }
@@ -38385,6 +38445,7 @@ extension BedrockAgentCoreControlClientTypes.StickinessConfiguration {
         var value = BedrockAgentCoreControlClientTypes.StickinessConfiguration()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.timeout = try reader["timeout"].readIfPresent()
+        value.compositeIdentifier = try reader["compositeIdentifier"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -1199,6 +1199,42 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// The source of a trusted CA certificate. Exactly one member must be set.
+    public enum CaCertificateSource: Swift.Sendable {
+        /// A PEM-encoded X.509 certificate supplied inline.
+        case inlinepem(Swift.String)
+        /// The artifact ID of an uploaded certificate file.
+        case artifactid(Swift.String)
+        /// The Amazon S3 location URI of a customer-staged certificate.
+        case s3location(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A trust anchor used when validating a target endpoint's TLS certificate.
+    public struct TrustedCaCertificate: Swift.Sendable {
+        /// The source that AWS Security Agent reads the certificate from.
+        /// This member is required.
+        public var source: SecurityAgentClientTypes.CaCertificateSource?
+
+        public init(
+            source: SecurityAgentClientTypes.CaCertificateSource? = nil
+        ) {
+            self.source = source
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.TrustedCaCertificate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// The collection of assets used in a pentest configuration, including endpoints, actors, documents, source code repositories, and integrated repositories.
     public struct Assets: Swift.Sendable {
         /// The list of actors used during penetration testing.
@@ -1211,21 +1247,30 @@ extension SecurityAgentClientTypes {
         public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
         /// The list of source code repositories to analyze during the pentest.
         public var sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]?
+        /// The trust anchors used to validate target endpoint TLS certificates. Provide these for endpoints served by a private or internal certificate authority (CA), an intermediate CA, or a self-signed certificate.
+        public var trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]?
 
         public init(
             actors: [SecurityAgentClientTypes.Actor]? = nil,
             documents: [SecurityAgentClientTypes.DocumentInfo]? = nil,
             endpoints: [SecurityAgentClientTypes.Endpoint]? = nil,
             integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
-            sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil
+            sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
+            trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]? = nil
         ) {
             self.actors = actors
             self.documents = documents
             self.endpoints = endpoints
             self.integratedRepositories = integratedRepositories
             self.sourceCode = sourceCode
+            self.trustedCaCertificates = trustedCaCertificates
         }
     }
+}
+
+extension SecurityAgentClientTypes.Assets: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Assets(actors: \(Swift.String(describing: actors)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), sourceCode: \(Swift.String(describing: sourceCode)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 extension SecurityAgentClientTypes {
@@ -3379,6 +3424,8 @@ extension SecurityAgentClientTypes {
         public var steps: [SecurityAgentClientTypes.Step]?
         /// The title of the pentest job.
         public var title: Swift.String?
+        /// The trust anchors used to validate target endpoint TLS certificates during the pentest job.
+        public var trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]?
         /// The date and time the pentest job was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
         /// The VPC configuration for the pentest job.
@@ -3411,6 +3458,7 @@ extension SecurityAgentClientTypes {
             status: SecurityAgentClientTypes.JobStatus? = nil,
             steps: [SecurityAgentClientTypes.Step]? = nil,
             title: Swift.String? = nil,
+            trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]? = nil,
             updatedAt: Foundation.Date? = nil,
             vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
         ) {
@@ -3440,10 +3488,16 @@ extension SecurityAgentClientTypes {
             self.status = status
             self.steps = steps
             self.title = title
+            self.trustedCaCertificates = trustedCaCertificates
             self.updatedAt = updatedAt
             self.vpcConfig = vpcConfig
         }
     }
+}
+
+extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -14295,6 +14349,7 @@ extension SecurityAgentClientTypes.Assets {
         try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: SecurityAgentClientTypes.Endpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["integratedRepositories"].writeList(value.integratedRepositories, memberWritingClosure: SecurityAgentClientTypes.IntegratedRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sourceCode"].writeList(value.sourceCode, memberWritingClosure: SecurityAgentClientTypes.SourceCodeRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["trustedCaCertificates"].writeList(value.trustedCaCertificates, memberWritingClosure: SecurityAgentClientTypes.TrustedCaCertificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.Assets {
@@ -14305,6 +14360,7 @@ extension SecurityAgentClientTypes.Assets {
         value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceCode = try reader["sourceCode"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.SourceCodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trustedCaCertificates = try reader["trustedCaCertificates"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TrustedCaCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14444,6 +14500,38 @@ extension SecurityAgentClientTypes.BitbucketResourceCapabilities {
         value.leaveComments = try reader["leaveComments"].readIfPresent()
         value.remediateCode = try reader["remediateCode"].readIfPresent()
         return value
+    }
+}
+
+extension SecurityAgentClientTypes.CaCertificateSource {
+
+    static func write(value: SecurityAgentClientTypes.CaCertificateSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .artifactid(artifactid):
+                try writer["artifactId"].write(artifactid)
+            case let .inlinepem(inlinepem):
+                try writer["inlinePem"].write(inlinepem)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CaCertificateSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "inlinePem":
+                return .inlinepem(try reader["inlinePem"].read())
+            case "artifactId":
+                return .artifactid(try reader["artifactId"].read())
+            case "s3Location":
+                return .s3location(try reader["s3Location"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -15344,6 +15432,7 @@ extension SecurityAgentClientTypes.PentestJob {
         value.networkTrafficConfig = try reader["networkTrafficConfig"].readIfPresent(with: SecurityAgentClientTypes.NetworkTrafficConfig.read(from:))
         value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trustedCaCertificates = try reader["trustedCaCertificates"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TrustedCaCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
         value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15841,6 +15930,21 @@ extension SecurityAgentClientTypes.ThreatSummary {
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.TrustedCaCertificate {
+
+    static func write(value: SecurityAgentClientTypes.TrustedCaCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source, with: SecurityAgentClientTypes.CaCertificateSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.TrustedCaCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.TrustedCaCertificate()
+        value.source = try reader["source"].readIfPresent(with: SecurityAgentClientTypes.CaCertificateSource.read(from:))
         return value
     }
 }
