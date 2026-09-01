@@ -1577,7 +1577,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `CreateRegistrationAttachment` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateRegistrationAttachmentInput`)
     ///

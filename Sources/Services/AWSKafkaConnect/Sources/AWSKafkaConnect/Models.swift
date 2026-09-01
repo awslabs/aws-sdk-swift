@@ -126,6 +126,9 @@ extension KafkaConnectClientTypes {
 
     public enum ConnectorOperationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pending
+        case restartComplete
+        case restartFailed
+        case restartInProgress
         case rollbackComplete
         case rollbackFailed
         case rollbackInProgress
@@ -137,6 +140,9 @@ extension KafkaConnectClientTypes {
         public static var allCases: [ConnectorOperationState] {
             return [
                 .pending,
+                .restartComplete,
+                .restartFailed,
+                .restartInProgress,
                 .rollbackComplete,
                 .rollbackFailed,
                 .rollbackInProgress,
@@ -154,6 +160,9 @@ extension KafkaConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .pending: return "PENDING"
+            case .restartComplete: return "RESTART_COMPLETE"
+            case .restartFailed: return "RESTART_FAILED"
+            case .restartInProgress: return "RESTART_IN_PROGRESS"
             case .rollbackComplete: return "ROLLBACK_COMPLETE"
             case .rollbackFailed: return "ROLLBACK_FAILED"
             case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
@@ -170,6 +179,7 @@ extension KafkaConnectClientTypes {
 
     public enum ConnectorOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case isolateConnector
+        case restartConnector
         case restoreConnector
         case updateConnectorConfiguration
         case updateWorkerSetting
@@ -178,6 +188,7 @@ extension KafkaConnectClientTypes {
         public static var allCases: [ConnectorOperationType] {
             return [
                 .isolateConnector,
+                .restartConnector,
                 .restoreConnector,
                 .updateConnectorConfiguration,
                 .updateWorkerSetting
@@ -192,6 +203,7 @@ extension KafkaConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .isolateConnector: return "ISOLATE_CONNECTOR"
+            case .restartConnector: return "RESTART_CONNECTOR"
             case .restoreConnector: return "RESTORE_CONNECTOR"
             case .updateConnectorConfiguration: return "UPDATE_CONNECTOR_CONFIGURATION"
             case .updateWorkerSetting: return "UPDATE_WORKER_SETTING"
@@ -341,6 +353,7 @@ extension KafkaConnectClientTypes {
         case creating
         case deleting
         case failed
+        case restarting
         case running
         case updating
         case sdkUnknown(Swift.String)
@@ -350,6 +363,7 @@ extension KafkaConnectClientTypes {
                 .creating,
                 .deleting,
                 .failed,
+                .restarting,
                 .running,
                 .updating
             ]
@@ -365,6 +379,7 @@ extension KafkaConnectClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .restarting: return "RESTARTING"
             case .running: return "RUNNING"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -2527,6 +2542,37 @@ public struct ListWorkerConfigurationsOutput: Swift.Sendable {
     }
 }
 
+public struct RestartConnectorInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector that you want to restart.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+    /// Specifies whether to restart only the connector's failed tasks. If true, the operation restarts only the tasks that are currently in a failed state, and healthy tasks continue running. If false or not specified, the operation restarts the connector and all of its tasks.
+    public var onlyFailedTasks: Swift.Bool?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        onlyFailedTasks: Swift.Bool? = false
+    ) {
+        self.connectorArn = connectorArn
+        self.onlyFailedTasks = onlyFailedTasks
+    }
+}
+
+public struct RestartConnectorOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector.
+    public var connectorArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the connector operation created to perform the restart.
+    public var connectorOperationArn: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorOperationArn: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorOperationArn = connectorOperationArn
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to which you want to attach tags.
     /// This member is required.
@@ -2835,6 +2881,28 @@ extension ListWorkerConfigurationsInput {
         if let namePrefix = value.namePrefix {
             let namePrefixQueryItem = Smithy.URIQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
             items.append(namePrefixQueryItem)
+        }
+        return items
+    }
+}
+
+extension RestartConnectorInput {
+
+    static func urlPathProvider(_ value: RestartConnectorInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
+            return nil
+        }
+        return "/v1/connectors/\(connectorArn.urlPercentEncoding())/restart"
+    }
+}
+
+extension RestartConnectorInput {
+
+    static func queryItemProvider(_ value: RestartConnectorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let onlyFailedTasks = value.onlyFailedTasks {
+            let onlyFailedTasksQueryItem = Smithy.URIQueryItem(name: "onlyFailedTasks".urlPercentEncoding(), value: Swift.String(onlyFailedTasks).urlPercentEncoding())
+            items.append(onlyFailedTasksQueryItem)
         }
         return items
     }
@@ -3196,6 +3264,19 @@ extension ListWorkerConfigurationsOutput {
     }
 }
 
+extension RestartConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestartConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RestartConnectorOutput()
+        value.connectorArn = try reader["connectorArn"].readIfPresent()
+        value.connectorOperationArn = try reader["connectorOperationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -3508,6 +3589,26 @@ enum ListTagsForResourceOutputError {
 }
 
 enum ListWorkerConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RestartConnectorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

@@ -7154,7 +7154,7 @@ extension ECSClientTypes {
         public var hostPort: Swift.Int?
         /// The name that's used for the port mapping. This parameter is the name that you use in the serviceConnectConfiguration and the vpcLatticeConfigurations of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen.
         public var name: Swift.String?
-        /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp. protocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment.
+        /// The protocol that's used for the port mapping. Valid values are tcp and udp (case-sensitive). The default is tcp. Amazon ECS treats any other specified value as tcp. protocol is immutable in a Service Connect service. To update this field, you must delete and redeploy the service.
         public var `protocol`: ECSClientTypes.TransportProtocol?
 
         public init(
@@ -8935,6 +8935,64 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The time when Amazon ECS removes the source revisions' tasks relative to deployment completion. When set to BLOCKING, Amazon ECS removes the previous tasks before completing the deployment. When set to DEFERRED, Amazon ECS completes the deployment first and removes the previous tasks in the background.
+    public enum ServiceRevisionCleanup: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocking
+        case deferred
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceRevisionCleanup] {
+            return [
+                .blocking,
+                .deferred
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocking: return "BLOCKING"
+            case .deferred: return "DEFERRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// You can use early success criteria only with rolling deployment strategy. The configuration that determines when a rolling update deployment is considered successful. Early success criteria defines the percentage of tasks that must be healthy before a deployment completes. It also controls whether Amazon ECS must remove the previous tasks before a deployment completes.
+    public struct DeploymentEarlySuccessCriteria: Swift.Sendable {
+        /// Specifies whether to use the early success criteria for the service deployment. When set to false, the deployment uses the default behavior, where Amazon ECS considers the deployment successful when the target service revision fully stabilizes and the previous tasks are removed. The default value is false. When set to true, Amazon ECS monitors the deployment to meet early success criteria. You must also specify healthyPercent and sourceServiceRevisionCleanup.
+        /// This member is required.
+        public var enable: Swift.Bool
+        /// The percentage of healthy tasks that the target service revision must reach before Amazon ECS considers the deployment successful. This percentage is relative to the service's desiredCount and must be an integer between 0 and 100. This value must be greater than or equal to the minimumHealthyPercent value. After this percentage of tasks is healthy and the bake time elapses, Amazon ECS completes the deployment. Amazon ECS continues to scale the target service revision to 100 percent in the background.
+        public var healthyPercent: Swift.Int?
+        /// The time when Amazon ECS removes the source revisions' tasks relative to deployment completion. The valid values are:
+        ///
+        /// * BLOCKING—Amazon ECS removes the previous tasks before it marks the deployment as successful.
+        ///
+        /// * DEFERRED—Amazon ECS marks the deployment successful, and then removes the previous tasks in the background.
+        public var sourceServiceRevisionCleanup: ECSClientTypes.ServiceRevisionCleanup?
+
+        public init(
+            enable: Swift.Bool = false,
+            healthyPercent: Swift.Int? = nil,
+            sourceServiceRevisionCleanup: ECSClientTypes.ServiceRevisionCleanup? = nil
+        ) {
+            self.enable = enable
+            self.healthyPercent = healthyPercent
+            self.sourceServiceRevisionCleanup = sourceServiceRevisionCleanup
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum DeploymentLifecycleHookStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case postProductionTrafficShift
         case postScaleUp
@@ -9162,6 +9220,8 @@ extension ECSClientTypes {
         public var canaryConfiguration: ECSClientTypes.CanaryConfiguration?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
+        /// The early success criteria configuration for a rolling deployment. With early success criteria, you can configure an Amazon ECS deployment to complete faster. Amazon ECS declares a deployment successful once a target percentage of tasks are healthy, instead of waiting for the service to fully stabilize.
+        public var earlySuccessCriteria: ECSClientTypes.DeploymentEarlySuccessCriteria?
         /// An array of deployment lifecycle hook objects to run custom logic or pause the deployment at specific stages of the deployment lifecycle.
         public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
         /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
@@ -9202,6 +9262,7 @@ extension ECSClientTypes {
             bakeTimeInMinutes: Swift.Int? = nil,
             canaryConfiguration: ECSClientTypes.CanaryConfiguration? = nil,
             deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
+            earlySuccessCriteria: ECSClientTypes.DeploymentEarlySuccessCriteria? = nil,
             lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]? = nil,
             linearConfiguration: ECSClientTypes.LinearConfiguration? = nil,
             maximumPercent: Swift.Int? = nil,
@@ -9212,6 +9273,7 @@ extension ECSClientTypes {
             self.bakeTimeInMinutes = bakeTimeInMinutes
             self.canaryConfiguration = canaryConfiguration
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
+            self.earlySuccessCriteria = earlySuccessCriteria
             self.lifecycleHooks = lifecycleHooks
             self.linearConfiguration = linearConfiguration
             self.maximumPercent = maximumPercent

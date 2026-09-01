@@ -259,6 +259,103 @@ extension SESv2ClientTypes {
     }
 }
 
+/// The input you provided is invalid.
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BadRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The resource you attempted to access doesn't exist.
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Too many requests have been made to the operation.
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// A request to associate an S/MIME certificate with an email identity.
+public struct AssociateEmailIdentityCertificateInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate to associate with the email identity.
+    /// This member is required.
+    public var certificateArn: Swift.String?
+    /// The email identity, either an email address or a domain, to associate the certificate with.
+    /// This member is required.
+    public var emailIdentity: Swift.String?
+    /// The email address that the certificate applies to. This value is required when the email identity is a domain, and the address must belong to that domain or one of its subdomains. When the email identity is an email address, this value is optional. If you specify it, it must exactly match the email identity.
+    public var fromAddress: Swift.String?
+
+    public init(
+        certificateArn: Swift.String? = nil,
+        emailIdentity: Swift.String? = nil,
+        fromAddress: Swift.String? = nil
+    ) {
+        self.certificateArn = certificateArn
+        self.emailIdentity = emailIdentity
+        self.fromAddress = fromAddress
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct AssociateEmailIdentityCertificateOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension SESv2ClientTypes {
 
     public enum AttachmentContentDisposition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -361,29 +458,6 @@ extension SESv2ClientTypes {
     }
 }
 
-/// The input you provided is invalid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BadRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The request couldn't be processed because an error occurred with the Amazon SES API v2.
 public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -394,52 +468,6 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InternalServiceErrorException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The resource you attempted to access doesn't exist.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// Too many requests have been made to the operation.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TooManyRequestsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -1720,6 +1748,86 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// Specifies the default signing scheme, in which Amazon SES API v2 doesn't apply S/MIME signing to messages sent with the configuration set.
+    public struct DefaultSigningScheme: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The format of the S/MIME signature that's applied to a message. The following value is supported:
+    ///
+    /// * DETACHED – The signature is carried in a separate MIME part alongside the signed content.
+    public enum SignatureFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detached
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignatureFormat] {
+            return [
+                .detached
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detached: return "DETACHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Specifies that Amazon SES API v2 signs messages sent with the configuration set using S/MIME.
+    public struct SmimeSigningScheme: Swift.Sendable {
+        /// The format of the S/MIME signature that Amazon SES API v2 applies to messages.
+        public var signatureFormat: SESv2ClientTypes.SignatureFormat?
+
+        public init(
+            signatureFormat: SESv2ClientTypes.SignatureFormat? = nil
+        ) {
+            self.signatureFormat = signatureFormat
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Specifies the signing scheme to apply to messages sent with a configuration set. This is a union type, so you specify exactly one of its members.
+    public enum SigningScheme: Swift.Sendable {
+        /// Use the default signing behavior. When you select this option, Amazon SES API v2 doesn't add an S/MIME signature to messages sent with the configuration set.
+        case defaultscheme(SESv2ClientTypes.DefaultSigningScheme)
+        /// Sign messages sent with the configuration set using S/MIME. For signing to apply, the email identity used to send a message must have an active S/MIME certificate association.
+        case smimescheme(SESv2ClientTypes.SmimeSigningScheme)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that defines the message-level security options that apply to messages that you send using the configuration set. Currently, these options determine whether Amazon SES API v2 adds an S/MIME signature to your messages and, if so, the format of that signature.
+    public struct MessageSecurityOptions: Swift.Sendable {
+        /// The signing scheme that Amazon SES API v2 applies to messages sent with the configuration set.
+        public var signingScheme: SESv2ClientTypes.SigningScheme?
+
+        public init(
+            signingScheme: SESv2ClientTypes.SigningScheme? = nil
+        ) {
+            self.signingScheme = signingScheme
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Enable or disable collection of reputation metrics for emails that you send using this configuration set in the current Amazon Web Services Region.
     public struct ReputationOptions: Swift.Sendable {
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
@@ -2090,6 +2198,8 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
     public var configurationSetName: Swift.String?
     /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
     public var deliveryOptions: SESv2ClientTypes.DeliveryOptions?
+    /// The message security options to apply to the configuration set, such as the signing scheme used for messages that you send with the configuration set.
+    public var messageSecurityOptions: SESv2ClientTypes.MessageSecurityOptions?
     /// An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
     public var reputationOptions: SESv2ClientTypes.ReputationOptions?
     /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
@@ -2107,6 +2217,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
         archivingOptions: SESv2ClientTypes.ArchivingOptions? = nil,
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESv2ClientTypes.DeliveryOptions? = nil,
+        messageSecurityOptions: SESv2ClientTypes.MessageSecurityOptions? = nil,
         reputationOptions: SESv2ClientTypes.ReputationOptions? = nil,
         sendingOptions: SESv2ClientTypes.SendingOptions? = nil,
         suppressionOptions: SESv2ClientTypes.SuppressionOptions? = nil,
@@ -2117,6 +2228,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
         self.archivingOptions = archivingOptions
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
+        self.messageSecurityOptions = messageSecurityOptions
         self.reputationOptions = reputationOptions
         self.sendingOptions = sendingOptions
         self.suppressionOptions = suppressionOptions
@@ -3455,7 +3567,7 @@ extension SESv2ClientTypes {
         public var exclude: SESv2ClientTypes.MessageInsightsFilters?
         /// Filters for results to be included in the export file.
         public var include: SESv2ClientTypes.MessageInsightsFilters?
-        /// The maximum number of results.
+        /// The maximum number of results. If you don't specify MaxResults, the export returns a maximum of 1,000 results.
         public var maxResults: Swift.Int?
         /// Represents the start date for the export interval as a timestamp. The start date is inclusive.
         /// This member is required.
@@ -4671,6 +4783,29 @@ extension SESv2ClientTypes {
     }
 }
 
+/// A request to remove the association between an S/MIME certificate and an email identity.
+public struct DisassociateEmailIdentityCertificateInput: Swift.Sendable {
+    /// The email identity whose certificate association you want to remove.
+    /// This member is required.
+    public var emailIdentity: Swift.String?
+    /// The email address whose certificate association you want to remove. This value is required when the email identity is a domain. When the email identity is an email address, this value is optional.
+    public var fromAddress: Swift.String?
+
+    public init(
+        emailIdentity: Swift.String? = nil,
+        fromAddress: Swift.String? = nil
+    ) {
+        self.emailIdentity = emailIdentity
+        self.fromAddress = fromAddress
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct DisassociateEmailIdentityCertificateOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension SESv2ClientTypes {
 
     /// An object that contains the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
@@ -5452,6 +5587,8 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
     public var configurationSetName: Swift.String?
     /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
     public var deliveryOptions: SESv2ClientTypes.DeliveryOptions?
+    /// The message security options that are applied to the configuration set, such as the signing scheme used for messages that you send with the configuration set.
+    public var messageSecurityOptions: SESv2ClientTypes.MessageSecurityOptions?
     /// An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
     public var reputationOptions: SESv2ClientTypes.ReputationOptions?
     /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
@@ -5469,6 +5606,7 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
         archivingOptions: SESv2ClientTypes.ArchivingOptions? = nil,
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESv2ClientTypes.DeliveryOptions? = nil,
+        messageSecurityOptions: SESv2ClientTypes.MessageSecurityOptions? = nil,
         reputationOptions: SESv2ClientTypes.ReputationOptions? = nil,
         sendingOptions: SESv2ClientTypes.SendingOptions? = nil,
         suppressionOptions: SESv2ClientTypes.SuppressionOptions? = nil,
@@ -5479,6 +5617,7 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
         self.archivingOptions = archivingOptions
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
+        self.messageSecurityOptions = messageSecurityOptions
         self.reputationOptions = reputationOptions
         self.sendingOptions = sendingOptions
         self.suppressionOptions = suppressionOptions
@@ -6912,6 +7051,82 @@ public struct GetTenantOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
+    /// The status of an S/MIME certificate that's associated with an email identity. The status can be one of the following values:
+    ///
+    /// * PROVISIONING – The certificate association was created and the certificate is being prepared for use.
+    ///
+    /// * ACTIVE – The certificate is ready to use for signing.
+    ///
+    /// * INACTIVE – The certificate is no longer used for signing.
+    ///
+    /// * DEPROVISIONING – The certificate association is being cleaned up.
+    ///
+    /// * FAILED – The certificate couldn't be prepared for use, or the certificate has expired.
+    public enum IdentityCertificateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deprovisioning
+        case failed
+        case inactive
+        case provisioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdentityCertificateStatus] {
+            return [
+                .active,
+                .deprovisioning,
+                .failed,
+                .inactive,
+                .provisioning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deprovisioning: return "DEPROVISIONING"
+            case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains information about an S/MIME certificate that's associated with an email identity.
+    public struct IdentityCertificate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate that's associated with the email identity.
+        public var certificateArn: Swift.String?
+        /// The timestamp after which the certificate is no longer valid.
+        public var certificateExpiryTime: Foundation.Date?
+        /// The email address that the certificate applies to.
+        public var fromAddress: Swift.String?
+        /// The status of the certificate association. A status of ACTIVE indicates that the certificate is ready to use for signing.
+        public var status: SESv2ClientTypes.IdentityCertificateStatus?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            certificateExpiryTime: Foundation.Date? = nil,
+            fromAddress: Swift.String? = nil,
+            status: SESv2ClientTypes.IdentityCertificateStatus? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.certificateExpiryTime = certificateExpiryTime
+            self.fromAddress = fromAddress
+            self.status = status
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Information about an email identity.
     public struct IdentityInfo: Swift.Sendable {
         /// The address or domain of the identity.
@@ -7355,6 +7570,43 @@ public struct ListEmailIdentitiesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.emailIdentities = emailIdentities
+        self.nextToken = nextToken
+    }
+}
+
+/// A request to list the S/MIME certificates that are associated with an email identity.
+public struct ListEmailIdentityCertificatesInput: Swift.Sendable {
+    /// The email identity whose certificate associations you want to list.
+    /// This member is required.
+    public var emailIdentity: Swift.String?
+    /// A token returned from a previous call to ListEmailIdentityCertificates to indicate the position in the list of certificates.
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListEmailIdentityCertificates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    public var pageSize: Swift.Int?
+
+    public init(
+        emailIdentity: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    ) {
+        self.emailIdentity = emailIdentity
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+/// Information about the S/MIME certificates that are associated with an email identity.
+public struct ListEmailIdentityCertificatesOutput: Swift.Sendable {
+    /// An array that contains the certificate associations for the email identity. Each entry includes the from address, the certificate's status, its Amazon Resource Name (ARN), and its expiry time.
+    public var certificates: [SESv2ClientTypes.IdentityCertificate]?
+    /// A token that indicates that there are additional certificates to list. To view additional certificates, issue another request to ListEmailIdentityCertificates, and pass this token in the NextToken parameter.
+    public var nextToken: Swift.String?
+
+    public init(
+        certificates: [SESv2ClientTypes.IdentityCertificate]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.certificates = certificates
         self.nextToken = nextToken
     }
 }
@@ -9095,6 +9347,29 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// A request to update the configuration of an existing configuration set.
+public struct UpdateConfigurationSetInput: Swift.Sendable {
+    /// The name of the configuration set to update.
+    /// This member is required.
+    public var configurationSetName: Swift.String?
+    /// The security options that apply to the MIME message itself for messages sent with the configuration set.
+    public var messageSecurityOptions: SESv2ClientTypes.MessageSecurityOptions?
+
+    public init(
+        configurationSetName: Swift.String? = nil,
+        messageSecurityOptions: SESv2ClientTypes.MessageSecurityOptions? = nil
+    ) {
+        self.configurationSetName = configurationSetName
+        self.messageSecurityOptions = messageSecurityOptions
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct UpdateConfigurationSetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// A request to change the settings for an event destination for a configuration set.
 public struct UpdateConfigurationSetEventDestinationInput: Swift.Sendable {
     /// The name of the configuration set that contains the event destination to modify.
@@ -9342,6 +9617,13 @@ public struct UpdateReputationEntityPolicyInput: Swift.Sendable {
 public struct UpdateReputationEntityPolicyOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension AssociateEmailIdentityCertificateInput {
+
+    static func urlPathProvider(_ value: AssociateEmailIdentityCertificateInput) -> Swift.String? {
+        return "/v2/email/identity/certificates"
+    }
 }
 
 extension BatchGetMetricDataInput {
@@ -9620,6 +9902,13 @@ extension DeleteTenantResourceAssociationInput {
 
     static func urlPathProvider(_ value: DeleteTenantResourceAssociationInput) -> Swift.String? {
         return "/v2/email/tenants/resources/delete"
+    }
+}
+
+extension DisassociateEmailIdentityCertificateInput {
+
+    static func urlPathProvider(_ value: DisassociateEmailIdentityCertificateInput) -> Swift.String? {
+        return "/v2/email/identity/certificates/delete"
     }
 }
 
@@ -10115,6 +10404,13 @@ extension ListEmailIdentitiesInput {
     }
 }
 
+extension ListEmailIdentityCertificatesInput {
+
+    static func urlPathProvider(_ value: ListEmailIdentityCertificatesInput) -> Swift.String? {
+        return "/v2/email/identity/certificates/list"
+    }
+}
+
 extension ListEmailTemplatesInput {
 
     static func urlPathProvider(_ value: ListEmailTemplatesInput) -> Swift.String? {
@@ -10552,6 +10848,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateConfigurationSetInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetInput) -> Swift.String? {
+        return "/v2/email/update-configuration-sets"
+    }
+}
+
 extension UpdateConfigurationSetEventDestinationInput {
 
     static func urlPathProvider(_ value: UpdateConfigurationSetEventDestinationInput) -> Swift.String? {
@@ -10647,6 +10950,16 @@ extension UpdateReputationEntityPolicyInput {
     }
 }
 
+extension AssociateEmailIdentityCertificateInput {
+
+    static func write(value: AssociateEmailIdentityCertificateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["EmailIdentity"].write(value.emailIdentity)
+        try writer["FromAddress"].write(value.fromAddress)
+    }
+}
+
 extension BatchGetMetricDataInput {
 
     static func write(value: BatchGetMetricDataInput?, to writer: SmithyJSON.Writer) throws {
@@ -10662,6 +10975,7 @@ extension CreateConfigurationSetInput {
         try writer["ArchivingOptions"].write(value.archivingOptions, with: SESv2ClientTypes.ArchivingOptions.write(value:to:))
         try writer["ConfigurationSetName"].write(value.configurationSetName)
         try writer["DeliveryOptions"].write(value.deliveryOptions, with: SESv2ClientTypes.DeliveryOptions.write(value:to:))
+        try writer["MessageSecurityOptions"].write(value.messageSecurityOptions, with: SESv2ClientTypes.MessageSecurityOptions.write(value:to:))
         try writer["ReputationOptions"].write(value.reputationOptions, with: SESv2ClientTypes.ReputationOptions.write(value:to:))
         try writer["SendingOptions"].write(value.sendingOptions, with: SESv2ClientTypes.SendingOptions.write(value:to:))
         try writer["SuppressionOptions"].write(value.suppressionOptions, with: SESv2ClientTypes.SuppressionOptions.write(value:to:))
@@ -10830,6 +11144,15 @@ extension DeleteTenantResourceAssociationInput {
     }
 }
 
+extension DisassociateEmailIdentityCertificateInput {
+
+    static func write(value: DisassociateEmailIdentityCertificateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmailIdentity"].write(value.emailIdentity)
+        try writer["FromAddress"].write(value.fromAddress)
+    }
+}
+
 extension GetEmailAddressInsightsInput {
 
     static func write(value: GetEmailAddressInsightsInput?, to writer: SmithyJSON.Writer) throws {
@@ -10851,6 +11174,16 @@ extension ListContactsInput {
     static func write(value: ListContactsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: SESv2ClientTypes.ListContactsFilter.write(value:to:))
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
+extension ListEmailIdentityCertificatesInput {
+
+    static func write(value: ListEmailIdentityCertificatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmailIdentity"].write(value.emailIdentity)
         try writer["NextToken"].write(value.nextToken)
         try writer["PageSize"].write(value.pageSize)
     }
@@ -11203,6 +11536,15 @@ extension TestRenderEmailTemplateInput {
     }
 }
 
+extension UpdateConfigurationSetInput {
+
+    static func write(value: UpdateConfigurationSetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationSetName"].write(value.configurationSetName)
+        try writer["MessageSecurityOptions"].write(value.messageSecurityOptions, with: SESv2ClientTypes.MessageSecurityOptions.write(value:to:))
+    }
+}
+
 extension UpdateConfigurationSetEventDestinationInput {
 
     static func write(value: UpdateConfigurationSetEventDestinationInput?, to writer: SmithyJSON.Writer) throws {
@@ -11271,6 +11613,13 @@ extension UpdateReputationEntityPolicyInput {
     static func write(value: UpdateReputationEntityPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ReputationEntityPolicy"].write(value.reputationEntityPolicy)
+    }
+}
+
+extension AssociateEmailIdentityCertificateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateEmailIdentityCertificateOutput {
+        return AssociateEmailIdentityCertificateOutput()
     }
 }
 
@@ -11535,6 +11884,13 @@ extension DeleteTenantResourceAssociationOutput {
     }
 }
 
+extension DisassociateEmailIdentityCertificateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateEmailIdentityCertificateOutput {
+        return DisassociateEmailIdentityCertificateOutput()
+    }
+}
+
 extension GetAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountOutput {
@@ -11577,6 +11933,7 @@ extension GetConfigurationSetOutput {
         value.archivingOptions = try reader["ArchivingOptions"].readIfPresent(with: SESv2ClientTypes.ArchivingOptions.read(from:))
         value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.deliveryOptions = try reader["DeliveryOptions"].readIfPresent(with: SESv2ClientTypes.DeliveryOptions.read(from:))
+        value.messageSecurityOptions = try reader["MessageSecurityOptions"].readIfPresent(with: SESv2ClientTypes.MessageSecurityOptions.read(from:))
         value.reputationOptions = try reader["ReputationOptions"].readIfPresent(with: SESv2ClientTypes.ReputationOptions.read(from:))
         value.sendingOptions = try reader["SendingOptions"].readIfPresent(with: SESv2ClientTypes.SendingOptions.read(from:))
         value.suppressionOptions = try reader["SuppressionOptions"].readIfPresent(with: SESv2ClientTypes.SuppressionOptions.read(from:))
@@ -12019,6 +12376,19 @@ extension ListEmailIdentitiesOutput {
     }
 }
 
+extension ListEmailIdentityCertificatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEmailIdentityCertificatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEmailIdentityCertificatesOutput()
+        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.IdentityCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListEmailTemplatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEmailTemplatesOutput {
@@ -12398,6 +12768,13 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateConfigurationSetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConfigurationSetOutput {
+        return UpdateConfigurationSetOutput()
+    }
+}
+
 extension UpdateConfigurationSetEventDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConfigurationSetEventDestinationOutput {
@@ -12451,6 +12828,23 @@ extension UpdateReputationEntityPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateReputationEntityPolicyOutput {
         return UpdateReputationEntityPolicyOutput()
+    }
+}
+
+enum AssociateEmailIdentityCertificateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -12952,6 +13346,22 @@ enum DeleteTenantOutputError {
 }
 
 enum DeleteTenantResourceAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateEmailIdentityCertificateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13482,6 +13892,22 @@ enum ListEmailIdentitiesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEmailIdentityCertificatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14154,6 +14580,22 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateConfigurationSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateConfigurationSetEventDestinationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14284,11 +14726,11 @@ enum UpdateReputationEntityPolicyOutputError {
     }
 }
 
-extension BadRequestException {
+extension AlreadyExistsException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = AlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14297,11 +14739,11 @@ extension BadRequestException {
     }
 }
 
-extension InternalServiceErrorException {
+extension BadRequestException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceErrorException()
+        var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14336,11 +14778,11 @@ extension TooManyRequestsException {
     }
 }
 
-extension AlreadyExistsException {
+extension InternalServiceErrorException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
+        var value = InternalServiceErrorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14758,6 +15200,19 @@ extension SESv2ClientTypes.DedicatedIpPool {
     }
 }
 
+extension SESv2ClientTypes.DefaultSigningScheme {
+
+    static func write(value: SESv2ClientTypes.DefaultSigningScheme?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DefaultSigningScheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return SESv2ClientTypes.DefaultSigningScheme()
+    }
+}
+
 extension SESv2ClientTypes.DeliverabilityTestReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DeliverabilityTestReport {
@@ -15145,6 +15600,19 @@ extension SESv2ClientTypes.GuardianOptions {
     }
 }
 
+extension SESv2ClientTypes.IdentityCertificate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.IdentityCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.IdentityCertificate()
+        value.fromAddress = try reader["FromAddress"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.certificateExpiryTime = try reader["CertificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SESv2ClientTypes.IdentityInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.IdentityInfo {
@@ -15369,6 +15837,21 @@ extension SESv2ClientTypes.MessageInsightsFilters {
         value.isp = try reader["Isp"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastDeliveryEvent = try reader["LastDeliveryEvent"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.DeliveryEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastEngagementEvent = try reader["LastEngagementEvent"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.EngagementEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MessageSecurityOptions {
+
+    static func write(value: SESv2ClientTypes.MessageSecurityOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SigningScheme"].write(value.signingScheme, with: SESv2ClientTypes.SigningScheme.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MessageSecurityOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MessageSecurityOptions()
+        value.signingScheme = try reader["SigningScheme"].readIfPresent(with: SESv2ClientTypes.SigningScheme.read(from:))
         return value
     }
 }
@@ -15642,6 +16125,49 @@ extension SESv2ClientTypes.SendQuota {
         value.max24HourSend = try reader["Max24HourSend"].readIfPresent() ?? 0
         value.maxSendRate = try reader["MaxSendRate"].readIfPresent() ?? 0
         value.sentLast24Hours = try reader["SentLast24Hours"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SigningScheme {
+
+    static func write(value: SESv2ClientTypes.SigningScheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .defaultscheme(defaultscheme):
+                try writer["DefaultScheme"].write(defaultscheme, with: SESv2ClientTypes.DefaultSigningScheme.write(value:to:))
+            case let .smimescheme(smimescheme):
+                try writer["SmimeScheme"].write(smimescheme, with: SESv2ClientTypes.SmimeSigningScheme.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SigningScheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "DefaultScheme":
+                return .defaultscheme(try reader["DefaultScheme"].read(with: SESv2ClientTypes.DefaultSigningScheme.read(from:)))
+            case "SmimeScheme":
+                return .smimescheme(try reader["SmimeScheme"].read(with: SESv2ClientTypes.SmimeSigningScheme.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SESv2ClientTypes.SmimeSigningScheme {
+
+    static func write(value: SESv2ClientTypes.SmimeSigningScheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SignatureFormat"].write(value.signatureFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SmimeSigningScheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SmimeSigningScheme()
+        value.signatureFormat = try reader["SignatureFormat"].readIfPresent()
         return value
     }
 }

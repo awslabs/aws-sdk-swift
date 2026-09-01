@@ -1393,6 +1393,8 @@ extension ConnectClientTypes {
     public struct AgentInfo: Swift.Sendable {
         /// The timestamp when the contact was accepted by the agent.
         public var acceptedByAgentTimestamp: Foundation.Date?
+        /// The Region where the agent was active when they handled the contact. For Amazon Connect Global Resiliency instances enabled for global routing, this indicates the Region in which the agent's session was established at the time of the contact.
+        public var activeRegion: Swift.String?
         /// The difference in time, in whole seconds, between AfterContactWorkStartTimestamp and AfterContactWorkEndTimestamp.
         public var afterContactWorkDuration: Swift.Int?
         /// The date and time when the agent ended After Contact Work for the contact, in UTC time. In cases when agent finishes doing AfterContactWork for chat contacts and switches their activity status to offline or equivalent without clearing the contact in CCP, discrepancies may be noticed for AfterContactWorkEndTimestamp.
@@ -1422,6 +1424,7 @@ extension ConnectClientTypes {
 
         public init(
             acceptedByAgentTimestamp: Foundation.Date? = nil,
+            activeRegion: Swift.String? = nil,
             afterContactWorkDuration: Swift.Int? = nil,
             afterContactWorkEndTimestamp: Foundation.Date? = nil,
             afterContactWorkStartTimestamp: Foundation.Date? = nil,
@@ -1437,6 +1440,7 @@ extension ConnectClientTypes {
             voiceEnhancementMode: ConnectClientTypes.VoiceEnhancementMode? = nil
         ) {
             self.acceptedByAgentTimestamp = acceptedByAgentTimestamp
+            self.activeRegion = activeRegion
             self.afterContactWorkDuration = afterContactWorkDuration
             self.afterContactWorkEndTimestamp = afterContactWorkEndTimestamp
             self.afterContactWorkStartTimestamp = afterContactWorkStartTimestamp
@@ -20142,6 +20146,29 @@ public struct GetContactMetricsOutput: Swift.Sendable {
     }
 }
 
+public struct GetCrossRegionRoutingInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+    }
+}
+
+public struct GetCrossRegionRoutingOutput: Swift.Sendable {
+    /// The list of Regions for which cross-region routing is currently disabled (isolated). When a Region appears in this list, contacts originating in that Region will not be routed to agents in other Regions, and agents in that Region will not receive contacts from other Regions.
+    public var isolatedRegions: [Swift.String]?
+
+    public init(
+        isolatedRegions: [Swift.String]? = nil
+    ) {
+        self.isolatedRegions = isolatedRegions
+    }
+}
+
 extension ConnectClientTypes {
 
     /// The current metric names.
@@ -27270,7 +27297,7 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
         public var id: Swift.String?
-        /// The Amazon Resource Name (ARN) of the traffic distribution group.
+        /// The Amazon Resource Name (ARN) of the instance.
         public var instanceArn: Swift.String?
         /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica.
         public var isDefault: Swift.Bool
@@ -34726,6 +34753,28 @@ public struct UpdateContactTaskTemplateOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateCrossRegionRoutingInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Set to true to disable cross-region routing for all Regions associated with this instance. Set to false to re-enable cross-region routing.
+    /// This member is required.
+    public var isolatedAll: Swift.Bool?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        isolatedAll: Swift.Bool? = false
+    ) {
+        self.instanceId = instanceId
+        self.isolatedAll = isolatedAll
+    }
+}
+
+public struct UpdateCrossRegionRoutingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateDataTableAttributeInput: Swift.Sendable {
     /// The current name of the attribute to update. Used as an identifier since attribute names can be changed.
     /// This member is required.
@@ -41813,6 +41862,16 @@ extension GetContactMetricsInput {
     }
 }
 
+extension GetCrossRegionRoutingInput {
+
+    static func urlPathProvider(_ value: GetCrossRegionRoutingInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/cross-region-routing/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension GetCurrentMetricDataInput {
 
     static func urlPathProvider(_ value: GetCurrentMetricDataInput) -> Swift.String? {
@@ -44748,6 +44807,16 @@ extension UpdateContactTaskTemplateInput {
     }
 }
 
+extension UpdateCrossRegionRoutingInput {
+
+    static func urlPathProvider(_ value: UpdateCrossRegionRoutingInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/cross-region-routing/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDataTableAttributeInput {
 
     static func urlPathProvider(_ value: UpdateDataTableAttributeInput) -> Swift.String? {
@@ -47496,6 +47565,14 @@ extension UpdateContactTaskTemplateInput {
     }
 }
 
+extension UpdateCrossRegionRoutingInput {
+
+    static func write(value: UpdateCrossRegionRoutingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsolatedAll"].write(value.isolatedAll)
+    }
+}
+
 extension UpdateDataTableAttributeInput {
 
     static func write(value: UpdateDataTableAttributeInput?, to writer: SmithyJSON.Writer) throws {
@@ -49795,6 +49872,18 @@ extension GetContactMetricsOutput {
     }
 }
 
+extension GetCrossRegionRoutingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCrossRegionRoutingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCrossRegionRoutingOutput()
+        value.isolatedRegions = try reader["IsolatedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetCurrentMetricDataOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCurrentMetricDataOutput {
@@ -51842,6 +51931,13 @@ extension UpdateContactTaskTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContactTaskTemplateOutput {
         return UpdateContactTaskTemplateOutput()
+    }
+}
+
+extension UpdateCrossRegionRoutingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCrossRegionRoutingOutput {
+        return UpdateCrossRegionRoutingOutput()
     }
 }
 
@@ -55571,6 +55667,24 @@ enum GetContactMetricsOutputError {
     }
 }
 
+enum GetCrossRegionRoutingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCurrentMetricDataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -58657,6 +58771,25 @@ enum UpdateContactTaskTemplateOutputError {
     }
 }
 
+enum UpdateCrossRegionRoutingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDataTableAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60188,6 +60321,7 @@ extension ConnectClientTypes.AgentInfo {
         value.agentInitiatedHoldDuration = try reader["AgentInitiatedHoldDuration"].readIfPresent()
         value.stateTransitions = try reader["StateTransitions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.StateTransition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.voiceEnhancementMode = try reader["VoiceEnhancementMode"].readIfPresent()
+        value.activeRegion = try reader["ActiveRegion"].readIfPresent()
         return value
     }
 }

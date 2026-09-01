@@ -110,6 +110,29 @@ public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+/// The request was valid, but the operation wasn't performed because dryRun was set to true.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// An internal server error occurred.
 public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -159,13 +182,17 @@ public struct AddAttachmentsToSetInput: Swift.Sendable {
     /// One or more attachments to add to the set. You can add up to three attachments per set. The size limit is 5 MB per attachment. In the Attachment object, use the data parameter to specify the contents of the attachment file. In the previous request syntax, the value for data appear as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
     /// This member is required.
     public var attachments: [SupportClientTypes.Attachment]?
+    /// Specifies whether to validate the request without actually adding the attachments. When set to true, the request is validated but no attachments are stored, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
 
     public init(
         attachmentSetId: Swift.String? = nil,
-        attachments: [SupportClientTypes.Attachment]? = nil
+        attachments: [SupportClientTypes.Attachment]? = nil,
+        dryRun: Swift.Bool? = nil
     ) {
         self.attachmentSetId = attachmentSetId
         self.attachments = attachments
+        self.dryRun = dryRun
     }
 }
 
@@ -210,26 +237,34 @@ public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 }
 
 public struct AddCommunicationToCaseInput: Swift.Sendable {
-    /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling [AddAttachmentsToSet]
+    /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling [AddAttachmentsToSet]. Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds.
     public var attachmentSetId: Swift.String?
-    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
     public var caseId: Swift.String?
     /// The email addresses in the CC line of an email to be added to the support case.
     public var ccEmailAddresses: [Swift.String]?
     /// The body of an email communication to add to the support case.
     /// This member is required.
     public var communicationBody: Swift.String?
+    /// Specifies whether to validate the request without actually adding the communication to the case. When set to true, the request is validated but the communication isn't added, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the [GetAttachmentUploadLinks] operation. The upload must reach the attachment-ready state by calling [CompleteAttachmentUpload] before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB.
+    public var uploadIds: [Swift.String]?
 
     public init(
         attachmentSetId: Swift.String? = nil,
         caseId: Swift.String? = nil,
         ccEmailAddresses: [Swift.String]? = nil,
-        communicationBody: Swift.String? = nil
+        communicationBody: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        uploadIds: [Swift.String]? = nil
     ) {
         self.attachmentSetId = attachmentSetId
         self.caseId = caseId
         self.ccEmailAddresses = ccEmailAddresses
         self.communicationBody = communicationBody
+        self.dryRun = dryRun
+        self.uploadIds = uploadIds
     }
 }
 
@@ -288,6 +323,115 @@ public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
+/// The specified uploadId couldn't be located.
+public struct UploadIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UploadIdNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SupportClientTypes {
+
+    /// Identifies a single uploaded part of a multipart attachment upload. Pass a list of CompletedUpload objects to [CompleteAttachmentUpload] to finalize the upload.
+    public struct CompletedUpload: Swift.Sendable {
+        /// The ETag returned in the response headers when the part was uploaded to Amazon S3. The ETag value identifies the part contents.
+        /// This member is required.
+        public var eTag: Swift.String?
+        /// The index of the uploaded part. This is the same partIndex value returned for the corresponding entry in the uploadUrls field of the GetAttachmentUploadLinks response.
+        /// This member is required.
+        public var partIndex: Swift.Int?
+
+        public init(
+            eTag: Swift.String? = nil,
+            partIndex: Swift.Int? = nil
+        ) {
+            self.eTag = eTag
+            self.partIndex = partIndex
+        }
+    }
+}
+
+public struct CompleteAttachmentUploadInput: Swift.Sendable {
+    /// The list of parts being reported as completed in this call. Each entry must contain the partIndex of an uploaded part and the ETag returned by Amazon S3 when that part was uploaded.
+    /// This member is required.
+    public var completedUploads: [SupportClientTypes.CompletedUpload]?
+    /// Specifies whether to validate the request without actually completing the upload. When set to true, the request is validated but the upload isn't finalized, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+    /// The identifier associated with the upload to complete.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init(
+        completedUploads: [SupportClientTypes.CompletedUpload]? = nil,
+        dryRun: Swift.Bool? = nil,
+        uploadId: Swift.String? = nil
+    ) {
+        self.completedUploads = completedUploads
+        self.dryRun = dryRun
+        self.uploadId = uploadId
+    }
+}
+
+extension SupportClientTypes {
+
+    public enum UploadStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachmentNotReady
+        case attachmentReady
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UploadStatus] {
+            return [
+                .attachmentNotReady,
+                .attachmentReady,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachmentNotReady: return "attachment-not-ready"
+            case .attachmentReady: return "attachment-ready"
+            case .failed: return "failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CompleteAttachmentUploadOutput: Swift.Sendable {
+    /// The status of the multipart upload after the operation finalizes the attachment. Valid values: attachment-ready, attachment-not-ready, and failed.
+    /// This member is required.
+    public var uploadStatus: SupportClientTypes.UploadStatus?
+
+    public init(
+        uploadStatus: SupportClientTypes.UploadStatus? = nil
+    ) {
+        self.uploadStatus = uploadStatus
+    }
+}
+
 /// The case creation limit for the account has been exceeded.
 public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -313,7 +457,7 @@ public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct CreateCaseInput: Swift.Sendable {
-    /// The ID of a set of one or more attachments for the case. Create the set by using the [AddAttachmentsToSet] operation.
+    /// The ID of a set of one or more attachments for the case. Create the set by using the [AddAttachmentsToSet] operation. Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds.
     public var attachmentSetId: Swift.String?
     /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
     public var categoryCode: Swift.String?
@@ -322,9 +466,11 @@ public struct CreateCaseInput: Swift.Sendable {
     /// The communication body text that describes the issue. This text appears in the Description field on the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page.
     /// This member is required.
     public var communicationBody: Swift.String?
+    /// Specifies whether to validate the request without actually creating the case. When set to true, the request is validated but no case is created, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
     /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
     public var issueType: Swift.String?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
     public var serviceCode: Swift.String?
@@ -333,33 +479,39 @@ public struct CreateCaseInput: Swift.Sendable {
     /// The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page.
     /// This member is required.
     public var subject: Swift.String?
+    /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the [GetAttachmentUploadLinks] operation. The upload must reach the attachment-ready state by calling [CompleteAttachmentUpload] before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB.
+    public var uploadIds: [Swift.String]?
 
     public init(
         attachmentSetId: Swift.String? = nil,
         categoryCode: Swift.String? = nil,
         ccEmailAddresses: [Swift.String]? = nil,
         communicationBody: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         issueType: Swift.String? = nil,
         language: Swift.String? = nil,
         serviceCode: Swift.String? = nil,
         severityCode: Swift.String? = nil,
-        subject: Swift.String? = nil
+        subject: Swift.String? = nil,
+        uploadIds: [Swift.String]? = nil
     ) {
         self.attachmentSetId = attachmentSetId
         self.categoryCode = categoryCode
         self.ccEmailAddresses = ccEmailAddresses
         self.communicationBody = communicationBody
+        self.dryRun = dryRun
         self.issueType = issueType
         self.language = language
         self.serviceCode = serviceCode
         self.severityCode = severityCode
         self.subject = subject
+        self.uploadIds = uploadIds
     }
 }
 
 /// The support case ID returned by a successful completion of the [CreateCase] operation.
 public struct CreateCaseOutput: Swift.Sendable {
-    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-exen-2025-c4c1d2bf33c5cf47
     public var caseId: Swift.String?
 
     public init(
@@ -394,14 +546,18 @@ public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct DescribeAttachmentInput: Swift.Sendable {
-    /// The ID of the attachment to return. Attachment IDs are returned by the [DescribeCommunications] operation.
+    /// The ID of the attachment to return. Attachment IDs are returned by the [DescribeCommunications] operation. If the specified attachment is larger than 5 MB, this operation returns InvalidParameterValueException. To download attachments larger than 5 MB, use [GetAttachmentDownloadLink].
     /// This member is required.
     public var attachmentId: Swift.String?
+    /// Specifies whether to validate the request without actually retrieving the attachment. When set to true, the request is validated but no attachment content is returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
 
     public init(
-        attachmentId: Swift.String? = nil
+        attachmentId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
     ) {
         self.attachmentId = attachmentId
+        self.dryRun = dryRun
     }
 }
 
@@ -417,20 +573,78 @@ public struct DescribeAttachmentOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeAttachmentUploadStatusInput: Swift.Sendable {
+    /// Specifies whether to validate the request without actually returning upload status. When set to true, the request is validated but no status is returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+    /// The unique identifier for the upload. The uploadId is returned by [GetAttachmentUploadLinks] when you initiate the upload.
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        uploadId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.uploadId = uploadId
+    }
+}
+
+extension SupportClientTypes {
+
+    /// The progress of a multipart attachment upload, returned by [DescribeAttachmentUploadStatus].
+    public struct UploadProgress: Swift.Sendable {
+        /// The number of parts that have been successfully uploaded.
+        public var completedPartsCount: Swift.Int?
+        /// The total number of parts that the file is split into.
+        public var totalParts: Swift.Int?
+
+        public init(
+            completedPartsCount: Swift.Int? = nil,
+            totalParts: Swift.Int? = nil
+        ) {
+            self.completedPartsCount = completedPartsCount
+            self.totalParts = totalParts
+        }
+    }
+}
+
+public struct DescribeAttachmentUploadStatusOutput: Swift.Sendable {
+    /// The name of the file being uploaded, including the file extension.
+    /// This member is required.
+    public var fileName: Swift.String?
+    /// The progress of the multipart upload, including the total number of parts and the number of parts that have been successfully uploaded.
+    public var uploadProgress: SupportClientTypes.UploadProgress?
+    /// The current status of the multipart upload. Valid values: attachment-ready, attachment-not-ready, and failed.
+    /// This member is required.
+    public var uploadStatus: SupportClientTypes.UploadStatus?
+
+    public init(
+        fileName: Swift.String? = nil,
+        uploadProgress: SupportClientTypes.UploadProgress? = nil,
+        uploadStatus: SupportClientTypes.UploadStatus? = nil
+    ) {
+        self.fileName = fileName
+        self.uploadProgress = uploadProgress
+        self.uploadStatus = uploadStatus
+    }
+}
+
 public struct DescribeCasesInput: Swift.Sendable {
-    /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    /// The start date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
     public var afterTime: Swift.String?
-    /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    /// The end date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
     public var beforeTime: Swift.String?
     /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
     public var caseIdList: [Swift.String]?
     /// The ID displayed for a case in the Amazon Web Services Support Center user interface.
     public var displayId: Swift.String?
+    /// Specifies whether to validate the request without actually returning case data. When set to true, the request is validated but no cases are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
     /// Specifies whether to include communications in the DescribeCases response. By default, communications are included.
     public var includeCommunications: Swift.Bool?
     /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
     public var includeResolvedCases: Swift.Bool?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The maximum number of results to return before paginating.
     public var maxResults: Swift.Int?
@@ -442,6 +656,7 @@ public struct DescribeCasesInput: Swift.Sendable {
         beforeTime: Swift.String? = nil,
         caseIdList: [Swift.String]? = nil,
         displayId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         includeCommunications: Swift.Bool? = nil,
         includeResolvedCases: Swift.Bool? = false,
         language: Swift.String? = nil,
@@ -452,6 +667,7 @@ public struct DescribeCasesInput: Swift.Sendable {
         self.beforeTime = beforeTime
         self.caseIdList = caseIdList
         self.displayId = displayId
+        self.dryRun = dryRun
         self.includeCommunications = includeCommunications
         self.includeResolvedCases = includeResolvedCases
         self.language = language
@@ -464,11 +680,13 @@ extension SupportClientTypes {
 
     /// A communication associated with a support case. The communication consists of the case ID, the message body, attachment information, the submitter of the communication, and the date and time of the communication.
     public struct Communication: Swift.Sendable {
-        /// Information about the attachments to the case communication.
+        /// Information about the attachments to the case communication that are 5 MB or smaller. This field doesn't include attachments larger than 5 MB. To enumerate every attachment on the communication, including attachments larger than 5 MB, use the attachments field instead.
         public var attachmentSet: [SupportClientTypes.AttachmentDetails]?
+        /// Information about all attachments on the case communication. This includes attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks. Use this field to enumerate every attachment on the communication. To download an attachment listed in this field, use [GetAttachmentDownloadLink]. GetAttachmentDownloadLink returns a presigned URL that works for attachments of any size.
+        public var attachments: [SupportClientTypes.AttachmentDetails]?
         /// The text of the communication between the customer and Amazon Web Services Support.
         public var body: Swift.String?
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public var caseId: Swift.String?
         /// The identity of the account that submitted, or responded to, the support case. Customer entries include the IAM role as well as the email address (for example, "AdminRole (Role) ). Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
         public var submittedBy: Swift.String?
@@ -477,12 +695,14 @@ extension SupportClientTypes {
 
         public init(
             attachmentSet: [SupportClientTypes.AttachmentDetails]? = nil,
+            attachments: [SupportClientTypes.AttachmentDetails]? = nil,
             body: Swift.String? = nil,
             caseId: Swift.String? = nil,
             submittedBy: Swift.String? = nil,
             timeCreated: Swift.String? = nil
         ) {
             self.attachmentSet = attachmentSet
+            self.attachments = attachments
             self.body = body
             self.caseId = caseId
             self.submittedBy = submittedBy
@@ -514,13 +734,13 @@ extension SupportClientTypes {
 
     /// A JSON-formatted object that contains the metadata for a support case. It is contained in the response from a [DescribeCases] request. CaseDetails contains the following fields:
     ///
-    /// * caseId - The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47.
+    /// * caseId - The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47.
     ///
     /// * categoryCode - The category of problem for the support case. Corresponds to the CategoryCode values returned by a call to [DescribeServices].
     ///
     /// * displayId - The identifier for the case on pages in the Amazon Web Services Support Center.
     ///
-    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     ///
     /// * nextToken - A resumption point for pagination.
     ///
@@ -557,7 +777,7 @@ extension SupportClientTypes {
     ///
     /// * timeCreated - The time the case was created, in ISO-8601 format.
     public struct CaseDetails: Swift.Sendable {
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public var caseId: Swift.String?
         /// The category of problem for the support case.
         public var categoryCode: Swift.String?
@@ -565,7 +785,7 @@ extension SupportClientTypes {
         public var ccEmailAddresses: [Swift.String]?
         /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public var displayId: Swift.String?
-        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public var language: Swift.String?
         /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public var recentCommunications: SupportClientTypes.RecentCaseCommunications?
@@ -645,13 +865,15 @@ public struct DescribeCasesOutput: Swift.Sendable {
 }
 
 public struct DescribeCommunicationsInput: Swift.Sendable {
-    /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    /// The start date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
     public var afterTime: Swift.String?
-    /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    /// The end date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
     public var beforeTime: Swift.String?
-    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
     /// This member is required.
     public var caseId: Swift.String?
+    /// Specifies whether to validate the request without actually returning communications. When set to true, the request is validated but no communications are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
     /// The maximum number of results to return before paginating.
     public var maxResults: Swift.Int?
     /// A resumption point for pagination.
@@ -661,12 +883,14 @@ public struct DescribeCommunicationsInput: Swift.Sendable {
         afterTime: Swift.String? = nil,
         beforeTime: Swift.String? = nil,
         caseId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.afterTime = afterTime
         self.beforeTime = beforeTime
         self.caseId = caseId
+        self.dryRun = dryRun
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -688,11 +912,32 @@ public struct DescribeCommunicationsOutput: Swift.Sendable {
     }
 }
 
+extension SupportClientTypes {
+
+    /// Information about why a request was throttled.
+    public struct ThrottlingReason: Swift.Sendable {
+        /// The reason that the request was throttled.
+        public var reason: Swift.String?
+        /// The resource that caused the request to be throttled.
+        public var resource: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.resource = resource
+        }
+    }
+}
+
 /// You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// A list of one or more reasons that the request was throttled.
+        public internal(set) var throttlingReasons: [SupportClientTypes.ThrottlingReason]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -705,9 +950,11 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        throttlingReasons: [SupportClientTypes.ThrottlingReason]? = nil
     ) {
         self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
     }
 }
 
@@ -715,10 +962,12 @@ public struct DescribeCreateCaseOptionsInput: Swift.Sendable {
     /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
     /// This member is required.
     public var categoryCode: Swift.String?
+    /// Specifies whether to validate the request without actually returning case option data. When set to true, the request is validated but no options are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
     /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
     /// This member is required.
     public var issueType: Swift.String?
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     /// This member is required.
     public var language: Swift.String?
     /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
@@ -727,11 +976,13 @@ public struct DescribeCreateCaseOptionsInput: Swift.Sendable {
 
     public init(
         categoryCode: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         issueType: Swift.String? = nil,
         language: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     ) {
         self.categoryCode = categoryCode
+        self.dryRun = dryRun
         self.issueType = issueType
         self.language = language
         self.serviceCode = serviceCode
@@ -827,15 +1078,19 @@ public struct DescribeCreateCaseOptionsOutput: Swift.Sendable {
 }
 
 public struct DescribeServicesInput: Swift.Sendable {
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// Specifies whether to validate the request without actually returning the list of services. When set to true, the request is validated but no services are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// A JSON-formatted list of service codes available for Amazon Web Services services.
     public var serviceCodeList: [Swift.String]?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         language: Swift.String? = nil,
         serviceCodeList: [Swift.String]? = nil
     ) {
+        self.dryRun = dryRun
         self.language = language
         self.serviceCodeList = serviceCodeList
     }
@@ -896,12 +1151,16 @@ public struct DescribeServicesOutput: Swift.Sendable {
 }
 
 public struct DescribeSeverityLevelsInput: Swift.Sendable {
-    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
+    /// Specifies whether to validate the request without actually returning severity levels. When set to true, the request is validated but no severity levels are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         language: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.language = language
     }
 }
@@ -954,6 +1213,8 @@ public struct DescribeSupportedLanguagesInput: Swift.Sendable {
     /// The category of problem for the support case. You also use the [DescribeServices] operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
     /// This member is required.
     public var categoryCode: Swift.String?
+    /// Specifies whether to validate the request without actually returning supported languages. When set to true, the request is validated but no languages are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
     /// The type of issue for the case. You can specify customer-service or technical.
     /// This member is required.
     public var issueType: Swift.String?
@@ -963,10 +1224,12 @@ public struct DescribeSupportedLanguagesInput: Swift.Sendable {
 
     public init(
         categoryCode: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         issueType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     ) {
         self.categoryCode = categoryCode
+        self.dryRun = dryRun
         self.issueType = issueType
         self.serviceCode = serviceCode
     }
@@ -1408,6 +1671,165 @@ public struct DescribeTrustedAdvisorCheckSummariesOutput: Swift.Sendable {
     }
 }
 
+public struct GetAttachmentDownloadLinkInput: Swift.Sendable {
+    /// The unique identifier of the attachment for which to retrieve a download link. Attachment IDs are returned in the AttachmentDetails objects in the attachments field of a [Communication] returned by [DescribeCommunications] or [DescribeCases].
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// Specifies whether to validate the request without actually returning a download link. When set to true, the request is validated but no URL is returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.dryRun = dryRun
+    }
+}
+
+extension SupportClientTypes {
+
+    /// A presigned URL for downloading an attachment, along with the date and time the URL expires. Returned by [GetAttachmentDownloadLink].
+    public struct DownloadUrl: Swift.Sendable {
+        /// The date and time, in ISO-8601 format, when the presigned URL expires. Download the attachment before this time.
+        /// This member is required.
+        public var expiryDate: Swift.String?
+        /// The presigned HTTPS URL that you can use to download the attachment. Download URLs are served from downloadv1.attachments.support.{region}.amazonaws.com. The downloadv1 prefix is subject to change.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            expiryDate: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.expiryDate = expiryDate
+            self.url = url
+        }
+    }
+}
+
+public struct GetAttachmentDownloadLinkOutput: Swift.Sendable {
+    /// The presigned download URL and the date and time the URL expires.
+    /// This member is required.
+    public var downloadUrl: SupportClientTypes.DownloadUrl?
+    /// The name of the attachment file, including the file extension.
+    /// This member is required.
+    public var fileName: Swift.String?
+
+    public init(
+        downloadUrl: SupportClientTypes.DownloadUrl? = nil,
+        fileName: Swift.String? = nil
+    ) {
+        self.downloadUrl = downloadUrl
+        self.fileName = fileName
+    }
+}
+
+extension SupportClientTypes {
+
+    /// The range of part indexes for which to return presigned upload URLs from [GetAttachmentUploadLinks].
+    public struct UploadRange: Swift.Sendable {
+        /// The ending part index of the range, exclusive. The range is half-open: startIndex is inclusive and endIndex is exclusive. For example, a range with startIndex of 1 and endIndex of 4 requests URLs for parts 1, 2, and 3. The range size (endIndex - startIndex) must not exceed 10. If you omit endIndex, the service defaults to startIndex + 10, capped by the total number of parts.
+        public var endIndex: Swift.Int?
+        /// The starting part index of the range, inclusive. Part indexes start at 1.
+        /// This member is required.
+        public var startIndex: Swift.Int?
+
+        public init(
+            endIndex: Swift.Int? = nil,
+            startIndex: Swift.Int? = nil
+        ) {
+            self.endIndex = endIndex
+            self.startIndex = startIndex
+        }
+    }
+}
+
+public struct GetAttachmentUploadLinksInput: Swift.Sendable {
+    /// Specifies whether to validate the request without actually generating upload URLs. When set to true, the request is validated but no URLs are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
+    /// The name of the file to upload, including the file extension. This value is required when you initiate a new upload.
+    /// This member is required.
+    public var fileName: Swift.String?
+    /// The total size of the file in bytes. The service uses this value to calculate the total number of parts and the size of each part. Required when you initiate a new upload (when uploadId isn't provided). Valid range: 1 to 157,286,400 bytes (approximately 150 MB).
+    public var fileSizeBytes: Swift.Int?
+    /// The unique identifier of an in-progress multipart upload, returned by a previous call to GetAttachmentUploadLinks. Specify uploadId to retrieve additional presigned upload URLs for an upload that has already been initiated. Required when fileSizeBytes isn't provided. Length: 1 to 2,048 characters.
+    public var uploadId: Swift.String?
+    /// The range of part indexes for which to return presigned upload URLs. Use this parameter to page through the upload URLs for a large file across multiple calls. If you omit this parameter, the service determines the range to return.
+    public var uploadRange: SupportClientTypes.UploadRange?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fileName: Swift.String? = nil,
+        fileSizeBytes: Swift.Int? = nil,
+        uploadId: Swift.String? = nil,
+        uploadRange: SupportClientTypes.UploadRange? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fileName = fileName
+        self.fileSizeBytes = fileSizeBytes
+        self.uploadId = uploadId
+        self.uploadRange = uploadRange
+    }
+}
+
+extension SupportClientTypes {
+
+    /// A presigned URL for uploading a single part of a multipart attachment upload, along with the part index and the date and time the URL expires. Returned by [GetAttachmentUploadLinks].
+    public struct UploadUrl: Swift.Sendable {
+        /// The date and time, in ISO-8601 format, when the presigned URL expires. Upload the part before this time.
+        /// This member is required.
+        public var expiryDate: Swift.String?
+        /// The index of the part that this URL uploads.
+        /// This member is required.
+        public var partIndex: Swift.Int
+        /// The presigned HTTPS URL that you use to upload a single part with HTTP PUT. Upload URLs are served from uploadv1.attachments.support.{region}.amazonaws.com. The uploadv1 prefix is subject to change.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            expiryDate: Swift.String? = nil,
+            partIndex: Swift.Int = 0,
+            url: Swift.String? = nil
+        ) {
+            self.expiryDate = expiryDate
+            self.partIndex = partIndex
+            self.url = url
+        }
+    }
+}
+
+public struct GetAttachmentUploadLinksOutput: Swift.Sendable {
+    /// The next part index to request presigned URLs for. If all upload URLs for the file have been returned, this field is null. Use this value as the startIndex in uploadRange on a subsequent call to GetAttachmentUploadLinks to retrieve the next batch of upload URLs.
+    public var nextIndex: Swift.Int
+    /// The size, in bytes, of each part. Split the file into parts of this size before you upload them to the presigned URLs. For an upload with n total parts, parts 1 through n - 1 are exactly this size; the last part may be smaller. Maximum: 104,857,600 bytes (approximately 100 MB).
+    /// This member is required.
+    public var partSizeBytes: Swift.Int?
+    /// The total number of parts that the file is split into. Upload one part to each presigned URL.
+    /// This member is required.
+    public var totalParts: Swift.Int
+    /// The unique identifier for the multipart upload. Use this value in subsequent calls to GetAttachmentUploadLinks, [DescribeAttachmentUploadStatus], and [CompleteAttachmentUpload], and to attach the upload to a case through the uploadIds parameter on [CreateCase] or [AddCommunicationToCase].
+    /// This member is required.
+    public var uploadId: Swift.String?
+    /// The list of presigned upload URLs for the requested range of parts. The list contains at most 10 URLs per call. Upload each part to its corresponding URL by using HTTP PUT before the URL expires.
+    /// This member is required.
+    public var uploadUrls: [SupportClientTypes.UploadUrl]?
+
+    public init(
+        nextIndex: Swift.Int = 0,
+        partSizeBytes: Swift.Int? = nil,
+        totalParts: Swift.Int = 0,
+        uploadId: Swift.String? = nil,
+        uploadUrls: [SupportClientTypes.UploadUrl]? = nil
+    ) {
+        self.nextIndex = nextIndex
+        self.partSizeBytes = partSizeBytes
+        self.totalParts = totalParts
+        self.uploadId = uploadId
+        self.uploadUrls = uploadUrls
+    }
+}
+
 ///
 public struct RefreshTrustedAdvisorCheckInput: Swift.Sendable {
     /// The unique identifier for the Trusted Advisor check to refresh. Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
@@ -1435,13 +1857,17 @@ public struct RefreshTrustedAdvisorCheckOutput: Swift.Sendable {
 }
 
 public struct ResolveCaseInput: Swift.Sendable {
-    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+    /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
     public var caseId: Swift.String?
+    /// Specifies whether to validate the request without actually resolving the case. When set to true, the request is validated but the case isn't resolved, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+    public var dryRun: Swift.Bool?
 
     public init(
-        caseId: Swift.String? = nil
+        caseId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
     ) {
         self.caseId = caseId
+        self.dryRun = dryRun
     }
 }
 

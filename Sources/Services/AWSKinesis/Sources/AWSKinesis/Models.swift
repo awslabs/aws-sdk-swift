@@ -30,6 +30,11 @@ public struct DecreaseStreamRetentionPeriodOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteChannelOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteResourcePolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -246,6 +251,795 @@ public struct AddTagsToStreamInput: Swift.Sendable {
 
 extension KinesisClientTypes {
 
+    public enum ChannelStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum ChannelEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelEncryptionType] {
+            return [
+                .kms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kms: return "KMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Specifies the Amazon Web Services KMS key that Amazon Kinesis Data Streams uses to encrypt data delivered to the channel's destination.
+    public struct ChannelEncryptionConfiguration: Swift.Sendable {
+        /// The encryption type. The only valid value is KMS.
+        /// This member is required.
+        public var encryptionType: KinesisClientTypes.ChannelEncryptionType?
+        /// The identifier of the customer managed Amazon Web Services KMS key. You cannot use the Amazon Kinesis Data Streams service key (aws/kinesis).
+        /// This member is required.
+        public var keyId: Swift.String?
+
+        public init(
+            encryptionType: KinesisClientTypes.ChannelEncryptionType? = nil,
+            keyId: Swift.String? = nil
+        ) {
+            self.encryptionType = encryptionType
+            self.keyId = keyId
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The Amazon CloudWatch Logs settings for channel logging.
+    public struct CloudWatchLogs: Swift.Sendable {
+        /// Specifies whether logging to Amazon CloudWatch Logs is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The name of the Amazon CloudWatch Logs log group. Defaults to /aws/kinesis/{channelName}/{channelId}.
+        public var logGroupName: Swift.String?
+        /// The name of the Amazon CloudWatch Logs log stream. Defaults to DestinationDelivery.
+        public var logStreamName: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            logGroupName: Swift.String? = nil,
+            logStreamName: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.logGroupName = logGroupName
+            self.logStreamName = logStreamName
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The Amazon CloudWatch Logs configuration for a channel.
+    public struct ChannelLoggingConfiguration: Swift.Sendable {
+        /// The Amazon CloudWatch Logs settings for the channel.
+        /// This member is required.
+        public var cloudWatchLogs: KinesisClientTypes.CloudWatchLogs?
+
+        public init(
+            cloudWatchLogs: KinesisClientTypes.CloudWatchLogs? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The Amazon S3 dead-letter queue configuration for records that cannot be delivered.
+    public struct DeadLetterQueueS3Configuration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the dead-letter queue Amazon S3 bucket.
+        /// This member is required.
+        public var bucketARN: Swift.String?
+        /// The Amazon S3 key prefix for error records.
+        public var errorOutputPrefix: Swift.String?
+        /// The Amazon Web Services account ID of the expected owner of the dead-letter queue bucket.
+        /// This member is required.
+        public var expectedBucketOwner: Swift.String?
+
+        public init(
+            bucketARN: Swift.String? = nil,
+            errorOutputPrefix: Swift.String? = nil,
+            expectedBucketOwner: Swift.String? = nil
+        ) {
+            self.bucketARN = bucketARN
+            self.errorOutputPrefix = errorOutputPrefix
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum S3CompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case `none`
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3CompressionType] {
+            return [
+                .gzip,
+                .none,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum S3StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case glacierIr
+        case intelligentTiering
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3StorageClass] {
+            return [
+                .glacierIr,
+                .intelligentTiering,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .glacierIr: return "GLACIER_IR"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The Amazon S3 storage settings for a general purpose Amazon S3 destination.
+    public struct S3StorageConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination Amazon S3 bucket.
+        /// This member is required.
+        public var bucketARN: Swift.String?
+        /// The compression applied to delivered objects. Valid values:
+        ///
+        /// * NONE - No compression.
+        ///
+        /// * GZIP - gzip compression.
+        ///
+        /// * ZSTD - Zstandard compression.
+        /// This member is required.
+        public var compressionType: KinesisClientTypes.S3CompressionType?
+        /// The Amazon Web Services account ID of the expected owner of the destination bucket. This value helps prevent delivery to an unintended bucket if ownership changes.
+        /// This member is required.
+        public var expectedBucketOwner: Swift.String?
+        /// The template used to construct the Amazon S3 object key for delivered objects. If not specified, a default template is used.
+        public var outputKeyTemplate: Swift.String?
+        /// The Amazon S3 storage class for delivered objects. Valid values:
+        ///
+        /// * STANDARD - Default storage class for frequently accessed data. (default)
+        ///
+        /// * INTELLIGENT_TIERING - Automatically moves objects to the most cost-effective access tier based on usage patterns.
+        ///
+        /// * GLACIER_IR - Low-cost storage for rarely accessed data that requires millisecond retrieval.
+        public var storageClass: KinesisClientTypes.S3StorageClass?
+
+        public init(
+            bucketARN: Swift.String? = nil,
+            compressionType: KinesisClientTypes.S3CompressionType? = nil,
+            expectedBucketOwner: Swift.String? = nil,
+            outputKeyTemplate: Swift.String? = nil,
+            storageClass: KinesisClientTypes.S3StorageClass? = nil
+        ) {
+            self.bucketARN = bucketARN
+            self.compressionType = compressionType
+            self.expectedBucketOwner = expectedBucketOwner
+            self.outputKeyTemplate = outputKeyTemplate
+            self.storageClass = storageClass
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The configuration for delivery to a general purpose Amazon S3 bucket. Returned in [ChannelDescription].
+    public struct S3DestinationDescription: Swift.Sendable {
+        /// The maximum age, in seconds, of undelivered data.
+        /// This member is required.
+        public var dataFreshnessInSeconds: Swift.Int?
+        /// The dead-letter queue configuration for records that cannot be delivered.
+        /// This member is required.
+        public var deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration?
+        /// The Amazon S3 storage configuration for the channel.
+        /// This member is required.
+        public var storageConfiguration: KinesisClientTypes.S3StorageConfiguration?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil,
+            deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration? = nil,
+            storageConfiguration: KinesisClientTypes.S3StorageConfiguration? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum S3TablesCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case snappy
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3TablesCompressionType] {
+            return [
+                .none,
+                .snappy,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .snappy: return "SNAPPY"
+            case .zstd: return "ZSTD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum PartitionTransform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case timeHour
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartitionTransform] {
+            return [
+                .timeHour
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .timeHour: return "TIME_HOUR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Specifies a single partition field.
+    public struct PartitionField: Swift.Sendable {
+        /// The name of the source column used for partitioning. This column must be of the timestamptz type.
+        /// This member is required.
+        public var sourceName: Swift.String?
+        /// The partition transform to apply. The only valid value is TIME_HOUR.
+        /// This member is required.
+        public var transform: KinesisClientTypes.PartitionTransform?
+
+        public init(
+            sourceName: Swift.String? = nil,
+            transform: KinesisClientTypes.PartitionTransform? = nil
+        ) {
+            self.sourceName = sourceName
+            self.transform = transform
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Specifies how the destination table is partitioned.
+    public struct PartitionSpec: Swift.Sendable {
+        /// The list of partition fields.
+        /// This member is required.
+        public var partitionFields: [KinesisClientTypes.PartitionField]?
+
+        public init(
+            partitionFields: [KinesisClientTypes.PartitionField]? = nil
+        ) {
+            self.partitionFields = partitionFields
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Specifies a destination streaming table on Apache Iceberg.
+    public struct S3TablesConfiguration: Swift.Sendable {
+        /// The compression applied to Parquet data files. Valid values:
+        ///
+        /// * NONE - No compression.
+        ///
+        /// * ZSTD - Zstandard compression.
+        ///
+        /// * SNAPPY - Snappy compression.
+        /// This member is required.
+        public var compressionType: KinesisClientTypes.S3TablesCompressionType?
+        /// The namespace (database) of the destination table.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The partitioning specification for the destination table.
+        public var partitionSpec: KinesisClientTypes.PartitionSpec?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 table bucket.
+        /// This member is required.
+        public var tableBucketARN: Swift.String?
+        /// The name of the destination table. Amazon Kinesis Data Streams creates this table in the specified table bucket.
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init(
+            compressionType: KinesisClientTypes.S3TablesCompressionType? = nil,
+            namespace: Swift.String? = nil,
+            partitionSpec: KinesisClientTypes.PartitionSpec? = nil,
+            tableBucketARN: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        ) {
+            self.compressionType = compressionType
+            self.namespace = namespace
+            self.partitionSpec = partitionSpec
+            self.tableBucketARN = tableBucketARN
+            self.tableName = tableName
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The configuration for delivery to streaming tables on Apache Iceberg. Returned in [ChannelDescription].
+    public struct S3TablesDestinationDescription: Swift.Sendable {
+        /// The maximum age, in seconds, of undelivered data.
+        /// This member is required.
+        public var dataFreshnessInSeconds: Swift.Int?
+        /// The dead-letter queue configuration for records that cannot be delivered.
+        /// This member is required.
+        public var deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration?
+        /// The list of streaming table configurations.
+        /// This member is required.
+        public var s3TablesConfigurationList: [KinesisClientTypes.S3TablesConfiguration]?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil,
+            deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration? = nil,
+            s3TablesConfigurationList: [KinesisClientTypes.S3TablesConfiguration]? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.s3TablesConfigurationList = s3TablesConfigurationList
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum RecordFormatType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case byteArray
+        case gsrJson
+        case json
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordFormatType] {
+            return [
+                .byteArray,
+                .gsrJson,
+                .json,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .byteArray: return "BYTE_ARRAY"
+            case .gsrJson: return "GSR_JSON"
+            case .json: return "JSON"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Specifies the format of records read from the source stream.
+    public struct RecordConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Glue Schema Registry schema used to validate records. Required when the channel destination is a streaming table (Amazon S3 Tables), for both the JSON and GSR_JSON record formats.
+        public var gsrSchemaARN: Swift.String?
+        /// The format of records on the source stream. Valid values:
+        ///
+        /// * GSR_JSON - Supported only for streaming table (Amazon S3 Tables) destinations.
+        ///
+        /// * JSON - Supported for both general purpose Amazon S3 and streaming table destinations.
+        ///
+        /// * STRING - Supported only for general purpose Amazon S3 destinations.
+        ///
+        /// * BYTE_ARRAY - Supported only for general purpose Amazon S3 destinations.
+        /// This member is required.
+        public var recordFormatType: KinesisClientTypes.RecordFormatType?
+
+        public init(
+            gsrSchemaARN: Swift.String? = nil,
+            recordFormatType: KinesisClientTypes.RecordFormatType? = nil
+        ) {
+            self.gsrSchemaARN = gsrSchemaARN
+            self.recordFormatType = recordFormatType
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Describes the source stream of a channel.
+    public struct ChannelStreamDescription: Swift.Sendable {
+        /// The record format configuration for the source stream.
+        /// This member is required.
+        public var recordConfiguration: KinesisClientTypes.RecordConfiguration?
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream.
+        /// This member is required.
+        public var streamARN: Swift.String?
+        /// The time at which the source stream was created.
+        /// This member is required.
+        public var streamCreationTimestamp: Foundation.Date?
+
+        public init(
+            recordConfiguration: KinesisClientTypes.RecordConfiguration? = nil,
+            streamARN: Swift.String? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil
+        ) {
+            self.recordConfiguration = recordConfiguration
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Describes the configuration and current status of a channel.
+    public struct ChannelDescription: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the channel.
+        /// This member is required.
+        public var channelARN: Swift.String?
+        /// The time at which the channel was created.
+        /// This member is required.
+        public var channelCreationTimestamp: Foundation.Date?
+        /// The unique identifier of the channel.
+        /// This member is required.
+        public var channelId: Swift.String?
+        /// The name of the channel.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The current status of the channel. Valid values:
+        ///
+        /// * CREATING - The channel is being created.
+        ///
+        /// * ACTIVE - The channel is ready to deliver records.
+        ///
+        /// * UPDATING - The channel configuration is being updated.
+        ///
+        /// * DELETING - The channel is being deleted.
+        ///
+        /// * FAILED - See ChannelStatusReason for the failure cause.
+        /// This member is required.
+        public var channelStatus: KinesisClientTypes.ChannelStatus?
+        /// A message describing the reason for a FAILED status.
+        public var channelStatusReason: Swift.String?
+        /// The server-side encryption configuration for the channel.
+        public var encryptionConfiguration: KinesisClientTypes.ChannelEncryptionConfiguration?
+        /// The Amazon CloudWatch Logs configuration for the channel.
+        /// This member is required.
+        public var loggingConfiguration: KinesisClientTypes.ChannelLoggingConfiguration?
+        /// The configuration for delivery to a general purpose Amazon S3 bucket. Present only when the channel destination is a general purpose Amazon S3 bucket.
+        public var s3DestinationConfiguration: KinesisClientTypes.S3DestinationDescription?
+        /// The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. Present only when the channel destination is a streaming table.
+        public var s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationDescription?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Data Streams assumes to write records to the destination.
+        /// This member is required.
+        public var serviceExecutionRoleARN: Swift.String?
+        /// The source stream configuration for the channel.
+        /// This member is required.
+        public var streamConfigurationList: [KinesisClientTypes.ChannelStreamDescription]?
+
+        public init(
+            channelARN: Swift.String? = nil,
+            channelCreationTimestamp: Foundation.Date? = nil,
+            channelId: Swift.String? = nil,
+            channelName: Swift.String? = nil,
+            channelStatus: KinesisClientTypes.ChannelStatus? = nil,
+            channelStatusReason: Swift.String? = nil,
+            encryptionConfiguration: KinesisClientTypes.ChannelEncryptionConfiguration? = nil,
+            loggingConfiguration: KinesisClientTypes.ChannelLoggingConfiguration? = nil,
+            s3DestinationConfiguration: KinesisClientTypes.S3DestinationDescription? = nil,
+            s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationDescription? = nil,
+            serviceExecutionRoleARN: Swift.String? = nil,
+            streamConfigurationList: [KinesisClientTypes.ChannelStreamDescription]? = nil
+        ) {
+            self.channelARN = channelARN
+            self.channelCreationTimestamp = channelCreationTimestamp
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.channelStatusReason = channelStatusReason
+            self.encryptionConfiguration = encryptionConfiguration
+            self.loggingConfiguration = loggingConfiguration
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.s3TablesDestinationConfiguration = s3TablesDestinationConfiguration
+            self.serviceExecutionRoleARN = serviceExecutionRoleARN
+            self.streamConfigurationList = streamConfigurationList
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum ChannelDestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case s3
+        case s3Tables
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelDestinationType] {
+            return [
+                .s3,
+                .s3Tables
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .s3: return "S3"
+            case .s3Tables: return "S3_TABLES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The updated Amazon CloudWatch Logs settings for a channel.
+    public struct CloudWatchLogsUpdateInput: Swift.Sendable {
+        /// Specifies whether logging to Amazon CloudWatch Logs is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The name of the Amazon CloudWatch Logs log group.
+        public var logGroupName: Swift.String?
+        /// The name of the Amazon CloudWatch Logs log stream.
+        public var logStreamName: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            logGroupName: Swift.String? = nil,
+            logStreamName: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.logGroupName = logGroupName
+            self.logStreamName = logStreamName
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The updated Amazon CloudWatch Logs configuration for a channel. Used in [UpdateChannel].
+    public struct ChannelLoggingUpdateInput: Swift.Sendable {
+        /// The updated Amazon CloudWatch Logs settings for the channel.
+        /// This member is required.
+        public var cloudWatchLogs: KinesisClientTypes.CloudWatchLogsUpdateInput?
+
+        public init(
+            cloudWatchLogs: KinesisClientTypes.CloudWatchLogsUpdateInput? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Specifies the source stream and record configuration when creating a channel.
+    public struct ChannelStreamConfiguration: Swift.Sendable {
+        /// The record format configuration for the source stream.
+        /// This member is required.
+        public var recordConfiguration: KinesisClientTypes.RecordConfiguration?
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream.
+        /// This member is required.
+        public var streamARN: Swift.String?
+
+        public init(
+            recordConfiguration: KinesisClientTypes.RecordConfiguration? = nil,
+            streamARN: Swift.String? = nil
+        ) {
+            self.recordConfiguration = recordConfiguration
+            self.streamARN = streamARN
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Identifies a source stream associated with a channel.
+    public struct ChannelStreamIdentifier: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream.
+        /// This member is required.
+        public var streamARN: Swift.String?
+        /// The time at which the source stream was created.
+        /// This member is required.
+        public var streamCreationTimestamp: Foundation.Date?
+
+        public init(
+            streamARN: Swift.String? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil
+        ) {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// A summary of a channel, returned by [ListChannels].
+    public struct ChannelSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the channel.
+        /// This member is required.
+        public var channelARN: Swift.String?
+        /// The time at which the channel was created.
+        /// This member is required.
+        public var channelCreationTimestamp: Foundation.Date?
+        /// The destination type of the channel. Valid values:
+        ///
+        /// * S3 - Delivery to a general purpose Amazon S3 bucket.
+        ///
+        /// * S3_TABLES - Delivery to streaming tables on Apache Iceberg.
+        /// This member is required.
+        public var channelDestinationType: KinesisClientTypes.ChannelDestinationType?
+        /// The unique identifier of the channel.
+        /// This member is required.
+        public var channelId: Swift.String?
+        /// The name of the channel.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The current status of the channel. Valid values:
+        ///
+        /// * CREATING - The channel is being created.
+        ///
+        /// * ACTIVE - The channel is ready to deliver records.
+        ///
+        /// * UPDATING - The channel configuration is being updated.
+        ///
+        /// * DELETING - The channel is being deleted.
+        ///
+        /// * FAILED - See ChannelStatusReason for the failure cause.
+        /// This member is required.
+        public var channelStatus: KinesisClientTypes.ChannelStatus?
+        /// A message describing the reason for a FAILED status.
+        public var channelStatusReason: Swift.String?
+        /// The source streams associated with the channel.
+        /// This member is required.
+        public var streams: [KinesisClientTypes.ChannelStreamIdentifier]?
+
+        public init(
+            channelARN: Swift.String? = nil,
+            channelCreationTimestamp: Foundation.Date? = nil,
+            channelDestinationType: KinesisClientTypes.ChannelDestinationType? = nil,
+            channelId: Swift.String? = nil,
+            channelName: Swift.String? = nil,
+            channelStatus: KinesisClientTypes.ChannelStatus? = nil,
+            channelStatusReason: Swift.String? = nil,
+            streams: [KinesisClientTypes.ChannelStreamIdentifier]? = nil
+        ) {
+            self.channelARN = channelARN
+            self.channelCreationTimestamp = channelCreationTimestamp
+            self.channelDestinationType = channelDestinationType
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.channelStatusReason = channelStatusReason
+            self.streams = streams
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
     /// The range of possible hash key values for the shard, which is a set of ordered contiguous positive integers.
     public struct HashKeyRange: Swift.Sendable {
         /// The ending hash key of the hash key range.
@@ -390,6 +1184,150 @@ extension KinesisClientTypes {
     }
 }
 
+/// The ciphertext references a key that doesn't exist or that you don't have access to.
+public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSAccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because the specified customer master key (CMK) isn't enabled.
+public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSDisabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
+public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSInvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because the specified entity or resource can't be found.
+public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The Amazon Web Services access key ID needs a subscription for the service.
+public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSOptInRequired" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
+public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that provides information about the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -410,6 +1348,109 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The configuration for delivery to a general purpose Amazon S3 bucket. Used in [CreateChannel].
+    public struct S3DestinationConfiguration: Swift.Sendable {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). The default value is 300 seconds.
+        public var dataFreshnessInSeconds: Swift.Int?
+        /// The dead-letter queue configuration for records that cannot be delivered. Optional for general purpose Amazon S3 destinations. If not specified, it defaults to the destination bucket with an error prefix.
+        public var deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration?
+        /// The Amazon S3 storage configuration for the channel.
+        /// This member is required.
+        public var storageConfiguration: KinesisClientTypes.S3StorageConfiguration?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil,
+            deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration? = nil,
+            storageConfiguration: KinesisClientTypes.S3StorageConfiguration? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The configuration for delivery to streaming tables on Apache Iceberg. Used in [CreateChannel].
+    public struct S3TablesDestinationConfiguration: Swift.Sendable {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). The default value is 300 seconds.
+        public var dataFreshnessInSeconds: Swift.Int?
+        /// The dead-letter queue configuration for records that cannot be delivered. Required for streaming table destinations.
+        /// This member is required.
+        public var deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration?
+        /// The list of streaming table configurations. Currently, one table is supported per channel.
+        /// This member is required.
+        public var s3TablesConfigurationList: [KinesisClientTypes.S3TablesConfiguration]?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil,
+            deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration? = nil,
+            s3TablesConfigurationList: [KinesisClientTypes.S3TablesConfiguration]? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.s3TablesConfigurationList = s3TablesConfigurationList
+        }
+    }
+}
+
+public struct CreateChannelInput: Swift.Sendable {
+    /// The name of the channel. The name is unique within your Amazon Web Services account and Amazon Web Services Region.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The server-side encryption configuration that uses an Amazon Web Services KMS key to encrypt data delivered to the destination.
+    public var encryptionConfiguration: KinesisClientTypes.ChannelEncryptionConfiguration?
+    /// The Amazon CloudWatch Logs configuration for the channel.
+    public var loggingConfiguration: KinesisClientTypes.ChannelLoggingConfiguration?
+    /// The configuration for delivery to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+    public var s3DestinationConfiguration: KinesisClientTypes.S3DestinationConfiguration?
+    /// The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+    public var s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationConfiguration?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Data Streams assumes to write records to the destination.
+    /// This member is required.
+    public var serviceExecutionRoleARN: Swift.String?
+    /// The source stream configuration for the channel. Currently, one stream is supported per channel.
+    /// This member is required.
+    public var streamConfigurationList: [KinesisClientTypes.ChannelStreamConfiguration]?
+    /// A set of key-value pairs to assign to the channel. A tag consists of a required key and an optional value.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        channelName: Swift.String? = nil,
+        encryptionConfiguration: KinesisClientTypes.ChannelEncryptionConfiguration? = nil,
+        loggingConfiguration: KinesisClientTypes.ChannelLoggingConfiguration? = nil,
+        s3DestinationConfiguration: KinesisClientTypes.S3DestinationConfiguration? = nil,
+        s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationConfiguration? = nil,
+        serviceExecutionRoleARN: Swift.String? = nil,
+        streamConfigurationList: [KinesisClientTypes.ChannelStreamConfiguration]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.channelName = channelName
+        self.encryptionConfiguration = encryptionConfiguration
+        self.loggingConfiguration = loggingConfiguration
+        self.s3DestinationConfiguration = s3DestinationConfiguration
+        self.s3TablesDestinationConfiguration = s3TablesDestinationConfiguration
+        self.serviceExecutionRoleARN = serviceExecutionRoleARN
+        self.streamConfigurationList = streamConfigurationList
+        self.tags = tags
+    }
+}
+
+public struct CreateChannelOutput: Swift.Sendable {
+    /// The configuration and current status of the channel.
+    /// This member is required.
+    public var channelDescription: KinesisClientTypes.ChannelDescription?
+
+    public init(
+        channelDescription: KinesisClientTypes.ChannelDescription? = nil
+    ) {
+        self.channelDescription = channelDescription
     }
 }
 
@@ -513,6 +1554,18 @@ public struct DecreaseStreamRetentionPeriodInput: Swift.Sendable {
         self.streamARN = streamARN
         self.streamId = streamId
         self.streamName = streamName
+    }
+}
+
+public struct DeleteChannelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the channel to delete.
+    /// This member is required.
+    public var channelARN: Swift.String?
+
+    public init(
+        channelARN: Swift.String? = nil
+    ) {
+        self.channelARN = channelARN
     }
 }
 
@@ -655,12 +1708,40 @@ public struct DescribeAccountSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeChannelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the channel to describe.
+    /// This member is required.
+    public var channelARN: Swift.String?
+
+    public init(
+        channelARN: Swift.String? = nil
+    ) {
+        self.channelARN = channelARN
+    }
+}
+
+public struct DescribeChannelOutput: Swift.Sendable {
+    /// The configuration and current status of the channel.
+    /// This member is required.
+    public var channelDescription: KinesisClientTypes.ChannelDescription?
+
+    public init(
+        channelDescription: KinesisClientTypes.ChannelDescription? = nil
+    ) {
+        self.channelDescription = channelDescription
+    }
+}
+
 public struct DescribeLimitsInput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DescribeLimitsOutput: Swift.Sendable {
+    /// The number of channels in the account.
+    public var channelCount: Swift.Int?
+    /// The maximum number of channels allowed in the account.
+    public var channelCountLimit: Swift.Int?
     /// Indicates the number of data streams with the on-demand capacity mode.
     /// This member is required.
     public var onDemandStreamCount: Swift.Int?
@@ -675,11 +1756,15 @@ public struct DescribeLimitsOutput: Swift.Sendable {
     public var shardLimit: Swift.Int?
 
     public init(
+        channelCount: Swift.Int? = nil,
+        channelCountLimit: Swift.Int? = nil,
         onDemandStreamCount: Swift.Int? = nil,
         onDemandStreamCountLimit: Swift.Int? = nil,
         openShardCount: Swift.Int? = nil,
         shardLimit: Swift.Int? = nil
     ) {
+        self.channelCount = channelCount
+        self.channelCountLimit = channelCountLimit
         self.onDemandStreamCount = onDemandStreamCount
         self.onDemandStreamCountLimit = onDemandStreamCountLimit
         self.openShardCount = openShardCount
@@ -1089,6 +2174,8 @@ extension KinesisClientTypes {
 
     /// Represents the output for [DescribeStreamSummary]
     public struct StreamDescriptionSummary: Swift.Sendable {
+        /// The number of channels associated with the stream.
+        public var channelCount: Swift.Int?
         /// The number of enhanced fan-out consumers registered with the stream.
         public var consumerCount: Swift.Int?
         /// The encryption type used. This value is one of the following:
@@ -1148,6 +2235,7 @@ extension KinesisClientTypes {
         public var warmThroughput: KinesisClientTypes.WarmThroughputObject?
 
         public init(
+            channelCount: Swift.Int? = nil,
             consumerCount: Swift.Int? = nil,
             encryptionType: KinesisClientTypes.EncryptionType? = nil,
             enhancedMonitoring: [KinesisClientTypes.EnhancedMetrics]? = nil,
@@ -1163,6 +2251,7 @@ extension KinesisClientTypes {
             streamStatus: KinesisClientTypes.StreamStatus? = nil,
             warmThroughput: KinesisClientTypes.WarmThroughputObject? = nil
         ) {
+            self.channelCount = channelCount
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
@@ -1258,6 +2347,29 @@ public struct DisableEnhancedMonitoringOutput: Swift.Sendable {
         self.desiredShardLevelMetrics = desiredShardLevelMetrics
         self.streamARN = streamARN
         self.streamName = streamName
+    }
+}
+
+/// The request was rejected because the DryRun parameter was specified.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1399,150 +2511,6 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// The ciphertext references a key that doesn't exist or that you don't have access to.
-public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSAccessDeniedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request was rejected because the specified customer master key (CMK) isn't enabled.
-public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSDisabledException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
-public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSInvalidStateException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request was rejected because the specified entity or resource can't be found.
-public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The Amazon Web Services access key ID needs a subscription for the service.
-public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSOptInRequired" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
-public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message that provides information about the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
 public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1569,6 +2537,8 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
 
 /// Represents the input for [GetRecords].
 public struct GetRecordsInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, [GetRecords] throws InvalidArgumentException. The default value is 10,000.
     public var limit: Swift.Int?
     /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
@@ -1580,11 +2550,13 @@ public struct GetRecordsInput: Swift.Sendable {
     public var streamId: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         shardIterator: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamId: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.limit = limit
         self.shardIterator = shardIterator
         self.streamARN = streamARN
@@ -1723,6 +2695,8 @@ extension KinesisClientTypes {
 
 /// Represents the input for GetShardIterator.
 public struct GetShardIteratorInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
     /// This member is required.
     public var shardId: Swift.String?
@@ -1751,6 +2725,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
     public var timestamp: Foundation.Date?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         shardId: Swift.String? = nil,
         shardIteratorType: KinesisClientTypes.ShardIteratorType? = nil,
         startingSequenceNumber: Swift.String? = nil,
@@ -1759,6 +2734,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
         streamName: Swift.String? = nil,
         timestamp: Foundation.Date? = nil
     ) {
+        self.dryRun = dryRun
         self.shardId = shardId
         self.shardIteratorType = shardIteratorType
         self.startingSequenceNumber = startingSequenceNumber
@@ -1803,6 +2779,61 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Sendable {
         self.streamARN = streamARN
         self.streamId = streamId
         self.streamName = streamName
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Filters [ListChannels] results by source stream.
+    public struct StreamFilter: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source stream to filter by.
+        /// This member is required.
+        public var streamARN: Swift.String?
+        /// The creation timestamp of the source stream.
+        public var streamCreationTimestamp: Foundation.Date?
+
+        public init(
+            streamARN: Swift.String? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil
+        ) {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+    }
+}
+
+public struct ListChannelsInput: Swift.Sendable {
+    /// The maximum number of channels to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The pagination token returned by a previous call. Specify this token to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// Filters the results to channels associated with the specified streams.
+    public var streamFilter: [KinesisClientTypes.StreamFilter]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        streamFilter: [KinesisClientTypes.StreamFilter]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.streamFilter = streamFilter
+    }
+}
+
+public struct ListChannelsOutput: Swift.Sendable {
+    /// A list of channel summaries.
+    /// This member is required.
+    public var channelSummaries: [KinesisClientTypes.ChannelSummary]?
+    /// The pagination token to use in a subsequent call to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        channelSummaries: [KinesisClientTypes.ChannelSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.channelSummaries = channelSummaries
+        self.nextToken = nextToken
     }
 }
 
@@ -2188,6 +3219,8 @@ public struct PutRecordInput: Swift.Sendable {
     /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
     /// This member is required.
     public var data: Foundation.Data?
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
     public var explicitHashKey: Swift.String?
     /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
@@ -2204,6 +3237,7 @@ public struct PutRecordInput: Swift.Sendable {
 
     public init(
         data: Foundation.Data? = nil,
+        dryRun: Swift.Bool? = nil,
         explicitHashKey: Swift.String? = nil,
         partitionKey: Swift.String? = nil,
         sequenceNumberForOrdering: Swift.String? = nil,
@@ -2212,6 +3246,7 @@ public struct PutRecordInput: Swift.Sendable {
         streamName: Swift.String? = nil
     ) {
         self.data = data
+        self.dryRun = dryRun
         self.explicitHashKey = explicitHashKey
         self.partitionKey = partitionKey
         self.sequenceNumberForOrdering = sequenceNumberForOrdering
@@ -2274,6 +3309,8 @@ extension KinesisClientTypes {
 
 /// A PutRecords request.
 public struct PutRecordsInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The records associated with the request.
     /// This member is required.
     public var records: [KinesisClientTypes.PutRecordsRequestEntry]?
@@ -2285,11 +3322,13 @@ public struct PutRecordsInput: Swift.Sendable {
     public var streamName: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = nil,
         records: [KinesisClientTypes.PutRecordsRequestEntry]? = nil,
         streamARN: Swift.String? = nil,
         streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.records = records
         self.streamARN = streamARN
         self.streamId = streamId
@@ -2568,6 +3607,8 @@ public struct SubscribeToShardInput: Swift.Sendable {
     /// For this parameter, use the value you obtained when you called [RegisterStreamConsumer].
     /// This member is required.
     public var consumerARN: Swift.String?
+    /// Checks if your request will succeed. DryRun is an optional parameter.
+    public var dryRun: Swift.Bool?
     /// The ID of the shard you want to subscribe to. To see a list of all the shards for a given stream, use [ListShards].
     /// This member is required.
     public var shardId: Swift.String?
@@ -2579,11 +3620,13 @@ public struct SubscribeToShardInput: Swift.Sendable {
 
     public init(
         consumerARN: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
         shardId: Swift.String? = nil,
         startingPosition: KinesisClientTypes.StartingPosition? = nil,
         streamId: Swift.String? = nil
     ) {
         self.consumerARN = consumerARN
+        self.dryRun = dryRun
         self.shardId = shardId
         self.startingPosition = startingPosition
         self.streamId = streamId
@@ -2757,6 +3800,74 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
         minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput? = nil
     ) {
         self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The updated configuration for a general purpose Amazon S3 destination. Used in [UpdateChannel]. Only DataFreshnessInSeconds can be updated.
+    public struct S3DestinationUpdateInput: Swift.Sendable {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes).
+        /// This member is required.
+        public var dataFreshnessInSeconds: Swift.Int?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// The updated configuration for a streaming table destination. Used in [UpdateChannel]. Only DataFreshnessInSeconds can be updated.
+    public struct S3TablesDestinationUpdateInput: Swift.Sendable {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes).
+        /// This member is required.
+        public var dataFreshnessInSeconds: Swift.Int?
+
+        public init(
+            dataFreshnessInSeconds: Swift.Int? = nil
+        ) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+    }
+}
+
+public struct UpdateChannelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the channel to update.
+    /// This member is required.
+    public var channelARN: Swift.String?
+    /// The updated Amazon CloudWatch Logs configuration for the channel.
+    public var loggingConfiguration: KinesisClientTypes.ChannelLoggingUpdateInput?
+    /// The updated configuration for a general purpose Amazon S3 destination. Only DataFreshnessInSeconds can be updated.
+    public var s3DestinationConfiguration: KinesisClientTypes.S3DestinationUpdateInput?
+    /// The updated configuration for a streaming table destination. Only DataFreshnessInSeconds can be updated.
+    public var s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationUpdateInput?
+
+    public init(
+        channelARN: Swift.String? = nil,
+        loggingConfiguration: KinesisClientTypes.ChannelLoggingUpdateInput? = nil,
+        s3DestinationConfiguration: KinesisClientTypes.S3DestinationUpdateInput? = nil,
+        s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationUpdateInput? = nil
+    ) {
+        self.channelARN = channelARN
+        self.loggingConfiguration = loggingConfiguration
+        self.s3DestinationConfiguration = s3DestinationConfiguration
+        self.s3TablesDestinationConfiguration = s3TablesDestinationConfiguration
+    }
+}
+
+public struct UpdateChannelOutput: Swift.Sendable {
+    /// The configuration and current status of the updated channel.
+    /// This member is required.
+    public var channelDescription: KinesisClientTypes.ChannelDescription?
+
+    public init(
+        channelDescription: KinesisClientTypes.ChannelDescription? = nil
+    ) {
+        self.channelDescription = channelDescription
     }
 }
 

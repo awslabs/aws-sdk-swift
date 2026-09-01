@@ -615,9 +615,9 @@ extension SupportClient {
     ///
     /// Adds one or more attachments to an attachment set. An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `AddAttachmentsToSetInput`)
     ///
@@ -630,6 +630,7 @@ extension SupportClient {
     /// - `AttachmentSetExpired` : The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `AttachmentSetSizeLimitExceeded` : A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutput {
         var config = config
@@ -695,11 +696,20 @@ extension SupportClient {
 
     /// Performs the `AddCommunicationToCase` operation on the `Support` service.
     ///
-    /// Adds additional customer communication to an Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. You can list a set of email addresses to copy on the communication by using the ccEmailAddresses parameter. The communicationBody value contains the text of the communication.
+    /// Adds additional customer communication to a Amazon Web Services Support case. Use the caseId parameter to identify the case to which to add communication. To list a set of email addresses to copy on the communication, use the ccEmailAddresses parameter. The communicationBody value contains the text of the communication. To attach files larger than 5 MB to the communication, use the uploadIds parameter. Amazon Web Services Support automatically redacts sensitive information from support cases to protect your data. The following information is replaced with [REDACTED_BY_Amazon Web Services] and is not stored:
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * Amazon Web Services secret keys - The complete key is replaced. Example: [REDACTED_BY_Amazon Web Services]
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * Private keys - The complete key is replaced. Example: [REDACTED_BY_Amazon Web Services]
+    ///
+    /// * Credit card numbers - The number is redacted, but the last 4 digits remain. Example: [REDACTED_BY_Amazon Web Services]-7016
+    ///
+    ///
+    /// This sensitive information is never required by Amazon Web Services Support.
+    ///
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+    ///
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `AddCommunicationToCaseInput`)
     ///
@@ -711,6 +721,7 @@ extension SupportClient {
     /// - `AttachmentSetExpired` : The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutput {
         var config = config
@@ -774,6 +785,82 @@ extension SupportClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CompleteAttachmentUpload` operation on the `Support` service.
+    ///
+    /// Completes an attachment upload that was started with [GetAttachmentUploadLinks]. After you upload a part of the file to its presigned Amazon S3 URL, call CompleteAttachmentUpload with the partIndex and eTag of that part. You can include one part per call, or multiple parts in a single call. After CompleteAttachmentUpload has been called for every part of the file, the service processes the upload asynchronously. The attachment-ready status might not be reflected immediately. Use [DescribeAttachmentUploadStatus] to poll for the uploadStatus to become attachment-ready before passing the uploadId to [CreateCase] or [AddCommunicationToCase].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CompleteAttachmentUploadInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CompleteAttachmentUploadOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `UploadIdNotFound` : The specified uploadId couldn't be located.
+    public func completeAttachmentUpload(input: CompleteAttachmentUploadInput) async throws -> CompleteAttachmentUploadOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.completeAttachmentUploadOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "completeAttachmentUpload")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "support")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CompleteAttachmentUploadOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Support", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompleteAttachmentUploadOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.CompleteAttachmentUpload"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteAttachmentUploadOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Support"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>(serviceID: serviceName, version: SupportClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Support")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CompleteAttachmentUpload")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateCase` operation on the `Support` service.
     ///
     /// Creates a case in the Amazon Web Services Support Center. This operation is similar to how you create a case in the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page. The Amazon Web Services Support API doesn't support requesting service limit increases. You can submit a service limit increase in the following ways:
@@ -783,11 +870,20 @@ extension SupportClient {
     /// * Use the Service Quotas [RequestServiceQuotaIncrease](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_RequestServiceQuotaIncrease.html) operation.
     ///
     ///
-    /// A successful CreateCase request returns an Amazon Web Services Support case number. You can use the [DescribeCases] operation and specify the case number to get existing Amazon Web Services Support cases. After you create a case, use the [AddCommunicationToCase] operation to add additional communication or attachments to an existing case. The caseId is separate from the displayId that appears in the [Amazon Web Services Support Center](https://console.aws.amazon.com/support). Use the [DescribeCases] operation to get the displayId.
+    /// Amazon Web Services Support automatically redacts sensitive information from support cases to protect your data. The following information is replaced with [REDACTED_BY_Amazon Web Services] and is not stored:
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * Amazon Web Services secret keys - The complete key is replaced. Example: [REDACTED_BY_Amazon Web Services]
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * Private keys - The complete key is replaced. Example: [REDACTED_BY_Amazon Web Services]
+    ///
+    /// * Credit card numbers - The number is redacted, but the last 4 digits remain. Example: [REDACTED_BY_Amazon Web Services]-7016
+    ///
+    ///
+    /// This sensitive information is never required by Amazon Web Services Support. A successful CreateCase request returns a Amazon Web Services Support case number. You can use the [DescribeCases] operation and specify the case number to get existing Amazon Web Services Support cases. After you create a case, use the [AddCommunicationToCase] operation to add additional communication or attachments to an existing case. The caseId is separate from the displayId that appears in the [Amazon Web Services Support Center](https://console.aws.amazon.com/support). Use the [DescribeCases] operation to get the displayId.
+    ///
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+    ///
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
@@ -799,6 +895,7 @@ extension SupportClient {
     /// - `AttachmentSetExpired` : The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
     /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
     /// - `CaseCreationLimitExceeded` : The case creation limit for the account has been exceeded.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutput {
         var config = config
@@ -866,9 +963,12 @@ extension SupportClient {
     ///
     /// Returns the attachment that has the specified ID. Attachments can include screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are returned in the [AttachmentDetails] objects that are returned by the [DescribeCommunications] operation.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// DescribeAttachment can't return attachments larger than 5 MB. If the specified attachmentId refers to an attachment larger than 5 MB, the request fails with InvalidParameterValueException. To download an attachment of any size, including attachments larger than 5 MB, use [GetAttachmentDownloadLink]. GetAttachmentDownloadLink returns an Amazon S3 presigned URL that you can use to download the attachment directly.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeAttachmentInput`)
     ///
@@ -879,6 +979,7 @@ extension SupportClient {
     /// __Possible Exceptions:__
     /// - `AttachmentIdNotFound` : An attachment with the specified ID could not be found.
     /// - `DescribeAttachmentLimitExceeded` : The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutput {
         var config = config
@@ -942,6 +1043,86 @@ extension SupportClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAttachmentUploadStatus` operation on the `Support` service.
+    ///
+    /// Returns the current status, file name, and progress of a multipart attachment upload that was started with [GetAttachmentUploadLinks]. Use this operation to track where an upload is in the workflow. While parts are still being uploaded and reported through [CompleteAttachmentUpload], the uploadStatus is attachment-not-ready and uploadProgress reports the total number of parts and how many have been completed so far. After every part has been reported and the service finishes processing the upload asynchronously, the uploadStatus becomes attachment-ready and the uploadId can be attached to a case through [CreateCase] or [AddCommunicationToCase].
+    ///
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+    ///
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAttachmentUploadStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAttachmentUploadStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `UploadIdNotFound` : The specified uploadId couldn't be located.
+    public func describeAttachmentUploadStatus(input: DescribeAttachmentUploadStatusInput) async throws -> DescribeAttachmentUploadStatusOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.describeAttachmentUploadStatusOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAttachmentUploadStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "support")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAttachmentUploadStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Support", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAttachmentUploadStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.DescribeAttachmentUploadStatus"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAttachmentUploadStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Support"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAttachmentUploadStatusInput, DescribeAttachmentUploadStatusOutput>(serviceID: serviceName, version: SupportClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Support")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAttachmentUploadStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeCases` operation on the `Support` service.
     ///
     /// Returns a list of cases that you specify by passing one or more case IDs. You can use the afterTime and beforeTime parameters to filter the cases by date. You can set values for the includeResolvedCases and includeCommunications parameters to specify how much information to return. The response returns the following in JSON format:
@@ -951,11 +1132,21 @@ extension SupportClient {
     /// * One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.
     ///
     ///
-    /// Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request might return an error.
+    /// Case data is available for 24 months after creation. If a case was created more than 24 months ago, a request might return an error.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// Each [Communication] returned by this operation includes attachment information in two fields:
+    ///
+    /// * attachmentSet: returns only attachments that are 5 MB or smaller. Attachments larger than 5 MB are not included in this field.
+    ///
+    /// * attachments: returns all attachments regardless of size.
+    ///
+    ///
+    /// Amazon Web Services recommends that you use the attachments field and download each attachment with [GetAttachmentDownloadLink], which supports attachments of any size. The attachmentSet field and [DescribeAttachment] return only attachments that are 5 MB or smaller.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeCasesInput`)
     ///
@@ -965,6 +1156,7 @@ extension SupportClient {
     ///
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutput {
         var config = config
@@ -1030,11 +1222,21 @@ extension SupportClient {
 
     /// Performs the `DescribeCommunications` operation on the `Support` service.
     ///
-    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the results. Set maxResults to the number of cases that you want to display on each page, and use nextToken to specify the resumption of pagination.
+    /// Returns communications and attachments for one or more support cases. Use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a specific case. Case data is available for 24 months after creation. If a case was created more than 24 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the results. Set maxResults to the number of cases that you want to display on each page, and use nextToken to specify the resumption of pagination.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// Each [Communication] returned by this operation includes attachment information in two fields:
+    ///
+    /// * attachmentSet: returns only attachments that are 5 MB or smaller. Attachments larger than 5 MB are not included in this field.
+    ///
+    /// * attachments: returns all attachments regardless of size.
+    ///
+    ///
+    /// Amazon Web Services recommends that you use the attachments field and download each attachment with [GetAttachmentDownloadLink], which supports attachments of any size. The attachmentSet field and [DescribeAttachment] return only attachments that are 5 MB or smaller.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeCommunicationsInput`)
     ///
@@ -1044,6 +1246,7 @@ extension SupportClient {
     ///
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutput {
         var config = config
@@ -1111,9 +1314,9 @@ extension SupportClient {
     ///
     /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the languagecategoryCode, issueType and serviceCode used to retrieve the CreateCaseOptions.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeCreateCaseOptionsInput`)
     ///
@@ -1122,6 +1325,7 @@ extension SupportClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutput {
@@ -1190,9 +1394,9 @@ extension SupportClient {
     ///
     /// Returns the current list of Amazon Web Services services and a list of service categories for each service. You then use service names and categories in your [CreateCase] requests. Each Amazon Web Services service has its own set of categories. The service codes and category codes correspond to the values that appear in the Service and Category lists on the Amazon Web Services Support Center [Create Case](https://console.aws.amazon.com/support/home#/case/create) page. The values in those fields don't necessarily match the service codes and categories returned by the DescribeServices operation. Always use the service codes and categories that the DescribeServices operation returns, so that you have the most recent set of service and category codes.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeServicesInput`)
     ///
@@ -1201,6 +1405,7 @@ extension SupportClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
         var config = config
@@ -1268,9 +1473,9 @@ extension SupportClient {
     ///
     /// Returns the list of severity levels that you can assign to a support case. The severity level for a case is also a field in the [CaseDetails] data type that you include for a [CreateCase] request.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSeverityLevelsInput`)
     ///
@@ -1279,6 +1484,7 @@ extension SupportClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutput {
         var config = config
@@ -1346,9 +1552,9 @@ extension SupportClient {
     ///
     /// Returns a list of supported languages for a specified categoryCode, issueType and serviceCode. The returned supported languages will include a ISO 639-1 code for the language, and the language display name.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSupportedLanguagesInput`)
     ///
@@ -1357,6 +1563,7 @@ extension SupportClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutput {
@@ -1425,9 +1632,9 @@ extension SupportClient {
     ///
     /// Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. You can get the check IDs by calling the [DescribeTrustedAdvisorChecks] operation. Some checks are refreshed automatically, and you can't return their refresh statuses by using the DescribeTrustedAdvisorCheckRefreshStatuses operation. If you call this operation for these checks, you might see an InvalidParameterValue error.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
@@ -1525,9 +1732,9 @@ extension SupportClient {
     ///
     ///
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
@@ -1607,12 +1814,12 @@ extension SupportClient {
     ///
     /// Returns the results for the Trusted Advisor check summaries for the check IDs that you specified. You can get the check IDs by calling the [DescribeTrustedAdvisorChecks] operation. The response contains an array of [TrustedAdvisorCheckSummary] objects.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     ///
-    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
+    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide. Understanding the Trusted Advisor Resources processed value The Resources processed value, resourcesProcessed, usually shows both flagged resources (those with warnings or errors) and resources in good standing (ok status resources). However, some checks report flagged resources only. To understand what a specific check reports, review the detailed check information in the [Trusted Advisor check reference](https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor-check-reference.html). If you see a Green criterion listed in the Alert criteria, then the check reports all resources. If there's no Green criterion listed in the Alert criteria, then the check reports only flagged resources. For example, the [Amazon EC2 Reserved Instance optimization check (cX3c2R1chu)](https://docs.aws.amazon.com/awssupport/latest/user/cost-optimization-checks.html#amazon-ec2-reserved-instances-optimization) doesn't list a Green criterion in the Alert criteria. So, this check only reports flagged resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeTrustedAdvisorCheckSummariesInput`)
     ///
@@ -1689,9 +1896,9 @@ extension SupportClient {
     ///
     /// Returns information about all available Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The response contains a [TrustedAdvisorCheckDescription] object for each check. You must set the Amazon Web Services Region to us-east-1.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// * The names and descriptions for Trusted Advisor checks are subject to change. We recommend that you specify the check ID in your code to uniquely identify a check.
     ///
@@ -1769,13 +1976,173 @@ extension SupportClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAttachmentDownloadLink` operation on the `Support` service.
+    ///
+    /// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through [GetAttachmentUploadLinks]. The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires.
+    ///
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+    ///
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAttachmentDownloadLinkInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAttachmentDownloadLinkOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AttachmentIdNotFound` : An attachment with the specified ID could not be found.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
+    /// - `InternalServerError` : An internal server error occurred.
+    public func getAttachmentDownloadLink(input: GetAttachmentDownloadLinkInput) async throws -> GetAttachmentDownloadLinkOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.getAttachmentDownloadLinkOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAttachmentDownloadLink")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "support")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAttachmentDownloadLinkOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Support", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAttachmentDownloadLinkOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.GetAttachmentDownloadLink"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAttachmentDownloadLinkOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Support"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAttachmentDownloadLinkInput, GetAttachmentDownloadLinkOutput>(serviceID: serviceName, version: SupportClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Support")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAttachmentDownloadLink")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAttachmentUploadLinks` operation on the `Support` service.
+    ///
+    /// Returns one or more presigned upload URLs for uploading a large file attachment to a support case by using a multipart upload workflow. The maximum file size that you can upload with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by providing fileName and fileSizeBytes; the response returns a unique uploadId, the part size, the total number of parts, and a list of presigned upload URLs for the requested range of parts. A maximum of 10 upload URLs are returned per call. To retrieve more upload URLs for an upload that's already in progress, call GetAttachmentUploadLinks again with the existing uploadId and a new uploadRange. Upload each part to its presigned URL by using HTTP PUT and capture the ETag from the response. After you upload all parts, call [CompleteAttachmentUpload] with the uploadId and the list of part indexes and ETags to finalize the upload. You can then attach the upload to a case by passing the uploadId in the uploadIds parameter of [CreateCase] or [AddCommunicationToCase]. To monitor progress before completion, call [DescribeAttachmentUploadStatus].
+    ///
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+    ///
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAttachmentUploadLinksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAttachmentUploadLinksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `UploadIdNotFound` : The specified uploadId couldn't be located.
+    public func getAttachmentUploadLinks(input: GetAttachmentUploadLinksInput) async throws -> GetAttachmentUploadLinksOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SupportClient.getAttachmentUploadLinksOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAttachmentUploadLinks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "support")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAttachmentUploadLinksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Support", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAttachmentUploadLinksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>(overrides: ["X-Amz-Target": "AWSSupport_20130415.GetAttachmentUploadLinks"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAttachmentUploadLinksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Support"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAttachmentUploadLinksInput, GetAttachmentUploadLinksOutput>(serviceID: serviceName, version: SupportClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Support")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAttachmentUploadLinks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RefreshTrustedAdvisorCheck` operation on the `Support` service.
     ///
     /// Refreshes the Trusted Advisor check that you specify using the check ID. You can get the check IDs by calling the [DescribeTrustedAdvisorChecks] operation. Some checks are refreshed automatically. If you call the RefreshTrustedAdvisorCheck operation to refresh them, you might see the InvalidParameterValue error. The response contains a [TrustedAdvisorCheckRefreshStatus] object.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
@@ -1854,9 +2221,9 @@ extension SupportClient {
     ///
     /// Resolves a support case. This operation takes a caseId and returns the initial and final state of the case.
     ///
-    /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+    /// * You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// - Parameter input: [no documentation found] (Type: `ResolveCaseInput`)
     ///
@@ -1866,6 +2233,7 @@ extension SupportClient {
     ///
     /// __Possible Exceptions:__
     /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `DryRunOperationException` : The request was valid, but the operation wasn't performed because dryRun was set to true.
     /// - `InternalServerError` : An internal server error occurred.
     public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutput {
         var config = config
