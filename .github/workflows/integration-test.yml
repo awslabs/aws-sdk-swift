@@ -9,6 +9,11 @@ on:
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
   AWS_SWIFT_SDK_USE_PRERELEASE_CRT: 1
+  # Keep the Gradle user home inside the workspace so that it resolves identically
+  # for Gradle and for setup-gradle's cache.  In container jobs the runner sets
+  # HOME=/github/home, but the JVM derives user.home from the passwd entry (/root),
+  # so the default ~/.gradle refers to two different directories.
+  GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-home
 
 permissions:
   id-token: write
@@ -75,16 +80,6 @@ jobs:
         with:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-      - name: Cache Gradle
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-            2-${{ runner.os }}-gradle-
       - name: Cache Swift
         uses: actions/cache@v5
         with:
@@ -100,6 +95,8 @@ jobs:
         with:
           distribution: corretto
           java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
       - name: Tools Versions
         run: ./aws-sdk-swift/scripts/ci_steps/log_tool_versions.sh
       - name: List all sims installed
@@ -168,16 +165,6 @@ jobs:
         with:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-      - name: Cache Gradle
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-            2-${{ runner.os }}-gradle-
       - name: Cache Swift
         uses: actions/cache@v5
         with:
@@ -193,6 +180,8 @@ jobs:
         with:
           distribution: corretto
           java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
       - name: Install OpenSSL (all OS) and which (AL2 only)
         run: ./aws-sdk-swift/scripts/ci_steps/install_native_linux_dependencies.sh
       - name: Tools Versions
