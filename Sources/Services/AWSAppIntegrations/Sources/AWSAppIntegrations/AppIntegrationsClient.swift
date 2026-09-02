@@ -914,7 +914,7 @@ extension AppIntegrationsClient {
 
     /// Performs the `DeleteApplication` operation on the `AppIntegrations` service.
     ///
-    /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
+    /// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
@@ -951,6 +951,7 @@ extension AppIntegrationsClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(DeleteApplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(DeleteApplicationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -1963,6 +1964,7 @@ extension AppIntegrationsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.

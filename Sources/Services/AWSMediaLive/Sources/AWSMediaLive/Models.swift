@@ -12072,6 +12072,165 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// The vendor-specified custom profile options
+    public struct AbWatermarkingCustomProfile: Swift.Sendable {
+        /// The frequency with which watermarks will be embedded, in milliseconds.
+        /// This member is required.
+        public var embeddingFrequency: Swift.Double?
+        /// The number of frames after scene-cut to embed the watermark.
+        /// This member is required.
+        public var sceneCut: Swift.Double?
+        /// The target PSNR of the watermarked frame
+        /// This member is required.
+        public var targetPsnr: Swift.Double?
+
+        public init(
+            embeddingFrequency: Swift.Double? = nil,
+            sceneCut: Swift.Double? = nil,
+            targetPsnr: Swift.Double? = nil
+        ) {
+            self.embeddingFrequency = embeddingFrequency
+            self.sceneCut = sceneCut
+            self.targetPsnr = targetPsnr
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Ab Watermarking Profile
+    public enum AbWatermarkingProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case camcording
+        case custom
+        case `default`
+        case hq
+        case mezzanine
+        case robust
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AbWatermarkingProfile] {
+            return [
+                .camcording,
+                .custom,
+                .default,
+                .hq,
+                .mezzanine,
+                .robust
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .camcording: return "CAMCORDING"
+            case .custom: return "CUSTOM"
+            case .default: return "DEFAULT"
+            case .hq: return "HQ"
+            case .mezzanine: return "MEZZANINE"
+            case .robust: return "ROBUST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Ab Watermarker Id Length
+    public enum AbWatermarkerIdLength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case id2048
+        case id512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AbWatermarkerIdLength] {
+            return [
+                .id2048,
+                .id512
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .id2048: return "ID_2048"
+            case .id512: return "ID_512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// A/B Watermarker settings for CMAF Ingest output groups.
+    public struct CmafIngestAbWatermarkerIrdetoSettings: Swift.Sendable {
+        /// The "B" pipeline renditions for the additional destinations.
+        public var additionalDestinationsAlternateDestinations: [MediaLiveClientTypes.OutputLocationRef]?
+        /// The "B" pipeline renditions for the main destination.
+        /// This member is required.
+        public var alternateDestination: MediaLiveClientTypes.OutputLocationRef?
+        /// The vendor-provided custom profile values.
+        public var customProfile: MediaLiveClientTypes.AbWatermarkingCustomProfile?
+        /// The name of the Secrets Manager secret containing the license file.
+        public var license: Swift.String?
+        /// The vendor-provided Operator ID.
+        /// This member is required.
+        public var operatorId: Swift.Int?
+        /// The number of segments per watermarking bit. The total duration of the watermarking bit should be the LCM (least common multiple) of all segments sizes emitted by the downstream packager.
+        public var polyPeriod: Swift.Int?
+        /// The vendor-provided profile choice.
+        /// This member is required.
+        public var profile: MediaLiveClientTypes.AbWatermarkingProfile?
+        /// The number of bits that compose the watermarking identifier to be embedded.
+        public var watermarkIdLength: MediaLiveClientTypes.AbWatermarkerIdLength?
+
+        public init(
+            additionalDestinationsAlternateDestinations: [MediaLiveClientTypes.OutputLocationRef]? = nil,
+            alternateDestination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            customProfile: MediaLiveClientTypes.AbWatermarkingCustomProfile? = nil,
+            license: Swift.String? = nil,
+            operatorId: Swift.Int? = nil,
+            polyPeriod: Swift.Int? = nil,
+            profile: MediaLiveClientTypes.AbWatermarkingProfile? = nil,
+            watermarkIdLength: MediaLiveClientTypes.AbWatermarkerIdLength? = nil
+        ) {
+            self.additionalDestinationsAlternateDestinations = additionalDestinationsAlternateDestinations
+            self.alternateDestination = alternateDestination
+            self.customProfile = customProfile
+            self.license = license
+            self.operatorId = operatorId
+            self.polyPeriod = polyPeriod
+            self.profile = profile
+            self.watermarkIdLength = watermarkIdLength
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// A/B Watermarker settings for CMAF Ingest output groups.
+    public struct CmafIngestWatermarkingSettings: Swift.Sendable {
+        /// A/B Watermarker settings for CMAF Ingest output groups.
+        public var cmafIngestAbWatermarkerIrdetoSettings: MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings?
+
+        public init(
+            cmafIngestAbWatermarkerIrdetoSettings: MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings? = nil
+        ) {
+            self.cmafIngestAbWatermarkerIrdetoSettings = cmafIngestAbWatermarkerIrdetoSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Cmaf Ingest Group Settings
     public struct CmafIngestGroupSettings: Swift.Sendable {
         /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
@@ -12109,6 +12268,8 @@ extension MediaLiveClientTypes {
         public var timedMetadataId3Period: Swift.Int?
         /// Set to enabled to pass through ID3 metadata from the input sources.
         public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
+        /// Specifies the type of watermarking technology to use.
+        public var watermarkingSettings: MediaLiveClientTypes.CmafIngestWatermarkingSettings?
 
         public init(
             additionalDestinations: [MediaLiveClientTypes.AdditionalDestinations]? = nil,
@@ -12127,7 +12288,8 @@ extension MediaLiveClientTypes {
             sendDelayMs: Swift.Int? = nil,
             timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame? = nil,
             timedMetadataId3Period: Swift.Int? = nil,
-            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
+            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil,
+            watermarkingSettings: MediaLiveClientTypes.CmafIngestWatermarkingSettings? = nil
         ) {
             self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
@@ -12146,6 +12308,7 @@ extension MediaLiveClientTypes {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timedMetadataPassthrough = timedMetadataPassthrough
+            self.watermarkingSettings = watermarkingSettings
         }
     }
 }
@@ -13396,6 +13559,67 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// A/B Watermarker settings for MediaPackage V2 output groups.
+    public struct MediaPackageV2AbWatermarkerIrdetoSettings: Swift.Sendable {
+        /// The "B" pipeline renditions for the additional destinations.
+        public var additionalDestinationsAlternateDestinations: [MediaLiveClientTypes.OutputLocationRef]?
+        /// The "B" pipeline renditions for the main destination.
+        /// This member is required.
+        public var alternateDestination: MediaLiveClientTypes.OutputLocationRef?
+        /// The vendor-provided custom profile values.
+        public var customProfile: MediaLiveClientTypes.AbWatermarkingCustomProfile?
+        /// The name of the Secrets Manager secret containing the license file.
+        public var license: Swift.String?
+        /// The vendor-provided Operator ID.
+        /// This member is required.
+        public var operatorId: Swift.Int?
+        /// The number of segments per watermarking bit. The total duration of the watermarking bit should be the LCM (least common multiple) of all segments sizes emitted by the downstream packager.
+        public var polyPeriod: Swift.Int?
+        /// The vendor-provided profile choice.
+        /// This member is required.
+        public var profile: MediaLiveClientTypes.AbWatermarkingProfile?
+        /// The number of bits that compose the watermarking identifier to be embedded.
+        public var watermarkIdLength: MediaLiveClientTypes.AbWatermarkerIdLength?
+
+        public init(
+            additionalDestinationsAlternateDestinations: [MediaLiveClientTypes.OutputLocationRef]? = nil,
+            alternateDestination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            customProfile: MediaLiveClientTypes.AbWatermarkingCustomProfile? = nil,
+            license: Swift.String? = nil,
+            operatorId: Swift.Int? = nil,
+            polyPeriod: Swift.Int? = nil,
+            profile: MediaLiveClientTypes.AbWatermarkingProfile? = nil,
+            watermarkIdLength: MediaLiveClientTypes.AbWatermarkerIdLength? = nil
+        ) {
+            self.additionalDestinationsAlternateDestinations = additionalDestinationsAlternateDestinations
+            self.alternateDestination = alternateDestination
+            self.customProfile = customProfile
+            self.license = license
+            self.operatorId = operatorId
+            self.polyPeriod = polyPeriod
+            self.profile = profile
+            self.watermarkIdLength = watermarkIdLength
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// A/B Watermarker settings for MediaPackage V2 output groups.
+    public struct MediaPackageV2WatermarkingSettings: Swift.Sendable {
+        /// A/B Watermarker settings for MediaPackage V2 output groups.
+        public var mediaPackageV2AbWatermarkerIrdetoSettings: MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings?
+
+        public init(
+            mediaPackageV2AbWatermarkerIrdetoSettings: MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings? = nil
+        ) {
+            self.mediaPackageV2AbWatermarkerIrdetoSettings = mediaPackageV2AbWatermarkerIrdetoSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Media Package V2 Group Settings
     public struct MediaPackageV2GroupSettings: Swift.Sendable {
         /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
@@ -13420,6 +13644,8 @@ extension MediaLiveClientTypes {
         public var timedMetadataId3Period: Swift.Int?
         /// Set to enabled to pass through ID3 metadata from the input sources.
         public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
+        /// Specifies the type of watermarking technology to use.
+        public var watermarkingSettings: MediaLiveClientTypes.MediaPackageV2WatermarkingSettings?
 
         public init(
             additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]? = nil,
@@ -13432,7 +13658,8 @@ extension MediaLiveClientTypes {
             segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
             timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame? = nil,
             timedMetadataId3Period: Swift.Int? = nil,
-            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
+            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil,
+            watermarkingSettings: MediaLiveClientTypes.MediaPackageV2WatermarkingSettings? = nil
         ) {
             self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
@@ -13445,6 +13672,7 @@ extension MediaLiveClientTypes {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timedMetadataPassthrough = timedMetadataPassthrough
+            self.watermarkingSettings = watermarkingSettings
         }
     }
 }
@@ -35320,6 +35548,25 @@ extension MediaLiveClientTypes.AacSettings {
     }
 }
 
+extension MediaLiveClientTypes.AbWatermarkingCustomProfile {
+
+    static func write(value: MediaLiveClientTypes.AbWatermarkingCustomProfile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["embeddingFrequency"].write(value.embeddingFrequency)
+        try writer["sceneCut"].write(value.sceneCut)
+        try writer["targetPsnr"].write(value.targetPsnr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AbWatermarkingCustomProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.AbWatermarkingCustomProfile()
+        value.embeddingFrequency = try reader["embeddingFrequency"].readIfPresent() ?? 0.0
+        value.sceneCut = try reader["sceneCut"].readIfPresent() ?? 0.0
+        value.targetPsnr = try reader["targetPsnr"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.Ac3Settings {
 
     static func write(value: MediaLiveClientTypes.Ac3Settings?, to writer: SmithyJSON.Writer) throws {
@@ -36544,6 +36791,35 @@ extension MediaLiveClientTypes.ClusterNetworkSettingsUpdateRequest {
     }
 }
 
+extension MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings {
+
+    static func write(value: MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalDestinationsAlternateDestinations"].writeList(value.additionalDestinationsAlternateDestinations, memberWritingClosure: MediaLiveClientTypes.OutputLocationRef.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["alternateDestination"].write(value.alternateDestination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["customProfile"].write(value.customProfile, with: MediaLiveClientTypes.AbWatermarkingCustomProfile.write(value:to:))
+        try writer["license"].write(value.license)
+        try writer["operatorId"].write(value.operatorId)
+        try writer["polyPeriod"].write(value.polyPeriod)
+        try writer["profile"].write(value.profile)
+        try writer["watermarkIdLength"].write(value.watermarkIdLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings()
+        value.additionalDestinationsAlternateDestinations = try reader["additionalDestinationsAlternateDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputLocationRef.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alternateDestination = try reader["alternateDestination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        value.customProfile = try reader["customProfile"].readIfPresent(with: MediaLiveClientTypes.AbWatermarkingCustomProfile.read(from:))
+        value.license = try reader["license"].readIfPresent()
+        value.operatorId = try reader["operatorId"].readIfPresent() ?? 0
+        value.polyPeriod = try reader["polyPeriod"].readIfPresent()
+        value.profile = try reader["profile"].readIfPresent() ?? .sdkUnknown("")
+        value.watermarkIdLength = try reader["watermarkIdLength"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.CmafIngestCaptionLanguageMapping {
 
     static func write(value: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
@@ -36582,6 +36858,7 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         try writer["timedMetadataId3Frame"].write(value.timedMetadataId3Frame)
         try writer["timedMetadataId3Period"].write(value.timedMetadataId3Period)
         try writer["timedMetadataPassthrough"].write(value.timedMetadataPassthrough)
+        try writer["watermarkingSettings"].write(value.watermarkingSettings, with: MediaLiveClientTypes.CmafIngestWatermarkingSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestGroupSettings {
@@ -36604,6 +36881,7 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
         value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
         value.additionalDestinations = try reader["additionalDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AdditionalDestinations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.watermarkingSettings = try reader["watermarkingSettings"].readIfPresent(with: MediaLiveClientTypes.CmafIngestWatermarkingSettings.read(from:))
         return value
     }
 }
@@ -36619,6 +36897,21 @@ extension MediaLiveClientTypes.CmafIngestOutputSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.CmafIngestOutputSettings()
         value.nameModifier = try reader["nameModifier"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.CmafIngestWatermarkingSettings {
+
+    static func write(value: MediaLiveClientTypes.CmafIngestWatermarkingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cmafIngestAbWatermarkerIrdetoSettings"].write(value.cmafIngestAbWatermarkerIrdetoSettings, with: MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestWatermarkingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CmafIngestWatermarkingSettings()
+        value.cmafIngestAbWatermarkerIrdetoSettings = try reader["cmafIngestAbWatermarkerIrdetoSettings"].readIfPresent(with: MediaLiveClientTypes.CmafIngestAbWatermarkerIrdetoSettings.read(from:))
         return value
     }
 }
@@ -39157,6 +39450,35 @@ extension MediaLiveClientTypes.MediaPackageOutputSettings {
     }
 }
 
+extension MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalDestinationsAlternateDestinations"].writeList(value.additionalDestinationsAlternateDestinations, memberWritingClosure: MediaLiveClientTypes.OutputLocationRef.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["alternateDestination"].write(value.alternateDestination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["customProfile"].write(value.customProfile, with: MediaLiveClientTypes.AbWatermarkingCustomProfile.write(value:to:))
+        try writer["license"].write(value.license)
+        try writer["operatorId"].write(value.operatorId)
+        try writer["polyPeriod"].write(value.polyPeriod)
+        try writer["profile"].write(value.profile)
+        try writer["watermarkIdLength"].write(value.watermarkIdLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings()
+        value.additionalDestinationsAlternateDestinations = try reader["additionalDestinationsAlternateDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputLocationRef.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.alternateDestination = try reader["alternateDestination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        value.customProfile = try reader["customProfile"].readIfPresent(with: MediaLiveClientTypes.AbWatermarkingCustomProfile.read(from:))
+        value.license = try reader["license"].readIfPresent()
+        value.operatorId = try reader["operatorId"].readIfPresent() ?? 0
+        value.polyPeriod = try reader["polyPeriod"].readIfPresent()
+        value.profile = try reader["profile"].readIfPresent() ?? .sdkUnknown("")
+        value.watermarkIdLength = try reader["watermarkIdLength"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.MediaPackageV2DestinationSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageV2DestinationSettings?, to writer: SmithyJSON.Writer) throws {
@@ -39193,6 +39515,7 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
         try writer["timedMetadataId3Frame"].write(value.timedMetadataId3Frame)
         try writer["timedMetadataId3Period"].write(value.timedMetadataId3Period)
         try writer["timedMetadataPassthrough"].write(value.timedMetadataPassthrough)
+        try writer["watermarkingSettings"].write(value.watermarkingSettings, with: MediaLiveClientTypes.MediaPackageV2WatermarkingSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2GroupSettings {
@@ -39209,6 +39532,22 @@ extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
         value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
         value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
         value.additionalDestinations = try reader["additionalDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.watermarkingSettings = try reader["watermarkingSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2WatermarkingSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageV2WatermarkingSettings {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageV2WatermarkingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mediaPackageV2AbWatermarkerIrdetoSettings"].write(value.mediaPackageV2AbWatermarkerIrdetoSettings, with: MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2WatermarkingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageV2WatermarkingSettings()
+        value.mediaPackageV2AbWatermarkerIrdetoSettings = try reader["mediaPackageV2AbWatermarkerIrdetoSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2AbWatermarkerIrdetoSettings.read(from:))
         return value
     }
 }

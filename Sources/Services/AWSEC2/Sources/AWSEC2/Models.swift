@@ -11216,6 +11216,35 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum ZeroSizePreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ZeroSizePreference] {
+            return [
+                .default,
+                .retain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "default"
+            case .retain: return "retain"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Represents the allocation of capacity from a source reservation to an interruptible reservation, tracking current and target instance counts for allocation management.
     public struct InterruptibleCapacityAllocation: Swift.Sendable {
         /// The current number of instances allocated to the interruptible reservation.
@@ -11228,19 +11257,23 @@ extension EC2ClientTypes {
         public var status: EC2ClientTypes.InterruptibleCapacityReservationAllocationStatus?
         /// After your modify request, the requested number of instances allocated to interruptible reservation.
         public var targetInstanceCount: Swift.Int?
+        /// Specifies how Amazon EC2 handles the interruptible Capacity Reservation when you reduce its allocation to zero instances. A value of retain keeps the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. A value of default cancels the interruptible Capacity Reservation and returns the capacity to your source Capacity Reservation.
+        public var zeroSizePreference: EC2ClientTypes.ZeroSizePreference?
 
         public init(
             instanceCount: Swift.Int? = nil,
             interruptibleCapacityReservationId: Swift.String? = nil,
             interruptionType: EC2ClientTypes.InterruptionType? = nil,
             status: EC2ClientTypes.InterruptibleCapacityReservationAllocationStatus? = nil,
-            targetInstanceCount: Swift.Int? = nil
+            targetInstanceCount: Swift.Int? = nil,
+            zeroSizePreference: EC2ClientTypes.ZeroSizePreference? = nil
         ) {
             self.instanceCount = instanceCount
             self.interruptibleCapacityReservationId = interruptibleCapacityReservationId
             self.interruptionType = interruptionType
             self.status = status
             self.targetInstanceCount = targetInstanceCount
+            self.zeroSizePreference = zeroSizePreference
         }
     }
 }
@@ -11457,6 +11490,8 @@ extension EC2ClientTypes {
         public var totalInstanceCount: Swift.Int?
         /// The ID of the Amazon Web Services account to which billing of the unused capacity of the Capacity Reservation is assigned.
         public var unusedReservationBillingOwnerId: Swift.String?
+        /// The zero-size preference configured for the interruptible Capacity Reservation. A value of retain keeps the interruptible Capacity Reservation active at zero capacity when you reduce its allocation to zero. A value of default cancels the interruptible Capacity Reservation when you reduce its allocation to zero.
+        public var zeroSizePreference: EC2ClientTypes.ZeroSizePreference?
 
         public init(
             availabilityZone: Swift.String? = nil,
@@ -11489,7 +11524,8 @@ extension EC2ClientTypes {
             tags: [EC2ClientTypes.Tag]? = nil,
             tenancy: EC2ClientTypes.CapacityReservationTenancy? = nil,
             totalInstanceCount: Swift.Int? = nil,
-            unusedReservationBillingOwnerId: Swift.String? = nil
+            unusedReservationBillingOwnerId: Swift.String? = nil,
+            zeroSizePreference: EC2ClientTypes.ZeroSizePreference? = nil
         ) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -11522,6 +11558,7 @@ extension EC2ClientTypes {
             self.tenancy = tenancy
             self.totalInstanceCount = totalInstanceCount
             self.unusedReservationBillingOwnerId = unusedReservationBillingOwnerId
+            self.zeroSizePreference = zeroSizePreference
         }
     }
 }
@@ -22120,19 +22157,23 @@ public struct CreateInterruptibleCapacityReservationAllocationInput: Swift.Senda
     public var instanceCount: Swift.Int?
     /// The tags to apply to the interruptible Capacity Reservation during creation.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+    /// Specifies the behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation. The default value is default.
+    public var zeroSizePreference: EC2ClientTypes.ZeroSizePreference?
 
     public init(
         capacityReservationId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         instanceCount: Swift.Int? = nil,
-        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
+        zeroSizePreference: EC2ClientTypes.ZeroSizePreference? = nil
     ) {
         self.capacityReservationId = capacityReservationId
         self.clientToken = clientToken
         self.dryRun = dryRun
         self.instanceCount = instanceCount
         self.tagSpecifications = tagSpecifications
+        self.zeroSizePreference = zeroSizePreference
     }
 }
 
@@ -22757,6 +22798,8 @@ extension EC2ClientTypes {
         public var rir: EC2ClientTypes.Rir?
         /// The state of the internet registry association. Valid values: pending-activation | pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | delete-in-progress | delete-complete | delete-failed.
         public var state: EC2ClientTypes.IpamInternetRegistryAssociationState?
+        /// A message describing the current state of the internet registry association, including additional details such as the reason for a failure.
+        public var stateMessage: Swift.String?
         /// The tags assigned to the internet registry association.
         public var tags: [EC2ClientTypes.Tag]?
 
@@ -22771,6 +22814,7 @@ extension EC2ClientTypes {
             ownerId: Swift.String? = nil,
             rir: EC2ClientTypes.Rir? = nil,
             state: EC2ClientTypes.IpamInternetRegistryAssociationState? = nil,
+            stateMessage: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil
         ) {
             self.childRequestXml = childRequestXml
@@ -22783,6 +22827,7 @@ extension EC2ClientTypes {
             self.ownerId = ownerId
             self.rir = rir
             self.state = state
+            self.stateMessage = stateMessage
             self.tags = tags
         }
     }
@@ -48515,9 +48560,9 @@ extension EC2ClientTypes {
 
     /// Describes the instances that could not be launched by the fleet.
     public struct DescribeFleetError: Swift.Sendable {
-        /// The error code that indicates why the instance could not be launched. For more information about error codes, see [Error codes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html).
+        /// The error code that indicates why the instance could not be launched. For more information about error codes, see [Error codes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
         public var errorCode: Swift.String?
-        /// The error message that describes why the instance could not be launched. For more information about error messages, see [Error codes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html).
+        /// The error message that describes why the instance could not be launched. For more information about error messages, see [Error codes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
         public var errorMessage: Swift.String?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public var launchTemplateAndOverrides: EC2ClientTypes.LaunchTemplateAndOverridesResponse?
@@ -54609,7 +54654,7 @@ extension EC2ClientTypes {
 
     /// Describes the status of an instance, including system status, instance status, attached EBS status, and application status.
     public struct InstanceStatus: Swift.Sendable {
-        /// Reports impaired functionality that stems from issues with applications running on the instance.
+        /// Reports the application-level health status for the instance.
         public var applicationStatus: EC2ClientTypes.ApplicationStatusSummary?
         /// Reports impaired functionality that stems from an attached Amazon EBS volume that is unreachable and unable to complete I/O operations.
         public var attachedEbsStatus: EC2ClientTypes.EbsStatusSummary?
@@ -88388,17 +88433,20 @@ public struct UpdateInterruptibleCapacityReservationAllocationInput: Swift.Senda
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
     public var dryRun: Swift.Bool?
     /// The new number of instances to allocate. Enter a higher number to add more capacity to share, or a lower number to reclaim capacity to your source Capacity Reservation.
-    /// This member is required.
     public var targetInstanceCount: Swift.Int?
+    /// Specifies the updated behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation.
+    public var zeroSizePreference: EC2ClientTypes.ZeroSizePreference?
 
     public init(
         capacityReservationId: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
-        targetInstanceCount: Swift.Int? = nil
+        targetInstanceCount: Swift.Int? = nil,
+        zeroSizePreference: EC2ClientTypes.ZeroSizePreference? = nil
     ) {
         self.capacityReservationId = capacityReservationId
         self.dryRun = dryRun
         self.targetInstanceCount = targetInstanceCount
+        self.zeroSizePreference = zeroSizePreference
     }
 }
 
@@ -95626,6 +95674,7 @@ extension CreateInterruptibleCapacityReservationAllocationInput {
         if !(value.tagSpecifications?.isEmpty ?? true) {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
+        try writer["ZeroSizePreference"].write(value.zeroSizePreference)
         try writer["Action"].write("CreateInterruptibleCapacityReservationAllocation")
         try writer["Version"].write("2016-11-15")
     }
@@ -106479,6 +106528,7 @@ extension UpdateInterruptibleCapacityReservationAllocationInput {
         try writer["CapacityReservationId"].write(value.capacityReservationId)
         try writer["DryRun"].write(value.dryRun)
         try writer["TargetInstanceCount"].write(value.targetInstanceCount)
+        try writer["ZeroSizePreference"].write(value.zeroSizePreference)
         try writer["Action"].write("UpdateInterruptibleCapacityReservationAllocation")
         try writer["Version"].write("2016-11-15")
     }
@@ -128116,6 +128166,7 @@ extension EC2ClientTypes.CapacityReservation {
         value.interruptible = try reader["interruptible"].readIfPresent()
         value.interruptibleCapacityAllocation = try reader["interruptibleCapacityAllocation"].readIfPresent(with: EC2ClientTypes.InterruptibleCapacityAllocation.read(from:))
         value.interruptionInfo = try reader["interruptionInfo"].readIfPresent(with: EC2ClientTypes.InterruptionInfo.read(from:))
+        value.zeroSizePreference = try reader["zeroSizePreference"].readIfPresent()
         return value
     }
 }
@@ -132613,6 +132664,7 @@ extension EC2ClientTypes.InterruptibleCapacityAllocation {
         value.status = try reader["status"].readIfPresent()
         value.interruptibleCapacityReservationId = try reader["interruptibleCapacityReservationId"].readIfPresent()
         value.interruptionType = try reader["interruptionType"].readIfPresent()
+        value.zeroSizePreference = try reader["zeroSizePreference"].readIfPresent()
         return value
     }
 }
@@ -132815,6 +132867,7 @@ extension EC2ClientTypes.IpamInternetRegistryAssociation {
         value.organizationHandle = try reader["organizationHandle"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.state = try reader["state"].readIfPresent()
+        value.stateMessage = try reader["stateMessage"].readIfPresent()
         value.childRequestXml = try reader["childRequestXml"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value

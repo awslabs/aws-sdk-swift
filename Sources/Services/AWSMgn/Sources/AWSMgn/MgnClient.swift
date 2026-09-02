@@ -628,7 +628,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func archiveApplication(input: ArchiveApplicationInput) async throws -> ArchiveApplicationOutput {
         let context = Smithy.ContextBuilder()
@@ -699,7 +699,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func archiveWave(input: ArchiveWaveInput) async throws -> ArchiveWaveOutput {
         let context = Smithy.ContextBuilder()
@@ -770,7 +770,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func associateApplications(input: AssociateApplicationsInput) async throws -> AssociateApplicationsOutput {
         let context = Smithy.ContextBuilder()
@@ -841,7 +841,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func associateSourceServers(input: AssociateSourceServersInput) async throws -> AssociateSourceServersOutput {
         let context = Smithy.ContextBuilder()
@@ -982,7 +982,7 @@ extension MgnClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = Smithy.ContextBuilder()
@@ -1120,7 +1120,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput {
@@ -1190,7 +1190,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ValidationException` : Validate exception.
     public func createNetworkMigrationDefinition(input: CreateNetworkMigrationDefinitionInput) async throws -> CreateNetworkMigrationDefinitionOutput {
         let context = Smithy.ContextBuilder()
@@ -1259,7 +1259,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput {
@@ -1330,7 +1330,7 @@ extension MgnClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func createWave(input: CreateWaveInput) async throws -> CreateWaveOutput {
         let context = Smithy.ContextBuilder()
@@ -1679,7 +1679,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     public func deleteNetworkMigrationDefinition(input: DeleteNetworkMigrationDefinitionInput) async throws -> DeleteNetworkMigrationDefinitionOutput {
@@ -2089,7 +2089,7 @@ extension MgnClient {
 
     /// Performs the `DescribeJobs` operation on the `Mgn` service.
     ///
-    /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    /// Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeJobsInput`)
     ///
@@ -2228,7 +2228,7 @@ extension MgnClient {
 
     /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `Mgn` service.
     ///
-    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    /// Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeReplicationConfigurationTemplatesInput`)
     ///
@@ -2575,7 +2575,7 @@ extension MgnClient {
 
     /// Performs the `DisconnectFromService` operation on the `Mgn` service.
     ///
-    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisconnectFromServiceInput`)
     ///
@@ -2645,7 +2645,7 @@ extension MgnClient {
 
     /// Performs the `FinalizeCutover` operation on the `Mgn` service.
     ///
-    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter input: [no documentation found] (Type: `FinalizeCutoverInput`)
     ///
@@ -2794,7 +2794,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     public func getNetworkMigrationDefinition(input: GetNetworkMigrationDefinitionInput) async throws -> GetNetworkMigrationDefinitionOutput {
         let context = Smithy.ContextBuilder()
@@ -2863,7 +2863,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ValidationException` : Validate exception.
     public func getNetworkMigrationMapperSegmentConstruct(input: GetNetworkMigrationMapperSegmentConstructInput) async throws -> GetNetworkMigrationMapperSegmentConstructOutput {
@@ -3002,7 +3002,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ValidationException` : Validate exception.
     public func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput {
         let context = Smithy.ContextBuilder()
@@ -3617,7 +3617,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -3688,7 +3688,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -3759,7 +3759,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -3830,7 +3830,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -3901,7 +3901,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     public func listNetworkMigrationDefinitions(input: ListNetworkMigrationDefinitionsInput) async throws -> ListNetworkMigrationDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3969,7 +3969,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -4040,7 +4040,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -4111,7 +4111,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     public func listNetworkMigrationExecutions(input: ListNetworkMigrationExecutionsInput) async throws -> ListNetworkMigrationExecutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -4180,7 +4180,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -4251,7 +4251,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -4322,7 +4322,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -4393,7 +4393,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
@@ -4533,7 +4533,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `InternalServerException` : The server encountered an unexpected condition that prevented it from fulfilling the request.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
@@ -4730,7 +4730,7 @@ extension MgnClient {
 
     /// Performs the `MarkAsArchived` operation on the `Mgn` service.
     ///
-    /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
+    /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle state that equals DISCONNECTED or CUTOVER.
     ///
     /// - Parameter input: [no documentation found] (Type: `MarkAsArchivedInput`)
     ///
@@ -4811,7 +4811,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func pauseReplication(input: PauseReplicationInput) async throws -> PauseReplicationOutput {
@@ -5165,7 +5165,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func resumeReplication(input: ResumeReplicationInput) async throws -> ResumeReplicationOutput {
@@ -5375,7 +5375,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func startExport(input: StartExportInput) async throws -> StartExportOutput {
@@ -5447,7 +5447,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func startImport(input: StartImportInput) async throws -> StartImportOutput {
@@ -5518,9 +5518,9 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     public func startImportFileEnrichment(input: StartImportFileEnrichmentInput) async throws -> StartImportFileEnrichmentOutput {
@@ -5591,10 +5591,10 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     public func startNetworkMigrationAnalysis(input: StartNetworkMigrationAnalysisInput) async throws -> StartNetworkMigrationAnalysisOutput {
@@ -5664,10 +5664,10 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     public func startNetworkMigrationCodeGeneration(input: StartNetworkMigrationCodeGenerationInput) async throws -> StartNetworkMigrationCodeGenerationOutput {
@@ -5737,10 +5737,10 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     public func startNetworkMigrationDeployment(input: StartNetworkMigrationDeploymentInput) async throws -> StartNetworkMigrationDeploymentOutput {
@@ -5810,10 +5810,10 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     public func startNetworkMigrationMapping(input: StartNetworkMigrationMappingInput) async throws -> StartNetworkMigrationMappingOutput {
@@ -5883,10 +5883,10 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     public func startNetworkMigrationMappingUpdate(input: StartNetworkMigrationMappingUpdateInput) async throws -> StartNetworkMigrationMappingUpdateOutput {
@@ -5958,7 +5958,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput {
@@ -6100,7 +6100,7 @@ extension MgnClient {
     /// __Possible Exceptions:__
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     public func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput {
@@ -6170,7 +6170,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `InternalServerException` : The server encountered an unexpected condition that prevented it from fulfilling the request.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
@@ -6313,7 +6313,7 @@ extension MgnClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func unarchiveApplication(input: UnarchiveApplicationInput) async throws -> UnarchiveApplicationOutput {
         let context = Smithy.ContextBuilder()
@@ -6383,7 +6383,7 @@ extension MgnClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found exception.
-    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because it exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     public func unarchiveWave(input: UnarchiveWaveInput) async throws -> UnarchiveWaveOutput {
         let context = Smithy.ContextBuilder()
@@ -6452,7 +6452,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `InternalServerException` : The server encountered an unexpected condition that prevented it from fulfilling the request.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ThrottlingException` : Reached throttling quota exception.
@@ -6653,7 +6653,7 @@ extension MgnClient {
 
     /// Performs the `UpdateLaunchConfiguration` operation on the `Mgn` service.
     ///
-    /// Updates multiple LaunchConfigurations by Source Server ID. bootMode valid values are LEGACY_BIOS | UEFI
+    /// Updates multiple LaunchConfigurations by Source Server ID. bootMode valid values are LEGACY_BIOS | UEFI | USE_SOURCE
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLaunchConfigurationInput`)
     ///
@@ -6733,7 +6733,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
@@ -6804,7 +6804,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ValidationException` : Validate exception.
     public func updateNetworkMigrationDefinition(input: UpdateNetworkMigrationDefinitionInput) async throws -> UpdateNetworkMigrationDefinitionOutput {
@@ -6874,7 +6874,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `ValidationException` : Validate exception.
     public func updateNetworkMigrationMapperSegment(input: UpdateNetworkMigrationMapperSegmentInput) async throws -> UpdateNetworkMigrationMapperSegmentOutput {
@@ -6944,7 +6944,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
@@ -7007,7 +7007,7 @@ extension MgnClient {
 
     /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `Mgn` service.
     ///
-    /// Updates multiple ReplicationConfigurationTemplates by ID.
+    /// Updates a ReplicationConfigurationTemplate by ID.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateReplicationConfigurationTemplateInput`)
     ///
@@ -7016,7 +7016,7 @@ extension MgnClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
+    /// - `AccessDeniedException` : Operation denied due to a file permission or access check error.
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
