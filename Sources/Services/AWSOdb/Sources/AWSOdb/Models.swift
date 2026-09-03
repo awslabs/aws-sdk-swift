@@ -7233,7 +7233,7 @@ extension OdbClientTypes {
 }
 
 public struct CreateExadbVmClusterInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
     public var clientToken: Swift.String?
     /// A name for the Grid Infrastructure cluster. The name isn't case sensitive.
     public var clusterName: Swift.String?
@@ -7262,9 +7262,9 @@ public struct CreateExadbVmClusterInput: Swift.Sendable {
     /// The unique identifier of the ODB network for the Exascale VM cluster.
     /// This member is required.
     public var odbNetworkId: Swift.String?
-    /// The port number for TCP connections to the single client access name (SCAN) listener.
+    /// The port number for TCP connections to the Single Client Access Name (SCAN) listener.
     public var scanListenerPortTcp: Swift.Int?
-    /// The port number for TCP connections with SSL to the single client access name (SCAN) listener.
+    /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener.
     public var scanListenerPortTcpSsl: Swift.Int?
     /// The shape of the Exascale VM cluster.
     /// This member is required.
@@ -7367,7 +7367,7 @@ public struct CreateExascaleDbStorageVaultInput: Swift.Sendable {
     public var availabilityZone: Swift.String?
     /// The Availability Zone ID for the Exascale storage vault.
     public var availabilityZoneId: Swift.String?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates one and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
     public var clientToken: Swift.String?
     /// A description of the Exascale storage vault.
     public var description: Swift.String?
@@ -8587,9 +8587,9 @@ extension OdbClientTypes {
         public var scanDnsRecordId: Swift.String?
         /// The OCID of the SCAN IP addresses that are associated with the Exascale VM cluster.
         public var scanIpIds: [Swift.String]?
-        /// The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.
+        /// The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
         public var scanListenerPortTcp: Swift.Int?
-        /// The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.
+        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
         public var scanListenerPortTcpSsl: Swift.Int?
         /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
         public var shape: Swift.String?
@@ -8775,9 +8775,9 @@ extension OdbClientTypes {
         public var scanDnsRecordId: Swift.String?
         /// The OCID of the SCAN IP addresses that are associated with the Exascale VM cluster.
         public var scanIpIds: [Swift.String]?
-        /// The port number for TCP connections to the single client access name (SCAN) listener for the Exascale VM cluster.
+        /// The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
         public var scanListenerPortTcp: Swift.Int?
-        /// The port number for TCP connections with SSL to the single client access name (SCAN) listener for the Exascale VM cluster.
+        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
         public var scanListenerPortTcpSsl: Swift.Int?
         /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
         public var shape: Swift.String?
@@ -9399,6 +9399,90 @@ public struct UpdateExascaleDbStorageVaultOutput: Swift.Sendable {
         self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
         self.status = status
         self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum HardwareType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cell
+        case compute
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HardwareType] {
+            return [
+                .cell,
+                .compute
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cell: return "CELL"
+            case .compute: return "COMPUTE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about a flex component that's available for an Exadata infrastructure. A flex component defines the hardware resources, such as CPU cores, memory, and storage, that can be allocated to a shape.
+    public struct FlexComponentSummary: Swift.Sendable {
+        /// The maximum number of CPU cores that can be enabled for the flex component.
+        public var availableCoreCount: Swift.Int?
+        /// The maximum amount of database storage, in gigabytes (GB), that can be enabled for the flex component.
+        public var availableDbStorageInGBs: Swift.Int?
+        /// The maximum amount of local storage, in gigabytes (GB), that can be enabled for the flex component.
+        public var availableLocalStorageInGBs: Swift.Int?
+        /// The maximum amount of memory, in gigabytes (GB), that can be enabled for the flex component.
+        public var availableMemoryInGBs: Swift.Int?
+        /// The OCI model compute model used when you create or clone an instance: ECPU or OCPU. An ECPU is an abstracted measure of compute resources. ECPUs are based on the number of cores elastically allocated from a pool of compute and storage servers. An OCPU is a legacy physical measure of compute resources. OCPUs are based on the physical core of a processor with hyper-threading enabled.
+        public var computeModel: OdbClientTypes.ComputeModel?
+        /// A summary description of the flex component.
+        public var descriptionSummary: Swift.String?
+        /// The type of hardware for the flex component. Valid values are COMPUTE for compute servers and CELL for storage servers.
+        public var hardwareType: OdbClientTypes.HardwareType?
+        /// The minimum number of CPU cores that can be enabled for the flex component.
+        public var minimumCoreCount: Swift.Int?
+        /// The name of the flex component.
+        public var name: Swift.String?
+        /// The runtime minimum number of CPU cores that can be enabled for the flex component.
+        public var runtimeMinimumCoreCount: Swift.Int?
+        /// The shape that uses the flex component.
+        public var shape: Swift.String?
+
+        public init(
+            availableCoreCount: Swift.Int? = nil,
+            availableDbStorageInGBs: Swift.Int? = nil,
+            availableLocalStorageInGBs: Swift.Int? = nil,
+            availableMemoryInGBs: Swift.Int? = nil,
+            computeModel: OdbClientTypes.ComputeModel? = nil,
+            descriptionSummary: Swift.String? = nil,
+            hardwareType: OdbClientTypes.HardwareType? = nil,
+            minimumCoreCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            runtimeMinimumCoreCount: Swift.Int? = nil,
+            shape: Swift.String? = nil
+        ) {
+            self.availableCoreCount = availableCoreCount
+            self.availableDbStorageInGBs = availableDbStorageInGBs
+            self.availableLocalStorageInGBs = availableLocalStorageInGBs
+            self.availableMemoryInGBs = availableMemoryInGBs
+            self.computeModel = computeModel
+            self.descriptionSummary = descriptionSummary
+            self.hardwareType = hardwareType
+            self.minimumCoreCount = minimumCoreCount
+            self.name = name
+            self.runtimeMinimumCoreCount = runtimeMinimumCoreCount
+            self.shape = shape
+        }
     }
 }
 
@@ -10251,6 +10335,41 @@ public struct ListDbSystemShapesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.dbSystemShapes = dbSystemShapes
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFlexComponentsInput: Swift.Sendable {
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+    /// The shape to return flex components for. For a list of valid shapes, use the ListDbSystemShapes operation.
+    public var shape: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        shape: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.shape = shape
+    }
+}
+
+public struct ListFlexComponentsOutput: Swift.Sendable {
+    /// The list of flex components along with their properties.
+    /// This member is required.
+    public var flexComponents: [OdbClientTypes.FlexComponentSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        flexComponents: [OdbClientTypes.FlexComponentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flexComponents = flexComponents
         self.nextToken = nextToken
     }
 }

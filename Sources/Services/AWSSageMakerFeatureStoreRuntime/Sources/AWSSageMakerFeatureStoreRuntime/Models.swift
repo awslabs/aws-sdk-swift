@@ -38,6 +38,11 @@ public struct PutRecordOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateRecordOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// You do not have permission to perform an action.
 public struct AccessForbidden: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -676,6 +681,63 @@ public struct PutRecordInput: Swift.Sendable {
     }
 }
 
+/// The service rejected the update because the provided EventTime is older than the record's current EventTime. To persist the update, retrieve the record's latest EventTime and resubmit the request with an EventTime that is equal to or newer than the current value.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateRecordInput: Swift.Sendable {
+    /// The identifier for the feature group that contains the record to update. You can specify one of the following:
+    ///
+    /// * The feature group name.
+    ///
+    /// * The feature group Amazon Resource Name (ARN).
+    /// This member is required.
+    public var featureGroupName: Swift.String?
+    /// The feature values to write to the record.
+    /// This member is required.
+    public var features: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
+    /// The value that uniquely identifies the record in the feature group. This must match the value defined by the feature group's record identifier feature.
+    /// This member is required.
+    public var recordIdentifierValueAsString: Swift.String?
+    /// The target stores for the record update. By default, Amazon SageMaker Feature Store updates the record in all stores associated with the FeatureGroup.
+    public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
+    /// The time-to-live (TTL) duration for the record. Amazon SageMaker Feature Store deletes the record when EventTime + TtlDuration elapses. If you omit this parameter, the record's existing TTL setting remains unchanged. For information about HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html) operation in the Amazon SageMaker API Reference.
+    public var ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration?
+
+    public init(
+        featureGroupName: Swift.String? = nil,
+        features: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
+        recordIdentifierValueAsString: Swift.String? = nil,
+        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil,
+        ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration? = nil
+    ) {
+        self.featureGroupName = featureGroupName
+        self.features = features
+        self.recordIdentifierValueAsString = recordIdentifierValueAsString
+        self.targetStores = targetStores
+        self.ttlDuration = ttlDuration
+    }
+}
+
 extension BatchGetRecordInput {
 
     static func urlPathProvider(_ value: BatchGetRecordInput) -> Swift.String? {
@@ -784,6 +846,16 @@ extension PutRecordInput {
     }
 }
 
+extension UpdateRecordInput {
+
+    static func urlPathProvider(_ value: UpdateRecordInput) -> Swift.String? {
+        guard let featureGroupName = value.featureGroupName else {
+            return nil
+        }
+        return "/FeatureGroup/\(featureGroupName.urlPercentEncoding())/Record"
+    }
+}
+
 extension BatchGetRecordInput {
 
     static func write(value: BatchGetRecordInput?, to writer: SmithyJSON.Writer) throws {
@@ -817,6 +889,17 @@ extension PutRecordInput {
     static func write(value: PutRecordInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Record"].writeList(value.record, memberWritingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetStores"].writeList(value.targetStores, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerFeatureStoreRuntimeClientTypes.TargetStore>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TtlDuration"].write(value.ttlDuration, with: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration.write(value:to:))
+    }
+}
+
+extension UpdateRecordInput {
+
+    static func write(value: UpdateRecordInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Features"].writeList(value.features, memberWritingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RecordIdentifierValueAsString"].write(value.recordIdentifierValueAsString)
         try writer["TargetStores"].writeList(value.targetStores, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerFeatureStoreRuntimeClientTypes.TargetStore>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TtlDuration"].write(value.ttlDuration, with: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration.write(value:to:))
     }
@@ -886,6 +969,13 @@ extension PutRecordOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutRecordOutput {
         return PutRecordOutput()
+    }
+}
+
+extension UpdateRecordOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRecordOutput {
+        return UpdateRecordOutput()
     }
 }
 
@@ -994,6 +1084,25 @@ enum PutRecordOutputError {
     }
 }
 
+enum UpdateRecordOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessForbidden": return try AccessForbidden.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            case "ServiceUnavailable": return try ServiceUnavailable.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessForbidden {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessForbidden {
@@ -1051,6 +1160,19 @@ extension ResourceNotFound {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

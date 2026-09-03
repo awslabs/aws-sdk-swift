@@ -4219,7 +4219,7 @@ extension BedrockAgentCoreClientTypes {
     public struct CloudWatchLogsSource: Swift.Sendable {
         /// Optional filter configuration to narrow down which sessions to evaluate.
         public var filterConfig: BedrockAgentCoreClientTypes.CloudWatchFilterConfig?
-        /// The list of CloudWatch log group names to read agent traces from. Maximum of 5 log groups.
+        /// The list of CloudWatch log group names to read agent traces from. Maximum of 10 log groups.
         /// This member is required.
         public var logGroupNames: [Swift.String]?
         /// The list of agent service names to filter traces within the specified log groups.
