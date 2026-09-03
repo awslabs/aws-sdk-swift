@@ -4219,8 +4219,9 @@ extension BedrockAgentCoreClientTypes {
     public struct CloudWatchLogsSource: Swift.Sendable {
         /// Optional filter configuration to narrow down which sessions to evaluate.
         public var filterConfig: BedrockAgentCoreClientTypes.CloudWatchFilterConfig?
+        /// The list of CloudWatch log group name prefixes to read agent traces from. Specify this instead of logGroupNames to match log groups by prefix. Maximum of 5 prefixes. Specify either logGroupNames or logGroupNamePrefixes, not both. One of the two is required.
+        public var logGroupNamePrefixes: [Swift.String]?
         /// The list of CloudWatch log group names to read agent traces from. Maximum of 10 log groups.
-        /// This member is required.
         public var logGroupNames: [Swift.String]?
         /// The list of agent service names to filter traces within the specified log groups.
         /// This member is required.
@@ -4228,10 +4229,12 @@ extension BedrockAgentCoreClientTypes {
 
         public init(
             filterConfig: BedrockAgentCoreClientTypes.CloudWatchFilterConfig? = nil,
-            logGroupNames: [Swift.String]? = nil,
+            logGroupNamePrefixes: [Swift.String]? = nil,
+            logGroupNames: [Swift.String]? = [],
             serviceNames: [Swift.String]? = nil
         ) {
             self.filterConfig = filterConfig
+            self.logGroupNamePrefixes = logGroupNamePrefixes
             self.logGroupNames = logGroupNames
             self.serviceNames = serviceNames
         }
@@ -4588,21 +4591,61 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Where evaluation results are written: dedicated results log group (default) or the source log group.
+    public enum ResultDestination: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dedicatedLogGroup
+        case sourceLogGroup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultDestination] {
+            return [
+                .dedicatedLogGroup,
+                .sourceLogGroup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicatedLogGroup: return "DEDICATED_LOG_GROUP"
+            case .sourceLogGroup: return "SOURCE_LOG_GROUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// CloudWatch Logs destination for batch evaluation results.
     public struct CloudWatchOutputConfig: Swift.Sendable {
-        /// The name of the CloudWatch log group where evaluation results will be written.
-        /// This member is required.
+        /// The name of the CloudWatch log group where evaluation results will be written. This value doesn't apply when resultDestination is SOURCE_LOG_GROUP, because results are written back to the trace source log group. The name can't be under the service-reserved /aws/bedrock-agentcore/evaluations/ namespace, apart from the service-managed default group.
         public var logGroupName: Swift.String?
         /// The name of the CloudWatch log stream where evaluation results will be written.
-        /// This member is required.
         public var logStreamName: Swift.String?
+        /// The CloudWatch metrics namespace where evaluation result metrics are published. If you omit this value, the service publishes metrics to Bedrock-AgentCore/Evaluations. This value can't begin with AWS/.
+        public var metricsNamespace: Swift.String?
+        /// The destination where evaluation results are written. Valid values:
+        ///
+        /// * DEDICATED_LOG_GROUP (default) – Writes results to a dedicated result log group.
+        ///
+        /// * SOURCE_LOG_GROUP – Writes results back to the log group that the agent traces were read from. If you use this value, don't specify logGroupName.
+        public var resultDestination: BedrockAgentCoreClientTypes.ResultDestination?
 
         public init(
-            logGroupName: Swift.String? = nil,
-            logStreamName: Swift.String? = nil
+            logGroupName: Swift.String? = "",
+            logStreamName: Swift.String? = "",
+            metricsNamespace: Swift.String? = nil,
+            resultDestination: BedrockAgentCoreClientTypes.ResultDestination? = .dedicatedLogGroup
         ) {
             self.logGroupName = logGroupName
             self.logStreamName = logStreamName
+            self.metricsNamespace = metricsNamespace
+            self.resultDestination = resultDestination
         }
     }
 }
@@ -5560,6 +5603,8 @@ public struct StartBatchEvaluationInput: Swift.Sendable {
     public var insights: [BedrockAgentCoreClientTypes.Insight]?
     /// The ARN of the KMS key used to encrypt evaluation data. If provided, customer data is encrypted at rest with the specified key.
     public var kmsKeyArn: Swift.String?
+    /// Output destination configuration.
+    public var outputConfig: BedrockAgentCoreClientTypes.OutputConfig?
     /// A map of tag keys and values to associate with the batch evaluation.
     public var tags: [Swift.String: Swift.String]?
 
@@ -5572,6 +5617,7 @@ public struct StartBatchEvaluationInput: Swift.Sendable {
         evaluators: [BedrockAgentCoreClientTypes.Evaluator]? = nil,
         insights: [BedrockAgentCoreClientTypes.Insight]? = nil,
         kmsKeyArn: Swift.String? = nil,
+        outputConfig: BedrockAgentCoreClientTypes.OutputConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.batchEvaluationName = batchEvaluationName
@@ -5582,6 +5628,7 @@ public struct StartBatchEvaluationInput: Swift.Sendable {
         self.evaluators = evaluators
         self.insights = insights
         self.kmsKeyArn = kmsKeyArn
+        self.outputConfig = outputConfig
         self.tags = tags
     }
 }
@@ -13288,6 +13335,7 @@ extension StartBatchEvaluationInput {
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreClientTypes.Evaluator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["insights"].writeList(value.insights, memberWritingClosure: BedrockAgentCoreClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["outputConfig"].write(value.outputConfig, with: BedrockAgentCoreClientTypes.OutputConfig.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -16561,6 +16609,7 @@ extension BedrockAgentCoreClientTypes.CloudWatchLogsSource {
     static func write(value: BedrockAgentCoreClientTypes.CloudWatchLogsSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filterConfig"].write(value.filterConfig, with: BedrockAgentCoreClientTypes.CloudWatchFilterConfig.write(value:to:))
+        try writer["logGroupNamePrefixes"].writeList(value.logGroupNamePrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceNames"].writeList(value.serviceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -16570,6 +16619,7 @@ extension BedrockAgentCoreClientTypes.CloudWatchLogsSource {
         var value = BedrockAgentCoreClientTypes.CloudWatchLogsSource()
         value.serviceNames = try reader["serviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logGroupNamePrefixes = try reader["logGroupNamePrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.filterConfig = try reader["filterConfig"].readIfPresent(with: BedrockAgentCoreClientTypes.CloudWatchFilterConfig.read(from:))
         return value
     }
@@ -16600,11 +16650,21 @@ extension BedrockAgentCoreClientTypes.CloudWatchLogsTraceConfig {
 
 extension BedrockAgentCoreClientTypes.CloudWatchOutputConfig {
 
+    static func write(value: BedrockAgentCoreClientTypes.CloudWatchOutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+        try writer["logStreamName"].write(value.logStreamName)
+        try writer["metricsNamespace"].write(value.metricsNamespace)
+        try writer["resultDestination"].write(value.resultDestination)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.CloudWatchOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreClientTypes.CloudWatchOutputConfig()
         value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         value.logStreamName = try reader["logStreamName"].readIfPresent() ?? ""
+        value.metricsNamespace = try reader["metricsNamespace"].readIfPresent()
+        value.resultDestination = try reader["resultDestination"].readIfPresent() ?? BedrockAgentCoreClientTypes.ResultDestination.dedicatedLogGroup
         return value
     }
 }
@@ -18639,6 +18699,16 @@ extension BedrockAgentCoreClientTypes.OnlineEvaluationTraceConfig {
 }
 
 extension BedrockAgentCoreClientTypes.OutputConfig {
+
+    static func write(value: BedrockAgentCoreClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchconfig(cloudwatchconfig):
+                try writer["cloudWatchConfig"].write(cloudwatchconfig, with: BedrockAgentCoreClientTypes.CloudWatchOutputConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.OutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

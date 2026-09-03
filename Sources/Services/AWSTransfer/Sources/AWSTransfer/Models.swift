@@ -1706,6 +1706,8 @@ extension TransferClientTypes {
     public struct SftpConnectorConfig: Swift.Sendable {
         /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5. If you are using the Amazon Web Services Management Console, the default value is 5. This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public var maxConcurrentConnections: Swift.Int?
+        /// An ordered list of Amazon Web Services Secrets Manager version stages (staging labels, such as AWSCURRENT and AWSPREVIOUS) for the secret identified by UserSecretId. When establishing a connection, the connector attempts to retrieve the SFTP user's credentials from each version stage in the order listed, and uses the first version it can successfully retrieve. This lets you rotate the user secret without interrupting connector operations.
+        public var orderedUserSecretVersionStages: [Swift.String]?
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body without the host name. For example: ssh-rsa AAAAB3Nza...<long-string-for-public-key> The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
@@ -1724,10 +1726,12 @@ extension TransferClientTypes {
 
         public init(
             maxConcurrentConnections: Swift.Int? = 1,
+            orderedUserSecretVersionStages: [Swift.String]? = nil,
             trustedHostKeys: [Swift.String]? = nil,
             userSecretId: Swift.String? = nil
         ) {
             self.maxConcurrentConnections = maxConcurrentConnections
+            self.orderedUserSecretVersionStages = orderedUserSecretVersionStages
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
         }

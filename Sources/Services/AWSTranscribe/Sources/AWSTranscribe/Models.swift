@@ -763,33 +763,69 @@ extension TranscribeClientTypes {
 
     public enum PiiEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case address
+        case age
         case all
+        case awsAccessKey
+        case awsSecretKey
         case bankAccountNumber
         case bankRouting
+        case caHealthNumber
+        case caSocialInsuranceNumber
         case creditDebitCvv
         case creditDebitExpiry
         case creditDebitNumber
+        case dateTime
+        case driverId
         case email
+        case internationalBankAccountNumber
+        case ipAddress
+        case licensePlate
+        case macAddress
         case name
+        case passportNumber
+        case password
         case phone
         case pin
         case ssn
+        case swiftCode
+        case url
+        case username
+        case usIndividualTaxIdentificationNumber
+        case vehicleIdentificationNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PiiEntityType] {
             return [
                 .address,
+                .age,
                 .all,
+                .awsAccessKey,
+                .awsSecretKey,
                 .bankAccountNumber,
                 .bankRouting,
+                .caHealthNumber,
+                .caSocialInsuranceNumber,
                 .creditDebitCvv,
                 .creditDebitExpiry,
                 .creditDebitNumber,
+                .dateTime,
+                .driverId,
                 .email,
+                .internationalBankAccountNumber,
+                .ipAddress,
+                .licensePlate,
+                .macAddress,
                 .name,
+                .passportNumber,
+                .password,
                 .phone,
                 .pin,
-                .ssn
+                .ssn,
+                .swiftCode,
+                .url,
+                .username,
+                .usIndividualTaxIdentificationNumber,
+                .vehicleIdentificationNumber
             ]
         }
 
@@ -801,17 +837,35 @@ extension TranscribeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .address: return "ADDRESS"
+            case .age: return "AGE"
             case .all: return "ALL"
+            case .awsAccessKey: return "AWS_ACCESS_KEY"
+            case .awsSecretKey: return "AWS_SECRET_KEY"
             case .bankAccountNumber: return "BANK_ACCOUNT_NUMBER"
             case .bankRouting: return "BANK_ROUTING"
+            case .caHealthNumber: return "CA_HEALTH_NUMBER"
+            case .caSocialInsuranceNumber: return "CA_SOCIAL_INSURANCE_NUMBER"
             case .creditDebitCvv: return "CREDIT_DEBIT_CVV"
             case .creditDebitExpiry: return "CREDIT_DEBIT_EXPIRY"
             case .creditDebitNumber: return "CREDIT_DEBIT_NUMBER"
+            case .dateTime: return "DATE_TIME"
+            case .driverId: return "DRIVER_ID"
             case .email: return "EMAIL"
+            case .internationalBankAccountNumber: return "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+            case .ipAddress: return "IP_ADDRESS"
+            case .licensePlate: return "LICENSE_PLATE"
+            case .macAddress: return "MAC_ADDRESS"
             case .name: return "NAME"
+            case .passportNumber: return "PASSPORT_NUMBER"
+            case .password: return "PASSWORD"
             case .phone: return "PHONE"
             case .pin: return "PIN"
             case .ssn: return "SSN"
+            case .swiftCode: return "SWIFT_CODE"
+            case .url: return "URL"
+            case .username: return "USERNAME"
+            case .usIndividualTaxIdentificationNumber: return "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+            case .vehicleIdentificationNumber: return "VEHICLE_IDENTIFICATION_NUMBER"
             case let .sdkUnknown(s): return s
             }
         }

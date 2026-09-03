@@ -10036,6 +10036,135 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum PreEvaluationFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreEvaluationFilterType] {
+            return [
+                .tag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tag: return "TAG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum PreEvaluationFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreEvaluationFilterOperator] {
+            return [
+                .equals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum PreEvaluationFilterResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreEvaluationFilterResourceType] {
+            return [
+                .contact
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contact: return "CONTACT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A single pre-evaluation filter condition. Specifies a resource type, filter type, key, value, and operator to match against a resource attribute.
+    public struct PreEvaluationFilter: Swift.Sendable {
+        /// The key of the attribute to filter on. For tag filters, this is the tag key.
+        /// This member is required.
+        public var filterKey: Swift.String?
+        /// The type of filter to apply. Valid values: TAG.
+        /// This member is required.
+        public var filterType: ConnectClientTypes.PreEvaluationFilterType?
+        /// The value to match against. For tag filters, this is the tag value.
+        /// This member is required.
+        public var filterValue: Swift.String?
+        /// The comparison operator for the filter condition. Valid values: EQUALS.
+        /// This member is required.
+        public var `operator`: ConnectClientTypes.PreEvaluationFilterOperator?
+        /// The type of resource to filter on. Valid values: CONTACT.
+        /// This member is required.
+        public var resourceType: ConnectClientTypes.PreEvaluationFilterResourceType?
+
+        public init(
+            filterKey: Swift.String? = nil,
+            filterType: ConnectClientTypes.PreEvaluationFilterType? = nil,
+            filterValue: Swift.String? = nil,
+            `operator`: ConnectClientTypes.PreEvaluationFilterOperator? = nil,
+            resourceType: ConnectClientTypes.PreEvaluationFilterResourceType? = nil
+        ) {
+            self.filterKey = filterKey
+            self.filterType = filterType
+            self.filterValue = filterValue
+            self.`operator` = `operator`
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The pre-evaluation filters for a rule, that restrict a rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
+    public struct PreEvaluationFilters: Swift.Sendable {
+        /// A list of conditions that the rule evaluates together using AND logic. All conditions must be met for the event to be evaluated by the rule.
+        public var andConditions: [ConnectClientTypes.PreEvaluationFilter]?
+
+        public init(
+            andConditions: [ConnectClientTypes.PreEvaluationFilter]? = nil
+        ) {
+            self.andConditions = andConditions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum RulePublishStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case draft
         case published
@@ -10178,9 +10307,13 @@ public struct CreateRuleInput: Swift.Sendable {
     /// A unique name for the rule.
     /// This member is required.
     public var name: Swift.String?
+    /// The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
+    public var preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters?
     /// The publish status of the rule.
     /// This member is required.
     public var publishStatus: ConnectClientTypes.RulePublishStatus?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String: Swift.String]?
     /// The event source to trigger the rule.
     /// This member is required.
     public var triggerEventSource: ConnectClientTypes.RuleTriggerEventSource?
@@ -10191,7 +10324,9 @@ public struct CreateRuleInput: Swift.Sendable {
         function: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         triggerEventSource: ConnectClientTypes.RuleTriggerEventSource? = nil
     ) {
         self.actions = actions
@@ -10199,7 +10334,9 @@ public struct CreateRuleInput: Swift.Sendable {
         self.function = function
         self.instanceId = instanceId
         self.name = name
+        self.preEvaluationFilters = preEvaluationFilters
         self.publishStatus = publishStatus
+        self.tags = tags
         self.triggerEventSource = triggerEventSource
     }
 }
@@ -18380,6 +18517,8 @@ extension ConnectClientTypes {
         /// The name of the rule.
         /// This member is required.
         public var name: Swift.String?
+        /// The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
+        public var preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters?
         /// The publish status of the rule.
         /// This member is required.
         public var publishStatus: ConnectClientTypes.RulePublishStatus?
@@ -18404,6 +18543,7 @@ extension ConnectClientTypes {
             lastUpdatedBy: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters? = nil,
             publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
             ruleArn: Swift.String? = nil,
             ruleCapabilityTiers: [ConnectClientTypes.RuleCapabilityTier]? = nil,
@@ -18417,6 +18557,7 @@ extension ConnectClientTypes {
             self.lastUpdatedBy = lastUpdatedBy
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.preEvaluationFilters = preEvaluationFilters
             self.publishStatus = publishStatus
             self.ruleArn = ruleArn
             self.ruleCapabilityTiers = ruleCapabilityTiers
@@ -30791,6 +30932,8 @@ extension ConnectClientTypes {
         /// The name of the rule.
         /// This member is required.
         public var name: Swift.String?
+        /// The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
+        public var preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters?
         /// The publish status of the rule.
         /// This member is required.
         public var publishStatus: ConnectClientTypes.RulePublishStatus?
@@ -30814,6 +30957,7 @@ extension ConnectClientTypes {
             lastUpdatedBy: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters? = nil,
             publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
             ruleArn: Swift.String? = nil,
             ruleCapabilityTiers: [ConnectClientTypes.RuleCapabilityTier]? = nil,
@@ -30826,6 +30970,7 @@ extension ConnectClientTypes {
             self.lastUpdatedBy = lastUpdatedBy
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.preEvaluationFilters = preEvaluationFilters
             self.publishStatus = publishStatus
             self.ruleArn = ruleArn
             self.ruleCapabilityTiers = ruleCapabilityTiers
@@ -35924,6 +36069,8 @@ public struct UpdateRuleInput: Swift.Sendable {
     /// The name of the rule. You can change the name only if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
     /// This member is required.
     public var name: Swift.String?
+    /// The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
+    public var preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters?
     /// The publish status of the rule.
     /// This member is required.
     public var publishStatus: ConnectClientTypes.RulePublishStatus?
@@ -35936,6 +36083,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         function: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        preEvaluationFilters: ConnectClientTypes.PreEvaluationFilters? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
         ruleId: Swift.String? = nil
     ) {
@@ -35943,6 +36091,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         self.function = function
         self.instanceId = instanceId
         self.name = name
+        self.preEvaluationFilters = preEvaluationFilters
         self.publishStatus = publishStatus
         self.ruleId = ruleId
     }
@@ -46184,7 +46333,9 @@ extension CreateRuleInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["Function"].write(value.function)
         try writer["Name"].write(value.name)
+        try writer["PreEvaluationFilters"].write(value.preEvaluationFilters, with: ConnectClientTypes.PreEvaluationFilters.write(value:to:))
         try writer["PublishStatus"].write(value.publishStatus)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TriggerEventSource"].write(value.triggerEventSource, with: ConnectClientTypes.RuleTriggerEventSource.write(value:to:))
     }
 }
@@ -47889,6 +48040,7 @@ extension UpdateRuleInput {
         try writer["Actions"].writeList(value.actions, memberWritingClosure: ConnectClientTypes.RuleAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Function"].write(value.function)
         try writer["Name"].write(value.name)
+        try writer["PreEvaluationFilters"].write(value.preEvaluationFilters, with: ConnectClientTypes.PreEvaluationFilters.write(value:to:))
         try writer["PublishStatus"].write(value.publishStatus)
     }
 }
@@ -65612,6 +65764,44 @@ extension ConnectClientTypes.PredefinedAttributeValues {
     }
 }
 
+extension ConnectClientTypes.PreEvaluationFilter {
+
+    static func write(value: ConnectClientTypes.PreEvaluationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterKey"].write(value.filterKey)
+        try writer["FilterType"].write(value.filterType)
+        try writer["FilterValue"].write(value.filterValue)
+        try writer["Operator"].write(value.`operator`)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PreEvaluationFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PreEvaluationFilter()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.filterType = try reader["FilterType"].readIfPresent() ?? .sdkUnknown("")
+        value.filterKey = try reader["FilterKey"].readIfPresent() ?? ""
+        value.filterValue = try reader["FilterValue"].readIfPresent() ?? ""
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.PreEvaluationFilters {
+
+    static func write(value: ConnectClientTypes.PreEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.PreEvaluationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PreEvaluationFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PreEvaluationFilters()
+        value.andConditions = try reader["AndConditions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PreEvaluationFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ConnectClientTypes.Preview {
 
     static func write(value: ConnectClientTypes.Preview?, to writer: SmithyJSON.Writer) throws {
@@ -66639,6 +66829,7 @@ extension ConnectClientTypes.Rule {
         value.function = try reader["Function"].readIfPresent() ?? ""
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RuleAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.publishStatus = try reader["PublishStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.preEvaluationFilters = try reader["PreEvaluationFilters"].readIfPresent(with: ConnectClientTypes.PreEvaluationFilters.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent() ?? ""
@@ -66720,6 +66911,7 @@ extension ConnectClientTypes.RuleSearchSummary {
         value.actionSummaries = try reader["ActionSummaries"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ActionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.ruleCapabilityTiers = try reader["RuleCapabilityTiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectClientTypes.RuleCapabilityTier>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.publishStatus = try reader["PublishStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.preEvaluationFilters = try reader["PreEvaluationFilters"].readIfPresent(with: ConnectClientTypes.PreEvaluationFilters.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent() ?? ""

@@ -495,7 +495,7 @@ extension SFNClientTypes {
 public struct CreateActivityInput: Swift.Sendable {
     /// Settings to configure server-side encryption.
     public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
-    /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
+    /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region. A name must not contain:
     ///
     /// * white space
     ///
@@ -4066,7 +4066,7 @@ public struct InvalidExecutionInput: ClientRuntime.ModeledError, AWSClientRuntim
 public struct StartExecutionInput: Swift.Sendable {
     /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
-    /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:
+    /// Optional name of the execution. For STANDARD workflows, this name must be unique for your Amazon Web Services account, region, and state machine. If a previous execution with the same name exists, you can reuse the name 90 days after it closes. For EXPRESS workflows, execution names can be reused immediately. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:
     ///
     /// * white space
     ///
