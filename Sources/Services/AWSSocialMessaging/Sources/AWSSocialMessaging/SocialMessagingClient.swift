@@ -1571,6 +1571,79 @@ extension SocialMessagingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetWhatsAppBusinessPublicKey` operation on the `SocialMessaging` service.
+    ///
+    /// Retrieves the business public key for a phone number and its signature status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetWhatsAppBusinessPublicKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetWhatsAppBusinessPublicKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedByMetaException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func getWhatsAppBusinessPublicKey(input: GetWhatsAppBusinessPublicKeyInput) async throws -> GetWhatsAppBusinessPublicKeyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getWhatsAppBusinessPublicKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>(GetWhatsAppBusinessPublicKeyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>(GetWhatsAppBusinessPublicKeyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppBusinessPublicKeyOutput>(GetWhatsAppBusinessPublicKeyOutput.httpOutput(from:), GetWhatsAppBusinessPublicKeyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppBusinessPublicKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWhatsAppBusinessPublicKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWhatsAppBusinessPublicKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SocialMessaging"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWhatsAppBusinessPublicKeyInput, GetWhatsAppBusinessPublicKeyOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetWhatsAppBusinessPublicKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetWhatsAppFlow` operation on the `SocialMessaging` service.
     ///
     /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
@@ -2511,6 +2584,81 @@ extension SocialMessagingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutWhatsAppBusinessAccountEventDestinations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutWhatsAppBusinessPublicKey` operation on the `SocialMessaging` service.
+    ///
+    /// Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutWhatsAppBusinessPublicKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutWhatsAppBusinessPublicKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedByMetaException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func putWhatsAppBusinessPublicKey(input: PutWhatsAppBusinessPublicKeyInput) async throws -> PutWhatsAppBusinessPublicKeyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putWhatsAppBusinessPublicKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>(PutWhatsAppBusinessPublicKeyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutWhatsAppBusinessPublicKeyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutWhatsAppBusinessPublicKeyOutput>(PutWhatsAppBusinessPublicKeyOutput.httpOutput(from:), PutWhatsAppBusinessPublicKeyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutWhatsAppBusinessPublicKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutWhatsAppBusinessPublicKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutWhatsAppBusinessPublicKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SocialMessaging"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutWhatsAppBusinessPublicKeyInput, PutWhatsAppBusinessPublicKeyOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutWhatsAppBusinessPublicKey")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

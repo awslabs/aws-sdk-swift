@@ -5861,6 +5861,486 @@ public struct UpdateConfigurationBundleOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The identity provider configuration used to authenticate end users to the consent portal.
+    public struct ConsentPortalIdpConfig: Swift.Sendable {
+        /// The audience value that the consent portal includes when requesting tokens from the identity provider.
+        public var audience: Swift.String?
+        /// The Amazon Resource Name (ARN) of the OAuth2 credential provider used to authenticate end users to the consent portal.
+        /// This member is required.
+        public var credentialProviderArn: Swift.String?
+        /// The OAuth2 scopes that the consent portal requests when authenticating end users.
+        /// This member is required.
+        public var scopes: [Swift.String]?
+
+        public init(
+            audience: Swift.String? = nil,
+            credentialProviderArn: Swift.String? = nil,
+            scopes: [Swift.String]? = nil
+        ) {
+            self.audience = audience
+            self.credentialProviderArn = credentialProviderArn
+            self.scopes = scopes
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The type of a consent portal source. Currently, we only support type agentcore-gateway.
+    public enum ConsentPortalSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreGateway
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConsentPortalSourceType] {
+            return [
+                .agentcoreGateway
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentcoreGateway: return "agentcore-gateway"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A resource served by the consent portal.
+    public struct ConsentPortalSource: Swift.Sendable {
+        /// The identifier of the source resource. For an agentcore-gateway source, this is the gateway ID or its Amazon Resource Name (ARN).
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// The type of the source resource.
+        /// This member is required.
+        public var type: BedrockAgentCoreControlClientTypes.ConsentPortalSourceType?
+
+        public init(
+            identifier: Swift.String? = nil,
+            type: BedrockAgentCoreControlClientTypes.ConsentPortalSourceType? = nil
+        ) {
+            self.identifier = identifier
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The lifecycle status of a consent portal.
+    public enum ConsentPortalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConsentPortalStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateConsentPortalInput: Swift.Sendable {
+    /// The description of the consent portal.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The identity provider configuration that the consent portal uses to authenticate end users.
+    /// This member is required.
+    public var idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig?
+    /// The name of the consent portal. The name must be unique within your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The resources served by the consent portal. Currently, we only support type agentcore-gateway.
+    /// This member is required.
+    public var sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]?
+    /// A map of tag keys and values to assign to the consent portal. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig? = nil,
+        name: Swift.String? = nil,
+        sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.idpConfig = idpConfig
+        self.name = name
+        self.sources = sources
+        self.tags = tags
+    }
+}
+
+public struct CreateConsentPortalOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consent portal.
+    /// This member is required.
+    public var consentPortalArn: Swift.String?
+    /// The unique identifier of the consent portal.
+    /// This member is required.
+    public var consentPortalId: Swift.String?
+    /// The timestamp for when the consent portal was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the consent portal.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The identity provider configuration that the consent portal uses to authenticate end users.
+    /// This member is required.
+    public var idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig?
+    /// The name of the consent portal.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The URL used to access the consent portal.
+    public var portalUrl: Swift.String?
+    /// The resources served by the consent portal.
+    /// This member is required.
+    public var sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]?
+    /// The current status of the consent portal.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus?
+    /// A message that provides additional information about the current status of the consent portal.
+    public var statusReason: Swift.String?
+    /// The timestamp for when the consent portal was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        consentPortalArn: Swift.String? = nil,
+        consentPortalId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig? = nil,
+        name: Swift.String? = nil,
+        portalUrl: Swift.String? = nil,
+        sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]? = nil,
+        status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.consentPortalArn = consentPortalArn
+        self.consentPortalId = consentPortalId
+        self.createdAt = createdAt
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.idpConfig = idpConfig
+        self.name = name
+        self.portalUrl = portalUrl
+        self.sources = sources
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct DeleteConsentPortalInput: Swift.Sendable {
+    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var consentPortalIdentifier: Swift.String?
+
+    public init(
+        consentPortalIdentifier: Swift.String? = nil
+    ) {
+        self.consentPortalIdentifier = consentPortalIdentifier
+    }
+}
+
+public struct DeleteConsentPortalOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetConsentPortalInput: Swift.Sendable {
+    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var consentPortalIdentifier: Swift.String?
+
+    public init(
+        consentPortalIdentifier: Swift.String? = nil
+    ) {
+        self.consentPortalIdentifier = consentPortalIdentifier
+    }
+}
+
+public struct GetConsentPortalOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consent portal.
+    /// This member is required.
+    public var consentPortalArn: Swift.String?
+    /// The unique identifier of the consent portal.
+    /// This member is required.
+    public var consentPortalId: Swift.String?
+    /// The timestamp for when the consent portal was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the consent portal.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The identity provider configuration that the consent portal uses to authenticate end users.
+    /// This member is required.
+    public var idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig?
+    /// The name of the consent portal.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The URL used to access the consent portal.
+    public var portalUrl: Swift.String?
+    /// The resources served by the consent portal.
+    /// This member is required.
+    public var sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]?
+    /// The current status of the consent portal.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus?
+    /// A message that provides additional information about the current status of the consent portal.
+    public var statusReason: Swift.String?
+    /// The timestamp for when the consent portal was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        consentPortalArn: Swift.String? = nil,
+        consentPortalId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig? = nil,
+        name: Swift.String? = nil,
+        portalUrl: Swift.String? = nil,
+        sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]? = nil,
+        status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.consentPortalArn = consentPortalArn
+        self.consentPortalId = consentPortalId
+        self.createdAt = createdAt
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.idpConfig = idpConfig
+        self.name = name
+        self.portalUrl = portalUrl
+        self.sources = sources
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct ListConsentPortalsInput: Swift.Sendable {
+    /// The maximum number of consent portals to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next page of results. Use the value returned in a previous response to request the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Summary information about a consent portal.
+    public struct ConsentPortalSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the consent portal.
+        /// This member is required.
+        public var consentPortalArn: Swift.String?
+        /// The unique identifier of the consent portal.
+        /// This member is required.
+        public var consentPortalId: Swift.String?
+        /// The timestamp for when the consent portal was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the consent portal.
+        public var description: Swift.String?
+        /// The name of the consent portal.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The URL used to access the consent portal.
+        public var portalUrl: Swift.String?
+        /// The resources served by the consent portal.
+        /// This member is required.
+        public var sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]?
+        /// The current status of the consent portal.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus?
+        /// The timestamp for when the consent portal was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            consentPortalArn: Swift.String? = nil,
+            consentPortalId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            portalUrl: Swift.String? = nil,
+            sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]? = nil,
+            status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.consentPortalArn = consentPortalArn
+            self.consentPortalId = consentPortalId
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.portalUrl = portalUrl
+            self.sources = sources
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListConsentPortalsOutput: Swift.Sendable {
+    /// The list of consent portals.
+    /// This member is required.
+    public var consentPortals: [BedrockAgentCoreControlClientTypes.ConsentPortalSummary]?
+    /// The token to use in a subsequent request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        consentPortals: [BedrockAgentCoreControlClientTypes.ConsentPortalSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.consentPortals = consentPortals
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateConsentPortalInput: Swift.Sendable {
+    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var consentPortalIdentifier: Swift.String?
+    /// The description of the consent portal.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    public var executionRoleArn: Swift.String?
+    /// The identity provider configuration that the consent portal uses to authenticate end users.
+    public var idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig?
+
+    public init(
+        consentPortalIdentifier: Swift.String? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig? = nil
+    ) {
+        self.consentPortalIdentifier = consentPortalIdentifier
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.idpConfig = idpConfig
+    }
+}
+
+public struct UpdateConsentPortalOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consent portal.
+    /// This member is required.
+    public var consentPortalArn: Swift.String?
+    /// The unique identifier of the consent portal.
+    /// This member is required.
+    public var consentPortalId: Swift.String?
+    /// The timestamp for when the consent portal was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the consent portal.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The identity provider configuration that the consent portal uses to authenticate end users.
+    /// This member is required.
+    public var idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig?
+    /// The name of the consent portal.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The URL used to access the consent portal.
+    public var portalUrl: Swift.String?
+    /// The resources served by the consent portal.
+    /// This member is required.
+    public var sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]?
+    /// The current status of the consent portal.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus?
+    /// A message that provides additional information about the current status of the consent portal.
+    public var statusReason: Swift.String?
+    /// The timestamp for when the consent portal was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        consentPortalArn: Swift.String? = nil,
+        consentPortalId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        idpConfig: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig? = nil,
+        name: Swift.String? = nil,
+        portalUrl: Swift.String? = nil,
+        sources: [BedrockAgentCoreControlClientTypes.ConsentPortalSource]? = nil,
+        status: BedrockAgentCoreControlClientTypes.ConsentPortalStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.consentPortalArn = consentPortalArn
+        self.consentPortalId = consentPortalId
+        self.createdAt = createdAt
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.idpConfig = idpConfig
+        self.name = name
+        self.portalUrl = portalUrl
+        self.sources = sources
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Versioned schema type for dataset examples. Each value identifies both the source format and the version of that format's schema.
     public enum DatasetSchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// AgentCore predefined evaluation schema, version 1. Dataset with pre-written inputs per conversation turn.
@@ -16539,17 +17019,20 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The configuration for reading agent traces from CloudWatch logs as input for online evaluation.
     public struct CloudWatchLogsInputConfig: Swift.Sendable {
+        /// The list of CloudWatch log group name prefixes to monitor for agent traces. Specify this instead of logGroupNames to match log groups by prefix. Specify either logGroupNames or logGroupNamePrefixes, not both. One of the two is required.
+        public var logGroupNamePrefixes: [Swift.String]?
         /// The list of CloudWatch log group names to monitor for agent traces.
-        /// This member is required.
         public var logGroupNames: [Swift.String]?
         /// The list of service names to filter traces within the specified log groups. Used to identify relevant agent sessions.
         /// This member is required.
         public var serviceNames: [Swift.String]?
 
         public init(
-            logGroupNames: [Swift.String]? = nil,
+            logGroupNamePrefixes: [Swift.String]? = nil,
+            logGroupNames: [Swift.String]? = [],
             serviceNames: [Swift.String]? = nil
         ) {
+            self.logGroupNamePrefixes = logGroupNamePrefixes
             self.logGroupNames = logGroupNames
             self.serviceNames = serviceNames
         }
@@ -16588,6 +17071,79 @@ extension BedrockAgentCoreControlClientTypes {
             insightId: Swift.String? = nil
         ) {
             self.insightId = insightId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Where evaluation results are written: dedicated results log group (default) or the source log group.
+    public enum ResultDestination: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dedicatedLogGroup
+        case sourceLogGroup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultDestination] {
+            return [
+                .dedicatedLogGroup,
+                .sourceLogGroup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicatedLogGroup: return "DEDICATED_LOG_GROUP"
+            case .sourceLogGroup: return "SOURCE_LOG_GROUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration for writing evaluation results to CloudWatch logs with embedded metric format (EMF) for monitoring.
+    public struct CloudWatchOutputConfig: Swift.Sendable {
+        /// The name of the CloudWatch log group where evaluation results will be written. An existing log group is used as-is; otherwise the service creates it, which requires the evaluation execution role to grant logs:CreateLogGroup on the log group. Don't specify this value when resultDestination is SOURCE_LOG_GROUP. The name can't be under the service-reserved /aws/bedrock-agentcore/evaluations/ namespace, apart from this configuration's own service-managed default group.
+        public var logGroupName: Swift.String?
+        /// The CloudWatch metrics namespace where evaluation result metrics are published. If you omit this value, the service publishes metrics to Bedrock-AgentCore/Evaluations. This value can't begin with AWS/.
+        public var metricsNamespace: Swift.String?
+        /// The destination where evaluation results are written. Valid values:
+        ///
+        /// * DEDICATED_LOG_GROUP (default) – Writes results to a dedicated result log group.
+        ///
+        /// * SOURCE_LOG_GROUP – Writes results back to the log group that the agent traces were read from. If you use this value, don't specify logGroupName.
+        public var resultDestination: BedrockAgentCoreControlClientTypes.ResultDestination?
+
+        public init(
+            logGroupName: Swift.String? = "",
+            metricsNamespace: Swift.String? = nil,
+            resultDestination: BedrockAgentCoreControlClientTypes.ResultDestination? = .dedicatedLogGroup
+        ) {
+            self.logGroupName = logGroupName
+            self.metricsNamespace = metricsNamespace
+            self.resultDestination = resultDestination
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration that specifies where evaluation results should be written for monitoring and analysis.
+    public struct OutputConfig: Swift.Sendable {
+        /// The CloudWatch configuration for writing evaluation results to CloudWatch logs with embedded metric format.
+        /// This member is required.
+        public var cloudWatchConfig: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig?
+
+        public init(
+            cloudWatchConfig: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig? = nil
+        ) {
+            self.cloudWatchConfig = cloudWatchConfig
         }
     }
 }
@@ -16758,6 +17314,8 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
     /// The name of the online evaluation configuration. Must be unique within your account.
     /// This member is required.
     public var onlineEvaluationConfigName: Swift.String?
+    /// The configuration that specifies where evaluation results should be written for monitoring and analysis.
+    public var outputConfig: BedrockAgentCoreControlClientTypes.OutputConfig?
     /// The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
     /// This member is required.
     public var rule: BedrockAgentCoreControlClientTypes.Rule?
@@ -16774,6 +17332,7 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
         evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]? = nil,
         insights: [BedrockAgentCoreControlClientTypes.Insight]? = nil,
         onlineEvaluationConfigName: Swift.String? = nil,
+        outputConfig: BedrockAgentCoreControlClientTypes.OutputConfig? = nil,
         rule: BedrockAgentCoreControlClientTypes.Rule? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -16786,6 +17345,7 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
         self.evaluators = evaluators
         self.insights = insights
         self.onlineEvaluationConfigName = onlineEvaluationConfigName
+        self.outputConfig = outputConfig
         self.rule = rule
         self.tags = tags
     }
@@ -16793,7 +17353,7 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
 
 extension CreateOnlineEvaluationConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), clusteringConfig: \(Swift.String(describing: clusteringConfig)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), enableOnCreate: \(Swift.String(describing: enableOnCreate)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), rule: \(Swift.String(describing: rule)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), clusteringConfig: \(Swift.String(describing: clusteringConfig)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), enableOnCreate: \(Swift.String(describing: enableOnCreate)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), outputConfig: \(Swift.String(describing: outputConfig)), rule: \(Swift.String(describing: rule)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -16821,38 +17381,6 @@ extension BedrockAgentCoreControlClientTypes {
             case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// The configuration for writing evaluation results to CloudWatch logs with embedded metric format (EMF) for monitoring.
-    public struct CloudWatchOutputConfig: Swift.Sendable {
-        /// The name of the CloudWatch log group where evaluation results will be written. The log group will be created if it doesn't exist.
-        /// This member is required.
-        public var logGroupName: Swift.String?
-
-        public init(
-            logGroupName: Swift.String? = nil
-        ) {
-            self.logGroupName = logGroupName
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// The configuration that specifies where evaluation results should be written for monitoring and analysis.
-    public struct OutputConfig: Swift.Sendable {
-        /// The CloudWatch configuration for writing evaluation results to CloudWatch logs with embedded metric format.
-        /// This member is required.
-        public var cloudWatchConfig: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig?
-
-        public init(
-            cloudWatchConfig: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig? = nil
-        ) {
-            self.cloudWatchConfig = cloudWatchConfig
         }
     }
 }
@@ -17190,6 +17718,8 @@ public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
     /// The unique identifier of the online evaluation configuration to update.
     /// This member is required.
     public var onlineEvaluationConfigId: Swift.String?
+    /// The configuration that specifies where evaluation results should be written for monitoring and analysis.
+    public var outputConfig: BedrockAgentCoreControlClientTypes.OutputConfig?
     /// The updated evaluation rule containing sampling configuration, filters, and session settings.
     public var rule: BedrockAgentCoreControlClientTypes.Rule?
 
@@ -17203,6 +17733,7 @@ public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
         executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus? = nil,
         insights: [BedrockAgentCoreControlClientTypes.Insight]? = nil,
         onlineEvaluationConfigId: Swift.String? = nil,
+        outputConfig: BedrockAgentCoreControlClientTypes.OutputConfig? = nil,
         rule: BedrockAgentCoreControlClientTypes.Rule? = nil
     ) {
         self.clientToken = clientToken
@@ -17214,13 +17745,14 @@ public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
         self.executionStatus = executionStatus
         self.insights = insights
         self.onlineEvaluationConfigId = onlineEvaluationConfigId
+        self.outputConfig = outputConfig
         self.rule = rule
     }
 }
 
 extension UpdateOnlineEvaluationConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), clusteringConfig: \(Swift.String(describing: clusteringConfig)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), executionStatus: \(Swift.String(describing: executionStatus)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), rule: \(Swift.String(describing: rule)), description: \"CONTENT_REDACTED\")"}
+        "UpdateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), clusteringConfig: \(Swift.String(describing: clusteringConfig)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), executionStatus: \(Swift.String(describing: executionStatus)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), outputConfig: \(Swift.String(describing: outputConfig)), rule: \(Swift.String(describing: rule)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateOnlineEvaluationConfigOutput: Swift.Sendable {
@@ -23309,6 +23841,13 @@ extension CreateConfigurationBundleInput {
     }
 }
 
+extension CreateConsentPortalInput {
+
+    static func urlPathProvider(_ value: CreateConsentPortalInput) -> Swift.String? {
+        return "/identities/CreateConsentPortal"
+    }
+}
+
 extension CreateDatasetInput {
 
     static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
@@ -23626,6 +24165,13 @@ extension DeleteConfigurationBundleInput {
             return nil
         }
         return "/configuration-bundles/\(bundleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConsentPortalInput {
+
+    static func urlPathProvider(_ value: DeleteConsentPortalInput) -> Swift.String? {
+        return "/identities/DeleteConsentPortal"
     }
 }
 
@@ -24041,6 +24587,13 @@ extension GetConfigurationBundleVersionInput {
             return nil
         }
         return "/configuration-bundles/\(bundleId.urlPercentEncoding())/versions/\(versionId.urlPercentEncoding())"
+    }
+}
+
+extension GetConsentPortalInput {
+
+    static func urlPathProvider(_ value: GetConsentPortalInput) -> Swift.String? {
+        return "/identities/GetConsentPortal"
     }
 }
 
@@ -24614,6 +25167,13 @@ extension ListConfigurationBundleVersionsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension ListConsentPortalsInput {
+
+    static func urlPathProvider(_ value: ListConsentPortalsInput) -> Swift.String? {
+        return "/identities/ListConsentPortals"
     }
 }
 
@@ -25397,6 +25957,13 @@ extension UpdateConfigurationBundleInput {
     }
 }
 
+extension UpdateConsentPortalInput {
+
+    static func urlPathProvider(_ value: UpdateConsentPortalInput) -> Swift.String? {
+        return "/identities/UpdateConsentPortal"
+    }
+}
+
 extension UpdateDatasetInput {
 
     static func urlPathProvider(_ value: UpdateDatasetInput) -> Swift.String? {
@@ -25758,6 +26325,19 @@ extension CreateConfigurationBundleInput {
     }
 }
 
+extension CreateConsentPortalInput {
+
+    static func write(value: CreateConsentPortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["idpConfig"].write(value.idpConfig, with: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["sources"].writeList(value.sources, memberWritingClosure: BedrockAgentCoreControlClientTypes.ConsentPortalSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateDatasetInput {
 
     static func write(value: CreateDatasetInput?, to writer: SmithyJSON.Writer) throws {
@@ -25931,6 +26511,7 @@ extension CreateOnlineEvaluationConfigInput {
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["insights"].writeList(value.insights, memberWritingClosure: BedrockAgentCoreControlClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["onlineEvaluationConfigName"].write(value.onlineEvaluationConfigName)
+        try writer["outputConfig"].write(value.outputConfig, with: BedrockAgentCoreControlClientTypes.OutputConfig.write(value:to:))
         try writer["rule"].write(value.rule, with: BedrockAgentCoreControlClientTypes.Rule.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -26046,6 +26627,14 @@ extension DeleteApiKeyCredentialProviderInput {
     }
 }
 
+extension DeleteConsentPortalInput {
+
+    static func write(value: DeleteConsentPortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consentPortalIdentifier"].write(value.consentPortalIdentifier)
+    }
+}
+
 extension DeleteDatasetExamplesInput {
 
     static func write(value: DeleteDatasetExamplesInput?, to writer: SmithyJSON.Writer) throws {
@@ -26084,6 +26673,14 @@ extension GetApiKeyCredentialProviderInput {
     static func write(value: GetApiKeyCredentialProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
+    }
+}
+
+extension GetConsentPortalInput {
+
+    static func write(value: GetConsentPortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consentPortalIdentifier"].write(value.consentPortalIdentifier)
     }
 }
 
@@ -26141,6 +26738,15 @@ extension ListConfigurationBundleVersionsInput {
     static func write(value: ListConfigurationBundleVersionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: BedrockAgentCoreControlClientTypes.VersionFilter.write(value:to:))
+    }
+}
+
+extension ListConsentPortalsInput {
+
+    static func write(value: ListConsentPortalsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -26287,6 +26893,17 @@ extension UpdateConfigurationBundleInput {
         try writer["description"].write(value.description)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["parentVersionIds"].writeList(value.parentVersionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateConsentPortalInput {
+
+    static func write(value: UpdateConsentPortalInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consentPortalIdentifier"].write(value.consentPortalIdentifier)
+        try writer["description"].write(value.description)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["idpConfig"].write(value.idpConfig, with: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig.write(value:to:))
     }
 }
 
@@ -26443,6 +27060,7 @@ extension UpdateOnlineEvaluationConfigInput {
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["executionStatus"].write(value.executionStatus)
         try writer["insights"].writeList(value.insights, memberWritingClosure: BedrockAgentCoreControlClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputConfig"].write(value.outputConfig, with: BedrockAgentCoreControlClientTypes.OutputConfig.write(value:to:))
         try writer["rule"].write(value.rule, with: BedrockAgentCoreControlClientTypes.Rule.write(value:to:))
     }
 }
@@ -26695,6 +27313,29 @@ extension CreateConfigurationBundleOutput {
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateConsentPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConsentPortalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConsentPortalOutput()
+        value.consentPortalArn = try reader["consentPortalArn"].readIfPresent() ?? ""
+        value.consentPortalId = try reader["consentPortalId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.idpConfig = try reader["idpConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.portalUrl = try reader["portalUrl"].readIfPresent()
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ConsentPortalSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -27156,6 +27797,13 @@ extension DeleteConfigurationBundleOutput {
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension DeleteConsentPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConsentPortalOutput {
+        return DeleteConsentPortalOutput()
     }
 }
 
@@ -27628,6 +28276,29 @@ extension GetConfigurationBundleVersionOutput {
         value.lineageMetadata = try reader["lineageMetadata"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VersionLineageMetadata.read(from:))
         value.versionCreatedAt = try reader["versionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetConsentPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConsentPortalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConsentPortalOutput()
+        value.consentPortalArn = try reader["consentPortalArn"].readIfPresent() ?? ""
+        value.consentPortalId = try reader["consentPortalId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.idpConfig = try reader["idpConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.portalUrl = try reader["portalUrl"].readIfPresent()
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ConsentPortalSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -28283,6 +28954,19 @@ extension ListConfigurationBundleVersionsOutput {
     }
 }
 
+extension ListConsentPortalsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConsentPortalsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConsentPortalsOutput()
+        value.consentPortals = try reader["consentPortals"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ConsentPortalSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDatasetExamplesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetExamplesOutput {
@@ -28820,6 +29504,29 @@ extension UpdateConfigurationBundleOutput {
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateConsentPortalOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConsentPortalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConsentPortalOutput()
+        value.consentPortalArn = try reader["consentPortalArn"].readIfPresent() ?? ""
+        value.consentPortalId = try reader["consentPortalId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.idpConfig = try reader["idpConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.portalUrl = try reader["portalUrl"].readIfPresent()
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ConsentPortalSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -29422,6 +30129,27 @@ enum CreateConfigurationBundleOutputError {
     }
 }
 
+enum CreateConsentPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDatasetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -29969,6 +30697,26 @@ enum DeleteConfigurationBundleOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConsentPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -30530,6 +31278,25 @@ enum GetConfigurationBundleVersionOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConsentPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -31179,6 +31946,24 @@ enum ListConfigurationBundleVersionsOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConsentPortalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -31914,6 +32699,26 @@ enum UpdateConfigurationBundleOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConsentPortalOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -33227,6 +34032,7 @@ extension BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["logGroupNamePrefixes"].writeList(value.logGroupNamePrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceNames"].writeList(value.serviceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -33235,6 +34041,7 @@ extension BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig()
         value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logGroupNamePrefixes = try reader["logGroupNamePrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceNames = try reader["serviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -33242,10 +34049,19 @@ extension BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
 
 extension BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
 
+    static func write(value: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+        try writer["metricsNamespace"].write(value.metricsNamespace)
+        try writer["resultDestination"].write(value.resultDestination)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig()
         value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        value.metricsNamespace = try reader["metricsNamespace"].readIfPresent()
+        value.resultDestination = try reader["resultDestination"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.ResultDestination.dedicatedLogGroup
         return value
     }
 }
@@ -33607,6 +34423,60 @@ extension BedrockAgentCoreControlClientTypes.ConnectorTargetConfiguration {
         value.source = try reader["source"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConnectorSource.read(from:))
         value.enabled = try reader["enabled"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ConnectorConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audience"].write(value.audience)
+        try writer["credentialProviderArn"].write(value.credentialProviderArn)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ConsentPortalIdpConfig()
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.audience = try reader["audience"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ConsentPortalSource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ConsentPortalSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ConsentPortalSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ConsentPortalSource()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ConsentPortalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ConsentPortalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ConsentPortalSummary()
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ConsentPortalSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.consentPortalArn = try reader["consentPortalArn"].readIfPresent() ?? ""
+        value.consentPortalId = try reader["consentPortalId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.portalUrl = try reader["portalUrl"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -37161,6 +38031,11 @@ extension BedrockAgentCoreControlClientTypes.OpenResponsesEvaluatorModelConfig {
 }
 
 extension BedrockAgentCoreControlClientTypes.OutputConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchConfig"].write(value.cloudWatchConfig, with: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig.write(value:to:))
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }

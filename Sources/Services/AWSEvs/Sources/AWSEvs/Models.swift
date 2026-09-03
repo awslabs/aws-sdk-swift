@@ -14,6 +14,29 @@ import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 
+extension EvsClientTypes {
+
+    /// A regional account-level EVS setting, represented as a name and value pair.
+    public struct AccountSetting: Swift.Sendable {
+        /// The name of the EVS setting. Valid values are:
+        ///
+        /// * vcfPortedCoreCount (type: numeric string) - The total number of VCF license cores ported to Amazon EVS for the account in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keeping.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the EVS setting.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
 /// A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2080,6 +2103,24 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+/// The request for the GetAccountSettings operation.
+public struct GetAccountSettingsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The response for the GetAccountSettings operation.
+public struct GetAccountSettingsOutput: Swift.Sendable {
+    /// A list of regional account-level EVS settings for the account. EVS settings that have never been explicitly set are omitted from the response.
+    public var settings: [EvsClientTypes.AccountSetting]?
+
+    public init(
+        settings: [EvsClientTypes.AccountSetting]? = nil
+    ) {
+        self.settings = settings
+    }
+}
+
 public struct GetVersionsInput: Swift.Sendable {
 
     public init() { }
@@ -2181,6 +2222,31 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+/// The request for the PutAccountSettings operation.
+public struct PutAccountSettingsInput: Swift.Sendable {
+    /// A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified.
+    /// This member is required.
+    public var settings: [EvsClientTypes.AccountSetting]?
+
+    public init(
+        settings: [EvsClientTypes.AccountSetting]? = nil
+    ) {
+        self.settings = settings
+    }
+}
+
+/// The response for the PutAccountSettings operation.
+public struct PutAccountSettingsOutput: Swift.Sendable {
+    /// A list of regional account-level EVS settings, and their values, that were modified in this request.
+    public var settings: [EvsClientTypes.AccountSetting]?
+
+    public init(
+        settings: [EvsClientTypes.AccountSetting]? = nil
+    ) {
+        self.settings = settings
     }
 }
 
