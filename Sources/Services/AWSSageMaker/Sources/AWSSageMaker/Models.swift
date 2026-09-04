@@ -22427,12 +22427,14 @@ extension SageMakerClientTypes {
     public enum StorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inMemory
         case standard
+        case standardV2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StorageType] {
             return [
                 .inMemory,
-                .standard
+                .standard,
+                .standardV2
             ]
         }
 
@@ -22445,6 +22447,7 @@ extension SageMakerClientTypes {
             switch self {
             case .inMemory: return "InMemory"
             case .standard: return "Standard"
+            case .standardV2: return "Standard_V2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22519,6 +22522,8 @@ extension SageMakerClientTypes {
         /// Option for different tiers of low latency storage for real-time data retrieval.
         ///
         /// * Standard: A managed low latency data store for feature groups.
+        ///
+        /// * Standard_V2: A managed low latency data store for feature groups that supports partial updates to individual features using the [UpdateRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_UpdateRecord.html) operation. Choose this storage type at feature group creation time if your use case requires updating specific feature values without rewriting the entire record.
         ///
         /// * InMemory: A managed data store for feature groups that supports very low latency retrieval.
         public var storageType: SageMakerClientTypes.StorageType?
@@ -57878,12 +57883,16 @@ extension SageMakerClientTypes {
 
     /// Updates the feature group online store configuration.
     public struct OnlineStoreConfigUpdate: Swift.Sendable {
+        /// The online store storage type to migrate the feature group to. Use this parameter to migrate an existing feature group from Standard to Standard_V2 storage format, enabling support for the [UpdateRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_UpdateRecord.html) operation. Migration is a one-way operation and cannot be reversed.
+        public var storageType: SageMakerClientTypes.StorageType?
         /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html) API in the Amazon SageMaker API Reference guide.
         public var ttlDuration: SageMakerClientTypes.TtlDuration?
 
         public init(
+            storageType: SageMakerClientTypes.StorageType? = nil,
             ttlDuration: SageMakerClientTypes.TtlDuration? = nil
         ) {
+            self.storageType = storageType
             self.ttlDuration = ttlDuration
         }
     }

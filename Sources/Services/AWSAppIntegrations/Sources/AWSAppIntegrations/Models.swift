@@ -819,11 +819,15 @@ public struct DeleteApplicationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Application.
     /// This member is required.
     public var arn: Swift.String?
+    /// Specifies whether to delete the application even if it still has application associations. If true, the operation removes the application and its associations. If false or absent, the delete fails when associations exist. Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other resources that rely on and reference the application. This action can't be undone.
+    public var force: Swift.Bool?
 
     public init(
-        arn: Swift.String? = nil
+        arn: Swift.String? = nil,
+        force: Swift.Bool? = false
     ) {
         self.arn = arn
+        self.force = force
     }
 }
 
@@ -1570,6 +1574,29 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct UpdateApplicationInput: Swift.Sendable {
     /// The configuration settings for the application.
     public var applicationConfig: AppIntegrationsClientTypes.ApplicationConfig?
@@ -1745,6 +1772,18 @@ extension DeleteApplicationInput {
             return nil
         }
         return "/applications/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension DeleteApplicationInput {
+
+    static func queryItemProvider(_ value: DeleteApplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let force = value.force {
+            let forceQueryItem = Smithy.URIQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+            items.append(forceQueryItem)
+        }
+        return items
     }
 }
 
@@ -2781,6 +2820,7 @@ enum UpdateApplicationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -2941,6 +2981,19 @@ extension ResourceNotFoundException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

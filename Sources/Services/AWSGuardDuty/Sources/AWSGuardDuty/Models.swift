@@ -1179,6 +1179,81 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about an API call that was observed as part of an activity.
+    public struct ApiCall: Swift.Sendable {
+        /// The error code that was returned, if the API call failed.
+        public var error: Swift.String?
+        /// The name of the API operation that was invoked.
+        public var operation: Swift.String?
+        /// The service that the API operation was invoked against.
+        public var service: Swift.String?
+        /// User agent in the request to the API operation
+        public var userAgent: Swift.String?
+
+        public init(
+            error: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            service: Swift.String? = nil,
+            userAgent: Swift.String? = nil
+        ) {
+            self.error = error
+            self.operation = operation
+            self.service = service
+            self.userAgent = userAgent
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// The type of an observed activity.
+    public enum ActivityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The observed activity is an API call.
+        case apiCall
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActivityType] {
+            return [
+                .apiCall
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiCall: return "API_CALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about an activity, such as an API call, that was observed for a signal.
+    public struct Activity: Swift.Sendable {
+        /// Contains information about the API call that was observed, when the activity type is API_CALL.
+        public var api: GuardDutyClientTypes.ApiCall?
+        /// The type of the observed activity.
+        /// This member is required.
+        public var type: GuardDutyClientTypes.ActivityType?
+
+        public init(
+            api: GuardDutyClientTypes.ApiCall? = nil,
+            type: GuardDutyClientTypes.ActivityType? = nil
+        ) {
+            self.api = api
+            self.type = type
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about a process involved in a GuardDuty finding, including process identification, execution details, and file information.
     public struct ActorProcess: Swift.Sendable {
         /// The name of the process as it appears in the system.
@@ -8137,6 +8212,8 @@ extension GuardDutyClientTypes {
 
     /// Contains information about the signals involved in the attack sequence.
     public struct Signal: Swift.Sendable {
+        /// Contains information about the activities, such as API calls, that were observed for this signal.
+        public var activities: [GuardDutyClientTypes.Activity]?
         /// Information about the IDs of the threat actors involved in the signal.
         public var actorIds: [Swift.String]?
         /// The number of times this signal was observed.
@@ -8181,6 +8258,7 @@ extension GuardDutyClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            activities: [GuardDutyClientTypes.Activity]? = nil,
             actorIds: [Swift.String]? = nil,
             count: Swift.Int? = nil,
             createdAt: Foundation.Date? = nil,
@@ -8196,6 +8274,7 @@ extension GuardDutyClientTypes {
             uid: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.activities = activities
             self.actorIds = actorIds
             self.count = count
             self.createdAt = createdAt
@@ -21564,6 +21643,17 @@ extension GuardDutyClientTypes.Action {
     }
 }
 
+extension GuardDutyClientTypes.Activity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Activity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Activity()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.api = try reader["api"].readIfPresent(with: GuardDutyClientTypes.ApiCall.read(from:))
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.Actor {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Actor {
@@ -21674,6 +21764,19 @@ extension GuardDutyClientTypes.AnomalyUnusual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.AnomalyUnusual()
         value.behavior = try reader["behavior"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: GuardDutyClientTypes.AnomalyObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ApiCall {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ApiCall {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ApiCall()
+        value.operation = try reader["operation"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.error = try reader["error"].readIfPresent()
+        value.userAgent = try reader["userAgent"].readIfPresent()
         return value
     }
 }
@@ -24592,6 +24695,7 @@ extension GuardDutyClientTypes.Signal {
         value.actorIds = try reader["actorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.endpointIds = try reader["endpointIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.signalIndicators = try reader["signalIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.activities = try reader["activities"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Activity.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

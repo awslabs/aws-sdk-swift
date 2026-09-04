@@ -1814,6 +1814,35 @@ extension DrsClientTypes {
 
 extension DrsClientTypes {
 
+    public enum SourceServerArchitecture: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arm64
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceServerArchitecture] {
+            return [
+                .arm64,
+                .x8664
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "arm64"
+            case .x8664: return "x86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DrsClientTypes {
+
     /// An object representing a data storage device on a server.
     public struct Disk: Swift.Sendable {
         /// The amount of storage on the disk in bytes.
@@ -1900,6 +1929,8 @@ extension DrsClientTypes {
 
     /// Properties of the Source Server machine.
     public struct SourceProperties: Swift.Sendable {
+        /// The architecture of the Source Server.
+        public var architecture: DrsClientTypes.SourceServerArchitecture?
         /// An array of CPUs.
         public var cpus: [DrsClientTypes.CPU]?
         /// An array of disks.
@@ -1920,6 +1951,7 @@ extension DrsClientTypes {
         public var supportsNitroInstances: Swift.Bool?
 
         public init(
+            architecture: DrsClientTypes.SourceServerArchitecture? = nil,
             cpus: [DrsClientTypes.CPU]? = nil,
             disks: [DrsClientTypes.Disk]? = nil,
             identificationHints: DrsClientTypes.IdentificationHints? = nil,
@@ -1930,6 +1962,7 @@ extension DrsClientTypes {
             recommendedInstanceType: Swift.String? = nil,
             supportsNitroInstances: Swift.Bool? = nil
         ) {
+            self.architecture = architecture
             self.cpus = cpus
             self.disks = disks
             self.identificationHints = identificationHints
@@ -11803,6 +11836,7 @@ extension DrsClientTypes.SourceProperties {
         value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
         value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
         value.supportsNitroInstances = try reader["supportsNitroInstances"].readIfPresent()
+        value.architecture = try reader["architecture"].readIfPresent()
         return value
     }
 }

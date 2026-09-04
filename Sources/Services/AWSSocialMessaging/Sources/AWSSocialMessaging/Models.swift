@@ -652,6 +652,8 @@ public struct CreateWhatsAppFlowInput: Swift.Sendable {
     public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
     /// The ID of an existing Flow within the same WhatsApp Business Account to clone.
     public var cloneFlowId: Swift.String?
+    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow has no endpoint (static Flow). Meta only calls the endpoint when the Flow JSON also declares data_api_version. To verify that requests originate from Meta, attach your own Meta app via UpdateWhatsAppFlow.
+    public var endpointUri: Swift.String?
     /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
     public var flowJson: Foundation.Data?
     /// The name of the Flow. Must be unique within the WhatsApp Business Account.
@@ -666,6 +668,7 @@ public struct CreateWhatsAppFlowInput: Swift.Sendable {
     public init(
         categories: [SocialMessagingClientTypes.MetaFlowCategory]? = nil,
         cloneFlowId: Swift.String? = nil,
+        endpointUri: Swift.String? = nil,
         flowJson: Foundation.Data? = nil,
         flowName: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -673,6 +676,7 @@ public struct CreateWhatsAppFlowInput: Swift.Sendable {
     ) {
         self.categories = categories
         self.cloneFlowId = cloneFlowId
+        self.endpointUri = endpointUri
         self.flowJson = flowJson
         self.flowName = flowName
         self.id = id
@@ -1206,6 +1210,33 @@ public struct GetLinkedWhatsAppBusinessAccountPhoneNumberOutput: Swift.Sendable 
     ) {
         self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
         self.phoneNumber = phoneNumber
+    }
+}
+
+public struct GetWhatsAppBusinessPublicKeyInput: Swift.Sendable {
+    /// The unique identifier of the phone number whose business public key to retrieve.
+    /// This member is required.
+    public var originationPhoneNumberId: Swift.String?
+
+    public init(
+        originationPhoneNumberId: Swift.String? = nil
+    ) {
+        self.originationPhoneNumberId = originationPhoneNumberId
+    }
+}
+
+public struct GetWhatsAppBusinessPublicKeyOutput: Swift.Sendable {
+    /// The stored RSA business public key (PEM), if present.
+    public var businessPublicKey: Swift.String?
+    /// Meta's signing status: "VALID" | "MISMATCH".
+    public var businessPublicKeySignatureStatus: Swift.String?
+
+    public init(
+        businessPublicKey: Swift.String? = nil,
+        businessPublicKeySignatureStatus: Swift.String? = nil
+    ) {
+        self.businessPublicKey = businessPublicKey
+        self.businessPublicKeySignatureStatus = businessPublicKeySignatureStatus
     }
 }
 
@@ -2070,6 +2101,8 @@ public struct SendWhatsAppConversionEventOutput: Swift.Sendable {
 public struct UpdateWhatsAppFlowInput: Swift.Sendable {
     /// The updated categories for the Flow.
     public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
+    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow's endpoint is unchanged.
+    public var endpointUri: Swift.String?
     /// The unique identifier of the Flow to update.
     /// This member is required.
     public var flowId: Swift.String?
@@ -2078,17 +2111,23 @@ public struct UpdateWhatsAppFlowInput: Swift.Sendable {
     /// The ID of the WhatsApp Business Account associated with this Flow.
     /// This member is required.
     public var id: Swift.String?
+    /// Optional Meta app ID to attach to the Flow. Meta signs data-exchange requests with the attached app's secret, so attaching your own app is what enables X-Hub-Signature-256 and flow_token_signature verification at your endpoint. Meta requires the app to be owned by the same business that owns the WABA. Attaching your own app is one-way: the service's app cannot be re-attached afterwards. When omitted, the attached app is unchanged. (Set via update because Meta ignores application_id at creation time.)
+    public var metaAppId: Swift.String?
 
     public init(
         categories: [SocialMessagingClientTypes.MetaFlowCategory]? = nil,
+        endpointUri: Swift.String? = nil,
         flowId: Swift.String? = nil,
         flowName: Swift.String? = nil,
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        metaAppId: Swift.String? = nil
     ) {
         self.categories = categories
+        self.endpointUri = endpointUri
         self.flowId = flowId
         self.flowName = flowName
         self.id = id
+        self.metaAppId = metaAppId
     }
 }
 
@@ -2209,6 +2248,31 @@ public struct PostWhatsAppMessageMediaOutput: Swift.Sendable {
     ) {
         self.mediaId = mediaId
     }
+}
+
+public struct PutWhatsAppBusinessPublicKeyInput: Swift.Sendable {
+    /// PEM-encoded RSA public key. Mutually exclusive with kmsKeyArn.
+    public var businessPublicKey: Swift.String?
+    /// Customer-managed KMS asymmetric RSA key ARN. Mutually exclusive with businessPublicKey.
+    public var kmsKeyArn: Swift.String?
+    /// The unique identifier of the phone number to associate with the business public key.
+    /// This member is required.
+    public var originationPhoneNumberId: Swift.String?
+
+    public init(
+        businessPublicKey: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        originationPhoneNumberId: Swift.String? = nil
+    ) {
+        self.businessPublicKey = businessPublicKey
+        self.kmsKeyArn = kmsKeyArn
+        self.originationPhoneNumberId = originationPhoneNumberId
+    }
+}
+
+public struct PutWhatsAppBusinessPublicKeyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct SendWhatsAppMessageInput: Swift.Sendable {
@@ -2556,6 +2620,27 @@ extension GetLinkedWhatsAppBusinessAccountPhoneNumberInput {
     }
 }
 
+extension GetWhatsAppBusinessPublicKeyInput {
+
+    static func urlPathProvider(_ value: GetWhatsAppBusinessPublicKeyInput) -> Swift.String? {
+        return "/v1/whatsapp/business-public-key"
+    }
+}
+
+extension GetWhatsAppBusinessPublicKeyInput {
+
+    static func queryItemProvider(_ value: GetWhatsAppBusinessPublicKeyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let originationPhoneNumberId = value.originationPhoneNumberId else {
+            let message = "Creating a URL Query Item failed. originationPhoneNumberId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let originationPhoneNumberIdQueryItem = Smithy.URIQueryItem(name: "originationPhoneNumberId".urlPercentEncoding(), value: Swift.String(originationPhoneNumberId).urlPercentEncoding())
+        items.append(originationPhoneNumberIdQueryItem)
+        return items
+    }
+}
+
 extension GetWhatsAppFlowInput {
 
     static func urlPathProvider(_ value: GetWhatsAppFlowInput) -> Swift.String? {
@@ -2833,6 +2918,13 @@ extension PutWhatsAppBusinessAccountEventDestinationsInput {
     }
 }
 
+extension PutWhatsAppBusinessPublicKeyInput {
+
+    static func urlPathProvider(_ value: PutWhatsAppBusinessPublicKeyInput) -> Swift.String? {
+        return "/v1/whatsapp/business-public-key"
+    }
+}
+
 extension SendWhatsAppConversionEventInput {
 
     static func urlPathProvider(_ value: SendWhatsAppConversionEventInput) -> Swift.String? {
@@ -2905,6 +2997,7 @@ extension CreateWhatsAppFlowInput {
         guard let value else { return }
         try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SocialMessagingClientTypes.MetaFlowCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["cloneFlowId"].write(value.cloneFlowId)
+        try writer["endpointUri"].write(value.endpointUri)
         try writer["flowJson"].write(value.flowJson)
         try writer["flowName"].write(value.flowName)
         try writer["id"].write(value.id)
@@ -2998,6 +3091,16 @@ extension PutWhatsAppBusinessAccountEventDestinationsInput {
     }
 }
 
+extension PutWhatsAppBusinessPublicKeyInput {
+
+    static func write(value: PutWhatsAppBusinessPublicKeyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["businessPublicKey"].write(value.businessPublicKey)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["originationPhoneNumberId"].write(value.originationPhoneNumberId)
+    }
+}
+
 extension SendWhatsAppConversionEventInput {
 
     static func write(value: SendWhatsAppConversionEventInput?, to writer: SmithyJSON.Writer) throws {
@@ -3041,9 +3144,11 @@ extension UpdateWhatsAppFlowInput {
     static func write(value: UpdateWhatsAppFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SocialMessagingClientTypes.MetaFlowCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["endpointUri"].write(value.endpointUri)
         try writer["flowId"].write(value.flowId)
         try writer["flowName"].write(value.flowName)
         try writer["id"].write(value.id)
+        try writer["metaAppId"].write(value.metaAppId)
     }
 }
 
@@ -3216,6 +3321,19 @@ extension GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
     }
 }
 
+extension GetWhatsAppBusinessPublicKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWhatsAppBusinessPublicKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetWhatsAppBusinessPublicKeyOutput()
+        value.businessPublicKey = try reader["businessPublicKey"].readIfPresent()
+        value.businessPublicKeySignatureStatus = try reader["businessPublicKeySignatureStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension GetWhatsAppFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWhatsAppFlowOutput {
@@ -3378,6 +3496,13 @@ extension PutWhatsAppBusinessAccountEventDestinationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutWhatsAppBusinessAccountEventDestinationsOutput {
         return PutWhatsAppBusinessAccountEventDestinationsOutput()
+    }
+}
+
+extension PutWhatsAppBusinessPublicKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutWhatsAppBusinessPublicKeyOutput {
+        return PutWhatsAppBusinessPublicKeyOutput()
     }
 }
 
@@ -3717,6 +3842,27 @@ enum GetLinkedWhatsAppBusinessAccountPhoneNumberOutputError {
     }
 }
 
+enum GetWhatsAppBusinessPublicKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetWhatsAppFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3963,6 +4109,27 @@ enum PutWhatsAppBusinessAccountEventDestinationsOutputError {
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutWhatsAppBusinessPublicKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

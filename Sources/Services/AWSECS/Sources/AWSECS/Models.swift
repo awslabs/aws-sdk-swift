@@ -4599,15 +4599,19 @@ extension ECSClientTypes {
         public var drainingInstanceCount: Swift.Int?
         /// The number of instances running daemon tasks on this capacity provider.
         public var runningInstanceCount: Swift.Int?
+        /// The number of instances on this capacity provider that are running without the daemon task. This applies to daemons that aren't critical, where the instance remains available for your other tasks even if the daemon task can't start or stops. These instances aren't included in runningInstanceCount.
+        public var withoutDaemonInstanceCount: Swift.Int?
 
         public init(
             arn: Swift.String? = nil,
             drainingInstanceCount: Swift.Int? = nil,
-            runningInstanceCount: Swift.Int? = nil
+            runningInstanceCount: Swift.Int? = nil,
+            withoutDaemonInstanceCount: Swift.Int? = nil
         ) {
             self.arn = arn
             self.drainingInstanceCount = drainingInstanceCount
             self.runningInstanceCount = runningInstanceCount
+            self.withoutDaemonInstanceCount = withoutDaemonInstanceCount
         }
     }
 }
@@ -4624,17 +4628,21 @@ extension ECSClientTypes {
         public var totalDrainingInstanceCount: Swift.Int?
         /// The total number of instances running daemon tasks for this revision.
         public var totalRunningInstanceCount: Swift.Int?
+        /// The total number of instances running without the daemon task for this revision, across all capacity providers. These instances aren't included in totalRunningInstanceCount.
+        public var totalWithoutDaemonInstanceCount: Swift.Int?
 
         public init(
             arn: Swift.String? = nil,
             capacityProviders: [ECSClientTypes.DaemonDeploymentCapacityProvider]? = nil,
             totalDrainingInstanceCount: Swift.Int? = nil,
-            totalRunningInstanceCount: Swift.Int? = nil
+            totalRunningInstanceCount: Swift.Int? = nil,
+            totalWithoutDaemonInstanceCount: Swift.Int? = nil
         ) {
             self.arn = arn
             self.capacityProviders = capacityProviders
             self.totalDrainingInstanceCount = totalDrainingInstanceCount
             self.totalRunningInstanceCount = totalRunningInstanceCount
+            self.totalWithoutDaemonInstanceCount = totalWithoutDaemonInstanceCount
         }
     }
 }
@@ -4829,6 +4837,8 @@ public struct CreateDaemonInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the cluster to create the daemon in.
     public var clusterArn: Swift.String?
+    /// If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+    public var critical: Swift.Bool?
     /// The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
     /// This member is required.
     public var daemonName: Swift.String?
@@ -4864,6 +4874,7 @@ public struct CreateDaemonInput: Swift.Sendable {
         capacityProviderArns: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         clusterArn: Swift.String? = nil,
+        critical: Swift.Bool? = nil,
         daemonName: Swift.String? = nil,
         daemonTaskDefinitionArn: Swift.String? = nil,
         deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration? = nil,
@@ -4875,6 +4886,7 @@ public struct CreateDaemonInput: Swift.Sendable {
         self.capacityProviderArns = capacityProviderArns
         self.clientToken = clientToken
         self.clusterArn = clusterArn
+        self.critical = critical
         self.daemonName = daemonName
         self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
         self.deploymentConfiguration = deploymentConfiguration
@@ -5044,13 +5056,17 @@ extension ECSClientTypes {
         public var arn: Swift.String?
         /// The number of daemon tasks running on this capacity provider.
         public var runningCount: Swift.Int
+        /// The number of instances on this capacity provider that are running without the daemon task. This applies to daemons that aren't critical, where the instance remains available for your other tasks even if the daemon task can't start or stops. These instances aren't included in runningCount.
+        public var withoutDaemonCount: Swift.Int
 
         public init(
             arn: Swift.String? = nil,
-            runningCount: Swift.Int = 0
+            runningCount: Swift.Int = 0,
+            withoutDaemonCount: Swift.Int = 0
         ) {
             self.arn = arn
             self.runningCount = runningCount
+            self.withoutDaemonCount = withoutDaemonCount
         }
     }
 }
@@ -5065,15 +5081,19 @@ extension ECSClientTypes {
         public var capacityProviders: [ECSClientTypes.DaemonCapacityProvider]?
         /// The total number of daemon tasks running for this revision.
         public var totalRunningCount: Swift.Int
+        /// The total number of instances running without the daemon task for this revision, across all capacity providers. These instances aren't included in totalRunningCount.
+        public var totalWithoutDaemonCount: Swift.Int
 
         public init(
             arn: Swift.String? = nil,
             capacityProviders: [ECSClientTypes.DaemonCapacityProvider]? = nil,
-            totalRunningCount: Swift.Int = 0
+            totalRunningCount: Swift.Int = 0,
+            totalWithoutDaemonCount: Swift.Int = 0
         ) {
             self.arn = arn
             self.capacityProviders = capacityProviders
             self.totalRunningCount = totalRunningCount
+            self.totalWithoutDaemonCount = totalWithoutDaemonCount
         }
     }
 }
@@ -5310,6 +5330,8 @@ public struct UpdateDaemonInput: Swift.Sendable {
     /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
     /// This member is required.
     public var capacityProviderArns: [Swift.String]?
+    /// If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+    public var critical: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the daemon to update.
     /// This member is required.
     public var daemonArn: Swift.String?
@@ -5327,6 +5349,7 @@ public struct UpdateDaemonInput: Swift.Sendable {
 
     public init(
         capacityProviderArns: [Swift.String]? = nil,
+        critical: Swift.Bool? = nil,
         daemonArn: Swift.String? = nil,
         daemonTaskDefinitionArn: Swift.String? = nil,
         deploymentConfiguration: ECSClientTypes.DaemonDeploymentConfiguration? = nil,
@@ -5335,6 +5358,7 @@ public struct UpdateDaemonInput: Swift.Sendable {
         propagateTags: ECSClientTypes.DaemonPropagateTags? = nil
     ) {
         self.capacityProviderArns = capacityProviderArns
+        self.critical = critical
         self.daemonArn = daemonArn
         self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
         self.deploymentConfiguration = deploymentConfiguration
@@ -5416,6 +5440,8 @@ extension ECSClientTypes {
         public var containerImages: [ECSClientTypes.DaemonContainerImage]?
         /// The Unix timestamp for the time when the daemon revision was created.
         public var createdAt: Foundation.Date?
+        /// If the critical parameter of this daemon revision is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the parameter is false, the daemon task failure doesn't affect the other tasks on the instance, and doesn't block instance registration. The default value is true.
+        public var critical: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the daemon for this revision.
         public var daemonArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the daemon revision.
@@ -5433,6 +5459,7 @@ extension ECSClientTypes {
             clusterArn: Swift.String? = nil,
             containerImages: [ECSClientTypes.DaemonContainerImage]? = nil,
             createdAt: Foundation.Date? = nil,
+            critical: Swift.Bool? = nil,
             daemonArn: Swift.String? = nil,
             daemonRevisionArn: Swift.String? = nil,
             daemonTaskDefinitionArn: Swift.String? = nil,
@@ -5443,6 +5470,7 @@ extension ECSClientTypes {
             self.clusterArn = clusterArn
             self.containerImages = containerImages
             self.createdAt = createdAt
+            self.critical = critical
             self.daemonArn = daemonArn
             self.daemonRevisionArn = daemonRevisionArn
             self.daemonTaskDefinitionArn = daemonTaskDefinitionArn

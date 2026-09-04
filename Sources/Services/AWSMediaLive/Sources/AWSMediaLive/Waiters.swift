@@ -172,6 +172,26 @@ extension MediaLiveClient {
                 guard case .failure(let error) = result else { return false }
                 return (error as? ClientRuntime.ServiceError)?.typeName == "InternalServerErrorException"
             }),
+            .init(state: .success, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETING"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DELETING")
+            }),
+            .init(state: .success, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "State"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETED"
+                guard case .success(let output) = result else { return false }
+                let state = output.state
+                return SmithyWaitersAPI.JMESUtils.compare(state, ==, "DELETED")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeChannelInput, result: Swift.Result<DescribeChannelOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "NotFoundException"
+            }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeChannelInput, DescribeChannelOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
     }
