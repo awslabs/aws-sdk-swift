@@ -16,6 +16,12 @@ jobs:
   ktlint:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    env:
+      # Keep the Gradle user home explicit and inside the workspace, matching the
+      # other workflows that run Gradle.  This job is not containerized, but being
+      # explicit keeps the cache correct if it ever moves into a container, where
+      # HOME and the JVM's user.home disagree.
+      GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-home
     steps:
       - name: Checkout sources
         uses: actions/checkout@v6
@@ -26,6 +32,8 @@ jobs:
         with:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
       - name: Lint smithy-aws-swift-codegen
         run: cd aws-sdk-swift && ./gradlew ktlint
 
