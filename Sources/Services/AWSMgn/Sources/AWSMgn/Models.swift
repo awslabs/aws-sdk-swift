@@ -51,7 +51,7 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Operating denied due to a file permission or access check error.
+/// Operation denied due to a file permission or access check error.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -404,7 +404,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The request could not be completed because its exceeded the service quota.
+/// The request could not be completed because it exceeded the service quota.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1492,7 +1492,7 @@ public struct StartExportInput: Swift.Sendable {
     /// Start export request s3key.
     /// This member is required.
     public var s3Key: Swift.String?
-    /// Start import request tags.
+    /// Start export request tags.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -1788,11 +1788,11 @@ extension MgnClientTypes {
 
 extension MgnClientTypes {
 
-    /// Import task summery waves.
+    /// Import task summary waves.
     public struct ImportTaskSummaryWaves: Swift.Sendable {
-        /// Import task summery waves created count.
+        /// Import task summary waves created count.
         public var createdCount: Swift.Int
-        /// Import task summery waves modified count.
+        /// Import task summary waves modified count.
         public var modifiedCount: Swift.Int
 
         public init(
@@ -2414,13 +2414,13 @@ extension MgnClientTypes {
 
     /// Launch Status of the Job Post Launch Actions.
     public struct JobPostLaunchActionsLaunchStatus: Swift.Sendable {
-        /// AWS Systems Manager Document's execution ID of the of the Job Post Launch Actions.
+        /// AWS Systems Manager Document's execution ID of the Job Post Launch Actions.
         public var executionID: Swift.String?
         /// AWS Systems Manager Document's execution status.
         public var executionStatus: MgnClientTypes.PostLaunchActionExecutionStatus?
         /// AWS Systems Manager Document's failure reason.
         public var failureReason: Swift.String?
-        /// AWS Systems Manager's Document of the of the Job Post Launch Actions.
+        /// AWS Systems Manager's Document of the Job Post Launch Actions.
         public var ssmDocument: MgnClientTypes.SsmDocument?
         /// AWS Systems Manager Document type.
         public var ssmDocumentType: MgnClientTypes.SsmDocumentType?
@@ -2794,7 +2794,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes {
 
-    /// Post Launch Actions to executed on the Test or Cutover instance.
+    /// Post Launch Actions to be executed on the Test or Cutover instance.
     public struct PostLaunchActions: Swift.Sendable {
         /// AWS Systems Manager Command's CloudWatch log group name.
         public var cloudWatchLogGroupName: Swift.String?
@@ -3926,6 +3926,27 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
 
 extension MgnClientTypes {
 
+    /// Maps a source CIDR range to the corresponding target CIDR range to use in the target network.
+    public struct CidrMapping: Swift.Sendable {
+        /// The original CIDR range in the source network.
+        /// This member is required.
+        public var originalCidr: Swift.String?
+        /// The updated CIDR range to use in the target network.
+        /// This member is required.
+        public var updatedCidr: Swift.String?
+
+        public init(
+            originalCidr: Swift.String? = nil,
+            updatedCidr: Swift.String? = nil
+        ) {
+            self.originalCidr = originalCidr
+            self.updatedCidr = updatedCidr
+        }
+    }
+}
+
+extension MgnClientTypes {
+
     public enum SourceEnvironment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsDiscoveryCollector
         case ciscoAci
@@ -4125,7 +4146,38 @@ extension MgnClientTypes {
     }
 }
 
+extension MgnClientTypes {
+
+    public enum VpcProvisioningStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createNew
+        case useExisting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcProvisioningStrategy] {
+            return [
+                .createNew,
+                .useExisting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createNew: return "CREATE_NEW"
+            case .useExisting: return "USE_EXISTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
+    /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
+    public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// A description of the network migration definition.
     public var description: Swift.String?
     /// The name of the network migration definition.
@@ -4145,8 +4197,11 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
     /// The S3 configuration for storing the target network artifacts.
     /// This member is required.
     public var targetS3Configuration: MgnClientTypes.TargetS3Configuration?
+    /// Specifies whether to create new target VPCs or use existing ones. Set to CREATE_NEW to provision new target VPCs as part of the migration, or USE_EXISTING to migrate into existing VPCs in the target account.
+    public var vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy?
 
     public init(
+        cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         scopeTags: [Swift.String: Swift.String]? = nil,
@@ -4154,8 +4209,10 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         targetDeployment: MgnClientTypes.TargetDeployment? = nil,
         targetNetwork: MgnClientTypes.TargetNetwork? = nil,
-        targetS3Configuration: MgnClientTypes.TargetS3Configuration? = nil
+        targetS3Configuration: MgnClientTypes.TargetS3Configuration? = nil,
+        vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
+        self.cidrMappings = cidrMappings
         self.description = description
         self.name = name
         self.scopeTags = scopeTags
@@ -4164,17 +4221,20 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
         self.targetDeployment = targetDeployment
         self.targetNetwork = targetNetwork
         self.targetS3Configuration = targetS3Configuration
+        self.vpcProvisioningStrategy = vpcProvisioningStrategy
     }
 }
 
 extension CreateNetworkMigrationDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNetworkMigrationDefinitionInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the network migration definition.
     public var arn: Swift.String?
+    /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings apply only when vpcProvisioningStrategy is set to USE_EXISTING.
+    public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The timestamp when the network migration definition was created.
     public var createdAt: Foundation.Date?
     /// A description of the network migration definition.
@@ -4197,9 +4257,12 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
     public var targetS3Configuration: MgnClientTypes.TargetS3Configuration?
     /// The timestamp when the network migration definition was last updated.
     public var updatedAt: Foundation.Date?
+    /// Indicates whether the migration creates new target VPCs or uses existing ones. CREATE_NEW provisions new target VPCs; USE_EXISTING migrates into existing VPCs in the target account.
+    public var vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy?
 
     public init(
         arn: Swift.String? = nil,
+        cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -4210,9 +4273,11 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
         targetDeployment: MgnClientTypes.TargetDeployment? = nil,
         targetNetwork: MgnClientTypes.TargetNetwork? = nil,
         targetS3Configuration: MgnClientTypes.TargetS3Configuration? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
         self.arn = arn
+        self.cidrMappings = cidrMappings
         self.createdAt = createdAt
         self.description = description
         self.name = name
@@ -4224,12 +4289,13 @@ public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
         self.targetNetwork = targetNetwork
         self.targetS3Configuration = targetS3Configuration
         self.updatedAt = updatedAt
+        self.vpcProvisioningStrategy = vpcProvisioningStrategy
     }
 }
 
 extension CreateNetworkMigrationDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteNetworkMigrationDefinitionInput: Swift.Sendable {
@@ -4264,6 +4330,8 @@ public struct GetNetworkMigrationDefinitionInput: Swift.Sendable {
 public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the network migration definition.
     public var arn: Swift.String?
+    /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings apply only when vpcProvisioningStrategy is set to USE_EXISTING.
+    public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The timestamp when the network migration definition was created.
     public var createdAt: Foundation.Date?
     /// A description of the network migration definition.
@@ -4286,9 +4354,12 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
     public var targetS3Configuration: MgnClientTypes.TargetS3Configuration?
     /// The timestamp when the network migration definition was last updated.
     public var updatedAt: Foundation.Date?
+    /// Indicates whether the migration creates new target VPCs or uses existing ones. CREATE_NEW provisions new target VPCs; USE_EXISTING migrates into existing VPCs in the target account.
+    public var vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy?
 
     public init(
         arn: Swift.String? = nil,
+        cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -4299,9 +4370,11 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
         targetDeployment: MgnClientTypes.TargetDeployment? = nil,
         targetNetwork: MgnClientTypes.TargetNetwork? = nil,
         targetS3Configuration: MgnClientTypes.TargetS3Configuration? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
         self.arn = arn
+        self.cidrMappings = cidrMappings
         self.createdAt = createdAt
         self.description = description
         self.name = name
@@ -4313,12 +4386,13 @@ public struct GetNetworkMigrationDefinitionOutput: Swift.Sendable {
         self.targetNetwork = targetNetwork
         self.targetS3Configuration = targetS3Configuration
         self.updatedAt = updatedAt
+        self.vpcProvisioningStrategy = vpcProvisioningStrategy
     }
 }
 
 extension GetNetworkMigrationDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "GetNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetNetworkMigrationMapperSegmentConstructInput: Swift.Sendable {
@@ -5044,7 +5118,7 @@ extension MgnClientTypes {
         public var artifactID: Swift.String?
         /// The sub-type of the artifact for further classification.
         public var artifactSubType: MgnClientTypes.NetworkMigrationCodeGenerationArtifactSubType?
-        /// The type of the artifact, such as CLOUDFORMATION_TEMPLATE or TERRAFORM_MODULE.
+        /// The type of the generated artifact.
         public var artifactType: MgnClientTypes.NetworkMigrationCodeGenerationArtifactType?
         /// The checksum of the artifact for integrity verification.
         public var checksum: MgnClientTypes.Checksum?
@@ -5916,7 +5990,7 @@ extension MgnClientTypes {
         public var scopeTags: [Swift.String: Swift.String]?
         /// The unique identifier of the segment.
         public var segmentID: Swift.String?
-        /// The type of the segment, such as VPC, subnet, or security group.
+        /// The category of the network migration segment. A segment groups the network constructs (such as VPCs, subnets, and security groups) that are migrated together. Valid values: WORKLOAD, APPLIANCE.
         public var segmentType: MgnClientTypes.NetworkMigrationMapperSegmentType?
         /// The target AWS account where this segment will be deployed.
         public var targetAccount: Swift.String?
@@ -6581,6 +6655,8 @@ extension MgnClientTypes {
 }
 
 public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
+    /// The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
+    public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The updated description of the network migration definition.
     public var description: Swift.String?
     /// The updated name of the network migration definition.
@@ -6598,8 +6674,11 @@ public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
     public var targetNetwork: MgnClientTypes.TargetNetworkUpdate?
     /// The updated S3 configuration for storing the target network artifacts.
     public var targetS3Configuration: MgnClientTypes.TargetS3ConfigurationUpdate?
+    /// Updates whether the migration creates new target VPCs or uses existing ones. Set to USE_EXISTING to migrate into existing VPCs in the target account, or to CREATE_NEW to provision new target VPCs.
+    public var vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy?
 
     public init(
+        cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         networkMigrationDefinitionID: Swift.String? = nil,
@@ -6607,8 +6686,10 @@ public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
         sourceConfigurations: [MgnClientTypes.SourceConfiguration]? = nil,
         targetDeployment: MgnClientTypes.TargetDeployment? = nil,
         targetNetwork: MgnClientTypes.TargetNetworkUpdate? = nil,
-        targetS3Configuration: MgnClientTypes.TargetS3ConfigurationUpdate? = nil
+        targetS3Configuration: MgnClientTypes.TargetS3ConfigurationUpdate? = nil,
+        vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
+        self.cidrMappings = cidrMappings
         self.description = description
         self.name = name
         self.networkMigrationDefinitionID = networkMigrationDefinitionID
@@ -6617,17 +6698,20 @@ public struct UpdateNetworkMigrationDefinitionInput: Swift.Sendable {
         self.targetDeployment = targetDeployment
         self.targetNetwork = targetNetwork
         self.targetS3Configuration = targetS3Configuration
+        self.vpcProvisioningStrategy = vpcProvisioningStrategy
     }
 }
 
 extension UpdateNetworkMigrationDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNetworkMigrationDefinitionInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), scopeTags: \"CONTENT_REDACTED\")"}
+        "UpdateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the network migration definition.
     public var arn: Swift.String?
+    /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings apply only when vpcProvisioningStrategy is set to USE_EXISTING.
+    public var cidrMappings: [MgnClientTypes.CidrMapping]?
     /// The timestamp when the network migration definition was created.
     public var createdAt: Foundation.Date?
     /// A description of the network migration definition.
@@ -6650,9 +6734,12 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
     public var targetS3Configuration: MgnClientTypes.TargetS3Configuration?
     /// The timestamp when the network migration definition was last updated.
     public var updatedAt: Foundation.Date?
+    /// Indicates whether the migration creates new target VPCs or uses existing ones. CREATE_NEW provisions new target VPCs; USE_EXISTING migrates into existing VPCs in the target account.
+    public var vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy?
 
     public init(
         arn: Swift.String? = nil,
+        cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -6663,9 +6750,11 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
         targetDeployment: MgnClientTypes.TargetDeployment? = nil,
         targetNetwork: MgnClientTypes.TargetNetwork? = nil,
         targetS3Configuration: MgnClientTypes.TargetS3Configuration? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
         self.arn = arn
+        self.cidrMappings = cidrMappings
         self.createdAt = createdAt
         self.description = description
         self.name = name
@@ -6677,12 +6766,13 @@ public struct UpdateNetworkMigrationDefinitionOutput: Swift.Sendable {
         self.targetNetwork = targetNetwork
         self.targetS3Configuration = targetS3Configuration
         self.updatedAt = updatedAt
+        self.vpcProvisioningStrategy = vpcProvisioningStrategy
     }
 }
 
 extension UpdateNetworkMigrationDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateNetworkMigrationDefinitionOutput(arn: \(Swift.String(describing: arn)), cidrMappings: \(Swift.String(describing: cidrMappings)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkMigrationDefinitionID: \(Swift.String(describing: networkMigrationDefinitionID)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), updatedAt: \(Swift.String(describing: updatedAt)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateNetworkMigrationMapperSegmentInput: Swift.Sendable {
@@ -6741,7 +6831,7 @@ public struct UpdateNetworkMigrationMapperSegmentOutput: Swift.Sendable {
     public var scopeTags: [Swift.String: Swift.String]?
     /// The unique identifier of the segment.
     public var segmentID: Swift.String?
-    /// The type of the segment, such as VPC, subnet, or security group.
+    /// The category of the network migration segment. A segment groups the network constructs (such as VPCs, subnets, and security groups) that are migrated together. Valid values: WORKLOAD, APPLIANCE.
     public var segmentType: MgnClientTypes.NetworkMigrationMapperSegmentType?
     /// The target AWS account where this segment will be deployed.
     public var targetAccount: Swift.String?
@@ -8164,7 +8254,7 @@ extension MgnClientTypes {
 
     /// Lifecycle last Test finalized.
     public struct LifeCycleLastTestFinalized: Swift.Sendable {
-        /// Lifecycle Test failed API call date and time.
+        /// Lifecycle Test finalized API call date and time.
         public var apiCallDateTime: Swift.String?
 
         public init(
@@ -8289,7 +8379,7 @@ extension MgnClientTypes {
 
     /// Lifecycle.
     public struct LifeCycle: Swift.Sendable {
-        /// Lifecycle added to service data and time.
+        /// Lifecycle added to service date and time.
         public var addedToServiceDateTime: Swift.String?
         /// Lifecycle elapsed time and duration.
         public var elapsedReplicationDuration: Swift.String?
@@ -8624,7 +8714,7 @@ extension MgnClientTypes {
 }
 
 public struct DescribeSourceServersInput: Swift.Sendable {
-    /// Request to filter Source Servers list by Accoun ID.
+    /// Request to filter Source Servers list by Account ID.
     public var accountID: Swift.String?
     /// Request to filter Source Servers list.
     public var filters: MgnClientTypes.DescribeSourceServersRequestFilters?
@@ -8718,9 +8808,9 @@ extension MgnClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
 }
 
 public struct DescribeSourceServersOutput: Swift.Sendable {
-    /// Request to filter Source Servers list by item.
+    /// The list of returned Source Servers.
     public var items: [MgnClientTypes.SourceServer]?
-    /// Request to filter Source Servers next token.
+    /// The token of the next Source Server to retrieve.
     public var nextToken: Swift.String?
 
     public init(
@@ -8935,7 +9025,7 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
     public var mapAutoTaggingMpeID: Swift.String?
     /// Launch configuration name.
     public var name: Swift.String?
-    /// Post Launch Actions to executed on the Test or Cutover instance.
+    /// Post Launch Actions to be executed on the Test or Cutover instance.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Launch configuration Source Server ID.
     public var sourceServerID: Swift.String?
@@ -10052,7 +10142,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
     public var mapAutoTaggingMpeID: Swift.String?
     /// Update Launch configuration name request.
     public var name: Swift.String?
-    /// Post Launch Actions to executed on the Test or Cutover instance.
+    /// Post Launch Actions to be executed on the Test or Cutover instance.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Update Launch configuration by Source Server ID request.
     /// This member is required.
@@ -10108,7 +10198,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
     public var mapAutoTaggingMpeID: Swift.String?
     /// Launch configuration name.
     public var name: Swift.String?
-    /// Post Launch Actions to executed on the Test or Cutover instance.
+    /// Post Launch Actions to be executed on the Test or Cutover instance.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Launch configuration Source Server ID.
     public var sourceServerID: Swift.String?
@@ -12096,6 +12186,7 @@ extension CreateNetworkMigrationDefinitionInput {
 
     static func write(value: CreateNetworkMigrationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["cidrMappings"].writeList(value.cidrMappings, memberWritingClosure: MgnClientTypes.CidrMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["scopeTags"].writeMap(value.scopeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12104,6 +12195,7 @@ extension CreateNetworkMigrationDefinitionInput {
         try writer["targetDeployment"].write(value.targetDeployment)
         try writer["targetNetwork"].write(value.targetNetwork, with: MgnClientTypes.TargetNetwork.write(value:to:))
         try writer["targetS3Configuration"].write(value.targetS3Configuration, with: MgnClientTypes.TargetS3Configuration.write(value:to:))
+        try writer["vpcProvisioningStrategy"].write(value.vpcProvisioningStrategy)
     }
 }
 
@@ -12920,6 +13012,7 @@ extension UpdateNetworkMigrationDefinitionInput {
 
     static func write(value: UpdateNetworkMigrationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["cidrMappings"].writeList(value.cidrMappings, memberWritingClosure: MgnClientTypes.CidrMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["networkMigrationDefinitionID"].write(value.networkMigrationDefinitionID)
@@ -12928,6 +13021,7 @@ extension UpdateNetworkMigrationDefinitionInput {
         try writer["targetDeployment"].write(value.targetDeployment)
         try writer["targetNetwork"].write(value.targetNetwork, with: MgnClientTypes.TargetNetworkUpdate.write(value:to:))
         try writer["targetS3Configuration"].write(value.targetS3Configuration, with: MgnClientTypes.TargetS3ConfigurationUpdate.write(value:to:))
+        try writer["vpcProvisioningStrategy"].write(value.vpcProvisioningStrategy)
     }
 }
 
@@ -13184,6 +13278,7 @@ extension CreateNetworkMigrationDefinitionOutput {
         let reader = responseReader
         var value = CreateNetworkMigrationDefinitionOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.cidrMappings = try reader["cidrMappings"].readListIfPresent(memberReadingClosure: MgnClientTypes.CidrMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
@@ -13195,6 +13290,7 @@ extension CreateNetworkMigrationDefinitionOutput {
         value.targetNetwork = try reader["targetNetwork"].readIfPresent(with: MgnClientTypes.TargetNetwork.read(from:))
         value.targetS3Configuration = try reader["targetS3Configuration"].readIfPresent(with: MgnClientTypes.TargetS3Configuration.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcProvisioningStrategy = try reader["vpcProvisioningStrategy"].readIfPresent()
         return value
     }
 }
@@ -13485,6 +13581,7 @@ extension GetNetworkMigrationDefinitionOutput {
         let reader = responseReader
         var value = GetNetworkMigrationDefinitionOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.cidrMappings = try reader["cidrMappings"].readListIfPresent(memberReadingClosure: MgnClientTypes.CidrMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
@@ -13496,6 +13593,7 @@ extension GetNetworkMigrationDefinitionOutput {
         value.targetNetwork = try reader["targetNetwork"].readIfPresent(with: MgnClientTypes.TargetNetwork.read(from:))
         value.targetS3Configuration = try reader["targetS3Configuration"].readIfPresent(with: MgnClientTypes.TargetS3Configuration.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcProvisioningStrategy = try reader["vpcProvisioningStrategy"].readIfPresent()
         return value
     }
 }
@@ -14357,6 +14455,7 @@ extension UpdateNetworkMigrationDefinitionOutput {
         let reader = responseReader
         var value = UpdateNetworkMigrationDefinitionOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.cidrMappings = try reader["cidrMappings"].readListIfPresent(memberReadingClosure: MgnClientTypes.CidrMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
@@ -14368,6 +14467,7 @@ extension UpdateNetworkMigrationDefinitionOutput {
         value.targetNetwork = try reader["targetNetwork"].readIfPresent(with: MgnClientTypes.TargetNetwork.read(from:))
         value.targetS3Configuration = try reader["targetS3Configuration"].readIfPresent(with: MgnClientTypes.TargetS3Configuration.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcProvisioningStrategy = try reader["vpcProvisioningStrategy"].readIfPresent()
         return value
     }
 }
@@ -16257,6 +16357,23 @@ extension MgnClientTypes.Checksum {
         var value = MgnClientTypes.Checksum()
         value.encryptionAlgorithm = try reader["encryptionAlgorithm"].readIfPresent()
         value.hash = try reader["hash"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.CidrMapping {
+
+    static func write(value: MgnClientTypes.CidrMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["originalCidr"].write(value.originalCidr)
+        try writer["updatedCidr"].write(value.updatedCidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.CidrMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.CidrMapping()
+        value.originalCidr = try reader["originalCidr"].readIfPresent() ?? ""
+        value.updatedCidr = try reader["updatedCidr"].readIfPresent() ?? ""
         return value
     }
 }
