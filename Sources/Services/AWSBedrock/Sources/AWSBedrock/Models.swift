@@ -6163,10 +6163,13 @@ extension BedrockClientTypes {
     ///
     /// * none – Zero data retention.
     ///
+    /// * aws_review – Amazon Web Services may review the request data. The data is not shared with the model provider. A model must support this mode to be invoked under it.
+    ///
     /// * provider_data_share – Data may be shared with the model provider.
     ///
     /// * inherit – No data retention mode is set at this scope.
     public enum DataRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsReview
         case `default`
         case inherit
         case `none`
@@ -6175,6 +6178,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [DataRetentionMode] {
             return [
+                .awsReview,
                 .default,
                 .inherit,
                 .none,
@@ -6189,6 +6193,7 @@ extension BedrockClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsReview: return "aws_review"
             case .default: return "default"
             case .inherit: return "inherit"
             case .none: return "none"

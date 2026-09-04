@@ -39,6 +39,38 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ServiceQuotasClientTypes {
 
+    public enum AdjustableAtLevelEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case all
+        case perResource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdjustableAtLevelEnum] {
+            return [
+                .account,
+                .all,
+                .perResource
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .all: return "ALL"
+            case .perResource: return "PER_RESOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ServiceQuotasClientTypes {
+
     public enum AppliedLevelEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case account
         case all
@@ -764,6 +796,14 @@ extension ServiceQuotasClientTypes {
 
     /// A structure that describes the context for a resource-level quota. For resource-level quotas, such as Instances per OpenSearch Service Domain, you can apply the quota value at the resource-level for each OpenSearch Service Domain in your Amazon Web Services account. Together the attributes of this structure help you understand how the quota is implemented by Amazon Web Services and how you can manage it. For quotas such as Amazon OpenSearch Service Domains which can be managed at the account-level for each Amazon Web Services Region, the QuotaContext field is absent. See the attribute descriptions below to further understand how to use them.
     public struct QuotaContextInfo: Swift.Sendable {
+        /// Specifies the level at which you can request an increase for this quota:
+        ///
+        /// * ACCOUNT – You can request an increase only at the account level.
+        ///
+        /// * PER_RESOURCE – You can request an increase only for an individual resource.
+        ///
+        /// * ALL – You can request an increase at either the account level or for an individual resource.
+        public var adjustableAtLevel: ServiceQuotasClientTypes.AdjustableAtLevelEnum?
         /// Specifies the resource, or resources, to which the quota applies. The value for this field is either an Amazon Resource Name (ARN) or *. If the value is an ARN, the quota value applies to that resource. If the value is *, then the quota value applies to all resources listed in the ContextScopeType field. The quota value applies to all resources for which you haven’t previously applied a quota value, and any new resources you create in your Amazon Web Services account.
         public var contextId: Swift.String?
         /// Specifies the scope to which the quota value is applied. If the scope is RESOURCE, the quota value is applied to each resource in the Amazon Web Services account. If the scope is ACCOUNT, the quota value is applied to the Amazon Web Services account.
@@ -772,10 +812,12 @@ extension ServiceQuotasClientTypes {
         public var contextScopeType: Swift.String?
 
         public init(
+            adjustableAtLevel: ServiceQuotasClientTypes.AdjustableAtLevelEnum? = nil,
             contextId: Swift.String? = nil,
             contextScope: ServiceQuotasClientTypes.QuotaContextScope? = nil,
             contextScopeType: Swift.String? = nil
         ) {
+            self.adjustableAtLevel = adjustableAtLevel
             self.contextId = contextId
             self.contextScope = contextScope
             self.contextScopeType = contextScopeType
@@ -889,6 +931,29 @@ public struct GetAWSDefaultServiceQuotaOutput: Swift.Sendable {
         quota: ServiceQuotasClientTypes.ServiceQuota? = nil
     ) {
         self.quota = quota
+    }
+}
+
+/// Invalid input was provided.
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidPaginationTokenException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1358,29 +1423,6 @@ extension ServiceQuotasClientTypes {
             self.key = key
             self.value = value
         }
-    }
-}
-
-/// Invalid input was provided.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidPaginationTokenException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 

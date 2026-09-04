@@ -45,6 +45,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 extension MediaTailorClientTypes {
 
+    /// An ADS interaction log event type that MediaTailor emits by default and that you can suppress. For descriptions of each event type, see [MediaTailor ADS logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/ads-log-format.html) in Elemental MediaTailor User Guide.
     public enum AdsInteractionExcludeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adMarkerFound
         case beaconFired
@@ -78,8 +79,12 @@ extension MediaTailorClientTypes {
         case makingAdsRequest
         case modifiedTargetUrl
         case nonAdMarkerFound
+        case postAdsResponseFunctionError
+        case postAdsResponseHookError
         case preAdsRequestFunctionError
         case preAdsRequestHookError
+        case preManifestInsertionFunctionError
+        case preManifestInsertionHookError
         case redirectedVastResponse
         case vastRedirect
         case vastResponse
@@ -125,8 +130,12 @@ extension MediaTailorClientTypes {
                 .makingAdsRequest,
                 .modifiedTargetUrl,
                 .nonAdMarkerFound,
+                .postAdsResponseFunctionError,
+                .postAdsResponseHookError,
                 .preAdsRequestFunctionError,
                 .preAdsRequestHookError,
+                .preManifestInsertionFunctionError,
+                .preManifestInsertionHookError,
                 .redirectedVastResponse,
                 .vastRedirect,
                 .vastResponse,
@@ -178,8 +187,12 @@ extension MediaTailorClientTypes {
             case .makingAdsRequest: return "MAKING_ADS_REQUEST"
             case .modifiedTargetUrl: return "MODIFIED_TARGET_URL"
             case .nonAdMarkerFound: return "NON_AD_MARKER_FOUND"
+            case .postAdsResponseFunctionError: return "POST_ADS_RESPONSE_FUNCTION_ERROR"
+            case .postAdsResponseHookError: return "POST_ADS_RESPONSE_HOOK_ERROR"
             case .preAdsRequestFunctionError: return "PRE_ADS_REQUEST_FUNCTION_ERROR"
             case .preAdsRequestHookError: return "PRE_ADS_REQUEST_HOOK_ERROR"
+            case .preManifestInsertionFunctionError: return "PRE_MANIFEST_INSERTION_FUNCTION_ERROR"
+            case .preManifestInsertionHookError: return "PRE_MANIFEST_INSERTION_HOOK_ERROR"
             case .redirectedVastResponse: return "REDIRECTED_VAST_RESPONSE"
             case .vastRedirect: return "VAST_REDIRECT"
             case .vastResponse: return "VAST_RESPONSE"
@@ -197,19 +210,32 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// An ADS interaction log event type that MediaTailor emits only when you opt in to it. For descriptions of each event type, see [MediaTailor ADS logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/ads-log-format.html) in Elemental MediaTailor User Guide.
     public enum AdsInteractionPublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case postAdsResponseFunctionCompleted
+        case postAdsResponseHookSummary
         case preAdsRequestFunctionCompleted
         case preAdsRequestHookSummary
+        case preManifestInsertionFunctionCompleted
+        case preManifestInsertionHookSummary
         case rawAdsRequest
         case rawAdsResponse
+        case rawBidRequest
+        case rawBidResponse
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AdsInteractionPublishOptInEventType] {
             return [
+                .postAdsResponseFunctionCompleted,
+                .postAdsResponseHookSummary,
                 .preAdsRequestFunctionCompleted,
                 .preAdsRequestHookSummary,
+                .preManifestInsertionFunctionCompleted,
+                .preManifestInsertionHookSummary,
                 .rawAdsRequest,
-                .rawAdsResponse
+                .rawAdsResponse,
+                .rawBidRequest,
+                .rawBidResponse
             ]
         }
 
@@ -220,10 +246,16 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .postAdsResponseFunctionCompleted: return "POST_ADS_RESPONSE_FUNCTION_COMPLETED"
+            case .postAdsResponseHookSummary: return "POST_ADS_RESPONSE_HOOK_SUMMARY"
             case .preAdsRequestFunctionCompleted: return "PRE_ADS_REQUEST_FUNCTION_COMPLETED"
             case .preAdsRequestHookSummary: return "PRE_ADS_REQUEST_HOOK_SUMMARY"
+            case .preManifestInsertionFunctionCompleted: return "PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED"
+            case .preManifestInsertionHookSummary: return "PRE_MANIFEST_INSERTION_HOOK_SUMMARY"
             case .rawAdsRequest: return "RAW_ADS_REQUEST"
             case .rawAdsResponse: return "RAW_ADS_RESPONSE"
+            case .rawBidRequest: return "RAW_BID_REQUEST"
+            case .rawBidResponse: return "RAW_BID_RESPONSE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -943,12 +975,13 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// -- Define Enums
+    /// The type of a function, which determines what the function can do at runtime. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
     public enum FunctionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case concurrentExecutor
         case customOutput
         case httpRequest
         case sequentialExecutor
+        case vastRequest
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FunctionType] {
@@ -956,7 +989,8 @@ extension MediaTailorClientTypes {
                 .concurrentExecutor,
                 .customOutput,
                 .httpRequest,
-                .sequentialExecutor
+                .sequentialExecutor,
+                .vastRequest
             ]
         }
 
@@ -971,6 +1005,7 @@ extension MediaTailorClientTypes {
             case .customOutput: return "CUSTOM_OUTPUT"
             case .httpRequest: return "HTTP_REQUEST"
             case .sequentialExecutor: return "SEQUENTIAL_EXECUTOR"
+            case .vastRequest: return "VAST_REQUEST"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1081,6 +1116,49 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The configuration for a VAST_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions for a request to a VAST endpoint. MediaTailor parses the response as VAST and resolves wrapper redirects, then makes the parsed ads available to the function's output expressions. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
+    public struct VastRequestConfiguration: Swift.Sendable {
+        /// An expression that evaluates to the request body. Used with POST requests, for example to send an OpenRTB bid request. The maximum length is 100,000 characters.
+        public var body: Swift.String?
+        /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request. Headers beginning with X-Amz- are reserved by the service, and method override headers are not allowed.
+        public var headers: [Swift.String: Swift.String]?
+        /// The HTTP method for the request to the VAST endpoint. Valid values: GET and POST. Use POST to send a bid request body, such as an OpenRTB payload.
+        /// This member is required.
+        public var methodType: MediaTailorClientTypes.MethodType?
+        /// A map of output bindings. Each key is a namespaced output path (such as temp.wrappedAds), and each value is an expression that MediaTailor evaluates at runtime. Output expressions in a VAST_REQUEST function can reference the response object, which exposes response.parsedAds — the ads parsed from the VAST response after schema validation and wrapper resolution — and response.statusCode. For more information about expression syntax, see [JSONata expression reference](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-jsonata.html) in the MediaTailor User Guide.
+        public var output: [Swift.String: Swift.String]?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a response from the VAST endpoint. The timeout covers the entire response, including any wrapper redirects that MediaTailor follows. If the call exceeds this timeout, MediaTailor proceeds with an empty ad list and continues output expression evaluation. Valid values: 100 to 2000.
+        /// This member is required.
+        public var requestTimeoutMilliseconds: Swift.Int?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+        /// An expression that evaluates to the VAST endpoint URL. Use {%...%} delimiters for dynamic expressions. A literal value must be an https:// URL. The maximum length is 25,000 characters.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            headers: [Swift.String: Swift.String]? = nil,
+            methodType: MediaTailorClientTypes.MethodType? = nil,
+            output: [Swift.String: Swift.String]? = nil,
+            requestTimeoutMilliseconds: Swift.Int? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.body = body
+            self.headers = headers
+            self.methodType = methodType
+            self.output = output
+            self.requestTimeoutMilliseconds = requestTimeoutMilliseconds
+            self.runtime = runtime
+            self.url = url
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// Defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. The FunctionType determines the function's runtime behavior. For more information about functions, see [Working with functions](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html) in the MediaTailor User Guide.
     public struct Function: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the function.
@@ -1103,6 +1181,8 @@ extension MediaTailorClientTypes {
         public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
         /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
         public var tags: [Swift.String: Swift.String]?
+        /// The configuration for a VAST_REQUEST function.
+        public var vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration?
 
         public init(
             arn: Swift.String? = nil,
@@ -1113,7 +1193,8 @@ extension MediaTailorClientTypes {
             functionType: MediaTailorClientTypes.FunctionType? = nil,
             httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
             sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
         ) {
             self.arn = arn
             self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
@@ -1124,6 +1205,7 @@ extension MediaTailorClientTypes {
             self.httpRequestConfiguration = httpRequestConfiguration
             self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
             self.tags = tags
+            self.vastRequestConfiguration = vastRequestConfiguration
         }
     }
 }
@@ -1685,13 +1767,17 @@ extension MediaTailorClientTypes {
 extension MediaTailorClientTypes {
 
     public enum EventName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case postAdsResponse
         case preAdsRequest
+        case preManifestInsertion
         case preSessionInitialization
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventName] {
             return [
+                .postAdsResponse,
                 .preAdsRequest,
+                .preManifestInsertion,
                 .preSessionInitialization
             ]
         }
@@ -1703,7 +1789,9 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .postAdsResponse: return "POST_ADS_RESPONSE"
             case .preAdsRequest: return "PRE_ADS_REQUEST"
+            case .preManifestInsertion: return "PRE_MANIFEST_INSERTION"
             case .preSessionInitialization: return "PRE_SESSION_INITIALIZATION"
             case let .sdkUnknown(s): return s
             }
@@ -1848,7 +1936,7 @@ extension MediaTailorClientTypes {
     public struct AdsInteractionLog: Swift.Sendable {
         /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
         public var excludeEventTypes: [MediaTailorClientTypes.AdsInteractionExcludeEventType]?
-        /// Indicates that MediaTailor emits RAW_ADS_RESPONSE logs for playback sessions that are initialized with this configuration.
+        /// Indicates that MediaTailor will emit the selected events in the logs for playback sessions that are initialized with this configuration. These events are not emitted by default and must be explicitly opted in. For descriptions of each event type, see [MediaTailor ADS logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/ads-log-format.html) in Elemental MediaTailor User Guide.
         public var publishOptInEventTypes: [MediaTailorClientTypes.AdsInteractionPublishOptInEventType]?
 
         public init(
@@ -2095,6 +2183,70 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// Supported Amazon Publisher Services regions for yield optimization integration. The region selection affects latency and ad inventory availability, so choose the region closest to your primary audience.
+    public enum ApsRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case americas
+        case asiaPacific
+        case europe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApsRegion] {
+            return [
+                .americas,
+                .asiaPacific,
+                .europe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .americas: return "AMERICAS"
+            case .asiaPacific: return "ASIA_PACIFIC"
+            case .europe: return "EUROPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+    public struct YieldOptimizationConfiguration: Swift.Sendable {
+        /// The minimum unfilled duration, in seconds, that must remain in an ad break before MediaTailor requests additional ads from Amazon Publisher Services (APS). For example, if set to 6 seconds, yield optimization triggers only when at least 6 seconds of unfilled time remains after the primary ad server response.
+        /// This member is required.
+        public var minimumUnfilledDuration: Swift.Int?
+        /// The OpenRTB bid request template, in JSON, that MediaTailor sends to Amazon Publisher Services (APS). The template must include an imp array with one impression specifying bidfloor, an app object specifying bundle and storeurl, and a device object specifying ua and ip. Use double curly braces (for example, {{player_params.user_agent}}) to insert session variables and player parameters.
+        /// This member is required.
+        public var openRtbTemplate: Swift.String?
+        /// Publisher ID for an existing Amazon Publisher Services configuration. This ID must be obtained by registering with APS prior to using the Yield Optimization feature. The Publisher ID identifies your account in the APS system and is required for all bid requests.
+        /// This member is required.
+        public var publisherId: Swift.String?
+        /// The Amazon Publisher Services (APS) region that MediaTailor sends bid requests to. Choose the region closest to your primary audience, because the selection affects both latency and the ad inventory available to you. This setting applies to the entire playback configuration, not to individual viewers. If you serve traffic across multiple regions, create a separate playback configuration for each APS region.
+        /// This member is required.
+        public var region: MediaTailorClientTypes.ApsRegion?
+
+        public init(
+            minimumUnfilledDuration: Swift.Int? = nil,
+            openRtbTemplate: Swift.String? = nil,
+            publisherId: Swift.String? = nil,
+            region: MediaTailorClientTypes.ApsRegion? = nil
+        ) {
+            self.minimumUnfilledDuration = minimumUnfilledDuration
+            self.openRtbTemplate = openRtbTemplate
+            self.publisherId = publisherId
+            self.region = region
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// A playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     public struct PlaybackConfiguration: Swift.Sendable {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
@@ -2121,7 +2273,7 @@ extension MediaTailorClientTypes {
         public var dualStackPlaybackEndpointPrefix: Swift.String?
         /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
         public var dualStackSessionInitializationEndpointPrefix: Swift.String?
-        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
         public var functionMapping: [Swift.String: Swift.String]?
         /// The configuration for HLS content.
         public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
@@ -2151,6 +2303,8 @@ extension MediaTailorClientTypes {
         public var transcodeProfileName: Swift.String?
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public var videoContentSourceUrl: Swift.String?
+        /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+        public var yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration?
 
         public init(
             adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
@@ -2179,7 +2333,8 @@ extension MediaTailorClientTypes {
             slateAdUrl: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             transcodeProfileName: Swift.String? = nil,
-            videoContentSourceUrl: Swift.String? = nil
+            videoContentSourceUrl: Swift.String? = nil,
+            yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration? = nil
         ) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
@@ -2208,6 +2363,7 @@ extension MediaTailorClientTypes {
             self.tags = tags
             self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
+            self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
         }
     }
 }
@@ -4558,6 +4714,8 @@ public struct GetFunctionOutput: Swift.Sendable {
     public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
     /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     public var tags: [Swift.String: Swift.String]?
+    /// The configuration for a VAST_REQUEST function.
+    public var vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration?
 
     public init(
         arn: Swift.String? = nil,
@@ -4568,7 +4726,8 @@ public struct GetFunctionOutput: Swift.Sendable {
         functionType: MediaTailorClientTypes.FunctionType? = nil,
         httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
     ) {
         self.arn = arn
         self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
@@ -4579,6 +4738,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         self.httpRequestConfiguration = httpRequestConfiguration
         self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
         self.tags = tags
+        self.vastRequestConfiguration = vastRequestConfiguration
     }
 }
 
@@ -4623,7 +4783,7 @@ public struct PutFunctionInput: Swift.Sendable {
     /// The identifier of the function. The identifier must be unique within your account.
     /// This member is required.
     public var functionId: Swift.String?
-    /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
+    /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. VAST_REQUEST calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. CONCURRENT_EXECUTOR runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
     /// This member is required.
     public var functionType: MediaTailorClientTypes.FunctionType?
     /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
@@ -4632,6 +4792,8 @@ public struct PutFunctionInput: Swift.Sendable {
     public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
     /// The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     public var tags: [Swift.String: Swift.String]?
+    /// The configuration for a VAST_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is VAST_REQUEST.
+    public var vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration?
 
     public init(
         concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
@@ -4641,7 +4803,8 @@ public struct PutFunctionInput: Swift.Sendable {
         functionType: MediaTailorClientTypes.FunctionType? = nil,
         httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
     ) {
         self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
@@ -4651,6 +4814,7 @@ public struct PutFunctionInput: Swift.Sendable {
         self.httpRequestConfiguration = httpRequestConfiguration
         self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
         self.tags = tags
+        self.vastRequestConfiguration = vastRequestConfiguration
     }
 }
 
@@ -4676,6 +4840,8 @@ public struct PutFunctionOutput: Swift.Sendable {
     public var sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration?
     /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     public var tags: [Swift.String: Swift.String]?
+    /// The configuration for a VAST_REQUEST function.
+    public var vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration?
 
     public init(
         arn: Swift.String? = nil,
@@ -4686,7 +4852,8 @@ public struct PutFunctionOutput: Swift.Sendable {
         functionType: MediaTailorClientTypes.FunctionType? = nil,
         httpRequestConfiguration: MediaTailorClientTypes.HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: MediaTailorClientTypes.SequentialExecutorConfiguration? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
     ) {
         self.arn = arn
         self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
@@ -4697,6 +4864,7 @@ public struct PutFunctionOutput: Swift.Sendable {
         self.httpRequestConfiguration = httpRequestConfiguration
         self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
         self.tags = tags
+        self.vastRequestConfiguration = vastRequestConfiguration
     }
 }
 
@@ -4737,7 +4905,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var dualStackPlaybackEndpointPrefix: Swift.String?
     /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
     public var dualStackSessionInitializationEndpointPrefix: Swift.String?
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
     public var functionMapping: [Swift.String: Swift.String]?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
@@ -4767,6 +4935,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var transcodeProfileName: Swift.String?
     /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
     public var videoContentSourceUrl: Swift.String?
+    /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+    public var yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration?
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
@@ -4795,7 +4965,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         slateAdUrl: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
-        videoContentSourceUrl: Swift.String? = nil
+        videoContentSourceUrl: Swift.String? = nil,
+        yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerConfiguration = adDecisionServerConfiguration
@@ -4824,6 +4995,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         self.tags = tags
         self.transcodeProfileName = transcodeProfileName
         self.videoContentSourceUrl = videoContentSourceUrl
+        self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
     }
 }
 
@@ -5228,7 +5400,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
     public var functionMapping: [Swift.String: Swift.String]?
     /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
@@ -5249,6 +5421,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var transcodeProfileName: Swift.String?
     /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
     public var videoContentSourceUrl: Swift.String?
+    /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+    public var yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration?
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
@@ -5270,7 +5444,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         slateAdUrl: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
-        videoContentSourceUrl: Swift.String? = nil
+        videoContentSourceUrl: Swift.String? = nil,
+        yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerConfiguration = adDecisionServerConfiguration
@@ -5292,6 +5467,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         self.tags = tags
         self.transcodeProfileName = transcodeProfileName
         self.videoContentSourceUrl = videoContentSourceUrl
+        self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
     }
 }
 
@@ -5320,7 +5496,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var dualStackPlaybackEndpointPrefix: Swift.String?
     /// The dual-stack (IPv4 and IPv6) session initialization endpoint prefix associated with the playback configuration.
     public var dualStackSessionInitializationEndpointPrefix: Swift.String?
-    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
+    /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see [Functions lifecycle hooks](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html) in the MediaTailor User Guide.
     public var functionMapping: [Swift.String: Swift.String]?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
@@ -5350,6 +5526,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var transcodeProfileName: Swift.String?
     /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
     public var videoContentSourceUrl: Swift.String?
+    /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+    public var yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration?
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
@@ -5378,7 +5556,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         slateAdUrl: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
-        videoContentSourceUrl: Swift.String? = nil
+        videoContentSourceUrl: Swift.String? = nil,
+        yieldOptimizationConfiguration: MediaTailorClientTypes.YieldOptimizationConfiguration? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerConfiguration = adDecisionServerConfiguration
@@ -5407,6 +5586,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         self.tags = tags
         self.transcodeProfileName = transcodeProfileName
         self.videoContentSourceUrl = videoContentSourceUrl
+        self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
     }
 }
 
@@ -6354,6 +6534,7 @@ extension PutFunctionInput {
         try writer["HttpRequestConfiguration"].write(value.httpRequestConfiguration, with: MediaTailorClientTypes.HttpRequestConfiguration.write(value:to:))
         try writer["SequentialExecutorConfiguration"].write(value.sequentialExecutorConfiguration, with: MediaTailorClientTypes.SequentialExecutorConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["VastRequestConfiguration"].write(value.vastRequestConfiguration, with: MediaTailorClientTypes.VastRequestConfiguration.write(value:to:))
     }
 }
 
@@ -6381,6 +6562,7 @@ extension PutPlaybackConfigurationInput {
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TranscodeProfileName"].write(value.transcodeProfileName)
         try writer["VideoContentSourceUrl"].write(value.videoContentSourceUrl)
+        try writer["YieldOptimizationConfiguration"].write(value.yieldOptimizationConfiguration, with: MediaTailorClientTypes.YieldOptimizationConfiguration.write(value:to:))
     }
 }
 
@@ -6801,6 +6983,7 @@ extension GetFunctionOutput {
         value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.vastRequestConfiguration = try reader["VastRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.VastRequestConfiguration.read(from:))
         return value
     }
 }
@@ -6839,6 +7022,7 @@ extension GetPlaybackConfigurationOutput {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.transcodeProfileName = try reader["TranscodeProfileName"].readIfPresent()
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
+        value.yieldOptimizationConfiguration = try reader["YieldOptimizationConfiguration"].readIfPresent(with: MediaTailorClientTypes.YieldOptimizationConfiguration.read(from:))
         return value
     }
 }
@@ -7002,6 +7186,7 @@ extension PutFunctionOutput {
         value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.vastRequestConfiguration = try reader["VastRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.VastRequestConfiguration.read(from:))
         return value
     }
 }
@@ -7040,6 +7225,7 @@ extension PutPlaybackConfigurationOutput {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.transcodeProfileName = try reader["TranscodeProfileName"].readIfPresent()
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
+        value.yieldOptimizationConfiguration = try reader["YieldOptimizationConfiguration"].readIfPresent(with: MediaTailorClientTypes.YieldOptimizationConfiguration.read(from:))
         return value
     }
 }
@@ -8248,6 +8434,7 @@ extension MediaTailorClientTypes.Function {
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
         value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))
+        value.vastRequestConfiguration = try reader["VastRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.VastRequestConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.arn = try reader["Arn"].readIfPresent()
         return value
@@ -8519,6 +8706,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
+        value.yieldOptimizationConfiguration = try reader["YieldOptimizationConfiguration"].readIfPresent(with: MediaTailorClientTypes.YieldOptimizationConfiguration.read(from:))
         value.functionMapping = try reader["FunctionMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
         value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
@@ -8981,6 +9169,33 @@ extension MediaTailorClientTypes.UpdateProgramTransition {
     }
 }
 
+extension MediaTailorClientTypes.VastRequestConfiguration {
+
+    static func write(value: MediaTailorClientTypes.VastRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MethodType"].write(value.methodType)
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RequestTimeoutMilliseconds"].write(value.requestTimeoutMilliseconds)
+        try writer["Runtime"].write(value.runtime)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.VastRequestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.VastRequestConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.methodType = try reader["MethodType"].readIfPresent() ?? .sdkUnknown("")
+        value.requestTimeoutMilliseconds = try reader["RequestTimeoutMilliseconds"].readIfPresent() ?? 0
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.body = try reader["Body"].readIfPresent()
+        value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.VastResponse {
 
     static func write(value: MediaTailorClientTypes.VastResponse?, to writer: SmithyJSON.Writer) throws {
@@ -9008,6 +9223,27 @@ extension MediaTailorClientTypes.VodSource {
         value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vodSourceName = try reader["VodSourceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.YieldOptimizationConfiguration {
+
+    static func write(value: MediaTailorClientTypes.YieldOptimizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MinimumUnfilledDuration"].write(value.minimumUnfilledDuration)
+        try writer["OpenRtbTemplate"].write(value.openRtbTemplate)
+        try writer["PublisherId"].write(value.publisherId)
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.YieldOptimizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.YieldOptimizationConfiguration()
+        value.minimumUnfilledDuration = try reader["MinimumUnfilledDuration"].readIfPresent() ?? 0
+        value.publisherId = try reader["PublisherId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? .sdkUnknown("")
+        value.openRtbTemplate = try reader["OpenRtbTemplate"].readIfPresent() ?? ""
         return value
     }
 }
