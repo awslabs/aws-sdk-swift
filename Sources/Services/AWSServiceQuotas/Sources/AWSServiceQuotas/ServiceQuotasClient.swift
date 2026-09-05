@@ -1187,6 +1187,7 @@ extension ServiceQuotasClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
     /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
     /// - `NoSuchResourceException` : The specified resource does not exist.
     /// - `ServiceException` : Something went wrong.
     /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.

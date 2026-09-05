@@ -88576,6 +88576,33 @@ public struct UpdateSecurityGroupRuleDescriptionsIngressOutput: Swift.Sendable {
     }
 }
 
+public struct ValidateSecurityGroupQuotasForInterfaceInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum number of security groups allowed per network interface.
+    /// This member is required.
+    public var securityGroupIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        securityGroupIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.securityGroupIds = securityGroupIds
+    }
+}
+
+public struct ValidateSecurityGroupQuotasForInterfaceOutput: Swift.Sendable {
+    /// The operation returns true if the specified security groups can be associated with a single network interface without exceeding the quotas. It returns an error if associating the security groups would exceed a quota.
+    public var valid: Swift.Bool?
+
+    public init(
+        valid: Swift.Bool? = nil
+    ) {
+        self.valid = valid
+    }
+}
+
 public struct WithdrawByoipCidrInput: Swift.Sendable {
     /// The address range, in CIDR notation.
     /// This member is required.
@@ -94199,6 +94226,13 @@ extension UpdateSecurityGroupRuleDescriptionsEgressInput {
 extension UpdateSecurityGroupRuleDescriptionsIngressInput {
 
     static func urlPathProvider(_ value: UpdateSecurityGroupRuleDescriptionsIngressInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ValidateSecurityGroupQuotasForInterfaceInput {
+
+    static func urlPathProvider(_ value: ValidateSecurityGroupQuotasForInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -106570,6 +106604,19 @@ extension UpdateSecurityGroupRuleDescriptionsIngressInput {
     }
 }
 
+extension ValidateSecurityGroupQuotasForInterfaceInput {
+
+    static func write(value: ValidateSecurityGroupQuotasForInterfaceInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.securityGroupIds?.isEmpty ?? true) {
+            try writer["SecurityGroupId"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("ValidateSecurityGroupQuotasForInterface")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension WithdrawByoipCidrInput {
 
     static func write(value: WithdrawByoipCidrInput?, to writer: SmithyFormURL.Writer) throws {
@@ -116524,6 +116571,18 @@ extension UpdateSecurityGroupRuleDescriptionsIngressOutput {
         let reader = responseReader
         var value = UpdateSecurityGroupRuleDescriptionsIngressOutput()
         value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
+extension ValidateSecurityGroupQuotasForInterfaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ValidateSecurityGroupQuotasForInterfaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ValidateSecurityGroupQuotasForInterfaceOutput()
+        value.valid = try reader["valid"].readIfPresent()
         return value
     }
 }
@@ -126928,6 +126987,19 @@ enum UpdateSecurityGroupRuleDescriptionsEgressOutputError {
 }
 
 enum UpdateSecurityGroupRuleDescriptionsIngressOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ValidateSecurityGroupQuotasForInterfaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

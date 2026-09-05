@@ -51658,6 +51658,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ValidateSecurityGroupQuotasForInterface` operation on the `EC2` service.
+    ///
+    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas for inbound or outbound rules per security group and security groups per network interface. Only authorized AWS services can call this operation. For more information about security group quotas, see [Amazon VPC quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-security-groups) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ValidateSecurityGroupQuotasForInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ValidateSecurityGroupQuotasForInterfaceOutput`)
+    public func validateSecurityGroupQuotasForInterface(input: ValidateSecurityGroupQuotasForInterfaceInput) async throws -> ValidateSecurityGroupQuotasForInterfaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "validateSecurityGroupQuotasForInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>(ValidateSecurityGroupQuotasForInterfaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateSecurityGroupQuotasForInterfaceOutput>(ValidateSecurityGroupQuotasForInterfaceOutput.httpOutput(from:), ValidateSecurityGroupQuotasForInterfaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidateSecurityGroupQuotasForInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidateSecurityGroupQuotasForInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateSecurityGroupQuotasForInterfaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateSecurityGroupQuotasForInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateSecurityGroupQuotasForInterfaceInput, ValidateSecurityGroupQuotasForInterfaceOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateSecurityGroupQuotasForInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `WithdrawByoipCidr` operation on the `EC2` service.
     ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of BGP propagation delays.
