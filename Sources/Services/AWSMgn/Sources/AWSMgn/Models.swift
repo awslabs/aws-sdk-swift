@@ -2697,20 +2697,28 @@ extension MgnClientTypes {
 
     /// Launch template disk configuration.
     public struct LaunchTemplateDiskConf: Swift.Sendable {
+        /// Launch template disk delete on termination configuration.
+        public var deleteOnTermination: Swift.Bool?
         /// Launch template disk iops configuration.
         public var iops: Swift.Int?
         /// Launch template disk throughput configuration.
         public var throughput: Swift.Int?
+        /// Launch template disk volume initialization rate configuration.
+        public var volumeInitializationRate: Swift.Int?
         /// Launch template disk volume type configuration.
         public var volumeType: MgnClientTypes.VolumeType?
 
         public init(
+            deleteOnTermination: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
             throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
             volumeType: MgnClientTypes.VolumeType? = nil
         ) {
+            self.deleteOnTermination = deleteOnTermination
             self.iops = iops
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
     }
@@ -16894,8 +16902,10 @@ extension MgnClientTypes.LaunchTemplateDiskConf {
 
     static func write(value: MgnClientTypes.LaunchTemplateDiskConf?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deleteOnTermination"].write(value.deleteOnTermination)
         try writer["iops"].write(value.iops)
         try writer["throughput"].write(value.throughput)
+        try writer["volumeInitializationRate"].write(value.volumeInitializationRate)
         try writer["volumeType"].write(value.volumeType)
     }
 
@@ -16905,6 +16915,8 @@ extension MgnClientTypes.LaunchTemplateDiskConf {
         value.volumeType = try reader["volumeType"].readIfPresent()
         value.iops = try reader["iops"].readIfPresent()
         value.throughput = try reader["throughput"].readIfPresent()
+        value.volumeInitializationRate = try reader["volumeInitializationRate"].readIfPresent()
+        value.deleteOnTermination = try reader["deleteOnTermination"].readIfPresent()
         return value
     }
 }

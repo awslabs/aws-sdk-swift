@@ -55882,6 +55882,41 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum NetworkCardInterfaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case efa
+        case efaOnly
+        case interface
+        case secondary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkCardInterfaceType] {
+            return [
+                .efa,
+                .efaOnly,
+                .interface,
+                .secondary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .efa: return "efa"
+            case .efaOnly: return "efa-only"
+            case .interface: return "interface"
+            case .secondary: return "secondary"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes the network card support of the instance type.
     public struct NetworkCardInfo: Swift.Sendable {
         /// The number of additional network interfaces that can be attached to an instance when using flexible Elastic Network Adapter (ENA) queues. This number is in addition to the base number specified by maximumNetworkInterfaces.
@@ -55890,6 +55925,8 @@ extension EC2ClientTypes {
         public var baselineBandwidthInGbps: Swift.Double?
         /// The default number of the ENA queues for each interface.
         public var defaultEnaQueueCountPerInterface: Swift.Int?
+        /// The supported interface types for the network card.
+        public var interfaceTypes: [EC2ClientTypes.NetworkCardInterfaceType]?
         /// The maximum number of the ENA queues.
         public var maximumEnaQueueCount: Swift.Int?
         /// The maximum number of the ENA queues for each interface.
@@ -55907,6 +55944,7 @@ extension EC2ClientTypes {
             additionalFlexibleNetworkInterfaces: Swift.Int? = nil,
             baselineBandwidthInGbps: Swift.Double? = nil,
             defaultEnaQueueCountPerInterface: Swift.Int? = nil,
+            interfaceTypes: [EC2ClientTypes.NetworkCardInterfaceType]? = nil,
             maximumEnaQueueCount: Swift.Int? = nil,
             maximumEnaQueueCountPerInterface: Swift.Int? = nil,
             maximumNetworkInterfaces: Swift.Int? = nil,
@@ -55917,6 +55955,7 @@ extension EC2ClientTypes {
             self.additionalFlexibleNetworkInterfaces = additionalFlexibleNetworkInterfaces
             self.baselineBandwidthInGbps = baselineBandwidthInGbps
             self.defaultEnaQueueCountPerInterface = defaultEnaQueueCountPerInterface
+            self.interfaceTypes = interfaceTypes
             self.maximumEnaQueueCount = maximumEnaQueueCount
             self.maximumEnaQueueCountPerInterface = maximumEnaQueueCountPerInterface
             self.maximumNetworkInterfaces = maximumNetworkInterfaces
@@ -135176,6 +135215,7 @@ extension EC2ClientTypes.NetworkCardInfo {
         value.defaultEnaQueueCountPerInterface = try reader["defaultEnaQueueCountPerInterface"].readIfPresent()
         value.maximumEnaQueueCount = try reader["maximumEnaQueueCount"].readIfPresent()
         value.maximumEnaQueueCountPerInterface = try reader["maximumEnaQueueCountPerInterface"].readIfPresent()
+        value.interfaceTypes = try reader["interfaceTypeSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.NetworkCardInterfaceType>().read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }

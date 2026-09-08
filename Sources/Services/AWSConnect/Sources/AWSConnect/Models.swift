@@ -9471,25 +9471,100 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum ChannelWorkloadBehaviorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case routeAnyChannelAnyWorkloadType
+        case routeCurrentChannelAnyWorkloadtypeOnly
+        case routeCurrentChannelCurrentWorkloadtypeOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelWorkloadBehaviorType] {
+            return [
+                .routeAnyChannelAnyWorkloadType,
+                .routeCurrentChannelAnyWorkloadtypeOnly,
+                .routeCurrentChannelCurrentWorkloadtypeOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routeAnyChannelAnyWorkloadType: return "ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE"
+            case .routeCurrentChannelAnyWorkloadtypeOnly: return "ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY"
+            case .routeCurrentChannelCurrentWorkloadtypeOnly: return "ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the cross-channel and workload type routing behavior that allows an agent working on a contact to be offered a contact from a different channel or workload type.
+    public struct CrossChannelWorkloadBehavior: Swift.Sendable {
+        /// Specifies the routing behavior for an agent handling their current channel and workload type.
+        public var channelWorkloadBehaviorType: ConnectClientTypes.ChannelWorkloadBehaviorType?
+
+        public init(
+            channelWorkloadBehaviorType: ConnectClientTypes.ChannelWorkloadBehaviorType? = nil
+        ) {
+            self.channelWorkloadBehaviorType = channelWorkloadBehaviorType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the maximum number of contacts an agent can handle simultaneously for a specific channel and workload type combination.
+    public struct WorkloadTypeConcurrency: Swift.Sendable {
+        /// The maximum number of contacts an agent can handle simultaneously for a specific channel and workload type combination. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 10. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
+        /// This member is required.
+        public var concurrency: Swift.Int?
+        /// Defines the cross-channel and workload type routing behavior for each channel and workload type combination that is enabled for this Routing Profile.
+        public var crossChannelWorkloadBehavior: ConnectClientTypes.CrossChannelWorkloadBehavior?
+        /// The value of the workload type.
+        /// This member is required.
+        public var workloadType: Swift.String?
+
+        public init(
+            concurrency: Swift.Int? = nil,
+            crossChannelWorkloadBehavior: ConnectClientTypes.CrossChannelWorkloadBehavior? = nil,
+            workloadType: Swift.String? = nil
+        ) {
+            self.concurrency = concurrency
+            self.crossChannelWorkloadBehavior = crossChannelWorkloadBehavior
+            self.workloadType = workloadType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains information about which channels are supported, and how many contacts an agent can have on a channel simultaneously.
     public struct MediaConcurrency: Swift.Sendable {
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
         /// The number of contacts an agent can have on a channel simultaneously. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 10. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
-        /// This member is required.
         public var concurrency: Swift.Int?
         /// Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For example, this allows you to offer an agent a different contact from another channel when they are currently working with a contact from a Voice channel.
         public var crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior?
+        /// Defines the list of workload type concurrency configurations for a channel. When provided, enables granular concurrency control based on workload type values.
+        public var workloadTypeConcurrencies: [ConnectClientTypes.WorkloadTypeConcurrency]?
 
         public init(
             channel: ConnectClientTypes.Channel? = nil,
-            concurrency: Swift.Int? = nil,
-            crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil
+            concurrency: Swift.Int? = 0,
+            crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil,
+            workloadTypeConcurrencies: [ConnectClientTypes.WorkloadTypeConcurrency]? = nil
         ) {
             self.channel = channel
             self.concurrency = concurrency
             self.crossChannelBehavior = crossChannelBehavior
+            self.workloadTypeConcurrencies = workloadTypeConcurrencies
         }
     }
 }
@@ -61916,6 +61991,21 @@ extension ConnectClientTypes.CrossChannelBehavior {
     }
 }
 
+extension ConnectClientTypes.CrossChannelWorkloadBehavior {
+
+    static func write(value: ConnectClientTypes.CrossChannelWorkloadBehavior?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelWorkloadBehaviorType"].write(value.channelWorkloadBehaviorType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CrossChannelWorkloadBehavior {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.CrossChannelWorkloadBehavior()
+        value.channelWorkloadBehaviorType = try reader["ChannelWorkloadBehaviorType"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.CurrentMetric {
 
     static func write(value: ConnectClientTypes.CurrentMetric?, to writer: SmithyJSON.Writer) throws {
@@ -64784,6 +64874,7 @@ extension ConnectClientTypes.MediaConcurrency {
         try writer["Channel"].write(value.channel)
         try writer["Concurrency"].write(value.concurrency)
         try writer["CrossChannelBehavior"].write(value.crossChannelBehavior, with: ConnectClientTypes.CrossChannelBehavior.write(value:to:))
+        try writer["WorkloadTypeConcurrencies"].writeList(value.workloadTypeConcurrencies, memberWritingClosure: ConnectClientTypes.WorkloadTypeConcurrency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MediaConcurrency {
@@ -64792,6 +64883,7 @@ extension ConnectClientTypes.MediaConcurrency {
         value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
         value.concurrency = try reader["Concurrency"].readIfPresent() ?? 0
         value.crossChannelBehavior = try reader["CrossChannelBehavior"].readIfPresent(with: ConnectClientTypes.CrossChannelBehavior.read(from:))
+        value.workloadTypeConcurrencies = try reader["WorkloadTypeConcurrencies"].readListIfPresent(memberReadingClosure: ConnectClientTypes.WorkloadTypeConcurrency.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -68437,6 +68529,25 @@ extension ConnectClientTypes.WisdomInfo {
         var value = ConnectClientTypes.WisdomInfo()
         value.sessionArn = try reader["SessionArn"].readIfPresent()
         value.aiAgents = try reader["AiAgents"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AiAgentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkloadTypeConcurrency {
+
+    static func write(value: ConnectClientTypes.WorkloadTypeConcurrency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Concurrency"].write(value.concurrency)
+        try writer["CrossChannelWorkloadBehavior"].write(value.crossChannelWorkloadBehavior, with: ConnectClientTypes.CrossChannelWorkloadBehavior.write(value:to:))
+        try writer["WorkloadType"].write(value.workloadType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkloadTypeConcurrency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkloadTypeConcurrency()
+        value.workloadType = try reader["WorkloadType"].readIfPresent() ?? ""
+        value.concurrency = try reader["Concurrency"].readIfPresent() ?? 0
+        value.crossChannelWorkloadBehavior = try reader["CrossChannelWorkloadBehavior"].readIfPresent(with: ConnectClientTypes.CrossChannelWorkloadBehavior.read(from:))
         return value
     }
 }

@@ -5748,6 +5748,37 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// A candidate instance type preference in an InstancePreferences list.
+    public struct InstancePreference: Swift.Sendable {
+        /// The number of instances to launch if this instance type is selected. Specify the instance count for the training job in one of the following two ways:
+        ///
+        /// * Per preference – Set InstanceCount on every preference in the InstancePreferences list and don't set ResourceConfig$InstanceCount. Use this when each instance type needs a different number of instances to deliver equivalent compute.
+        ///
+        /// * One count for the job – Set ResourceConfig$InstanceCount and omit it from every preference. SageMaker applies this to all instance types in the list.
+        ///
+        ///
+        /// For example, in a list of five preferences, either all five specify InstanceCount or none of them do. SageMaker rejects requests that set InstanceCount on only some preferences, that set it both per preference and in ResourceConfig, or that omit it in both places.
+        public var instanceCount: Swift.Int?
+        /// The ML compute instance type. An instance type can appear only once in an InstancePreferences list.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.TrainingInstanceType?
+        /// The Amazon Resource Name (ARN) of a training plan to use if this instance type is selected. The plan's instance type must match InstanceType. A preference with a training plan uses that plan's reserved capacity; a preference without one uses on-demand capacity. Per-preference TrainingPlanArns is mutually exclusive with the job-level TrainingPlanArn in ResourceConfig.
+        public var trainingPlanArns: [Swift.String]?
+
+        public init(
+            instanceCount: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
+            trainingPlanArns: [Swift.String]? = nil
+        ) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.trainingPlanArns = trainingPlanArns
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Describes the resources, including machine learning (ML) compute instances and ML storage volumes, to use for model training.
     public struct ResourceConfig: Swift.Sendable {
         /// The number of ML compute instances to use. For distributed training, provide a value greater than 1.
@@ -5756,10 +5787,16 @@ extension SageMakerClientTypes {
         public var instanceGroups: [SageMakerClientTypes.InstanceGroup]?
         /// Configuration for how training job instances are placed and allocated within UltraServers. Only applicable for UltraServer capacity.
         public var instancePlacementConfig: SageMakerClientTypes.InstancePlacementConfig?
+        /// An ordered list of ML compute instance types for the training job, in priority order. SageMaker launches the training job on the first instance type in the list that has available capacity. If capacity is insufficient, SageMaker evaluates the next instance type in the preferred list. Exactly one instance type is selected for the job. InstancePreferences is mutually exclusive with InstanceType, InstanceGroups, InstancePlacementConfig, and EnableManagedSpotTraining, and supports only Flexible Training Plans (FTP) and On-Demand capacity.
+        public var instancePreferences: [SageMakerClientTypes.InstancePreference]?
         /// The ML compute instance type.
         public var instanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public var keepAlivePeriodInSeconds: Swift.Int?
+        /// The number of instances of SelectedInstanceType that the training job launched with. The job is billed for this instance type and count. Returned by DescribeTrainingJob after an instance type is selected. This field is read-only and isn't accepted in CreateTrainingJob requests.
+        public var selectedInstanceCount: Swift.Int?
+        /// The instance type that SageMaker selected for the job from the provided InstancePreferences. The job is billed for this instance type and count. Returned by [DescribeTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html) after an instance type is selected. This field is read-only and isn't accepted in CreateTrainingJob requests.
+        public var selectedInstanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The Amazon Resource Name (ARN); of the training plan to use for this resource configuration.
         public var trainingPlanArn: Swift.String?
         /// The Amazon Web Services KMS key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html). The VolumeKmsKeyId can be in any of the following formats:
@@ -5775,8 +5812,11 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceGroups: [SageMakerClientTypes.InstanceGroup]? = nil,
             instancePlacementConfig: SageMakerClientTypes.InstancePlacementConfig? = nil,
+            instancePreferences: [SageMakerClientTypes.InstancePreference]? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             keepAlivePeriodInSeconds: Swift.Int? = nil,
+            selectedInstanceCount: Swift.Int? = nil,
+            selectedInstanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             trainingPlanArn: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
@@ -5784,8 +5824,11 @@ extension SageMakerClientTypes {
             self.instanceCount = instanceCount
             self.instanceGroups = instanceGroups
             self.instancePlacementConfig = instancePlacementConfig
+            self.instancePreferences = instancePreferences
             self.instanceType = instanceType
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
+            self.selectedInstanceCount = selectedInstanceCount
+            self.selectedInstanceType = selectedInstanceType
             self.trainingPlanArn = trainingPlanArn
             self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
@@ -5805,6 +5848,10 @@ extension SageMakerClientTypes {
         ///
         ///
         /// MaxPendingTimeInSeconds only increments when jobs are actively waiting for capacity in an Active plan.
+        ///
+        /// * MaxPendingTimeInSeconds takes effect only for jobs that request accelerated computing instance types, such as instances in the ml.p, ml.g, and ml.trn families. It has no effect on jobs that request CPU-only instance types.
+        ///
+        /// * If the job specifies InstancePreferences, MaxPendingTimeInSeconds bounds the total time SageMaker spends working through your list of instance types. It is not applied per instance type preference, and takes effect only when the list includes at least one accelerated computing instance type.
         public var maxPendingTimeInSeconds: Swift.Int?
         /// The maximum length of time, in seconds, that a training or compilation job can run before it is stopped. For compilation jobs, if the job does not complete during this time, a TimeOut error is generated. We recommend starting with 900 seconds and increasing as necessary based on your model. For all other jobs, if the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days. The maximum time that a TrainingJob can run in total, including any time spent publishing metrics or archiving and uploading models after it has been stopped, is 30 days.
         public var maxRuntimeInSeconds: Swift.Int?
@@ -30734,12 +30781,45 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// A candidate instance type preference in a processing InstancePreferences list.
+    public struct ProcessingInstancePreference: Swift.Sendable {
+        /// The number of instances to launch if this instance type is selected. Specify the instance count for the processing job in one of the following two ways:
+        ///
+        /// * Per preference – Set InstanceCount on every preference in the InstancePreferences list and don't set ProcessingClusterConfig$InstanceCount. Use this when each instance type needs a different number of instances to deliver equivalent compute.
+        ///
+        /// * One count for the job – Set ProcessingClusterConfig$InstanceCount and omit it from every preference. Amazon SageMaker applies this to all instance types in the list.
+        ///
+        ///
+        /// For example, in a list of five preferences, either all five specify InstanceCount or none of them do. Amazon SageMaker rejects requests that set InstanceCount on only some preferences, that set it both per preference and in ProcessingClusterConfig, or that omit it in both places.
+        public var instanceCount: Swift.Int?
+        /// The ML compute instance type. An instance type can appear only once in an InstancePreferences list.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ProcessingInstanceType?
+
+        public init(
+            instanceCount: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ProcessingInstanceType? = nil
+        ) {
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Configuration for the cluster used to run a processing job.
     public struct ProcessingClusterConfig: Swift.Sendable {
         /// The number of ML compute instances to use in the processing job. For distributed processing jobs, specify a value greater than 1. The default value is 1.
         public var instanceCount: Swift.Int?
+        /// An ordered list of ML compute instance types for the processing job, in priority order. Amazon SageMaker launches the job on the first instance type in the list that has available capacity. If capacity is insufficient, Amazon SageMaker evaluates the next instance type in the list. Exactly one instance type is selected for the job. InstancePreferences is mutually exclusive with InstanceType.
+        public var instancePreferences: [SageMakerClientTypes.ProcessingInstancePreference]?
         /// The ML compute instance type for the processing job.
         public var instanceType: SageMakerClientTypes.ProcessingInstanceType?
+        /// The number of instances of SelectedInstanceType that the job launched with. The job is billed for this instance type and count. Returned by DescribeProcessingJob after an instance type is selected. This field is read-only and isn't accepted in CreateProcessingJob requests.
+        public var selectedInstanceCount: Swift.Int?
+        /// The instance type that Amazon SageMaker selected for the job from InstancePreferences. Returned by [DescribeProcessingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeProcessingJob.html) after an instance type is selected. This field is read-only and isn't accepted in CreateProcessingJob requests.
+        public var selectedInstanceType: SageMakerClientTypes.ProcessingInstanceType?
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the processing job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html).
         public var volumeKmsKeyId: Swift.String?
         /// The size of the ML storage volume in gigabytes that you want to provision. You must specify sufficient ML storage for your scenario. Certain Nitro-based instances include local storage with a fixed total size, dependent on the instance type. When using these instances for processing, Amazon SageMaker mounts the local instance storage instead of Amazon EBS gp2 storage. You can't request a VolumeSizeInGB greater than the total size of the local instance storage. For a list of instance types that support local instance storage, including the total size per instance type, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes).
@@ -30748,12 +30828,18 @@ extension SageMakerClientTypes {
 
         public init(
             instanceCount: Swift.Int? = nil,
+            instancePreferences: [SageMakerClientTypes.ProcessingInstancePreference]? = nil,
             instanceType: SageMakerClientTypes.ProcessingInstanceType? = nil,
+            selectedInstanceCount: Swift.Int? = nil,
+            selectedInstanceType: SageMakerClientTypes.ProcessingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
         ) {
             self.instanceCount = instanceCount
+            self.instancePreferences = instancePreferences
             self.instanceType = instanceType
+            self.selectedInstanceCount = selectedInstanceCount
+            self.selectedInstanceType = selectedInstanceType
             self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
         }
