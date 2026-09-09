@@ -363,6 +363,30 @@ extension MediaPackageV2ClientTypes {
         case memberMinValue
         case memberMissing
         case missingCertificateDomainName
+        case multiviewChannelPolicyNotAllowed
+        case multiviewConfigurationNotAllowed
+        case multiviewConfigurationRequired
+        case multiviewDuplicateLayout
+        case multiviewDuplicateSource
+        case multiviewInputSwitchNotAllowed
+        case multiviewInputTypeWithFilterConfiguration
+        case multiviewInputTypeWithHarvestJob
+        case multiviewInputTypeWithIframeOnlyStreams
+        case multiviewInputTypeWithIsmContainer
+        case multiviewInputTypeWithLlHlsManifest
+        case multiviewInputTypeWithMssManifest
+        case multiviewInputTypeWithNonEpochLocked
+        case multiviewInputTypeWithSegmentDuration
+        case multiviewInputTypeWithStartTag
+        case multiviewInvalidTimeDelaySeconds
+        case multiviewManifestWindowTooLong
+        case multiviewOutputHeaderNotAllowed
+        case multiviewResetNotAllowed
+        case multiviewScteRequiresAvailsPeriodTrigger
+        case multiviewSourceInvalidInputType
+        case multiviewSourceNonEpochLocked
+        case multiviewSourceNotFound
+        case multiviewStartoverWindowNotAllowed
         case noneModeWithTimingSource
         case nonEpochLockedWithForceEndpointErrorConfiguration
         case numManifestsHigh
@@ -473,6 +497,30 @@ extension MediaPackageV2ClientTypes {
                 .memberMinValue,
                 .memberMissing,
                 .missingCertificateDomainName,
+                .multiviewChannelPolicyNotAllowed,
+                .multiviewConfigurationNotAllowed,
+                .multiviewConfigurationRequired,
+                .multiviewDuplicateLayout,
+                .multiviewDuplicateSource,
+                .multiviewInputSwitchNotAllowed,
+                .multiviewInputTypeWithFilterConfiguration,
+                .multiviewInputTypeWithHarvestJob,
+                .multiviewInputTypeWithIframeOnlyStreams,
+                .multiviewInputTypeWithIsmContainer,
+                .multiviewInputTypeWithLlHlsManifest,
+                .multiviewInputTypeWithMssManifest,
+                .multiviewInputTypeWithNonEpochLocked,
+                .multiviewInputTypeWithSegmentDuration,
+                .multiviewInputTypeWithStartTag,
+                .multiviewInvalidTimeDelaySeconds,
+                .multiviewManifestWindowTooLong,
+                .multiviewOutputHeaderNotAllowed,
+                .multiviewResetNotAllowed,
+                .multiviewScteRequiresAvailsPeriodTrigger,
+                .multiviewSourceInvalidInputType,
+                .multiviewSourceNonEpochLocked,
+                .multiviewSourceNotFound,
+                .multiviewStartoverWindowNotAllowed,
                 .noneModeWithTimingSource,
                 .nonEpochLockedWithForceEndpointErrorConfiguration,
                 .numManifestsHigh,
@@ -589,6 +637,30 @@ extension MediaPackageV2ClientTypes {
             case .memberMinValue: return "MEMBER_MIN_VALUE"
             case .memberMissing: return "MEMBER_MISSING"
             case .missingCertificateDomainName: return "MISSING_CERTIFICATE_DOMAIN_NAME"
+            case .multiviewChannelPolicyNotAllowed: return "MULTIVIEW_CHANNEL_POLICY_NOT_ALLOWED"
+            case .multiviewConfigurationNotAllowed: return "MULTIVIEW_CONFIGURATION_NOT_ALLOWED"
+            case .multiviewConfigurationRequired: return "MULTIVIEW_CONFIGURATION_REQUIRED"
+            case .multiviewDuplicateLayout: return "MULTIVIEW_DUPLICATE_LAYOUT"
+            case .multiviewDuplicateSource: return "MULTIVIEW_DUPLICATE_SOURCE"
+            case .multiviewInputSwitchNotAllowed: return "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED"
+            case .multiviewInputTypeWithFilterConfiguration: return "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION"
+            case .multiviewInputTypeWithHarvestJob: return "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB"
+            case .multiviewInputTypeWithIframeOnlyStreams: return "MULTIVIEW_INPUT_TYPE_WITH_IFRAME_ONLY_STREAMS"
+            case .multiviewInputTypeWithIsmContainer: return "MULTIVIEW_INPUT_TYPE_WITH_ISM_CONTAINER"
+            case .multiviewInputTypeWithLlHlsManifest: return "MULTIVIEW_INPUT_TYPE_WITH_LL_HLS_MANIFEST"
+            case .multiviewInputTypeWithMssManifest: return "MULTIVIEW_INPUT_TYPE_WITH_MSS_MANIFEST"
+            case .multiviewInputTypeWithNonEpochLocked: return "MULTIVIEW_INPUT_TYPE_WITH_NON_EPOCH_LOCKED"
+            case .multiviewInputTypeWithSegmentDuration: return "MULTIVIEW_INPUT_TYPE_WITH_SEGMENT_DURATION"
+            case .multiviewInputTypeWithStartTag: return "MULTIVIEW_INPUT_TYPE_WITH_START_TAG"
+            case .multiviewInvalidTimeDelaySeconds: return "MULTIVIEW_INVALID_TIME_DELAY_SECONDS"
+            case .multiviewManifestWindowTooLong: return "MULTIVIEW_MANIFEST_WINDOW_TOO_LONG"
+            case .multiviewOutputHeaderNotAllowed: return "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED"
+            case .multiviewResetNotAllowed: return "MULTIVIEW_RESET_NOT_ALLOWED"
+            case .multiviewScteRequiresAvailsPeriodTrigger: return "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER"
+            case .multiviewSourceInvalidInputType: return "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE"
+            case .multiviewSourceNonEpochLocked: return "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED"
+            case .multiviewSourceNotFound: return "MULTIVIEW_SOURCE_NOT_FOUND"
+            case .multiviewStartoverWindowNotAllowed: return "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED"
             case .noneModeWithTimingSource: return "NONE_MODE_WITH_TIMING_SOURCE"
             case .nonEpochLockedWithForceEndpointErrorConfiguration: return "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
@@ -889,12 +961,14 @@ extension MediaPackageV2ClientTypes {
     public enum InputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmaf
         case hls
+        case multiview
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InputType] {
             return [
                 .cmaf,
-                .hls
+                .hls,
+                .multiview
             ]
         }
 
@@ -907,8 +981,88 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .cmaf: return "CMAF"
             case .hls: return "HLS"
+            case .multiview: return "MULTIVIEW"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are:
+    ///
+    /// * LAYOUT_SINGLE – One tile at full resolution. Use this to serve a single source as a standard stream.
+    ///
+    /// * LAYOUT_2EH – Two tiles of equal size, arranged horizontally.
+    ///
+    /// * LAYOUT_2PL – Two tiles, with one larger primary tile.
+    ///
+    /// * LAYOUT_3EB – Three tiles of equal size, with two on top and one below.
+    ///
+    /// * LAYOUT_3EL – Three tiles of equal size, arranged in two columns.
+    ///
+    /// * LAYOUT_3PL – Three tiles, with one larger primary tile on the left and two stacked on the right.
+    ///
+    /// * LAYOUT_4E – Four tiles of equal size, arranged in a two-by-two grid.
+    ///
+    /// * LAYOUT_4PL – Four tiles, with one larger primary tile on the left and three stacked on the right.
+    public enum MultiviewLayoutType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case layout2eh
+        case layout2pl
+        case layout3el
+        case layout3pl
+        case layout4e
+        case layout4pl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiviewLayoutType] {
+            return [
+                .layout2eh,
+                .layout2pl,
+                .layout3el,
+                .layout3pl,
+                .layout4e,
+                .layout4pl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .layout2eh: return "LAYOUT_2EH"
+            case .layout2pl: return "LAYOUT_2PL"
+            case .layout3el: return "LAYOUT_3EL"
+            case .layout3pl: return "LAYOUT_3PL"
+            case .layout4e: return "LAYOUT_4E"
+            case .layout4pl: return "LAYOUT_4PL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The multiview configuration for a channel. A multiview channel composites video from several source channels into a single tiled output stream. Players receive one standard HLS or DASH stream instead of several separate streams. This setting is required when InputType is MULTIVIEW, and can't be set for any other input type.
+    public struct MultiviewConfiguration: Swift.Sendable {
+        /// The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once.
+        /// This member is required.
+        public var availableLayouts: [MediaPackageV2ClientTypes.MultiviewLayoutType]?
+        /// The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same channel group as the multiview channel, and must have an InputType of CMAF. Only the channels that you list here are available as tiles.
+        /// This member is required.
+        public var availableSources: [Swift.String]?
+
+        public init(
+            availableLayouts: [MediaPackageV2ClientTypes.MultiviewLayoutType]? = nil,
+            availableSources: [Swift.String]? = nil
+        ) {
+            self.availableLayouts = availableLayouts
+            self.availableSources = availableSources
         }
     }
 }
@@ -970,12 +1124,16 @@ public struct CreateChannelInput: Swift.Sendable {
     public var description: Swift.String?
     /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
-    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
     ///
     /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    ///
+    /// * MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
     public var inputType: MediaPackageV2ClientTypes.InputType?
+    /// The multiview configuration for the channel. This setting is required when InputType is MULTIVIEW, and can't be set for any other input type.
+    public var multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The output locking mode for the channel. This setting is only valid when InputType is CMAF. This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED. The allowed values are:
@@ -995,6 +1153,7 @@ public struct CreateChannelInput: Swift.Sendable {
         description: Swift.String? = nil,
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
+        multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -1005,6 +1164,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.description = description
         self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
+        self.multiviewConfiguration = multiviewConfiguration
         self.outputHeaderConfiguration = outputHeaderConfiguration
         self.outputLockingMode = outputLockingMode
         self.tags = tags
@@ -1034,6 +1194,8 @@ public struct CreateChannelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
+    /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field. You can't delete a channel while any multiview channel still lists it as a source. Use this field to find the multiview channels that you need to update first.
+    public var attachedMultiviewChannels: [Swift.String]?
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -1051,15 +1213,19 @@ public struct CreateChannelOutput: Swift.Sendable {
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
-    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
     ///
     /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    ///
+    /// * MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
     public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+    public var multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The output locking mode configured for the channel. The allowed values are:
@@ -1073,6 +1239,7 @@ public struct CreateChannelOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        attachedMultiviewChannels: [Swift.String]? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
@@ -1082,11 +1249,13 @@ public struct CreateChannelOutput: Swift.Sendable {
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
+        self.attachedMultiviewChannels = attachedMultiviewChannels
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.createdAt = createdAt
@@ -1096,6 +1265,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.multiviewConfiguration = multiviewConfiguration
         self.outputHeaderConfiguration = outputHeaderConfiguration
         self.outputLockingMode = outputLockingMode
         self.tags = tags
@@ -1145,6 +1315,8 @@ public struct GetChannelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
+    /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field. You can't delete a channel while any multiview channel still lists it as a source. Use this field to find the multiview channels that you need to update first.
+    public var attachedMultiviewChannels: [Swift.String]?
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -1162,15 +1334,19 @@ public struct GetChannelOutput: Swift.Sendable {
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
-    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
     ///
     /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    ///
+    /// * MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
     public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+    public var multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The output locking mode configured for the channel. The allowed values are:
@@ -1186,6 +1362,7 @@ public struct GetChannelOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        attachedMultiviewChannels: [Swift.String]? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
@@ -1195,12 +1372,14 @@ public struct GetChannelOutput: Swift.Sendable {
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         resetAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
+        self.attachedMultiviewChannels = attachedMultiviewChannels
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.createdAt = createdAt
@@ -1210,6 +1389,7 @@ public struct GetChannelOutput: Swift.Sendable {
         self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.multiviewConfiguration = multiviewConfiguration
         self.outputHeaderConfiguration = outputHeaderConfiguration
         self.outputLockingMode = outputLockingMode
         self.resetAt = resetAt
@@ -1244,6 +1424,8 @@ extension MediaPackageV2ClientTypes {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
+        /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field.
+        public var attachedMultiviewChannels: [Swift.String]?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         /// This member is required.
         public var channelGroupName: Swift.String?
@@ -1255,15 +1437,19 @@ extension MediaPackageV2ClientTypes {
         public var createdAt: Foundation.Date?
         /// Any descriptive information that you want to add to the channel for future identification purposes.
         public var description: Swift.String?
-        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+        /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:
         ///
         /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
         ///
         /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        ///
+        /// * MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
         public var inputType: MediaPackageV2ClientTypes.InputType?
         /// The date and time the channel was modified.
         /// This member is required.
         public var modifiedAt: Foundation.Date?
+        /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+        public var multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration?
         /// The output locking mode configured for the channel. The allowed values are:
         ///
         /// * EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.
@@ -1273,21 +1459,25 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            attachedMultiviewChannels: [Swift.String]? = nil,
             channelGroupName: Swift.String? = nil,
             channelName: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             inputType: MediaPackageV2ClientTypes.InputType? = nil,
             modifiedAt: Foundation.Date? = nil,
+            multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration? = nil,
             outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil
         ) {
             self.arn = arn
+            self.attachedMultiviewChannels = attachedMultiviewChannels
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.createdAt = createdAt
             self.description = description
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputLockingMode = outputLockingMode
         }
     }
@@ -4055,6 +4245,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
+    /// The multiview configuration for the channel. This setting is required when the channel's InputType is MULTIVIEW, and can't be set for any other input type. Because InputType is immutable, you can change a multiview channel's sources and layouts. You can't add or remove the multiview configuration itself.
+    public var multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
 
@@ -4064,6 +4256,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
+        multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil
     ) {
         self.channelGroupName = channelGroupName
@@ -4071,6 +4264,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.inputSwitchConfiguration = inputSwitchConfiguration
+        self.multiviewConfiguration = multiviewConfiguration
         self.outputHeaderConfiguration = outputHeaderConfiguration
     }
 }
@@ -4079,6 +4273,8 @@ public struct UpdateChannelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
+    /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field. You can't delete a channel while any multiview channel still lists it as a source. Use this field to find the multiview channels that you need to update first.
+    public var attachedMultiviewChannels: [Swift.String]?
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -4096,15 +4292,19 @@ public struct UpdateChannelOutput: Swift.Sendable {
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
-    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
     ///
     /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    ///
+    /// * MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
     public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+    public var multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The output locking mode configured for the channel. This value is immutable after channel creation. The allowed values are:
@@ -4118,6 +4318,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        attachedMultiviewChannels: [Swift.String]? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
@@ -4127,11 +4328,13 @@ public struct UpdateChannelOutput: Swift.Sendable {
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        multiviewConfiguration: MediaPackageV2ClientTypes.MultiviewConfiguration? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         outputLockingMode: MediaPackageV2ClientTypes.OutputLockingMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
+        self.attachedMultiviewChannels = attachedMultiviewChannels
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.createdAt = createdAt
@@ -4141,6 +4344,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.multiviewConfiguration = multiviewConfiguration
         self.outputHeaderConfiguration = outputHeaderConfiguration
         self.outputLockingMode = outputLockingMode
         self.tags = tags
@@ -5549,6 +5753,7 @@ extension CreateChannelInput {
         try writer["Description"].write(value.description)
         try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
         try writer["InputType"].write(value.inputType)
+        try writer["MultiviewConfiguration"].write(value.multiviewConfiguration, with: MediaPackageV2ClientTypes.MultiviewConfiguration.write(value:to:))
         try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
         try writer["OutputLockingMode"].write(value.outputLockingMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5629,6 +5834,7 @@ extension UpdateChannelInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
+        try writer["MultiviewConfiguration"].write(value.multiviewConfiguration, with: MediaPackageV2ClientTypes.MultiviewConfiguration.write(value:to:))
         try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
     }
 }
@@ -5674,6 +5880,7 @@ extension CreateChannelOutput {
         let reader = responseReader
         var value = CreateChannelOutput()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.attachedMultiviewChannels = try reader["AttachedMultiviewChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
         value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -5683,6 +5890,7 @@ extension CreateChannelOutput {
         value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.multiviewConfiguration = try reader["MultiviewConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.MultiviewConfiguration.read(from:))
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5808,6 +6016,7 @@ extension GetChannelOutput {
         let reader = responseReader
         var value = GetChannelOutput()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.attachedMultiviewChannels = try reader["AttachedMultiviewChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
         value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -5817,6 +6026,7 @@ extension GetChannelOutput {
         value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.multiviewConfiguration = try reader["MultiviewConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.MultiviewConfiguration.read(from:))
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -6062,6 +6272,7 @@ extension UpdateChannelOutput {
         let reader = responseReader
         var value = UpdateChannelOutput()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.attachedMultiviewChannels = try reader["AttachedMultiviewChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
         value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -6071,6 +6282,7 @@ extension UpdateChannelOutput {
         value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.multiviewConfiguration = try reader["MultiviewConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.MultiviewConfiguration.read(from:))
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -6808,6 +7020,8 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
         value.description = try reader["Description"].readIfPresent()
         value.inputType = try reader["InputType"].readIfPresent()
         value.outputLockingMode = try reader["OutputLockingMode"].readIfPresent()
+        value.multiviewConfiguration = try reader["MultiviewConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.MultiviewConfiguration.read(from:))
+        value.attachedMultiviewChannels = try reader["AttachedMultiviewChannels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7420,6 +7634,23 @@ extension MediaPackageV2ClientTypes.ListMssManifestConfiguration {
         var value = MediaPackageV2ClientTypes.ListMssManifestConfiguration()
         value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
         value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.MultiviewConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.MultiviewConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailableLayouts"].writeList(value.availableLayouts, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.MultiviewLayoutType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AvailableSources"].writeList(value.availableSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.MultiviewConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.MultiviewConfiguration()
+        value.availableSources = try reader["AvailableSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.availableLayouts = try reader["AvailableLayouts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.MultiviewLayoutType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

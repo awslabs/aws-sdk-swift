@@ -893,6 +893,35 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum MethodType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `get`
+        case post
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MethodType] {
+            return [
+                .get,
+                .post
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .get: return "GET"
+            case .post: return "POST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum RuntimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case jsonata
         case sdkUnknown(Swift.String)
@@ -913,6 +942,63 @@ extension MediaTailorClientTypes {
             case .jsonata: return "JSONATA"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration for an AWS_SERVICE_REQUEST function. Contains the target service, target Region, and request parameters that the function uses to call an AWS service API. For more information, see [AWS_SERVICE_REQUEST](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-aws-service-request.html) in the MediaTailor User Guide.
+    public struct AwsServiceRequestConfiguration: Swift.Sendable {
+        /// An expression that evaluates to the request body for the AWS service API call. The body must conform to the input format that the target service operation expects. Applies only when the target operation accepts a request body. The maximum size after evaluation is 64 KB.
+        public var body: Swift.String?
+        /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request to the AWS service. Use this to pass any headers required by the target service operation. You can include a maximum of 50 headers.
+        public var headers: [Swift.String: Swift.String]?
+        /// Specifies how the function sends the request to the target service. The value must match what the target service operation requires. Valid values:
+        ///
+        /// * GET – Retrieves data from the target service.
+        ///
+        /// * POST – Submits a request body to the target service.
+        /// This member is required.
+        public var methodType: MediaTailorClientTypes.MethodType?
+        /// A map of output bindings. Each key is a namespaced output path, such as player_params.device_type. Each value is an expression that MediaTailor evaluates at runtime and can reference the response object from the target service. For more information, see [JSONata expression reference](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-jsonata.html) in the MediaTailor User Guide.
+        public var output: [Swift.String: Swift.String]?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a response from the AWS service. If the call exceeds this timeout, MediaTailor sets the response status code to null and proceeds with output expression evaluation. Valid values: 100 to 2000.
+        /// This member is required.
+        public var requestTimeoutMilliseconds: Swift.Int?
+        /// The expression language used to evaluate expressions in the function configuration. The only supported value is JSONata.
+        /// This member is required.
+        public var runtime: MediaTailorClientTypes.RuntimeType?
+        /// The AWS Region for the target service. Specify a static Region code (for example, us-east-1) or a JSONata expression that resolves to a Region code at runtime (for example, {%inference.region%}).
+        /// This member is required.
+        public var targetRegion: Swift.String?
+        /// The AWS service to call. Valid value: elemental-inference (AWS Elemental Inference).
+        /// This member is required.
+        public var targetService: Swift.String?
+        /// An expression that evaluates to the endpoint URL for the target AWS service API operation. Use {%...%} delimiters for dynamic expressions. The URL must correspond to a valid endpoint for the service specified in TargetService. The maximum length after evaluation is 2,048 characters.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            headers: [Swift.String: Swift.String]? = nil,
+            methodType: MediaTailorClientTypes.MethodType? = nil,
+            output: [Swift.String: Swift.String]? = nil,
+            requestTimeoutMilliseconds: Swift.Int? = nil,
+            runtime: MediaTailorClientTypes.RuntimeType? = nil,
+            targetRegion: Swift.String? = nil,
+            targetService: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.body = body
+            self.headers = headers
+            self.methodType = methodType
+            self.output = output
+            self.requestTimeoutMilliseconds = requestTimeoutMilliseconds
+            self.runtime = runtime
+            self.targetRegion = targetRegion
+            self.targetService = targetService
+            self.url = url
         }
     }
 }
@@ -977,6 +1063,7 @@ extension MediaTailorClientTypes {
 
     /// The type of a function, which determines what the function can do at runtime. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
     public enum FunctionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsServiceRequest
         case concurrentExecutor
         case customOutput
         case httpRequest
@@ -986,6 +1073,7 @@ extension MediaTailorClientTypes {
 
         public static var allCases: [FunctionType] {
             return [
+                .awsServiceRequest,
                 .concurrentExecutor,
                 .customOutput,
                 .httpRequest,
@@ -1001,40 +1089,12 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsServiceRequest: return "AWS_SERVICE_REQUEST"
             case .concurrentExecutor: return "CONCURRENT_EXECUTOR"
             case .customOutput: return "CUSTOM_OUTPUT"
             case .httpRequest: return "HTTP_REQUEST"
             case .sequentialExecutor: return "SEQUENTIAL_EXECUTOR"
             case .vastRequest: return "VAST_REQUEST"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaTailorClientTypes {
-
-    public enum MethodType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `get`
-        case post
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MethodType] {
-            return [
-                .get,
-                .post
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .get: return "GET"
-            case .post: return "POST"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1118,7 +1178,7 @@ extension MediaTailorClientTypes {
 
     /// The configuration for a VAST_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions for a request to a VAST endpoint. MediaTailor parses the response as VAST and resolves wrapper redirects, then makes the parsed ads available to the function's output expressions. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
     public struct VastRequestConfiguration: Swift.Sendable {
-        /// An expression that evaluates to the request body. Used with POST requests, for example to send an OpenRTB bid request. The maximum length is 100,000 characters.
+        /// An expression that evaluates to the request body, for example to send an OpenRTB bid request. The expression can be up to 100,000 characters, and the body after evaluation can be up to 64 KB.
         public var body: Swift.String?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request. Headers beginning with X-Amz- are reserved by the service, and method override headers are not allowed.
         public var headers: [Swift.String: Swift.String]?
@@ -1133,7 +1193,7 @@ extension MediaTailorClientTypes {
         /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
         /// This member is required.
         public var runtime: MediaTailorClientTypes.RuntimeType?
-        /// An expression that evaluates to the VAST endpoint URL. Use {%...%} delimiters for dynamic expressions. A literal value must be an https:// URL. The maximum length is 25,000 characters.
+        /// An expression that evaluates to the VAST endpoint URL. Use {%...%} delimiters for dynamic expressions. A literal value must be an https:// URL. The expression can be up to 25,000 characters, and the URL after evaluation can be up to 2,048 characters.
         /// This member is required.
         public var url: Swift.String?
 
@@ -1163,6 +1223,8 @@ extension MediaTailorClientTypes {
     public struct Function: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the function.
         public var arn: Swift.String?
+        /// The configuration for an AWS_SERVICE_REQUEST function. Specifies the target service, target Region, and request parameters.
+        public var awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration?
         /// The configuration for a CONCURRENT_EXECUTOR function.
         public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
         /// The configuration for a CUSTOM_OUTPUT function.
@@ -1186,6 +1248,7 @@ extension MediaTailorClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration? = nil,
             concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
             customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
             description: Swift.String? = nil,
@@ -1197,6 +1260,7 @@ extension MediaTailorClientTypes {
             vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
         ) {
             self.arn = arn
+            self.awsServiceRequestConfiguration = awsServiceRequestConfiguration
             self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
             self.customOutputConfiguration = customOutputConfiguration
             self.description = description
@@ -4696,6 +4760,8 @@ public struct GetFunctionInput: Swift.Sendable {
 public struct GetFunctionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the function.
     public var arn: Swift.String?
+    /// The configuration for an AWS_SERVICE_REQUEST function. Specifies the target service, target Region, and request parameters.
+    public var awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration?
     /// The configuration for a CONCURRENT_EXECUTOR function.
     public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
     /// The configuration for a CUSTOM_OUTPUT function.
@@ -4719,6 +4785,7 @@ public struct GetFunctionOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration? = nil,
         concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
         description: Swift.String? = nil,
@@ -4730,6 +4797,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
     ) {
         self.arn = arn
+        self.awsServiceRequestConfiguration = awsServiceRequestConfiguration
         self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
         self.description = description
@@ -4774,6 +4842,8 @@ public struct ListFunctionsOutput: Swift.Sendable {
 
 /// -- Define Mixin --
 public struct PutFunctionInput: Swift.Sendable {
+    /// The configuration for an AWS_SERVICE_REQUEST function. You must specify this parameter when FunctionType is AWS_SERVICE_REQUEST.
+    public var awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration?
     /// The configuration for a CONCURRENT_EXECUTOR function. Specifies the list of child functions to run in parallel, the maximum concurrency, an optional output block, and a timeout. Required when FunctionType is CONCURRENT_EXECUTOR.
     public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
     /// The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
@@ -4783,7 +4853,22 @@ public struct PutFunctionInput: Swift.Sendable {
     /// The identifier of the function. The identifier must be unique within your account.
     /// This member is required.
     public var functionId: Swift.String?
-    /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. VAST_REQUEST calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. CONCURRENT_EXECUTOR runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete. For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
+    /// The type of the function, which determines what the function can do at runtime. Valid values:
+    ///
+    /// * CUSTOM_OUTPUT – Evaluates expressions and produces output bindings with no external calls.
+    ///
+    /// * HTTP_REQUEST – Makes an HTTP call to an external service and evaluates output expressions that can reference the response.
+    ///
+    /// * AWS_SERVICE_REQUEST – Makes an authenticated request to a supported AWS service API and evaluates output expressions that can reference the response.
+    ///
+    /// * VAST_REQUEST – Calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions.
+    ///
+    /// * SEQUENTIAL_EXECUTOR – Runs a sequence of child functions in order, passing data between steps through temporary data.
+    ///
+    /// * CONCURRENT_EXECUTOR – Runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete.
+    ///
+    ///
+    /// For more information, see [Function types and composition](https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types.html) in the MediaTailor User Guide.
     /// This member is required.
     public var functionType: MediaTailorClientTypes.FunctionType?
     /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
@@ -4796,6 +4881,7 @@ public struct PutFunctionInput: Swift.Sendable {
     public var vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration?
 
     public init(
+        awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration? = nil,
         concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
         description: Swift.String? = nil,
@@ -4806,6 +4892,7 @@ public struct PutFunctionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
     ) {
+        self.awsServiceRequestConfiguration = awsServiceRequestConfiguration
         self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
         self.description = description
@@ -4822,6 +4909,8 @@ public struct PutFunctionInput: Swift.Sendable {
 public struct PutFunctionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the function.
     public var arn: Swift.String?
+    /// The configuration for an AWS_SERVICE_REQUEST function. Specifies the target service, target Region, and request parameters.
+    public var awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration?
     /// The configuration for a CONCURRENT_EXECUTOR function.
     public var concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration?
     /// The configuration for a CUSTOM_OUTPUT function.
@@ -4845,6 +4934,7 @@ public struct PutFunctionOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        awsServiceRequestConfiguration: MediaTailorClientTypes.AwsServiceRequestConfiguration? = nil,
         concurrentExecutorConfiguration: MediaTailorClientTypes.ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: MediaTailorClientTypes.CustomOutputConfiguration? = nil,
         description: Swift.String? = nil,
@@ -4856,6 +4946,7 @@ public struct PutFunctionOutput: Swift.Sendable {
         vastRequestConfiguration: MediaTailorClientTypes.VastRequestConfiguration? = nil
     ) {
         self.arn = arn
+        self.awsServiceRequestConfiguration = awsServiceRequestConfiguration
         self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
         self.customOutputConfiguration = customOutputConfiguration
         self.description = description
@@ -6527,6 +6618,7 @@ extension PutFunctionInput {
 
     static func write(value: PutFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AwsServiceRequestConfiguration"].write(value.awsServiceRequestConfiguration, with: MediaTailorClientTypes.AwsServiceRequestConfiguration.write(value:to:))
         try writer["ConcurrentExecutorConfiguration"].write(value.concurrentExecutorConfiguration, with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.write(value:to:))
         try writer["CustomOutputConfiguration"].write(value.customOutputConfiguration, with: MediaTailorClientTypes.CustomOutputConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
@@ -6975,6 +7067,7 @@ extension GetFunctionOutput {
         let reader = responseReader
         var value = GetFunctionOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.awsServiceRequestConfiguration = try reader["AwsServiceRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.AwsServiceRequestConfiguration.read(from:))
         value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
         value.description = try reader["Description"].readIfPresent()
@@ -7178,6 +7271,7 @@ extension PutFunctionOutput {
         let reader = responseReader
         var value = PutFunctionOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.awsServiceRequestConfiguration = try reader["AwsServiceRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.AwsServiceRequestConfiguration.read(from:))
         value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
         value.description = try reader["Description"].readIfPresent()
@@ -8252,6 +8346,37 @@ extension MediaTailorClientTypes.AvailSuppression {
     }
 }
 
+extension MediaTailorClientTypes.AwsServiceRequestConfiguration {
+
+    static func write(value: MediaTailorClientTypes.AwsServiceRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MethodType"].write(value.methodType)
+        try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RequestTimeoutMilliseconds"].write(value.requestTimeoutMilliseconds)
+        try writer["Runtime"].write(value.runtime)
+        try writer["TargetRegion"].write(value.targetRegion)
+        try writer["TargetService"].write(value.targetService)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AwsServiceRequestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AwsServiceRequestConfiguration()
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.output = try reader["Output"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.methodType = try reader["MethodType"].readIfPresent() ?? .sdkUnknown("")
+        value.requestTimeoutMilliseconds = try reader["RequestTimeoutMilliseconds"].readIfPresent() ?? 0
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.body = try reader["Body"].readIfPresent()
+        value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targetService = try reader["TargetService"].readIfPresent() ?? ""
+        value.targetRegion = try reader["TargetRegion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.Bumper {
 
     static func write(value: MediaTailorClientTypes.Bumper?, to writer: SmithyJSON.Writer) throws {
@@ -8431,6 +8556,7 @@ extension MediaTailorClientTypes.Function {
         value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["Description"].readIfPresent()
         value.httpRequestConfiguration = try reader["HttpRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.HttpRequestConfiguration.read(from:))
+        value.awsServiceRequestConfiguration = try reader["AwsServiceRequestConfiguration"].readIfPresent(with: MediaTailorClientTypes.AwsServiceRequestConfiguration.read(from:))
         value.customOutputConfiguration = try reader["CustomOutputConfiguration"].readIfPresent(with: MediaTailorClientTypes.CustomOutputConfiguration.read(from:))
         value.concurrentExecutorConfiguration = try reader["ConcurrentExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.ConcurrentExecutorConfiguration.read(from:))
         value.sequentialExecutorConfiguration = try reader["SequentialExecutorConfiguration"].readIfPresent(with: MediaTailorClientTypes.SequentialExecutorConfiguration.read(from:))

@@ -9979,6 +9979,8 @@ public struct CopyVolumesInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
+    /// Indicates whether to encrypt the volume copy. If the source volume is encrypted, the service always encrypts the copy regardless of this value. Set to true to encrypt a copy of an unencrypted source volume during the copy operation. If you set Encrypted to true but do not specify KmsKeyId, the service uses the default KMS key for EBS encryption in your account.
+    public var encrypted: Swift.Bool?
     /// The number of I/O operations per second (IOPS) to provision for the volume copy. Required for io1 and io2 volumes. Optional for gp3 volumes. Omit for all other volume types. Full provisioned IOPS performance can be achieved only once the volume copy is fully initialized. Valid ranges:
     ///
     /// * gp3: 3,000 (default) - 80,000 IOPS
@@ -9990,6 +9992,8 @@ public struct CopyVolumesInput: Swift.Sendable {
     ///
     /// [Instances built on the Nitro System](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html) can support up to 256,000 IOPS. Other instances can support up to 32,000 IOPS.
     public var iops: Swift.Int?
+    /// The identifier of the KMS key to use for encryption of the volume copy. Specify a symmetric encryption KMS key. You can specify a KMS key using the key ID, key ARN, alias name, or alias ARN. If you set Encrypted to true but do not specify this parameter, the service uses the default KMS key for EBS encryption in your account. For cross-account volume copies, this must be a KMS key in the calling account.
+    public var kmsKeyId: Swift.String?
     /// Indicates whether to enable Amazon EBS Multi-Attach for the volume copy. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro instances in the same Availability Zone simultaneously. Supported with io1 and io2 volumes only. For more information, see [ Amazon EBS Multi-Attach](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes-multi.html).
     public var multiAttachEnabled: Swift.Bool?
     /// The size of the volume copy, in GiBs. The size must be equal to or greater than the size of the source volume. If not specified, the size defaults to the size of the source volume. Maximum supported sizes:
@@ -10019,7 +10023,9 @@ public struct CopyVolumesInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
+        encrypted: Swift.Bool? = nil,
         iops: Swift.Int? = nil,
+        kmsKeyId: Swift.String? = nil,
         multiAttachEnabled: Swift.Bool? = nil,
         size: Swift.Int? = nil,
         sourceVolumeId: Swift.String? = nil,
@@ -10029,7 +10035,9 @@ public struct CopyVolumesInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.dryRun = dryRun
+        self.encrypted = encrypted
         self.iops = iops
+        self.kmsKeyId = kmsKeyId
         self.multiAttachEnabled = multiAttachEnabled
         self.size = size
         self.sourceVolumeId = sourceVolumeId
@@ -10208,6 +10216,8 @@ extension EC2ClientTypes {
         public var `operator`: EC2ClientTypes.OperatorResponse?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public var outpostArn: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the volume.
+        public var ownerId: Swift.String?
         /// The size of the volume, in GiBs.
         public var size: Swift.Int?
         /// The snapshot from which the volume was created, if applicable.
@@ -10222,6 +10232,8 @@ extension EC2ClientTypes {
         public var tags: [EC2ClientTypes.Tag]?
         /// The throughput that the volume supports, in MiB/s.
         public var throughput: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the volume.
+        public var volumeArn: Swift.String?
         /// The ID of the volume.
         public var volumeId: Swift.String?
         /// The Amazon EBS Provisioned Rate for Volume Initialization (volume initialization rate) specified for the volume during creation, in MiB/s. If no volume initialization rate was specified, the value is null.
@@ -10241,6 +10253,7 @@ extension EC2ClientTypes {
             multiAttachEnabled: Swift.Bool? = nil,
             `operator`: EC2ClientTypes.OperatorResponse? = nil,
             outpostArn: Swift.String? = nil,
+            ownerId: Swift.String? = nil,
             size: Swift.Int? = nil,
             snapshotId: Swift.String? = nil,
             sourceVolumeId: Swift.String? = nil,
@@ -10248,6 +10261,7 @@ extension EC2ClientTypes {
             state: EC2ClientTypes.VolumeState? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
             throughput: Swift.Int? = nil,
+            volumeArn: Swift.String? = nil,
             volumeId: Swift.String? = nil,
             volumeInitializationRate: Swift.Int? = nil,
             volumeType: EC2ClientTypes.VolumeType? = nil
@@ -10263,6 +10277,7 @@ extension EC2ClientTypes {
             self.multiAttachEnabled = multiAttachEnabled
             self.`operator` = `operator`
             self.outpostArn = outpostArn
+            self.ownerId = ownerId
             self.size = size
             self.snapshotId = snapshotId
             self.sourceVolumeId = sourceVolumeId
@@ -10270,6 +10285,7 @@ extension EC2ClientTypes {
             self.state = state
             self.tags = tags
             self.throughput = throughput
+            self.volumeArn = volumeArn
             self.volumeId = volumeId
             self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
@@ -37060,6 +37076,8 @@ public struct CreateVolumeOutput: Swift.Sendable {
     public var `operator`: EC2ClientTypes.OperatorResponse?
     /// The Amazon Resource Name (ARN) of the Outpost.
     public var outpostArn: Swift.String?
+    /// The ID of the Amazon Web Services account that owns the volume.
+    public var ownerId: Swift.String?
     /// The size of the volume, in GiBs.
     public var size: Swift.Int?
     /// The snapshot from which the volume was created, if applicable.
@@ -37074,6 +37092,8 @@ public struct CreateVolumeOutput: Swift.Sendable {
     public var tags: [EC2ClientTypes.Tag]?
     /// The throughput that the volume supports, in MiB/s.
     public var throughput: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the volume.
+    public var volumeArn: Swift.String?
     /// The ID of the volume.
     public var volumeId: Swift.String?
     /// The Amazon EBS Provisioned Rate for Volume Initialization (volume initialization rate) specified for the volume during creation, in MiB/s. If no volume initialization rate was specified, the value is null.
@@ -37093,6 +37113,7 @@ public struct CreateVolumeOutput: Swift.Sendable {
         multiAttachEnabled: Swift.Bool? = nil,
         `operator`: EC2ClientTypes.OperatorResponse? = nil,
         outpostArn: Swift.String? = nil,
+        ownerId: Swift.String? = nil,
         size: Swift.Int? = nil,
         snapshotId: Swift.String? = nil,
         sourceVolumeId: Swift.String? = nil,
@@ -37100,6 +37121,7 @@ public struct CreateVolumeOutput: Swift.Sendable {
         state: EC2ClientTypes.VolumeState? = nil,
         tags: [EC2ClientTypes.Tag]? = nil,
         throughput: Swift.Int? = nil,
+        volumeArn: Swift.String? = nil,
         volumeId: Swift.String? = nil,
         volumeInitializationRate: Swift.Int? = nil,
         volumeType: EC2ClientTypes.VolumeType? = nil
@@ -37115,6 +37137,7 @@ public struct CreateVolumeOutput: Swift.Sendable {
         self.multiAttachEnabled = multiAttachEnabled
         self.`operator` = `operator`
         self.outpostArn = outpostArn
+        self.ownerId = ownerId
         self.size = size
         self.snapshotId = snapshotId
         self.sourceVolumeId = sourceVolumeId
@@ -37122,6 +37145,7 @@ public struct CreateVolumeOutput: Swift.Sendable {
         self.state = state
         self.tags = tags
         self.throughput = throughput
+        self.volumeArn = volumeArn
         self.volumeId = volumeId
         self.volumeInitializationRate = volumeInitializationRate
         self.volumeType = volumeType
@@ -95220,7 +95244,9 @@ extension CopyVolumesInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["DryRun"].write(value.dryRun)
+        try writer["Encrypted"].write(value.encrypted)
         try writer["Iops"].write(value.iops)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MultiAttachEnabled"].write(value.multiAttachEnabled)
         try writer["Size"].write(value.size)
         try writer["SourceVolumeId"].write(value.sourceVolumeId)
@@ -108704,6 +108730,7 @@ extension CreateVolumeOutput {
         value.multiAttachEnabled = try reader["multiAttachEnabled"].readIfPresent()
         value.`operator` = try reader["operator"].readIfPresent(with: EC2ClientTypes.OperatorResponse.read(from:))
         value.outpostArn = try reader["outpostArn"].readIfPresent()
+        value.ownerId = try reader["ownerId"].readIfPresent()
         value.size = try reader["size"].readIfPresent()
         value.snapshotId = try reader["snapshotId"].readIfPresent()
         value.sourceVolumeId = try reader["sourceVolumeId"].readIfPresent()
@@ -108711,6 +108738,7 @@ extension CreateVolumeOutput {
         value.state = try reader["status"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.throughput = try reader["throughput"].readIfPresent()
+        value.volumeArn = try reader["volumeArn"].readIfPresent()
         value.volumeId = try reader["volumeId"].readIfPresent()
         value.volumeInitializationRate = try reader["volumeInitializationRate"].readIfPresent()
         value.volumeType = try reader["volumeType"].readIfPresent()
@@ -140256,6 +140284,8 @@ extension EC2ClientTypes.Volume {
         value.sseType = try reader["sseType"].readIfPresent()
         value.`operator` = try reader["operator"].readIfPresent(with: EC2ClientTypes.OperatorResponse.read(from:))
         value.volumeInitializationRate = try reader["volumeInitializationRate"].readIfPresent()
+        value.volumeArn = try reader["volumeArn"].readIfPresent()
+        value.ownerId = try reader["ownerId"].readIfPresent()
         value.volumeId = try reader["volumeId"].readIfPresent()
         value.size = try reader["size"].readIfPresent()
         value.snapshotId = try reader["snapshotId"].readIfPresent()

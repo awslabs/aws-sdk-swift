@@ -721,15 +721,19 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ComputeNodeGroupSlurmConfigurationRequest: Swift.Sendable {
+        /// The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type.
+        public var gresCustomSettings: [[Swift.String: Swift.String]]?
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            gresCustomSettings: [[Swift.String: Swift.String]]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.gresCustomSettings = gresCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -921,15 +925,19 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ComputeNodeGroupSlurmConfiguration: Swift.Sendable {
+        /// The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type.
+        public var gresCustomSettings: [[Swift.String: Swift.String]]?
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            gresCustomSettings: [[Swift.String: Swift.String]]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.gresCustomSettings = gresCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -1262,15 +1270,19 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct UpdateComputeNodeGroupSlurmConfigurationRequest: Swift.Sendable {
+        /// The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type.
+        public var gresCustomSettings: [[Swift.String: Swift.String]]?
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            gresCustomSettings: [[Swift.String: Swift.String]]? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.gresCustomSettings = gresCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -1430,7 +1442,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 24.11 | 25.05 | 25.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 24.11 | 25.05 | 25.11 | 26.05
         /// This member is required.
         public var version: Swift.String?
 
@@ -1769,7 +1781,7 @@ extension PCSClientTypes {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the UpdateCluster API action. For more information, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) and [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the UpdateCluster API action. For more information, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) and [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11 | 26.05
         /// This member is required.
         public var version: Swift.String?
 
@@ -2604,7 +2616,7 @@ extension PCSClientTypes {
 
     /// The scheduler configuration for updating a cluster. Use this to specify the scheduler version to update to.
     public struct UpdateSchedulerRequest: Swift.Sendable {
-        /// The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11
+        /// The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see [Updating the scheduler version on a cluster](https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_version_update.html) in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11 | 26.05
         /// This member is required.
         public var version: Swift.String?
 
