@@ -808,7 +808,7 @@ public struct AssociateCertificateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the ACM certificate to associate.
     /// This member is required.
     public var acmCertificateArn: Swift.String?
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The unique identifier of the gateway.
@@ -1015,10 +1015,39 @@ extension RTBFabricClientTypes {
     }
 }
 
+extension RTBFabricClientTypes {
+
+    public enum ClientRoutingPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anyAvailabilityZone
+        case availabilityZoneAffinity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientRoutingPolicy] {
+            return [
+                .anyAvailabilityZone,
+                .availabilityZoneAffinity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anyAvailabilityZone: return "ANY_AVAILABILITY_ZONE"
+            case .availabilityZoneAffinity: return "AVAILABILITY_ZONE_AFFINITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateInboundExternalLinkInput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
-    /// The unique client token.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The unique identifier of the gateway.
@@ -1080,7 +1109,7 @@ public struct CreateLinkInput: Swift.Sendable {
     public var gatewayId: Swift.String?
     /// Boolean to specify if an HTTP responder is allowed.
     public var httpResponderAllowed: Swift.Bool?
-    /// Settings for the application logs.
+    /// Application log settings for the link. This value is required. Under applicationLogs.sampling, the errorLog and filterLog fields set the percentage of eligible events to log. Valid values range from 0 through 100. To turn off application logs, set both fields to 0, as in {"applicationLogs":{"sampling":{"errorLog":0,"filterLog":0}}}.
     /// This member is required.
     public var logSettings: RTBFabricClientTypes.LinkLogSettings?
     /// The unique identifier of the peer gateway.
@@ -1232,7 +1261,7 @@ extension RTBFabricClientTypes {
 }
 
 public struct CreateLinkRoutingRuleInput: Swift.Sendable {
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
@@ -1334,7 +1363,7 @@ public struct CreateLinkRoutingRuleOutput: Swift.Sendable {
 public struct CreateOutboundExternalLinkInput: Swift.Sendable {
     /// Attributes of the link.
     public var attributes: RTBFabricClientTypes.LinkAttributes?
-    /// The unique client token.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The unique identifier of the gateway.
@@ -1389,7 +1418,7 @@ public struct CreateOutboundExternalLinkOutput: Swift.Sendable {
 }
 
 public struct CreateRequesterGatewayInput: Swift.Sendable {
-    /// The unique client token.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// An optional description for the requester gateway.
@@ -1621,7 +1650,16 @@ extension RTBFabricClientTypes.TrustStoreConfiguration: Swift.CustomDebugStringC
 }
 
 public struct CreateResponderGatewayInput: Swift.Sendable {
-    /// The unique client token.
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following:
+    ///
+    /// * AVAILABILITY_ZONE_AFFINITY: RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway.
+    ///
+    /// * ANY_AVAILABILITY_ZONE: RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this.
+    ///
+    ///
+    /// If you don't specify a value, RTB Fabric uses AVAILABILITY_ZONE_AFFINITY. To get the behavior of ANY_AVAILABILITY_ZONE, create the gateway with subnets in more than one Availability Zone. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see [Configuring Availability Zone affinity](https://docs.aws.amazon.com/rtb-fabric/latest/userguide/working-with-responder-gateways.html#configuring-availability-zone-affinity) in the Amazon Web Services RTB Fabric User Guide.
+    public var clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy?
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// An optional description for the responder gateway.
@@ -1643,7 +1681,7 @@ public struct CreateResponderGatewayInput: Swift.Sendable {
     /// The unique identifiers of the security groups.
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
-    /// The unique identifiers of the subnets.
+    /// Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Availability Zones, request a quota increase.
     /// This member is required.
     public var subnetIds: [Swift.String]?
     /// A map of the key-value pairs of the tag or tags to assign to the resource.
@@ -1655,6 +1693,7 @@ public struct CreateResponderGatewayInput: Swift.Sendable {
     public var vpcId: Swift.String?
 
     public init(
+        clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
@@ -1669,6 +1708,7 @@ public struct CreateResponderGatewayInput: Swift.Sendable {
         trustStoreConfiguration: RTBFabricClientTypes.TrustStoreConfiguration? = nil,
         vpcId: Swift.String? = nil
     ) {
+        self.clientRoutingPolicy = clientRoutingPolicy
         self.clientToken = clientToken
         self.description = description
         self.domainName = domainName
@@ -1736,6 +1776,8 @@ extension RTBFabricClientTypes {
 }
 
 public struct CreateResponderGatewayOutput: Swift.Sendable {
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. For more information, see [Configuring Availability Zone affinity](https://docs.aws.amazon.com/rtb-fabric/latest/userguide/working-with-responder-gateways.html#configuring-availability-zone-affinity) in the Amazon Web Services RTB Fabric User Guide.
+    public var clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy?
     /// The external inbound endpoint for the responder gateway.
     public var externalInboundEndpoint: Swift.String?
     /// The unique identifier of the gateway.
@@ -1748,11 +1790,13 @@ public struct CreateResponderGatewayOutput: Swift.Sendable {
     public var status: RTBFabricClientTypes.ResponderGatewayStatus?
 
     public init(
+        clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
         externalInboundEndpoint: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         listenerConfig: RTBFabricClientTypes.ListenerConfig? = nil,
         status: RTBFabricClientTypes.ResponderGatewayStatus? = nil
     ) {
+        self.clientRoutingPolicy = clientRoutingPolicy
         self.externalInboundEndpoint = externalInboundEndpoint
         self.gatewayId = gatewayId
         self.listenerConfig = listenerConfig
@@ -2525,7 +2569,7 @@ public struct UpdateLinkOutput: Swift.Sendable {
 }
 
 public struct UpdateLinkModuleFlowInput: Swift.Sendable {
-    /// The unique client token.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The unique identifier of the gateway.
@@ -2860,6 +2904,8 @@ public struct GetResponderGatewayInput: Swift.Sendable {
 public struct GetResponderGatewayOutput: Swift.Sendable {
     /// The count of active links for the responder gateway.
     public var activeLinksCount: Swift.Int?
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. RTB Fabric omits this member if the gateway has never had a client routing policy. An omitted value means that the gateway uses AVAILABILITY_ZONE_AFFINITY. For more information, see [Configuring Availability Zone affinity](https://docs.aws.amazon.com/rtb-fabric/latest/userguide/working-with-responder-gateways.html#configuring-availability-zone-affinity) in the Amazon Web Services RTB Fabric User Guide.
+    public var clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy?
     /// The timestamp of when the responder gateway was created.
     public var createdAt: Foundation.Date?
     /// The description of the responder gateway.
@@ -2908,6 +2954,7 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
 
     public init(
         activeLinksCount: Swift.Int? = nil,
+        clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
@@ -2929,6 +2976,7 @@ public struct GetResponderGatewayOutput: Swift.Sendable {
         vpcId: Swift.String? = nil
     ) {
         self.activeLinksCount = activeLinksCount
+        self.clientRoutingPolicy = clientRoutingPolicy
         self.createdAt = createdAt
         self.description = description
         self.domainName = domainName
@@ -3071,7 +3119,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateRequesterGatewayInput: Swift.Sendable {
-    /// The unique client token.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// An optional description for the requester gateway.
@@ -3109,12 +3157,21 @@ public struct UpdateRequesterGatewayOutput: Swift.Sendable {
 }
 
 public struct UpdateResponderGatewayInput: Swift.Sendable {
-    /// The unique client token.
+    /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following:
+    ///
+    /// * AVAILABILITY_ZONE_AFFINITY: RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway.
+    ///
+    /// * ANY_AVAILABILITY_ZONE: RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this.
+    ///
+    ///
+    /// If you don't specify a value, the gateway keeps its current client routing policy. Changing the policy sets the gateway status to PENDING_UPDATE until the change is complete. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see [Configuring Availability Zone affinity](https://docs.aws.amazon.com/rtb-fabric/latest/userguide/working-with-responder-gateways.html#configuring-availability-zone-affinity) in the Amazon Web Services RTB Fabric User Guide.
+    public var clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy?
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// This member is required.
     public var clientToken: Swift.String?
     /// An optional description for the responder gateway.
     public var description: Swift.String?
-    /// The domain name for the responder gateway.
+    /// Domain name for the responder gateway. This operation does not change the domain name of an existing gateway. To use a different domain name, delete the gateway and create a new one.
     public var domainName: Swift.String?
     /// The unique identifier of the gateway.
     /// This member is required.
@@ -3123,16 +3180,17 @@ public struct UpdateResponderGatewayInput: Swift.Sendable {
     public var listenerConfig: RTBFabricClientTypes.ListenerConfig?
     /// The configuration for the managed endpoint.
     public var managedEndpointConfiguration: RTBFabricClientTypes.ManagedEndpointConfiguration?
-    /// The networking port to use.
+    /// Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one.
     /// This member is required.
     public var port: Swift.Int?
-    /// The networking protocol to use.
+    /// Networking protocol to use. This operation does not change the protocol of an existing gateway. To use a different protocol, delete the gateway and create a new one.
     /// This member is required.
     public var `protocol`: RTBFabricClientTypes.ModelProtocol?
     /// The configuration of the trust store.
     public var trustStoreConfiguration: RTBFabricClientTypes.TrustStoreConfiguration?
 
     public init(
+        clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
@@ -3143,6 +3201,7 @@ public struct UpdateResponderGatewayInput: Swift.Sendable {
         `protocol`: RTBFabricClientTypes.ModelProtocol? = nil,
         trustStoreConfiguration: RTBFabricClientTypes.TrustStoreConfiguration? = nil
     ) {
+        self.clientRoutingPolicy = clientRoutingPolicy
         self.clientToken = clientToken
         self.description = description
         self.domainName = domainName
@@ -3156,6 +3215,8 @@ public struct UpdateResponderGatewayInput: Swift.Sendable {
 }
 
 public struct UpdateResponderGatewayOutput: Swift.Sendable {
+    /// The client routing policy of the gateway. If the operation changed this policy, the gateway uses the new policy after its status returns to ACTIVE. For more information, see [Configuring Availability Zone affinity](https://docs.aws.amazon.com/rtb-fabric/latest/userguide/working-with-responder-gateways.html#configuring-availability-zone-affinity) in the Amazon Web Services RTB Fabric User Guide.
+    public var clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy?
     /// The unique identifier of the gateway.
     /// This member is required.
     public var gatewayId: Swift.String?
@@ -3164,9 +3225,11 @@ public struct UpdateResponderGatewayOutput: Swift.Sendable {
     public var status: RTBFabricClientTypes.ResponderGatewayStatus?
 
     public init(
+        clientRoutingPolicy: RTBFabricClientTypes.ClientRoutingPolicy? = nil,
         gatewayId: Swift.String? = nil,
         status: RTBFabricClientTypes.ResponderGatewayStatus? = nil
     ) {
+        self.clientRoutingPolicy = clientRoutingPolicy
         self.gatewayId = gatewayId
         self.status = status
     }
@@ -3825,6 +3888,7 @@ extension CreateResponderGatewayInput {
 
     static func write(value: CreateResponderGatewayInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientRoutingPolicy"].write(value.clientRoutingPolicy)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["domainName"].write(value.domainName)
@@ -3889,6 +3953,7 @@ extension UpdateResponderGatewayInput {
 
     static func write(value: UpdateResponderGatewayInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientRoutingPolicy"].write(value.clientRoutingPolicy)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["domainName"].write(value.domainName)
@@ -4025,6 +4090,7 @@ extension CreateResponderGatewayOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateResponderGatewayOutput()
+        value.clientRoutingPolicy = try reader["clientRoutingPolicy"].readIfPresent()
         value.externalInboundEndpoint = try reader["externalInboundEndpoint"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.listenerConfig = try reader["listenerConfig"].readIfPresent(with: RTBFabricClientTypes.ListenerConfig.read(from:))
@@ -4264,6 +4330,7 @@ extension GetResponderGatewayOutput {
         let reader = responseReader
         var value = GetResponderGatewayOutput()
         value.activeLinksCount = try reader["activeLinksCount"].readIfPresent()
+        value.clientRoutingPolicy = try reader["clientRoutingPolicy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
@@ -4462,6 +4529,7 @@ extension UpdateResponderGatewayOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateResponderGatewayOutput()
+        value.clientRoutingPolicy = try reader["clientRoutingPolicy"].readIfPresent()
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value

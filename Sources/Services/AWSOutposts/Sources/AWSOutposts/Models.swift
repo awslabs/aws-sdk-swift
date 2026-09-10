@@ -950,6 +950,35 @@ extension OutpostsClientTypes {
 
 extension OutpostsClientTypes {
 
+    public enum RackScalingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multiRack
+        case singleRack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RackScalingType] {
+            return [
+                .multiRack,
+                .singleRack
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiRack: return "MULTI_RACK"
+            case .singleRack: return "SINGLE_RACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
     public enum SupportedStorageEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ebs
         case s3
@@ -989,6 +1018,8 @@ extension OutpostsClientTypes {
         public var itemStatus: OutpostsClientTypes.CatalogItemStatus?
         /// Information about the power draw of an item.
         public var powerKva: Swift.Float?
+        /// The rack scaling type supported by the catalog item. Valid values are SINGLE_RACK and MULTI_RACK.
+        public var rackScalingType: OutpostsClientTypes.RackScalingType?
         /// The supported storage options for the catalog item.
         public var supportedStorage: [OutpostsClientTypes.SupportedStorageEnum]?
         /// The uplink speed this catalog item requires for the connection to the Region.
@@ -1001,6 +1032,7 @@ extension OutpostsClientTypes {
             ec2Capacities: [OutpostsClientTypes.EC2Capacity]? = nil,
             itemStatus: OutpostsClientTypes.CatalogItemStatus? = nil,
             powerKva: Swift.Float? = nil,
+            rackScalingType: OutpostsClientTypes.RackScalingType? = nil,
             supportedStorage: [OutpostsClientTypes.SupportedStorageEnum]? = nil,
             supportedUplinkGbps: [Swift.Int]? = nil,
             weightLbs: Swift.Int? = nil
@@ -1009,6 +1041,7 @@ extension OutpostsClientTypes {
             self.ec2Capacities = ec2Capacities
             self.itemStatus = itemStatus
             self.powerKva = powerKva
+            self.rackScalingType = rackScalingType
             self.supportedStorage = supportedStorage
             self.supportedUplinkGbps = supportedUplinkGbps
             self.weightLbs = weightLbs
@@ -1622,6 +1655,35 @@ public struct CreateOutpostInput: Swift.Sendable {
 
 extension OutpostsClientTypes {
 
+    public enum OutpostGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case generation1
+        case generation2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutpostGeneration] {
+            return [
+                .generation1,
+                .generation2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .generation1: return "GENERATION_1"
+            case .generation2: return "GENERATION_2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
     /// Information about an Outpost.
     public struct Outpost: Swift.Sendable {
         /// The Availability Zone.
@@ -1630,6 +1692,8 @@ extension OutpostsClientTypes {
         public var availabilityZoneId: Swift.String?
         /// The description of the Outpost.
         public var description: Swift.String?
+        /// The Outpost generation. Valid values are GENERATION_1 for first-generation rack deployments and GENERATION_2 for second-generation rack deployments.
+        public var generation: OutpostsClientTypes.OutpostGeneration?
         /// The life cycle status.
         public var lifeCycleStatus: Swift.String?
         /// The name of the Outpost.
@@ -1640,6 +1704,8 @@ extension OutpostsClientTypes {
         public var outpostId: Swift.String?
         /// The Amazon Web Services account ID of the Outpost owner.
         public var ownerId: Swift.String?
+        /// The rack scaling type. Valid values are SINGLE_RACK for single-rack Outposts and MULTI_RACK for multi-rack Outposts that can expand across multiple racks.
+        public var rackScalingType: OutpostsClientTypes.RackScalingType?
         /// The Amazon Resource Name (ARN) of the site.
         public var siteArn: Swift.String?
         /// The ID of the site.
@@ -1653,11 +1719,13 @@ extension OutpostsClientTypes {
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil,
             description: Swift.String? = nil,
+            generation: OutpostsClientTypes.OutpostGeneration? = nil,
             lifeCycleStatus: Swift.String? = nil,
             name: Swift.String? = nil,
             outpostArn: Swift.String? = nil,
             outpostId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
+            rackScalingType: OutpostsClientTypes.RackScalingType? = nil,
             siteArn: Swift.String? = nil,
             siteId: Swift.String? = nil,
             supportedHardwareType: OutpostsClientTypes.SupportedHardwareType? = nil,
@@ -1666,11 +1734,13 @@ extension OutpostsClientTypes {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description
+            self.generation = generation
             self.lifeCycleStatus = lifeCycleStatus
             self.name = name
             self.outpostArn = outpostArn
             self.outpostId = outpostId
             self.ownerId = ownerId
+            self.rackScalingType = rackScalingType
             self.siteArn = siteArn
             self.siteId = siteId
             self.supportedHardwareType = supportedHardwareType
@@ -1807,13 +1877,15 @@ extension OutpostsClientTypes {
         case rackMaximum
         case rackMaxPowerKva
         case rackMaxWeightLbs
+        case rackSpaceConstrained
         case sdkUnknown(Swift.String)
 
         public static var allCases: [QuoteConstraintType] {
             return [
                 .rackMaximum,
                 .rackMaxPowerKva,
-                .rackMaxWeightLbs
+                .rackMaxWeightLbs,
+                .rackSpaceConstrained
             ]
         }
 
@@ -1827,6 +1899,7 @@ extension OutpostsClientTypes {
             case .rackMaximum: return "RACK_MAXIMUM"
             case .rackMaxPowerKva: return "RACK_MAX_POWER_KVA"
             case .rackMaxWeightLbs: return "RACK_MAX_WEIGHT_LBS"
+            case .rackSpaceConstrained: return "RACK_SPACE_CONSTRAINED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1837,7 +1910,7 @@ extension OutpostsClientTypes {
 
     /// A physical constraint for a quote.
     public struct QuoteConstraint: Swift.Sendable {
-        /// The type of constraint. Valid values are RACK_MAXIMUM, RACK_MAX_POWER_KVA, and RACK_MAX_WEIGHT_LBS.
+        /// The type of constraint. Valid values are RACK_MAXIMUM, RACK_MAX_POWER_KVA, RACK_MAX_WEIGHT_LBS, and RACK_SPACE_CONSTRAINED.
         public var quoteConstraintType: OutpostsClientTypes.QuoteConstraintType?
         /// The value of the constraint.
         public var value: Swift.String?
@@ -3203,35 +3276,6 @@ extension OutpostsClientTypes {
             switch self {
             case .rack: return "RACK"
             case .server: return "SERVER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OutpostsClientTypes {
-
-    public enum OutpostGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case generation1
-        case generation2
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [OutpostGeneration] {
-            return [
-                .generation1,
-                .generation2
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .generation1: return "GENERATION_1"
-            case .generation2: return "GENERATION_2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7576,6 +7620,7 @@ extension OutpostsClientTypes.CatalogItem {
         value.weightLbs = try reader["WeightLbs"].readIfPresent()
         value.supportedUplinkGbps = try reader["SupportedUplinkGbps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedStorage = try reader["SupportedStorage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<OutpostsClientTypes.SupportedStorageEnum>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rackScalingType = try reader["RackScalingType"].readIfPresent()
         return value
     }
 }
@@ -7795,6 +7840,8 @@ extension OutpostsClientTypes.Outpost {
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.siteArn = try reader["SiteArn"].readIfPresent()
         value.supportedHardwareType = try reader["SupportedHardwareType"].readIfPresent()
+        value.generation = try reader["Generation"].readIfPresent()
+        value.rackScalingType = try reader["RackScalingType"].readIfPresent()
         return value
     }
 }

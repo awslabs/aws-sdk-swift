@@ -832,6 +832,81 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AttachClusterNodeNetworkInterface` operation on the `SageMaker` service.
+    ///
+    /// Attaches an elastic network interface (ENI) to a node in a HyperPod cluster. To use this operation, you must have the sagemaker:AttachClusterNodeNetworkInterface permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AttachClusterNodeNetworkInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AttachClusterNodeNetworkInterfaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func attachClusterNodeNetworkInterface(input: AttachClusterNodeNetworkInterfaceInput) async throws -> AttachClusterNodeNetworkInterfaceOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SageMakerClient.attachClusterNodeNetworkInterfaceOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "attachClusterNodeNetworkInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AttachClusterNodeNetworkInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachClusterNodeNetworkInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>(overrides: ["X-Amz-Target": "SageMaker.AttachClusterNodeNetworkInterface"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachClusterNodeNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SageMaker"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachClusterNodeNetworkInterfaceInput, AttachClusterNodeNetworkInterfaceOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachClusterNodeNetworkInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AttachClusterNodeVolume` operation on the `SageMaker` service.
     ///
     /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.

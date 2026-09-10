@@ -21284,6 +21284,32 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum BootModeOverrideValues: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case uefi
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BootModeOverrideValues] {
+            return [
+                .uefi
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .uefi: return "uefi"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum SnapshotLocationEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case local
         case regional
@@ -21320,6 +21346,8 @@ public struct CreateImageInput: Swift.Sendable {
     ///
     /// * The only option that can be changed for existing mappings or snapshots is DeleteOnTermination.
     public var blockDeviceMappings: [EC2ClientTypes.BlockDeviceMapping]?
+    /// The boot mode of the new image, which overrides the default boot mode. By default, if you do not specify this parameter, the new image inherits the boot-mode from the source instance. A value of uefi indicates that the image only supports UEFI boot mode. You can specify this parameter only if the current-instance-boot-mode of the source instance is uefi. To find the boot-mode or current-instance-boot-mode of an instance, see [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html). The operating system contained in the AMI must be configured to support the specified boot mode. For more information, see [Instance launch behavior with Amazon EC2 boot modes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-boot.html) in the Amazon EC2 User Guide.
+    public var bootModeOverride: EC2ClientTypes.BootModeOverrideValues?
     /// A description for the new image.
     public var description: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -21360,6 +21388,7 @@ public struct CreateImageInput: Swift.Sendable {
 
     public init(
         blockDeviceMappings: [EC2ClientTypes.BlockDeviceMapping]? = nil,
+        bootModeOverride: EC2ClientTypes.BootModeOverrideValues? = nil,
         description: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         instanceId: Swift.String? = nil,
@@ -21369,6 +21398,7 @@ public struct CreateImageInput: Swift.Sendable {
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
     ) {
         self.blockDeviceMappings = blockDeviceMappings
+        self.bootModeOverride = bootModeOverride
         self.description = description
         self.dryRun = dryRun
         self.instanceId = instanceId
@@ -95660,6 +95690,7 @@ extension CreateImageInput {
         if !(value.blockDeviceMappings?.isEmpty ?? true) {
             try writer["BlockDeviceMapping"].writeList(value.blockDeviceMappings, memberWritingClosure: EC2ClientTypes.BlockDeviceMapping.write(value:to:), memberNodeInfo: "BlockDeviceMapping", isFlattened: true)
         }
+        try writer["BootModeOverride"].write(value.bootModeOverride)
         try writer["Description"].write(value.description)
         try writer["DryRun"].write(value.dryRun)
         try writer["InstanceId"].write(value.instanceId)

@@ -8524,6 +8524,55 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct AttachClusterNodeNetworkInterfaceInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The unique identifier of the elastic network interface (ENI) to attach.
+    /// This member is required.
+    public var networkInterfaceId: Swift.String?
+    /// The unique identifier of the cluster node to which you want to attach the network interface. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG).
+    /// This member is required.
+    public var nodeId: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        networkInterfaceId: Swift.String? = nil,
+        nodeId: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+        self.networkInterfaceId = networkInterfaceId
+        self.nodeId = nodeId
+    }
+}
+
+public struct AttachClusterNodeNetworkInterfaceOutput: Swift.Sendable {
+    /// The unique identifier of the network interface attachment. Use this value to reference or detach the network interface later.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster where the network interface attachment operation was performed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The unique identifier of the elastic network interface (ENI) that was attached.
+    /// This member is required.
+    public var networkInterfaceId: Swift.String?
+    /// The unique identifier of the cluster node where your network interface was attached.
+    /// This member is required.
+    public var nodeId: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        networkInterfaceId: Swift.String? = nil,
+        nodeId: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.clusterArn = clusterArn
+        self.networkInterfaceId = networkInterfaceId
+        self.nodeId = nodeId
+    }
+}
+
 public struct AttachClusterNodeVolumeInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
     /// This member is required.
