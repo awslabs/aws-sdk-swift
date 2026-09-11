@@ -265,7 +265,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The input fails to satisfy the constraints specified by an AWS service.
+/// The input fails to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2275,6 +2275,7 @@ extension OmicsClientTypes {
         case pending
         case processed
         case runsDeleted
+        case runsDeleteFailed
         case runsDeleting
         case stopping
         case submitting
@@ -2289,6 +2290,7 @@ extension OmicsClientTypes {
                 .pending,
                 .processed,
                 .runsDeleted,
+                .runsDeleteFailed,
                 .runsDeleting,
                 .stopping,
                 .submitting
@@ -2309,6 +2311,7 @@ extension OmicsClientTypes {
             case .pending: return "PENDING"
             case .processed: return "PROCESSED"
             case .runsDeleted: return "RUNS_DELETED"
+            case .runsDeleteFailed: return "RUNS_DELETE_FAILED"
             case .runsDeleting: return "RUNS_DELETING"
             case .stopping: return "STOPPING"
             case .submitting: return "SUBMITTING"
@@ -2361,7 +2364,7 @@ extension OmicsClientTypes {
         public var engineSettings: Smithy.Document?
         /// An optional user-friendly name for this run.
         public var name: Swift.String?
-        /// The expected AWS account ID of the owner of the output S3 bucket for this run.
+        /// The expected Amazon Web Services account ID of the owner of the output S3 bucket for this run.
         public var outputBucketOwnerId: Swift.String?
         /// Override the destination S3 URI for this run's outputs.
         public var outputUri: Swift.String?
@@ -2372,7 +2375,7 @@ extension OmicsClientTypes {
         /// A customer-provided unique identifier for this run configuration within the batch. After submission, use ListRunsInBatch to map each runSettingId to the HealthOmics-generated runId.
         /// This member is required.
         public var runSettingId: Swift.String?
-        /// Per-run AWS tags. Merged with defaultRunSetting.runTags; values in this object take precedence when keys overlap.
+        /// Per-run Amazon Web Services tags. Merged with defaultRunSetting.runTags; values in this object take precedence when keys overlap.
         public var runTags: [Swift.String: Swift.String]?
 
         public init(
@@ -4286,7 +4289,7 @@ extension OmicsClientTypes {
         public var name: Swift.String?
         /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
         public var networkingMode: OmicsClientTypes.NetworkingMode?
-        /// The expected AWS account ID of the owner of the output S3 bucket. Can be overridden per run.
+        /// The expected Amazon Web Services account ID of the owner of the output S3 bucket. Can be overridden per run.
         public var outputBucketOwnerId: Swift.String?
         /// The destination S3 URI for workflow outputs. Must begin with s3://. The roleArn must grant write permissions to this bucket. Can be overridden per run.
         public var outputUri: Swift.String?
@@ -4296,15 +4299,17 @@ extension OmicsClientTypes {
         public var priority: Swift.Int?
         /// The retention behavior for runs after completion.
         public var retentionMode: OmicsClientTypes.RunRetentionMode?
-        /// The IAM role ARN that grants HealthOmics permissions to access required AWS resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
+        /// The IAM role ARN that grants HealthOmics permissions to access required Amazon Web Services resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
         /// This member is required.
         public var roleArn: Swift.String?
         /// The ID of the run group to contain all workflow runs in the batch.
         public var runGroupId: Swift.String?
-        /// AWS tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
+        /// Amazon Web Services tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
         public var runTags: [Swift.String: Swift.String]?
         /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
         public var scratchStorageMode: OmicsClientTypes.ScratchStorageMode?
+        /// Optional inline policy json for scoping down permissions via a session policy on the IAM role provided in the roleArn parameter.
+        public var sessionPolicy: Swift.String?
         /// The filesystem size in gibibytes (GiB) provisioned for each workflow run and shared by all tasks in that run. Defaults to 1200 GiB if not specified.
         public var storageCapacity: Swift.Int?
         /// The storage type for the workflow runs.
@@ -4312,7 +4317,7 @@ extension OmicsClientTypes {
         /// The identifier of the workflow to run.
         /// This member is required.
         public var workflowId: Swift.String?
-        /// The AWS account ID of the workflow owner, used for cross-account workflow sharing.
+        /// The Amazon Web Services account ID of the workflow owner, used for cross-account workflow sharing.
         public var workflowOwnerId: Swift.String?
         /// The type of the originating workflow. Batch runs are not supported with READY2RUN workflows.
         public var workflowType: OmicsClientTypes.WorkflowType?
@@ -4336,6 +4341,7 @@ extension OmicsClientTypes {
             runGroupId: Swift.String? = nil,
             runTags: [Swift.String: Swift.String]? = nil,
             scratchStorageMode: OmicsClientTypes.ScratchStorageMode? = nil,
+            sessionPolicy: Swift.String? = nil,
             storageCapacity: Swift.Int? = nil,
             storageType: OmicsClientTypes.StorageType? = nil,
             workflowId: Swift.String? = nil,
@@ -4359,6 +4365,7 @@ extension OmicsClientTypes {
             self.runGroupId = runGroupId
             self.runTags = runTags
             self.scratchStorageMode = scratchStorageMode
+            self.sessionPolicy = sessionPolicy
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
@@ -5087,13 +5094,13 @@ public struct GetBatchOutput: Swift.Sendable {
     public var processedTime: Foundation.Date?
     /// A summary of run execution states. Run execution counts are eventually consistent and may lag behind actual run states. Final counts are accurate once the batch reaches PROCESSED status. See RunSummary.
     public var runSummary: OmicsClientTypes.RunSummary?
-    /// The current status of the run batch. Possible values: CREATING (initial setup), PENDING (ready to submit runs), SUBMITTING (submitting runs), INPROGRESS (runs executing), STOPPING (cancellation in progress), PROCESSED (all runs completed), CANCELLED (batch cancelled), FAILED (batch failed), RUNS_DELETING (deleting runs), RUNS_DELETED (runs deleted).
+    /// The current status of the run batch. Possible values: CREATING (initial setup), PENDING (ready to submit runs), SUBMITTING (submitting runs), INPROGRESS (runs executing), STOPPING (cancellation in progress), PROCESSED (all runs completed), CANCELLED (batch cancelled), FAILED (batch failed), RUNS_DELETING (deleting runs), RUNS_DELETE_FAILED (run deletion failed for some or all runs), RUNS_DELETED (runs deleted).
     public var status: OmicsClientTypes.BatchStatus?
     /// A summary of run submission outcomes. See SubmissionSummary.
     public var submissionSummary: OmicsClientTypes.SubmissionSummary?
     /// The timestamp when all run submissions completed.
     public var submittedTime: Foundation.Date?
-    /// AWS tags associated with the run batch.
+    /// Amazon Web Services tags associated with the run batch.
     public var tags: [Swift.String: Swift.String]?
     /// The total number of runs in the batch.
     public var totalRuns: Swift.Int?
@@ -6377,6 +6384,8 @@ public struct GetRunOutput: Swift.Sendable {
     public var runOutputUri: Swift.String?
     /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If absent, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
     public var scratchStorageMode: OmicsClientTypes.ScratchStorageMode?
+    /// Inline policy json for scoping down permissions via a session policy on the IAM role.
+    public var sessionPolicy: Swift.String?
     /// When the run started.
     public var startTime: Foundation.Date?
     /// Who started the run.
@@ -6436,6 +6445,7 @@ public struct GetRunOutput: Swift.Sendable {
         runId: Swift.String? = nil,
         runOutputUri: Swift.String? = nil,
         scratchStorageMode: OmicsClientTypes.ScratchStorageMode? = nil,
+        sessionPolicy: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         startedBy: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil,
@@ -6479,6 +6489,7 @@ public struct GetRunOutput: Swift.Sendable {
         self.runId = runId
         self.runOutputUri = runOutputUri
         self.scratchStorageMode = scratchStorageMode
+        self.sessionPolicy = sessionPolicy
         self.startTime = startTime
         self.startedBy = startedBy
         self.status = status
@@ -9618,7 +9629,7 @@ public struct StartRunBatchInput: Swift.Sendable {
     /// A client token used to deduplicate retry requests and prevent duplicate batches from being created.
     /// This member is required.
     public var requestId: Swift.String?
-    /// AWS tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
+    /// Amazon Web Services tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -9643,7 +9654,7 @@ public struct StartRunBatchOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The initial status of the run batch. Returns CREATING while the batch is being initialized.
     public var status: OmicsClientTypes.BatchStatus?
-    /// AWS tags associated with the run batch.
+    /// Amazon Web Services tags associated with the run batch.
     public var tags: [Swift.String: Swift.String]?
     /// The universally unique identifier (UUID) for the run batch.
     public var uuid: Swift.String?
@@ -9746,7 +9757,7 @@ public struct StartRunInput: Swift.Sendable {
     public var requestId: Swift.String?
     /// The retention mode for the run. The default value is RETAIN. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see [Specifying run retention mode](https://docs.aws.amazon.com/omics/latest/dev/starting-a-run.html) in the Amazon Web Services HealthOmics User Guide.
     public var retentionMode: OmicsClientTypes.RunRetentionMode?
-    /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the AWS account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
+    /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the Amazon Web Services account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group.
@@ -9755,6 +9766,8 @@ public struct StartRunInput: Swift.Sendable {
     public var runId: Swift.String?
     /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
     public var scratchStorageMode: OmicsClientTypes.ScratchStorageMode?
+    /// Optional inline policy json for scoping down permissions via a session policy on the IAM role provided in the roleArn parameter.
+    public var sessionPolicy: Swift.String?
     /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
     public var storageCapacity: Swift.Int?
     /// The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see [Run storage types](https://docs.aws.amazon.com/omics/latest/dev/workflows-run-types.html) in the Amazon Web Services HealthOmics User Guide.
@@ -9787,6 +9800,7 @@ public struct StartRunInput: Swift.Sendable {
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
         scratchStorageMode: OmicsClientTypes.ScratchStorageMode? = nil,
+        sessionPolicy: Swift.String? = nil,
         storageCapacity: Swift.Int? = nil,
         storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -9811,6 +9825,7 @@ public struct StartRunInput: Swift.Sendable {
         self.runGroupId = runGroupId
         self.runId = runId
         self.scratchStorageMode = scratchStorageMode
+        self.sessionPolicy = sessionPolicy
         self.storageCapacity = storageCapacity
         self.storageType = storageType
         self.tags = tags
@@ -12581,6 +12596,7 @@ extension StartRunInput {
         try writer["runGroupId"].write(value.runGroupId)
         try writer["runId"].write(value.runId)
         try writer["scratchStorageMode"].write(value.scratchStorageMode)
+        try writer["sessionPolicy"].write(value.sessionPolicy)
         try writer["storageCapacity"].write(value.storageCapacity)
         try writer["storageType"].write(value.storageType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -13454,6 +13470,7 @@ extension GetRunOutput {
         value.runId = try reader["runId"].readIfPresent()
         value.runOutputUri = try reader["runOutputUri"].readIfPresent()
         value.scratchStorageMode = try reader["scratchStorageMode"].readIfPresent()
+        value.sessionPolicy = try reader["sessionPolicy"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedBy = try reader["startedBy"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -16796,6 +16813,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         try writer["runGroupId"].write(value.runGroupId)
         try writer["runTags"].writeMap(value.runTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["scratchStorageMode"].write(value.scratchStorageMode)
+        try writer["sessionPolicy"].write(value.sessionPolicy)
         try writer["storageCapacity"].write(value.storageCapacity)
         try writer["storageType"].write(value.storageType)
         try writer["workflowId"].write(value.workflowId)
@@ -16827,6 +16845,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
         value.networkingMode = try reader["networkingMode"].readIfPresent()
         value.configurationName = try reader["configurationName"].readIfPresent()
+        value.sessionPolicy = try reader["sessionPolicy"].readIfPresent()
         value.engineSettings = try reader["engineSettings"].readIfPresent()
         value.scratchStorageMode = try reader["scratchStorageMode"].readIfPresent()
         return value

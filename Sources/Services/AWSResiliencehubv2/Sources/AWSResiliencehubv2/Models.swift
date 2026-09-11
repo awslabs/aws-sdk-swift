@@ -173,6 +173,63 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes {
 
+    /// The state of a CloudWatch alarm.
+    public enum AlarmState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alarm
+        case insufficientData
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AlarmState] {
+            return [
+                .alarm,
+                .insufficientData,
+                .ok
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alarm: return "ALARM"
+            case .insufficientData: return "INSUFFICIENT_DATA"
+            case .ok: return "OK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Details about a CloudWatch alarm state change observed during a test run.
+    public struct AlarmStateChangeDetail: Swift.Sendable {
+        /// The state the alarm transitioned from. Absent on the initial event, which records the alarm's state when collection began.
+        public var previousState: Resiliencehubv2ClientTypes.AlarmState?
+        /// A human-readable explanation of the state change, as reported by CloudWatch.
+        public var reason: Swift.String?
+        /// The state the alarm transitioned to.
+        /// This member is required.
+        public var state: Resiliencehubv2ClientTypes.AlarmState?
+
+        public init(
+            previousState: Resiliencehubv2ClientTypes.AlarmState? = nil,
+            reason: Swift.String? = nil,
+            state: Resiliencehubv2ClientTypes.AlarmState? = nil
+        ) {
+            self.previousState = previousState
+            self.reason = reason
+            self.state = state
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
     public enum AssertionSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aiGenerated
         case user
@@ -821,20 +878,117 @@ public struct CreateAssertionOutput: Swift.Sendable {
 
 extension Resiliencehubv2ClientTypes {
 
+    /// The operator that a label selector requirement applies to its key and values.
+    ///
+    /// * IN — the key's value must be one of the specified values.
+    ///
+    /// * NOT_IN — the key's value must not be one of the specified values.
+    ///
+    /// * EXISTS — the key must be present, regardless of its value.
+    ///
+    /// * DOES_NOT_EXIST — the key must not be present.
+    public enum EksLabelSelectorOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case doesNotExist
+        case exists
+        case `in`
+        case notIn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksLabelSelectorOperator] {
+            return [
+                .doesNotExist,
+                .exists,
+                .in,
+                .notIn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .doesNotExist: return "DOES_NOT_EXIST"
+            case .exists: return "EXISTS"
+            case .in: return "IN"
+            case .notIn: return "NOT_IN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// A single label requirement in a label selector, expressed as a key, an operator, and an optional list of values.
+    public struct EksLabelSelectorRequirement: Swift.Sendable {
+        /// The label key that the requirement applies to.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The operator that relates the label key to the values.
+        /// This member is required.
+        public var `operator`: Resiliencehubv2ClientTypes.EksLabelSelectorOperator?
+        /// The label values to compare against. Specify values when the operator is IN or NOT_IN. Leave this empty when the operator is EXISTS or DOES_NOT_EXIST.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            `operator`: Resiliencehubv2ClientTypes.EksLabelSelectorOperator? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// A label selector that filters the Kubernetes objects discovered from an Amazon EKS input source. An object must satisfy both matchLabels and matchExpressions to match the selector. A selector with neither matches every object. The selector must render to 2,048 characters or fewer in Kubernetes label selector syntax.
+    public struct EksLabelSelector: Swift.Sendable {
+        /// The label requirements that an object must satisfy. All requirements in the list must match for the object to be selected.
+        public var matchExpressions: [Resiliencehubv2ClientTypes.EksLabelSelectorRequirement]?
+        /// The label key-value pairs that an object must have. All pairs must match for the object to be selected.
+        public var matchLabels: [Swift.String: Swift.String]?
+
+        public init(
+            matchExpressions: [Resiliencehubv2ClientTypes.EksLabelSelectorRequirement]? = nil,
+            matchLabels: [Swift.String: Swift.String]? = nil
+        ) {
+            self.matchExpressions = matchExpressions
+            self.matchLabels = matchLabels
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes.EksLabelSelector: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EksLabelSelector(matchExpressions: \"CONTENT_REDACTED\", matchLabels: \"CONTENT_REDACTED\")"}
+}
+
+extension Resiliencehubv2ClientTypes {
+
     /// Defines an Amazon EKS cluster and its namespaces as an input source for resource discovery.
     public struct EksSource: Swift.Sendable {
         /// ARN identifier.
         /// This member is required.
         public var clusterArn: Swift.String?
+        /// Filters discovery to the Kubernetes objects whose labels match the selector. When omitted, all supported objects in the specified namespaces are discovered.
+        public var labelSelector: Resiliencehubv2ClientTypes.EksLabelSelector?
         /// The list of Kubernetes namespaces within the EKS cluster.
         /// This member is required.
         public var namespaces: [Swift.String]?
 
         public init(
             clusterArn: Swift.String? = nil,
+            labelSelector: Resiliencehubv2ClientTypes.EksLabelSelector? = nil,
             namespaces: [Swift.String]? = nil
         ) {
             self.clusterArn = clusterArn
+            self.labelSelector = labelSelector
             self.namespaces = namespaces
         }
     }
@@ -2968,6 +3122,7 @@ public struct DeleteUserJourneyOutput: Swift.Sendable {
 
 extension Resiliencehubv2ClientTypes {
 
+    /// The criticality classification of a dependency.
     public enum DependencyCriticality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hard
         case soft
@@ -3788,7 +3943,7 @@ extension Resiliencehubv2ClientTypes {
 
     /// Represents a single run of a test. Configuration is snapshotted from the test and service at the time the run is started.
     public struct TestRun: Swift.Sendable {
-        /// Indicates whether this test run targets a single account or multiple accounts.
+        /// Indicates whether the test run targets resources in a single AWS account or across multiple accounts.
         public var accountTargeting: Resiliencehubv2ClientTypes.AccountTargeting?
         /// The timestamp when the test run ended.
         public var endedAt: Foundation.Date?
@@ -6151,6 +6306,124 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
         "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
+public struct ListTestRunDependenciesInput: Swift.Sendable {
+    /// Pagination page size.
+    public var maxResults: Swift.Int?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+    /// The ARN of the service the test run belongs to.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+    /// The identifier of the test run to list dependencies for.
+    /// This member is required.
+    public var testRunId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        serviceArn: Swift.String? = nil,
+        testRunId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceArn = serviceArn
+        self.testRunId = testRunId
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// The origin of a blocked dependency.
+    public enum TestRunDependencySource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case discovered
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestRunDependencySource] {
+            return [
+                .discovered,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .discovered: return "DISCOVERED"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains summary information about a dependency that a test run blocked, as captured when the run started.
+    public struct TestRunDependencySummary: Swift.Sendable {
+        /// The criticality classification of the dependency when the run started. A dependency that was not discovered has the UNKNOWN criticality.
+        /// This member is required.
+        public var criticality: Resiliencehubv2ClientTypes.DependencyCriticality?
+        /// The unique identifier of the dependency. Absent when the dependency was entered manually and was not part of dependency discovery.
+        public var dependencyId: Swift.String?
+        /// The name of the dependency.
+        /// This member is required.
+        public var dependencyName: Swift.String?
+        /// The DNS name of the dependency that the test run blocked.
+        /// This member is required.
+        public var dnsName: Swift.String?
+        /// The location of the dependency.
+        public var location: Swift.String?
+        /// The provider of the dependency.
+        public var provider: Swift.String?
+        /// The origin of the dependency. A discovered dependency was found by dependency discovery; a manual dependency was entered when the run started.
+        /// This member is required.
+        public var source: Resiliencehubv2ClientTypes.TestRunDependencySource?
+        /// The source Regions from which the dependency was detected.
+        public var sourceRegions: [Swift.String]?
+
+        public init(
+            criticality: Resiliencehubv2ClientTypes.DependencyCriticality? = nil,
+            dependencyId: Swift.String? = nil,
+            dependencyName: Swift.String? = nil,
+            dnsName: Swift.String? = nil,
+            location: Swift.String? = nil,
+            provider: Swift.String? = nil,
+            source: Resiliencehubv2ClientTypes.TestRunDependencySource? = nil,
+            sourceRegions: [Swift.String]? = nil
+        ) {
+            self.criticality = criticality
+            self.dependencyId = dependencyId
+            self.dependencyName = dependencyName
+            self.dnsName = dnsName
+            self.location = location
+            self.provider = provider
+            self.source = source
+            self.sourceRegions = sourceRegions
+        }
+    }
+}
+
+public struct ListTestRunDependenciesOutput: Swift.Sendable {
+    /// The list of dependencies the test run blocked.
+    /// This member is required.
+    public var dependencies: [Resiliencehubv2ClientTypes.TestRunDependencySummary]?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        dependencies: [Resiliencehubv2ClientTypes.TestRunDependencySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dependencies = dependencies
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListTestRunEventsInput: Swift.Sendable {
     /// Return events at or before this timestamp.
     public var endedAt: Foundation.Date?
@@ -6263,7 +6536,7 @@ extension Resiliencehubv2ClientTypes {
 
     /// Contains summary information about a test run.
     public struct TestRunSummary: Swift.Sendable {
-        /// Indicates whether this test run targets a single account or multiple accounts.
+        /// Indicates whether the test run targets resources in a single AWS account or across multiple accounts.
         public var accountTargeting: Resiliencehubv2ClientTypes.AccountTargeting?
         /// The timestamp when the test run ended.
         public var endedAt: Foundation.Date?
@@ -6319,6 +6592,173 @@ public struct ListTestRunsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.testRuns = testRuns
+    }
+}
+
+public struct ListTestRunSourceEventsInput: Swift.Sendable {
+    /// Pagination page size.
+    public var maxResults: Swift.Int?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+    /// The ARN of the service the test run belongs to.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+    /// The ARN of the monitoring source to list events for, such as the ARN of a CloudWatch alarm. If the source was not monitored during the test run, the response is an empty list.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The identifier of the test run to list source events for.
+    /// This member is required.
+    public var testRunId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        serviceArn: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        testRunId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceArn = serviceArn
+        self.sourceArn = sourceArn
+        self.testRunId = testRunId
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// The cause of a source event collection error.
+    public enum TestRunSourceEventErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case internalError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestRunSourceEventErrorCode] {
+            return [
+                .accessDenied,
+                .internalError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .internalError: return "INTERNAL_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Describes an error that prevented event collection from a test run monitoring source.
+    public struct TestRunSourceEventError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var errorCode: Resiliencehubv2ClientTypes.TestRunSourceEventErrorCode?
+        /// A human-readable description of the error.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Resiliencehubv2ClientTypes.TestRunSourceEventErrorCode? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// The payload of a test run source event. Exactly one member is set.
+    public enum TestRunSourceEventDetail: Swift.Sendable {
+        /// A CloudWatch alarm state change.
+        case alarmstatechange(Resiliencehubv2ClientTypes.AlarmStateChangeDetail)
+        /// An error that prevented event collection from the source.
+        case error(Resiliencehubv2ClientTypes.TestRunSourceEventError)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// The type of a test run source event. ALARM indicates an event produced from a CloudWatch alarm source.
+    public enum TestRunSourceEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alarm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestRunSourceEventType] {
+            return [
+                .alarm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alarm: return "ALARM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// A state-change event observed for a test run monitoring source.
+    public struct TestRunSourceEvent: Swift.Sendable {
+        /// The event payload.
+        /// This member is required.
+        public var detail: Resiliencehubv2ClientTypes.TestRunSourceEventDetail?
+        /// The type of the event. ALARM indicates an event from a CloudWatch alarm source; the detail member carries either the alarm state change or a collection error.
+        /// This member is required.
+        public var eventType: Resiliencehubv2ClientTypes.TestRunSourceEventType?
+        /// The ARN of the monitoring source the event belongs to.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+        /// The timestamp when the event occurred.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            detail: Resiliencehubv2ClientTypes.TestRunSourceEventDetail? = nil,
+            eventType: Resiliencehubv2ClientTypes.TestRunSourceEventType? = nil,
+            sourceArn: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.detail = detail
+            self.eventType = eventType
+            self.sourceArn = sourceArn
+            self.timestamp = timestamp
+        }
+    }
+}
+
+public struct ListTestRunSourceEventsOutput: Swift.Sendable {
+    /// Pagination token.
+    public var nextToken: Swift.String?
+    /// The list of source events, in chronological order.
+    /// This member is required.
+    public var testRunSourceEvents: [Resiliencehubv2ClientTypes.TestRunSourceEvent]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testRunSourceEvents: [Resiliencehubv2ClientTypes.TestRunSourceEvent]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.testRunSourceEvents = testRunSourceEvents
     }
 }
 
@@ -8345,6 +8785,38 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTestRunDependenciesInput {
+
+    static func urlPathProvider(_ value: ListTestRunDependenciesInput) -> Swift.String? {
+        guard let testRunId = value.testRunId else {
+            return nil
+        }
+        return "/v2/test-runs/\(testRunId.urlPercentEncoding())/dependencies"
+    }
+}
+
+extension ListTestRunDependenciesInput {
+
+    static func queryItemProvider(_ value: ListTestRunDependenciesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let serviceArn = value.serviceArn else {
+            let message = "Creating a URL Query Item failed. serviceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let serviceArnQueryItem = Smithy.URIQueryItem(name: "serviceArn".urlPercentEncoding(), value: Swift.String(serviceArn).urlPercentEncoding())
+        items.append(serviceArnQueryItem)
+        return items
+    }
+}
+
 extension ListTestRunEventsInput {
 
     static func urlPathProvider(_ value: ListTestRunEventsInput) -> Swift.String? {
@@ -8414,6 +8886,44 @@ extension ListTestRunsInput {
             let testIdQueryItem = Smithy.URIQueryItem(name: "testId".urlPercentEncoding(), value: Swift.String(testId).urlPercentEncoding())
             items.append(testIdQueryItem)
         }
+        return items
+    }
+}
+
+extension ListTestRunSourceEventsInput {
+
+    static func urlPathProvider(_ value: ListTestRunSourceEventsInput) -> Swift.String? {
+        guard let testRunId = value.testRunId else {
+            return nil
+        }
+        return "/v2/test-runs/\(testRunId.urlPercentEncoding())/source-events"
+    }
+}
+
+extension ListTestRunSourceEventsInput {
+
+    static func queryItemProvider(_ value: ListTestRunSourceEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let sourceArn = value.sourceArn else {
+            let message = "Creating a URL Query Item failed. sourceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let sourceArnQueryItem = Smithy.URIQueryItem(name: "sourceArn".urlPercentEncoding(), value: Swift.String(sourceArn).urlPercentEncoding())
+        items.append(sourceArnQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let serviceArn = value.serviceArn else {
+            let message = "Creating a URL Query Item failed. serviceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let serviceArnQueryItem = Smithy.URIQueryItem(name: "serviceArn".urlPercentEncoding(), value: Swift.String(serviceArn).urlPercentEncoding())
+        items.append(serviceArnQueryItem)
         return items
     }
 }
@@ -9644,6 +10154,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTestRunDependenciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTestRunDependenciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTestRunDependenciesOutput()
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.TestRunDependencySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListTestRunEventsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTestRunEventsOutput {
@@ -9666,6 +10189,19 @@ extension ListTestRunsOutput {
         var value = ListTestRunsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.testRuns = try reader["testRuns"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.TestRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListTestRunSourceEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTestRunSourceEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTestRunSourceEventsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.testRunSourceEvents = try reader["testRunSourceEvents"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.TestRunSourceEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10719,6 +11255,23 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTestRunDependenciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTestRunEventsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10737,6 +11290,23 @@ enum ListTestRunEventsOutputError {
 }
 
 enum ListTestRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTestRunSourceEventsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11219,6 +11789,18 @@ extension Resiliencehubv2ClientTypes.Achievability {
     }
 }
 
+extension Resiliencehubv2ClientTypes.AlarmStateChangeDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.AlarmStateChangeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.AlarmStateChangeDetail()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.previousState = try reader["previousState"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
 extension Resiliencehubv2ClientTypes.Assertion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.Assertion {
@@ -11438,11 +12020,48 @@ extension Resiliencehubv2ClientTypes.EffectivePolicyValues {
     }
 }
 
+extension Resiliencehubv2ClientTypes.EksLabelSelector {
+
+    static func write(value: Resiliencehubv2ClientTypes.EksLabelSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["matchExpressions"].writeList(value.matchExpressions, memberWritingClosure: Resiliencehubv2ClientTypes.EksLabelSelectorRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["matchLabels"].writeMap(value.matchLabels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.EksLabelSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.EksLabelSelector()
+        value.matchLabels = try reader["matchLabels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.matchExpressions = try reader["matchExpressions"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.EksLabelSelectorRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.EksLabelSelectorRequirement {
+
+    static func write(value: Resiliencehubv2ClientTypes.EksLabelSelectorRequirement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.EksLabelSelectorRequirement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.EksLabelSelectorRequirement()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.`operator` = try reader["operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension Resiliencehubv2ClientTypes.EksSource {
 
     static func write(value: Resiliencehubv2ClientTypes.EksSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clusterArn"].write(value.clusterArn)
+        try writer["labelSelector"].write(value.labelSelector, with: Resiliencehubv2ClientTypes.EksLabelSelector.write(value:to:))
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -11451,6 +12070,7 @@ extension Resiliencehubv2ClientTypes.EksSource {
         var value = Resiliencehubv2ClientTypes.EksSource()
         value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.labelSelector = try reader["labelSelector"].readIfPresent(with: Resiliencehubv2ClientTypes.EksLabelSelector.read(from:))
         return value
     }
 }
@@ -12628,6 +13248,23 @@ extension Resiliencehubv2ClientTypes.TestRun {
     }
 }
 
+extension Resiliencehubv2ClientTypes.TestRunDependencySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.TestRunDependencySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.TestRunDependencySummary()
+        value.dependencyId = try reader["dependencyId"].readIfPresent()
+        value.dependencyName = try reader["dependencyName"].readIfPresent() ?? ""
+        value.dnsName = try reader["dnsName"].readIfPresent() ?? ""
+        value.criticality = try reader["criticality"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent()
+        value.sourceRegions = try reader["sourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provider = try reader["provider"].readIfPresent()
+        return value
+    }
+}
+
 extension Resiliencehubv2ClientTypes.TestRunEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.TestRunEvent {
@@ -12676,6 +13313,46 @@ extension Resiliencehubv2ClientTypes.TestRunReportConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Resiliencehubv2ClientTypes.TestRunReportConfiguration()
         value.reportOutput = try reader["reportOutput"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.ReportOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.TestRunSourceEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.TestRunSourceEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.TestRunSourceEvent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
+        value.detail = try reader["detail"].readIfPresent(with: Resiliencehubv2ClientTypes.TestRunSourceEventDetail.read(from:))
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.TestRunSourceEventDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.TestRunSourceEventDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "alarmStateChange":
+                return .alarmstatechange(try reader["alarmStateChange"].read(with: Resiliencehubv2ClientTypes.AlarmStateChangeDetail.read(from:)))
+            case "error":
+                return .error(try reader["error"].read(with: Resiliencehubv2ClientTypes.TestRunSourceEventError.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes.TestRunSourceEventError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.TestRunSourceEventError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.TestRunSourceEventError()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }

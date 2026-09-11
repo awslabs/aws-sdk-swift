@@ -28,6 +28,11 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 
+public struct DeleteFeedPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -264,6 +269,54 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
+    public enum SummaryGenerationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryGenerationMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// The output configuration settings for the contextual metadata feature. Use this structure when the feed output generates metadata that describes the media content.
+    public struct ContextualMetadataConfig: Swift.Sendable {
+        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output. Valid values:
+        ///
+        /// * ENABLED (default) – Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications.
+        ///
+        /// * DISABLED – No descriptive summary is generated.
+        public var summaryGeneration: ElementalInferenceClientTypes.SummaryGenerationMode?
+
+        public init(
+            summaryGeneration: ElementalInferenceClientTypes.SummaryGenerationMode? = nil
+        ) {
+            self.summaryGeneration = summaryGeneration
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     /// A named set of graphics-compositing templates used by the crop feature, specified in the templateGroups array of a CroppingConfig.
     public struct TemplateGroup: Swift.Sendable {
         /// A name for the template group.
@@ -418,6 +471,8 @@ extension ElementalInferenceClientTypes {
         case clipping(ElementalInferenceClientTypes.ClippingConfig)
         /// The output config type that applies to the smart subtitling feature.
         case subtitling(ElementalInferenceClientTypes.SubtitlingConfig)
+        /// The output config type that applies to the contextual metadata feature.
+        case contextualmetadata(ElementalInferenceClientTypes.ContextualMetadataConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -952,6 +1007,18 @@ public struct DeleteFeedOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteFeedPolicyInput: Swift.Sendable {
+    /// The ID of the feed whose policy you want to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
 public struct ExportDictionaryEntriesInput: Swift.Sendable {
     /// The ID of the dictionary whose entries you want to export.
     /// This member is required.
@@ -1257,6 +1324,30 @@ public struct GetFeedOutput: Swift.Sendable {
     }
 }
 
+public struct GetFeedPolicyInput: Swift.Sendable {
+    /// The ID of the feed whose policy you want to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct GetFeedPolicyOutput: Swift.Sendable {
+    /// The resource-based policy document attached to the feed.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil
+    ) {
+        self.policy = policy
+    }
+}
+
 public struct ListFeedsInput: Swift.Sendable {
     /// The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page. Valid Range: Minimum value of 1. Maximum value of 1000.
     public var maxResults: Swift.Int?
@@ -1321,6 +1412,28 @@ public struct ListFeedsOutput: Swift.Sendable {
         self.feeds = feeds
         self.nextToken = nextToken
     }
+}
+
+public struct PutFeedPolicyInput: Swift.Sendable {
+    /// The ID of the feed to attach the policy to.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The resource-based policy document to attach to the feed.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.id = id
+        self.policy = policy
+    }
+}
+
+public struct PutFeedPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension ElementalInferenceClientTypes {
@@ -1763,6 +1876,16 @@ extension DeleteFeedInput {
     }
 }
 
+extension DeleteFeedPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteFeedPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/feed/\(id.urlPercentEncoding())/policy"
+    }
+}
+
 extension DisassociateFeedInput {
 
     static func urlPathProvider(_ value: DisassociateFeedInput) -> Swift.String? {
@@ -1800,6 +1923,16 @@ extension GetFeedInput {
             return nil
         }
         return "/v1/feed/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetFeedPolicyInput {
+
+    static func urlPathProvider(_ value: GetFeedPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/feed/\(id.urlPercentEncoding())/policy"
     }
 }
 
@@ -1866,6 +1999,16 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension PutFeedPolicyInput {
+
+    static func urlPathProvider(_ value: PutFeedPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/feed/\(id.urlPercentEncoding())/policy"
     }
 }
 
@@ -1970,6 +2113,14 @@ extension DisassociateFeedInput {
         guard let value else { return }
         try writer["associatedResourceName"].write(value.associatedResourceName)
         try writer["dryRun"].write(value.dryRun)
+    }
+}
+
+extension PutFeedPolicyInput {
+
+    static func write(value: PutFeedPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policy"].write(value.policy)
     }
 }
 
@@ -2093,6 +2244,13 @@ extension DeleteFeedOutput {
     }
 }
 
+extension DeleteFeedPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFeedPolicyOutput {
+        return DeleteFeedPolicyOutput()
+    }
+}
+
 extension DisassociateFeedOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateFeedOutput {
@@ -2156,6 +2314,18 @@ extension GetFeedOutput {
     }
 }
 
+extension GetFeedPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFeedPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFeedPolicyOutput()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetFixtureOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFixtureOutput {
@@ -2208,6 +2378,13 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension PutFeedPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutFeedPolicyOutput {
+        return PutFeedPolicyOutput()
     }
 }
 
@@ -2372,6 +2549,24 @@ enum DeleteFeedOutputError {
     }
 }
 
+enum DeleteFeedPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateFeedOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2444,6 +2639,24 @@ enum GetFeedOutputError {
     }
 }
 
+enum GetFeedPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFixtureOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2508,6 +2721,25 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutFeedPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
@@ -2775,6 +3007,21 @@ extension ElementalInferenceClientTypes.Competitor {
     }
 }
 
+extension ElementalInferenceClientTypes.ContextualMetadataConfig {
+
+    static func write(value: ElementalInferenceClientTypes.ContextualMetadataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["summaryGeneration"].write(value.summaryGeneration)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ContextualMetadataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.ContextualMetadataConfig()
+        value.summaryGeneration = try reader["summaryGeneration"].readIfPresent()
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.CreateOutput {
 
     static func write(value: ElementalInferenceClientTypes.CreateOutput?, to writer: SmithyJSON.Writer) throws {
@@ -2890,6 +3137,8 @@ extension ElementalInferenceClientTypes.OutputConfig {
         switch value {
             case let .clipping(clipping):
                 try writer["clipping"].write(clipping, with: ElementalInferenceClientTypes.ClippingConfig.write(value:to:))
+            case let .contextualmetadata(contextualmetadata):
+                try writer["contextualMetadata"].write(contextualmetadata, with: ElementalInferenceClientTypes.ContextualMetadataConfig.write(value:to:))
             case let .cropping(cropping):
                 try writer["cropping"].write(cropping, with: ElementalInferenceClientTypes.CroppingConfig.write(value:to:))
             case let .subtitling(subtitling):
@@ -2909,6 +3158,8 @@ extension ElementalInferenceClientTypes.OutputConfig {
                 return .clipping(try reader["clipping"].read(with: ElementalInferenceClientTypes.ClippingConfig.read(from:)))
             case "subtitling":
                 return .subtitling(try reader["subtitling"].read(with: ElementalInferenceClientTypes.SubtitlingConfig.read(from:)))
+            case "contextualMetadata":
+                return .contextualmetadata(try reader["contextualMetadata"].read(with: ElementalInferenceClientTypes.ContextualMetadataConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

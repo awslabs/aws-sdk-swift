@@ -5490,6 +5490,25 @@ public struct DescribePhoneNumbersInput: Swift.Sendable {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    /// The messaging limits that apply to an origination identity, such as a phone number, sender ID, or RCS agent. Includes the per-capability send rates and, for supported origination identities, advisory per-provider daily message caps.
+    public struct MessagingLimits: Swift.Sendable {
+        /// The advisory maximum number of messages that can be sent per day, keyed by provider (for example, T-MOBILE). Applies to 10DLC phone numbers and is omitted when no daily cap applies.
+        public var dailyMessageCaps: [Swift.String: Swift.Int]?
+        /// The maximum send rate for each supported capability, in messages per second. The map is keyed by capability, such as SMS, MMS, VOICE, or RCS.
+        public var rateLimits: [Swift.String: Swift.Int]?
+
+        public init(
+            dailyMessageCaps: [Swift.String: Swift.Int]? = nil,
+            rateLimits: [Swift.String: Swift.Int]? = nil
+        ) {
+            self.dailyMessageCaps = dailyMessageCaps
+            self.rateLimits = rateLimits
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
     public enum NumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case longCode
         case shortCode
@@ -5582,6 +5601,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         /// This member is required.
         public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
+        /// The messaging limits that apply to the phone number, including the per-capability send rates and any advisory per-provider daily message caps.
+        public var messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits?
         /// The price, in US dollars, to lease the phone number.
         /// This member is required.
         public var monthlyLeasingPrice: Swift.String?
@@ -5626,6 +5647,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             internationalSendingEnabled: Swift.Bool = false,
             isoCountryCode: Swift.String? = nil,
             messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
+            messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits? = nil,
             monthlyLeasingPrice: Swift.String? = nil,
             numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
             numberType: PinpointSMSVoiceV2ClientTypes.NumberType? = nil,
@@ -5646,6 +5668,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
+            self.messagingLimits = messagingLimits
             self.monthlyLeasingPrice = monthlyLeasingPrice
             self.numberCapabilities = numberCapabilities
             self.numberType = numberType
@@ -6211,6 +6234,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// When set to true the RCS agent can't be deleted.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
+        /// The messaging limits that apply to the RCS agent, including the per-capability send rates.
+        public var messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits?
         /// The name of the OptOutList associated with the RCS agent.
         public var optOutListName: Swift.String?
         /// The unique identifier of the pool associated with the RCS agent.
@@ -6248,6 +6273,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             createdTimestamp: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool = false,
+            messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits? = nil,
             optOutListName: Swift.String? = nil,
             poolId: Swift.String? = nil,
             rcsAgentArn: Swift.String? = nil,
@@ -6265,6 +6291,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         ) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.messagingLimits = messagingLimits
             self.optOutListName = optOutListName
             self.poolId = poolId
             self.rcsAgentArn = rcsAgentArn
@@ -7629,6 +7656,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         /// This member is required.
         public var messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
+        /// The messaging limits that apply to the sender ID, including the per-capability send rates.
+        public var messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits?
         /// The monthly leasing price, in US dollars.
         /// This member is required.
         public var monthlyLeasingPrice: Swift.String?
@@ -7648,6 +7677,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             deletionProtectionEnabled: Swift.Bool = false,
             isoCountryCode: Swift.String? = nil,
             messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
+            messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits? = nil,
             monthlyLeasingPrice: Swift.String? = nil,
             registered: Swift.Bool = false,
             registrationId: Swift.String? = nil,
@@ -7657,6 +7687,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
+            self.messagingLimits = messagingLimits
             self.monthlyLeasingPrice = monthlyLeasingPrice
             self.registered = registered
             self.registrationId = registrationId
@@ -8294,6 +8325,156 @@ extension PinpointSMSVoiceV2ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The type of pattern matching to apply.
+    public enum PreferenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case endsWith
+        case exactMatch
+        case startsWith
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreferenceType] {
+            return [
+                .contains,
+                .endsWith,
+                .exactMatch,
+                .startsWith
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "Contains"
+            case .endsWith: return "EndsWith"
+            case .exactMatch: return "ExactMatch"
+            case .startsWith: return "StartsWith"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A single number preference — specifies a pattern type and filter value.
+    public struct NumberPreferenceItem: Swift.Sendable {
+        /// The digit pattern values to match against available phone numbers, using the specified preference type.
+        /// This member is required.
+        public var filter: [Swift.String]?
+        /// The type of match to apply to the filter values.
+        ///
+        /// * StartsWith: Returns numbers that begin with the filter value.
+        ///
+        /// * EndsWith: Returns numbers that end with the filter value.
+        ///
+        /// * Contains: Returns numbers that contain the filter value.
+        ///
+        /// * ExactMatch: Returns the number that exactly matches the filter value.
+        /// This member is required.
+        public var preferenceType: [PinpointSMSVoiceV2ClientTypes.PreferenceType]?
+
+        public init(
+            filter: [Swift.String]? = nil,
+            preferenceType: [PinpointSMSVoiceV2ClientTypes.PreferenceType]? = nil
+        ) {
+            self.filter = filter
+            self.preferenceType = preferenceType
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The type of phone number to search for with ListAvailablePhoneNumbers. Currently only TEN_DLC is supported; additional number types (for example TOLL_FREE) will be added in future phases. Modeled as a dedicated enum rather than RequestableNumberType so this operation advertises only the values it actually supports. New values may be added over time (backward compatible).
+    public enum SearchableNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tenDlc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchableNumberType] {
+            return [
+                .tenDlc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tenDlc: return "TEN_DLC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListAvailablePhoneNumbersInput: Swift.Sendable {
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only US.
+    /// This member is required.
+    public var isoCountryCode: Swift.String?
+    /// The maximum number of results to return per page. If you don't specify a value, the default is 10.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
+    /// This member is required.
+    public var numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// Optional. If omitted, returns unfiltered available numbers. Max 1 element for List API.
+    public var numberPreference: [PinpointSMSVoiceV2ClientTypes.NumberPreferenceItem]?
+    /// The type of phone number to search for.
+    /// This member is required.
+    public var numberType: PinpointSMSVoiceV2ClientTypes.SearchableNumberType?
+    /// The registration associated with the request. A registration is required for regulated number types. You can specify either:
+    ///
+    /// * The unique identifier of the registration.
+    ///
+    /// * The Amazon Resource Name (ARN) of the registration.
+    public var registrationId: Swift.String?
+
+    public init(
+        isoCountryCode: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        numberPreference: [PinpointSMSVoiceV2ClientTypes.NumberPreferenceItem]? = nil,
+        numberType: PinpointSMSVoiceV2ClientTypes.SearchableNumberType? = nil,
+        registrationId: Swift.String? = nil
+    ) {
+        self.isoCountryCode = isoCountryCode
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.numberCapabilities = numberCapabilities
+        self.numberPreference = numberPreference
+        self.numberType = numberType
+        self.registrationId = registrationId
+    }
+}
+
+public struct ListAvailablePhoneNumbersOutput: Swift.Sendable {
+    /// An array of phone numbers, in E.164 format, that are available to request based on the specified filters.
+    /// This member is required.
+    public var availablePhoneNumbers: [Swift.String]?
+    /// The token to include in the next request to retrieve the next page of results. This value is null when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        availablePhoneNumbers: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.availablePhoneNumbers = availablePhoneNumbers
+        self.nextToken = nextToken
     }
 }
 
@@ -9358,6 +9539,8 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     /// Indicates if the phone number will be used for text messages, voice messages, or both.
     /// This member is required.
     public var numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
+    /// An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to TEN_DLC requests in the US.
+    public var numberPreference: [PinpointSMSVoiceV2ClientTypes.NumberPreferenceItem]?
     /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
     /// This member is required.
     public var numberType: PinpointSMSVoiceV2ClientTypes.RequestableNumberType?
@@ -9377,6 +9560,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]? = nil,
+        numberPreference: [PinpointSMSVoiceV2ClientTypes.NumberPreferenceItem]? = nil,
         numberType: PinpointSMSVoiceV2ClientTypes.RequestableNumberType? = nil,
         optOutListName: Swift.String? = nil,
         poolId: Swift.String? = nil,
@@ -9389,6 +9573,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
         self.isoCountryCode = isoCountryCode
         self.messageType = messageType
         self.numberCapabilities = numberCapabilities
+        self.numberPreference = numberPreference
         self.numberType = numberType
         self.optOutListName = optOutListName
         self.poolId = poolId

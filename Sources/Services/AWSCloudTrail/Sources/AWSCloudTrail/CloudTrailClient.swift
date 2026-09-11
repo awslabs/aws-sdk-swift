@@ -713,7 +713,7 @@ extension CloudTrailClient {
 
     /// Performs the `CancelQuery` operation on the `CloudTrail` service.
     ///
-    /// Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED, TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you want to cancel is also required. When you run CancelQuery, the query status might show as CANCELLED even if the operation is not yet finished.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED, TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you want to cancel is also required. When you run CancelQuery, the query status might show as CANCELLED even if the operation is not yet finished.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelQueryInput`)
     ///
@@ -796,7 +796,7 @@ extension CloudTrailClient {
 
     /// Performs the `CreateChannel` operation on the `CloudTrail` service.
     ///
-    /// Creates a channel for CloudTrail to ingest events from a partner or external source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Creates a channel for CloudTrail to ingest events from a partner or external source. After you create a channel, a CloudTrail Lake event data store can log events from the partner or source that you specify.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
@@ -881,7 +881,7 @@ extension CloudTrailClient {
 
     /// Performs the `CreateDashboard` operation on the `CloudTrail` service.
     ///
-    /// Creates a custom dashboard or the Highlights dashboard.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Creates a custom dashboard or the Highlights dashboard.
     ///
     /// * Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manually refresh a custom dashboard, or you can set a refresh schedule.
     ///
@@ -969,7 +969,7 @@ extension CloudTrailClient {
 
     /// Performs the `CreateEventDataStore` operation on the `CloudTrail` service.
     ///
-    /// Creates a new event data store.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Creates a new event data store.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEventDataStoreInput`)
     ///
@@ -1185,7 +1185,7 @@ extension CloudTrailClient {
 
     /// Performs the `DeleteChannel` operation on the `CloudTrail` service.
     ///
-    /// Deletes a channel.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Deletes a channel.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
@@ -1262,7 +1262,7 @@ extension CloudTrailClient {
 
     /// Performs the `DeleteDashboard` operation on the `CloudTrail` service.
     ///
-    /// Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDashboardInput`)
     ///
@@ -1338,7 +1338,7 @@ extension CloudTrailClient {
 
     /// Performs the `DeleteEventDataStore` operation on the `CloudTrail` service.
     ///
-    /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store and the FederationStatus must be DISABLED. You cannot delete an event data store if TerminationProtectionEnabled is True or the FederationStatus is ENABLED. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store and the FederationStatus must be DISABLED. You cannot delete an event data store if TerminationProtectionEnabled is True or the FederationStatus is ENABLED. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteEventDataStoreInput`)
     ///
@@ -1683,7 +1683,7 @@ extension CloudTrailClient {
 
     /// Performs the `DescribeQuery` operation on the `CloudTrail` service.
     ///
-    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias. You can provide RefreshId along with QueryAlias to view the query results of a dashboard query for the specified RefreshId.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias. You can provide RefreshId along with QueryAlias to view the query results of a dashboard query for the specified RefreshId.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeQueryInput`)
     ///
@@ -1852,7 +1852,7 @@ extension CloudTrailClient {
 
     /// Performs the `DisableFederation` operation on the `CloudTrail` service.
     ///
-    /// Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables the integration with Glue, Lake Formation, and Amazon Athena. After disabling Lake query federation, you can no longer query your event data in Amazon Athena. No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables the integration with Glue, Lake Formation, and Amazon Athena. After disabling Lake query federation, you can no longer query your event data in Amazon Athena. No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableFederationInput`)
     ///
@@ -1939,7 +1939,7 @@ extension CloudTrailClient {
 
     /// Performs the `EnableFederation` operation on the `CloudTrail` service.
     ///
-    /// Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue [Data Catalog](https://docs.aws.amazon.com/glue/latest/dg/components-overview.html#data-catalog-intro) and run SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a managed database named aws:cloudtrail (if the database doesn't already exist) and a managed federated table in the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in [Lake Formation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation-lake-formation.html), the service responsible for allowing fine-grained access control of the federated resources in the Glue Data Catalog. For more information about Lake query federation, see [Federate an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html).
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue [Data Catalog](https://docs.aws.amazon.com/glue/latest/dg/components-overview.html#data-catalog-intro) and run SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a managed database named aws:cloudtrail (if the database doesn't already exist) and a managed federated table in the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in [Lake Formation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation-lake-formation.html), the service responsible for allowing fine-grained access control of the federated resources in the Glue Data Catalog. For more information about Lake query federation, see [Federate an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableFederationInput`)
     ///
@@ -2027,7 +2027,7 @@ extension CloudTrailClient {
 
     /// Performs the `GenerateQuery` operation on the `CloudTrail` service.
     ///
-    /// Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statement about the event data in your event data store. For example, you can enter prompts like "What are my top errors in the past month?" and “Give me a list of users that used SNS.” The prompt must be in English. For information about limitations, permissions, and supported Regions, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html) in the CloudTrail user guide. Do not include any personally identifying, confidential, or sensitive information in your prompts. This feature uses generative AI large language models (LLMs); we recommend double-checking the LLM response.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Generates a query from a natural language prompt. This operation uses generative artificial intelligence (generative AI) to produce a ready-to-use SQL query from the prompt. The prompt can be a question or a statement about the event data in your event data store. For example, you can enter prompts like "What are my top errors in the past month?" and “Give me a list of users that used SNS.” The prompt must be in English. For information about limitations, permissions, and supported Regions, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html) in the CloudTrail user guide. Do not include any personally identifying, confidential, or sensitive information in your prompts. This feature uses generative AI large language models (LLMs); we recommend double-checking the LLM response.
     ///
     /// - Parameter input: [no documentation found] (Type: `GenerateQueryInput`)
     ///
@@ -2108,7 +2108,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetChannel` operation on the `CloudTrail` service.
     ///
-    /// Returns information about a specific channel.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns information about a specific channel.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
@@ -2185,7 +2185,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetDashboard` operation on the `CloudTrail` service.
     ///
-    /// Returns the specified dashboard.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns the specified dashboard.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDashboardInput`)
     ///
@@ -2355,7 +2355,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetEventDataStore` operation on the `CloudTrail` service.
     ///
-    /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetEventDataStoreInput`)
     ///
@@ -2540,7 +2540,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetImport` operation on the `CloudTrail` service.
     ///
-    /// Returns information about a specific import.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns information about a specific import.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetImportInput`)
     ///
@@ -2710,7 +2710,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetQueryResults` operation on the `CloudTrail` service.
     ///
-    /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
@@ -3049,7 +3049,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListChannels` operation on the `CloudTrail` service.
     ///
-    /// Lists the channels in the current account, and their source names.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Lists the channels in the current account, and their source names.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
@@ -3125,7 +3125,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListDashboards` operation on the `CloudTrail` service.
     ///
-    /// Returns information about all dashboards in the account, in the current Region.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns information about all dashboards in the account, in the current Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDashboardsInput`)
     ///
@@ -3199,7 +3199,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListEventDataStores` operation on the `CloudTrail` service.
     ///
-    /// Returns information about all event data stores in the account, in the current Region.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns information about all event data stores in the account, in the current Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEventDataStoresInput`)
     ///
@@ -3277,7 +3277,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListImportFailures` operation on the `CloudTrail` service.
     ///
-    /// Returns a list of failures for the specified import.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns a list of failures for the specified import.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListImportFailuresInput`)
     ///
@@ -3354,7 +3354,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListImports` operation on the `CloudTrail` service.
     ///
-    /// Returns information on all imports, or a select set of imports by ImportStatus or Destination.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns information on all imports, or a select set of imports by ImportStatus or Destination.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListImportsInput`)
     ///
@@ -3441,7 +3441,7 @@ extension CloudTrailClient {
     /// * Event source
     ///
     ///
-    /// All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
+    /// All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs. For data event Insights on organization trails, only the management account and delegated administrator accounts can call ListInsightsData. For these callers, the API returns Insights events only for the caller's own account. Member accounts cannot call this API on organization trails.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInsightsDataInput`)
     ///
@@ -3531,6 +3531,9 @@ extension CloudTrailClient {
     /// * If ListInsightsMetricData is invoked with TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action and cloudtrail:ListInsightsData. To use this operation, you must have permissions to perform the cloudtrail:LookupEvents and cloudtrail:ListInsightsData action on the specific trail.
     ///
     /// * If ListInsightsMetricData is invoked without TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action only. To use this operation, you must have permissions to perform the cloudtrail:LookupEvents action.
+    ///
+    ///
+    /// For data event Insights on organization trails, only the management account and delegated administrator accounts can call ListInsightsMetricData. For these callers, the API returns Insights metrics only for the caller's own account. Member accounts cannot call this API on organization trails.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInsightsMetricDataInput`)
     ///
@@ -3694,7 +3697,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListQueries` operation on the `CloudTrail` service.
     ///
-    /// Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListQueriesInput`)
     ///
@@ -4300,6 +4303,7 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InsufficientS3BucketPolicyException` : This exception is thrown when the policy on the S3 bucket is not sufficient.
     /// - `InvalidHomeRegionException` : This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
@@ -4654,7 +4658,7 @@ extension CloudTrailClient {
 
     /// Performs the `RestoreEventDataStore` operation on the `CloudTrail` service.
     ///
-    /// Restores a deleted event data store specified by EventDataStore, which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an event data store can take several minutes, depending on the size of the event data store.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Restores a deleted event data store specified by EventDataStore, which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an event data store can take several minutes, depending on the size of the event data store.
     ///
     /// - Parameter input: [no documentation found] (Type: `RestoreEventDataStoreInput`)
     ///
@@ -4740,7 +4744,7 @@ extension CloudTrailClient {
 
     /// Performs the `SearchSampleQueries` operation on the `CloudTrail` service.
     ///
-    /// Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Searches sample queries and returns a list of sample queries that are sorted by relevance. To search for sample queries, provide a natural language SearchPhrase in English.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchSampleQueriesInput`)
     ///
@@ -4816,7 +4820,7 @@ extension CloudTrailClient {
 
     /// Performs the `StartDashboardRefresh` operation on the `CloudTrail` service.
     ///
-    /// Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDashboardRefreshInput`)
     ///
@@ -4894,7 +4898,7 @@ extension CloudTrailClient {
 
     /// Performs the `StartEventDataStoreIngestion` operation on the `CloudTrail` service.
     ///
-    /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartEventDataStoreIngestionInput`)
     ///
@@ -4978,7 +4982,7 @@ extension CloudTrailClient {
 
     /// Performs the `StartImport` operation on the `CloudTrail` service.
     ///
-    /// Starts an import of logged trail events from a source S3 bucket to a destination event data store. By default, CloudTrail only imports events contained in the S3 bucket's CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check prefixes for other Amazon Web Services services. If you want to import CloudTrail events contained in another prefix, you must include the prefix in the S3LocationUri. For more considerations about importing trail events, see [Considerations for copying trail events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-copy-trail-to-lake.html#cloudtrail-trail-copy-considerations) in the CloudTrail User Guide. When you start a new import, the Destinations and ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html). When you retry an import, the ImportID parameter is required. If the destination event data store is for an organization, you must use the management account to import trail events. You cannot use the delegated administrator account for the organization.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Starts an import of logged trail events from a source S3 bucket to a destination event data store. By default, CloudTrail only imports events contained in the S3 bucket's CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check prefixes for other Amazon Web Services services. If you want to import CloudTrail events contained in another prefix, you must include the prefix in the S3LocationUri. For more considerations about importing trail events, see [Considerations for copying trail events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-copy-trail-to-lake.html#cloudtrail-trail-copy-considerations) in the CloudTrail User Guide. When you start a new import, the Destinations and ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html). When you retry an import, the ImportID parameter is required. If the destination event data store is for an organization, you must use the management account to import trail events. You cannot use the delegated administrator account for the organization.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartImportInput`)
     ///
@@ -5157,7 +5161,7 @@ extension CloudTrailClient {
 
     /// Performs the `StartQuery` operation on the `CloudTrail` service.
     ///
-    /// Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket. StartQuery requires you specify either the QueryStatement parameter, or a QueryAlias and any QueryParameters. In the current release, the QueryAlias and QueryParameters parameters are used only for the queries that populate the CloudTrail Lake dashboards.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket. StartQuery requires you specify either the QueryStatement parameter, or a QueryAlias and any QueryParameters. In the current release, the QueryAlias and QueryParameters parameters are used only for the queries that populate the CloudTrail Lake dashboards.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartQueryInput`)
     ///
@@ -5244,7 +5248,7 @@ extension CloudTrailClient {
 
     /// Performs the `StopEventDataStoreIngestion` operation on the `CloudTrail` service.
     ///
-    /// Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopEventDataStoreIngestionInput`)
     ///
@@ -5328,7 +5332,7 @@ extension CloudTrailClient {
 
     /// Performs the `StopImport` operation on the `CloudTrail` service.
     ///
-    /// Stops a specified import.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Stops a specified import.
     ///
     /// - Parameter input: [no documentation found] (Type: `StopImportInput`)
     ///
@@ -5499,7 +5503,7 @@ extension CloudTrailClient {
 
     /// Performs the `UpdateChannel` operation on the `CloudTrail` service.
     ///
-    /// Updates a channel specified by a required channel ARN or UUID.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Updates a channel specified by a required channel ARN or UUID.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
@@ -5582,7 +5586,7 @@ extension CloudTrailClient {
 
     /// Performs the `UpdateDashboard` operation on the `CloudTrail` service.
     ///
-    /// Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information, see [ Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the CloudTrail User Guide. CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information, see [ Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the CloudTrail User Guide. CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDashboardInput`)
     ///
@@ -5663,7 +5667,7 @@ extension CloudTrailClient {
 
     /// Performs the `UpdateEventDataStore` operation on the `CloudTrail` service.
     ///
-    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or network activity events in your event data store. For more information about AdvancedEventSelectors, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html). For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
+    /// CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [CloudTrail Lake availability change](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-service-availability-change.html). Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or network activity events in your event data store. For more information about AdvancedEventSelectors, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html). For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEventDataStoreInput`)
     ///

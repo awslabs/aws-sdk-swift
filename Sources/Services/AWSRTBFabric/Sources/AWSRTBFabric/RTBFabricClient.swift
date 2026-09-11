@@ -3109,7 +3109,7 @@ extension RTBFabricClient {
 
     /// Performs the `UpdateResponderGateway` operation on the `RTBFabric` service.
     ///
-    /// Updates a responder gateway.
+    /// Updates the description, Auto Scaling group managed endpoint configuration, trust store configuration, and client routing policy of a responder gateway. This operation also updates the protocols list in the listener configuration. You cannot change the domainName, port, and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateResponderGatewayInput`)
     ///

@@ -6286,6 +6286,63 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum EvaluationFormMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case businessOutcome
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormMetricType] {
+            return [
+                .businessOutcome
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessOutcome: return "BUSINESS_OUTCOME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the metric configuration for an evaluation form question. Use this to associate a business outcome metric with a question.
+    public struct EvaluationFormMetricConfiguration: Swift.Sendable {
+        /// The name of the metric. Valid values are:
+        ///
+        /// * SALE_SUCCESS – Sale success.
+        ///
+        /// * CSAT – Customer satisfaction.
+        ///
+        /// * CHURN_PROPENSITY – Churn propensity.
+        ///
+        /// * SELF_SERVICE_SUCCESS – Self-service success.
+        ///
+        /// * PARTIAL_SELF_SERVICE_SUCCESS – Partial self-service success.
+        /// This member is required.
+        public var metricName: Swift.String?
+        /// The type of metric. Currently, only BUSINESS_OUTCOME is supported.
+        /// This member is required.
+        public var metricType: ConnectClientTypes.EvaluationFormMetricType?
+
+        public init(
+            metricName: Swift.String? = nil,
+            metricType: ConnectClientTypes.EvaluationFormMetricType? = nil
+        ) {
+            self.metricName = metricName
+            self.metricType = metricType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum EvaluationFormQuestionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case datetime
         case multiselect
@@ -9471,25 +9528,100 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum ChannelWorkloadBehaviorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case routeAnyChannelAnyWorkloadType
+        case routeCurrentChannelAnyWorkloadtypeOnly
+        case routeCurrentChannelCurrentWorkloadtypeOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelWorkloadBehaviorType] {
+            return [
+                .routeAnyChannelAnyWorkloadType,
+                .routeCurrentChannelAnyWorkloadtypeOnly,
+                .routeCurrentChannelCurrentWorkloadtypeOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routeAnyChannelAnyWorkloadType: return "ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE"
+            case .routeCurrentChannelAnyWorkloadtypeOnly: return "ROUTE_CURRENT_CHANNEL_ANY_WORKLOADTYPE_ONLY"
+            case .routeCurrentChannelCurrentWorkloadtypeOnly: return "ROUTE_CURRENT_CHANNEL_CURRENT_WORKLOADTYPE_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the cross-channel and workload type routing behavior that allows an agent working on a contact to be offered a contact from a different channel or workload type.
+    public struct CrossChannelWorkloadBehavior: Swift.Sendable {
+        /// Specifies the routing behavior for an agent handling their current channel and workload type.
+        public var channelWorkloadBehaviorType: ConnectClientTypes.ChannelWorkloadBehaviorType?
+
+        public init(
+            channelWorkloadBehaviorType: ConnectClientTypes.ChannelWorkloadBehaviorType? = nil
+        ) {
+            self.channelWorkloadBehaviorType = channelWorkloadBehaviorType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the maximum number of contacts an agent can handle simultaneously for a specific channel and workload type combination.
+    public struct WorkloadTypeConcurrency: Swift.Sendable {
+        /// The maximum number of contacts an agent can handle simultaneously for a specific channel and workload type combination. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 10. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
+        /// This member is required.
+        public var concurrency: Swift.Int?
+        /// Defines the cross-channel and workload type routing behavior for each channel and workload type combination that is enabled for this Routing Profile.
+        public var crossChannelWorkloadBehavior: ConnectClientTypes.CrossChannelWorkloadBehavior?
+        /// The value of the workload type.
+        /// This member is required.
+        public var workloadType: Swift.String?
+
+        public init(
+            concurrency: Swift.Int? = nil,
+            crossChannelWorkloadBehavior: ConnectClientTypes.CrossChannelWorkloadBehavior? = nil,
+            workloadType: Swift.String? = nil
+        ) {
+            self.concurrency = concurrency
+            self.crossChannelWorkloadBehavior = crossChannelWorkloadBehavior
+            self.workloadType = workloadType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains information about which channels are supported, and how many contacts an agent can have on a channel simultaneously.
     public struct MediaConcurrency: Swift.Sendable {
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
         /// The number of contacts an agent can have on a channel simultaneously. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 10. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
-        /// This member is required.
         public var concurrency: Swift.Int?
         /// Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For example, this allows you to offer an agent a different contact from another channel when they are currently working with a contact from a Voice channel.
         public var crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior?
+        /// Defines the list of workload type concurrency configurations for a channel. When provided, enables granular concurrency control based on workload type values.
+        public var workloadTypeConcurrencies: [ConnectClientTypes.WorkloadTypeConcurrency]?
 
         public init(
             channel: ConnectClientTypes.Channel? = nil,
-            concurrency: Swift.Int? = nil,
-            crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil
+            concurrency: Swift.Int? = 0,
+            crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil,
+            workloadTypeConcurrencies: [ConnectClientTypes.WorkloadTypeConcurrency]? = nil
         ) {
             self.channel = channel
             self.concurrency = concurrency
             self.crossChannelBehavior = crossChannelBehavior
+            self.workloadTypeConcurrencies = workloadTypeConcurrencies
         }
     }
 }
@@ -24145,6 +24277,138 @@ public struct ListEntitySecurityProfilesOutput: Swift.Sendable {
     }
 }
 
+public struct ListEvaluationFormAIVersionsInput: Swift.Sendable {
+    /// The contact interaction type for the evaluation form.
+    /// This member is required.
+    public var contactInteractionType: ConnectClientTypes.ContactInteractionType?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contactInteractionType: ConnectClientTypes.ContactInteractionType? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contactInteractionType = contactInteractionType
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormAIVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deprecated
+        case latest
+        case preview
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormAIVersionStatus] {
+            return [
+                .active,
+                .deprecated,
+                .latest,
+                .preview
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deprecated: return "DEPRECATED"
+            case .latest: return "LATEST"
+            case .preview: return "PREVIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the status and availability dates for an AI version, indicating when the version became active and when it reaches end of life.
+    public struct EvaluationFormAIVersionLifecycle: Swift.Sendable {
+        /// The timestamp when this AI version reaches or reached end of life.
+        public var endOfLifeTime: Foundation.Date?
+        /// The timestamp for when this AI version became available.
+        /// This member is required.
+        public var startOfLifeTime: Foundation.Date?
+        /// The status of the AI version. Valid values:
+        ///
+        /// * Latest - The most recent AI version.
+        ///
+        /// * Preview - An AI version available for preview.
+        ///
+        /// * Active - An AI version that is currently available.
+        ///
+        /// * Deprecated - An AI version that is no longer recommended for use.
+        ///
+        /// * Removed - An AI version that is no longer available.
+        /// This member is required.
+        public var status: ConnectClientTypes.EvaluationFormAIVersionStatus?
+
+        public init(
+            endOfLifeTime: Foundation.Date? = nil,
+            startOfLifeTime: Foundation.Date? = nil,
+            status: ConnectClientTypes.EvaluationFormAIVersionStatus? = nil
+        ) {
+            self.endOfLifeTime = endOfLifeTime
+            self.startOfLifeTime = startOfLifeTime
+            self.status = status
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the name and lifecycle information for an AI version that you can use when creating or updating an evaluation form.
+    public struct EvaluationFormAIVersionSummary: Swift.Sendable {
+        /// The lifecycle information for this AI version, including its status and availability dates.
+        /// This member is required.
+        public var aiVersionLifecycle: ConnectClientTypes.EvaluationFormAIVersionLifecycle?
+        /// The name of the AI version.
+        /// This member is required.
+        public var aiVersionName: Swift.String?
+
+        public init(
+            aiVersionLifecycle: ConnectClientTypes.EvaluationFormAIVersionLifecycle? = nil,
+            aiVersionName: Swift.String? = nil
+        ) {
+            self.aiVersionLifecycle = aiVersionLifecycle
+            self.aiVersionName = aiVersionName
+        }
+    }
+}
+
+public struct ListEvaluationFormAIVersionsOutput: Swift.Sendable {
+    /// The list of AI version summaries.
+    /// This member is required.
+    public var aiVersionSummaries: [ConnectClientTypes.EvaluationFormAIVersionSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        aiVersionSummaries: [ConnectClientTypes.EvaluationFormAIVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.aiVersionSummaries = aiVersionSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListEvaluationFormsInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -30164,6 +30428,8 @@ extension ConnectClientTypes {
     public struct EvaluationFormSearchSummary: Swift.Sendable {
         /// Active version of the evaluation form.
         public var activeVersion: Swift.Int?
+        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+        public var aiVersion: Swift.String?
         /// Whether automated evaluation is enabled.
         public var autoEvaluationEnabled: Swift.Bool
         /// The contact interaction type for this evaluation form.
@@ -30208,6 +30474,7 @@ extension ConnectClientTypes {
 
         public init(
             activeVersion: Swift.Int? = nil,
+            aiVersion: Swift.String? = nil,
             autoEvaluationEnabled: Swift.Bool = false,
             contactInteractionType: ConnectClientTypes.ContactInteractionType? = nil,
             createdBy: Swift.String? = nil,
@@ -30226,6 +30493,7 @@ extension ConnectClientTypes {
             title: Swift.String? = nil
         ) {
             self.activeVersion = activeVersion
+            self.aiVersion = aiVersion
             self.autoEvaluationEnabled = autoEvaluationEnabled
             self.contactInteractionType = contactInteractionType
             self.createdBy = createdBy
@@ -37594,6 +37862,8 @@ extension ConnectClientTypes {
         public var enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration?
         /// The instructions of the section.
         public var instructions: Swift.String?
+        /// The metric configuration for the question. Use this to associate a business outcome metric with the question.
+        public var metricConfiguration: ConnectClientTypes.EvaluationFormMetricConfiguration?
         /// The flag to enable not applicable answers to the question.
         public var notApplicableEnabled: Swift.Bool
         /// The type of the question.
@@ -37615,6 +37885,7 @@ extension ConnectClientTypes {
         public init(
             enablement: ConnectClientTypes.EvaluationFormItemEnablementConfiguration? = nil,
             instructions: Swift.String? = nil,
+            metricConfiguration: ConnectClientTypes.EvaluationFormMetricConfiguration? = nil,
             notApplicableEnabled: Swift.Bool = false,
             questionType: ConnectClientTypes.EvaluationFormQuestionType? = nil,
             questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties? = nil,
@@ -37625,6 +37896,7 @@ extension ConnectClientTypes {
         ) {
             self.enablement = enablement
             self.instructions = instructions
+            self.metricConfiguration = metricConfiguration
             self.notApplicableEnabled = notApplicableEnabled
             self.questionType = questionType
             self.questionTypeProperties = questionTypeProperties
@@ -38950,6 +39222,8 @@ extension ConnectClientTypes {
 
     /// Information about the evaluation form.
     public struct EvaluationForm: Swift.Sendable {
+        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+        public var aiVersion: Swift.String?
         /// The automatic evaluation configuration of an evaluation form.
         public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
@@ -39003,6 +39277,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
+            aiVersion: Swift.String? = nil,
             autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
             createdBy: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
@@ -39024,6 +39299,7 @@ extension ConnectClientTypes {
             targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
             title: Swift.String? = nil
         ) {
+            self.aiVersion = aiVersion
             self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -39052,6 +39328,8 @@ extension ConnectClientTypes {
 
     /// Information about an evaluation form used in a contact evaluation.
     public struct EvaluationFormContent: Swift.Sendable {
+        /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+        public var aiVersion: Swift.String?
         /// The configuration of the automated evaluation.
         public var autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration?
         /// The description of the evaluation form.
@@ -39081,6 +39359,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
+            aiVersion: Swift.String? = nil,
             autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
             description: Swift.String? = nil,
             evaluationFormArn: Swift.String? = nil,
@@ -39093,6 +39372,7 @@ extension ConnectClientTypes {
             targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
             title: Swift.String? = nil
         ) {
+            self.aiVersion = aiVersion
             self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.description = description
             self.evaluationFormArn = evaluationFormArn
@@ -39109,6 +39389,8 @@ extension ConnectClientTypes {
 }
 
 public struct CreateEvaluationFormInput: Swift.Sendable {
+    /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+    public var aiVersion: Swift.String?
     /// A boolean flag indicating whether to create evaluation form in draft state.
     public var asDraft: Swift.Bool?
     /// Configuration information about automated evaluations.
@@ -39138,6 +39420,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
     public var title: Swift.String?
 
     public init(
+        aiVersion: Swift.String? = nil,
         asDraft: Swift.Bool? = false,
         autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
         clientToken: Swift.String? = nil,
@@ -39151,6 +39434,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
         title: Swift.String? = nil
     ) {
+        self.aiVersion = aiVersion
         self.asDraft = asDraft
         self.autoEvaluationConfiguration = autoEvaluationConfiguration
         self.clientToken = clientToken
@@ -39196,6 +39480,8 @@ public struct UpdateContactRoutingDataInput: Swift.Sendable {
 }
 
 public struct UpdateEvaluationFormInput: Swift.Sendable {
+    /// The AI version to use for the evaluation form. This specifies which AI model version is used for automated evaluations.
+    public var aiVersion: Swift.String?
     /// A boolean flag indicating whether to update evaluation form to draft state.
     public var asDraft: Swift.Bool?
     /// Whether automated evaluations are enabled.
@@ -39231,6 +39517,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
     public var title: Swift.String?
 
     public init(
+        aiVersion: Swift.String? = nil,
         asDraft: Swift.Bool? = false,
         autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
         clientToken: Swift.String? = nil,
@@ -39246,6 +39533,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
         title: Swift.String? = nil
     ) {
+        self.aiVersion = aiVersion
         self.asDraft = asDraft
         self.autoEvaluationConfiguration = autoEvaluationConfiguration
         self.clientToken = clientToken
@@ -42828,6 +43116,38 @@ extension ListEntitySecurityProfilesInput {
     }
 }
 
+extension ListEvaluationFormAIVersionsInput {
+
+    static func urlPathProvider(_ value: ListEvaluationFormAIVersionsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/instances/\(instanceId.urlPercentEncoding())/evaluation-form-ai-versions"
+    }
+}
+
+extension ListEvaluationFormAIVersionsInput {
+
+    static func queryItemProvider(_ value: ListEvaluationFormAIVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let contactInteractionType = value.contactInteractionType else {
+            let message = "Creating a URL Query Item failed. contactInteractionType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let contactInteractionTypeQueryItem = Smithy.URIQueryItem(name: "contactInteractionType".urlPercentEncoding(), value: Swift.String(contactInteractionType.rawValue).urlPercentEncoding())
+        items.append(contactInteractionTypeQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListEvaluationFormsInput {
 
     static func urlPathProvider(_ value: ListEvaluationFormsInput) -> Swift.String? {
@@ -46119,6 +46439,7 @@ extension CreateEvaluationFormInput {
 
     static func write(value: CreateEvaluationFormInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AIVersion"].write(value.aiVersion)
         try writer["AsDraft"].write(value.asDraft)
         try writer["AutoEvaluationConfiguration"].write(value.autoEvaluationConfiguration, with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
@@ -47771,6 +48092,7 @@ extension UpdateEvaluationFormInput {
 
     static func write(value: UpdateEvaluationFormInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AIVersion"].write(value.aiVersion)
         try writer["AsDraft"].write(value.asDraft)
         try writer["AutoEvaluationConfiguration"].write(value.autoEvaluationConfiguration, with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
@@ -50525,6 +50847,19 @@ extension ListEntitySecurityProfilesOutput {
         var value = ListEntitySecurityProfilesOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.securityProfiles = try reader["SecurityProfiles"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SecurityProfileItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListEvaluationFormAIVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEvaluationFormAIVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEvaluationFormAIVersionsOutput()
+        value.aiVersionSummaries = try reader["AIVersionSummaries"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormAIVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -56494,6 +56829,23 @@ enum ListEntitySecurityProfilesOutputError {
     }
 }
 
+enum ListEvaluationFormAIVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEvaluationFormsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61916,6 +62268,21 @@ extension ConnectClientTypes.CrossChannelBehavior {
     }
 }
 
+extension ConnectClientTypes.CrossChannelWorkloadBehavior {
+
+    static func write(value: ConnectClientTypes.CrossChannelWorkloadBehavior?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelWorkloadBehaviorType"].write(value.channelWorkloadBehaviorType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CrossChannelWorkloadBehavior {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.CrossChannelWorkloadBehavior()
+        value.channelWorkloadBehaviorType = try reader["ChannelWorkloadBehaviorType"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.CurrentMetric {
 
     static func write(value: ConnectClientTypes.CurrentMetric?, to writer: SmithyJSON.Writer) throws {
@@ -62678,6 +63045,30 @@ extension ConnectClientTypes.EvaluationForm {
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
         value.latestValidationStatus = try reader["LatestValidationStatus"].readIfPresent()
         value.lastValidationTime = try reader["LastValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.aiVersion = try reader["AIVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormAIVersionLifecycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormAIVersionLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormAIVersionLifecycle()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.startOfLifeTime = try reader["StartOfLifeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endOfLifeTime = try reader["EndOfLifeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormAIVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormAIVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormAIVersionSummary()
+        value.aiVersionName = try reader["AIVersionName"].readIfPresent() ?? ""
+        value.aiVersionLifecycle = try reader["AIVersionLifecycle"].readIfPresent(with: ConnectClientTypes.EvaluationFormAIVersionLifecycle.read(from:))
         return value
     }
 }
@@ -62713,6 +63104,7 @@ extension ConnectClientTypes.EvaluationFormContent {
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
         value.reviewConfiguration = try reader["ReviewConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationReviewConfiguration.read(from:))
+        value.aiVersion = try reader["AIVersion"].readIfPresent()
         return value
     }
 }
@@ -62873,6 +63265,23 @@ extension ConnectClientTypes.EvaluationFormLanguageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormLanguageConfiguration()
         value.formLanguage = try reader["FormLanguage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormMetricConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationFormMetricConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricName"].write(value.metricName)
+        try writer["MetricType"].write(value.metricType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormMetricConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormMetricConfiguration()
+        value.metricType = try reader["MetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -63044,6 +63453,7 @@ extension ConnectClientTypes.EvaluationFormQuestion {
         guard let value else { return }
         try writer["Enablement"].write(value.enablement, with: ConnectClientTypes.EvaluationFormItemEnablementConfiguration.write(value:to:))
         try writer["Instructions"].write(value.instructions)
+        try writer["MetricConfiguration"].write(value.metricConfiguration, with: ConnectClientTypes.EvaluationFormMetricConfiguration.write(value:to:))
         try writer["NotApplicableEnabled"].write(value.notApplicableEnabled)
         try writer["QuestionType"].write(value.questionType)
         try writer["QuestionTypeProperties"].write(value.questionTypeProperties, with: ConnectClientTypes.EvaluationFormQuestionTypeProperties.write(value:to:))
@@ -63065,6 +63475,7 @@ extension ConnectClientTypes.EvaluationFormQuestion {
         value.enablement = try reader["Enablement"].readIfPresent(with: ConnectClientTypes.EvaluationFormItemEnablementConfiguration.read(from:))
         value.weight = try reader["Weight"].readIfPresent() ?? 0
         value.scoringConfiguration = try reader["ScoringConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration.read(from:))
+        value.metricConfiguration = try reader["MetricConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormMetricConfiguration.read(from:))
         return value
     }
 }
@@ -63220,6 +63631,7 @@ extension ConnectClientTypes.EvaluationFormSearchSummary {
         value.evaluationFormLanguage = try reader["EvaluationFormLanguage"].readIfPresent()
         value.contactInteractionType = try reader["ContactInteractionType"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.aiVersion = try reader["AIVersion"].readIfPresent()
         return value
     }
 }
@@ -64784,6 +65196,7 @@ extension ConnectClientTypes.MediaConcurrency {
         try writer["Channel"].write(value.channel)
         try writer["Concurrency"].write(value.concurrency)
         try writer["CrossChannelBehavior"].write(value.crossChannelBehavior, with: ConnectClientTypes.CrossChannelBehavior.write(value:to:))
+        try writer["WorkloadTypeConcurrencies"].writeList(value.workloadTypeConcurrencies, memberWritingClosure: ConnectClientTypes.WorkloadTypeConcurrency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.MediaConcurrency {
@@ -64792,6 +65205,7 @@ extension ConnectClientTypes.MediaConcurrency {
         value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
         value.concurrency = try reader["Concurrency"].readIfPresent() ?? 0
         value.crossChannelBehavior = try reader["CrossChannelBehavior"].readIfPresent(with: ConnectClientTypes.CrossChannelBehavior.read(from:))
+        value.workloadTypeConcurrencies = try reader["WorkloadTypeConcurrencies"].readListIfPresent(memberReadingClosure: ConnectClientTypes.WorkloadTypeConcurrency.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -68437,6 +68851,25 @@ extension ConnectClientTypes.WisdomInfo {
         var value = ConnectClientTypes.WisdomInfo()
         value.sessionArn = try reader["SessionArn"].readIfPresent()
         value.aiAgents = try reader["AiAgents"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AiAgentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.WorkloadTypeConcurrency {
+
+    static func write(value: ConnectClientTypes.WorkloadTypeConcurrency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Concurrency"].write(value.concurrency)
+        try writer["CrossChannelWorkloadBehavior"].write(value.crossChannelWorkloadBehavior, with: ConnectClientTypes.CrossChannelWorkloadBehavior.write(value:to:))
+        try writer["WorkloadType"].write(value.workloadType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.WorkloadTypeConcurrency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.WorkloadTypeConcurrency()
+        value.workloadType = try reader["WorkloadType"].readIfPresent() ?? ""
+        value.concurrency = try reader["Concurrency"].readIfPresent() ?? 0
+        value.crossChannelWorkloadBehavior = try reader["CrossChannelWorkloadBehavior"].readIfPresent(with: ConnectClientTypes.CrossChannelWorkloadBehavior.read(from:))
         return value
     }
 }

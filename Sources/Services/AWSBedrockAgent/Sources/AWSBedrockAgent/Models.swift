@@ -4455,6 +4455,7 @@ extension BedrockAgentClientTypes {
     public enum ParsingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bedrockDataAutomation
         case bedrockFoundationModel
+        case multiModalEmbeddings
         case smartParsing
         case sdkUnknown(Swift.String)
 
@@ -4462,6 +4463,7 @@ extension BedrockAgentClientTypes {
             return [
                 .bedrockDataAutomation,
                 .bedrockFoundationModel,
+                .multiModalEmbeddings,
                 .smartParsing
             ]
         }
@@ -4475,6 +4477,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .bedrockDataAutomation: return "BEDROCK_DATA_AUTOMATION"
             case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
+            case .multiModalEmbeddings: return "MULTI_MODAL_EMBEDDINGS"
             case .smartParsing: return "SMART_PARSING"
             case let .sdkUnknown(s): return s
             }
@@ -4490,7 +4493,14 @@ extension BedrockAgentClientTypes {
         public var bedrockDataAutomationConfiguration: BedrockAgentClientTypes.BedrockDataAutomationConfiguration?
         /// If you specify BEDROCK_FOUNDATION_MODEL as the parsing strategy for ingesting your data source, use this object to modify configurations for using a foundation model to parse documents.
         public var bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelConfiguration?
-        /// The parsing strategy for the data source. Only SMART_PARSING can be selected for managed knowledge bases. For more information, see [Customize ingestion for managed knowledge bases](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-customize-ingestion.html).
+        /// The parsing strategy for the data source. For managed knowledge bases, the strategy that you can select depends on the embedding model that your knowledge base uses:
+        ///
+        /// * If your knowledge base uses a native multimodal embedding model, specify MULTI_MODAL_EMBEDDINGS. With this strategy, files are sent directly to the embedding model instead of being parsed into text. This is the only strategy that is supported for these knowledge bases.
+        ///
+        /// * Otherwise, specify SMART_PARSING.
+        ///
+        ///
+        /// For more information, see [Customize ingestion for managed knowledge bases](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-customize-ingestion.html).
         /// This member is required.
         public var parsingStrategy: BedrockAgentClientTypes.ParsingStrategy?
 
@@ -5789,7 +5799,7 @@ extension BedrockAgentClientTypes {
         /// The name of the tool.
         /// This member is required.
         public var name: Swift.String?
-        /// Whether to enforce strict JSON schema adherence for the tool input
+        /// Whether the tool schema is strictly enforced.
         public var strict: Swift.Bool?
 
         public init(
@@ -9538,24 +9548,30 @@ extension BedrockAgentClientTypes {
 
     /// The vector configuration details for the Bedrock embeddings model.
     public struct BedrockEmbeddingModelConfiguration: Swift.Sendable {
-        /// Configuration settings for processing audio content in multimodal knowledge bases.
+        /// Configuration settings for processing audio content in multimodal knowledge bases. This field is deprecated. Use modelConfiguration instead.
+        @available(*, deprecated, message: "Use Managed Knowledge Base's modelConfiguration field. https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html API deprecated since 2026-09-01")
         public var audio: [BedrockAgentClientTypes.AudioConfiguration]?
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public var dimensions: Swift.Int?
         /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
         public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
-        /// Configuration settings for processing video content in multimodal knowledge bases.
+        /// Model-specific configuration for the embedding model, provided as a JSON object. Use this field to specify settings that apply to the embedding model that you selected, such as how audio and video files are divided into segments. The fields that this object accepts depend on the embedding model. For the settings that each model accepts, see the documentation for that model.
+        public var modelConfiguration: Smithy.Document?
+        /// Configuration settings for processing video content in multimodal knowledge bases. This field is deprecated. Use modelConfiguration instead.
+        @available(*, deprecated, message: "Use Managed Knowledge Base's modelConfiguration field. https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html API deprecated since 2026-09-01")
         public var video: [BedrockAgentClientTypes.VideoConfiguration]?
 
         public init(
             audio: [BedrockAgentClientTypes.AudioConfiguration]? = nil,
             dimensions: Swift.Int? = nil,
             embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil,
+            modelConfiguration: Smithy.Document? = nil,
             video: [BedrockAgentClientTypes.VideoConfiguration]? = nil
         ) {
             self.audio = audio
             self.dimensions = dimensions
             self.embeddingDataType = embeddingDataType
+            self.modelConfiguration = modelConfiguration
             self.video = video
         }
     }
@@ -9608,27 +9624,93 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum SupplementalDataStorageLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupplementalDataStorageLocationType] {
+            return [
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about a storage location for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
+    public struct SupplementalDataStorageLocation: Swift.Sendable {
+        /// Contains information about the Amazon S3 location for the extracted multimedia content.
+        public var s3Location: BedrockAgentClientTypes.S3Location?
+        /// Specifies the storage service used for this location.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.SupplementalDataStorageLocationType?
+
+        public init(
+            s3Location: BedrockAgentClientTypes.S3Location? = nil,
+            type: BedrockAgentClientTypes.SupplementalDataStorageLocationType? = nil
+        ) {
+            self.s3Location = s3Location
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies configurations for the storage location of multimedia content (images, audio, and video) extracted from multimodal documents in your data source. This content can be retrieved and returned to the end user with timestamp references for audio and video segments.
+    public struct SupplementalDataStorageConfiguration: Swift.Sendable {
+        /// A list of objects specifying storage locations for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
+        /// This member is required.
+        public var storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]?
+
+        public init(
+            storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]? = nil
+        ) {
+            self.storageLocations = storageLocations
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Configurations for a managed knowledge base.
     public struct ManagedKnowledgeBaseConfiguration: Swift.Sendable {
         /// The ARN for the embeddings model.
         public var embeddingModelArn: Swift.String?
-        /// The configuration details for the embeddings model.
+        /// The configuration details for the embeddings model. Not required when choosing the MANAGED embeddingModelType.
         public var embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration?
-        /// Choose CUSTOM to provide your own Bedrock embedding model ARN. Choose MANAGED to use a service-managed embedding model. For more information, see [Embedding model options](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html#kb-managed-embedding-models).
+        /// Choose CUSTOM to provide your own Bedrock embedding model ARN. Choose MANAGED to use a service-managed embedding model.
         public var embeddingModelType: BedrockAgentClientTypes.EmbeddingModelType?
         /// Contains the configuration for server-side encryption for your managed knowledge base.
         public var serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration?
+        /// Use this object to specify the Amazon S3 location that the knowledge base uses to process and ingest multimodal content. This field is required when you use a native multimodal embedding model.
+        public var supplementalDataStorageConfiguration: BedrockAgentClientTypes.SupplementalDataStorageConfiguration?
 
         public init(
             embeddingModelArn: Swift.String? = nil,
             embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration? = nil,
             embeddingModelType: BedrockAgentClientTypes.EmbeddingModelType? = nil,
-            serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration? = nil
+            serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration? = nil,
+            supplementalDataStorageConfiguration: BedrockAgentClientTypes.SupplementalDataStorageConfiguration? = nil
         ) {
             self.embeddingModelArn = embeddingModelArn
             self.embeddingModelConfiguration = embeddingModelConfiguration
             self.embeddingModelType = embeddingModelType
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.supplementalDataStorageConfiguration = supplementalDataStorageConfiguration
         }
     }
 }
@@ -10177,68 +10259,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    public enum SupplementalDataStorageLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case s3
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SupplementalDataStorageLocationType] {
-            return [
-                .s3
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .s3: return "S3"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Contains information about a storage location for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
-    public struct SupplementalDataStorageLocation: Swift.Sendable {
-        /// Contains information about the Amazon S3 location for the extracted multimedia content.
-        public var s3Location: BedrockAgentClientTypes.S3Location?
-        /// Specifies the storage service used for this location.
-        /// This member is required.
-        public var type: BedrockAgentClientTypes.SupplementalDataStorageLocationType?
-
-        public init(
-            s3Location: BedrockAgentClientTypes.S3Location? = nil,
-            type: BedrockAgentClientTypes.SupplementalDataStorageLocationType? = nil
-        ) {
-            self.s3Location = s3Location
-            self.type = type
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Specifies configurations for the storage location of multimedia content (images, audio, and video) extracted from multimodal documents in your data source. This content can be retrieved and returned to the end user with timestamp references for audio and video segments.
-    public struct SupplementalDataStorageConfiguration: Swift.Sendable {
-        /// A list of objects specifying storage locations for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
-        /// This member is required.
-        public var storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]?
-
-        public init(
-            storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]? = nil
-        ) {
-            self.storageLocations = storageLocations
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
     /// Contains details about the model used to create vector embeddings for the knowledge base.
     public struct VectorKnowledgeBaseConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
@@ -10267,7 +10287,7 @@ extension BedrockAgentClientTypes {
     public struct KnowledgeBaseConfiguration: Swift.Sendable {
         /// Settings for an Amazon Kendra knowledge base.
         public var kendraKnowledgeBaseConfiguration: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration?
-        /// Configurations for a managed knowledge base.
+        /// Contains configuration details for a knowledge base that uses a vector store fully managed by Amazon Bedrock. Specify this object when the knowledge base type is MANAGED.
         public var managedKnowledgeBaseConfiguration: BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration?
         /// Specifies configurations for a knowledge base connected to an SQL database.
         public var sqlKnowledgeBaseConfiguration: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration?
@@ -17133,6 +17153,7 @@ extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
         try writer["audio"].writeList(value.audio, memberWritingClosure: BedrockAgentClientTypes.AudioConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dimensions"].write(value.dimensions)
         try writer["embeddingDataType"].write(value.embeddingDataType)
+        try writer["modelConfiguration"].write(value.modelConfiguration)
         try writer["video"].writeList(value.video, memberWritingClosure: BedrockAgentClientTypes.VideoConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -17143,6 +17164,7 @@ extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
         value.embeddingDataType = try reader["embeddingDataType"].readIfPresent()
         value.audio = try reader["audio"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AudioConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.video = try reader["video"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.VideoConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelConfiguration = try reader["modelConfiguration"].readIfPresent()
         return value
     }
 }
@@ -18763,6 +18785,7 @@ extension BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration {
         try writer["embeddingModelConfiguration"].write(value.embeddingModelConfiguration, with: BedrockAgentClientTypes.EmbeddingModelConfiguration.write(value:to:))
         try writer["embeddingModelType"].write(value.embeddingModelType)
         try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: BedrockAgentClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
+        try writer["supplementalDataStorageConfiguration"].write(value.supplementalDataStorageConfiguration, with: BedrockAgentClientTypes.SupplementalDataStorageConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration {
@@ -18772,6 +18795,7 @@ extension BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration {
         value.embeddingModelArn = try reader["embeddingModelArn"].readIfPresent()
         value.embeddingModelConfiguration = try reader["embeddingModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EmbeddingModelConfiguration.read(from:))
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.supplementalDataStorageConfiguration = try reader["supplementalDataStorageConfiguration"].readIfPresent(with: BedrockAgentClientTypes.SupplementalDataStorageConfiguration.read(from:))
         return value
     }
 }

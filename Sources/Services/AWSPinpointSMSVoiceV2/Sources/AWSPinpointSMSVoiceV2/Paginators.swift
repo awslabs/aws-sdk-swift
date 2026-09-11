@@ -753,6 +753,41 @@ extension PaginatorSequence where OperationStackInput == DescribeVerifiedDestina
     }
 }
 extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[ListAvailablePhoneNumbersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAvailablePhoneNumbersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAvailablePhoneNumbersOutput`
+    public func listAvailablePhoneNumbersPaginated(input: ListAvailablePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListAvailablePhoneNumbersInput, ListAvailablePhoneNumbersOutput> {
+        return ClientRuntime.PaginatorSequence<ListAvailablePhoneNumbersInput, ListAvailablePhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAvailablePhoneNumbers(input:))
+    }
+}
+
+extension ListAvailablePhoneNumbersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAvailablePhoneNumbersInput {
+        return ListAvailablePhoneNumbersInput(
+            isoCountryCode: self.isoCountryCode,
+            maxResults: self.maxResults,
+            nextToken: token,
+            numberCapabilities: self.numberCapabilities,
+            numberPreference: self.numberPreference,
+            numberType: self.numberType,
+            registrationId: self.registrationId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAvailablePhoneNumbersInput, OperationStackOutput == ListAvailablePhoneNumbersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAvailablePhoneNumbersPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func availablePhoneNumbers() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.availablePhoneNumbers }
+    }
+}
+extension PinpointSMSVoiceV2Client {
     /// Paginate over `[ListNotifyCountriesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -3426,10 +3426,73 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Embedded Caption Position Settings
+    public struct EmbeddedCaptionPositionSettings: Swift.Sendable {
+        /// Specifies the vertical position of the caption as a row counted from the top of the output. Row 1 is the topmost row. Acceptable values are 1 through 15.
+        public var yPositionLine: Swift.Int?
+
+        public init(
+            yPositionLine: Swift.Int? = nil
+        ) {
+            self.yPositionLine = yPositionLine
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Controls the source of position and style information for embedded outputs.
+    ///
+    /// * "passthrough": Carry the caption position and style from the source captions. When the source captions are embedded, SCTE-20, or ancillary, the position and style are preserved exactly. When the source captions are another format, the position and any supported style are carried over.
+    ///
+    /// * "manual": Use the position specified in the destination's position field.
+    public enum EmbeddedDestinationStyleControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
+        case passthrough
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmbeddedDestinationStyleControl] {
+            return [
+                .manual,
+                .passthrough
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case .passthrough: return "PASSTHROUGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Embedded Destination Settings
     public struct EmbeddedDestinationSettings: Swift.Sendable {
+        /// Specifies the position of the output captions. Applies only when styleControl is set to manual.
+        public var position: MediaLiveClientTypes.EmbeddedCaptionPositionSettings?
+        /// Controls the source of position and style information for the output captions.
+        ///
+        /// * "passthrough": Carry the caption position and style from the source captions. When the source captions are embedded, SCTE-20, or ancillary, the position and style are preserved exactly. When the source captions are another format, the position and any supported style are carried over.
+        ///
+        /// * "manual": Applies the specified styling and positioning. All other styling and positioning is given default values.
+        public var styleControl: MediaLiveClientTypes.EmbeddedDestinationStyleControl?
 
-        public init() { }
+        public init(
+            position: MediaLiveClientTypes.EmbeddedCaptionPositionSettings? = nil,
+            styleControl: MediaLiveClientTypes.EmbeddedDestinationStyleControl? = nil
+        ) {
+            self.position = position
+            self.styleControl = styleControl
+        }
     }
 }
 
@@ -3489,14 +3552,31 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Text Caption Position Settings
+    public struct TextCaptionPositionSettings: Swift.Sendable {
+        /// Specifies the vertical position of the top edge of the caption relative to the top of the output as a percentage. A value of 0 places the caption at the top of the output and 100 at the bottom.
+        public var yPositionPercentage: Swift.Int?
+
+        public init(
+            yPositionPercentage: Swift.Int? = nil
+        ) {
+            self.yPositionPercentage = yPositionPercentage
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Ttml Destination Style Control
     public enum TtmlDestinationStyleControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
         case passthrough
         case useConfigured
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TtmlDestinationStyleControl] {
             return [
+                .manual,
                 .passthrough,
                 .useConfigured
             ]
@@ -3509,6 +3589,7 @@ extension MediaLiveClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .manual: return "MANUAL"
             case .passthrough: return "PASSTHROUGH"
             case .useConfigured: return "USE_CONFIGURED"
             case let .sdkUnknown(s): return s
@@ -3521,12 +3602,16 @@ extension MediaLiveClientTypes {
 
     /// Ttml Destination Settings
     public struct TtmlDestinationSettings: Swift.Sendable {
-        /// This field is not currently supported and will not affect the output styling. Leave the default value.
+        /// Specifies the position of the output captions. Applies only when styleControl is set to manual.
+        public var position: MediaLiveClientTypes.TextCaptionPositionSettings?
+        /// Controls the source of style and position information for the output captions. PASSTHROUGH - Preserve the style and position from the source captions. USE_CONFIGURED - Don't pass through the style. The output captions will use the default styling. MANUAL - Applies the specified styling and positioning. All other styling and positioning is given default values.
         public var styleControl: MediaLiveClientTypes.TtmlDestinationStyleControl?
 
         public init(
+            position: MediaLiveClientTypes.TextCaptionPositionSettings? = nil,
             styleControl: MediaLiveClientTypes.TtmlDestinationStyleControl? = nil
         ) {
+            self.position = position
             self.styleControl = styleControl
         }
     }
@@ -3536,12 +3621,14 @@ extension MediaLiveClientTypes {
 
     /// Webvtt Destination Style Control
     public enum WebvttDestinationStyleControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
         case noStyleData
         case passthrough
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WebvttDestinationStyleControl] {
             return [
+                .manual,
                 .noStyleData,
                 .passthrough
             ]
@@ -3554,6 +3641,7 @@ extension MediaLiveClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .manual: return "MANUAL"
             case .noStyleData: return "NO_STYLE_DATA"
             case .passthrough: return "PASSTHROUGH"
             case let .sdkUnknown(s): return s
@@ -3566,12 +3654,16 @@ extension MediaLiveClientTypes {
 
     /// Webvtt Destination Settings
     public struct WebvttDestinationSettings: Swift.Sendable {
-        /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions. PASSTHROUGH - Valid only if the source captions are EMBEDDED or TELETEXT. NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information.
+        /// Specifies the position of the output captions. Applies only when styleControl is set to manual.
+        public var position: MediaLiveClientTypes.TextCaptionPositionSettings?
+        /// Controls whether the color and position of the source captions is passed through to the WebVTT output captions. PASSTHROUGH - Valid only if the source captions are EMBEDDED, TELETEXT, or SMART SUBTITLES. NO_STYLE_DATA - Don't pass through the style. The output captions will not contain any font styling information. MANUAL - Applies the specified styling and positioning. All other styling and positioning is given default values.
         public var styleControl: MediaLiveClientTypes.WebvttDestinationStyleControl?
 
         public init(
+            position: MediaLiveClientTypes.TextCaptionPositionSettings? = nil,
             styleControl: MediaLiveClientTypes.WebvttDestinationStyleControl? = nil
         ) {
+            self.position = position
             self.styleControl = styleControl
         }
     }
@@ -4632,18 +4724,49 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// A Contextual Metadata Enrichment method. Each value selects a strategy for enriching the channel's output with contextual metadata derived from the Elemental Inference feed. SCTE35_ELEMENTAL_INFERENCE_QUERY_PARAMS enriches outbound SCTE-35 messages with query parameters that downstream systems can use to call the Elemental Inference GetMetadata API.
+    public enum EnrichmentMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case scte35ElementalInferenceQueryParams
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnrichmentMethod] {
+            return [
+                .scte35ElementalInferenceQueryParams
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .scte35ElementalInferenceQueryParams: return "SCTE35_ELEMENTAL_INFERENCE_QUERY_PARAMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Configures Elemental Inference features in a channel.
     public struct DescribeInferenceSettings: Swift.Sendable {
         /// A list of audio feed inputs that map audio selectors in the channel to feed inputs on the associated Elemental Inference feed.
         public var audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]?
+        /// The set of Contextual Metadata Enrichment methods enabled for this channel. Each method represents a specific way the channel uses the inference feed to augment its output with contextual metadata.
+        public var enrichmentMethods: [MediaLiveClientTypes.EnrichmentMethod]?
         /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
         public var feedArn: Swift.String?
 
         public init(
             audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]? = nil,
+            enrichmentMethods: [MediaLiveClientTypes.EnrichmentMethod]? = nil,
             feedArn: Swift.String? = nil
         ) {
             self.audioFeedInputs = audioFeedInputs
+            self.enrichmentMethods = enrichmentMethods
             self.feedArn = feedArn
         }
     }
@@ -11265,6 +11388,39 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Output Usage
+    public enum OutputUsage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multiviewEqualSizeView
+        case multiviewPrimaryView
+        case multiviewSecondaryView
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputUsage] {
+            return [
+                .multiviewEqualSizeView,
+                .multiviewPrimaryView,
+                .multiviewSecondaryView
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiviewEqualSizeView: return "MULTIVIEW_EQUAL_SIZE_VIEW"
+            case .multiviewPrimaryView: return "MULTIVIEW_PRIMARY_VIEW"
+            case .multiviewSecondaryView: return "MULTIVIEW_SECONDARY_VIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Media Package V2 Destination Settings
     public struct MediaPackageV2DestinationSettings: Swift.Sendable {
         /// Applies only to an output that contains audio. If you want to put several audio encodes into one audio rendition group, decide on a name (ID) for the group. Then in every audio output that you want to belong to that group, enter that ID in this field. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
@@ -11275,17 +11431,21 @@ extension MediaLiveClientTypes {
         public var hlsAutoSelect: MediaLiveClientTypes.HlsAutoSelect?
         /// Specifies whether MediaPackage should set this output as the default rendition in the HLS manifest. YES means this must be the default. NO means this should never be the default. OMIT means MediaPackage decides what to set on this rendition. When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
         public var hlsDefault: MediaLiveClientTypes.HlsDefault?
+        /// List of usage tags declaring how this MediaPackage V2 output is used. Currently these are all multiview-related (multiviewPrimaryView, multiviewSecondaryView, multiviewEqualSizeView) and enable multiview validations and augmentations to help ensure proper multiview configuration and compatibility with MediaPackage. Leave empty (the default) if this output has no multiview role. If any video-carrying MediaPackage V2 output in an output group specifies a multiview value, every video-carrying MediaPackage V2 output in the group must also specify a multiview value; place standalone video outputs in a separate output group.
+        public var outputUsage: [MediaLiveClientTypes.OutputUsage]?
 
         public init(
             audioGroupId: Swift.String? = nil,
             audioRenditionSets: Swift.String? = nil,
             hlsAutoSelect: MediaLiveClientTypes.HlsAutoSelect? = nil,
-            hlsDefault: MediaLiveClientTypes.HlsDefault? = nil
+            hlsDefault: MediaLiveClientTypes.HlsDefault? = nil,
+            outputUsage: [MediaLiveClientTypes.OutputUsage]? = nil
         ) {
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
             self.hlsAutoSelect = hlsAutoSelect
             self.hlsDefault = hlsDefault
+            self.outputUsage = outputUsage
         }
     }
 }
@@ -19655,6 +19815,8 @@ extension MediaLiveClientTypes {
 
     /// Video settings for this stream.
     public struct VideoDescription: Swift.Sendable {
+        /// Specifies the number of pixels of black border that will be inserted around the edge of the encoded picture. Must be an even integer from 0 (no border, the default) up to 100. The width and height of the VideoDescription must each be greater than twice this value. Cannot be used together with {@link outputPositionRectangle} -- both govern the position of the encoded content within the output frame.
+        public var border: Swift.Int?
         /// Video codec settings.
         public var codecSettings: MediaLiveClientTypes.VideoCodecSettings?
         /// Region of the input video to crop before scaling. If not specified, the entire input frame is used. Note: Unlike {@link outputPositionRectangle}, the bounds of cropRectangle are validated at ingest time by the encoder/scaler rather than at the API level, because the input resolution is not known until the source is probed. Field-level constraints on (x, y, width, height) defined on {@link VideoPositionRectangle} still apply.
@@ -19676,6 +19838,7 @@ extension MediaLiveClientTypes {
         public var width: Swift.Int?
 
         public init(
+            border: Swift.Int? = nil,
             codecSettings: MediaLiveClientTypes.VideoCodecSettings? = nil,
             cropRectangle: MediaLiveClientTypes.VideoPositionRectangle? = nil,
             height: Swift.Int? = nil,
@@ -19686,6 +19849,7 @@ extension MediaLiveClientTypes {
             sharpness: Swift.Int? = nil,
             width: Swift.Int? = nil
         ) {
+            self.border = border
             self.codecSettings = codecSettings
             self.cropRectangle = cropRectangle
             self.height = height
@@ -21562,14 +21726,18 @@ extension MediaLiveClientTypes {
     public struct InferenceSettings: Swift.Sendable {
         /// A list of audio feed inputs that map audio selectors in the channel to feed inputs on the associated Elemental Inference feed.
         public var audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]?
+        /// The set of Contextual Metadata Enrichment methods enabled for this channel. Each method represents a specific way the channel will use the inference feed to augment its output with contextual metadata. An empty array (or omitting the field) disables enrichment. Order is not significant; duplicate values are not permitted.
+        public var enrichmentMethods: [MediaLiveClientTypes.EnrichmentMethod]?
         /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
         public var feedArn: Swift.String?
 
         public init(
             audioFeedInputs: [MediaLiveClientTypes.AudioFeedInput]? = nil,
+            enrichmentMethods: [MediaLiveClientTypes.EnrichmentMethod]? = nil,
             feedArn: Swift.String? = nil
         ) {
             self.audioFeedInputs = audioFeedInputs
+            self.enrichmentMethods = enrichmentMethods
             self.feedArn = feedArn
         }
     }
@@ -37025,6 +37193,7 @@ extension MediaLiveClientTypes.DescribeInferenceSettings {
         var value = MediaLiveClientTypes.DescribeInferenceSettings()
         value.feedArn = try reader["feedArn"].readIfPresent()
         value.audioFeedInputs = try reader["audioFeedInputs"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioFeedInput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enrichmentMethods = try reader["enrichmentMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaLiveClientTypes.EnrichmentMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37342,16 +37511,35 @@ extension MediaLiveClientTypes.EbuTtDDestinationSettings {
     }
 }
 
+extension MediaLiveClientTypes.EmbeddedCaptionPositionSettings {
+
+    static func write(value: MediaLiveClientTypes.EmbeddedCaptionPositionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["yPositionLine"].write(value.yPositionLine)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.EmbeddedCaptionPositionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.EmbeddedCaptionPositionSettings()
+        value.yPositionLine = try reader["yPositionLine"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.EmbeddedDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.EmbeddedDestinationSettings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["position"].write(value.position, with: MediaLiveClientTypes.EmbeddedCaptionPositionSettings.write(value:to:))
+        try writer["styleControl"].write(value.styleControl)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.EmbeddedDestinationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.EmbeddedDestinationSettings()
+        var value = MediaLiveClientTypes.EmbeddedDestinationSettings()
+        value.position = try reader["position"].readIfPresent(with: MediaLiveClientTypes.EmbeddedCaptionPositionSettings.read(from:))
+        value.styleControl = try reader["styleControl"].readIfPresent()
+        return value
     }
 }
 
@@ -38456,6 +38644,7 @@ extension MediaLiveClientTypes.InferenceSettings {
     static func write(value: MediaLiveClientTypes.InferenceSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["audioFeedInputs"].writeList(value.audioFeedInputs, memberWritingClosure: MediaLiveClientTypes.AudioFeedInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enrichmentMethods"].writeList(value.enrichmentMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaLiveClientTypes.EnrichmentMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["feedArn"].write(value.feedArn)
     }
 }
@@ -39487,6 +39676,7 @@ extension MediaLiveClientTypes.MediaPackageV2DestinationSettings {
         try writer["audioRenditionSets"].write(value.audioRenditionSets)
         try writer["hlsAutoSelect"].write(value.hlsAutoSelect)
         try writer["hlsDefault"].write(value.hlsDefault)
+        try writer["outputUsage"].writeList(value.outputUsage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaLiveClientTypes.OutputUsage>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2DestinationSettings {
@@ -39496,6 +39686,7 @@ extension MediaLiveClientTypes.MediaPackageV2DestinationSettings {
         value.audioRenditionSets = try reader["audioRenditionSets"].readIfPresent()
         value.hlsAutoSelect = try reader["hlsAutoSelect"].readIfPresent()
         value.hlsDefault = try reader["hlsDefault"].readIfPresent()
+        value.outputUsage = try reader["outputUsage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaLiveClientTypes.OutputUsage>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -41823,6 +42014,21 @@ extension MediaLiveClientTypes.TemporalFilterSettings {
     }
 }
 
+extension MediaLiveClientTypes.TextCaptionPositionSettings {
+
+    static func write(value: MediaLiveClientTypes.TextCaptionPositionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["yPositionPercentage"].write(value.yPositionPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.TextCaptionPositionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.TextCaptionPositionSettings()
+        value.yPositionPercentage = try reader["yPositionPercentage"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.Thumbnail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Thumbnail {
@@ -41930,6 +42136,7 @@ extension MediaLiveClientTypes.TtmlDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.TtmlDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["position"].write(value.position, with: MediaLiveClientTypes.TextCaptionPositionSettings.write(value:to:))
         try writer["styleControl"].write(value.styleControl)
     }
 
@@ -41937,6 +42144,7 @@ extension MediaLiveClientTypes.TtmlDestinationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.TtmlDestinationSettings()
         value.styleControl = try reader["styleControl"].readIfPresent()
+        value.position = try reader["position"].readIfPresent(with: MediaLiveClientTypes.TextCaptionPositionSettings.read(from:))
         return value
     }
 }
@@ -42051,6 +42259,7 @@ extension MediaLiveClientTypes.VideoDescription {
 
     static func write(value: MediaLiveClientTypes.VideoDescription?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["border"].write(value.border)
         try writer["codecSettings"].write(value.codecSettings, with: MediaLiveClientTypes.VideoCodecSettings.write(value:to:))
         try writer["cropRectangle"].write(value.cropRectangle, with: MediaLiveClientTypes.VideoPositionRectangle.write(value:to:))
         try writer["height"].write(value.height)
@@ -42074,6 +42283,7 @@ extension MediaLiveClientTypes.VideoDescription {
         value.width = try reader["width"].readIfPresent()
         value.cropRectangle = try reader["cropRectangle"].readIfPresent(with: MediaLiveClientTypes.VideoPositionRectangle.read(from:))
         value.outputPositionRectangle = try reader["outputPositionRectangle"].readIfPresent(with: MediaLiveClientTypes.VideoPositionRectangle.read(from:))
+        value.border = try reader["border"].readIfPresent()
         return value
     }
 }
@@ -42228,6 +42438,7 @@ extension MediaLiveClientTypes.WebvttDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.WebvttDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["position"].write(value.position, with: MediaLiveClientTypes.TextCaptionPositionSettings.write(value:to:))
         try writer["styleControl"].write(value.styleControl)
     }
 
@@ -42235,6 +42446,7 @@ extension MediaLiveClientTypes.WebvttDestinationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.WebvttDestinationSettings()
         value.styleControl = try reader["styleControl"].readIfPresent()
+        value.position = try reader["position"].readIfPresent(with: MediaLiveClientTypes.TextCaptionPositionSettings.read(from:))
         return value
     }
 }

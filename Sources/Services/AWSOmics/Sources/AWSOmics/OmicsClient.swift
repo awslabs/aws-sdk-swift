@@ -638,7 +638,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -709,7 +709,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -779,7 +779,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -851,7 +851,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -923,7 +923,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func cancelRun(input: CancelRunInput) async throws -> CancelRunOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -995,7 +995,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func cancelRunBatch(input: CancelRunBatchInput) async throws -> CancelRunBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1067,7 +1067,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1139,7 +1139,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1213,7 +1213,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1287,7 +1287,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1362,7 +1362,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1445,7 +1445,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1518,7 +1518,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1593,7 +1593,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createRunCache(input: CreateRunCacheInput) async throws -> CreateRunCacheOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1669,7 +1669,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1756,7 +1756,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1816,7 +1816,7 @@ extension OmicsClient {
 
     /// Performs the `CreateShare` operation on the `Omics` service.
     ///
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing:
     ///
     /// * HealthOmics variant stores
     ///
@@ -1837,7 +1837,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createShare(input: CreateShareInput) async throws -> CreateShareOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1911,7 +1911,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2002,7 +2002,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2078,7 +2078,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createWorkflowVersion(input: CreateWorkflowVersionInput) async throws -> CreateWorkflowVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2152,7 +2152,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2223,7 +2223,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2283,7 +2283,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteBatch` operation on the `Omics` service.
     ///
-    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch. DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch. DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, RUNS_DELETE_FAILED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBatchInput`)
     ///
@@ -2299,7 +2299,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteBatch(input: DeleteBatchInput) async throws -> DeleteBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2371,7 +2371,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2442,7 +2442,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2513,7 +2513,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2589,7 +2589,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2661,7 +2661,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteRunBatch(input: DeleteRunBatchInput) async throws -> DeleteRunBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2736,7 +2736,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteRunCache(input: DeleteRunCacheInput) async throws -> DeleteRunCacheOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2812,7 +2812,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2883,7 +2883,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteS3AccessPolicy(input: DeleteS3AccessPolicyInput) async throws -> DeleteS3AccessPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2954,7 +2954,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3025,7 +3025,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3095,7 +3095,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3172,7 +3172,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3244,7 +3244,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteWorkflowVersion(input: DeleteWorkflowVersionInput) async throws -> DeleteWorkflowVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3313,7 +3313,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3382,7 +3382,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3451,7 +3451,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3521,7 +3521,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getBatch(input: GetBatchInput) async throws -> GetBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3593,7 +3593,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3665,7 +3665,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3736,7 +3736,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3806,7 +3806,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3876,7 +3876,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3946,7 +3946,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4017,7 +4017,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReference(input: GetReferenceInput) async throws -> GetReferenceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4089,7 +4089,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4159,7 +4159,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4229,7 +4229,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4301,7 +4301,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getRun(input: GetRunInput) async throws -> GetRunOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4374,7 +4374,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getRunCache(input: GetRunCacheInput) async throws -> GetRunCacheOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4446,7 +4446,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4518,7 +4518,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4590,7 +4590,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getS3AccessPolicy(input: GetS3AccessPolicyInput) async throws -> GetS3AccessPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4660,7 +4660,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4731,7 +4731,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getShare(input: GetShareInput) async throws -> GetShareOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4800,7 +4800,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4869,7 +4869,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4941,7 +4941,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5014,7 +5014,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getWorkflowVersion(input: GetWorkflowVersionInput) async throws -> GetWorkflowVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5084,7 +5084,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5157,7 +5157,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5230,7 +5230,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5303,7 +5303,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listBatch(input: ListBatchInput) async throws -> ListBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5376,7 +5376,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5449,7 +5449,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5520,7 +5520,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5594,7 +5594,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5668,7 +5668,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5744,7 +5744,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5818,7 +5818,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5892,7 +5892,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5965,7 +5965,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6039,7 +6039,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6115,7 +6115,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listRunCaches(input: ListRunCachesInput) async throws -> ListRunCachesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6188,7 +6188,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6261,7 +6261,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6334,7 +6334,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listRuns(input: ListRunsInput) async throws -> ListRunsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6407,7 +6407,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listRunsInBatch(input: ListRunsInBatchInput) async throws -> ListRunsInBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6477,7 +6477,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6552,7 +6552,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listShares(input: ListSharesInput) async throws -> ListSharesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6628,7 +6628,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6697,7 +6697,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6770,7 +6770,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6846,7 +6846,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkflowVersions(input: ListWorkflowVersionsInput) async throws -> ListWorkflowVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6919,7 +6919,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6991,7 +6991,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func putS3AccessPolicy(input: PutS3AccessPolicyInput) async throws -> PutS3AccessPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7064,7 +7064,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7123,7 +7123,7 @@ extension OmicsClient {
 
     /// Performs the `StartReadSetActivationJob` operation on the `Omics` service.
     ///
-    /// Activates an archived read set and returns its metadata in a JSON formatted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see [Activating read sets](https://docs.aws.amazon.com/omics/latest/dev/activating-read-sets.html) in the Amazon Web Services HealthOmics User Guide.
+    /// Activates an archived read set and returns its metadata in a JSON formatted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see [Activating read sets](https://docs.aws.amazon.com/omics/latest/dev/activating-read-sets.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartReadSetActivationJobInput`)
     ///
@@ -7138,7 +7138,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7212,7 +7212,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7286,7 +7286,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7360,7 +7360,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7464,7 +7464,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startRun(input: StartRunInput) async throws -> StartRunOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7540,7 +7540,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startRunBatch(input: StartRunBatchInput) async throws -> StartRunBatchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7614,7 +7614,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7689,7 +7689,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7764,7 +7764,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -7834,7 +7834,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7906,7 +7906,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7981,7 +7981,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateRunCache(input: UpdateRunCacheInput) async throws -> UpdateRunCacheOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8069,7 +8069,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8143,7 +8143,7 @@ extension OmicsClient {
     /// - `RequestTimeoutException` : The request timed out.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSequenceStore(input: UpdateSequenceStoreInput) async throws -> UpdateSequenceStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -8216,7 +8216,7 @@ extension OmicsClient {
     /// - `InternalServerException` : An unexpected error occurred. Try the request again.
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8302,7 +8302,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8377,7 +8377,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateWorkflowVersion(input: UpdateWorkflowVersionInput) async throws -> UpdateWorkflowVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8452,7 +8452,7 @@ extension OmicsClient {
     /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)

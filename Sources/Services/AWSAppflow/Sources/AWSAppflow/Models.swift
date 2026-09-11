@@ -2032,17 +2032,26 @@ extension AppflowClientTypes {
     public struct ConnectorOAuthRequest: Swift.Sendable {
         /// The code provided by the connector when it has been authenticated via the connected app.
         public var authCode: Swift.String?
+        /// The code verifier used in the PKCE (Proof Key for Code Exchange) OAuth flow.
+        public var codeVerifier: Swift.String?
         /// The URL to which the authentication server redirects the browser after authorization has been granted.
         public var redirectUri: Swift.String?
 
         public init(
             authCode: Swift.String? = nil,
+            codeVerifier: Swift.String? = nil,
             redirectUri: Swift.String? = nil
         ) {
             self.authCode = authCode
+            self.codeVerifier = codeVerifier
             self.redirectUri = redirectUri
         }
     }
+}
+
+extension AppflowClientTypes.ConnectorOAuthRequest: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectorOAuthRequest(authCode: \(Swift.String(describing: authCode)), redirectUri: \(Swift.String(describing: redirectUri)), codeVerifier: \"CONTENT_REDACTED\")"}
 }
 
 extension AppflowClientTypes {
@@ -4374,17 +4383,20 @@ extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using Snowflake.
     public struct SnowflakeConnectorProfileCredentials: Swift.Sendable {
         /// The password that corresponds to the user name.
-        /// This member is required.
         public var password: Swift.String?
+        /// The RSA private key used for key pair authentication with Snowflake. Provide this instead of a password when your Snowflake account uses key pair authentication.
+        public var privateKey: Swift.String?
         /// The name of the user.
         /// This member is required.
         public var username: Swift.String?
 
         public init(
             password: Swift.String? = nil,
+            privateKey: Swift.String? = nil,
             username: Swift.String? = nil
         ) {
             self.password = password
+            self.privateKey = privateKey
             self.username = username
         }
     }
@@ -4392,7 +4404,7 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.SnowflakeConnectorProfileCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SnowflakeConnectorProfileCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "SnowflakeConnectorProfileCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\")"}
 }
 
 extension AppflowClientTypes {
@@ -8891,6 +8903,7 @@ extension AppflowClientTypes.ConnectorOAuthRequest {
     static func write(value: AppflowClientTypes.ConnectorOAuthRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["authCode"].write(value.authCode)
+        try writer["codeVerifier"].write(value.codeVerifier)
         try writer["redirectUri"].write(value.redirectUri)
     }
 }
@@ -10556,6 +10569,7 @@ extension AppflowClientTypes.SnowflakeConnectorProfileCredentials {
     static func write(value: AppflowClientTypes.SnowflakeConnectorProfileCredentials?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["password"].write(value.password)
+        try writer["privateKey"].write(value.privateKey)
         try writer["username"].write(value.username)
     }
 }

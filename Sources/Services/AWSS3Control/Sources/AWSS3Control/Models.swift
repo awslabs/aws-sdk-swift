@@ -652,7 +652,7 @@ extension S3ControlClientTypes {
         public var delimiter: Swift.String?
         /// The max depth of the selection criteria
         public var maxDepth: Swift.Int?
-        /// The minimum number of storage bytes percentage whose metrics will be selected. You must choose a value greater than or equal to 1.0.
+        /// The minimum percentage of total bucket storage that a prefix must hold for its metrics to be included.
         public var minStorageBytesPercentage: Swift.Double?
 
         public init(
@@ -2479,7 +2479,7 @@ extension S3ControlClientTypes {
         /// Determines whether or not to write the job's generated manifest to a bucket.
         /// This member is required.
         public var enableManifestOutput: Swift.Bool
-        /// The Amazon Web Services account ID that owns the bucket the generated manifest is written to. If provided the generated manifest bucket's owner Amazon Web Services account ID must match this value, else the job fails.
+        /// The Amazon Web Services account ID that owns the source bucket specified in SourceBucket. If provided, the manifest source bucket owner's Amazon Web Services account ID must match this value, else the job fails.
         public var expectedBucketOwner: Swift.String?
         /// Specifies rules the S3JobManifestGenerator should use to decide whether an object in the source bucket should or should not be included in the generated job manifest.
         public var filter: S3ControlClientTypes.JobManifestGeneratorFilter?
@@ -2927,6 +2927,35 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    public enum S3AnnotationDirective: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case copy
+        case exclude
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3AnnotationDirective] {
+            return [
+                .copy,
+                .exclude
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .copy: return "COPY"
+            case .exclude: return "EXCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum S3ChecksumAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case crc32
         case crc32c
@@ -3114,6 +3143,54 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    public enum S3ObjectLockEventHold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3ObjectLockEventHold] {
+            return [
+                .off,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "OFF"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// Contains the duration configuration for an event hold, specified in either days or years.
+    public struct S3ObjectLockEventHoldDuration: Swift.Sendable {
+        /// The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500.
+        public var days: Swift.Int?
+        /// The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100.
+        public var years: Swift.Int?
+
+        public init(
+            days: Swift.Int? = nil,
+            years: Swift.Int? = nil
+        ) {
+            self.days = days
+            self.years = years
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum S3ObjectLockLegalHoldStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case on
@@ -3176,6 +3253,8 @@ extension S3ControlClientTypes {
     public struct S3CopyObjectOperation: Swift.Sendable {
         /// This functionality is not supported by directory buckets.
         public var accessControlGrants: [S3ControlClientTypes.S3Grant]?
+        /// Specifies whether the Batch Operations copy job copies object annotations from the source object or skips them. If this property isn't specified, COPY is the default behavior. Valid Values: COPY | EXCLUDE This functionality is not supported by directory buckets.
+        public var annotationDirective: S3ControlClientTypes.S3AnnotationDirective?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an Copy action doesn’t affect bucket-level settings for S3 Bucket Key. Directory buckets - S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops). In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
         public var bucketKeyEnabled: Swift.Bool
         /// This functionality is not supported by directory buckets.
@@ -3190,6 +3269,10 @@ extension S3ControlClientTypes {
         public var newObjectMetadata: S3ControlClientTypes.S3ObjectMetadata?
         /// Specifies a list of tags to add to the destination objects after they are copied. If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default. Directory buckets - Tags aren't supported by directory buckets. If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field to prevent copying the source object tags to the directory bucket.
         public var newObjectTagging: [S3ControlClientTypes.S3Tag]?
+        /// The event hold status to be applied to all objects in the Batch Operations copy job. Set to ON to enable an event hold or OFF to disable it. This functionality is not supported by directory buckets.
+        public var objectLockEventHold: S3ControlClientTypes.S3ObjectLockEventHold?
+        /// The event hold duration to be applied to all objects in the Batch Operations copy job. The duration specifies how long the object remains protected after the event hold is released. This functionality is not supported by directory buckets.
+        public var objectLockEventHoldDuration: S3ControlClientTypes.S3ObjectLockEventHoldDuration?
         /// The legal hold status to be applied to all objects in the Batch Operations job. This functionality is not supported by directory buckets.
         public var objectLockLegalHoldStatus: S3ControlClientTypes.S3ObjectLockLegalHoldStatus?
         /// The retention mode to be applied to all objects in the Batch Operations job. This functionality is not supported by directory buckets.
@@ -3217,6 +3300,7 @@ extension S3ControlClientTypes {
 
         public init(
             accessControlGrants: [S3ControlClientTypes.S3Grant]? = nil,
+            annotationDirective: S3ControlClientTypes.S3AnnotationDirective? = nil,
             bucketKeyEnabled: Swift.Bool = false,
             cannedAccessControlList: S3ControlClientTypes.S3CannedAccessControlList? = nil,
             checksumAlgorithm: S3ControlClientTypes.S3ChecksumAlgorithm? = nil,
@@ -3224,6 +3308,8 @@ extension S3ControlClientTypes {
             modifiedSinceConstraint: Foundation.Date? = nil,
             newObjectMetadata: S3ControlClientTypes.S3ObjectMetadata? = nil,
             newObjectTagging: [S3ControlClientTypes.S3Tag]? = nil,
+            objectLockEventHold: S3ControlClientTypes.S3ObjectLockEventHold? = nil,
+            objectLockEventHoldDuration: S3ControlClientTypes.S3ObjectLockEventHoldDuration? = nil,
             objectLockLegalHoldStatus: S3ControlClientTypes.S3ObjectLockLegalHoldStatus? = nil,
             objectLockMode: S3ControlClientTypes.S3ObjectLockMode? = nil,
             objectLockRetainUntilDate: Foundation.Date? = nil,
@@ -3236,6 +3322,7 @@ extension S3ControlClientTypes {
             unModifiedSinceConstraint: Foundation.Date? = nil
         ) {
             self.accessControlGrants = accessControlGrants
+            self.annotationDirective = annotationDirective
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cannedAccessControlList = cannedAccessControlList
             self.checksumAlgorithm = checksumAlgorithm
@@ -3243,6 +3330,8 @@ extension S3ControlClientTypes {
             self.modifiedSinceConstraint = modifiedSinceConstraint
             self.newObjectMetadata = newObjectMetadata
             self.newObjectTagging = newObjectTagging
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDuration = objectLockEventHoldDuration
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -3291,6 +3380,54 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    public enum S3ObjectLockRetentionEventHold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3ObjectLockRetentionEventHold] {
+            return [
+                .off,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "OFF"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// Contains the duration configuration for an event hold, specified in either days or years.
+    public struct S3ObjectLockRetentionEventHoldDuration: Swift.Sendable {
+        /// The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500.
+        public var days: Swift.Int?
+        /// The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100.
+        public var years: Swift.Int?
+
+        public init(
+            days: Swift.Int? = nil,
+            years: Swift.Int? = nil
+        ) {
+            self.days = days
+            self.years = years
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum S3ObjectLockRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliance
         case governance
@@ -3322,15 +3459,23 @@ extension S3ControlClientTypes {
 
     /// Contains the S3 Object Lock retention mode to be applied to all objects in the S3 Batch Operations job. If you don't provide Mode and RetainUntilDate data types in your operation, you will remove the retention from your objects. For more information, see [Using S3 Object Lock retention with S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html) in the Amazon S3 User Guide.
     public struct S3Retention: Swift.Sendable {
+        /// The event hold status to be applied to all objects in the Batch Operations job. Set to ON to enable an event hold or OFF to disable it.
+        public var eventHold: S3ControlClientTypes.S3ObjectLockRetentionEventHold?
+        /// The event hold duration to be applied to all objects in the Batch Operations job. The duration specifies how long the object remains protected after the event hold is released.
+        public var eventHoldDuration: S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration?
         /// The Object Lock retention mode to be applied to all objects in the Batch Operations job.
         public var mode: S3ControlClientTypes.S3ObjectLockRetentionMode?
         /// The date when the applied Object Lock retention will expire on all objects set by the Batch Operations job.
         public var retainUntilDate: Foundation.Date?
 
         public init(
+            eventHold: S3ControlClientTypes.S3ObjectLockRetentionEventHold? = nil,
+            eventHoldDuration: S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration? = nil,
             mode: S3ControlClientTypes.S3ObjectLockRetentionMode? = nil,
             retainUntilDate: Foundation.Date? = nil
         ) {
+            self.eventHold = eventHold
+            self.eventHoldDuration = eventHoldDuration
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
@@ -15290,6 +15435,7 @@ extension S3ControlClientTypes.S3CopyObjectOperation {
     static func write(value: S3ControlClientTypes.S3CopyObjectOperation?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["AccessControlGrants"].writeList(value.accessControlGrants, memberWritingClosure: S3ControlClientTypes.S3Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AnnotationDirective"].write(value.annotationDirective)
         try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
         try writer["CannedAccessControlList"].write(value.cannedAccessControlList)
         try writer["ChecksumAlgorithm"].write(value.checksumAlgorithm)
@@ -15297,6 +15443,8 @@ extension S3ControlClientTypes.S3CopyObjectOperation {
         try writer["ModifiedSinceConstraint"].writeTimestamp(value.modifiedSinceConstraint, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["NewObjectMetadata"].write(value.newObjectMetadata, with: S3ControlClientTypes.S3ObjectMetadata.write(value:to:))
         try writer["NewObjectTagging"].writeList(value.newObjectTagging, memberWritingClosure: S3ControlClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ObjectLockEventHold"].write(value.objectLockEventHold)
+        try writer["ObjectLockEventHoldDuration"].write(value.objectLockEventHoldDuration, with: S3ControlClientTypes.S3ObjectLockEventHoldDuration.write(value:to:))
         try writer["ObjectLockLegalHoldStatus"].write(value.objectLockLegalHoldStatus)
         try writer["ObjectLockMode"].write(value.objectLockMode)
         try writer["ObjectLockRetainUntilDate"].writeTimestamp(value.objectLockRetainUntilDate, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -15316,6 +15464,7 @@ extension S3ControlClientTypes.S3CopyObjectOperation {
         value.cannedAccessControlList = try reader["CannedAccessControlList"].readIfPresent()
         value.accessControlGrants = try reader["AccessControlGrants"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metadataDirective = try reader["MetadataDirective"].readIfPresent()
+        value.annotationDirective = try reader["AnnotationDirective"].readIfPresent()
         value.modifiedSinceConstraint = try reader["ModifiedSinceConstraint"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.newObjectMetadata = try reader["NewObjectMetadata"].readIfPresent(with: S3ControlClientTypes.S3ObjectMetadata.read(from:))
         value.newObjectTagging = try reader["NewObjectTagging"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15330,6 +15479,8 @@ extension S3ControlClientTypes.S3CopyObjectOperation {
         value.objectLockRetainUntilDate = try reader["ObjectLockRetainUntilDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent() ?? false
         value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
+        value.objectLockEventHold = try reader["ObjectLockEventHold"].readIfPresent()
+        value.objectLockEventHoldDuration = try reader["ObjectLockEventHoldDuration"].readIfPresent(with: S3ControlClientTypes.S3ObjectLockEventHoldDuration.read(from:))
         return value
     }
 }
@@ -15457,6 +15608,23 @@ extension S3ControlClientTypes.S3ManifestOutputLocation {
     }
 }
 
+extension S3ControlClientTypes.S3ObjectLockEventHoldDuration {
+
+    static func write(value: S3ControlClientTypes.S3ObjectLockEventHoldDuration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Days"].write(value.days)
+        try writer["Years"].write(value.years)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ObjectLockEventHoldDuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ObjectLockEventHoldDuration()
+        value.days = try reader["Days"].readIfPresent()
+        value.years = try reader["Years"].readIfPresent()
+        return value
+    }
+}
+
 extension S3ControlClientTypes.S3ObjectLockLegalHold {
 
     static func write(value: S3ControlClientTypes.S3ObjectLockLegalHold?, to writer: SmithyXML.Writer) throws {
@@ -15468,6 +15636,23 @@ extension S3ControlClientTypes.S3ObjectLockLegalHold {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.S3ObjectLockLegalHold()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration {
+
+    static func write(value: S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Days"].write(value.days)
+        try writer["Years"].write(value.years)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration()
+        value.days = try reader["Days"].readIfPresent()
+        value.years = try reader["Years"].readIfPresent()
         return value
     }
 }
@@ -15541,6 +15726,8 @@ extension S3ControlClientTypes.S3Retention {
 
     static func write(value: S3ControlClientTypes.S3Retention?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["EventHold"].write(value.eventHold)
+        try writer["EventHoldDuration"].write(value.eventHoldDuration, with: S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration.write(value:to:))
         try writer["Mode"].write(value.mode)
         try writer["RetainUntilDate"].writeTimestamp(value.retainUntilDate, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
@@ -15550,6 +15737,8 @@ extension S3ControlClientTypes.S3Retention {
         var value = S3ControlClientTypes.S3Retention()
         value.retainUntilDate = try reader["RetainUntilDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.mode = try reader["Mode"].readIfPresent()
+        value.eventHold = try reader["EventHold"].readIfPresent()
+        value.eventHoldDuration = try reader["EventHoldDuration"].readIfPresent(with: S3ControlClientTypes.S3ObjectLockRetentionEventHoldDuration.read(from:))
         return value
     }
 }

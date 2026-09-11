@@ -1226,6 +1226,35 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    public enum ObjectLockEventHold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObjectLockEventHold] {
+            return [
+                .off,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "OFF"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     public enum ObjectLockLegalHoldStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case on
@@ -1495,6 +1524,12 @@ public struct CopyObjectInput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// Specifies whether the metadata is copied from the source object or replaced with metadata that's provided in the request. When copying an object, you can preserve all metadata (the default) or specify new metadata. If this header isn’t specified, COPY is the default behavior. General purpose bucket - For general purpose buckets, when you grant permissions, you can use the s3:x-amz-metadata-directive condition key to enforce certain metadata behavior when objects are uploaded. For more information, see [Amazon S3 condition key examples](https://docs.aws.amazon.com/AmazonS3/latest/dev/amazon-s3-policy-keys.html) in the Amazon S3 User Guide. x-amz-website-redirect-location is unique to each object and is not copied when using the x-amz-metadata-directive header. To copy the value, you must specify x-amz-website-redirect-location in the request header.
     public var metadataDirective: S3ClientTypes.MetadataDirective?
+    /// The event hold status to apply to the object copy. Set to ON to enable or OFF to disable. This functionality is not supported for directory buckets.
+    public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
+    /// The event hold duration in days to apply to the object copy. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationDays: Swift.Int?
+    /// The event hold duration in years to apply to the object copy. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether you want to apply a legal hold to the object copy. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
     /// The Object Lock mode that you want to apply to the object copy. This functionality is not supported for directory buckets.
@@ -1616,6 +1651,9 @@ public struct CopyObjectInput: Swift.Sendable {
         key: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         metadataDirective: S3ClientTypes.MetadataDirective? = nil,
+        objectLockEventHold: S3ClientTypes.ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Swift.Int? = nil,
+        objectLockEventHoldDurationYears: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: Foundation.Date? = nil,
@@ -1661,6 +1699,9 @@ public struct CopyObjectInput: Swift.Sendable {
         self.key = key
         self.metadata = metadata
         self.metadataDirective = metadataDirective
+        self.objectLockEventHold = objectLockEventHold
+        self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+        self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
         self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
         self.objectLockMode = objectLockMode
         self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -1680,14 +1721,14 @@ public struct CopyObjectInput: Swift.Sendable {
 
 extension CopyObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CopyObjectInput(acl: \(Swift.String(describing: acl)), annotationDirective: \(Swift.String(describing: annotationDirective)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "CopyObjectInput(acl: \(Swift.String(describing: acl)), annotationDirective: \(Swift.String(describing: annotationDirective)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockEventHold: \(Swift.String(describing: objectLockEventHold)), objectLockEventHoldDurationDays: \(Swift.String(describing: objectLockEventHoldDurationDays)), objectLockEventHoldDurationYears: \(Swift.String(describing: objectLockEventHoldDurationYears)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension S3ClientTypes {
 
     /// Container for all response elements.
     public struct CopyObjectResult: Swift.Sendable {
-        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32: Swift.String?
         /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32C: Swift.String?
@@ -2811,6 +2852,12 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
     public var key: Swift.String?
     /// A map of metadata to store with the object in S3.
     public var metadata: [Swift.String: Swift.String]?
+    /// Specifies the event hold status to apply to the uploaded object. Set to ON to enable or OFF to disable. This functionality is not supported for directory buckets.
+    public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
+    /// Specifies the event hold duration in days to apply to the uploaded object. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationDays: Swift.Int?
+    /// Specifies the event hold duration in years to apply to the uploaded object. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether you want to apply a legal hold to the uploaded object. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
     /// Specifies the Object Lock mode that you want to apply to the uploaded object. This functionality is not supported for directory buckets.
@@ -2865,6 +2912,9 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
         grantWriteACP: Swift.String? = nil,
         key: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
+        objectLockEventHold: S3ClientTypes.ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Swift.Int? = nil,
+        objectLockEventHoldDurationYears: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: Foundation.Date? = nil,
@@ -2897,6 +2947,9 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
         self.grantWriteACP = grantWriteACP
         self.key = key
         self.metadata = metadata
+        self.objectLockEventHold = objectLockEventHold
+        self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+        self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
         self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
         self.objectLockMode = objectLockMode
         self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -2915,7 +2968,7 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
 
 extension CreateMultipartUploadInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMultipartUploadInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "CreateMultipartUploadInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockEventHold: \(Swift.String(describing: objectLockEventHold)), objectLockEventHoldDurationDays: \(Swift.String(describing: objectLockEventHoldDurationDays)), objectLockEventHoldDurationYears: \(Swift.String(describing: objectLockEventHoldDurationYears)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMultipartUploadOutput: Swift.Sendable {
@@ -5772,6 +5825,8 @@ extension S3ClientTypes {
         case lastmodifieddate
         case lifecycleexpirationdate
         case objectaccesscontrollist
+        case objectlockeventholdduration
+        case objectlockeventholdstatus
         case objectlocklegalholdstatus
         case objectlockmode
         case objectlockretainuntildate
@@ -5792,6 +5847,8 @@ extension S3ClientTypes {
                 .lastmodifieddate,
                 .lifecycleexpirationdate,
                 .objectaccesscontrollist,
+                .objectlockeventholdduration,
+                .objectlockeventholdstatus,
                 .objectlocklegalholdstatus,
                 .objectlockmode,
                 .objectlockretainuntildate,
@@ -5818,6 +5875,8 @@ extension S3ClientTypes {
             case .lastmodifieddate: return "LastModifiedDate"
             case .lifecycleexpirationdate: return "LifecycleExpirationDate"
             case .objectaccesscontrollist: return "ObjectAccessControlList"
+            case .objectlockeventholdduration: return "ObjectLockEventHoldDuration"
+            case .objectlockeventholdstatus: return "ObjectLockEventHoldStatus"
             case .objectlocklegalholdstatus: return "ObjectLockLegalHoldStatus"
             case .objectlockmode: return "ObjectLockMode"
             case .objectlockretainuntildate: return "ObjectLockRetainUntilDate"
@@ -7035,6 +7094,7 @@ extension S3ClientTypes {
         case s3ObjectrestoreCompleted
         case s3ObjectrestoreDelete
         case s3ObjectrestorePost
+        case s3ObjectretentionPut
         case s3Objecttagging
         case s3ObjecttaggingDelete
         case s3ObjecttaggingPut
@@ -7069,6 +7129,7 @@ extension S3ClientTypes {
                 .s3ObjectrestoreCompleted,
                 .s3ObjectrestoreDelete,
                 .s3ObjectrestorePost,
+                .s3ObjectretentionPut,
                 .s3Objecttagging,
                 .s3ObjecttaggingDelete,
                 .s3ObjecttaggingPut,
@@ -7109,6 +7170,7 @@ extension S3ClientTypes {
             case .s3ObjectrestoreCompleted: return "s3:ObjectRestore:Completed"
             case .s3ObjectrestoreDelete: return "s3:ObjectRestore:Delete"
             case .s3ObjectrestorePost: return "s3:ObjectRestore:Post"
+            case .s3ObjectretentionPut: return "s3:ObjectRetention:Put"
             case .s3Objecttagging: return "s3:ObjectTagging:*"
             case .s3ObjecttaggingDelete: return "s3:ObjectTagging:Delete"
             case .s3ObjecttaggingPut: return "s3:ObjectTagging:Put"
@@ -8582,7 +8644,7 @@ public struct GetObjectOutput: Swift.Sendable {
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
-    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
@@ -8634,6 +8696,12 @@ public struct GetObjectOutput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// This is set to the number of metadata entries not returned in the headers that are prefixed with x-amz-meta-. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers. This functionality is not supported for directory buckets.
     public var missingMeta: Swift.Int?
+    /// The event hold status for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. This functionality is not supported for directory buckets.
+    public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
+    /// The event hold duration in days for this object. Only returned when the event hold is enabled. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationDays: Swift.Int?
+    /// The event hold duration in years for this object. Only returned when the event hold is enabled. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationYears: Swift.Int?
     /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
     /// The Object Lock mode that's currently in place for this object. This functionality is not supported for directory buckets.
@@ -8694,6 +8762,9 @@ public struct GetObjectOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         missingMeta: Swift.Int? = nil,
+        objectLockEventHold: S3ClientTypes.ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Swift.Int? = nil,
+        objectLockEventHoldDurationYears: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: Foundation.Date? = nil,
@@ -8738,6 +8809,9 @@ public struct GetObjectOutput: Swift.Sendable {
         self.lastModified = lastModified
         self.metadata = metadata
         self.missingMeta = missingMeta
+        self.objectLockEventHold = objectLockEventHold
+        self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+        self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
         self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
         self.objectLockMode = objectLockMode
         self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -8758,7 +8832,7 @@ public struct GetObjectOutput: Swift.Sendable {
 
 extension GetObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "GetObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockEventHold: \(Swift.String(describing: objectLockEventHold)), objectLockEventHoldDurationDays: \(Swift.String(describing: objectLockEventHoldDurationDays)), objectLockEventHoldDurationYears: \(Swift.String(describing: objectLockEventHoldDurationYears)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetObjectAclInput: Swift.Sendable {
@@ -9336,6 +9410,25 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    /// Contains the event hold duration configuration, specified in either days or years.
+    public struct EventHoldDuration: Swift.Sendable {
+        /// The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500.
+        public var days: Swift.Int?
+        /// The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100.
+        public var years: Swift.Int?
+
+        public init(
+            days: Swift.Int? = nil,
+            years: Swift.Int? = nil
+        ) {
+            self.days = days
+            self.years = years
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     public enum ObjectLockRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case compliance
         case governance
@@ -9373,6 +9466,8 @@ extension S3ClientTypes {
     public struct DefaultRetention: Swift.Sendable {
         /// The number of days that you want to specify for the default retention period. Must be used with Mode.
         public var days: Swift.Int?
+        /// The default event hold duration to be applied to new objects placed in the specified bucket. When configured, new objects will automatically have an event hold enabled with this duration.
+        public var defaultEventHold: S3ClientTypes.EventHoldDuration?
         /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years.
         public var mode: S3ClientTypes.ObjectLockRetentionMode?
         /// The number of years that you want to specify for the default retention period. Must be used with Mode.
@@ -9380,10 +9475,12 @@ extension S3ClientTypes {
 
         public init(
             days: Swift.Int? = nil,
+            defaultEventHold: S3ClientTypes.EventHoldDuration? = nil,
             mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
             years: Swift.Int? = nil
         ) {
             self.days = days
+            self.defaultEventHold = defaultEventHold
             self.mode = mode
             self.years = years
         }
@@ -9468,15 +9565,23 @@ extension S3ClientTypes {
 
     /// A Retention configuration for an object.
     public struct ObjectLockRetention: Swift.Sendable {
+        /// The event hold status for the object. Set to ON to enable an event hold or OFF to disable it.
+        public var eventHold: S3ClientTypes.ObjectLockEventHold?
+        /// The event hold duration for the object. Specifies how long the object remains protected after the event hold is released.
+        public var eventHoldDuration: S3ClientTypes.EventHoldDuration?
         /// Indicates the Retention mode for the specified object.
         public var mode: S3ClientTypes.ObjectLockRetentionMode?
         /// The date on which this Object Lock Retention will expire.
         public var retainUntilDate: Foundation.Date?
 
         public init(
+            eventHold: S3ClientTypes.ObjectLockEventHold? = nil,
+            eventHoldDuration: S3ClientTypes.EventHoldDuration? = nil,
             mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
             retainUntilDate: Foundation.Date? = nil
         ) {
+            self.eventHold = eventHold
+            self.eventHoldDuration = eventHoldDuration
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
@@ -9911,6 +10016,12 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers. This functionality is not supported for directory buckets.
     public var missingMeta: Swift.Int?
+    /// The event hold status for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. This functionality is not supported for directory buckets.
+    public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
+    /// The event hold duration in days for this object. Only returned when the event hold is enabled. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationDays: Swift.Int?
+    /// The event hold duration in years for this object. Only returned when the event hold is enabled. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether a legal hold is in effect for this object. This header is only returned if the requester has the s3:GetObjectLegalHold permission. This header is not returned if the specified version of this object has never had a legal hold applied. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
     /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for directory buckets.
@@ -9980,6 +10091,9 @@ public struct HeadObjectOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         missingMeta: Swift.Int? = nil,
+        objectLockEventHold: S3ClientTypes.ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Swift.Int? = nil,
+        objectLockEventHoldDurationYears: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: Foundation.Date? = nil,
@@ -10024,6 +10138,9 @@ public struct HeadObjectOutput: Swift.Sendable {
         self.lastModified = lastModified
         self.metadata = metadata
         self.missingMeta = missingMeta
+        self.objectLockEventHold = objectLockEventHold
+        self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+        self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
         self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
         self.objectLockMode = objectLockMode
         self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -10044,7 +10161,7 @@ public struct HeadObjectOutput: Swift.Sendable {
 
 extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumType: \(Swift.String(describing: checksumType)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockEventHold: \(Swift.String(describing: objectLockEventHold)), objectLockEventHoldDurationDays: \(Swift.String(describing: objectLockEventHoldDurationDays)), objectLockEventHoldDurationYears: \(Swift.String(describing: objectLockEventHoldDurationYears)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListBucketAnalyticsConfigurationsInput: Swift.Sendable {
@@ -12432,6 +12549,12 @@ public struct PutObjectInput: Swift.Sendable {
     public var key: Swift.String?
     /// A map of metadata to store with the object in S3.
     public var metadata: [Swift.String: Swift.String]?
+    /// Specifies the event hold status to apply to this object. Set to ON to enable or OFF to disable. This functionality is not supported for directory buckets.
+    public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
+    /// Specifies the event hold duration in days to apply to this object. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationDays: Swift.Int?
+    /// Specifies the event hold duration in years to apply to this object. This functionality is not supported for directory buckets.
+    public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
     /// The Object Lock mode that you want to apply to this object. This functionality is not supported for directory buckets.
@@ -12504,6 +12627,9 @@ public struct PutObjectInput: Swift.Sendable {
         ifNoneMatch: Swift.String? = nil,
         key: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
+        objectLockEventHold: S3ClientTypes.ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Swift.Int? = nil,
+        objectLockEventHoldDurationYears: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: Foundation.Date? = nil,
@@ -12551,6 +12677,9 @@ public struct PutObjectInput: Swift.Sendable {
         self.ifNoneMatch = ifNoneMatch
         self.key = key
         self.metadata = metadata
+        self.objectLockEventHold = objectLockEventHold
+        self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+        self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
         self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
         self.objectLockMode = objectLockMode
         self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -12570,7 +12699,7 @@ public struct PutObjectInput: Swift.Sendable {
 
 extension PutObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), writeOffsetBytes: \(Swift.String(describing: writeOffsetBytes)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "PutObjectInput(acl: \(Swift.String(describing: acl)), body: \(Swift.String(describing: body)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumMD5: \(Swift.String(describing: checksumMD5)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumSHA512: \(Swift.String(describing: checksumSHA512)), checksumXXHASH128: \(Swift.String(describing: checksumXXHASH128)), checksumXXHASH3: \(Swift.String(describing: checksumXXHASH3)), checksumXXHASH64: \(Swift.String(describing: checksumXXHASH64)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentMD5: \(Swift.String(describing: contentMD5)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockEventHold: \(Swift.String(describing: objectLockEventHold)), objectLockEventHoldDurationDays: \(Swift.String(describing: objectLockEventHoldDurationDays)), objectLockEventHoldDurationYears: \(Swift.String(describing: objectLockEventHoldDurationYears)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), writeOffsetBytes: \(Swift.String(describing: writeOffsetBytes)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutObjectOutput: Swift.Sendable {
@@ -15246,6 +15375,15 @@ extension CopyObjectInput {
         if let metadataDirective = value.metadataDirective {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-metadata-directive", value: Swift.String(metadataDirective.rawValue)))
         }
+        if let objectLockEventHold = value.objectLockEventHold {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold", value: Swift.String(objectLockEventHold.rawValue)))
+        }
+        if let objectLockEventHoldDurationDays = value.objectLockEventHoldDurationDays {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold-duration-days", value: Swift.String(objectLockEventHoldDurationDays)))
+        }
+        if let objectLockEventHoldDurationYears = value.objectLockEventHoldDurationYears {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold-duration-years", value: Swift.String(objectLockEventHoldDurationYears)))
+        }
         if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
         }
@@ -15473,6 +15611,15 @@ extension CreateMultipartUploadInput {
         }
         if let grantWriteACP = value.grantWriteACP {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
+        }
+        if let objectLockEventHold = value.objectLockEventHold {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold", value: Swift.String(objectLockEventHold.rawValue)))
+        }
+        if let objectLockEventHoldDurationDays = value.objectLockEventHoldDurationDays {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold-duration-days", value: Swift.String(objectLockEventHoldDurationDays)))
+        }
+        if let objectLockEventHoldDurationYears = value.objectLockEventHoldDurationYears {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold-duration-years", value: Swift.String(objectLockEventHoldDurationYears)))
         }
         if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
@@ -18659,6 +18806,15 @@ extension PutObjectInput {
         if let ifNoneMatch = value.ifNoneMatch {
             items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
         }
+        if let objectLockEventHold = value.objectLockEventHold {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold", value: Swift.String(objectLockEventHold.rawValue)))
+        }
+        if let objectLockEventHoldDurationDays = value.objectLockEventHoldDurationDays {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold-duration-days", value: Swift.String(objectLockEventHoldDurationDays)))
+        }
+        if let objectLockEventHoldDurationYears = value.objectLockEventHoldDurationYears {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-event-hold-duration-years", value: Swift.String(objectLockEventHoldDurationYears)))
+        }
         if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
         }
@@ -20738,6 +20894,15 @@ extension GetObjectOutput {
         if let missingMetaHeaderValue = httpResponse.headers.value(for: "x-amz-missing-meta") {
             value.missingMeta = Swift.Int(missingMetaHeaderValue) ?? 0
         }
+        if let objectLockEventHoldHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-event-hold") {
+            value.objectLockEventHold = S3ClientTypes.ObjectLockEventHold(rawValue: objectLockEventHoldHeaderValue)
+        }
+        if let objectLockEventHoldDurationDaysHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-event-hold-duration-days") {
+            value.objectLockEventHoldDurationDays = Swift.Int(objectLockEventHoldDurationDaysHeaderValue) ?? 0
+        }
+        if let objectLockEventHoldDurationYearsHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-event-hold-duration-years") {
+            value.objectLockEventHoldDurationYears = Swift.Int(objectLockEventHoldDurationYearsHeaderValue) ?? 0
+        }
         if let objectLockLegalHoldStatusHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-legal-hold") {
             value.objectLockLegalHoldStatus = S3ClientTypes.ObjectLockLegalHoldStatus(rawValue: objectLockLegalHoldStatusHeaderValue)
         }
@@ -21110,6 +21275,15 @@ extension HeadObjectOutput {
         }
         if let missingMetaHeaderValue = httpResponse.headers.value(for: "x-amz-missing-meta") {
             value.missingMeta = Swift.Int(missingMetaHeaderValue) ?? 0
+        }
+        if let objectLockEventHoldHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-event-hold") {
+            value.objectLockEventHold = S3ClientTypes.ObjectLockEventHold(rawValue: objectLockEventHoldHeaderValue)
+        }
+        if let objectLockEventHoldDurationDaysHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-event-hold-duration-days") {
+            value.objectLockEventHoldDurationDays = Swift.Int(objectLockEventHoldDurationDaysHeaderValue) ?? 0
+        }
+        if let objectLockEventHoldDurationYearsHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-event-hold-duration-years") {
+            value.objectLockEventHoldDurationYears = Swift.Int(objectLockEventHoldDurationYearsHeaderValue) ?? 0
         }
         if let objectLockLegalHoldStatusHeaderValue = httpResponse.headers.value(for: "x-amz-object-lock-legal-hold") {
             value.objectLockLegalHoldStatus = S3ClientTypes.ObjectLockLegalHoldStatus(rawValue: objectLockLegalHoldStatusHeaderValue)
@@ -24303,6 +24477,7 @@ extension S3ClientTypes.DefaultRetention {
     static func write(value: S3ClientTypes.DefaultRetention?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Days"].write(value.days)
+        try writer["DefaultEventHold"].write(value.defaultEventHold, with: S3ClientTypes.EventHoldDuration.write(value:to:))
         try writer["Mode"].write(value.mode)
         try writer["Years"].write(value.years)
     }
@@ -24313,6 +24488,7 @@ extension S3ClientTypes.DefaultRetention {
         value.mode = try reader["Mode"].readIfPresent()
         value.days = try reader["Days"].readIfPresent()
         value.years = try reader["Years"].readIfPresent()
+        value.defaultEventHold = try reader["DefaultEventHold"].readIfPresent(with: S3ClientTypes.EventHoldDuration.read(from:))
         return value
     }
 }
@@ -24489,6 +24665,23 @@ extension S3ClientTypes.EventBridgeConfiguration {
     static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.EventBridgeConfiguration {
         guard reader.hasContent || Mirror(reflecting: self).children.isEmpty else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return S3ClientTypes.EventBridgeConfiguration()
+    }
+}
+
+extension S3ClientTypes.EventHoldDuration {
+
+    static func write(value: S3ClientTypes.EventHoldDuration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Days"].write(value.days)
+        try writer["Years"].write(value.years)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.EventHoldDuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.EventHoldDuration()
+        value.days = try reader["Days"].readIfPresent()
+        value.years = try reader["Years"].readIfPresent()
+        return value
     }
 }
 
@@ -25345,6 +25538,8 @@ extension S3ClientTypes.ObjectLockRetention {
 
     static func write(value: S3ClientTypes.ObjectLockRetention?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["EventHold"].write(value.eventHold)
+        try writer["EventHoldDuration"].write(value.eventHoldDuration, with: S3ClientTypes.EventHoldDuration.write(value:to:))
         try writer["Mode"].write(value.mode)
         try writer["RetainUntilDate"].writeTimestamp(value.retainUntilDate, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
@@ -25354,6 +25549,8 @@ extension S3ClientTypes.ObjectLockRetention {
         var value = S3ClientTypes.ObjectLockRetention()
         value.mode = try reader["Mode"].readIfPresent()
         value.retainUntilDate = try reader["RetainUntilDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.eventHold = try reader["EventHold"].readIfPresent()
+        value.eventHoldDuration = try reader["EventHoldDuration"].readIfPresent(with: S3ClientTypes.EventHoldDuration.read(from:))
         return value
     }
 }
