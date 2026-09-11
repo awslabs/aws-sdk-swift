@@ -105,3 +105,64 @@ extension PaginatorSequence where OperationStackInput == ListProcurementPortalPr
         return try await self.asyncCompactMap { item in item.procurementPortalPreferences }
     }
 }
+extension InvoicingClient {
+    /// Paginate over `[ListProcurementPortalsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProcurementPortalsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProcurementPortalsOutput`
+    public func listProcurementPortalsPaginated(input: ListProcurementPortalsInput) -> ClientRuntime.PaginatorSequence<ListProcurementPortalsInput, ListProcurementPortalsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProcurementPortalsInput, ListProcurementPortalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProcurementPortals(input:))
+    }
+}
+
+extension ListProcurementPortalsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProcurementPortalsInput {
+        return ListProcurementPortalsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProcurementPortalsInput, OperationStackOutput == ListProcurementPortalsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProcurementPortalsPaginated`
+    /// to access the nested member `[InvoicingClientTypes.ProcurementPortal]`
+    /// - Returns: `[InvoicingClientTypes.ProcurementPortal]`
+    public func procurementPortals() async throws -> [InvoicingClientTypes.ProcurementPortal] {
+        return try await self.asyncCompactMap { item in item.procurementPortals }
+    }
+}
+extension InvoicingClient {
+    /// Paginate over `[ListProcurementPortalSuppliersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProcurementPortalSuppliersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProcurementPortalSuppliersOutput`
+    public func listProcurementPortalSuppliersPaginated(input: ListProcurementPortalSuppliersInput) -> ClientRuntime.PaginatorSequence<ListProcurementPortalSuppliersInput, ListProcurementPortalSuppliersOutput> {
+        return ClientRuntime.PaginatorSequence<ListProcurementPortalSuppliersInput, ListProcurementPortalSuppliersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProcurementPortalSuppliers(input:))
+    }
+}
+
+extension ListProcurementPortalSuppliersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProcurementPortalSuppliersInput {
+        return ListProcurementPortalSuppliersInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            portalIdentifier: self.portalIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProcurementPortalSuppliersInput, OperationStackOutput == ListProcurementPortalSuppliersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProcurementPortalSuppliersPaginated`
+    /// to access the nested member `[InvoicingClientTypes.ProcurementPortalSupplier]`
+    /// - Returns: `[InvoicingClientTypes.ProcurementPortalSupplier]`
+    public func procurementPortalSuppliers() async throws -> [InvoicingClientTypes.ProcurementPortalSupplier] {
+        return try await self.asyncCompactMap { item in item.procurementPortalSuppliers }
+    }
+}

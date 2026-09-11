@@ -1526,9 +1526,9 @@ public struct CopyObjectInput: Swift.Sendable {
     public var metadataDirective: S3ClientTypes.MetadataDirective?
     /// The event hold status to apply to the object copy. Set to ON to enable or OFF to disable. This functionality is not supported for directory buckets.
     public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
-    /// The event hold duration in days to apply to the object copy. This functionality is not supported for directory buckets.
+    /// The event hold duration in days to apply to the object copy. You cannot specify a duration in both days and years. This functionality is not supported for directory buckets.
     public var objectLockEventHoldDurationDays: Swift.Int?
-    /// The event hold duration in years to apply to the object copy. This functionality is not supported for directory buckets.
+    /// The event hold duration in years to apply to the object copy. You cannot specify a duration in both days and years. This functionality is not supported for directory buckets.
     public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether you want to apply a legal hold to the object copy. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
@@ -2854,9 +2854,9 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// Specifies the event hold status to apply to the uploaded object. Set to ON to enable or OFF to disable. This functionality is not supported for directory buckets.
     public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
-    /// Specifies the event hold duration in days to apply to the uploaded object. This functionality is not supported for directory buckets.
+    /// Specifies the event hold duration in days to apply to the uploaded object. You cannot specify a duration in both days and years. This functionality is not supported for directory buckets.
     public var objectLockEventHoldDurationDays: Swift.Int?
-    /// Specifies the event hold duration in years to apply to the uploaded object. This functionality is not supported for directory buckets.
+    /// Specifies the event hold duration in years to apply to the uploaded object. You cannot specify a duration in both days and years. This functionality is not supported for directory buckets.
     public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether you want to apply a legal hold to the uploaded object. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
@@ -9491,7 +9491,14 @@ extension S3ClientTypes {
 
     /// The container element for an Object Lock rule.
     public struct ObjectLockRule: Swift.Sendable {
-        /// The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time.
+        /// The default Object Lock retention settings for new objects in this bucket. You can specify:
+        ///
+        /// * A default retention period, by using Days or Years.
+        ///
+        /// * A default event hold duration, by using DefaultEventHold. This setting also uses days or years.
+        ///
+        ///
+        /// You can set one or both. You cannot use days and years in the same setting.
         public var defaultRetention: S3ClientTypes.DefaultRetention?
 
         public init(
@@ -12551,9 +12558,9 @@ public struct PutObjectInput: Swift.Sendable {
     public var metadata: [Swift.String: Swift.String]?
     /// Specifies the event hold status to apply to this object. Set to ON to enable or OFF to disable. This functionality is not supported for directory buckets.
     public var objectLockEventHold: S3ClientTypes.ObjectLockEventHold?
-    /// Specifies the event hold duration in days to apply to this object. This functionality is not supported for directory buckets.
+    /// Specifies the event hold duration in days to apply to this object. You cannot specify a duration in both days and years. This functionality is not supported for directory buckets.
     public var objectLockEventHoldDurationDays: Swift.Int?
-    /// Specifies the event hold duration in years to apply to this object. This functionality is not supported for directory buckets.
+    /// Specifies the event hold duration in years to apply to this object. You cannot specify a duration in both days and years. This functionality is not supported for directory buckets.
     public var objectLockEventHoldDurationYears: Swift.Int?
     /// Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
