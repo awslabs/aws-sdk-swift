@@ -2954,6 +2954,31 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes {
 
+    /// A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range.
+    public struct CustomTier: Swift.Sendable {
+        /// The inclusive start of the usage range that this tier applies to.
+        /// This member is required.
+        public var beginRangeInclusive: Swift.Double?
+        /// The exclusive end of the usage range that this tier applies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to BeginRangeInclusive.
+        public var endRangeExclusive: Swift.Double?
+        /// The rate that's applied to the usage that falls within this tier.
+        /// This member is required.
+        public var rateValue: Swift.Double?
+
+        public init(
+            beginRangeInclusive: Swift.Double? = nil,
+            endRangeExclusive: Swift.Double? = nil,
+            rateValue: Swift.Double? = nil
+        ) {
+            self.beginRangeInclusive = beginRangeInclusive
+            self.endRangeExclusive = endRangeExclusive
+            self.rateValue = rateValue
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+
     /// The possible Amazon Web Services Free Tier configurations.
     public struct CreateFreeTierConfig: Swift.Sendable {
         /// Activate or deactivate Amazon Web Services Free Tier.
@@ -2972,13 +2997,16 @@ extension BillingconductorClientTypes {
 
     /// The set of tiering configurations for the pricing rule.
     public struct CreateTieringInput: Swift.Sendable {
+        /// The set of custom tiers for the pricing rule.
+        public var customTiers: [BillingconductorClientTypes.CustomTier]?
         /// The possible Amazon Web Services Free Tier configurations.
-        /// This member is required.
         public var freeTier: BillingconductorClientTypes.CreateFreeTierConfig?
 
         public init(
+            customTiers: [BillingconductorClientTypes.CustomTier]? = nil,
             freeTier: BillingconductorClientTypes.CreateFreeTierConfig? = nil
         ) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
     }
@@ -3171,13 +3199,16 @@ extension BillingconductorClientTypes {
 
     /// The set of tiering configurations for the pricing rule.
     public struct Tiering: Swift.Sendable {
+        /// The set of custom tiers for the pricing rule.
+        public var customTiers: [BillingconductorClientTypes.CustomTier]?
         /// The possible Amazon Web Services Free Tier configurations.
-        /// This member is required.
         public var freeTier: BillingconductorClientTypes.FreeTierConfig?
 
         public init(
+            customTiers: [BillingconductorClientTypes.CustomTier]? = nil,
             freeTier: BillingconductorClientTypes.FreeTierConfig? = nil
         ) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
     }
@@ -3341,13 +3372,16 @@ extension BillingconductorClientTypes {
 
     /// The set of tiering configurations for the pricing rule.
     public struct UpdateTieringInput: Swift.Sendable {
+        /// The set of custom tiers for the pricing rule.
+        public var customTiers: [BillingconductorClientTypes.CustomTier]?
         /// The possible Amazon Web Services Free Tier configurations.
-        /// This member is required.
         public var freeTier: BillingconductorClientTypes.UpdateFreeTierConfig?
 
         public init(
+            customTiers: [BillingconductorClientTypes.CustomTier]? = nil,
             freeTier: BillingconductorClientTypes.UpdateFreeTierConfig? = nil
         ) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
     }
@@ -5385,6 +5419,7 @@ extension BillingconductorClientTypes.CreateTieringInput {
 
     static func write(value: BillingconductorClientTypes.CreateTieringInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomTiers"].writeList(value.customTiers, memberWritingClosure: BillingconductorClientTypes.CustomTier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FreeTier"].write(value.freeTier, with: BillingconductorClientTypes.CreateFreeTierConfig.write(value:to:))
     }
 }
@@ -5469,6 +5504,25 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement {
         value.accountId = try reader["AccountId"].readIfPresent()
         value.computationRule = try reader["ComputationRule"].readIfPresent()
         value.presentationDetails = try reader["PresentationDetails"].readIfPresent(with: BillingconductorClientTypes.PresentationObject.read(from:))
+        return value
+    }
+}
+
+extension BillingconductorClientTypes.CustomTier {
+
+    static func write(value: BillingconductorClientTypes.CustomTier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BeginRangeInclusive"].write(value.beginRangeInclusive)
+        try writer["EndRangeExclusive"].write(value.endRangeExclusive)
+        try writer["RateValue"].write(value.rateValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.CustomTier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingconductorClientTypes.CustomTier()
+        value.beginRangeInclusive = try reader["BeginRangeInclusive"].readIfPresent() ?? 0.0
+        value.endRangeExclusive = try reader["EndRangeExclusive"].readIfPresent()
+        value.rateValue = try reader["RateValue"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -5724,6 +5778,7 @@ extension BillingconductorClientTypes.Tiering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.Tiering()
         value.freeTier = try reader["FreeTier"].readIfPresent(with: BillingconductorClientTypes.FreeTierConfig.read(from:))
+        value.customTiers = try reader["CustomTiers"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.CustomTier.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5790,6 +5845,7 @@ extension BillingconductorClientTypes.UpdateTieringInput {
 
     static func write(value: BillingconductorClientTypes.UpdateTieringInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomTiers"].writeList(value.customTiers, memberWritingClosure: BillingconductorClientTypes.CustomTier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FreeTier"].write(value.freeTier, with: BillingconductorClientTypes.UpdateFreeTierConfig.write(value:to:))
     }
 
@@ -5797,6 +5853,7 @@ extension BillingconductorClientTypes.UpdateTieringInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingconductorClientTypes.UpdateTieringInput()
         value.freeTier = try reader["FreeTier"].readIfPresent(with: BillingconductorClientTypes.UpdateFreeTierConfig.read(from:))
+        value.customTiers = try reader["CustomTiers"].readListIfPresent(memberReadingClosure: BillingconductorClientTypes.CustomTier.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

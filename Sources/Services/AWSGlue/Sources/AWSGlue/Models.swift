@@ -13957,6 +13957,8 @@ extension GlueClientTypes {
 
     /// Properties used by the target leg to partition the data on the target.
     public struct TargetTableConfig: Swift.Sendable {
+        /// The ARN of the integration that owns this target table configuration.
+        public var integrationArn: Swift.String?
         /// Determines the file layout on the target.
         public var partitionSpec: [GlueClientTypes.IntegrationPartition]?
         /// The optional name of a target table.
@@ -13965,10 +13967,12 @@ extension GlueClientTypes {
         public var unnestSpec: GlueClientTypes.UnnestSpec?
 
         public init(
+            integrationArn: Swift.String? = nil,
             partitionSpec: [GlueClientTypes.IntegrationPartition]? = nil,
             targetTableName: Swift.String? = nil,
             unnestSpec: GlueClientTypes.UnnestSpec? = nil
         ) {
+            self.integrationArn = integrationArn
             self.partitionSpec = partitionSpec
             self.targetTableName = targetTableName
             self.unnestSpec = unnestSpec
@@ -27326,6 +27330,88 @@ public struct ListIntegrationResourcePropertiesOutput: Swift.Sendable {
         marker: Swift.String? = nil
     ) {
         self.integrationResourcePropertyList = integrationResourcePropertyList
+        self.marker = marker
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A key-value filter used to narrow the list of integration table properties returned by ListIntegrationTableProperties. Specify a filter key and one or more values to match.
+    public struct IntegrationTablePropertiesFilter: Swift.Sendable {
+        /// The name of the filter. Supported filter keys are SourceArn, TargetArn, SourceTableName, and TargetTableName.
+        public var name: Swift.String?
+        /// A list of filter values.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct ListIntegrationTablePropertiesInput: Swift.Sendable {
+    /// A list of filters. Supported filter keys are SourceArn, TargetArn, SourceTableName, and TargetTableName.
+    public var filters: [GlueClientTypes.IntegrationTablePropertiesFilter]?
+    /// The pagination token for the next page of results. The initial value is null.
+    public var marker: Swift.String?
+    /// The maximum number of records to return in the response.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [GlueClientTypes.IntegrationTablePropertiesFilter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    ) {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The properties of a single integration table, including the resource ARN, the table name, and the source or target table configuration.
+    public struct IntegrationTableProperties: Swift.Sendable {
+        /// The connection ARN of the source, or the database ARN of the target.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// A structure for the source table configuration.
+        public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+        /// The name of the source table to be replicated.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// A structure for the target table configuration.
+        public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+            tableName: Swift.String? = nil,
+            targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.sourceTableConfig = sourceTableConfig
+            self.tableName = tableName
+            self.targetTableConfig = targetTableConfig
+        }
+    }
+}
+
+public struct ListIntegrationTablePropertiesOutput: Swift.Sendable {
+    /// A list of integration table properties meeting the filter criteria.
+    public var integrationTablePropertiesList: [GlueClientTypes.IntegrationTableProperties]?
+    /// The pagination token for the next page. Returns null if there are no more results.
+    public var marker: Swift.String?
+
+    public init(
+        integrationTablePropertiesList: [GlueClientTypes.IntegrationTableProperties]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.integrationTablePropertiesList = integrationTablePropertiesList
         self.marker = marker
     }
 }
