@@ -349,7 +349,7 @@ public struct CancelJobInput: Swift.Sendable {
     /// The Batch job ID of the job to cancel.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A message to attach to the job that explains the reason for canceling it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has as limit of 1024 characters.
+    /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     /// This member is required.
     public var reason: Swift.String?
 
@@ -365,6 +365,78 @@ public struct CancelJobInput: Swift.Sendable {
 public struct CancelJobOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Specifies the jobs to cancel and the reason for the cancellation.
+public struct CancelJobsInput: Swift.Sendable {
+    /// An array of up to 50 Batch job IDs of the jobs to cancel.
+    /// This member is required.
+    public var jobs: [Swift.String]?
+    /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// This member is required.
+    public var reason: Swift.String?
+
+    public init(
+        jobs: [Swift.String]? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.reason = reason
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that contains the details of a job that couldn't be cancelled by a CancelJobs operation.
+    public struct CancelJobsErrorDetail: Swift.Sendable {
+        /// An error code that identifies the reason the job couldn't be cancelled. Valid values are:
+        ///
+        /// * ValidationException – A job identifier in the request is malformed or isn't valid.
+        ///
+        /// * ClientException – The request failed because of a client error.
+        ///
+        /// * ThrottlingException – The request was throttled. Retry the request.
+        ///
+        /// * ServerException – An internal error occurred. Retry the request.
+        ///
+        /// * AccessDenied – The caller isn't authorized to perform the action on the specified job.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The Batch job ID of the job that couldn't be cancelled.
+        /// This member is required.
+        public var job: Swift.String?
+        /// A message that describes the reason the job couldn't be cancelled.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            job: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.job = job
+            self.message = message
+        }
+    }
+}
+
+/// The result of a CancelJobs request, including the jobs whose cancellation request was accepted and the errors for jobs that couldn't be cancelled.
+public struct CancelJobsOutput: Swift.Sendable {
+    /// A list of CancelJobsErrorDetail items, one for each job that couldn't be cancelled. Each item includes the job ID along with a code and message that describe why the job wasn't cancelled.
+    /// This member is required.
+    public var errors: [BatchClientTypes.CancelJobsErrorDetail]?
+    /// A list of the job IDs whose cancellation request was accepted.
+    /// This member is required.
+    public var successful: [Swift.String]?
+
+    public init(
+        errors: [BatchClientTypes.CancelJobsErrorDetail]? = nil,
+        successful: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.successful = successful
+    }
 }
 
 extension BatchClientTypes {
@@ -4720,7 +4792,7 @@ extension BatchClientTypes {
         public var eksAttempts: [BatchClientTypes.EksAttemptDetail]?
         /// An object with various properties that are specific to Amazon EKS based jobs.
         public var eksProperties: BatchClientTypes.EksPropertiesDetail?
-        /// Indicates whether the job is canceled.
+        /// Indicates whether the job is cancelled.
         public var isCancelled: Swift.Bool?
         /// Indicates whether the job is terminated.
         public var isTerminated: Swift.Bool?
@@ -6041,6 +6113,10 @@ extension BatchClientTypes {
         public var container: BatchClientTypes.ContainerSummary?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
         public var createdAt: Swift.Int?
+        /// Indicates whether a cancellation request has been accepted for the job. This field is only present when the value is true.
+        public var isCancelled: Swift.Bool?
+        /// Indicates whether a termination request has been accepted for the job. This field is only present when the value is true.
+        public var isTerminated: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the job.
         public var jobArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the job definition.
@@ -6071,6 +6147,8 @@ extension BatchClientTypes {
             capacityUsage: [BatchClientTypes.JobCapacityUsageSummary]? = nil,
             container: BatchClientTypes.ContainerSummary? = nil,
             createdAt: Swift.Int? = nil,
+            isCancelled: Swift.Bool? = nil,
+            isTerminated: Swift.Bool? = nil,
             jobArn: Swift.String? = nil,
             jobDefinition: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -6087,6 +6165,8 @@ extension BatchClientTypes {
             self.capacityUsage = capacityUsage
             self.container = container
             self.createdAt = createdAt
+            self.isCancelled = isCancelled
+            self.isTerminated = isTerminated
             self.jobArn = jobArn
             self.jobDefinition = jobDefinition
             self.jobId = jobId
@@ -6417,6 +6497,8 @@ extension BatchClientTypes {
         public var capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageSummary]?
         /// The Unix timestamp (in milliseconds) for when the service job was created.
         public var createdAt: Swift.Int?
+        /// Indicates whether a termination request has been accepted for the service job. This field is only present when the value is true.
+        public var isTerminated: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the service job.
         public var jobArn: Swift.String?
         /// The job ID for the service job.
@@ -6448,6 +6530,7 @@ extension BatchClientTypes {
         public init(
             capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageSummary]? = nil,
             createdAt: Swift.Int? = nil,
+            isTerminated: Swift.Bool? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -6463,6 +6546,7 @@ extension BatchClientTypes {
         ) {
             self.capacityUsage = capacityUsage
             self.createdAt = createdAt
+            self.isTerminated = isTerminated
             self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
@@ -7079,7 +7163,7 @@ public struct TerminateJobInput: Swift.Sendable {
     /// The Batch job ID of the job to terminate.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A message to attach to the job that explains the reason for canceling it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has as limit of 1024 characters.
+    /// A message to attach to the job that explains the reason for terminating it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     /// This member is required.
     public var reason: Swift.String?
 
@@ -7097,11 +7181,83 @@ public struct TerminateJobOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Specifies the jobs to terminate and the reason for the termination.
+public struct TerminateJobsInput: Swift.Sendable {
+    /// An array of up to 50 Batch job IDs of the jobs to terminate.
+    /// This member is required.
+    public var jobs: [Swift.String]?
+    /// A message to attach to the job that explains the reason for terminating it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// This member is required.
+    public var reason: Swift.String?
+
+    public init(
+        jobs: [Swift.String]? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.reason = reason
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that contains the details of a job that couldn't be terminated by a TerminateJobs operation.
+    public struct TerminateJobsErrorDetail: Swift.Sendable {
+        /// An error code that identifies the reason the job couldn't be terminated. Valid values are:
+        ///
+        /// * ValidationException – A job identifier in the request is malformed or isn't valid.
+        ///
+        /// * ClientException – The request failed because of a client error.
+        ///
+        /// * ThrottlingException – The request was throttled. Retry the request.
+        ///
+        /// * ServerException – An internal error occurred. Retry the request.
+        ///
+        /// * AccessDenied – The caller isn't authorized to perform the action on the specified job.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The Batch job ID of the job that couldn't be terminated.
+        /// This member is required.
+        public var job: Swift.String?
+        /// A message that describes the reason the job couldn't be terminated.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            job: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.job = job
+            self.message = message
+        }
+    }
+}
+
+/// The result of a TerminateJobs request, including the jobs whose termination request was accepted and the errors for jobs that couldn't be terminated.
+public struct TerminateJobsOutput: Swift.Sendable {
+    /// A list of TerminateJobsErrorDetail items, one for each job that couldn't be terminated. Each item includes the job ID along with a code and message that describe why the job wasn't terminated.
+    /// This member is required.
+    public var errors: [BatchClientTypes.TerminateJobsErrorDetail]?
+    /// A list of the job IDs whose termination request was accepted.
+    /// This member is required.
+    public var successful: [Swift.String]?
+
+    public init(
+        errors: [BatchClientTypes.TerminateJobsErrorDetail]? = nil,
+        successful: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.successful = successful
+    }
+}
+
 public struct TerminateServiceJobInput: Swift.Sendable {
     /// The service job ID of the service job to terminate.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A message to attach to the service job that explains the reason for canceling it. This message is returned by DescribeServiceJob operations on the service job.
+    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.
     /// This member is required.
     public var reason: Swift.String?
 
@@ -7117,6 +7273,78 @@ public struct TerminateServiceJobInput: Swift.Sendable {
 public struct TerminateServiceJobOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Specifies the service jobs to terminate and the reason for the termination.
+public struct TerminateServiceJobsInput: Swift.Sendable {
+    /// An array of up to 50 service job IDs of the service jobs to terminate.
+    /// This member is required.
+    public var jobs: [Swift.String]?
+    /// A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.
+    /// This member is required.
+    public var reason: Swift.String?
+
+    public init(
+        jobs: [Swift.String]? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.reason = reason
+    }
+}
+
+extension BatchClientTypes {
+
+    /// An object that contains the details of a service job that couldn't be terminated by a TerminateServiceJobs operation.
+    public struct TerminateServiceJobsErrorDetail: Swift.Sendable {
+        /// An error code that identifies the reason the service job couldn't be terminated. Valid values are:
+        ///
+        /// * ValidationException – A service job identifier in the request is malformed or isn't valid.
+        ///
+        /// * ClientException – The request failed because of a client error.
+        ///
+        /// * ThrottlingException – The request was throttled. Retry the request.
+        ///
+        /// * ServerException – An internal error occurred. Retry the request.
+        ///
+        /// * AccessDenied – The caller isn't authorized to perform the action on the specified service job.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The service job ID of the service job that couldn't be terminated.
+        /// This member is required.
+        public var job: Swift.String?
+        /// A message that describes the reason the service job couldn't be terminated.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            job: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.job = job
+            self.message = message
+        }
+    }
+}
+
+/// The result of a TerminateServiceJobs request, including the service jobs whose termination request was accepted and the errors for service jobs that couldn't be terminated.
+public struct TerminateServiceJobsOutput: Swift.Sendable {
+    /// A list of TerminateServiceJobsErrorDetail items, one for each service job that couldn't be terminated. Each item includes the service job ID along with a code and message that describe why the service job wasn't terminated.
+    /// This member is required.
+    public var errors: [BatchClientTypes.TerminateServiceJobsErrorDetail]?
+    /// A list of the service job IDs whose termination request was accepted.
+    /// This member is required.
+    public var successful: [Swift.String]?
+
+    public init(
+        errors: [BatchClientTypes.TerminateServiceJobsErrorDetail]? = nil,
+        successful: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.successful = successful
+    }
 }
 
 /// Contains the parameters for UntagResource.
@@ -7662,6 +7890,13 @@ extension CancelJobInput {
     }
 }
 
+extension CancelJobsInput {
+
+    static func urlPathProvider(_ value: CancelJobsInput) -> Swift.String? {
+        return "/v1/canceljobs"
+    }
+}
+
 extension CreateComputeEnvironmentInput {
 
     static func urlPathProvider(_ value: CreateComputeEnvironmentInput) -> Swift.String? {
@@ -7913,10 +8148,24 @@ extension TerminateJobInput {
     }
 }
 
+extension TerminateJobsInput {
+
+    static func urlPathProvider(_ value: TerminateJobsInput) -> Swift.String? {
+        return "/v1/terminatejobs"
+    }
+}
+
 extension TerminateServiceJobInput {
 
     static func urlPathProvider(_ value: TerminateServiceJobInput) -> Swift.String? {
         return "/v1/terminateservicejob"
+    }
+}
+
+extension TerminateServiceJobsInput {
+
+    static func urlPathProvider(_ value: TerminateServiceJobsInput) -> Swift.String? {
+        return "/v1/terminateservicejobs"
     }
 }
 
@@ -8000,6 +8249,15 @@ extension CancelJobInput {
     static func write(value: CancelJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobId"].write(value.jobId)
+        try writer["reason"].write(value.reason)
+    }
+}
+
+extension CancelJobsInput {
+
+    static func write(value: CancelJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobs"].writeList(value.jobs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["reason"].write(value.reason)
     }
 }
@@ -8378,11 +8636,29 @@ extension TerminateJobInput {
     }
 }
 
+extension TerminateJobsInput {
+
+    static func write(value: TerminateJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobs"].writeList(value.jobs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["reason"].write(value.reason)
+    }
+}
+
 extension TerminateServiceJobInput {
 
     static func write(value: TerminateServiceJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobId"].write(value.jobId)
+        try writer["reason"].write(value.reason)
+    }
+}
+
+extension TerminateServiceJobsInput {
+
+    static func write(value: TerminateServiceJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobs"].writeList(value.jobs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["reason"].write(value.reason)
     }
 }
@@ -8472,6 +8748,19 @@ extension CancelJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelJobOutput {
         return CancelJobOutput()
+    }
+}
+
+extension CancelJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelJobsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BatchClientTypes.CancelJobsErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -8912,10 +9201,36 @@ extension TerminateJobOutput {
     }
 }
 
+extension TerminateJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TerminateJobsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BatchClientTypes.TerminateJobsErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension TerminateServiceJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateServiceJobOutput {
         return TerminateServiceJobOutput()
+    }
+}
+
+extension TerminateServiceJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateServiceJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TerminateServiceJobsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BatchClientTypes.TerminateServiceJobsErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -9014,6 +9329,21 @@ extension UpdateServiceJobOutput {
 }
 
 enum CancelJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9553,7 +9883,37 @@ enum TerminateJobOutputError {
     }
 }
 
+enum TerminateJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TerminateServiceJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TerminateServiceJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9799,6 +10159,18 @@ extension BatchClientTypes.AttemptTaskContainerDetails {
         value.reason = try reader["reason"].readIfPresent()
         value.logStreamName = try reader["logStreamName"].readIfPresent()
         value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: BatchClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.CancelJobsErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.CancelJobsErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.CancelJobsErrorDetail()
+        value.job = try reader["job"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11155,6 +11527,8 @@ extension BatchClientTypes.JobSummary {
         value.arrayProperties = try reader["arrayProperties"].readIfPresent(with: BatchClientTypes.ArrayPropertiesSummary.read(from:))
         value.nodeProperties = try reader["nodeProperties"].readIfPresent(with: BatchClientTypes.NodePropertiesSummary.read(from:))
         value.jobDefinition = try reader["jobDefinition"].readIfPresent()
+        value.isCancelled = try reader["isCancelled"].readIfPresent()
+        value.isTerminated = try reader["isTerminated"].readIfPresent()
         return value
     }
 }
@@ -11948,6 +12322,7 @@ extension BatchClientTypes.ServiceJobSummary {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.startedAt = try reader["startedAt"].readIfPresent()
         value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        value.isTerminated = try reader["isTerminated"].readIfPresent()
         return value
     }
 }
@@ -12111,6 +12486,30 @@ extension BatchClientTypes.TaskPropertiesOverride {
     static func write(value: BatchClientTypes.TaskPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.TerminateJobsErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TerminateJobsErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.TerminateJobsErrorDetail()
+        value.job = try reader["job"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchClientTypes.TerminateServiceJobsErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.TerminateServiceJobsErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.TerminateServiceJobsErrorDetail()
+        value.job = try reader["job"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

@@ -1327,6 +1327,40 @@ extension InvoicingClientTypes {
 
 extension InvoicingClientTypes {
 
+    /// Specifies the supported document types and attachment types for invoice delivery to a procurement portal.
+    public struct InvoiceConfiguration: Swift.Sendable {
+        /// The attachment types supported by the procurement portal for e-invoice delivery.
+        public var attachmentTypes: [InvoicingClientTypes.EinvoiceDeliveryAttachmentType]?
+        /// The e-invoice document types supported by the procurement portal.
+        public var documentTypes: [InvoicingClientTypes.EinvoiceDeliveryDocumentType]?
+
+        public init(
+            attachmentTypes: [InvoicingClientTypes.EinvoiceDeliveryAttachmentType]? = nil,
+            documentTypes: [InvoicingClientTypes.EinvoiceDeliveryDocumentType]? = nil
+        ) {
+            self.attachmentTypes = attachmentTypes
+            self.documentTypes = documentTypes
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Contains the default feature configuration settings for a procurement portal.
+    public struct FeatureConfigurations: Swift.Sendable {
+        /// The invoice configuration settings for the procurement portal.
+        public var invoiceConfiguration: InvoicingClientTypes.InvoiceConfiguration?
+
+        public init(
+            invoiceConfiguration: InvoicingClientTypes.InvoiceConfiguration? = nil
+        ) {
+            self.invoiceConfiguration = invoiceConfiguration
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// An optional input to the list API. If multiple filters are specified, the returned list will be a configuration that match all of the provided filters. Supported filter types are InvoiceReceivers, Names, and Accounts.
     public struct Filters: Swift.Sendable {
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
@@ -2301,6 +2335,162 @@ public struct ListProcurementPortalPreferencesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.procurementPortalPreferences = procurementPortalPreferences
+    }
+}
+
+public struct ListProcurementPortalsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You received this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Contains metadata for a procurement portal, including the portal identifier, name, and default feature configurations.
+    public struct ProcurementPortal: Swift.Sendable {
+        /// The default feature configurations for the procurement portal.
+        public var defaultFeatureConfigurations: InvoicingClientTypes.FeatureConfigurations?
+        /// The display name of the procurement portal.
+        public var portalDisplayName: Swift.String?
+        /// The unique identifier of the procurement portal.
+        /// This member is required.
+        public var portalIdentifier: Swift.String?
+        /// The name of the procurement portal.
+        /// This member is required.
+        public var portalName: InvoicingClientTypes.ProcurementPortalName?
+
+        public init(
+            defaultFeatureConfigurations: InvoicingClientTypes.FeatureConfigurations? = nil,
+            portalDisplayName: Swift.String? = nil,
+            portalIdentifier: Swift.String? = nil,
+            portalName: InvoicingClientTypes.ProcurementPortalName? = nil
+        ) {
+            self.defaultFeatureConfigurations = defaultFeatureConfigurations
+            self.portalDisplayName = portalDisplayName
+            self.portalIdentifier = portalIdentifier
+            self.portalName = portalName
+        }
+    }
+}
+
+public struct ListProcurementPortalsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The list of procurement portals available for configuration.
+    /// This member is required.
+    public var procurementPortals: [InvoicingClientTypes.ProcurementPortal]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        procurementPortals: [InvoicingClientTypes.ProcurementPortal]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.procurementPortals = procurementPortals
+    }
+}
+
+public struct ListProcurementPortalSuppliersInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You received this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the procurement portal for which to list suppliers. Use the PortalIdentifier value returned by ListProcurementPortals.
+    /// This member is required.
+    public var portalIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        portalIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.portalIdentifier = portalIdentifier
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The environment of a procurement portal supplier. PROD indicates the production environment. TEST indicates the sandbox or test environment.
+    public enum ProcurementPortalEnv: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The production environment.
+        case prod
+        /// The sandbox or test environment.
+        case test
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProcurementPortalEnv] {
+            return [
+                .prod,
+                .test
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .prod: return "PROD"
+            case .test: return "TEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Contains metadata for a supplier configured within a procurement portal.
+    public struct ProcurementPortalSupplier: Swift.Sendable {
+        /// The two-letter ISO 3166-1 alpha-2 country code associated with the supplier.
+        public var countryCode: Swift.String?
+        /// The environment identifier for the supplier in the procurement portal. PROD for production env, or TEST for sandbox/test env.
+        public var environment: InvoicingClientTypes.ProcurementPortalEnv?
+        /// The Amazon Web Services seller of record associated with the supplier—the Amazon Web Services legal entity that issues invoices for the account (for example, AWS_INC or AWS_EUROPE).
+        public var sellerOfRecord: Swift.String?
+        /// The unique identifier of the supplier within the procurement portal.
+        /// This member is required.
+        public var supplierIdentifier: Swift.String?
+
+        public init(
+            countryCode: Swift.String? = nil,
+            environment: InvoicingClientTypes.ProcurementPortalEnv? = nil,
+            sellerOfRecord: Swift.String? = nil,
+            supplierIdentifier: Swift.String? = nil
+        ) {
+            self.countryCode = countryCode
+            self.environment = environment
+            self.sellerOfRecord = sellerOfRecord
+            self.supplierIdentifier = supplierIdentifier
+        }
+    }
+}
+
+public struct ListProcurementPortalSuppliersOutput: Swift.Sendable {
+    /// The token to use to retrieve the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The list of suppliers configured for the specified procurement portal.
+    /// This member is required.
+    public var procurementPortalSuppliers: [InvoicingClientTypes.ProcurementPortalSupplier]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        procurementPortalSuppliers: [InvoicingClientTypes.ProcurementPortalSupplier]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.procurementPortalSuppliers = procurementPortalSuppliers
     }
 }
 

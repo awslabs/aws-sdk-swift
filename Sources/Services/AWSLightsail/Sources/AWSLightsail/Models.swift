@@ -5116,6 +5116,33 @@ public struct CreateDiskSnapshotOutput: Swift.Sendable {
 
 extension LightsailClientTypes {
 
+    /// Describes a custom error response for a Lightsail distribution. A custom error response specifies the page that the distribution returns to the viewer. It also specifies the HTTP status code that the distribution sends when the origin responds with a given HTTP error code.
+    public struct DistributionCustomErrorResponse: Swift.Sendable {
+        /// The minimum time, in seconds, that the distribution caches the custom error response before requesting the object again from the origin. If you don't specify a value, the default is 10 seconds.
+        public var errorCachingMinTTL: Swift.Int?
+        /// The HTTP error code from the origin that triggers the custom error response (for example, 403 or 404).
+        public var errorCode: Swift.Int?
+        /// The HTTP status code that the distribution returns to the viewer for the custom error response.
+        public var responseCode: Swift.String?
+        /// The path to the custom error page that the distribution returns to the viewer (for example, /404.html). The path must begin with a forward slash (/) and reference an object that is available from the origin.
+        public var responsePagePath: Swift.String?
+
+        public init(
+            errorCachingMinTTL: Swift.Int? = nil,
+            errorCode: Swift.Int? = nil,
+            responseCode: Swift.String? = nil,
+            responsePagePath: Swift.String? = nil
+        ) {
+            self.errorCachingMinTTL = errorCachingMinTTL
+            self.errorCode = errorCode
+            self.responseCode = responseCode
+            self.responsePagePath = responsePagePath
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
     public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case ipv4
@@ -5283,12 +5310,18 @@ public struct CreateDistributionInput: Swift.Sendable {
     public var cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]?
     /// The name of the SSL/TLS certificate that you want to attach to the distribution. Use the [GetCertificates](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html) action to get a list of certificate names that you can specify.
     public var certificateName: Swift.String?
+    /// An array of objects that describe the custom error responses for the distribution. With a custom error response, you can specify the page to return when the origin responds with a given HTTP error code. You can also specify the HTTP status code to send to the viewer.
+    public var customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]?
     /// An object that describes the default cache behavior for the distribution.
     /// This member is required.
     public var defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
+    /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
+    public var defaultRootObject: Swift.String?
     /// The name for the distribution.
     /// This member is required.
     public var distributionName: Swift.String?
+    /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
+    public var enablePrivateOriginAccess: Swift.Bool?
     /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -5304,8 +5337,11 @@ public struct CreateDistributionInput: Swift.Sendable {
         cacheBehaviorSettings: LightsailClientTypes.CacheSettings? = nil,
         cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]? = nil,
         certificateName: Swift.String? = nil,
+        customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]? = nil,
         defaultCacheBehavior: LightsailClientTypes.CacheBehavior? = nil,
+        defaultRootObject: Swift.String? = nil,
         distributionName: Swift.String? = nil,
+        enablePrivateOriginAccess: Swift.Bool? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
@@ -5315,8 +5351,11 @@ public struct CreateDistributionInput: Swift.Sendable {
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
         self.certificateName = certificateName
+        self.customErrorResponses = customErrorResponses
         self.defaultCacheBehavior = defaultCacheBehavior
+        self.defaultRootObject = defaultRootObject
         self.distributionName = distributionName
+        self.enablePrivateOriginAccess = enablePrivateOriginAccess
         self.ipAddressType = ipAddressType
         self.origin = origin
         self.tags = tags
@@ -5330,6 +5369,8 @@ extension LightsailClientTypes {
     public struct Origin: Swift.Sendable {
         /// The IP address type that the distribution uses when connecting to the origin. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public var ipAddressType: LightsailClientTypes.OriginIpAddressTypeEnum?
+        /// Specifies whether private origin access is enabled for the distribution's origin. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. This applies when you set the bucket's getObject access rule to private. It also applies when you set getObject to public but set individual objects to private.
+        public var isPrivateOriginAccessEnabled: Swift.Bool?
         /// The name of the origin resource.
         public var name: Swift.String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -5343,6 +5384,7 @@ extension LightsailClientTypes {
 
         public init(
             ipAddressType: LightsailClientTypes.OriginIpAddressTypeEnum? = nil,
+            isPrivateOriginAccessEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
             protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum? = nil,
             regionName: LightsailClientTypes.RegionName? = nil,
@@ -5350,6 +5392,7 @@ extension LightsailClientTypes {
             responseTimeout: Swift.Int? = nil
         ) {
             self.ipAddressType = ipAddressType
+            self.isPrivateOriginAccessEnabled = isPrivateOriginAccessEnabled
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -5379,8 +5422,12 @@ extension LightsailClientTypes {
         public var certificateName: Swift.String?
         /// The timestamp when the distribution was created.
         public var createdAt: Foundation.Date?
+        /// An array of objects that describe the custom error responses configured for the distribution.
+        public var customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]?
         /// An object that describes the default cache behavior of the distribution.
         public var defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
+        /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object.
+        public var defaultRootObject: Swift.String?
         /// The domain name of the distribution.
         public var domainName: Swift.String?
         /// The IP address type of the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
@@ -5415,7 +5462,9 @@ extension LightsailClientTypes {
             cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]? = nil,
             certificateName: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]? = nil,
             defaultCacheBehavior: LightsailClientTypes.CacheBehavior? = nil,
+            defaultRootObject: Swift.String? = nil,
             domainName: Swift.String? = nil,
             ipAddressType: LightsailClientTypes.IpAddressType? = nil,
             isEnabled: Swift.Bool? = nil,
@@ -5437,7 +5486,9 @@ extension LightsailClientTypes {
             self.cacheBehaviors = cacheBehaviors
             self.certificateName = certificateName
             self.createdAt = createdAt
+            self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
+            self.defaultRootObject = defaultRootObject
             self.domainName = domainName
             self.ipAddressType = ipAddressType
             self.isEnabled = isEnabled
@@ -13522,11 +13573,17 @@ public struct UpdateDistributionInput: Swift.Sendable {
     public var cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]?
     /// The name of the SSL/TLS certificate that you want to attach to the distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the [GetCertificates](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html) action to get a list of certificate names that you can specify.
     public var certificateName: Swift.String?
+    /// An array of objects that describe the custom error responses for the distribution. With a custom error response, you can specify the page to return when the origin responds with a given HTTP error code. You can also specify the HTTP status code to send to the viewer.
+    public var customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]?
     /// An object that describes the default cache behavior for the distribution.
     public var defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
+    /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
+    public var defaultRootObject: Swift.String?
     /// The name of the distribution to update. Use the GetDistributions action to get a list of distribution names that you can specify.
     /// This member is required.
     public var distributionName: Swift.String?
+    /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint. When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
+    public var enablePrivateOriginAccess: Swift.Bool?
     /// Indicates whether to enable the distribution.
     public var isEnabled: Swift.Bool?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -13540,8 +13597,11 @@ public struct UpdateDistributionInput: Swift.Sendable {
         cacheBehaviorSettings: LightsailClientTypes.CacheSettings? = nil,
         cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]? = nil,
         certificateName: Swift.String? = nil,
+        customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]? = nil,
         defaultCacheBehavior: LightsailClientTypes.CacheBehavior? = nil,
+        defaultRootObject: Swift.String? = nil,
         distributionName: Swift.String? = nil,
+        enablePrivateOriginAccess: Swift.Bool? = nil,
         isEnabled: Swift.Bool? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
         useDefaultCertificate: Swift.Bool? = nil,
@@ -13550,8 +13610,11 @@ public struct UpdateDistributionInput: Swift.Sendable {
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
         self.certificateName = certificateName
+        self.customErrorResponses = customErrorResponses
         self.defaultCacheBehavior = defaultCacheBehavior
+        self.defaultRootObject = defaultRootObject
         self.distributionName = distributionName
+        self.enablePrivateOriginAccess = enablePrivateOriginAccess
         self.isEnabled = isEnabled
         self.origin = origin
         self.useDefaultCertificate = useDefaultCertificate

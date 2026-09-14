@@ -9695,6 +9695,35 @@ public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.Mode
 
 extension ECSClientTypes {
 
+    public enum ExpressCpuArchitecture: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arm64
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressCpuArchitecture] {
+            return [
+                .arm64,
+                .x8664
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "ARM64"
+            case .x8664: return "X86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The network configuration for an Express service. By default, an Express service utilizes subnets and security groups associated with the default VPC.
     public struct ExpressGatewayServiceNetworkConfiguration: Swift.Sendable {
         /// The IDs of the security groups associated with the Express service.
@@ -9852,6 +9881,15 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     public var cluster: Swift.String?
     /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
     public var cpu: Swift.String?
+    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:
+    ///
+    /// * X86_64 - The x86 64-bit architecture.
+    ///
+    /// * ARM64 - The 64-bit ARM architecture.
+    ///
+    ///
+    /// Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+    public var cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
     public var executionRoleArn: Swift.String?
     /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
@@ -9871,7 +9909,7 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     public var serviceName: Swift.String?
     /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
     public var tags: [ECSClientTypes.Tag]?
-    /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+    /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, memory, or cpuArchitecture.
     public var taskDefinitionArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
     public var taskRoleArn: Swift.String?
@@ -9879,6 +9917,7 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     public init(
         cluster: Swift.String? = nil,
         cpu: Swift.String? = nil,
+        cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture? = nil,
         executionRoleArn: Swift.String? = nil,
         healthCheckPath: Swift.String? = nil,
         infrastructureRoleArn: Swift.String? = nil,
@@ -9893,6 +9932,7 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     ) {
         self.cluster = cluster
         self.cpu = cpu
+        self.cpuArchitecture = cpuArchitecture
         self.executionRoleArn = executionRoleArn
         self.healthCheckPath = healthCheckPath
         self.infrastructureRoleArn = infrastructureRoleArn
@@ -9934,6 +9974,15 @@ extension ECSClientTypes {
     public struct ExpressGatewayServiceConfiguration: Swift.Sendable {
         /// The CPU allocation for tasks in this service revision.
         public var cpu: Swift.String?
+        /// The CPU architecture that the tasks in this service revision run on. This is the architecture from the task definition that the service revision uses, so it reflects the default or the previously configured architecture when the request that created the revision didn't specify one. Valid values:
+        ///
+        /// * X86_64 - The x86 64-bit architecture.
+        ///
+        /// * ARM64 - The 64-bit ARM architecture.
+        ///
+        ///
+        /// This value isn't returned when the task definition for the service revision doesn't specify a runtime platform. Because the architecture comes from each service revision's own task definition, revisions of the same service can report different architectures.
+        public var cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture?
         /// The Unix timestamp for when this service revision was created.
         public var createdAt: Foundation.Date?
         /// The ARN of the task execution role for the service revision.
@@ -9959,6 +10008,7 @@ extension ECSClientTypes {
 
         public init(
             cpu: Swift.String? = nil,
+            cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture? = nil,
             createdAt: Foundation.Date? = nil,
             executionRoleArn: Swift.String? = nil,
             healthCheckPath: Swift.String? = nil,
@@ -9972,6 +10022,7 @@ extension ECSClientTypes {
             taskRoleArn: Swift.String? = nil
         ) {
             self.cpu = cpu
+            self.cpuArchitecture = cpuArchitecture
             self.createdAt = createdAt
             self.executionRoleArn = executionRoleArn
             self.healthCheckPath = healthCheckPath
@@ -12289,6 +12340,15 @@ public struct StopServiceDeploymentOutput: Swift.Sendable {
 public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
     /// The number of CPU units used by the task.
     public var cpu: Swift.String?
+    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:
+    ///
+    /// * X86_64 - The x86 64-bit architecture.
+    ///
+    /// * ARM64 - The 64-bit ARM architecture.
+    ///
+    ///
+    /// Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+    public var cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture?
     /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
     public var executionRoleArn: Swift.String?
     /// The path on the container for Application Load Balancer health checks.
@@ -12304,13 +12364,14 @@ public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Express service to update.
     /// This member is required.
     public var serviceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, memory, or cpuArchitecture.
     public var taskDefinitionArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
     public var taskRoleArn: Swift.String?
 
     public init(
         cpu: Swift.String? = nil,
+        cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture? = nil,
         executionRoleArn: Swift.String? = nil,
         healthCheckPath: Swift.String? = nil,
         memory: Swift.String? = nil,
@@ -12322,6 +12383,7 @@ public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
         taskRoleArn: Swift.String? = nil
     ) {
         self.cpu = cpu
+        self.cpuArchitecture = cpuArchitecture
         self.executionRoleArn = executionRoleArn
         self.healthCheckPath = healthCheckPath
         self.memory = memory

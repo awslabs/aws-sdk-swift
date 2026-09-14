@@ -2435,6 +2435,7 @@ extension MediaConvertClient {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    /// - `UnprocessableEntityException` : The input file was recognized but appears to be malformed or corrupt.
     public func probe(input: ProbeInput) async throws -> ProbeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
