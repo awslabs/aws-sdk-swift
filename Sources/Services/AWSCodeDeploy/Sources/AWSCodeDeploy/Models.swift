@@ -2460,6 +2460,35 @@ extension CodeDeployClientTypes {
 
 extension CodeDeployClientTypes {
 
+    public enum DeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case restart
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentMode] {
+            return [
+                .restart,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .restart: return "RESTART"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeDeployClientTypes {
+
     /// Information about the deployment status of the instances in the deployment.
     public struct DeploymentOverview: Swift.Sendable {
         /// The number of instances in the deployment in a failed state.
@@ -2795,6 +2824,15 @@ extension CodeDeployClientTypes {
         public var deploymentGroupName: Swift.String?
         /// The unique ID of a deployment.
         public var deploymentId: Swift.String?
+        /// The deployment's type. Valid values are:
+        ///
+        /// * STANDARD: The deployment installed the specified revision.
+        ///
+        /// * RESTART: The deployment restarted the application on the target instances using the revision from the deployment group's last successful deployment, without downloading a new revision.
+        ///
+        ///
+        /// This field is absent for deployments created before deploymentMode existed, and for STANDARD deployments. An absent value must not be interpreted as STANDARD; it simply means no value was recorded either way.
+        public var deploymentMode: CodeDeployClientTypes.DeploymentMode?
         /// A summary of the deployment status of the instances in the deployment.
         public var deploymentOverview: CodeDeployClientTypes.DeploymentOverview?
         /// Messages that contain information about the status of a deployment.
@@ -2852,6 +2890,7 @@ extension CodeDeployClientTypes {
             deploymentConfigName: Swift.String? = nil,
             deploymentGroupName: Swift.String? = nil,
             deploymentId: Swift.String? = nil,
+            deploymentMode: CodeDeployClientTypes.DeploymentMode? = nil,
             deploymentOverview: CodeDeployClientTypes.DeploymentOverview? = nil,
             deploymentStatusMessages: [Swift.String]? = nil,
             deploymentStyle: CodeDeployClientTypes.DeploymentStyle? = nil,
@@ -2883,6 +2922,7 @@ extension CodeDeployClientTypes {
             self.deploymentConfigName = deploymentConfigName
             self.deploymentGroupName = deploymentGroupName
             self.deploymentId = deploymentId
+            self.deploymentMode = deploymentMode
             self.deploymentOverview = deploymentOverview
             self.deploymentStatusMessages = deploymentStatusMessages
             self.deploymentStyle = deploymentStyle
@@ -4265,35 +4305,6 @@ public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-extension CodeDeployClientTypes {
-
-    public enum DeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case restart
-        case standard
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DeploymentMode] {
-            return [
-                .restart,
-                .standard
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .restart: return "RESTART"
-            case .standard: return "STANDARD"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// Represents the input of a CreateDeployment operation.
 public struct CreateDeploymentInput: Swift.Sendable {
     /// The name of an CodeDeploy application associated with the user or Amazon Web Services account.
@@ -4305,7 +4316,17 @@ public struct CreateDeploymentInput: Swift.Sendable {
     public var deploymentConfigName: Swift.String?
     /// The name of the deployment group.
     public var deploymentGroupName: Swift.String?
-    /// The deployment mode to use for the deployment. When set to STANDARD (the default), the deployment runs the standard set of deployment lifecycle events. When set to RESTART, an EC2/On-premises in-place deployment runs a shortened set of lifecycle events to quickly restart the application on the target instances.
+    /// The type of deployment to create. Valid values are:
+    ///
+    /// * STANDARD: Deploys the specified revision. This is the default behavior if deploymentMode is not specified.
+    ///
+    /// * RESTART: Restarts the application on the target instances using the revision from the deployment group's last successful deployment, without downloading a new revision. RESTART is supported only for EC2/On-premises in-place deployments. When deploymentMode is RESTART, the following apply:
+    ///
+    /// * The call is rejected for Amazon ECS and Lambda deployments.
+    ///
+    /// * The revision parameter (including its s3Location and gitHubLocation) must not be specified, and is rejected if provided. The revision is resolved by the service from the deployment group's last successful deployment.
+    ///
+    /// * The updateOutdatedInstancesOnly parameter must not be set to true, and is rejected if provided.
     public var deploymentMode: CodeDeployClientTypes.DeploymentMode?
     /// A comment about the deployment.
     public var description: Swift.String?

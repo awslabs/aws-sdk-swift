@@ -16906,6 +16906,86 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListIntegrationTableProperties` operation on the `Glue` service.
+    ///
+    /// Lists the integration table properties in your account. This operation supports filtering and pagination.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListIntegrationTablePropertiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListIntegrationTablePropertiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServerException` : An internal server error occurred.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : A value could not be validated.
+    public func listIntegrationTableProperties(input: ListIntegrationTablePropertiesInput) async throws -> ListIntegrationTablePropertiesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = GlueClient.listIntegrationTablePropertiesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listIntegrationTableProperties")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationTablePropertiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIntegrationTablePropertiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>(overrides: ["X-Amz-Target": "AWSGlue.ListIntegrationTableProperties"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIntegrationTablePropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIntegrationTablePropertiesInput, ListIntegrationTablePropertiesOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIntegrationTableProperties")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListIterableForms` operation on the `Glue` service.
     ///
     /// Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset.

@@ -617,7 +617,7 @@ extension ImagebuilderClient {
 extension ImagebuilderClient {
     /// Performs the `CancelImageCreation` operation on the `Imagebuilder` service.
     ///
-    /// CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
+    /// Cancels the creation of an image. This operation can only be used on images in a non-terminal state.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelImageCreationInput`)
     ///
@@ -693,7 +693,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CancelLifecycleExecution` operation on the `Imagebuilder` service.
     ///
-    /// Cancel a specific image lifecycle policy runtime instance.
+    /// Cancels a specific image lifecycle policy runtime instance.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelLifecycleExecutionInput`)
     ///
@@ -864,6 +864,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
@@ -943,6 +944,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
@@ -1011,7 +1013,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateImage` operation on the `Imagebuilder` service.
     ///
-    /// Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
+    /// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateImageInput`)
     ///
@@ -1088,7 +1090,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateImagePipeline` operation on the `Imagebuilder` service.
     ///
-    /// Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
+    /// Creates a new image pipeline. Use image pipelines to automate the creation and distribution of images.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateImagePipelineInput`)
     ///
@@ -1099,6 +1101,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
@@ -1177,6 +1180,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
@@ -1256,6 +1260,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
@@ -1323,7 +1328,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Create a lifecycle policy resource.
+    /// Creates a lifecycle policy resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLifecyclePolicyInput`)
     ///
@@ -1334,6 +1339,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
     /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
@@ -1401,7 +1407,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateWorkflow` operation on the `Imagebuilder` service.
     ///
-    /// Create a new workflow or a new version of an existing workflow.
+    /// Creates a new workflow or a new version of an existing workflow.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
@@ -1991,7 +1997,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Delete the specified lifecycle policy resource.
+    /// Deletes the specified lifecycle policy resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
@@ -2215,7 +2221,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetComponent` operation on the `Imagebuilder` service.
     ///
-    /// Gets a component object.
+    /// Retrieves a component object.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
@@ -2286,7 +2292,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetComponentPolicy` operation on the `Imagebuilder` service.
     ///
-    /// Gets a component policy.
+    /// Retrieves a component policy.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetComponentPolicyInput`)
     ///
@@ -2499,7 +2505,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Gets a distribution configuration.
+    /// Retrieves a distribution configuration.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDistributionConfigurationInput`)
     ///
@@ -2570,7 +2576,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetImage` operation on the `Imagebuilder` service.
     ///
-    /// Gets an image.
+    /// Retrieves an image.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetImageInput`)
     ///
@@ -2641,7 +2647,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetImagePipeline` operation on the `Imagebuilder` service.
     ///
-    /// Gets an image pipeline.
+    /// Retrieves an image pipeline.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetImagePipelineInput`)
     ///
@@ -2712,7 +2718,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetImagePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Gets an image policy.
+    /// Retrieves an image policy.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetImagePolicyInput`)
     ///
@@ -2783,7 +2789,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetImageRecipe` operation on the `Imagebuilder` service.
     ///
-    /// Gets an image recipe.
+    /// Retrieves an image recipe.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetImageRecipeInput`)
     ///
@@ -2854,7 +2860,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetImageRecipePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Gets an image recipe policy.
+    /// Retrieves an image recipe policy.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetImageRecipePolicyInput`)
     ///
@@ -2925,7 +2931,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Gets an infrastructure configuration.
+    /// Retrieves an infrastructure configuration.
     ///
     /// - Parameter input: GetInfrastructureConfiguration request object. (Type: `GetInfrastructureConfigurationInput`)
     ///
@@ -2996,7 +3002,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetLifecycleExecution` operation on the `Imagebuilder` service.
     ///
-    /// Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
+    /// Retrieves the runtime information for a specific runtime instance of the lifecycle policy.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLifecycleExecutionInput`)
     ///
@@ -3067,7 +3073,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Get details for the specified image lifecycle policy.
+    /// Retrieves details for the specified image lifecycle policy.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyInput`)
     ///
@@ -3138,7 +3144,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetMarketplaceResource` operation on the `Imagebuilder` service.
     ///
-    /// Verify the subscription and perform resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts.
+    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMarketplaceResourceInput`)
     ///
@@ -3211,7 +3217,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetWorkflow` operation on the `Imagebuilder` service.
     ///
-    /// Get a workflow resource object.
+    /// Retrieves a workflow resource object.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
@@ -3282,7 +3288,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetWorkflowExecution` operation on the `Imagebuilder` service.
     ///
-    /// Get the runtime information that was logged for a specific runtime instance of the workflow.
+    /// Retrieves runtime information for a specific runtime instance of the workflow.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWorkflowExecutionInput`)
     ///
@@ -3353,7 +3359,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetWorkflowStepExecution` operation on the `Imagebuilder` service.
     ///
-    /// Get the runtime information that was logged for a specific runtime instance of the workflow step.
+    /// Retrieves runtime information for a specific runtime instance of the workflow step.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepExecutionInput`)
     ///
@@ -3502,7 +3508,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ImportDiskImage` operation on the `Imagebuilder` service.
     ///
-    /// Import a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported:
+    /// Imports a Windows operating system image from a verified Microsoft ISO disk file. The following disk images are supported:
     ///
     /// * Windows 11 Enterprise
     ///
@@ -3722,7 +3728,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListComponents` operation on the `Imagebuilder` service.
     ///
-    /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
+    /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
@@ -4018,7 +4024,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListImagePackages` operation on the `Imagebuilder` service.
     ///
-    /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
+    /// Lists the packages that are associated with an image build version, as determined by Amazon Web Services Systems Manager Inventory at build time.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListImagePackagesInput`)
     ///
@@ -4620,7 +4626,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListLifecycleExecutionResources` operation on the `Imagebuilder` service.
     ///
-    /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
+    /// Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLifecycleExecutionResourcesInput`)
     ///
@@ -4694,7 +4700,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListLifecycleExecutions` operation on the `Imagebuilder` service.
     ///
-    /// Get the lifecycle runtime history for the specified resource.
+    /// Retrieves the lifecycle runtime history for the specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLifecycleExecutionsInput`)
     ///
@@ -4768,7 +4774,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListLifecyclePolicies` operation on the `Imagebuilder` service.
     ///
-    /// Get a list of lifecycle policies in your Amazon Web Services account.
+    /// Retrieves a list of lifecycle policies in your Amazon Web Services account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLifecyclePoliciesInput`)
     ///
@@ -4909,7 +4915,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListWaitingWorkflowSteps` operation on the `Imagebuilder` service.
     ///
-    /// Get a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account.
+    /// Retrieves a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListWaitingWorkflowStepsInput`)
     ///
@@ -5279,7 +5285,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutComponentPolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    /// Applies a policy to a component. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutComponentPolicyInput`)
     ///
@@ -5354,7 +5360,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutContainerRecipePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    /// Applies a policy to a container image. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutContainerRecipePolicyInput`)
     ///
@@ -5429,7 +5435,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutImagePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to an image. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutImagePolicyInput`)
     ///
@@ -5504,7 +5510,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutImageRecipePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to an image recipe. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image recipe. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutImageRecipePolicyInput`)
     ///
@@ -5579,7 +5585,7 @@ extension ImagebuilderClient {
 
     /// Performs the `RetryImage` operation on the `Imagebuilder` service.
     ///
-    /// RetryImage retries an image distribution without rebuilding the image.
+    /// Retries an image distribution or test without rebuilding the image.
     ///
     /// - Parameter input: [no documentation found] (Type: `RetryImageInput`)
     ///
@@ -5810,7 +5816,7 @@ extension ImagebuilderClient {
 
     /// Performs the `StartResourceStateUpdate` operation on the `Imagebuilder` service.
     ///
-    /// Begin asynchronous resource state update for lifecycle changes to the specified image resources.
+    /// Begins an asynchronous resource state update for lifecycle changes to the specified image resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartResourceStateUpdateInput`)
     ///
@@ -6025,7 +6031,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
+    /// Updates a distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDistributionConfigurationInput`)
     ///
@@ -6102,7 +6108,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateImagePipeline` operation on the `Imagebuilder` service.
     ///
-    /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
+    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateImagePipelineInput`)
     ///
@@ -6178,7 +6184,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
+    /// Updates an infrastructure configuration. An infrastructure configuration defines the environment in which Image Builder builds and tests your image.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateInfrastructureConfigurationInput`)
     ///
@@ -6254,7 +6260,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Update the specified lifecycle policy.
+    /// Updates the specified lifecycle policy.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLifecyclePolicyInput`)
     ///

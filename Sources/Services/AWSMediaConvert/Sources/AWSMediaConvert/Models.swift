@@ -23831,6 +23831,86 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9. A video track can declare an aspect ratio in two independent places, and MediaConvert reports each one where it was found rather than choosing between them. The ratio declared by the container appears on the video track itself, and the ratio declared by the video essence appears under codecMetadata. When a file declares an aspect ratio in only one of the two places, the other is null; when it declares both and they disagree, you can compare them and decide which to use.
+    public struct AspectRatio: Swift.Sendable {
+        /// The denominator, or bottom number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the denominator would be 9.
+        public var denominator: Swift.Int?
+        /// The numerator, or top number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the numerator would be 16.
+        public var numerator: Swift.Int?
+
+        public init(
+            denominator: Swift.Int? = nil,
+            numerator: Swift.Int? = nil
+        ) {
+            self.denominator = denominator
+            self.numerator = numerator
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Whether a Dolby Vision component is present in the track.
+    public enum DolbyVisionPresence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case absent
+        case present
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DolbyVisionPresence] {
+            return [
+                .absent,
+                .present
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .absent: return "ABSENT"
+            case .present: return "PRESENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Dolby Vision characteristics of the video track: the profile and level, and whether the RPU (dynamic metadata), base layer, and enhancement layer are present. Use this to distinguish Dolby Vision content from standard HEVC and to choose your encoding or passthrough settings. Omitted when the content is not Dolby Vision.
+    public struct DolbyVisionMetadata: Swift.Sendable {
+        /// Whether a Dolby Vision component is present in the track.
+        public var baseLayer: MediaConvertClientTypes.DolbyVisionPresence?
+        /// Whether a Dolby Vision component is present in the track.
+        public var enhancementLayer: MediaConvertClientTypes.DolbyVisionPresence?
+        /// The Dolby Vision level, which indicates the maximum resolution and frame rate.
+        public var level: Swift.Int?
+        /// The Dolby Vision profile, for example 5, 7, or 8. The profile determines the layer structure and playback compatibility of the content.
+        public var profile: Swift.Int?
+        /// Whether a Dolby Vision component is present in the track.
+        public var rpu: MediaConvertClientTypes.DolbyVisionPresence?
+
+        public init(
+            baseLayer: MediaConvertClientTypes.DolbyVisionPresence? = nil,
+            enhancementLayer: MediaConvertClientTypes.DolbyVisionPresence? = nil,
+            level: Swift.Int? = nil,
+            profile: Swift.Int? = nil,
+            rpu: MediaConvertClientTypes.DolbyVisionPresence? = nil
+        ) {
+            self.baseLayer = baseLayer
+            self.enhancementLayer = enhancementLayer
+            self.level = level
+            self.profile = profile
+            self.rpu = rpu
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Indicates that HDR10+ (SMPTE ST 2094-40) dynamic metadata was detected in the HEVC bitstream. Present only when detected.
     public enum Hdr10PlusPresence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case present
@@ -24029,6 +24109,10 @@ extension MediaConvertClientTypes {
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
         /// Content light level information (CTA-861.3). Describes the light level characteristics of the content.
         public var contentLightLevel: MediaConvertClientTypes.ContentLightLevel?
+        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9. A video track can declare an aspect ratio in two independent places, and MediaConvert reports each one where it was found rather than choosing between them. The ratio declared by the container appears on the video track itself, and the ratio declared by the video essence appears under codecMetadata. When a file declares an aspect ratio in only one of the two places, the other is null; when it declares both and they disagree, you can compare them and decide which to use.
+        public var displayAspectRatio: MediaConvertClientTypes.AspectRatio?
+        /// Dolby Vision characteristics of the video track: the profile and level, and whether the RPU (dynamic metadata), base layer, and enhancement layer are present. Use this to distinguish Dolby Vision content from standard HEVC and to choose your encoding or passthrough settings. Omitted when the content is not Dolby Vision.
+        public var dolbyVision: MediaConvertClientTypes.DolbyVisionMetadata?
         /// The field order of interlaced video, which indicates whether the top or bottom field is displayed first. Use this to select the correct deinterlacing behavior. One of "TopFieldFirst" or "BottomFieldFirst". This field is present only for interlaced video; it is omitted for progressive video and when the field order is not indicated by the source.
         public var fieldOrder: Swift.String?
         /// Indicates that HDR10+ (SMPTE ST 2094-40) dynamic metadata was detected in the HEVC bitstream. Present only when detected.
@@ -24043,6 +24127,8 @@ extension MediaConvertClientTypes {
         public var profile: Swift.String?
         /// The clockwise rotation angle of the video, in degrees, as specified in the codec bitstream via a Display Orientation SEI message (payload type 47 for both H.264 and H.265). This field is null when the video essence does not contain a Display Orientation SEI message or when the rotation is 0 degrees.
         public var rotation: Swift.Int?
+        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9. A video track can declare an aspect ratio in two independent places, and MediaConvert reports each one where it was found rather than choosing between them. The ratio declared by the container appears on the video track itself, and the ratio declared by the video essence appears under codecMetadata. When a file declares an aspect ratio in only one of the two places, the other is null; when it declares both and they disagree, you can compare them and decide which to use.
+        public var sampleAspectRatio: MediaConvertClientTypes.AspectRatio?
         /// The scanning method specified in the video essence, indicating whether the video uses progressive or interlaced scanning.
         public var scanType: Swift.String?
         /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
@@ -24056,6 +24142,8 @@ extension MediaConvertClientTypes {
             codedFrameRate: MediaConvertClientTypes.FrameRate? = nil,
             colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
             contentLightLevel: MediaConvertClientTypes.ContentLightLevel? = nil,
+            displayAspectRatio: MediaConvertClientTypes.AspectRatio? = nil,
+            dolbyVision: MediaConvertClientTypes.DolbyVisionMetadata? = nil,
             fieldOrder: Swift.String? = nil,
             hdr10PlusPresence: MediaConvertClientTypes.Hdr10PlusPresence? = nil,
             height: Swift.Int? = nil,
@@ -24063,6 +24151,7 @@ extension MediaConvertClientTypes {
             matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
             profile: Swift.String? = nil,
             rotation: Swift.Int? = nil,
+            sampleAspectRatio: MediaConvertClientTypes.AspectRatio? = nil,
             scanType: Swift.String? = nil,
             transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
             width: Swift.Int? = nil
@@ -24072,6 +24161,8 @@ extension MediaConvertClientTypes {
             self.codedFrameRate = codedFrameRate
             self.colorPrimaries = colorPrimaries
             self.contentLightLevel = contentLightLevel
+            self.displayAspectRatio = displayAspectRatio
+            self.dolbyVision = dolbyVision
             self.fieldOrder = fieldOrder
             self.hdr10PlusPresence = hdr10PlusPresence
             self.height = height
@@ -24079,28 +24170,10 @@ extension MediaConvertClientTypes {
             self.matrixCoefficients = matrixCoefficients
             self.profile = profile
             self.rotation = rotation
+            self.sampleAspectRatio = sampleAspectRatio
             self.scanType = scanType
             self.transferCharacteristics = transferCharacteristics
             self.width = width
-        }
-    }
-}
-
-extension MediaConvertClientTypes {
-
-    /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.
-    public struct AspectRatio: Swift.Sendable {
-        /// The denominator, or bottom number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the denominator would be 9.
-        public var denominator: Swift.Int?
-        /// The numerator, or top number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the numerator would be 16.
-        public var numerator: Swift.Int?
-
-        public init(
-            denominator: Swift.Int? = nil,
-            numerator: Swift.Int? = nil
-        ) {
-            self.denominator = denominator
-            self.numerator = numerator
         }
     }
 }
@@ -24187,7 +24260,7 @@ extension MediaConvertClientTypes {
         public var codecMetadata: MediaConvertClientTypes.CodecMetadata?
         /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
-        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.
+        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9. A video track can declare an aspect ratio in two independent places, and MediaConvert reports each one where it was found rather than choosing between them. The ratio declared by the container appears on the video track itself, and the ratio declared by the video essence appears under codecMetadata. When a file declares an aspect ratio in only one of the two places, the other is null; when it declares both and they disagree, you can compare them and decide which to use.
         public var displayAspectRatio: MediaConvertClientTypes.AspectRatio?
         /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public var frameRate: MediaConvertClientTypes.FrameRate?
@@ -24199,7 +24272,7 @@ extension MediaConvertClientTypes {
         public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
         /// The clockwise rotation angle of the video track, in degrees, as derived from container-level metadata (e.g. the MP4 tkhd transformation matrix or the Matroska ProjectionPoseRoll element). Common values are 90, 180, and 270. This field is null when no rotation metadata is present or when the rotation is 0 degrees. For MP4, non-standard transformation matrices also yield null.
         public var rotation: Swift.Int?
-        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.
+        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9. A video track can declare an aspect ratio in two independent places, and MediaConvert reports each one where it was found rather than choosing between them. The ratio declared by the container appears on the video track itself, and the ratio declared by the video essence appears under codecMetadata. When a file declares an aspect ratio in only one of the two places, the other is null; when it declares both and they disagree, you can compare them and decide which to use.
         public var sampleAspectRatio: MediaConvertClientTypes.AspectRatio?
         /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
         public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
@@ -24285,7 +24358,7 @@ extension MediaConvertClientTypes {
         public var bitRate: Swift.Int?
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, MP3, FLAC, ASF (Windows Media / WMA), OGG. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, MP3, FLAC, ASF (Windows Media / WMA), or OGG. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
         public var startTimecode: Swift.String?
@@ -25869,6 +25942,29 @@ public struct ListVersionsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.versions = versions
+    }
+}
+
+/// The input file was recognized but appears to be malformed or corrupt.
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnprocessableEntityException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -27669,6 +27765,7 @@ enum ProbeOutputError {
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27917,6 +28014,19 @@ extension TooManyRequestsException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnprocessableEntityException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
+        let reader = baseError.errorBodyReader
+        var value = UnprocessableEntityException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -29010,6 +29120,8 @@ extension MediaConvertClientTypes.CodecMetadata {
         value.codedFrameRate = try reader["codedFrameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
         value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
         value.contentLightLevel = try reader["contentLightLevel"].readIfPresent(with: MediaConvertClientTypes.ContentLightLevel.read(from:))
+        value.displayAspectRatio = try reader["displayAspectRatio"].readIfPresent(with: MediaConvertClientTypes.AspectRatio.read(from:))
+        value.dolbyVision = try reader["dolbyVision"].readIfPresent(with: MediaConvertClientTypes.DolbyVisionMetadata.read(from:))
         value.fieldOrder = try reader["fieldOrder"].readIfPresent()
         value.hdr10PlusPresence = try reader["hdr10PlusPresence"].readIfPresent()
         value.height = try reader["height"].readIfPresent()
@@ -29017,6 +29129,7 @@ extension MediaConvertClientTypes.CodecMetadata {
         value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
         value.profile = try reader["profile"].readIfPresent()
         value.rotation = try reader["rotation"].readIfPresent()
+        value.sampleAspectRatio = try reader["sampleAspectRatio"].readIfPresent(with: MediaConvertClientTypes.AspectRatio.read(from:))
         value.scanType = try reader["scanType"].readIfPresent()
         value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
@@ -29361,6 +29474,20 @@ extension MediaConvertClientTypes.DolbyVisionLevel6Metadata {
         var value = MediaConvertClientTypes.DolbyVisionLevel6Metadata()
         value.maxCll = try reader["maxCll"].readIfPresent()
         value.maxFall = try reader["maxFall"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DolbyVisionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DolbyVisionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DolbyVisionMetadata()
+        value.baseLayer = try reader["baseLayer"].readIfPresent()
+        value.enhancementLayer = try reader["enhancementLayer"].readIfPresent()
+        value.level = try reader["level"].readIfPresent()
+        value.profile = try reader["profile"].readIfPresent()
+        value.rpu = try reader["rpu"].readIfPresent()
         return value
     }
 }
