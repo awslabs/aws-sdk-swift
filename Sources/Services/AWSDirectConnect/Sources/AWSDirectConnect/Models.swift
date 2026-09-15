@@ -393,6 +393,62 @@ public struct AllocateConnectionOnInterconnectInput: Swift.Sendable {
 
 extension DirectConnectClientTypes {
 
+    public enum BillingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flatratetier1
+        case flatratetier2
+        case flatratetier3
+        case flatratetier4
+        case flatratetier5
+        case payasyougo
+        case portpairflatratetier1
+        case portpairflatratetier2
+        case portpairflatratetier3
+        case portpairflatratetier4
+        case portpairflatratetier5
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingMode] {
+            return [
+                .flatratetier1,
+                .flatratetier2,
+                .flatratetier3,
+                .flatratetier4,
+                .flatratetier5,
+                .payasyougo,
+                .portpairflatratetier1,
+                .portpairflatratetier2,
+                .portpairflatratetier3,
+                .portpairflatratetier4,
+                .portpairflatratetier5
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flatratetier1: return "FlatRateTier1"
+            case .flatratetier2: return "FlatRateTier2"
+            case .flatratetier3: return "FlatRateTier3"
+            case .flatratetier4: return "FlatRateTier4"
+            case .flatratetier5: return "FlatRateTier5"
+            case .payasyougo: return "PayAsYouGo"
+            case .portpairflatratetier1: return "PortPairFlatRateTier1"
+            case .portpairflatratetier2: return "PortPairFlatRateTier2"
+            case .portpairflatratetier3: return "PortPairFlatRateTier3"
+            case .portpairflatratetier4: return "PortPairFlatRateTier4"
+            case .portpairflatratetier5: return "PortPairFlatRateTier5"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
     public enum ConnectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deleted
@@ -566,6 +622,8 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -638,6 +696,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -667,6 +726,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -787,6 +847,8 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -859,6 +921,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -888,6 +951,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -2008,6 +2072,96 @@ extension DirectConnectClientTypes {
     }
 }
 
+public struct AssociateConnectionsToResiliencyGroupInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The IDs or ARNs of the connections to associate with the resiliency group.
+    /// This member is required.
+    public var connectionIdentifiers: [Swift.String]?
+    /// The ID of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectionIdentifiers: [Swift.String]? = nil,
+        resiliencyGroupId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectionIdentifiers = connectionIdentifiers
+        self.resiliencyGroupId = resiliencyGroupId
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    public enum ResiliencyGroupAssociationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case associating
+        case disassociated
+        case disassociating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResiliencyGroupAssociationState] {
+            return [
+                .associated,
+                .associating,
+                .disassociated,
+                .disassociating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "associated"
+            case .associating: return "associating"
+            case .disassociated: return "disassociated"
+            case .disassociating: return "disassociating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// Information about an association between a connection and a resiliency group.
+    public struct ResiliencyGroupAssociation: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the associated connection.
+        public var connectionArn: Swift.String?
+        /// The ID of the resiliency group.
+        public var resiliencyGroupId: Swift.String?
+        /// The state of the association. The valid values are associating, associated, disassociating, and disassociated.
+        public var state: DirectConnectClientTypes.ResiliencyGroupAssociationState?
+
+        public init(
+            connectionArn: Swift.String? = nil,
+            resiliencyGroupId: Swift.String? = nil,
+            state: DirectConnectClientTypes.ResiliencyGroupAssociationState? = nil
+        ) {
+            self.connectionArn = connectionArn
+            self.resiliencyGroupId = resiliencyGroupId
+            self.state = state
+        }
+    }
+}
+
+public struct AssociateConnectionsToResiliencyGroupOutput: Swift.Sendable {
+    /// The connection associations for the resiliency group.
+    public var resiliencyGroupAssociations: [DirectConnectClientTypes.ResiliencyGroupAssociation]?
+
+    public init(
+        resiliencyGroupAssociations: [DirectConnectClientTypes.ResiliencyGroupAssociation]? = nil
+    ) {
+        self.resiliencyGroupAssociations = resiliencyGroupAssociations
+    }
+}
+
 public struct AssociateConnectionWithLagInput: Swift.Sendable {
     /// The ID of the connection.
     /// This member is required.
@@ -2036,6 +2190,8 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -2108,6 +2264,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -2137,6 +2294,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -2192,6 +2350,8 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -2264,6 +2424,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -2293,6 +2454,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -2542,6 +2704,29 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     }
 }
 
+extension DirectConnectClientTypes {
+
+    /// Information about a billing mode available at an Direct Connect location.
+    public struct AvailableBillingMode: Swift.Sendable {
+        /// The port speeds available for the billing mode.
+        public var availablePortSpeeds: [Swift.String]?
+        /// The billing mode.
+        public var billingMode: DirectConnectClientTypes.BillingMode?
+        /// The Amazon Web Services Regions included with the billing mode.
+        public var includedRegions: [Swift.String]?
+
+        public init(
+            availablePortSpeeds: [Swift.String]? = nil,
+            billingMode: DirectConnectClientTypes.BillingMode? = nil,
+            includedRegions: [Swift.String]? = nil
+        ) {
+            self.availablePortSpeeds = availablePortSpeeds
+            self.billingMode = billingMode
+            self.includedRegions = includedRegions
+        }
+    }
+}
+
 public struct ConfirmConnectionInput: Swift.Sendable {
     /// The ID of the hosted connection.
     /// This member is required.
@@ -2760,6 +2945,8 @@ extension DirectConnectClientTypes {
         public var awsLogicalDeviceId: Swift.String?
         /// The bandwidth of the connection.
         public var bandwidth: Swift.String?
+        /// The billing mode of the connection.
+        public var billingMode: DirectConnectClientTypes.BillingMode?
         /// The ID of the connection.
         public var connectionId: Swift.String?
         /// The name of the connection.
@@ -2832,6 +3019,7 @@ extension DirectConnectClientTypes {
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
             bandwidth: Swift.String? = nil,
+            billingMode: DirectConnectClientTypes.BillingMode? = nil,
             connectionId: Swift.String? = nil,
             connectionName: Swift.String? = nil,
             connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -2861,6 +3049,7 @@ extension DirectConnectClientTypes {
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
+            self.billingMode = billingMode
             self.connectionId = connectionId
             self.connectionName = connectionName
             self.connectionState = connectionState
@@ -2950,10 +3139,53 @@ public struct CreateBGPPeerOutput: Swift.Sendable {
     }
 }
 
+extension DirectConnectClientTypes {
+
+    public enum RequestBillingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flatratetier1
+        case flatratetier2
+        case flatratetier3
+        case flatratetier4
+        case flatratetier5
+        case payasyougo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RequestBillingMode] {
+            return [
+                .flatratetier1,
+                .flatratetier2,
+                .flatratetier3,
+                .flatratetier4,
+                .flatratetier5,
+                .payasyougo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flatratetier1: return "FlatRateTier1"
+            case .flatratetier2: return "FlatRateTier2"
+            case .flatratetier3: return "FlatRateTier3"
+            case .flatratetier4: return "FlatRateTier4"
+            case .flatratetier5: return "FlatRateTier5"
+            case .payasyougo: return "PayAsYouGo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateConnectionInput: Swift.Sendable {
     /// The bandwidth of the connection.
     /// This member is required.
     public var bandwidth: Swift.String?
+    /// The billing mode for the connection.
+    public var billingMode: DirectConnectClientTypes.RequestBillingMode?
     /// The name of the connection.
     /// This member is required.
     public var connectionName: Swift.String?
@@ -2971,6 +3203,7 @@ public struct CreateConnectionInput: Swift.Sendable {
 
     public init(
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.RequestBillingMode? = nil,
         connectionName: Swift.String? = nil,
         lagId: Swift.String? = nil,
         location: Swift.String? = nil,
@@ -2979,6 +3212,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionName = connectionName
         self.lagId = lagId
         self.location = location
@@ -2999,6 +3233,8 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -3071,6 +3307,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -3100,6 +3337,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -3579,6 +3817,8 @@ public struct CreateInterconnectOutput: Swift.Sendable {
 }
 
 public struct CreateLagInput: Swift.Sendable {
+    /// The billing mode for the LAG.
+    public var billingMode: DirectConnectClientTypes.RequestBillingMode?
     /// The tags to associate with the automtically created LAGs.
     public var childConnectionTags: [DirectConnectClientTypes.Tag]?
     /// The ID of an existing dedicated connection to migrate to the LAG.
@@ -3603,6 +3843,7 @@ public struct CreateLagInput: Swift.Sendable {
     public var tags: [DirectConnectClientTypes.Tag]?
 
     public init(
+        billingMode: DirectConnectClientTypes.RequestBillingMode? = nil,
         childConnectionTags: [DirectConnectClientTypes.Tag]? = nil,
         connectionId: Swift.String? = nil,
         connectionsBandwidth: Swift.String? = nil,
@@ -3613,6 +3854,7 @@ public struct CreateLagInput: Swift.Sendable {
         requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
+        self.billingMode = billingMode
         self.childConnectionTags = childConnectionTags
         self.connectionId = connectionId
         self.connectionsBandwidth = connectionsBandwidth
@@ -3680,6 +3922,8 @@ public struct CreateLagOutput: Swift.Sendable {
     public var awsDeviceV2: Swift.String?
     /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
     public var awsLogicalDeviceId: Swift.String?
+    /// The billing mode of the LAG.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The connections bundled by the LAG.
     public var connections: [DirectConnectClientTypes.Connection]?
     /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
@@ -3744,6 +3988,7 @@ public struct CreateLagOutput: Swift.Sendable {
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connections: [DirectConnectClientTypes.Connection]? = nil,
         connectionsBandwidth: Swift.String? = nil,
         encryptionMode: Swift.String? = nil,
@@ -3771,6 +4016,7 @@ public struct CreateLagOutput: Swift.Sendable {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
+        self.billingMode = billingMode
         self.connections = connections
         self.connectionsBandwidth = connectionsBandwidth
         self.encryptionMode = encryptionMode
@@ -4337,6 +4583,174 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
 
 extension DirectConnectClientTypes {
 
+    public enum ResiliencyModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basicresiliency
+        case highresiliency
+        case maximumresiliency
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResiliencyModel] {
+            return [
+                .basicresiliency,
+                .highresiliency,
+                .maximumresiliency
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basicresiliency: return "basic-resiliency"
+            case .highresiliency: return "high-resiliency"
+            case .maximumresiliency: return "maximum-resiliency"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateResiliencyGroupInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency, high-resiliency, and basic-resiliency.
+    /// This member is required.
+    public var intendedResiliencyModel: DirectConnectClientTypes.ResiliencyModel?
+    /// The name of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupName: Swift.String?
+    /// The tags to associate with the resiliency group.
+    public var tags: [DirectConnectClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        intendedResiliencyModel: DirectConnectClientTypes.ResiliencyModel? = nil,
+        resiliencyGroupName: Swift.String? = nil,
+        tags: [DirectConnectClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.intendedResiliencyModel = intendedResiliencyModel
+        self.resiliencyGroupName = resiliencyGroupName
+        self.tags = tags
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    public enum ResiliencyGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResiliencyGroupType] {
+            return [
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "Managed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    public enum ResiliencyGroupState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case deleted
+        case deleting
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResiliencyGroupState] {
+            return [
+                .available,
+                .deleted,
+                .deleting,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "available"
+            case .deleted: return "deleted"
+            case .deleting: return "deleting"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// Information about a resiliency group.
+    public struct ResiliencyGroup: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that owns the resiliency group.
+        public var ownerAccount: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resiliency group.
+        public var resiliencyGroupArn: Swift.String?
+        /// The ID of the resiliency group.
+        public var resiliencyGroupId: Swift.String?
+        /// The name of the resiliency group.
+        public var resiliencyGroupName: Swift.String?
+        /// The type of the resiliency group. The valid value is Managed.
+        public var resiliencyGroupType: DirectConnectClientTypes.ResiliencyGroupType?
+        /// The state of the resiliency group. The valid values are pending, available, deleting, and deleted.
+        public var state: DirectConnectClientTypes.ResiliencyGroupState?
+        /// The tags associated with the resiliency group.
+        public var tags: [DirectConnectClientTypes.Tag]?
+
+        public init(
+            ownerAccount: Swift.String? = nil,
+            resiliencyGroupArn: Swift.String? = nil,
+            resiliencyGroupId: Swift.String? = nil,
+            resiliencyGroupName: Swift.String? = nil,
+            resiliencyGroupType: DirectConnectClientTypes.ResiliencyGroupType? = nil,
+            state: DirectConnectClientTypes.ResiliencyGroupState? = nil,
+            tags: [DirectConnectClientTypes.Tag]? = nil
+        ) {
+            self.ownerAccount = ownerAccount
+            self.resiliencyGroupArn = resiliencyGroupArn
+            self.resiliencyGroupId = resiliencyGroupId
+            self.resiliencyGroupName = resiliencyGroupName
+            self.resiliencyGroupType = resiliencyGroupType
+            self.state = state
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateResiliencyGroupOutput: Swift.Sendable {
+    /// Information about the resiliency group.
+    public var resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup?
+
+    public init(
+        resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup? = nil
+    ) {
+        self.resiliencyGroup = resiliencyGroup
+    }
+}
+
+extension DirectConnectClientTypes {
+
     /// Information about a transit virtual interface.
     public struct NewTransitVirtualInterface: Swift.Sendable {
         /// The address family for the BGP peer.
@@ -4531,6 +4945,8 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -4603,6 +5019,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -4632,6 +5049,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -4795,6 +5213,8 @@ public struct DeleteLagOutput: Swift.Sendable {
     public var awsDeviceV2: Swift.String?
     /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
     public var awsLogicalDeviceId: Swift.String?
+    /// The billing mode of the LAG.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The connections bundled by the LAG.
     public var connections: [DirectConnectClientTypes.Connection]?
     /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
@@ -4859,6 +5279,7 @@ public struct DeleteLagOutput: Swift.Sendable {
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connections: [DirectConnectClientTypes.Connection]? = nil,
         connectionsBandwidth: Swift.String? = nil,
         encryptionMode: Swift.String? = nil,
@@ -4886,6 +5307,7 @@ public struct DeleteLagOutput: Swift.Sendable {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
+        self.billingMode = billingMode
         self.connections = connections
         self.connectionsBandwidth = connectionsBandwidth
         self.encryptionMode = encryptionMode
@@ -4908,6 +5330,29 @@ public struct DeleteLagOutput: Swift.Sendable {
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
+    }
+}
+
+public struct DeleteResiliencyGroupInput: Swift.Sendable {
+    /// The ID of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupId: Swift.String?
+
+    public init(
+        resiliencyGroupId: Swift.String? = nil
+    ) {
+        self.resiliencyGroupId = resiliencyGroupId
+    }
+}
+
+public struct DeleteResiliencyGroupOutput: Swift.Sendable {
+    /// Information about the resiliency group.
+    public var resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup?
+
+    public init(
+        resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup? = nil
+    ) {
+        self.resiliencyGroup = resiliencyGroup
     }
 }
 
@@ -5649,6 +6094,8 @@ extension DirectConnectClientTypes {
         public var awsDeviceV2: Swift.String?
         /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public var awsLogicalDeviceId: Swift.String?
+        /// The billing mode of the LAG.
+        public var billingMode: DirectConnectClientTypes.BillingMode?
         /// The connections bundled by the LAG.
         public var connections: [DirectConnectClientTypes.Connection]?
         /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
@@ -5713,6 +6160,7 @@ extension DirectConnectClientTypes {
             awsDevice: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
+            billingMode: DirectConnectClientTypes.BillingMode? = nil,
             connections: [DirectConnectClientTypes.Connection]? = nil,
             connectionsBandwidth: Swift.String? = nil,
             encryptionMode: Swift.String? = nil,
@@ -5740,6 +6188,7 @@ extension DirectConnectClientTypes {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
+            self.billingMode = billingMode
             self.connections = connections
             self.connectionsBandwidth = connectionsBandwidth
             self.encryptionMode = encryptionMode
@@ -5821,6 +6270,8 @@ extension DirectConnectClientTypes {
 
     /// Information about an Direct Connect location.
     public struct Location: Swift.Sendable {
+        /// The billing modes available at the location, including the port speeds and Amazon Web Services Regions supported by each mode.
+        public var availableBillingModes: [DirectConnectClientTypes.AvailableBillingMode]?
         /// The available MAC Security (MACsec) port speeds for the location.
         public var availableMacSecPortSpeeds: [Swift.String]?
         /// The available port speeds for the location.
@@ -5835,6 +6286,7 @@ extension DirectConnectClientTypes {
         public var region: Swift.String?
 
         public init(
+            availableBillingModes: [DirectConnectClientTypes.AvailableBillingMode]? = nil,
             availableMacSecPortSpeeds: [Swift.String]? = nil,
             availablePortSpeeds: [Swift.String]? = nil,
             availableProviders: [Swift.String]? = nil,
@@ -5842,6 +6294,7 @@ extension DirectConnectClientTypes {
             locationName: Swift.String? = nil,
             region: Swift.String? = nil
         ) {
+            self.availableBillingModes = availableBillingModes
             self.availableMacSecPortSpeeds = availableMacSecPortSpeeds
             self.availablePortSpeeds = availablePortSpeeds
             self.availableProviders = availableProviders
@@ -6084,6 +6537,8 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -6156,6 +6611,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -6185,6 +6641,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -6209,6 +6666,38 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         self.region = region
         self.tags = tags
         self.vlan = vlan
+    }
+}
+
+public struct DisassociateConnectionsFromResiliencyGroupInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The IDs or ARNs of the connections to disassociate from the resiliency group.
+    /// This member is required.
+    public var connectionIdentifiers: [Swift.String]?
+    /// The ID of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectionIdentifiers: [Swift.String]? = nil,
+        resiliencyGroupId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectionIdentifiers = connectionIdentifiers
+        self.resiliencyGroupId = resiliencyGroupId
+    }
+}
+
+public struct DisassociateConnectionsFromResiliencyGroupOutput: Swift.Sendable {
+    /// The connection associations for the resiliency group.
+    public var resiliencyGroupAssociations: [DirectConnectClientTypes.ResiliencyGroupAssociation]?
+
+    public init(
+        resiliencyGroupAssociations: [DirectConnectClientTypes.ResiliencyGroupAssociation]? = nil
+    ) {
+        self.resiliencyGroupAssociations = resiliencyGroupAssociations
     }
 }
 
@@ -6241,6 +6730,129 @@ public struct DisassociateMacSecKeyOutput: Swift.Sendable {
     ) {
         self.connectionId = connectionId
         self.macSecKeys = macSecKeys
+    }
+}
+
+public struct GetResiliencyGroupInput: Swift.Sendable {
+    /// The ID of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupId: Swift.String?
+
+    public init(
+        resiliencyGroupId: Swift.String? = nil
+    ) {
+        self.resiliencyGroupId = resiliencyGroupId
+    }
+}
+
+public struct GetResiliencyGroupOutput: Swift.Sendable {
+    /// Information about the resiliency group.
+    public var resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup?
+
+    public init(
+        resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup? = nil
+    ) {
+        self.resiliencyGroup = resiliencyGroup
+    }
+}
+
+public struct ListResiliencyGroupAssociationsInput: Swift.Sendable {
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resiliencyGroupId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resiliencyGroupId = resiliencyGroupId
+    }
+}
+
+public struct ListResiliencyGroupAssociationsOutput: Swift.Sendable {
+    /// The connection associations for the resiliency group.
+    public var items: [DirectConnectClientTypes.ResiliencyGroupAssociation]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DirectConnectClientTypes.ResiliencyGroupAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListResiliencyGroupsInput: Swift.Sendable {
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// Summary information about a resiliency group.
+    public struct ResiliencyGroupSummary: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that owns the resiliency group.
+        public var ownerAccount: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resiliency group.
+        public var resiliencyGroupArn: Swift.String?
+        /// The ID of the resiliency group.
+        public var resiliencyGroupId: Swift.String?
+        /// The name of the resiliency group.
+        public var resiliencyGroupName: Swift.String?
+        /// The type of the resiliency group. The valid value is Managed.
+        public var resiliencyGroupType: DirectConnectClientTypes.ResiliencyGroupType?
+        /// The state of the resiliency group.
+        public var state: DirectConnectClientTypes.ResiliencyGroupState?
+
+        public init(
+            ownerAccount: Swift.String? = nil,
+            resiliencyGroupArn: Swift.String? = nil,
+            resiliencyGroupId: Swift.String? = nil,
+            resiliencyGroupName: Swift.String? = nil,
+            resiliencyGroupType: DirectConnectClientTypes.ResiliencyGroupType? = nil,
+            state: DirectConnectClientTypes.ResiliencyGroupState? = nil
+        ) {
+            self.ownerAccount = ownerAccount
+            self.resiliencyGroupArn = resiliencyGroupArn
+            self.resiliencyGroupId = resiliencyGroupId
+            self.resiliencyGroupName = resiliencyGroupName
+            self.resiliencyGroupType = resiliencyGroupType
+            self.state = state
+        }
+    }
+}
+
+public struct ListResiliencyGroupsOutput: Swift.Sendable {
+    /// Summary information about the resiliency groups.
+    public var items: [DirectConnectClientTypes.ResiliencyGroupSummary]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DirectConnectClientTypes.ResiliencyGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -6603,6 +7215,8 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The billing mode of the connection.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The ID of the connection.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -6675,6 +7289,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         connectionState: DirectConnectClientTypes.ConnectionState? = nil,
@@ -6704,6 +7319,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.billingMode = billingMode
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.connectionState = connectionState
@@ -6728,6 +7344,38 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.region = region
         self.tags = tags
         self.vlan = vlan
+    }
+}
+
+public struct UpdateConnectionsBillingModeInput: Swift.Sendable {
+    /// The billing mode to apply to the specified connections. The valid values are PayAsYouGo, FlatRateTier1, FlatRateTier2, FlatRateTier3, FlatRateTier4, and FlatRateTier5.
+    /// This member is required.
+    public var billingMode: DirectConnectClientTypes.RequestBillingMode?
+    /// The IDs of the connections to update. You can specify from 1 to 200 connections.
+    /// This member is required.
+    public var connectionIds: [Swift.String]?
+
+    public init(
+        billingMode: DirectConnectClientTypes.RequestBillingMode? = nil,
+        connectionIds: [Swift.String]? = nil
+    ) {
+        self.billingMode = billingMode
+        self.connectionIds = connectionIds
+    }
+}
+
+public struct UpdateConnectionsBillingModeOutput: Swift.Sendable {
+    /// The billing mode applied to the connections.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
+    /// The connections with the updated billing mode.
+    public var connections: [DirectConnectClientTypes.Connection]?
+
+    public init(
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
+        connections: [DirectConnectClientTypes.Connection]? = nil
+    ) {
+        self.billingMode = billingMode
+        self.connections = connections
     }
 }
 
@@ -6824,6 +7472,8 @@ public struct UpdateLagOutput: Swift.Sendable {
     public var awsDeviceV2: Swift.String?
     /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
     public var awsLogicalDeviceId: Swift.String?
+    /// The billing mode of the LAG.
+    public var billingMode: DirectConnectClientTypes.BillingMode?
     /// The connections bundled by the LAG.
     public var connections: [DirectConnectClientTypes.Connection]?
     /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
@@ -6888,6 +7538,7 @@ public struct UpdateLagOutput: Swift.Sendable {
         awsDevice: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
+        billingMode: DirectConnectClientTypes.BillingMode? = nil,
         connections: [DirectConnectClientTypes.Connection]? = nil,
         connectionsBandwidth: Swift.String? = nil,
         encryptionMode: Swift.String? = nil,
@@ -6915,6 +7566,7 @@ public struct UpdateLagOutput: Swift.Sendable {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
+        self.billingMode = billingMode
         self.connections = connections
         self.connectionsBandwidth = connectionsBandwidth
         self.encryptionMode = encryptionMode
@@ -6937,6 +7589,38 @@ public struct UpdateLagOutput: Swift.Sendable {
         self.rateLimiterStatus = rateLimiterStatus
         self.region = region
         self.tags = tags
+    }
+}
+
+public struct UpdateResiliencyGroupInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupId: Swift.String?
+    /// The new name of the resiliency group.
+    /// This member is required.
+    public var resiliencyGroupName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        resiliencyGroupId: Swift.String? = nil,
+        resiliencyGroupName: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.resiliencyGroupId = resiliencyGroupId
+        self.resiliencyGroupName = resiliencyGroupName
+    }
+}
+
+public struct UpdateResiliencyGroupOutput: Swift.Sendable {
+    /// Information about the resiliency group.
+    public var resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup?
+
+    public init(
+        resiliencyGroup: DirectConnectClientTypes.ResiliencyGroup? = nil
+    ) {
+        self.resiliencyGroup = resiliencyGroup
     }
 }
 

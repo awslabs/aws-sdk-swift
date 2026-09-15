@@ -1150,6 +1150,82 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateConnectionsToResiliencyGroup` operation on the `DirectConnect` service.
+    ///
+    /// Associates one or more connections with the specified resiliency group. This operation is atomic: either all of the specified connections are associated, or the operation fails and no changes are made.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateConnectionsToResiliencyGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateConnectionsToResiliencyGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
+    public func associateConnectionsToResiliencyGroup(input: AssociateConnectionsToResiliencyGroupInput) async throws -> AssociateConnectionsToResiliencyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.associateConnectionsToResiliencyGroupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateConnectionsToResiliencyGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConnectionsToResiliencyGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateConnectionsToResiliencyGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>(overrides: ["X-Amz-Target": "OvertureService.AssociateConnectionsToResiliencyGroup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateConnectionsToResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateConnectionsToResiliencyGroupInput, AssociateConnectionsToResiliencyGroupOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateConnectionsToResiliencyGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateHostedConnection` operation on the `DirectConnect` service.
     ///
     /// Associates a hosted connection and its virtual interfaces with a link aggregation group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection with a conflicting VLAN number or IP address, the operation fails. This action temporarily interrupts the hosted connection's connectivity to Amazon Web Services as it is being migrated. Intended for use by Direct Connect Partners only.
@@ -2437,6 +2513,84 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateResiliencyGroup` operation on the `DirectConnect` service.
+    ///
+    /// Creates a resiliency group. A resiliency group lets you group Direct Connect connections together and manage them as a single unit to meet a target resiliency model.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateResiliencyGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateResiliencyGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
+    /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
+    public func createResiliencyGroup(input: CreateResiliencyGroupInput) async throws -> CreateResiliencyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.createResiliencyGroupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createResiliencyGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateResiliencyGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResiliencyGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>(overrides: ["X-Amz-Target": "OvertureService.CreateResiliencyGroup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResiliencyGroupInput, CreateResiliencyGroupOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateResiliencyGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateTransitVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway. If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
@@ -3028,6 +3182,81 @@ extension DirectConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLag")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteResiliencyGroup` operation on the `DirectConnect` service.
+    ///
+    /// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent [GetResiliencyGroup] call.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteResiliencyGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteResiliencyGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func deleteResiliencyGroup(input: DeleteResiliencyGroupInput) async throws -> DeleteResiliencyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.deleteResiliencyGroupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResiliencyGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResiliencyGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResiliencyGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>(overrides: ["X-Amz-Target": "OvertureService.DeleteResiliencyGroup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResiliencyGroupInput, DeleteResiliencyGroupOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResiliencyGroup")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4561,6 +4790,81 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateConnectionsFromResiliencyGroup` operation on the `DirectConnect` service.
+    ///
+    /// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connections are disassociated, or the operation fails and no changes are made.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateConnectionsFromResiliencyGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateConnectionsFromResiliencyGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func disassociateConnectionsFromResiliencyGroup(input: DisassociateConnectionsFromResiliencyGroupInput) async throws -> DisassociateConnectionsFromResiliencyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.disassociateConnectionsFromResiliencyGroupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateConnectionsFromResiliencyGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConnectionsFromResiliencyGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateConnectionsFromResiliencyGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>(overrides: ["X-Amz-Target": "OvertureService.DisassociateConnectionsFromResiliencyGroup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateConnectionsFromResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateConnectionsFromResiliencyGroupInput, DisassociateConnectionsFromResiliencyGroupOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateConnectionsFromResiliencyGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateMacSecKey` operation on the `DirectConnect` service.
     ///
     /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
@@ -4624,6 +4928,231 @@ extension DirectConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateMacSecKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetResiliencyGroup` operation on the `DirectConnect` service.
+    ///
+    /// Gets information about the specified resiliency group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetResiliencyGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetResiliencyGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func getResiliencyGroup(input: GetResiliencyGroupInput) async throws -> GetResiliencyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.getResiliencyGroupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResiliencyGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetResiliencyGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResiliencyGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>(overrides: ["X-Amz-Target": "OvertureService.GetResiliencyGroup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResiliencyGroupInput, GetResiliencyGroupOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResiliencyGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListResiliencyGroupAssociations` operation on the `DirectConnect` service.
+    ///
+    /// Lists the connection associations for the specified resiliency group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListResiliencyGroupAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListResiliencyGroupAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func listResiliencyGroupAssociations(input: ListResiliencyGroupAssociationsInput) async throws -> ListResiliencyGroupAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.listResiliencyGroupAssociationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResiliencyGroupAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListResiliencyGroupAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResiliencyGroupAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>(overrides: ["X-Amz-Target": "OvertureService.ListResiliencyGroupAssociations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResiliencyGroupAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResiliencyGroupAssociationsInput, ListResiliencyGroupAssociationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResiliencyGroupAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListResiliencyGroups` operation on the `DirectConnect` service.
+    ///
+    /// Lists the resiliency groups owned by your Amazon Web Services account in the current Amazon Web Services Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListResiliencyGroupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListResiliencyGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func listResiliencyGroups(input: ListResiliencyGroupsInput) async throws -> ListResiliencyGroupsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.listResiliencyGroupsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResiliencyGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListResiliencyGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResiliencyGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>(overrides: ["X-Amz-Target": "OvertureService.ListResiliencyGroups"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResiliencyGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResiliencyGroupsInput, ListResiliencyGroupsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResiliencyGroups")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5171,6 +5700,81 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateConnectionsBillingMode` operation on the `DirectConnect` service.
+    ///
+    /// Updates the billing mode for the specified Direct Connect connections. You can update the billing mode for up to 200 connections in a single request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionsBillingModeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionsBillingModeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func updateConnectionsBillingMode(input: UpdateConnectionsBillingModeInput) async throws -> UpdateConnectionsBillingModeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.updateConnectionsBillingModeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateConnectionsBillingMode")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionsBillingModeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectionsBillingModeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>(overrides: ["X-Amz-Target": "OvertureService.UpdateConnectionsBillingMode"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionsBillingModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectionsBillingModeInput, UpdateConnectionsBillingModeOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConnectionsBillingMode")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateDirectConnectGateway` operation on the `DirectConnect` service.
     ///
     /// Updates the name of a current Direct Connect gateway.
@@ -5395,6 +5999,81 @@ extension DirectConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLag")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateResiliencyGroup` operation on the `DirectConnect` service.
+    ///
+    /// Updates the name of the specified resiliency group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateResiliencyGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateResiliencyGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectConnectClientException` : One or more parameters are not valid.
+    /// - `DirectConnectServerException` : A server-side error occurred.
+    public func updateResiliencyGroup(input: UpdateResiliencyGroupInput) async throws -> UpdateResiliencyGroupOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DirectConnectClient.updateResiliencyGroupOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateResiliencyGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "directconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResiliencyGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateResiliencyGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>(overrides: ["X-Amz-Target": "OvertureService.UpdateResiliencyGroup"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Direct Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResiliencyGroupInput, UpdateResiliencyGroupOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateResiliencyGroup")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
