@@ -141,8 +141,8 @@ jobs:
           - ubuntu-24.04
           - ubuntu-24.04-arm
         swift:
-          - 5.9-jammy
-          - 5.9-rhel-ubi9
+          - 6.0-jammy
+          - 6.0-rhel-ubi9
           - 6.3-noble
           - 6.3-amazonlinux2023
     steps:
