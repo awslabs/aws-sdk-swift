@@ -1226,6 +1226,8 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// Resource name (used in ARN — no spaces allowed).
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether cross-account sharing is enabled for the policy. Only a delegated administrator or the management account can enable sharing.
+    public var sharingEnabled: Swift.Bool?
     /// Resource tags.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1238,6 +1240,7 @@ public struct CreatePolicyInput: Swift.Sendable {
         multiAz: Resiliencehubv2ClientTypes.MultiAzTargets? = nil,
         multiRegion: Resiliencehubv2ClientTypes.MultiRegionTargets? = nil,
         name: Swift.String? = nil,
+        sharingEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.availabilitySlo = availabilitySlo
@@ -1248,13 +1251,14 @@ public struct CreatePolicyInput: Swift.Sendable {
         self.multiAz = multiAz
         self.multiRegion = multiRegion
         self.name = name
+        self.sharingEnabled = sharingEnabled
         self.tags = tags
     }
 }
 
 extension CreatePolicyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyInput(availabilitySlo: \(Swift.String(describing: availabilitySlo)), clientToken: \(Swift.String(describing: clientToken)), dataRecovery: \(Swift.String(describing: dataRecovery)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), multiAz: \(Swift.String(describing: multiAz)), multiRegion: \(Swift.String(describing: multiRegion)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+        "CreatePolicyInput(availabilitySlo: \(Swift.String(describing: availabilitySlo)), clientToken: \(Swift.String(describing: clientToken)), dataRecovery: \(Swift.String(describing: dataRecovery)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), multiAz: \(Swift.String(describing: multiAz)), multiRegion: \(Swift.String(describing: multiRegion)), name: \(Swift.String(describing: name)), sharingEnabled: \(Swift.String(describing: sharingEnabled)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension Resiliencehubv2ClientTypes {
@@ -1280,9 +1284,13 @@ extension Resiliencehubv2ClientTypes {
         /// Resource name (used in ARN — no spaces allowed).
         /// This member is required.
         public var name: Swift.String?
+        /// The identifier of the organization this policy is shared with.
+        public var organizationId: Swift.String?
         /// ARN identifier.
         /// This member is required.
         public var policyArn: Swift.String?
+        /// Specifies whether cross-account sharing is enabled.
+        public var sharingEnabled: Swift.Bool?
         /// Resource tags.
         public var tags: [Swift.String: Swift.String]?
         /// The timestamp when the policy was last updated.
@@ -1298,7 +1306,9 @@ extension Resiliencehubv2ClientTypes {
             multiAz: Resiliencehubv2ClientTypes.MultiAzTargets? = nil,
             multiRegion: Resiliencehubv2ClientTypes.MultiRegionTargets? = nil,
             name: Swift.String? = nil,
+            organizationId: Swift.String? = nil,
             policyArn: Swift.String? = nil,
+            sharingEnabled: Swift.Bool? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -1311,7 +1321,9 @@ extension Resiliencehubv2ClientTypes {
             self.multiAz = multiAz
             self.multiRegion = multiRegion
             self.name = name
+            self.organizationId = organizationId
             self.policyArn = policyArn
+            self.sharingEnabled = sharingEnabled
             self.tags = tags
             self.updatedAt = updatedAt
         }
@@ -1320,7 +1332,7 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes.Policy: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Policy(associatedServiceCount: \(Swift.String(describing: associatedServiceCount)), availabilitySlo: \(Swift.String(describing: availabilitySlo)), createdAt: \(Swift.String(describing: createdAt)), dataRecovery: \(Swift.String(describing: dataRecovery)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), multiAz: \(Swift.String(describing: multiAz)), multiRegion: \(Swift.String(describing: multiRegion)), name: \(Swift.String(describing: name)), policyArn: \(Swift.String(describing: policyArn)), updatedAt: \(Swift.String(describing: updatedAt)), tags: \"CONTENT_REDACTED\")"}
+        "Policy(associatedServiceCount: \(Swift.String(describing: associatedServiceCount)), availabilitySlo: \(Swift.String(describing: availabilitySlo)), createdAt: \(Swift.String(describing: createdAt)), dataRecovery: \(Swift.String(describing: dataRecovery)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), multiAz: \(Swift.String(describing: multiAz)), multiRegion: \(Swift.String(describing: multiRegion)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), policyArn: \(Swift.String(describing: policyArn)), sharingEnabled: \(Swift.String(describing: sharingEnabled)), updatedAt: \(Swift.String(describing: updatedAt)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePolicyOutput: Swift.Sendable {
@@ -3155,6 +3167,139 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes {
 
+    public enum InsightsCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsService
+        case crossRegion
+        case newDependency
+        case thirdParty
+        case unevenUsage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsCategory] {
+            return [
+                .awsService,
+                .crossRegion,
+                .newDependency,
+                .thirdParty,
+                .unevenUsage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsService: return "AWS_SERVICE"
+            case .crossRegion: return "CROSS_REGION"
+            case .newDependency: return "NEW_DEPENDENCY"
+            case .thirdParty: return "THIRD_PARTY"
+            case .unevenUsage: return "UNEVEN_USAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains a single insight about a service's dependencies.
+    public struct DependencyInsight: Swift.Sendable {
+        /// The category of the insight. Valid values:
+        ///
+        /// * CROSS_REGION - The insight relates to dependencies used across multiple Regions.
+        ///
+        /// * NEW_DEPENDENCY - The insight relates to a recently detected dependency.
+        ///
+        /// * THIRD_PARTY - The insight relates to a third-party dependency.
+        ///
+        /// * UNEVEN_USAGE - The insight relates to a dependency with uneven usage across the service.
+        ///
+        /// * AWS_SERVICE - The insight relates to a dependency on an Amazon Web Services service.
+        /// This member is required.
+        public var category: Resiliencehubv2ClientTypes.InsightsCategory?
+        /// A human-readable explanation of the insight, describing the dependency behavior or condition that was detected.
+        /// This member is required.
+        public var description: Swift.String?
+
+        public init(
+            category: Resiliencehubv2ClientTypes.InsightsCategory? = nil,
+            description: Swift.String? = nil
+        ) {
+            self.category = category
+            self.description = description
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum DependencyInsightsErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case insufficientData
+        case internalError
+        case llmGenerationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DependencyInsightsErrorCode] {
+            return [
+                .insufficientData,
+                .internalError,
+                .llmGenerationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .insufficientData: return "INSUFFICIENT_DATA"
+            case .internalError: return "INTERNAL_ERROR"
+            case .llmGenerationFailed: return "LLM_GENERATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum DependencyInsightsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DependencyInsightsStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
     /// A data point in a dependency query range.
     public struct QueryDataPoint: Swift.Sendable {
         /// The number of queries at this data point.
@@ -3694,6 +3839,62 @@ extension Resiliencehubv2ClientTypes {
             self.status = status
             self.updatedAt = updatedAt
         }
+    }
+}
+
+public struct GetDependencyInsightsInput: Swift.Sendable {
+    /// ARN identifier.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        serviceArn: Swift.String? = nil
+    ) {
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct GetDependencyInsightsOutput: Swift.Sendable {
+    /// The timestamp when the dependency insights were generated.
+    public var createdAt: Foundation.Date?
+    /// The error code returned when insights generation failed. Valid values:
+    ///
+    /// * INSUFFICIENT_DATA - There was not enough dependency data to generate insights.
+    ///
+    /// * LLM_GENERATION_FAILED - The insights could not be generated.
+    ///
+    /// * INTERNAL_ERROR - An internal error occurred while generating insights.
+    public var errorCode: Resiliencehubv2ClientTypes.DependencyInsightsErrorCode?
+    /// A message describing why insights generation failed.
+    public var errorMessage: Swift.String?
+    /// The list of dependency insights generated for the service. This field is not returned until the status is COMPLETED.
+    public var insights: [Resiliencehubv2ClientTypes.DependencyInsight]?
+    /// A summary of the dependency insights for the service. This field is not returned until the status is COMPLETED.
+    public var overview: Swift.String?
+    /// The status of the dependency insights generation. Valid values:
+    ///
+    /// * IN_PROGRESS - Insights generation is in progress.
+    ///
+    /// * COMPLETED - Insights generation completed successfully.
+    ///
+    /// * FAILED - Insights generation failed. See errorCode and errorMessage for details.
+    /// This member is required.
+    public var status: Resiliencehubv2ClientTypes.DependencyInsightsStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        errorCode: Resiliencehubv2ClientTypes.DependencyInsightsErrorCode? = nil,
+        errorMessage: Swift.String? = nil,
+        insights: [Resiliencehubv2ClientTypes.DependencyInsight]? = nil,
+        overview: Swift.String? = nil,
+        status: Resiliencehubv2ClientTypes.DependencyInsightsStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.errorCode = errorCode
+        self.errorMessage = errorMessage
+        self.insights = insights
+        self.overview = overview
+        self.status = status
     }
 }
 
@@ -4686,15 +4887,19 @@ public struct ListInputSourcesOutput: Swift.Sendable {
 }
 
 public struct ListPoliciesInput: Swift.Sendable {
+    /// The identifier of the account that owns the policies to include in the results.
+    public var accountId: Swift.String?
     /// Pagination page size.
     public var maxResults: Swift.Int?
     /// Pagination token.
     public var nextToken: Swift.String?
 
     public init(
+        accountId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
     ) {
+        self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4719,9 +4924,13 @@ extension Resiliencehubv2ClientTypes {
         /// Resource name (used in ARN — no spaces allowed).
         /// This member is required.
         public var name: Swift.String?
+        /// The identifier of the organization this policy is shared with.
+        public var organizationId: Swift.String?
         /// ARN identifier.
         /// This member is required.
         public var policyArn: Swift.String?
+        /// Specifies whether cross-account sharing is enabled.
+        public var sharingEnabled: Swift.Bool?
         /// The timestamp when the policy was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -4733,7 +4942,9 @@ extension Resiliencehubv2ClientTypes {
             multiAz: Resiliencehubv2ClientTypes.MultiAzTargets? = nil,
             multiRegion: Resiliencehubv2ClientTypes.MultiRegionTargets? = nil,
             name: Swift.String? = nil,
+            organizationId: Swift.String? = nil,
             policyArn: Swift.String? = nil,
+            sharingEnabled: Swift.Bool? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.associatedServiceCount = associatedServiceCount
@@ -4743,7 +4954,9 @@ extension Resiliencehubv2ClientTypes {
             self.multiAz = multiAz
             self.multiRegion = multiRegion
             self.name = name
+            self.organizationId = organizationId
             self.policyArn = policyArn
+            self.sharingEnabled = sharingEnabled
             self.updatedAt = updatedAt
         }
     }
@@ -4762,6 +4975,247 @@ public struct ListPoliciesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.policySummaries = policySummaries
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum PolicyEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case policyAttachedToService
+        case policyDeleted
+        case policyDetachedFromService
+        case policySharingRevoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyEventType] {
+            return [
+                .policyAttachedToService,
+                .policyDeleted,
+                .policyDetachedFromService,
+                .policySharingRevoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .policyAttachedToService: return "POLICY_ATTACHED_TO_SERVICE"
+            case .policyDeleted: return "POLICY_DELETED"
+            case .policyDetachedFromService: return "POLICY_DETACHED_FROM_SERVICE"
+            case .policySharingRevoked: return "POLICY_SHARING_REVOKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListPolicyEventsInput: Swift.Sendable {
+    /// The end time for filtering events.
+    public var endTime: Foundation.Date?
+    /// The type of events to include in the results.
+    public var eventTypes: [Resiliencehubv2ClientTypes.PolicyEventType]?
+    /// Pagination page size.
+    public var maxResults: Swift.Int?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+    /// ARN identifier.
+    /// This member is required.
+    public var policyArn: Swift.String?
+    /// The start time for filtering events.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        eventTypes: [Resiliencehubv2ClientTypes.PolicyEventType]? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        policyArn: Swift.String? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.endTime = endTime
+        self.eventTypes = eventTypes
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyArn = policyArn
+        self.startTime = startTime
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains details about the service that started using the policy, such as the account that owns the service.
+    public struct PolicyAttachedToServiceMetadata: Swift.Sendable {
+        /// The account that owns the service.
+        public var accountId: Swift.String?
+        /// ARN identifier.
+        public var serviceArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            serviceArn: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.serviceArn = serviceArn
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains details about a policy that was deleted, including the number of services that were affected.
+    public struct PolicyDeletedMetadata: Swift.Sendable {
+        /// The number of services that were using the policy when it was deleted.
+        public var affectedServiceCount: Swift.Int?
+
+        public init(
+            affectedServiceCount: Swift.Int? = nil
+        ) {
+            self.affectedServiceCount = affectedServiceCount
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains details about the service that stopped using the policy, such as the account that owns the service.
+    public struct PolicyDetachedFromServiceMetadata: Swift.Sendable {
+        /// The account that owns the service.
+        public var accountId: Swift.String?
+        /// ARN identifier.
+        public var serviceArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            serviceArn: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.serviceArn = serviceArn
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains details about a policy for which organization sharing was revoked, including the number of services that were affected.
+    public struct PolicySharingRevokedMetadata: Swift.Sendable {
+        /// The number of services that were using the policy when sharing was revoked.
+        public var affectedServiceCount: Swift.Int?
+
+        public init(
+            affectedServiceCount: Swift.Int? = nil
+        ) {
+            self.affectedServiceCount = affectedServiceCount
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains the event-specific metadata for a policy event. Exactly one member is populated, according to the event type.
+    ///
+    /// * policyAttachedToService — a service started using the policy.
+    ///
+    /// * policyDetachedFromService — a service stopped using the policy.
+    ///
+    /// * policySharingRevoked — cross-account sharing was disabled for the policy.
+    ///
+    /// * policyDeleted — the policy was deleted.
+    public enum PolicyEventMetadata: Swift.Sendable {
+        /// Contains details about the service that started using the policy, such as the account that owns the service.
+        case policyattachedtoservice(Resiliencehubv2ClientTypes.PolicyAttachedToServiceMetadata)
+        /// Contains details about the service that stopped using the policy, such as the account that owns the service.
+        case policydetachedfromservice(Resiliencehubv2ClientTypes.PolicyDetachedFromServiceMetadata)
+        /// Contains details about a policy for which organization sharing was revoked, including the number of services that were affected.
+        case policysharingrevoked(Resiliencehubv2ClientTypes.PolicySharingRevokedMetadata)
+        /// Contains details about a policy that was deleted, including the number of services that were affected.
+        case policydeleted(Resiliencehubv2ClientTypes.PolicyDeletedMetadata)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// Contains the title, description, and event-specific metadata for a single event on the timeline of a resilience policy.
+    public struct PolicyEventDetails: Swift.Sendable {
+        /// A description of the event.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The event-specific metadata, with one member populated according to the event type.
+        public var eventMetadata: Resiliencehubv2ClientTypes.PolicyEventMetadata?
+        /// A short summary of the event.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            eventMetadata: Resiliencehubv2ClientTypes.PolicyEventMetadata? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.description = description
+            self.eventMetadata = eventMetadata
+            self.title = title
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// An event on the timeline of a resilience policy.
+    public struct PolicyEvent: Swift.Sendable {
+        /// Identifies the actor that triggered an event.
+        /// This member is required.
+        public var actor: Resiliencehubv2ClientTypes.EventActor?
+        /// The details of the event.
+        /// This member is required.
+        public var eventDetails: Resiliencehubv2ClientTypes.PolicyEventDetails?
+        /// The identifier of the event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The type of the event.
+        /// This member is required.
+        public var eventType: Resiliencehubv2ClientTypes.PolicyEventType?
+        /// ARN identifier.
+        /// This member is required.
+        public var policyArn: Swift.String?
+        /// The time the event occurred.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            actor: Resiliencehubv2ClientTypes.EventActor? = nil,
+            eventDetails: Resiliencehubv2ClientTypes.PolicyEventDetails? = nil,
+            eventId: Swift.String? = nil,
+            eventType: Resiliencehubv2ClientTypes.PolicyEventType? = nil,
+            policyArn: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.actor = actor
+            self.eventDetails = eventDetails
+            self.eventId = eventId
+            self.eventType = eventType
+            self.policyArn = policyArn
+            self.timestamp = timestamp
+        }
+    }
+}
+
+public struct ListPolicyEventsOutput: Swift.Sendable {
+    /// The list of policy events.
+    /// This member is required.
+    public var events: [Resiliencehubv2ClientTypes.PolicyEvent]?
+    /// Pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        events: [Resiliencehubv2ClientTypes.PolicyEvent]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextToken = nextToken
     }
 }
 
@@ -5066,7 +5520,7 @@ extension Resiliencehubv2ClientTypes {
 public struct ListServiceEventsInput: Swift.Sendable {
     /// The end time for filtering events.
     public var endTime: Foundation.Date?
-    /// Filter events by type.
+    /// The type of events to include in the results.
     public var eventTypes: [Resiliencehubv2ClientTypes.ServiceEventType]?
     /// Pagination page size.
     public var maxResults: Swift.Int?
@@ -5268,13 +5722,57 @@ extension Resiliencehubv2ClientTypes {
         public var policyArn: Swift.String?
         /// The name of the associated policy.
         public var policyName: Swift.String?
+        /// The account that owns the policy.
+        public var policyOwnerAccountId: Swift.String?
+        /// The source of the policy.
+        ///
+        /// * SELF — the policy belongs to the account that owns the service.
+        ///
+        /// * CROSS_ACCOUNT — the policy belongs to another account and was shared with the organization.
+        public var policySource: Resiliencehubv2ClientTypes.PolicyValueSource?
 
         public init(
             policyArn: Swift.String? = nil,
-            policyName: Swift.String? = nil
+            policyName: Swift.String? = nil,
+            policyOwnerAccountId: Swift.String? = nil,
+            policySource: Resiliencehubv2ClientTypes.PolicyValueSource? = nil
         ) {
             self.policyArn = policyArn
             self.policyName = policyName
+            self.policyOwnerAccountId = policyOwnerAccountId
+            self.policySource = policySource
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum PolicyDisassociationReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case policyDeleted
+        case replacedByUpdate
+        case sharingRevoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyDisassociationReason] {
+            return [
+                .policyDeleted,
+                .replacedByUpdate,
+                .sharingRevoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .policyDeleted: return "POLICY_DELETED"
+            case .replacedByUpdate: return "REPLACED_BY_UPDATE"
+            case .sharingRevoked: return "SHARING_REVOKED"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -5287,13 +5785,29 @@ extension Resiliencehubv2ClientTypes {
         public var policyArn: Swift.String?
         /// The name of the disassociated policy.
         public var policyName: Swift.String?
+        /// The account that owns the policy.
+        public var policyOwnerAccountId: Swift.String?
+        /// The source of the policy.
+        ///
+        /// * SELF — the policy belongs to the account that owns the service.
+        ///
+        /// * CROSS_ACCOUNT — the policy belongs to another account and was shared with the organization.
+        public var policySource: Resiliencehubv2ClientTypes.PolicyValueSource?
+        /// The reason the policy was disassociated from the service.
+        public var reason: Resiliencehubv2ClientTypes.PolicyDisassociationReason?
 
         public init(
             policyArn: Swift.String? = nil,
-            policyName: Swift.String? = nil
+            policyName: Swift.String? = nil,
+            policyOwnerAccountId: Swift.String? = nil,
+            policySource: Resiliencehubv2ClientTypes.PolicyValueSource? = nil,
+            reason: Resiliencehubv2ClientTypes.PolicyDisassociationReason? = nil
         ) {
             self.policyArn = policyArn
             self.policyName = policyName
+            self.policyOwnerAccountId = policyOwnerAccountId
+            self.policySource = policySource
+            self.reason = reason
         }
     }
 }
@@ -5818,7 +6332,7 @@ extension Resiliencehubv2ClientTypes {
 public struct ListSystemEventsInput: Swift.Sendable {
     /// The end time for filtering events.
     public var endTime: Foundation.Date?
-    /// Filter events by type.
+    /// The type of events to include in the results.
     public var eventTypes: [Resiliencehubv2ClientTypes.SystemEventType]?
     /// Pagination page size.
     public var maxResults: Swift.Int?
@@ -7321,6 +7835,40 @@ public struct PutTestSourcesOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct StartDependencyInsightsInput: Swift.Sendable {
+    /// Idempotency token.
+    public var clientToken: Swift.String?
+    /// ARN identifier.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        serviceArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct StartDependencyInsightsOutput: Swift.Sendable {
+    /// The status of the dependency insights generation. Valid values:
+    ///
+    /// * IN_PROGRESS - Insights generation is in progress.
+    ///
+    /// * COMPLETED - Insights generation completed successfully.
+    ///
+    /// * FAILED - Insights generation failed. Call GetDependencyInsights for the error code and message.
+    /// This member is required.
+    public var status: Resiliencehubv2ClientTypes.DependencyInsightsStatus?
+
+    public init(
+        status: Resiliencehubv2ClientTypes.DependencyInsightsStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct StartFailureModeAssessmentInput: Swift.Sendable {
     /// Idempotency token.
     public var clientToken: Swift.String?
@@ -7636,6 +8184,8 @@ public struct UpdatePolicyInput: Swift.Sendable {
     /// ARN identifier.
     /// This member is required.
     public var policyArn: Swift.String?
+    /// Specifies whether cross-account sharing is enabled for the policy. Disabling sharing stops member services from using the policy.
+    public var sharingEnabled: Swift.Bool?
 
     public init(
         availabilitySlo: Resiliencehubv2ClientTypes.AvailabilitySlo? = nil,
@@ -7643,7 +8193,8 @@ public struct UpdatePolicyInput: Swift.Sendable {
         description: Swift.String? = nil,
         multiAz: Resiliencehubv2ClientTypes.MultiAzTargets? = nil,
         multiRegion: Resiliencehubv2ClientTypes.MultiRegionTargets? = nil,
-        policyArn: Swift.String? = nil
+        policyArn: Swift.String? = nil,
+        sharingEnabled: Swift.Bool? = nil
     ) {
         self.availabilitySlo = availabilitySlo
         self.dataRecovery = dataRecovery
@@ -7651,6 +8202,7 @@ public struct UpdatePolicyInput: Swift.Sendable {
         self.multiAz = multiAz
         self.multiRegion = multiRegion
         self.policyArn = policyArn
+        self.sharingEnabled = sharingEnabled
     }
 }
 
@@ -8014,6 +8566,27 @@ extension DeleteUserJourneyInput {
 
     static func urlPathProvider(_ value: DeleteUserJourneyInput) -> Swift.String? {
         return "/v2/delete-user-journey"
+    }
+}
+
+extension GetDependencyInsightsInput {
+
+    static func urlPathProvider(_ value: GetDependencyInsightsInput) -> Swift.String? {
+        return "/v2/get-dependency-insights"
+    }
+}
+
+extension GetDependencyInsightsInput {
+
+    static func queryItemProvider(_ value: GetDependencyInsightsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let serviceArn = value.serviceArn else {
+            let message = "Creating a URL Query Item failed. serviceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let serviceArnQueryItem = Smithy.URIQueryItem(name: "serviceArn".urlPercentEncoding(), value: Swift.String(serviceArn).urlPercentEncoding())
+        items.append(serviceArnQueryItem)
+        return items
     }
 }
 
@@ -8431,6 +9004,10 @@ extension ListPoliciesInput {
 
     static func queryItemProvider(_ value: ListPoliciesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let accountId = value.accountId {
+            let accountIdQueryItem = Smithy.URIQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            items.append(accountIdQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -8438,6 +9015,49 @@ extension ListPoliciesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPolicyEventsInput {
+
+    static func urlPathProvider(_ value: ListPolicyEventsInput) -> Swift.String? {
+        return "/v2/list-policy-events"
+    }
+}
+
+extension ListPolicyEventsInput {
+
+    static func queryItemProvider(_ value: ListPolicyEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let policyArn = value.policyArn else {
+            let message = "Creating a URL Query Item failed. policyArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let policyArnQueryItem = Smithy.URIQueryItem(name: "policyArn".urlPercentEncoding(), value: Swift.String(policyArn).urlPercentEncoding())
+        items.append(policyArnQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let startTime = value.startTime {
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            items.append(startTimeQueryItem)
+        }
+        if let endTime = value.endTime {
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            items.append(endTimeQueryItem)
+        }
+        if let eventTypes = value.eventTypes {
+            eventTypes.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "eventTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
         }
         return items
     }
@@ -9072,6 +9692,13 @@ extension PutTestSourcesInput {
     }
 }
 
+extension StartDependencyInsightsInput {
+
+    static func urlPathProvider(_ value: StartDependencyInsightsInput) -> Swift.String? {
+        return "/v2/start-dependency-insights"
+    }
+}
+
 extension StartFailureModeAssessmentInput {
 
     static func urlPathProvider(_ value: StartFailureModeAssessmentInput) -> Swift.String? {
@@ -9224,6 +9851,7 @@ extension CreatePolicyInput {
         try writer["multiAz"].write(value.multiAz, with: Resiliencehubv2ClientTypes.MultiAzTargets.write(value:to:))
         try writer["multiRegion"].write(value.multiRegion, with: Resiliencehubv2ClientTypes.MultiRegionTargets.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["sharingEnabled"].write(value.sharingEnabled)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -9443,6 +10071,15 @@ extension PutTestSourcesInput {
     }
 }
 
+extension StartDependencyInsightsInput {
+
+    static func write(value: StartDependencyInsightsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["serviceArn"].write(value.serviceArn)
+    }
+}
+
 extension StartFailureModeAssessmentInput {
 
     static func write(value: StartFailureModeAssessmentInput?, to writer: SmithyJSON.Writer) throws {
@@ -9520,6 +10157,7 @@ extension UpdatePolicyInput {
         try writer["multiAz"].write(value.multiAz, with: Resiliencehubv2ClientTypes.MultiAzTargets.write(value:to:))
         try writer["multiRegion"].write(value.multiRegion, with: Resiliencehubv2ClientTypes.MultiRegionTargets.write(value:to:))
         try writer["policyArn"].write(value.policyArn)
+        try writer["sharingEnabled"].write(value.sharingEnabled)
     }
 }
 
@@ -9826,6 +10464,23 @@ extension DeleteUserJourneyOutput {
     }
 }
 
+extension GetDependencyInsightsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDependencyInsightsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDependencyInsightsOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.DependencyInsight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.overview = try reader["overview"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetFailureModeFindingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFailureModeFindingOutput {
@@ -10020,6 +10675,19 @@ extension ListPoliciesOutput {
         var value = ListPoliciesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.policySummaries = try reader["policySummaries"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.PolicySummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListPolicyEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPolicyEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPolicyEventsOutput()
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.PolicyEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -10274,6 +10942,18 @@ extension PutTestSourcesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTestSourcesOutput {
         return PutTestSourcesOutput()
+    }
+}
+
+extension StartDependencyInsightsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDependencyInsightsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDependencyInsightsOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -10813,6 +11493,24 @@ enum DeleteUserJourneyOutputError {
     }
 }
 
+enum GetDependencyInsightsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFailureModeFindingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11080,6 +11778,23 @@ enum ListPoliciesOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPolicyEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11420,6 +12135,25 @@ enum PutTestSourcesOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartDependencyInsightsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11960,6 +12694,17 @@ extension Resiliencehubv2ClientTypes.DependencyDiscoveryConfig {
     }
 }
 
+extension Resiliencehubv2ClientTypes.DependencyInsight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.DependencyInsight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.DependencyInsight()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension Resiliencehubv2ClientTypes.DependencySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.DependencySummary {
@@ -12307,11 +13052,102 @@ extension Resiliencehubv2ClientTypes.Policy {
         value.multiAz = try reader["multiAz"].readIfPresent(with: Resiliencehubv2ClientTypes.MultiAzTargets.read(from:))
         value.multiRegion = try reader["multiRegion"].readIfPresent(with: Resiliencehubv2ClientTypes.MultiRegionTargets.read(from:))
         value.dataRecovery = try reader["dataRecovery"].readIfPresent(with: Resiliencehubv2ClientTypes.DataRecoveryTargets.read(from:))
+        value.sharingEnabled = try reader["sharingEnabled"].readIfPresent()
+        value.organizationId = try reader["organizationId"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.associatedServiceCount = try reader["associatedServiceCount"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicyAttachedToServiceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicyAttachedToServiceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.PolicyAttachedToServiceMetadata()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicyDeletedMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicyDeletedMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.PolicyDeletedMetadata()
+        value.affectedServiceCount = try reader["affectedServiceCount"].readIfPresent()
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicyDetachedFromServiceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicyDetachedFromServiceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.PolicyDetachedFromServiceMetadata()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicyEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicyEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.PolicyEvent()
+        value.eventId = try reader["eventId"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
+        value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
+        value.actor = try reader["actor"].readIfPresent(with: Resiliencehubv2ClientTypes.EventActor.read(from:))
+        value.eventDetails = try reader["eventDetails"].readIfPresent(with: Resiliencehubv2ClientTypes.PolicyEventDetails.read(from:))
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicyEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicyEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.PolicyEventDetails()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.eventMetadata = try reader["eventMetadata"].readIfPresent(with: Resiliencehubv2ClientTypes.PolicyEventMetadata.read(from:))
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicyEventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicyEventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "policyAttachedToService":
+                return .policyattachedtoservice(try reader["policyAttachedToService"].read(with: Resiliencehubv2ClientTypes.PolicyAttachedToServiceMetadata.read(from:)))
+            case "policyDetachedFromService":
+                return .policydetachedfromservice(try reader["policyDetachedFromService"].read(with: Resiliencehubv2ClientTypes.PolicyDetachedFromServiceMetadata.read(from:)))
+            case "policySharingRevoked":
+                return .policysharingrevoked(try reader["policySharingRevoked"].read(with: Resiliencehubv2ClientTypes.PolicySharingRevokedMetadata.read(from:)))
+            case "policyDeleted":
+                return .policydeleted(try reader["policyDeleted"].read(with: Resiliencehubv2ClientTypes.PolicyDeletedMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes.PolicySharingRevokedMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.PolicySharingRevokedMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.PolicySharingRevokedMetadata()
+        value.affectedServiceCount = try reader["affectedServiceCount"].readIfPresent()
         return value
     }
 }
@@ -12327,6 +13163,8 @@ extension Resiliencehubv2ClientTypes.PolicySummary {
         value.multiAz = try reader["multiAz"].readIfPresent(with: Resiliencehubv2ClientTypes.MultiAzTargets.read(from:))
         value.multiRegion = try reader["multiRegion"].readIfPresent(with: Resiliencehubv2ClientTypes.MultiRegionTargets.read(from:))
         value.dataRecovery = try reader["dataRecovery"].readIfPresent(with: Resiliencehubv2ClientTypes.DataRecoveryTargets.read(from:))
+        value.sharingEnabled = try reader["sharingEnabled"].readIfPresent()
+        value.organizationId = try reader["organizationId"].readIfPresent()
         value.associatedServiceCount = try reader["associatedServiceCount"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -12749,6 +13587,8 @@ extension Resiliencehubv2ClientTypes.ServicePolicyAssociatedMetadata {
         var value = Resiliencehubv2ClientTypes.ServicePolicyAssociatedMetadata()
         value.policyName = try reader["policyName"].readIfPresent()
         value.policyArn = try reader["policyArn"].readIfPresent()
+        value.policyOwnerAccountId = try reader["policyOwnerAccountId"].readIfPresent()
+        value.policySource = try reader["policySource"].readIfPresent()
         return value
     }
 }
@@ -12760,6 +13600,9 @@ extension Resiliencehubv2ClientTypes.ServicePolicyDisassociatedMetadata {
         var value = Resiliencehubv2ClientTypes.ServicePolicyDisassociatedMetadata()
         value.policyName = try reader["policyName"].readIfPresent()
         value.policyArn = try reader["policyArn"].readIfPresent()
+        value.policyOwnerAccountId = try reader["policyOwnerAccountId"].readIfPresent()
+        value.policySource = try reader["policySource"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
         return value
     }
 }

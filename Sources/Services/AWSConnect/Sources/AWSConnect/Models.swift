@@ -23697,6 +23697,76 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum AnalyticsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatedinteraction
+        case contactlens
+        case postcontact
+        case realtime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsMode] {
+            return [
+                .automatedinteraction,
+                .contactlens,
+                .postcontact,
+                .realtime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatedinteraction: return "AutomatedInteraction"
+            case .contactlens: return "ContactLens"
+            case .postcontact: return "PostContact"
+            case .realtime: return "RealTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a reference when the referenceType is CONTACT_ANALYSIS. Otherwise, null.
+    public struct ContactAnalysisReference: Swift.Sendable {
+        /// The analytics mode of the contact analysis.
+        public var analyticsMode: ConnectClientTypes.AnalyticsMode?
+        /// The Amazon Resource Name (ARN) of the contact analysis reference.
+        public var arn: Swift.String?
+        /// Indicates whether sensitive data has been redacted from the contact analysis.
+        public var isRedacted: Swift.Bool?
+        /// Identifier of the contact analysis reference.
+        public var name: Swift.String?
+        /// Status of the contact analysis reference type.
+        public var status: ConnectClientTypes.ReferenceStatus?
+        /// The location path of the contact analysis reference.
+        public var value: Swift.String?
+
+        public init(
+            analyticsMode: ConnectClientTypes.AnalyticsMode? = nil,
+            arn: Swift.String? = nil,
+            isRedacted: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.ReferenceStatus? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.analyticsMode = analyticsMode
+            self.arn = arn
+            self.isRedacted = isRedacted
+            self.name = name
+            self.status = status
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about a reference when the referenceType is DATE. Otherwise, null.
     public struct DateReference: Swift.Sendable {
         /// Identifier of the date reference.
@@ -23833,6 +23903,8 @@ extension ConnectClientTypes {
         case date(ConnectClientTypes.DateReference)
         /// Information about a reference when the referenceType is EMAIL. Otherwise, null.
         case email(ConnectClientTypes.EmailReference)
+        /// Information about a reference when the referenceType is CONTACT_ANALYSIS. Otherwise, null.
+        case contactanalysis(ConnectClientTypes.ContactAnalysisReference)
         case sdkUnknown(Swift.String)
     }
 }
@@ -33181,41 +33253,6 @@ extension ConnectClientTypes {
             self.rulesConfiguration = rulesConfiguration
             self.sentimentConfiguration = sentimentConfiguration
             self.summaryConfiguration = summaryConfiguration
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    public enum AnalyticsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case automatedinteraction
-        case contactlens
-        case postcontact
-        case realtime
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AnalyticsMode] {
-            return [
-                .automatedinteraction,
-                .contactlens,
-                .postcontact,
-                .realtime
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .automatedinteraction: return "AutomatedInteraction"
-            case .contactlens: return "ContactLens"
-            case .postcontact: return "PostContact"
-            case .realtime: return "RealTime"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -61756,6 +61793,21 @@ extension ConnectClientTypes.ContactAnalysis {
     }
 }
 
+extension ConnectClientTypes.ContactAnalysisReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactAnalysisReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactAnalysisReference()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.analyticsMode = try reader["AnalyticsMode"].readIfPresent()
+        value.isRedacted = try reader["IsRedacted"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.ContactConfiguration {
 
     static func write(value: ConnectClientTypes.ContactConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -67016,6 +67068,8 @@ extension ConnectClientTypes.ReferenceSummary {
                 return .date(try reader["Date"].read(with: ConnectClientTypes.DateReference.read(from:)))
             case "Email":
                 return .email(try reader["Email"].read(with: ConnectClientTypes.EmailReference.read(from:)))
+            case "ContactAnalysis":
+                return .contactanalysis(try reader["ContactAnalysis"].read(with: ConnectClientTypes.ContactAnalysisReference.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
