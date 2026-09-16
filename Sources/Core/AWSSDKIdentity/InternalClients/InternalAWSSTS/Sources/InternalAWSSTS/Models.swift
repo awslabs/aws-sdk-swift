@@ -198,6 +198,8 @@ package struct AssumeRoleInput: Swift.Sendable {
     public var durationSeconds: Swift.Int?
     /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see [How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@:\/-
     public var externalId: Swift.String?
+    /// The minimum size, in bytes, of the session token that STS issues for the request. STS increases the session token to at least this size, regardless of its actual content. The value must not exceed 4,096 bytes. When set to 0 or not specified, the session token size is unchanged.
+    public var minimumSessionTokenSize: Swift.Int?
     /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
     public var policy: Swift.String?
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
@@ -224,6 +226,7 @@ package struct AssumeRoleInput: Swift.Sendable {
     public init(
         durationSeconds: Swift.Int? = nil,
         externalId: Swift.String? = nil,
+        minimumSessionTokenSize: Swift.Int? = nil,
         policy: Swift.String? = nil,
         policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
         providedContexts: [STSClientTypes.ProvidedContext]? = nil,
@@ -237,6 +240,7 @@ package struct AssumeRoleInput: Swift.Sendable {
     ) {
         self.durationSeconds = durationSeconds
         self.externalId = externalId
+        self.minimumSessionTokenSize = minimumSessionTokenSize
         self.policy = policy
         self.policyArns = policyArns
         self.providedContexts = providedContexts
@@ -293,7 +297,12 @@ package struct AssumeRoleOutput: Swift.Sendable {
     /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
     public var credentials: STSClientTypes.Credentials?
     /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
+    @available(*, deprecated, message: "Deprecated. Replaced by SessionTokenUtilization. API deprecated since 2026-06-17")
     public var packedPolicySize: Swift.Int?
+    /// The size, in bytes, of the session token returned in the Credentials for this response.
+    public var sessionTokenSize: Swift.Int?
+    /// The percentage (0-100) of the maximum allowed session token size that the returned session token consumes.
+    public var sessionTokenUtilization: Swift.Int?
     /// The source identity specified by the principal that is calling the AssumeRole operation. You can require users to specify a source identity when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     public var sourceIdentity: Swift.String?
 
@@ -301,11 +310,15 @@ package struct AssumeRoleOutput: Swift.Sendable {
         assumedRoleUser: STSClientTypes.AssumedRoleUser? = nil,
         credentials: STSClientTypes.Credentials? = nil,
         packedPolicySize: Swift.Int? = nil,
+        sessionTokenSize: Swift.Int? = nil,
+        sessionTokenUtilization: Swift.Int? = nil,
         sourceIdentity: Swift.String? = nil
     ) {
         self.assumedRoleUser = assumedRoleUser
         self.credentials = credentials
         self.packedPolicySize = packedPolicySize
+        self.sessionTokenSize = sessionTokenSize
+        self.sessionTokenUtilization = sessionTokenUtilization
         self.sourceIdentity = sourceIdentity
     }
 }
@@ -382,6 +395,8 @@ package struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSCli
 package struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
     /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
     public var durationSeconds: Swift.Int?
+    /// The minimum size, in bytes, of the session token that STS issues for the request. STS increases the session token to at least this size, regardless of its actual content. The value must not exceed 4,096 bytes. When set to 0 or not specified, the session token size is unchanged.
+    public var minimumSessionTokenSize: Swift.Int?
     /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session). An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
     public var policy: Swift.String?
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
@@ -400,6 +415,7 @@ package struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
 
     public init(
         durationSeconds: Swift.Int? = nil,
+        minimumSessionTokenSize: Swift.Int? = nil,
         policy: Swift.String? = nil,
         policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
         providerId: Swift.String? = nil,
@@ -408,6 +424,7 @@ package struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
         webIdentityToken: Swift.String? = nil
     ) {
         self.durationSeconds = durationSeconds
+        self.minimumSessionTokenSize = minimumSessionTokenSize
         self.policy = policy
         self.policyArns = policyArns
         self.providerId = providerId
@@ -419,7 +436,7 @@ package struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
 
 extension AssumeRoleWithWebIdentityInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssumeRoleWithWebIdentityInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), providerId: \(Swift.String(describing: providerId)), roleArn: \(Swift.String(describing: roleArn)), roleSessionName: \(Swift.String(describing: roleSessionName)), webIdentityToken: \"CONTENT_REDACTED\")"}
+        "AssumeRoleWithWebIdentityInput(durationSeconds: \(Swift.String(describing: durationSeconds)), minimumSessionTokenSize: \(Swift.String(describing: minimumSessionTokenSize)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), providerId: \(Swift.String(describing: providerId)), roleArn: \(Swift.String(describing: roleArn)), roleSessionName: \(Swift.String(describing: roleSessionName)), webIdentityToken: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the response to a successful [AssumeRoleWithWebIdentity] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
@@ -431,9 +448,14 @@ package struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
     /// The temporary security credentials, which include an access key ID, a secret access key, and a security token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
     public var credentials: STSClientTypes.Credentials?
     /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
+    @available(*, deprecated, message: "Deprecated. Replaced by SessionTokenUtilization. API deprecated since 2026-06-17")
     public var packedPolicySize: Swift.Int?
     /// The issuing authority of the web identity token presented. For OpenID Connect ID tokens, this contains the value of the iss field. For OAuth 2.0 access tokens, this contains the value of the ProviderId parameter that was passed in the AssumeRoleWithWebIdentity request.
     public var provider: Swift.String?
+    /// The size, in bytes, of the session token returned in the Credentials for this response.
+    public var sessionTokenSize: Swift.Int?
+    /// The percentage (0-100) of the maximum allowed session token size that the returned session token consumes.
+    public var sessionTokenUtilization: Swift.Int?
     /// The value of the source identity that is returned in the JSON web token (JWT) from the identity provider. You can require users to set a source identity value when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. That way, actions that are taken with the role are associated with that user. After the source identity is set, the value cannot be changed. It is present in the request for all actions that are taken by the role and persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts) sessions. You can configure your identity provider to use an attribute associated with your users, like user name or email, as the source identity when calling AssumeRoleWithWebIdentity. You do this by adding a claim to the JSON web token. To learn more about OIDC tokens and claims, see [Using Tokens with User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html) in the Amazon Cognito Developer Guide. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     public var sourceIdentity: Swift.String?
     /// The unique user identifier that is returned by the identity provider. This identifier is associated with the WebIdentityToken that was submitted with the AssumeRoleWithWebIdentity call. The identifier is typically unique to the user and the application that acquired the WebIdentityToken (pairwise identifier). For OpenID Connect ID tokens, this field contains the value returned by the identity provider as the token's sub (Subject) claim.
@@ -445,6 +467,8 @@ package struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
         credentials: STSClientTypes.Credentials? = nil,
         packedPolicySize: Swift.Int? = nil,
         provider: Swift.String? = nil,
+        sessionTokenSize: Swift.Int? = nil,
+        sessionTokenUtilization: Swift.Int? = nil,
         sourceIdentity: Swift.String? = nil,
         subjectFromWebIdentityToken: Swift.String? = nil
     ) {
@@ -453,6 +477,8 @@ package struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
         self.credentials = credentials
         self.packedPolicySize = packedPolicySize
         self.provider = provider
+        self.sessionTokenSize = sessionTokenSize
+        self.sessionTokenUtilization = sessionTokenUtilization
         self.sourceIdentity = sourceIdentity
         self.subjectFromWebIdentityToken = subjectFromWebIdentityToken
     }
@@ -478,6 +504,7 @@ extension AssumeRoleInput {
         guard let value else { return }
         try writer["DurationSeconds"].write(value.durationSeconds)
         try writer["ExternalId"].write(value.externalId)
+        try writer["MinimumSessionTokenSize"].write(value.minimumSessionTokenSize)
         try writer["Policy"].write(value.policy)
         try writer["PolicyArns"].writeList(value.policyArns, memberWritingClosure: STSClientTypes.PolicyDescriptorType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ProvidedContexts"].writeList(value.providedContexts, memberWritingClosure: STSClientTypes.ProvidedContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -498,6 +525,7 @@ extension AssumeRoleWithWebIdentityInput {
     static func write(value: AssumeRoleWithWebIdentityInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["DurationSeconds"].write(value.durationSeconds)
+        try writer["MinimumSessionTokenSize"].write(value.minimumSessionTokenSize)
         try writer["Policy"].write(value.policy)
         try writer["PolicyArns"].writeList(value.policyArns, memberWritingClosure: STSClientTypes.PolicyDescriptorType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ProviderId"].write(value.providerId)
@@ -519,6 +547,8 @@ extension AssumeRoleOutput {
         value.assumedRoleUser = try reader["AssumedRoleUser"].readIfPresent(with: STSClientTypes.AssumedRoleUser.read(from:))
         value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
         value.packedPolicySize = try reader["PackedPolicySize"].readIfPresent()
+        value.sessionTokenSize = try reader["SessionTokenSize"].readIfPresent()
+        value.sessionTokenUtilization = try reader["SessionTokenUtilization"].readIfPresent()
         value.sourceIdentity = try reader["SourceIdentity"].readIfPresent()
         return value
     }
@@ -536,6 +566,8 @@ extension AssumeRoleWithWebIdentityOutput {
         value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
         value.packedPolicySize = try reader["PackedPolicySize"].readIfPresent()
         value.provider = try reader["Provider"].readIfPresent()
+        value.sessionTokenSize = try reader["SessionTokenSize"].readIfPresent()
+        value.sessionTokenUtilization = try reader["SessionTokenUtilization"].readIfPresent()
         value.sourceIdentity = try reader["SourceIdentity"].readIfPresent()
         value.subjectFromWebIdentityToken = try reader["SubjectFromWebIdentityToken"].readIfPresent()
         return value

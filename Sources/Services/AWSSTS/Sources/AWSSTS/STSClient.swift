@@ -1388,7 +1388,7 @@ extension STSClient {
 
     /// Performs the `GetWebIdentityToken` operation on the `STS` service.
     ///
-    /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity. The returned JWT can be used to authenticate with external services that support OIDC discovery. The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+    /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity. The returned JWT can be used to authenticate with external services that support OIDC discovery. The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint. The GetWebIdentityToken API is not available on the STS Global endpoint.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWebIdentityTokenInput`)
     ///

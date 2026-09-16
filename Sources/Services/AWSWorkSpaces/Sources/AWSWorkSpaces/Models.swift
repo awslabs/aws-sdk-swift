@@ -1413,6 +1413,10 @@ extension WorkSpacesClientTypes {
         case graphicsG64xlarge
         case graphicsG68xlarge
         case graphicsG6Xlarge
+        case graphicsG712xlarge
+        case graphicsG72xlarge
+        case graphicsG74xlarge
+        case graphicsG78xlarge
         case graphicsGr6f4xlarge
         case graphicsGr64xlarge
         case graphicsGr68xlarge
@@ -1440,6 +1444,10 @@ extension WorkSpacesClientTypes {
                 .graphicsG64xlarge,
                 .graphicsG68xlarge,
                 .graphicsG6Xlarge,
+                .graphicsG712xlarge,
+                .graphicsG72xlarge,
+                .graphicsG74xlarge,
+                .graphicsG78xlarge,
                 .graphicsGr6f4xlarge,
                 .graphicsGr64xlarge,
                 .graphicsGr68xlarge,
@@ -1473,6 +1481,10 @@ extension WorkSpacesClientTypes {
             case .graphicsG64xlarge: return "GRAPHICS_G6_4XLARGE"
             case .graphicsG68xlarge: return "GRAPHICS_G6_8XLARGE"
             case .graphicsG6Xlarge: return "GRAPHICS_G6_XLARGE"
+            case .graphicsG712xlarge: return "GRAPHICS_G7_12XLARGE"
+            case .graphicsG72xlarge: return "GRAPHICS_G7_2XLARGE"
+            case .graphicsG74xlarge: return "GRAPHICS_G7_4XLARGE"
+            case .graphicsG78xlarge: return "GRAPHICS_G7_8XLARGE"
             case .graphicsGr6f4xlarge: return "GRAPHICS_GR6F_4XLARGE"
             case .graphicsGr64xlarge: return "GRAPHICS_GR6_4XLARGE"
             case .graphicsGr68xlarge: return "GRAPHICS_GR6_8XLARGE"
@@ -2966,7 +2978,7 @@ extension WorkSpacesClientTypes {
         ///
         /// * The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).
         ///
-        /// * Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, and Graphics.g6).
+        /// * Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, Graphics.g6, and Graphics.g7).
         public var protocols: [WorkSpacesClientTypes.ModelProtocol]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see [Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html).
         public var rootVolumeSizeGib: Swift.Int?
@@ -6938,13 +6950,15 @@ extension WorkSpacesClientTypes {
         case base
         case graphicsG4dn
         case graphicsG6
+        case graphicsG7
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageComputeType] {
             return [
                 .base,
                 .graphicsG4dn,
-                .graphicsG6
+                .graphicsG6,
+                .graphicsG7
             ]
         }
 
@@ -6958,6 +6972,7 @@ extension WorkSpacesClientTypes {
             case .base: return "BASE"
             case .graphicsG4dn: return "GRAPHICS_G4DN"
             case .graphicsG6: return "GRAPHICS_G6"
+            case .graphicsG7: return "GRAPHICS_G7"
             case let .sdkUnknown(s): return s
             }
         }

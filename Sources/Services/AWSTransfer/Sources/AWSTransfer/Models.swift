@@ -2714,6 +2714,54 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum ProxyMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case proxyProtocolV2Enforced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProxyMode] {
+            return [
+                .none,
+                .proxyProtocolV2Enforced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .proxyProtocolV2Enforced: return "PROXY_PROTOCOL_V2_ENFORCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains configuration for PROXY protocol version 2 (PPv2) support on an Transfer Family server. When enabled, Transfer Family reads the added PPv2 header from incoming connections to extract the original client IP address. This address is then available in Amazon CloudWatch Logs entries and is passed to custom identity providers during authentication, enabling IP-based access policies. For more information, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
+    public struct ProxyConfig: Swift.Sendable {
+        /// Specifies whether the Transfer Family server requires or ignores a PPv2 header containing the original client IP address on incoming SFTP connections. If you don't specify a value, the default is NONE
+        ///
+        /// * NONE: the server reads and ignores any PPv2 header on incoming SFTP connections. This is the default value. Use this value when your SFTP server is not behind an NLB, or when you do not need to preserve client source IP addresses through an NLB.
+        ///
+        /// * PROXY_PROTOCOL_V2_ENFORCED: the server requires a valid PPv2 header on every incoming SFTP connection. When a valid header is present, the server applies it and uses the client IP address from the header. If a connection arrives without a PPv2 header, the server refuses the connection and logs an error to Amazon CloudWatch Logs indicating that the expected PPv2 header was missing. Use this value when your SFTP server is behind an NLB with PPv2 enabled on the target group. When you enable PROXY_PROTOCOL_V2_ENFORCED, the server trusts the source IP address in the PPv2 header. You must configure security groups on your server's VPC endpoint to restrict inbound traffic to only the NLB's private IP addresses. For the full requirements, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
+        public var sftpMode: TransferClientTypes.ProxyMode?
+
+        public init(
+            sftpMode: TransferClientTypes.ProxyMode? = nil
+        ) {
+            self.sftpMode = sftpMode
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum SetStatOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case enableNoOp
@@ -2781,6 +2829,8 @@ extension TransferClientTypes {
         public var as2Transports: [TransferClientTypes.As2Transport]?
         /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example: aws transfer update-server --protocol-details PassiveIp=0.0.0.0 Replace 0.0.0.0 in the example above with the actual IP address you want to use. If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see [Configuring your FTPS server behind a firewall or NAT with Transfer Family](http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/). Additionally, avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers. This configuration increases costs and can cause performance issues. When NLBs or NATs are in the communication path, Transfer Family cannot accurately recognize client IP addresses, which impacts connection sharding and limits FTPS servers to only 300 simultaneous connections instead of 10,000. If you must use an NLB, use port 21 for health checks and enable TLS session resumption by setting TlsSessionResumptionMode = ENFORCED. For optimal performance, migrate to VPC endpoints with Elastic IP addresses instead of using NLBs. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations). Special values The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
         public var passiveIp: Swift.String?
+        /// The configuration for PROXY protocol version 2 (PPv2) support on the Transfer Family server. For more information, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
+        public var proxyConfig: TransferClientTypes.ProxyConfig?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOptionENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call. If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public var setStatOption: TransferClientTypes.SetStatOption?
         /// A property used with Transfer Family servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.
@@ -2795,11 +2845,13 @@ extension TransferClientTypes {
         public init(
             as2Transports: [TransferClientTypes.As2Transport]? = nil,
             passiveIp: Swift.String? = nil,
+            proxyConfig: TransferClientTypes.ProxyConfig? = nil,
             setStatOption: TransferClientTypes.SetStatOption? = nil,
             tlsSessionResumptionMode: TransferClientTypes.TlsSessionResumptionMode? = nil
         ) {
             self.as2Transports = as2Transports
             self.passiveIp = passiveIp
+            self.proxyConfig = proxyConfig
             self.setStatOption = setStatOption
             self.tlsSessionResumptionMode = tlsSessionResumptionMode
         }
