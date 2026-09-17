@@ -12725,6 +12725,7 @@ extension EC2ClientTypes {
         case m9g4xlarge
         case m9g8xlarge
         case m9gLarge
+        case m9gMedium
         case m9gMetal24xl
         case m9gMetal48xl
         case m9gXlarge
@@ -13099,6 +13100,28 @@ extension EC2ClientTypes {
         case r8inMetal48xl
         case r8inMetal96xl
         case r8inXlarge
+        case r9g12xlarge
+        case r9g16xlarge
+        case r9g24xlarge
+        case r9g2xlarge
+        case r9g48xlarge
+        case r9g4xlarge
+        case r9g8xlarge
+        case r9gLarge
+        case r9gMedium
+        case r9gMetal48xl
+        case r9gXlarge
+        case r9gd12xlarge
+        case r9gd16xlarge
+        case r9gd24xlarge
+        case r9gd2xlarge
+        case r9gd48xlarge
+        case r9gd4xlarge
+        case r9gd8xlarge
+        case r9gdLarge
+        case r9gdMedium
+        case r9gdMetal48xl
+        case r9gdXlarge
         case t1Micro
         case t22xlarge
         case t2Large
@@ -14134,6 +14157,7 @@ extension EC2ClientTypes {
                 .m9g4xlarge,
                 .m9g8xlarge,
                 .m9gLarge,
+                .m9gMedium,
                 .m9gMetal24xl,
                 .m9gMetal48xl,
                 .m9gXlarge,
@@ -14508,6 +14532,28 @@ extension EC2ClientTypes {
                 .r8inMetal48xl,
                 .r8inMetal96xl,
                 .r8inXlarge,
+                .r9g12xlarge,
+                .r9g16xlarge,
+                .r9g24xlarge,
+                .r9g2xlarge,
+                .r9g48xlarge,
+                .r9g4xlarge,
+                .r9g8xlarge,
+                .r9gLarge,
+                .r9gMedium,
+                .r9gMetal48xl,
+                .r9gXlarge,
+                .r9gd12xlarge,
+                .r9gd16xlarge,
+                .r9gd24xlarge,
+                .r9gd2xlarge,
+                .r9gd48xlarge,
+                .r9gd4xlarge,
+                .r9gd8xlarge,
+                .r9gdLarge,
+                .r9gdMedium,
+                .r9gdMetal48xl,
+                .r9gdXlarge,
                 .t1Micro,
                 .t22xlarge,
                 .t2Large,
@@ -15549,6 +15595,7 @@ extension EC2ClientTypes {
             case .m9g4xlarge: return "m9g.4xlarge"
             case .m9g8xlarge: return "m9g.8xlarge"
             case .m9gLarge: return "m9g.large"
+            case .m9gMedium: return "m9g.medium"
             case .m9gMetal24xl: return "m9g.metal-24xl"
             case .m9gMetal48xl: return "m9g.metal-48xl"
             case .m9gXlarge: return "m9g.xlarge"
@@ -15923,6 +15970,28 @@ extension EC2ClientTypes {
             case .r8inMetal48xl: return "r8in.metal-48xl"
             case .r8inMetal96xl: return "r8in.metal-96xl"
             case .r8inXlarge: return "r8in.xlarge"
+            case .r9g12xlarge: return "r9g.12xlarge"
+            case .r9g16xlarge: return "r9g.16xlarge"
+            case .r9g24xlarge: return "r9g.24xlarge"
+            case .r9g2xlarge: return "r9g.2xlarge"
+            case .r9g48xlarge: return "r9g.48xlarge"
+            case .r9g4xlarge: return "r9g.4xlarge"
+            case .r9g8xlarge: return "r9g.8xlarge"
+            case .r9gLarge: return "r9g.large"
+            case .r9gMedium: return "r9g.medium"
+            case .r9gMetal48xl: return "r9g.metal-48xl"
+            case .r9gXlarge: return "r9g.xlarge"
+            case .r9gd12xlarge: return "r9gd.12xlarge"
+            case .r9gd16xlarge: return "r9gd.16xlarge"
+            case .r9gd24xlarge: return "r9gd.24xlarge"
+            case .r9gd2xlarge: return "r9gd.2xlarge"
+            case .r9gd48xlarge: return "r9gd.48xlarge"
+            case .r9gd4xlarge: return "r9gd.4xlarge"
+            case .r9gd8xlarge: return "r9gd.8xlarge"
+            case .r9gdLarge: return "r9gd.large"
+            case .r9gdMedium: return "r9gd.medium"
+            case .r9gdMetal48xl: return "r9gd.metal-48xl"
+            case .r9gdXlarge: return "r9gd.xlarge"
             case .t1Micro: return "t1.micro"
             case .t22xlarge: return "t2.2xlarge"
             case .t2Large: return "t2.large"

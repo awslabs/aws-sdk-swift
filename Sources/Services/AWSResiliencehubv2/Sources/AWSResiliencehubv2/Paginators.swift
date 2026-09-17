@@ -196,6 +196,7 @@ extension Resiliencehubv2Client {
 extension ListPoliciesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListPoliciesInput {
         return ListPoliciesInput(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -207,6 +208,40 @@ extension PaginatorSequence where OperationStackInput == ListPoliciesInput, Oper
     /// - Returns: `[Resiliencehubv2ClientTypes.PolicySummary]`
     public func policySummaries() async throws -> [Resiliencehubv2ClientTypes.PolicySummary] {
         return try await self.asyncCompactMap { item in item.policySummaries }
+    }
+}
+extension Resiliencehubv2Client {
+    /// Paginate over `[ListPolicyEventsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPolicyEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyEventsOutput`
+    public func listPolicyEventsPaginated(input: ListPolicyEventsInput) -> ClientRuntime.PaginatorSequence<ListPolicyEventsInput, ListPolicyEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPolicyEventsInput, ListPolicyEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicyEvents(input:))
+    }
+}
+
+extension ListPolicyEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPolicyEventsInput {
+        return ListPolicyEventsInput(
+            endTime: self.endTime,
+            eventTypes: self.eventTypes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyArn: self.policyArn,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPolicyEventsInput, OperationStackOutput == ListPolicyEventsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPolicyEventsPaginated`
+    /// to access the nested member `[Resiliencehubv2ClientTypes.PolicyEvent]`
+    /// - Returns: `[Resiliencehubv2ClientTypes.PolicyEvent]`
+    public func events() async throws -> [Resiliencehubv2ClientTypes.PolicyEvent] {
+        return try await self.asyncCompactMap { item in item.events }
     }
 }
 extension Resiliencehubv2Client {

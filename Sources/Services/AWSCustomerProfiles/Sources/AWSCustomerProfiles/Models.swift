@@ -12232,6 +12232,117 @@ public struct SearchProfilesOutput: Swift.Sendable {
     }
 }
 
+extension CustomerProfilesClientTypes {
+
+    /// Configuration for metadata to include in recommendation responses.
+    public struct RecommendationMetadata: Swift.Sendable {
+        /// A list of metadata column names from your Items dataset to include in the recommendation response.
+        public var columns: [Swift.String]?
+
+        public init(
+            columns: [Swift.String]? = nil
+        ) {
+            self.columns = columns
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The recommender used to generate the recommendations.
+    public struct Recommender: Swift.Sendable {
+        /// A list of filters to apply to the returned recommendations. Filters define criteria for including or excluding items from the recommendation results.
+        public var filters: [CustomerProfilesClientTypes.RecommenderFilter]?
+        /// The unique name of the recommender.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A list of promotional filters to apply to the recommendations. Promotional filters allow you to promote specific items within a configurable subset of recommendation results.
+        public var promotionalFilters: [CustomerProfilesClientTypes.RecommenderPromotionalFilter]?
+
+        public init(
+            filters: [CustomerProfilesClientTypes.RecommenderFilter]? = nil,
+            name: Swift.String? = nil,
+            promotionalFilters: [CustomerProfilesClientTypes.RecommenderPromotionalFilter]? = nil
+        ) {
+            self.filters = filters
+            self.name = name
+            self.promotionalFilters = promotionalFilters
+        }
+    }
+}
+
+public struct SearchRecommendationsInput: Swift.Sendable {
+    /// A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases.
+    public var candidateIds: [Swift.String]?
+    /// The contextual metadata used to provide dynamic runtime information to tailor recommendations.
+    public var context: [Swift.String: Swift.String]?
+    /// Runtime diversity configuration for this request. Enables diversity-aware recommendations and optionally supplies values for placeholder-based diversity caps configured on the recommender.
+    public var diversity: CustomerProfilesClientTypes.RecommendationDiversityConfig?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A searchable identifier of a customer profile. You can use a predefined key, such as _profileId, _phone, or _email, or a custom-defined key.
+    /// This member is required.
+    public var keyName: Swift.String?
+    /// A list of key values. Provide one value for each field of the search key.
+    /// This member is required.
+    public var keyValues: [Swift.String]?
+    /// The maximum number of recommendations to return. The default value is 5.
+    public var maxRecommendations: Swift.Int?
+    /// Configuration for metadata to include in recommendation responses.
+    public var metadata: CustomerProfilesClientTypes.RecommendationMetadata?
+    /// The recommender used to generate the recommendations.
+    /// This member is required.
+    public var recommender: CustomerProfilesClientTypes.Recommender?
+
+    public init(
+        candidateIds: [Swift.String]? = nil,
+        context: [Swift.String: Swift.String]? = nil,
+        diversity: CustomerProfilesClientTypes.RecommendationDiversityConfig? = nil,
+        domainName: Swift.String? = nil,
+        keyName: Swift.String? = nil,
+        keyValues: [Swift.String]? = nil,
+        maxRecommendations: Swift.Int? = nil,
+        metadata: CustomerProfilesClientTypes.RecommendationMetadata? = nil,
+        recommender: CustomerProfilesClientTypes.Recommender? = nil
+    ) {
+        self.candidateIds = candidateIds
+        self.context = context
+        self.diversity = diversity
+        self.domainName = domainName
+        self.keyName = keyName
+        self.keyValues = keyValues
+        self.maxRecommendations = maxRecommendations
+        self.metadata = metadata
+        self.recommender = recommender
+    }
+}
+
+extension SearchRecommendationsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchRecommendationsInput(candidateIds: \(Swift.String(describing: candidateIds)), diversity: \(Swift.String(describing: diversity)), domainName: \(Swift.String(describing: domainName)), keyName: \(Swift.String(describing: keyName)), maxRecommendations: \(Swift.String(describing: maxRecommendations)), metadata: \(Swift.String(describing: metadata)), recommender: \(Swift.String(describing: recommender)), context: \"CONTENT_REDACTED\", keyValues: \"CONTENT_REDACTED\")"}
+}
+
+public struct SearchRecommendationsOutput: Swift.Sendable {
+    /// The unique identifier of the profile for which to retrieve recommendations.
+    public var profileId: Swift.String?
+    /// List of recommendations generated by the recommender.
+    public var recommendations: [CustomerProfilesClientTypes.Recommendation]?
+
+    public init(
+        profileId: Swift.String? = nil,
+        recommendations: [CustomerProfilesClientTypes.Recommendation]? = nil
+    ) {
+        self.profileId = profileId
+        self.recommendations = recommendations
+    }
+}
+
+extension SearchRecommendationsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchRecommendationsOutput(profileId: \(Swift.String(describing: profileId)), recommendations: \"CONTENT_REDACTED\")"}
+}
+
 public struct StartRecommenderInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -14637,6 +14748,16 @@ extension SearchProfilesInput {
     }
 }
 
+extension SearchRecommendationsInput {
+
+    static func urlPathProvider(_ value: SearchRecommendationsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/recommendations"
+    }
+}
+
 extension StartRecommenderInput {
 
     static func urlPathProvider(_ value: StartRecommenderInput) -> Swift.String? {
@@ -15240,6 +15361,21 @@ extension SearchProfilesInput {
         try writer["KeyName"].write(value.keyName)
         try writer["LogicalOperator"].write(value.logicalOperator)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SearchRecommendationsInput {
+
+    static func write(value: SearchRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CandidateIds"].writeList(value.candidateIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Diversity"].write(value.diversity, with: CustomerProfilesClientTypes.RecommendationDiversityConfig.write(value:to:))
+        try writer["KeyName"].write(value.keyName)
+        try writer["KeyValues"].writeList(value.keyValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxRecommendations"].write(value.maxRecommendations)
+        try writer["Metadata"].write(value.metadata, with: CustomerProfilesClientTypes.RecommendationMetadata.write(value:to:))
+        try writer["Recommender"].write(value.recommender, with: CustomerProfilesClientTypes.Recommender.write(value:to:))
     }
 }
 
@@ -16841,6 +16977,19 @@ extension SearchProfilesOutput {
         var value = SearchProfilesOutput()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Profile.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension SearchRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchRecommendationsOutput()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.recommendations = try reader["Recommendations"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Recommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18828,6 +18977,24 @@ enum SearchProfilesOutputError {
     }
 }
 
+enum SearchRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartRecommenderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20708,6 +20875,24 @@ extension CustomerProfilesClientTypes.RecommendationDiversityConfig {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
         try writer["Values"].writeMap(value.values, valueWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CustomerProfilesClientTypes.RecommendationMetadata {
+
+    static func write(value: CustomerProfilesClientTypes.RecommendationMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Columns"].writeList(value.columns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CustomerProfilesClientTypes.Recommender {
+
+    static func write(value: CustomerProfilesClientTypes.Recommender?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: CustomerProfilesClientTypes.RecommenderFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PromotionalFilters"].writeList(value.promotionalFilters, memberWritingClosure: CustomerProfilesClientTypes.RecommenderPromotionalFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

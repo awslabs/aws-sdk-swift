@@ -102,7 +102,7 @@ public struct UpdateTagsForResourceOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The specified account does not have sufficient privileges for one or more AWS services.
+/// The specified account does not have sufficient privileges for one or more Amazon Web Services services.
 public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -310,7 +310,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
-    /// The resource lifecycle configuration for an application. Defines lifecycle settings for resources that belong to the application, and the service role that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The version lifecycle configuration defines lifecycle settings for application versions.
+    /// The resource lifecycle configuration for an application. Defines lifecycle settings for resources that belong to the application, and the service role that Elastic Beanstalk assumes in order to apply lifecycle settings. The version lifecycle configuration defines lifecycle settings for application versions.
     public struct ApplicationResourceLifecycleConfig: Swift.Sendable {
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value.
         public var serviceRole: Swift.String?
@@ -442,7 +442,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
-    /// Application request metrics for an AWS Elastic Beanstalk environment.
+    /// Application request metrics for an Elastic Beanstalk environment.
     public struct ApplicationMetrics: Swift.Sendable {
         /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
         public var duration: Swift.Int?
@@ -463,6 +463,164 @@ extension ElasticBeanstalkClientTypes {
             self.latency = latency
             self.requestCount = requestCount
             self.statusCodes = statusCodes
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
+    public enum ArchitectureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amd64
+        case arm64
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ArchitectureType] {
+            return [
+                .amd64,
+                .arm64
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amd64: return "amd64"
+            case .arm64: return "arm64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
+    public enum ComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buildGeneral1Large
+        case buildGeneral1Medium
+        case buildGeneral1Small
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeType] {
+            return [
+                .buildGeneral1Large,
+                .buildGeneral1Medium,
+                .buildGeneral1Small
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buildGeneral1Large: return "BUILD_GENERAL1_LARGE"
+            case .buildGeneral1Medium: return "BUILD_GENERAL1_MEDIUM"
+            case .buildGeneral1Small: return "BUILD_GENERAL1_SMALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
+    public enum ImageBuildType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buildpack
+        case docker
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageBuildType] {
+            return [
+                .buildpack,
+                .docker
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buildpack: return "buildpack"
+            case .docker: return "docker"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
+    /// Settings that Elastic Beanstalk uses to build a container image from the source bundle of an application version.
+    public struct ImageBuildConfiguration: Swift.Sendable {
+        /// The processor architecture that Elastic Beanstalk builds the container image for. The architecture must match the architecture of the instances in the environment that you deploy the application version to. Valid values:
+        ///
+        /// * amd64 – x86-64 instances. This is the default.
+        ///
+        /// * arm64 – Amazon Web Services Graviton instances.
+        public var architecture: ElasticBeanstalkClientTypes.ArchitectureType?
+        /// The Cloud Native Buildpacks builder image that Elastic Beanstalk uses to build the container image. For example, paketobuildpacks/builder-jammy-base. This member is required when Type is buildpack. Elastic Beanstalk doesn't provide a default builder.
+        public var buildpack: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that CodeBuild assumes to run the build in your Amazon Web Services account. Elastic Beanstalk rejects a Build that doesn't specify this role.
+        public var codeBuildServiceRole: Swift.String?
+        /// The size of the compute resources that run the build. If you don't specify it, Elastic Beanstalk uses BUILD_GENERAL1_MEDIUM. Valid values:
+        ///
+        /// * BUILD_GENERAL1_SMALL – Use up to 3 GB memory and 2 vCPUs for builds.
+        ///
+        /// * BUILD_GENERAL1_MEDIUM – Use up to 7 GB memory and 4 vCPUs for builds.
+        ///
+        /// * BUILD_GENERAL1_LARGE – Use up to 15 GB memory and 8 vCPUs for builds.
+        public var computeType: ElasticBeanstalkClientTypes.ComputeType?
+        /// The path to the Dockerfile within the source bundle, relative to the root of the source bundle. For example, backend/Dockerfile. Elastic Beanstalk uses this member only when Type is docker. If you don't specify it, Elastic Beanstalk uses the Dockerfile at the root of the source bundle.
+        public var dockerfileLocation: Swift.String?
+        /// How long, in minutes from 5 to 480 (8 hours), Elastic Beanstalk waits before stopping a build that hasn't completed. The default is 60 minutes.
+        public var timeoutInMinutes: Swift.Int?
+        /// How Elastic Beanstalk builds the container image. Elastic Beanstalk rejects a Build that doesn't specify it. Valid values:
+        ///
+        /// * docker – Elastic Beanstalk builds the image from a Dockerfile in your source bundle. Specify the Dockerfile with DockerfileLocation.
+        ///
+        /// * buildpack – Elastic Beanstalk builds the image with a Cloud Native Buildpacks builder. Specify the builder with Buildpack.
+        public var type: ElasticBeanstalkClientTypes.ImageBuildType?
+
+        public init(
+            architecture: ElasticBeanstalkClientTypes.ArchitectureType? = nil,
+            buildpack: Swift.String? = nil,
+            codeBuildServiceRole: Swift.String? = nil,
+            computeType: ElasticBeanstalkClientTypes.ComputeType? = nil,
+            dockerfileLocation: Swift.String? = nil,
+            timeoutInMinutes: Swift.Int? = nil,
+            type: ElasticBeanstalkClientTypes.ImageBuildType? = nil
+        ) {
+            self.architecture = architecture
+            self.buildpack = buildpack
+            self.codeBuildServiceRole = codeBuildServiceRole
+            self.computeType = computeType
+            self.dockerfileLocation = dockerfileLocation
+            self.timeoutInMinutes = timeoutInMinutes
+            self.type = type
+        }
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
+    /// The location of a container image.
+    public struct ImageSource: Swift.Sendable {
+        /// The URI of the container image, including the registry, the repository, and the image tag or digest. For example, 111122223333.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
         }
     }
 }
@@ -628,7 +786,7 @@ extension ElasticBeanstalkClientTypes {
         public var applicationName: Swift.String?
         /// The Amazon Resource Name (ARN) of the application version.
         public var applicationVersionArn: Swift.String?
-        /// Reference to the artifact from the AWS CodeBuild build.
+        /// Reference to the artifact from the CodeBuild build.
         public var buildArn: Swift.String?
         /// The creation date of the application version.
         public var dateCreated: Foundation.Date?
@@ -636,7 +794,13 @@ extension ElasticBeanstalkClientTypes {
         public var dateUpdated: Foundation.Date?
         /// The description of the application version.
         public var description: Swift.String?
-        /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
+        /// The settings that Elastic Beanstalk uses to build a container image from the source bundle of the application version. Not present for an application version created from an image you provide.
+        public var imageBuildConfiguration: ElasticBeanstalkClientTypes.ImageBuildConfiguration?
+        /// The location of the container image for the application version. For an application version created from an image you provide, this is that image. For one that Elastic Beanstalk builds from your source bundle, Elastic Beanstalk fills this in with the image it pushed after the build succeeds.
+        public var imageSource: ElasticBeanstalkClientTypes.ImageSource?
+        /// Indicates whether Elastic Beanstalk pre-processed and validated the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle of the application version.
+        public var process: Swift.Bool?
+        /// If the version's source code was retrieved from CodeCommit, the location of the source code for the application version.
         public var sourceBuildInformation: ElasticBeanstalkClientTypes.SourceBuildInformation?
         /// The storage location of the application version's source bundle in Amazon S3.
         public var sourceBundle: ElasticBeanstalkClientTypes.S3Location?
@@ -646,11 +810,11 @@ extension ElasticBeanstalkClientTypes {
         ///
         /// * Processing – Elastic Beanstalk is currently processing the application version.
         ///
-        /// * Building – Application version is currently undergoing an AWS CodeBuild build.
+        /// * Building – Application version is currently undergoing an CodeBuild build.
         ///
         /// * Processed – Elastic Beanstalk was successfully pre-processed and validated.
         ///
-        /// * Failed – Either the AWS CodeBuild build failed or configuration files didn't pass validation. This application version isn't usable.
+        /// * Failed – Either the CodeBuild build failed or configuration files didn't pass validation. This application version isn't usable.
         public var status: ElasticBeanstalkClientTypes.ApplicationVersionStatus?
         /// A unique identifier for the application version.
         public var versionLabel: Swift.String?
@@ -662,6 +826,9 @@ extension ElasticBeanstalkClientTypes {
             dateCreated: Foundation.Date? = nil,
             dateUpdated: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            imageBuildConfiguration: ElasticBeanstalkClientTypes.ImageBuildConfiguration? = nil,
+            imageSource: ElasticBeanstalkClientTypes.ImageSource? = nil,
+            process: Swift.Bool? = nil,
             sourceBuildInformation: ElasticBeanstalkClientTypes.SourceBuildInformation? = nil,
             sourceBundle: ElasticBeanstalkClientTypes.S3Location? = nil,
             status: ElasticBeanstalkClientTypes.ApplicationVersionStatus? = nil,
@@ -673,6 +840,9 @@ extension ElasticBeanstalkClientTypes {
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
             self.description = description
+            self.imageBuildConfiguration = imageBuildConfiguration
+            self.imageSource = imageSource
+            self.process = process
             self.sourceBuildInformation = sourceBuildInformation
             self.sourceBundle = sourceBundle
             self.status = status
@@ -1051,7 +1221,7 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
-    /// Describes the AWS resources in use by this environment. This data is not live data.
+    /// Describes the Amazon Web Services resources in use by this environment. This data is not live data.
     public struct EnvironmentResourcesDescription: Swift.Sendable {
         /// Describes the LoadBalancer.
         public var loadBalancer: ElasticBeanstalkClientTypes.LoadBalancerDescription?
@@ -1117,15 +1287,19 @@ extension ElasticBeanstalkClientTypes {
     public struct EnvironmentTier: Swift.Sendable {
         /// The name of this environment tier. Valid values:
         ///
-        /// * For Web server tier – WebServer
+        /// * For Standard-mode EC2-based web server – WebServer
         ///
-        /// * For Worker tier – Worker
+        /// * For Standard-mode EC2-based backend application with Amazon SQS – Worker
+        ///
+        /// * For Cluster-mode Amazon EKS-based applications – Cluster
         public var name: Swift.String?
         /// The type of this environment tier. Valid values:
         ///
         /// * For Web server tier – Standard
         ///
         /// * For Worker tier – SQS/HTTP
+        ///
+        /// * For Cluster tier – EKS
         public var type: Swift.String?
         /// The version of this environment tier. When you don't set a value to it, Elastic Beanstalk uses the latest compatible worker tier version. This member is deprecated. Any specific version that you set may become out of date. We recommend leaving it unspecified.
         public var version: Swift.String?
@@ -1168,7 +1342,7 @@ extension ElasticBeanstalkClientTypes {
         public var environmentLinks: [ElasticBeanstalkClientTypes.EnvironmentLink]?
         /// The name of this environment.
         public var environmentName: Swift.String?
-        /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:
+        /// Describes the health status of the environment. Elastic Beanstalk indicates the failure levels for a running environment:
         ///
         /// * Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.
         ///
@@ -1183,17 +1357,23 @@ extension ElasticBeanstalkClientTypes {
         public var health: ElasticBeanstalkClientTypes.EnvironmentHealth?
         /// Returns the health status of the application running in your environment. For more information, see [Health Colors and Statuses](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html).
         public var healthStatus: ElasticBeanstalkClientTypes.EnvironmentHealthStatus?
-        /// The Amazon Resource Name (ARN) of the environment's operations role. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+        /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. The Amazon Resource Name (ARN) of the environment's operations role.
         public var operationsRole: Swift.String?
         /// The ARN of the platform version.
         public var platformArn: Swift.String?
-        /// The description of the AWS resources used by this environment.
+        /// The description of the Amazon Web Services resources used by this environment.
         public var resources: ElasticBeanstalkClientTypes.EnvironmentResourcesDescription?
         /// The name of the SolutionStack deployed with this environment.
         public var solutionStackName: Swift.String?
         /// The current operational status of the environment:
         ///
+        /// * Aborting: Environment is in the process of aborting a deployment.
+        ///
         /// * Launching: Environment is in the process of initial deployment.
+        ///
+        /// * LinkingFrom: Environment is in the process of being linked to by another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
+        ///
+        /// * LinkingTo: Environment is in the process of linking to another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
         ///
         /// * Updating: Environment is in the process of updating its configuration settings or application version.
         ///
@@ -1354,7 +1534,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     }
 }
 
-/// AWS CodeBuild is not available in the specified region.
+/// CodeBuild is not available in the specified region.
 public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1434,43 +1614,11 @@ public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, A
 
 extension ElasticBeanstalkClientTypes {
 
-    public enum ComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case buildGeneral1Large
-        case buildGeneral1Medium
-        case buildGeneral1Small
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ComputeType] {
-            return [
-                .buildGeneral1Large,
-                .buildGeneral1Medium,
-                .buildGeneral1Small
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .buildGeneral1Large: return "BUILD_GENERAL1_LARGE"
-            case .buildGeneral1Medium: return "BUILD_GENERAL1_MEDIUM"
-            case .buildGeneral1Small: return "BUILD_GENERAL1_SMALL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ElasticBeanstalkClientTypes {
-
-    /// Settings for an AWS CodeBuild build.
+    /// Settings for an CodeBuild build.
     public struct BuildConfiguration: Swift.Sendable {
         /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip.
         public var artifactName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that enables CodeBuild to interact with dependent Amazon Web Services service on behalf of the Amazon Web Services account.
         /// This member is required.
         public var codeBuildServiceRole: Swift.String?
         /// Information about the compute resources the build project will use.
@@ -1484,7 +1632,7 @@ extension ElasticBeanstalkClientTypes {
         /// The ID of the Docker image to use for this build project.
         /// This member is required.
         public var image: Swift.String?
-        /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
+        /// How long in minutes, from 5 to 480 (8 hours), for CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
         public var timeoutInMinutes: Swift.Int?
 
         public init(
@@ -1503,6 +1651,25 @@ extension ElasticBeanstalkClientTypes {
     }
 }
 
+extension ElasticBeanstalkClientTypes {
+
+    /// The source of the container image for an application version: an image that you built and pushed to a container registry yourself, or settings for Elastic Beanstalk to build one from your source bundle.
+    public struct ImageConfiguration: Swift.Sendable {
+        /// Settings that Elastic Beanstalk uses to build a container image from the source bundle of the application version. If you specify Build, also specify the request's SourceBundle parameter, and don't specify Source.
+        public var build: ElasticBeanstalkClientTypes.ImageBuildConfiguration?
+        /// The location of a container image that you built and pushed to a container registry yourself. Elastic Beanstalk deploys the image without a build step. If you specify Source, don't specify Build or the request's SourceBundle parameter.
+        public var source: ElasticBeanstalkClientTypes.ImageSource?
+
+        public init(
+            build: ElasticBeanstalkClientTypes.ImageBuildConfiguration? = nil,
+            source: ElasticBeanstalkClientTypes.ImageSource? = nil
+        ) {
+            self.build = build
+            self.source = source
+        }
+    }
+}
+
 ///
 public struct CreateApplicationVersionInput: Swift.Sendable {
     /// The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error.
@@ -1510,19 +1677,21 @@ public struct CreateApplicationVersionInput: Swift.Sendable {
     public var applicationName: Swift.String?
     /// Set to true to create an application with the specified name if it doesn't already exist.
     public var autoCreateApplication: Swift.Bool?
-    /// Settings for an AWS CodeBuild build.
+    /// Settings for an CodeBuild build. Don't specify BuildConfiguration together with ImageConfiguration, which configures a container image build instead.
     public var buildConfiguration: ElasticBeanstalkClientTypes.BuildConfiguration?
     /// A description of this application version.
     public var description: Swift.String?
-    /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
+    /// The source of the container image for this application version. You can specify an image that you built and pushed to a container registry yourself, or settings for Elastic Beanstalk to build one from your source bundle. Specify exactly one of the Source and Build members. Don't specify ImageConfiguration together with BuildConfiguration, which configures an CodeBuild build instead.
+    public var imageConfiguration: ElasticBeanstalkClientTypes.ImageConfiguration?
+    /// Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using CodeBuild or CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional. The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
     public var process: Swift.Bool?
-    /// Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
+    /// Specify a commit in an CodeCommit Git repository to use as the source code for the application version.
     public var sourceBuildInformation: ElasticBeanstalkClientTypes.SourceBuildInformation?
-    /// The Amazon S3 bucket and key that identify the location of the source bundle for this version. The Amazon S3 bucket must be in the same region as the environment. Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
+    /// The Amazon S3 bucket and key that identify the location of the source bundle for this version. The Amazon S3 bucket must be in the same region as the environment. Unless you're specifying a source bundle in the bucket that Elastic Beanstalk manages in your account, you must assign a custom policy to your user, and grant Allow permission to the s3:Get* actions on your S3 object resource, for example, arn:aws:s3:::your-bucket/your-source-bundle-object. Specify a source bundle in Amazon S3 or a commit in an CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
     public var sourceBundle: ElasticBeanstalkClientTypes.S3Location?
     /// Specifies the tags applied to the application version. Elastic Beanstalk applies these tags only to the application version. Environments that use the application version don't inherit the tags.
     public var tags: [ElasticBeanstalkClientTypes.Tag]?
-    /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error.
+    /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, Elastic Beanstalk returns an InvalidParameterValue error.
     /// This member is required.
     public var versionLabel: Swift.String?
 
@@ -1531,6 +1700,7 @@ public struct CreateApplicationVersionInput: Swift.Sendable {
         autoCreateApplication: Swift.Bool? = nil,
         buildConfiguration: ElasticBeanstalkClientTypes.BuildConfiguration? = nil,
         description: Swift.String? = nil,
+        imageConfiguration: ElasticBeanstalkClientTypes.ImageConfiguration? = nil,
         process: Swift.Bool? = nil,
         sourceBuildInformation: ElasticBeanstalkClientTypes.SourceBuildInformation? = nil,
         sourceBundle: ElasticBeanstalkClientTypes.S3Location? = nil,
@@ -1541,6 +1711,7 @@ public struct CreateApplicationVersionInput: Swift.Sendable {
         self.autoCreateApplication = autoCreateApplication
         self.buildConfiguration = buildConfiguration
         self.description = description
+        self.imageConfiguration = imageConfiguration
         self.process = process
         self.sourceBuildInformation = sourceBuildInformation
         self.sourceBundle = sourceBundle
@@ -1611,9 +1782,9 @@ public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError
 
 extension ElasticBeanstalkClientTypes {
 
-    /// A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html) in the Elastic Beanstalk Developer Guide.
     public struct ConfigurationOptionSetting: Swift.Sendable {
-        /// A unique namespace that identifies the option's associated AWS resource.
+        /// A unique namespace that identifies the option's associated Amazon Web Services resource.
         public var namespace: Swift.String?
         /// The name of the configuration option.
         public var optionName: Swift.String?
@@ -1664,11 +1835,11 @@ public struct CreateConfigurationTemplateInput: Swift.Sendable {
     public var description: Swift.String?
     /// The ID of an environment whose settings you want to use to create the configuration template. You must specify EnvironmentId if you don't specify PlatformArn, SolutionStackName, or SourceConfiguration.
     public var environmentId: Swift.String?
-    /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html) in the Elastic Beanstalk Developer Guide.
     public var optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]?
-    /// The Amazon Resource Name (ARN) of the custom platform. For more information, see [ Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html) in the AWS Elastic Beanstalk Developer Guide. If you specify PlatformArn, then don't specify SolutionStackName.
+    /// The Amazon Resource Name (ARN) of the custom platform. For more information, see [ Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html) in the Elastic Beanstalk Developer Guide. If you specify PlatformArn, then don't specify SolutionStackName.
     public var platformArn: Swift.String?
-    /// The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7. A solution stack specifies the operating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see [Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html) in the AWS Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify PlatformArn, EnvironmentId, or SourceConfiguration. Use the [ListAvailableSolutionStacks](https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html) API to obtain a list of available solution stacks.
+    /// The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7. A solution stack specifies the operating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see [Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html) in the Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify PlatformArn, EnvironmentId, or SourceConfiguration. Use the [ListAvailableSolutionStacks](https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html) API to obtain a list of available solution stacks.
     public var solutionStackName: Swift.String?
     /// An Elastic Beanstalk configuration template to base this one on. If specified, Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration. Values specified in OptionSettings override any values obtained from the SourceConfiguration. You must specify SourceConfiguration if you don't specify PlatformArn, EnvironmentId, or SolutionStackName. Constraint: If both solution stack name and source configuration are specified, the solution stack of the source configuration template must match the specified solution stack name.
     public var sourceConfiguration: ElasticBeanstalkClientTypes.SourceConfiguration?
@@ -1793,7 +1964,7 @@ extension ElasticBeanstalkClientTypes {
 
     /// A specification identifying an individual configuration option.
     public struct OptionSpecification: Swift.Sendable {
-        /// A unique namespace identifying the option's associated AWS resource.
+        /// A unique namespace identifying the option's associated Amazon Web Services resource.
         public var namespace: Swift.String?
         /// The name of the configuration option.
         public var optionName: Swift.String?
@@ -1825,21 +1996,21 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var environmentName: Swift.String?
     /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html) for details.
     public var groupName: Swift.String?
-    /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role.
     public var operationsRole: Swift.String?
-    /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
+    /// If specified, Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
     public var optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]?
     /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
     public var optionsToRemove: [ElasticBeanstalkClientTypes.OptionSpecification]?
-    /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see [Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html) in the AWS Elastic Beanstalk Developer Guide. If you specify PlatformArn, don't specify SolutionStackName.
+    /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see [Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html) in the Elastic Beanstalk Developer Guide. If you specify PlatformArn, don't specify SolutionStackName.
     public var platformArn: Swift.String?
-    /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see [Elastic Beanstalk Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html) in the AWS Elastic Beanstalk Platforms guide. If you specify SolutionStackName, don't specify PlatformArn or TemplateName.
+    /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see [Elastic Beanstalk Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html) in the Elastic Beanstalk Platforms guide. If you specify SolutionStackName, don't specify PlatformArn or TemplateName.
     public var solutionStackName: Swift.String?
     /// Specifies the tags applied to resources in the environment.
     public var tags: [ElasticBeanstalkClientTypes.Tag]?
     /// The name of the Elastic Beanstalk configuration template to use with the environment. If you specify TemplateName, then don't specify SolutionStackName.
     public var templateName: Swift.String?
-    /// Specifies the tier to use in creating this environment. The environment tier that you choose determines whether Elastic Beanstalk provisions resources to support a web application that handles HTTP(S) requests or a web application that handles background-processing tasks.
+    /// Specifies the tier to use in creating this environment. The environment tier that you choose determines whether Elastic Beanstalk provisions resources on Amazon EC2 instances or on an Amazon EKS cluster, and, for Amazon EC2, whether the environment serves HTTP(S) requests or processes background tasks from a queue.
     public var tier: ElasticBeanstalkClientTypes.EnvironmentTier?
     /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
     public var versionLabel: Swift.String?
@@ -1901,7 +2072,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
     public var environmentLinks: [ElasticBeanstalkClientTypes.EnvironmentLink]?
     /// The name of this environment.
     public var environmentName: Swift.String?
-    /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:
+    /// Describes the health status of the environment. Elastic Beanstalk indicates the failure levels for a running environment:
     ///
     /// * Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.
     ///
@@ -1916,17 +2087,23 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
     public var health: ElasticBeanstalkClientTypes.EnvironmentHealth?
     /// Returns the health status of the application running in your environment. For more information, see [Health Colors and Statuses](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html).
     public var healthStatus: ElasticBeanstalkClientTypes.EnvironmentHealthStatus?
-    /// The Amazon Resource Name (ARN) of the environment's operations role. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. The Amazon Resource Name (ARN) of the environment's operations role.
     public var operationsRole: Swift.String?
     /// The ARN of the platform version.
     public var platformArn: Swift.String?
-    /// The description of the AWS resources used by this environment.
+    /// The description of the Amazon Web Services resources used by this environment.
     public var resources: ElasticBeanstalkClientTypes.EnvironmentResourcesDescription?
     /// The name of the SolutionStack deployed with this environment.
     public var solutionStackName: Swift.String?
     /// The current operational status of the environment:
     ///
+    /// * Aborting: Environment is in the process of aborting a deployment.
+    ///
     /// * Launching: Environment is in the process of initial deployment.
+    ///
+    /// * LinkingFrom: Environment is in the process of being linked to by another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
+    ///
+    /// * LinkingTo: Environment is in the process of linking to another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
     ///
     /// * Updating: Environment is in the process of updating its configuration settings or application version.
     ///
@@ -2120,7 +2297,7 @@ extension ElasticBeanstalkClientTypes {
         public var platformCategory: Swift.String?
         /// The state of the platform version in its lifecycle. Possible values: recommended | empty If an empty value is returned, the platform version is supported but isn't the recommended one for its branch.
         public var platformLifecycleState: Swift.String?
-        /// The AWS account ID of the person who created the platform version.
+        /// The Amazon Web Services account ID of the person who created the platform version.
         public var platformOwner: Swift.String?
         /// The status of the platform version. You can create an environment from the platform version once it is ready.
         public var platformStatus: ElasticBeanstalkClientTypes.PlatformStatus?
@@ -2383,9 +2560,9 @@ public struct DeletePlatformVersionOutput: Swift.Sendable {
 
 extension ElasticBeanstalkClientTypes {
 
-    /// The AWS Elastic Beanstalk quota information for a single resource type in an AWS account. It reflects the resource's limits for this account.
+    /// The Elastic Beanstalk quota information for a single resource type in an Amazon Web Services account. It reflects the resource's limits for this account.
     public struct ResourceQuota: Swift.Sendable {
-        /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
+        /// The maximum number of instances of this Elastic Beanstalk resource type that an Amazon Web Services account can use.
         public var maximum: Swift.Int?
 
         public init(
@@ -2398,17 +2575,17 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
-    /// A set of per-resource AWS Elastic Beanstalk quotas associated with an AWS account. They reflect Elastic Beanstalk resource limits for this account.
+    /// A set of per-resource Elastic Beanstalk quotas associated with an Amazon Web Services account. They reflect Elastic Beanstalk resource limits for this account.
     public struct ResourceQuotas: Swift.Sendable {
-        /// The quota for applications in the AWS account.
+        /// The quota for applications in the Amazon Web Services account.
         public var applicationQuota: ElasticBeanstalkClientTypes.ResourceQuota?
-        /// The quota for application versions in the AWS account.
+        /// The quota for application versions in the Amazon Web Services account.
         public var applicationVersionQuota: ElasticBeanstalkClientTypes.ResourceQuota?
-        /// The quota for configuration templates in the AWS account.
+        /// The quota for configuration templates in the Amazon Web Services account.
         public var configurationTemplateQuota: ElasticBeanstalkClientTypes.ResourceQuota?
-        /// The quota for custom platforms in the AWS account.
+        /// The quota for custom platforms in the Amazon Web Services account.
         public var customPlatformQuota: ElasticBeanstalkClientTypes.ResourceQuota?
-        /// The quota for environments in the AWS account.
+        /// The quota for environments in the Amazon Web Services account.
         public var environmentQuota: ElasticBeanstalkClientTypes.ResourceQuota?
 
         public init(
@@ -2428,7 +2605,7 @@ extension ElasticBeanstalkClientTypes {
 }
 
 public struct DescribeAccountAttributesOutput: Swift.Sendable {
-    /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
+    /// The Elastic Beanstalk resource quotas associated with the calling Amazon Web Services account.
     public var resourceQuotas: ElasticBeanstalkClientTypes.ResourceQuotas?
 
     public init(
@@ -2440,7 +2617,7 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
 
 /// Request to describe one or more applications.
 public struct DescribeApplicationsInput: Swift.Sendable {
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
     public var applicationNames: [Swift.String]?
 
     public init(
@@ -2590,7 +2767,7 @@ extension ElasticBeanstalkClientTypes {
         ///
         /// * NoInterruption : There is no interruption to the environment or application availability.
         ///
-        /// * RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.
+        /// * RestartEnvironment : The environment is entirely restarted, all A resources are deleted and recreated, and the environment is unavailable during the process.
         ///
         /// * RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.
         public var changeSeverity: Swift.String?
@@ -2604,7 +2781,7 @@ extension ElasticBeanstalkClientTypes {
         public var minValue: Swift.Int?
         /// The name of the configuration option.
         public var name: Swift.String?
-        /// A unique namespace identifying the option's associated AWS resource.
+        /// A unique namespace identifying the option's associated Amazon Web Services resource.
         public var namespace: Swift.String?
         /// If specified, the configuration option must be a string value that satisfies this regular expression.
         public var regex: ElasticBeanstalkClientTypes.OptionRestrictionRegex?
@@ -2683,9 +2860,9 @@ public struct DescribeConfigurationSettingsInput: Swift.Sendable {
     /// The application for the environment or configuration template.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
-    /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
+    /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns a MissingRequiredParameter error.
     public var templateName: Swift.String?
 
     public init(
@@ -2869,7 +3046,7 @@ extension ElasticBeanstalkClientTypes {
         public var degraded: Swift.Int?
         /// Green. An operation is in progress on an instance.
         public var info: Swift.Int?
-        /// Grey. AWS Elastic Beanstalk and the health agent are reporting no data on an instance.
+        /// Grey. Elastic Beanstalk and the health agent are reporting no data on an instance.
         public var noData: Swift.Int?
         /// Green. An instance is passing health checks and the health agent is not reporting any problems.
         public var ok: Swift.Int?
@@ -2877,7 +3054,7 @@ extension ElasticBeanstalkClientTypes {
         public var pending: Swift.Int?
         /// Red. The health agent is reporting a very high number of request failures or other issues for an instance or environment.
         public var severe: Swift.Int?
-        /// Grey. AWS Elastic Beanstalk and the health agent are reporting an insufficient amount of data on an instance.
+        /// Grey. Elastic Beanstalk and the health agent are reporting an insufficient amount of data on an instance.
         public var unknown: Swift.Int?
         /// Yellow. The health agent is reporting a moderate number of request failures or other issues for an instance or environment.
         public var warning: Swift.Int?
@@ -2904,7 +3081,7 @@ extension ElasticBeanstalkClientTypes {
     }
 }
 
-/// Health details for an AWS Elastic Beanstalk environment.
+/// Health details for an Elastic Beanstalk environment.
 public struct DescribeEnvironmentHealthOutput: Swift.Sendable {
     /// Application request metrics for the environment.
     public var applicationMetrics: ElasticBeanstalkClientTypes.ApplicationMetrics?
@@ -3136,9 +3313,9 @@ public struct DescribeEnvironmentManagedActionsOutput: Swift.Sendable {
 
 /// Request to describe the resources in an environment.
 public struct DescribeEnvironmentResourcesInput: Swift.Sendable {
-    /// The ID of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to retrieve Amazon Web Services resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment to retrieve Amazon Web Services resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
 
     public init(
@@ -3147,6 +3324,21 @@ public struct DescribeEnvironmentResourcesInput: Swift.Sendable {
     ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
+    }
+}
+
+extension ElasticBeanstalkClientTypes {
+
+    /// Describes the Amazon EKS cluster that an environment runs on.
+    public struct Cluster: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon EKS cluster.
+        public var clusterArn: Swift.String?
+
+        public init(
+            clusterArn: Swift.String? = nil
+        ) {
+            self.clusterArn = clusterArn
+        }
     }
 }
 
@@ -3246,10 +3438,12 @@ extension ElasticBeanstalkClientTypes {
 
 extension ElasticBeanstalkClientTypes {
 
-    /// Describes the AWS resources in use by this environment. This data is live.
+    /// Describes the Amazon Web Services resources in use by this environment. This data is live.
     public struct EnvironmentResourceDescription: Swift.Sendable {
         /// The AutoScalingGroups used by this environment.
         public var autoScalingGroups: [ElasticBeanstalkClientTypes.AutoScalingGroup]?
+        /// The Amazon EKS cluster that this environment runs on. This member is present only for environments in the Cluster tier.
+        public var cluster: ElasticBeanstalkClientTypes.Cluster?
         /// The name of the environment.
         public var environmentName: Swift.String?
         /// The Amazon EC2 instances used by this environment.
@@ -3267,6 +3461,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             autoScalingGroups: [ElasticBeanstalkClientTypes.AutoScalingGroup]? = nil,
+            cluster: ElasticBeanstalkClientTypes.Cluster? = nil,
             environmentName: Swift.String? = nil,
             instances: [ElasticBeanstalkClientTypes.Instance]? = nil,
             launchConfigurations: [ElasticBeanstalkClientTypes.LaunchConfiguration]? = nil,
@@ -3276,6 +3471,7 @@ extension ElasticBeanstalkClientTypes {
             triggers: [ElasticBeanstalkClientTypes.Trigger]? = nil
         ) {
             self.autoScalingGroups = autoScalingGroups
+            self.cluster = cluster
             self.environmentName = environmentName
             self.instances = instances
             self.launchConfigurations = launchConfigurations
@@ -3301,11 +3497,11 @@ public struct DescribeEnvironmentResourcesOutput: Swift.Sendable {
 
 /// Request to describe one or more environments.
 public struct DescribeEnvironmentsInput: Swift.Sendable {
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
     public var applicationName: Swift.String?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
     public var environmentIds: [Swift.String]?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
     public var environmentNames: [Swift.String]?
     /// Indicates whether to include deleted environments: true: Environments that have been deleted after IncludedDeletedBackTo are displayed. false: Do not include deleted environments.
     public var includeDeleted: Swift.Bool?
@@ -3315,7 +3511,7 @@ public struct DescribeEnvironmentsInput: Swift.Sendable {
     public var maxRecords: Swift.Int?
     /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
     public var nextToken: Swift.String?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
     public var versionLabel: Swift.String?
 
     public init(
@@ -3398,29 +3594,29 @@ extension ElasticBeanstalkClientTypes {
 
 /// Request to retrieve a list of events for an environment.
 public struct DescribeEventsInput: Swift.Sendable {
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
     public var applicationName: Swift.String?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
     public var endTime: Foundation.Date?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
     public var environmentId: Swift.String?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
     public var environmentName: Swift.String?
     /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
     public var maxRecords: Swift.Int?
     /// Pagination token. If specified, the events return the next batch of results.
     public var nextToken: Swift.String?
-    /// The ARN of a custom platform version. If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
+    /// The ARN of a custom platform version. If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
     public var platformArn: Swift.String?
-    /// If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
+    /// If specified, Elastic Beanstalk restricts the described events to include only those associated with this request ID.
     public var requestId: Swift.String?
     /// If specified, limits the events returned from this call to include only those with the specified severity or higher.
     public var severity: ElasticBeanstalkClientTypes.EventSeverity?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
     public var startTime: Foundation.Date?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
     public var templateName: Swift.String?
-    /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
     public var versionLabel: Swift.String?
 
     public init(
@@ -3575,9 +3771,9 @@ extension ElasticBeanstalkClientTypes {
 public struct DescribeInstancesHealthInput: Swift.Sendable {
     /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
     public var attributeNames: [ElasticBeanstalkClientTypes.InstancesHealthAttribute]?
-    /// Specify the AWS Elastic Beanstalk environment by ID.
+    /// Specify the Elastic Beanstalk environment by ID.
     public var environmentId: Swift.String?
-    /// Specify the AWS Elastic Beanstalk environment by name.
+    /// Specify the Elastic Beanstalk environment by name.
     public var environmentName: Swift.String?
     /// Specify the pagination token returned by a previous call.
     public var nextToken: Swift.String?
@@ -3741,7 +3937,7 @@ extension ElasticBeanstalkClientTypes {
     }
 }
 
-/// Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment.
+/// Detailed health information about the Amazon EC2 instances in an Elastic Beanstalk environment.
 public struct DescribeInstancesHealthOutput: Swift.Sendable {
     /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the  type.
     public var instanceHealthList: [ElasticBeanstalkClientTypes.SingleInstanceHealth]?
@@ -3861,7 +4057,7 @@ extension ElasticBeanstalkClientTypes {
         public var platformLifecycleState: Swift.String?
         /// The name of the platform version.
         public var platformName: Swift.String?
-        /// The AWS account ID of the person who created the platform version.
+        /// The Amazon Web Services account ID of the person who created the platform version.
         public var platformOwner: Swift.String?
         /// The status of the platform version.
         public var platformStatus: ElasticBeanstalkClientTypes.PlatformStatus?
@@ -3948,7 +4144,7 @@ public struct DisassociateEnvironmentOperationsRoleInput: Swift.Sendable {
     }
 }
 
-/// A list of available AWS Elastic Beanstalk solution stacks.
+/// A list of available Elastic Beanstalk solution stacks.
 public struct ListAvailableSolutionStacksOutput: Swift.Sendable {
     /// A list of available solution stacks and their [SolutionStackDescription].
     public var solutionStackDetails: [ElasticBeanstalkClientTypes.SolutionStackDescription]?
@@ -4229,9 +4425,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 ///
 public struct RebuildEnvironmentInput: Swift.Sendable {
-    /// The ID of the environment to rebuild. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to rebuild. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the environment to rebuild. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment to rebuild. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
 
     public init(
@@ -4277,9 +4473,9 @@ extension ElasticBeanstalkClientTypes {
 
 /// Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket.
 public struct RequestEnvironmentInfoInput: Swift.Sendable {
-    /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
     /// The type of information to request.
     /// This member is required.
@@ -4298,9 +4494,9 @@ public struct RequestEnvironmentInfoInput: Swift.Sendable {
 
 ///
 public struct RestartAppServerInput: Swift.Sendable {
-    /// The ID of the environment to restart the server for. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to restart the server for. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the environment to restart the server for. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment to restart the server for. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
 
     public init(
@@ -4314,9 +4510,9 @@ public struct RestartAppServerInput: Swift.Sendable {
 
 /// Request to download logs retrieved with [RequestEnvironmentInfo].
 public struct RetrieveEnvironmentInfoInput: Swift.Sendable {
-    /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
     /// The type of information to retrieve.
     /// This member is required.
@@ -4398,20 +4594,20 @@ public struct SwapEnvironmentCNAMEsInput: Swift.Sendable {
 
 /// Request to terminate an environment.
 public struct TerminateEnvironmentInput: Swift.Sendable {
-    /// The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
     /// Terminates the target environment even if another environment in the same group is dependent on it.
     public var forceTerminate: Swift.Bool?
-    /// Indicates whether the associated AWS resources should shut down when the environment is terminated:
+    /// Indicates whether the associated Amazon Web Services resources should shut down when the environment is terminated:
     ///
-    /// * true: The specified environment as well as the associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.
+    /// * true: The specified environment as well as the associated Amazon Web Services resources, such as Auto Scaling group and LoadBalancer, are terminated.
     ///
-    /// * false: AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate.
+    /// * false: Elastic Beanstalk resource management is removed from the environment, but the Amazon Web Services resources continue to operate.
     ///
     ///
-    /// For more information, see the [ AWS Elastic Beanstalk User Guide. ](https://docs.aws.amazon.com/elasticbeanstalk/latest/ug/) Default: true Valid Values: true | false
+    /// For more information, see the [ Elastic Beanstalk User Guide. ](https://docs.aws.amazon.com/elasticbeanstalk/latest/ug/) Default: true Valid Values: true | false
     public var terminateResources: Swift.Bool?
 
     public init(
@@ -4451,7 +4647,7 @@ public struct TerminateEnvironmentOutput: Swift.Sendable {
     public var environmentLinks: [ElasticBeanstalkClientTypes.EnvironmentLink]?
     /// The name of this environment.
     public var environmentName: Swift.String?
-    /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:
+    /// Describes the health status of the environment. Elastic Beanstalk indicates the failure levels for a running environment:
     ///
     /// * Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.
     ///
@@ -4466,17 +4662,23 @@ public struct TerminateEnvironmentOutput: Swift.Sendable {
     public var health: ElasticBeanstalkClientTypes.EnvironmentHealth?
     /// Returns the health status of the application running in your environment. For more information, see [Health Colors and Statuses](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html).
     public var healthStatus: ElasticBeanstalkClientTypes.EnvironmentHealthStatus?
-    /// The Amazon Resource Name (ARN) of the environment's operations role. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. The Amazon Resource Name (ARN) of the environment's operations role.
     public var operationsRole: Swift.String?
     /// The ARN of the platform version.
     public var platformArn: Swift.String?
-    /// The description of the AWS resources used by this environment.
+    /// The description of the Amazon Web Services resources used by this environment.
     public var resources: ElasticBeanstalkClientTypes.EnvironmentResourcesDescription?
     /// The name of the SolutionStack deployed with this environment.
     public var solutionStackName: Swift.String?
     /// The current operational status of the environment:
     ///
+    /// * Aborting: Environment is in the process of aborting a deployment.
+    ///
     /// * Launching: Environment is in the process of initial deployment.
+    ///
+    /// * LinkingFrom: Environment is in the process of being linked to by another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
+    ///
+    /// * LinkingTo: Environment is in the process of linking to another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
     ///
     /// * Updating: Environment is in the process of updating its configuration settings or application version.
     ///
@@ -4545,7 +4747,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
+    /// A new description for the application. Default: If not specified, Elastic Beanstalk does not update the description.
     public var description: Swift.String?
 
     public init(
@@ -4725,15 +4927,15 @@ public struct UpdateConfigurationTemplateOutput: Swift.Sendable {
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The name of the application with which the environment is associated.
     public var applicationName: Swift.String?
-    /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
+    /// If this parameter is specified, Elastic Beanstalk updates the description of this environment.
     public var description: Swift.String?
-    /// The ID of the environment to update. If no environment with this ID exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The ID of the environment to update. If no environment with this ID exists, Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentId: Swift.String?
-    /// The name of the environment to update. If no environment with this name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    /// The name of the environment to update. If no environment with this name exists, Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     public var environmentName: Swift.String?
     /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html) for details.
     public var groupName: Swift.String?
-    /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
+    /// If specified, Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
     public var optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]?
     /// A list of custom user-defined configuration options to remove from the configuration set for this environment.
     public var optionsToRemove: [ElasticBeanstalkClientTypes.OptionSpecification]?
@@ -4741,11 +4943,11 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
     public var platformArn: Swift.String?
     /// This specifies the platform version that the environment will run after the environment is updated.
     public var solutionStackName: Swift.String?
-    /// If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParameterValue error.
+    /// If this parameter is specified, Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, Elastic Beanstalk returns an InvalidParameterValue error.
     public var templateName: Swift.String?
-    /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns InvalidParameterValue error.
+    /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, Elastic Beanstalk returns InvalidParameterValue error.
     public var tier: ElasticBeanstalkClientTypes.EnvironmentTier?
-    /// If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error.
+    /// If this parameter is specified, Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error.
     public var versionLabel: Swift.String?
 
     public init(
@@ -4801,7 +5003,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
     public var environmentLinks: [ElasticBeanstalkClientTypes.EnvironmentLink]?
     /// The name of this environment.
     public var environmentName: Swift.String?
-    /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:
+    /// Describes the health status of the environment. Elastic Beanstalk indicates the failure levels for a running environment:
     ///
     /// * Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.
     ///
@@ -4816,17 +5018,23 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
     public var health: ElasticBeanstalkClientTypes.EnvironmentHealth?
     /// Returns the health status of the application running in your environment. For more information, see [Health Colors and Statuses](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html).
     public var healthStatus: ElasticBeanstalkClientTypes.EnvironmentHealthStatus?
-    /// The Amazon Resource Name (ARN) of the environment's operations role. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. The Amazon Resource Name (ARN) of the environment's operations role.
     public var operationsRole: Swift.String?
     /// The ARN of the platform version.
     public var platformArn: Swift.String?
-    /// The description of the AWS resources used by this environment.
+    /// The description of the Amazon Web Services resources used by this environment.
     public var resources: ElasticBeanstalkClientTypes.EnvironmentResourcesDescription?
     /// The name of the SolutionStack deployed with this environment.
     public var solutionStackName: Swift.String?
     /// The current operational status of the environment:
     ///
+    /// * Aborting: Environment is in the process of aborting a deployment.
+    ///
     /// * Launching: Environment is in the process of initial deployment.
+    ///
+    /// * LinkingFrom: Environment is in the process of being linked to by another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
+    ///
+    /// * LinkingTo: Environment is in the process of linking to another environment. See [Environment links](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-links.html) for details.
     ///
     /// * Updating: Environment is in the process of updating its configuration settings or application version.
     ///
@@ -5438,6 +5646,7 @@ extension CreateApplicationVersionInput {
         try writer["AutoCreateApplication"].write(value.autoCreateApplication)
         try writer["BuildConfiguration"].write(value.buildConfiguration, with: ElasticBeanstalkClientTypes.BuildConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["ImageConfiguration"].write(value.imageConfiguration, with: ElasticBeanstalkClientTypes.ImageConfiguration.write(value:to:))
         try writer["Process"].write(value.process)
         try writer["SourceBuildInformation"].write(value.sourceBuildInformation, with: ElasticBeanstalkClientTypes.SourceBuildInformation.write(value:to:))
         try writer["SourceBundle"].write(value.sourceBundle, with: ElasticBeanstalkClientTypes.S3Location.write(value:to:))
@@ -7548,6 +7757,9 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionDescription {
         value.sourceBuildInformation = try reader["SourceBuildInformation"].readIfPresent(with: ElasticBeanstalkClientTypes.SourceBuildInformation.read(from:))
         value.buildArn = try reader["BuildArn"].readIfPresent()
         value.sourceBundle = try reader["SourceBundle"].readIfPresent(with: ElasticBeanstalkClientTypes.S3Location.read(from:))
+        value.imageSource = try reader["ImageSource"].readIfPresent(with: ElasticBeanstalkClientTypes.ImageSource.read(from:))
+        value.imageBuildConfiguration = try reader["ImageBuildConfiguration"].readIfPresent(with: ElasticBeanstalkClientTypes.ImageBuildConfiguration.read(from:))
+        value.process = try reader["Process"].readIfPresent()
         value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.status = try reader["Status"].readIfPresent()
@@ -7600,6 +7812,16 @@ extension ElasticBeanstalkClientTypes.Builder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElasticBeanstalkClientTypes.Builder()
         value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Cluster {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Cluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Cluster()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
         return value
     }
 }
@@ -7766,6 +7988,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
         var value = ElasticBeanstalkClientTypes.EnvironmentResourceDescription()
         value.environmentName = try reader["EnvironmentName"].readIfPresent()
         value.autoScalingGroups = try reader["AutoScalingGroups"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cluster = try reader["Cluster"].readIfPresent(with: ElasticBeanstalkClientTypes.Cluster.read(from:))
         value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Instance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.launchConfigurations = try reader["LaunchConfigurations"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LaunchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.launchTemplates = try reader["LaunchTemplates"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LaunchTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7819,6 +8042,57 @@ extension ElasticBeanstalkClientTypes.EventDescription {
         value.platformArn = try reader["PlatformArn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.severity = try reader["Severity"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ImageBuildConfiguration {
+
+    static func write(value: ElasticBeanstalkClientTypes.ImageBuildConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Architecture"].write(value.architecture)
+        try writer["Buildpack"].write(value.buildpack)
+        try writer["CodeBuildServiceRole"].write(value.codeBuildServiceRole)
+        try writer["ComputeType"].write(value.computeType)
+        try writer["DockerfileLocation"].write(value.dockerfileLocation)
+        try writer["TimeoutInMinutes"].write(value.timeoutInMinutes)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ImageBuildConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ImageBuildConfiguration()
+        value.type = try reader["Type"].readIfPresent()
+        value.dockerfileLocation = try reader["DockerfileLocation"].readIfPresent()
+        value.buildpack = try reader["Buildpack"].readIfPresent()
+        value.architecture = try reader["Architecture"].readIfPresent()
+        value.codeBuildServiceRole = try reader["CodeBuildServiceRole"].readIfPresent()
+        value.computeType = try reader["ComputeType"].readIfPresent()
+        value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ImageConfiguration {
+
+    static func write(value: ElasticBeanstalkClientTypes.ImageConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Build"].write(value.build, with: ElasticBeanstalkClientTypes.ImageBuildConfiguration.write(value:to:))
+        try writer["Source"].write(value.source, with: ElasticBeanstalkClientTypes.ImageSource.write(value:to:))
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ImageSource {
+
+    static func write(value: ElasticBeanstalkClientTypes.ImageSource?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ImageSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ImageSource()
+        value.uri = try reader["Uri"].readIfPresent()
         return value
     }
 }

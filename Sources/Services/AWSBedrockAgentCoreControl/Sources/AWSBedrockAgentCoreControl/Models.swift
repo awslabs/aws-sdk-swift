@@ -733,6 +733,7 @@ extension BedrockAgentCoreControlClientTypes {
     public enum AgentRuntimeEndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case creating
+        case deleteFailed
         case deleting
         case ready
         case updateFailed
@@ -743,6 +744,7 @@ extension BedrockAgentCoreControlClientTypes {
             return [
                 .createFailed,
                 .creating,
+                .deleteFailed,
                 .deleting,
                 .ready,
                 .updateFailed,
@@ -759,6 +761,7 @@ extension BedrockAgentCoreControlClientTypes {
             switch self {
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
             case .ready: return "READY"
             case .updateFailed: return "UPDATE_FAILED"
@@ -1933,6 +1936,7 @@ extension BedrockAgentCoreControlClientTypes {
     public enum AgentRuntimeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createFailed
         case creating
+        case deleteFailed
         case deleting
         case ready
         case updateFailed
@@ -1943,6 +1947,7 @@ extension BedrockAgentCoreControlClientTypes {
             return [
                 .createFailed,
                 .creating,
+                .deleteFailed,
                 .deleting,
                 .ready,
                 .updateFailed,
@@ -1959,6 +1964,7 @@ extension BedrockAgentCoreControlClientTypes {
             switch self {
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
             case .ready: return "READY"
             case .updateFailed: return "UPDATE_FAILED"
