@@ -490,17 +490,21 @@ extension SESv2ClientTypes {
     /// * CONFIGURATION_SET – The configuration set used when sending messages (if one was used).
     ///
     /// * ISP – The recipient ISP (e.g. Gmail, Yahoo, etc.).
+    ///
+    /// * TENANT_NAME – The name of the tenant used when sending messages (if one was used).
     public enum MetricDimensionName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case configurationSet
         case emailIdentity
         case isp
+        case tenantName
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MetricDimensionName] {
             return [
                 .configurationSet,
                 .emailIdentity,
-                .isp
+                .isp,
+                .tenantName
             ]
         }
 
@@ -514,6 +518,7 @@ extension SESv2ClientTypes {
             case .configurationSet: return "CONFIGURATION_SET"
             case .emailIdentity: return "EMAIL_IDENTITY"
             case .isp: return "ISP"
+            case .tenantName: return "TENANT_NAME"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3532,6 +3537,8 @@ extension SESv2ClientTypes {
         public var lastEngagementEvent: [SESv2ClientTypes.EngagementEventType]?
         /// The subject line of the message.
         public var subject: [Swift.String]?
+        /// The name of the tenant used when sending the message.
+        public var tenantName: [Swift.String]?
 
         public init(
             destination: [Swift.String]? = nil,
@@ -3539,7 +3546,8 @@ extension SESv2ClientTypes {
             isp: [Swift.String]? = nil,
             lastDeliveryEvent: [SESv2ClientTypes.DeliveryEventType]? = nil,
             lastEngagementEvent: [SESv2ClientTypes.EngagementEventType]? = nil,
-            subject: [Swift.String]? = nil
+            subject: [Swift.String]? = nil,
+            tenantName: [Swift.String]? = nil
         ) {
             self.destination = destination
             self.fromEmailAddress = fromEmailAddress
@@ -3547,13 +3555,14 @@ extension SESv2ClientTypes {
             self.lastDeliveryEvent = lastDeliveryEvent
             self.lastEngagementEvent = lastEngagementEvent
             self.subject = subject
+            self.tenantName = tenantName
         }
     }
 }
 
 extension SESv2ClientTypes.MessageInsightsFilters: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MessageInsightsFilters(isp: \(Swift.String(describing: isp)), lastDeliveryEvent: \(Swift.String(describing: lastDeliveryEvent)), lastEngagementEvent: \(Swift.String(describing: lastEngagementEvent)), destination: \"CONTENT_REDACTED\", fromEmailAddress: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
+        "MessageInsightsFilters(isp: \(Swift.String(describing: isp)), lastDeliveryEvent: \(Swift.String(describing: lastDeliveryEvent)), lastEngagementEvent: \(Swift.String(describing: lastEngagementEvent)), tenantName: \(Swift.String(describing: tenantName)), destination: \"CONTENT_REDACTED\", fromEmailAddress: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
 }
 
 extension SESv2ClientTypes {
@@ -15826,6 +15835,7 @@ extension SESv2ClientTypes.MessageInsightsFilters {
         try writer["LastDeliveryEvent"].writeList(value.lastDeliveryEvent, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.DeliveryEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LastEngagementEvent"].writeList(value.lastEngagementEvent, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.EngagementEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subject"].writeList(value.subject, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TenantName"].writeList(value.tenantName, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MessageInsightsFilters {
@@ -15835,6 +15845,7 @@ extension SESv2ClientTypes.MessageInsightsFilters {
         value.destination = try reader["Destination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.subject = try reader["Subject"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isp = try reader["Isp"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tenantName = try reader["TenantName"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastDeliveryEvent = try reader["LastDeliveryEvent"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.DeliveryEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastEngagementEvent = try reader["LastEngagementEvent"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.EngagementEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value

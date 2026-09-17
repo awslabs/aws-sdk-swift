@@ -166,9 +166,9 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// Configuration for WiFi and cellular location payloads.
+    /// Configuration for WiFi and cellular location payloads. Contains the confidence level that determines the size of the uncertainty radius in the position estimate.
     public struct WiFiCellular: Swift.Sendable {
-        /// Confidence level for WiFi and cellular position estimates, expressed as a percentage. Valid range: 50–99 inclusive. Defaults to 68 if not specified.
+        /// The confidence level for WiFi and cellular position estimates, expressed as a percentage. This value determines the size of the confidence area or uncertainty radius for the estimated position. A higher confidence level produces a larger uncertainty radius, while a lower confidence level produces a smaller, more precise radius. Valid range: 50 to 99 inclusive. If not specified, the default value of 68 is used, which corresponds to approximately one standard deviation of the normal distribution.
         public var confidencePercent: Swift.Int?
 
         public init(
@@ -181,9 +181,9 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// Optional configuration to customize location estimates.
+    /// Optional configuration for customizing position estimates, including parameters that affect the accuracy and uncertainty of WiFi and cellular-based location estimates.
     public struct AdvancedConfiguration: Swift.Sendable {
-        /// Configuration for WiFi and cellular-based payloads for location estimates.
+        /// Configuration for WiFi and cellular-based location estimate payloads resolved by HERE's solvers.
         public var wiFiCellular: IoTWirelessClientTypes.WiFiCellular?
 
         public init(
@@ -5450,6 +5450,58 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
+    /// A single GNSS scan capture containing the scan payload and optional capture time.
+    public struct GnssCapture: Swift.Sendable {
+        /// Optional parameter that gives an estimate of the time when the GNSS scan information is taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
+        public var captureTime: Swift.Float?
+        /// Payload that contains the GNSS scan result, or NAV message, in hexadecimal notation.
+        /// This member is required.
+        public var payload: Swift.String?
+
+        public init(
+            captureTime: Swift.Float? = nil,
+            payload: Swift.String? = nil
+        ) {
+            self.captureTime = captureTime
+            self.payload = payload
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+
+    /// Global navigation satellite system (GNSS) multi-frame object used for positioning. Contains multiple GNSS scan captures that are combined by the solver.
+    public struct GnssMultiFrame: Swift.Sendable {
+        /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above the WGS84 reference ellipsoid. This parameter is required when Use2DSolver is enabled.
+        public var assistAltitude: Swift.Float?
+        /// Optional assistance position information, specified using latitude and longitude values in degrees. The coordinates are inside the WGS84 reference frame.
+        public var assistPosition: [Swift.Float]?
+        /// Optional value that gives the capture time estimate accuracy, in seconds. If capture time accuracy is not specified, default value of 300 is used.
+        public var captureTimeAccuracy: Swift.Float?
+        /// List of GNSS scan captures. Each capture contains a payload from a single GNSS scan. The number of captures must be 2, 4, 8, 16, or 32.
+        /// This member is required.
+        public var captures: [IoTWirelessClientTypes.GnssCapture]?
+        /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
+        public var use2DSolver: Swift.Bool
+
+        public init(
+            assistAltitude: Swift.Float? = nil,
+            assistPosition: [Swift.Float]? = nil,
+            captureTimeAccuracy: Swift.Float? = nil,
+            captures: [IoTWirelessClientTypes.GnssCapture]? = nil,
+            use2DSolver: Swift.Bool = false
+        ) {
+            self.assistAltitude = assistAltitude
+            self.assistPosition = assistPosition
+            self.captureTimeAccuracy = captureTimeAccuracy
+            self.captures = captures
+            self.use2DSolver = use2DSolver
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+
     /// IP address used for resolving device location.
     public struct Ip: Swift.Sendable {
         /// IP address information.
@@ -5486,12 +5538,14 @@ extension IoTWirelessClientTypes {
 }
 
 public struct GetPositionEstimateInput: Swift.Sendable {
-    /// Optional configuration to customize position estimates. If not provided, defaults are applied.
+    /// Optional configuration for customizing position measurement data.
     public var advancedConfiguration: IoTWirelessClientTypes.AdvancedConfiguration?
     /// Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
     public var cellTowers: IoTWirelessClientTypes.CellTowers?
-    /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
+    /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud. This field is mutually exclusive with the GnssMultiFrame field.
     public var gnss: IoTWirelessClientTypes.Gnss?
+    /// Retrieves an estimated device position by resolving multiple global navigation satellite system (GNSS) scan captures. The position is resolved using the multi-frame GNSS solver powered by LoRa Cloud. This field is mutually exclusive with the Gnss field.
+    public var gnssMultiFrame: IoTWirelessClientTypes.GnssMultiFrame?
     /// Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
     public var ip: IoTWirelessClientTypes.Ip?
     /// Optional information that specifies the time when the position information will be resolved. It uses the Unix timestamp format. If not specified, the time at which the request was received will be used.
@@ -5503,6 +5557,7 @@ public struct GetPositionEstimateInput: Swift.Sendable {
         advancedConfiguration: IoTWirelessClientTypes.AdvancedConfiguration? = nil,
         cellTowers: IoTWirelessClientTypes.CellTowers? = nil,
         gnss: IoTWirelessClientTypes.Gnss? = nil,
+        gnssMultiFrame: IoTWirelessClientTypes.GnssMultiFrame? = nil,
         ip: IoTWirelessClientTypes.Ip? = nil,
         timestamp: Foundation.Date? = nil,
         wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]? = nil
@@ -5510,6 +5565,7 @@ public struct GetPositionEstimateInput: Swift.Sendable {
         self.advancedConfiguration = advancedConfiguration
         self.cellTowers = cellTowers
         self.gnss = gnss
+        self.gnssMultiFrame = gnssMultiFrame
         self.ip = ip
         self.timestamp = timestamp
         self.wiFiAccessPoints = wiFiAccessPoints
@@ -10702,6 +10758,7 @@ extension GetPositionEstimateInput {
         try writer["AdvancedConfiguration"].write(value.advancedConfiguration, with: IoTWirelessClientTypes.AdvancedConfiguration.write(value:to:))
         try writer["CellTowers"].write(value.cellTowers, with: IoTWirelessClientTypes.CellTowers.write(value:to:))
         try writer["Gnss"].write(value.gnss, with: IoTWirelessClientTypes.Gnss.write(value:to:))
+        try writer["GnssMultiFrame"].write(value.gnssMultiFrame, with: IoTWirelessClientTypes.GnssMultiFrame.write(value:to:))
         try writer["Ip"].write(value.ip, with: IoTWirelessClientTypes.Ip.write(value:to:))
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["WiFiAccessPoints"].writeList(value.wiFiAccessPoints, memberWritingClosure: IoTWirelessClientTypes.WiFiAccessPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -14761,6 +14818,27 @@ extension IoTWirelessClientTypes.Gnss {
         try writer["CaptureTime"].write(value.captureTime)
         try writer["CaptureTimeAccuracy"].write(value.captureTimeAccuracy)
         try writer["Payload"].write(value.payload)
+        try writer["Use2DSolver"].write(value.use2DSolver)
+    }
+}
+
+extension IoTWirelessClientTypes.GnssCapture {
+
+    static func write(value: IoTWirelessClientTypes.GnssCapture?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CaptureTime"].write(value.captureTime)
+        try writer["Payload"].write(value.payload)
+    }
+}
+
+extension IoTWirelessClientTypes.GnssMultiFrame {
+
+    static func write(value: IoTWirelessClientTypes.GnssMultiFrame?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssistAltitude"].write(value.assistAltitude)
+        try writer["AssistPosition"].writeList(value.assistPosition, memberWritingClosure: SmithyReadWrite.WritingClosures.writeFloat(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CaptureTimeAccuracy"].write(value.captureTimeAccuracy)
+        try writer["Captures"].writeList(value.captures, memberWritingClosure: IoTWirelessClientTypes.GnssCapture.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Use2DSolver"].write(value.use2DSolver)
     }
 }

@@ -28710,7 +28710,6 @@ public struct ReplicateInstanceInput: Swift.Sendable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The alias for the replicated instance. The ReplicaAlias must be unique.
-    /// This member is required.
     public var replicaAlias: Swift.String?
     /// The Amazon Web Services Region where to replicate the Connect Customer instance.
     /// This member is required.

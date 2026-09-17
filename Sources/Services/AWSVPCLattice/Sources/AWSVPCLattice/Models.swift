@@ -947,6 +947,21 @@ public struct BatchUpdateRuleOutput: Swift.Sendable {
     }
 }
 
+extension VPCLatticeClientTypes {
+
+    /// Describes a CIDR resource, which represents a network segment as one or more CIDR ranges.
+    public struct CidrResource: Swift.Sendable {
+        /// The CIDR ranges of the network segment, for example, 10.0.0.0/16.
+        public var cidrRanges: [Swift.String]?
+
+        public init(
+            cidrRanges: [Swift.String]? = nil
+        ) {
+            self.cidrRanges = cidrRanges
+        }
+    }
+}
+
 /// The request would cause a service quota to be exceeded.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1108,11 +1123,14 @@ extension VPCLatticeClientTypes {
     public enum ProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Resource Configuration protocol type TCP
         case tcp
+        /// Resource Configuration protocol type TCP_UDP
+        case tcpUdp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProtocolType] {
             return [
-                .tcp
+                .tcp,
+                .tcpUdp
             ]
         }
 
@@ -1124,6 +1142,7 @@ extension VPCLatticeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .tcp: return "TCP"
+            case .tcpUdp: return "TCP_UDP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1209,6 +1228,8 @@ extension VPCLatticeClientTypes {
         case ipresource(VPCLatticeClientTypes.IpResource)
         /// The Amazon Resource Name (ARN) of the resource.
         case arnresource(VPCLatticeClientTypes.ArnResource)
+        /// The network segment for a resource configuration of type CIDR, specified as one or more CIDR ranges (cidrRanges). Resources whose IP addresses fall within these ranges are reachable through a Tunnel VPC endpoint.
+        case cidrresource(VPCLatticeClientTypes.CidrResource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1220,6 +1241,8 @@ extension VPCLatticeClientTypes {
         case arn
         /// Resource Configuration of type CHILD
         case child
+        /// Resource Configuration of type CIDR
+        case cidr
         /// Resource Configuration of type GROUP
         case group
         /// Resource Configuration of type SINGLE
@@ -1230,6 +1253,7 @@ extension VPCLatticeClientTypes {
             return [
                 .arn,
                 .child,
+                .cidr,
                 .group,
                 .single
             ]
@@ -1244,6 +1268,7 @@ extension VPCLatticeClientTypes {
             switch self {
             case .arn: return "ARN"
             case .child: return "CHILD"
+            case .cidr: return "CIDR"
             case .group: return "GROUP"
             case .single: return "SINGLE"
             case let .sdkUnknown(s): return s
@@ -1266,9 +1291,9 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     /// This member is required.
     public var name: Swift.String?
-    /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+    /// (SINGLE, GROUP, CHILD, CIDR) The port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). To resolve DNS through a CIDR resource configuration, include port 53 in the port ranges.
     public var portRanges: [Swift.String]?
-    /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
+    /// (SINGLE, GROUP, CIDR) The protocol accepted by the resource configuration. The default is TCP. TCP_UDP is supported only for CIDR resource configurations; specify it for a CIDR resource configuration to allow DNS resolution, which uses UDP.
     public var `protocol`: VPCLatticeClientTypes.ProtocolType?
     /// Identifies the resource configuration in one of the following ways:
     ///
@@ -1277,10 +1302,12 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     /// * Domain name - Any domain name that is publicly resolvable.
     ///
     /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
+    ///
+    /// * CIDR range - For a resource configuration of type CIDR, specify a cidrResource with one or more cidrRanges (for example, 10.0.0.0/16) that cover the IP addresses of the resources you want to make accessible. You can specify up to 10 ranges, using IPv4, IPv6, or both, and each range must include a prefix length. To represent your entire network, specify 0.0.0.0/0 (IPv4) or ::/0 (IPv6) as the only range. You can't use reserved ranges such as 169.254.0.0/16, 100.64.0.0/10, 224.0.0.0/4, fe80::/10, or ff00::/8.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
     /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
     public var resourceConfigurationGroupIdentifier: Swift.String?
-    /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
+    /// (SINGLE, GROUP, ARN, CIDR) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration. For a CIDR resource configuration, the associated resource gateway must have its DNS resolution set to IN_VPC so that DNS queries resolve in the context of your VPC.
     public var resourceGatewayIdentifier: Swift.String?
     /// The tags for the resource configuration.
     public var tags: [Swift.String: Swift.String]?
@@ -1293,6 +1320,8 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     /// * CHILD - A single resource that is part of a group resource configuration.
     ///
     /// * ARN - An Amazon Web Services resource.
+    ///
+    /// * CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC.
     /// This member is required.
     public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
@@ -1426,6 +1455,8 @@ public struct CreateResourceConfigurationOutput: Swift.Sendable {
     /// * CHILD - A single resource that is part of a group resource configuration.
     ///
     /// * ARN - An Amazon Web Services resource.
+    ///
+    /// * CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC.
     public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
     public init(
@@ -1552,9 +1583,9 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
     /// The name of the resource gateway.
     /// This member is required.
     public var name: Swift.String?
-    /// Indicates how DNS is resolved for resource configurations associated to this resource gateway. ResourceConfigDnsResolution is set at creation time and cannot be changed.
+    /// Indicates how DNS is resolved for resource configurations associated with this resource gateway. This value is set when you create the resource gateway and can't be changed afterward. The default is PUBLIC.
     ///
-    /// * IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.
+    /// * IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC, and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations.
     ///
     /// * PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
     public var resourceConfigDnsResolution: VPCLatticeClientTypes.ResourceConfigDnsResolution?
@@ -3606,7 +3637,7 @@ public struct GetResourceConfigurationOutput: Swift.Sendable {
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
     /// The ID of the group resource configuration.
     public var resourceConfigurationGroupId: Swift.String?
-    /// The ID of the resource gateway used to connect to the resource configuration in a given VPC. You can specify the resource gateway identifier only for resource configurations with type SINGLE, GROUP, or ARN.
+    /// The ID of the resource gateway used to connect to the resource configuration in a given VPC. You can specify the resource gateway identifier only for resource configurations with type SINGLE, GROUP, ARN, or CIDR.
     public var resourceGatewayId: Swift.String?
     /// The status of the resource configuration.
     public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
@@ -3619,6 +3650,8 @@ public struct GetResourceConfigurationOutput: Swift.Sendable {
     /// * CHILD - A single resource that is part of a group resource configuration.
     ///
     /// * ARN - An Amazon Web Services resource.
+    ///
+    /// * CIDR - A network segment (a range of IP addresses) accessed through a Tunnel VPC endpoint.
     public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
     public init(
@@ -3990,7 +4023,7 @@ public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
     public var lastUpdatedAt: Foundation.Date?
     /// Indicates if private DNS is enabled in the service network resource association.
     public var privateDnsEnabled: Swift.Bool?
-    /// The private DNS entry for the service.
+    /// The private DNS entry for the service. This entry includes only the domain name.
     public var privateDnsEntry: VPCLatticeClientTypes.DnsEntry?
     /// The Amazon Resource Name (ARN) of the association.
     public var resourceConfigurationArn: Swift.String?
@@ -4471,6 +4504,8 @@ extension VPCLatticeClientTypes {
         /// * CHILD - A single resource that is part of a group resource configuration.
         ///
         /// * ARN - An Amazon Web Services resource.
+        ///
+        /// * CIDR - A network segment (a range of IP addresses) accessed through a Tunnel VPC endpoint.
         public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
         public init(
@@ -4554,6 +4589,83 @@ public struct ListResourceEndpointAssociationsInput: Swift.Sendable {
 
 extension VPCLatticeClientTypes {
 
+    public enum PayerResponsibilityPayer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The resource gateway account pays
+        case resourcegatewayaccount
+        /// The VPC endpoint account pays
+        case vpcendpointaccount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayerResponsibilityPayer] {
+            return [
+                .resourcegatewayaccount,
+                .vpcendpointaccount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourcegatewayaccount: return "ResourceGatewayAccount"
+            case .vpcendpointaccount: return "VpcEndpointAccount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum PayerResponsibilityScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Charges for the resource gateway
+        case resourcegatewaycharges
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayerResponsibilityScope] {
+            return [
+                .resourcegatewaycharges
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourcegatewaycharges: return "ResourceGatewayCharges"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Specifies which account pays for a category of charges on a VPC endpoint association.
+    public struct PayerResponsibilityEntry: Swift.Sendable {
+        /// The account that pays this category of charges. VpcEndpointAccount owns the VPC endpoint. ResourceGatewayAccount owns the resource gateway.
+        public var payerResponsibilityType: VPCLatticeClientTypes.PayerResponsibilityPayer?
+        /// The category of charges that this entry applies to. ResourceGatewayCharges covers the resource gateway's data processing charge.
+        public var scope: VPCLatticeClientTypes.PayerResponsibilityScope?
+
+        public init(
+            payerResponsibilityType: VPCLatticeClientTypes.PayerResponsibilityPayer? = nil,
+            scope: VPCLatticeClientTypes.PayerResponsibilityScope? = nil
+        ) {
+            self.payerResponsibilityType = payerResponsibilityType
+            self.scope = scope
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
     /// Summary information about a VPC endpoint association.
     public struct ResourceEndpointAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the VPC endpoint association.
@@ -4564,6 +4676,8 @@ extension VPCLatticeClientTypes {
         public var createdBy: Swift.String?
         /// The ID of the VPC endpoint association.
         public var id: Swift.String?
+        /// Who pays for each category of charges on the VPC endpoint association.
+        public var payerResponsibility: [VPCLatticeClientTypes.PayerResponsibilityEntry]?
         /// The Amazon Resource Name (ARN) of the resource configuration.
         public var resourceConfigurationArn: Swift.String?
         /// The ID of the resource configuration.
@@ -4580,6 +4694,7 @@ extension VPCLatticeClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             id: Swift.String? = nil,
+            payerResponsibility: [VPCLatticeClientTypes.PayerResponsibilityEntry]? = nil,
             resourceConfigurationArn: Swift.String? = nil,
             resourceConfigurationId: Swift.String? = nil,
             resourceConfigurationName: Swift.String? = nil,
@@ -4590,6 +4705,7 @@ extension VPCLatticeClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.id = id
+            self.payerResponsibility = payerResponsibility
             self.resourceConfigurationArn = resourceConfigurationArn
             self.resourceConfigurationId = resourceConfigurationId
             self.resourceConfigurationName = resourceConfigurationName
@@ -4831,7 +4947,7 @@ extension VPCLatticeClientTypes {
         public var isManagedAssociation: Swift.Bool?
         /// Indicates if private DNS is enabled for the service network resource association.
         public var privateDnsEnabled: Swift.Bool?
-        /// The private DNS entry for the service.
+        /// The private DNS entry for the service. This entry includes only the domain name.
         public var privateDnsEntry: VPCLatticeClientTypes.DnsEntry?
         /// The Amazon Resource Name (ARN) of the association.
         public var resourceConfigurationArn: Swift.String?
@@ -5688,6 +5804,8 @@ public struct UpdateResourceConfigurationOutput: Swift.Sendable {
     /// * CHILD - A single resource that is part of a group resource configuration.
     ///
     /// * ARN - An Amazon Web Services resource.
+    ///
+    /// * CIDR - A network segment (a range of IP addresses) accessed through a Tunnel VPC endpoint.
     public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
     public init(
@@ -10084,6 +10202,21 @@ extension VPCLatticeClientTypes.ArnResource {
     }
 }
 
+extension VPCLatticeClientTypes.CidrResource {
+
+    static func write(value: VPCLatticeClientTypes.CidrResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrRanges"].writeList(value.cidrRanges, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.CidrResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.CidrResource()
+        value.cidrRanges = try reader["cidrRanges"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.DnsEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.DnsEntry {
@@ -10379,6 +10512,17 @@ extension VPCLatticeClientTypes.PathMatchType {
     }
 }
 
+extension VPCLatticeClientTypes.PayerResponsibilityEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.PayerResponsibilityEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.PayerResponsibilityEntry()
+        value.scope = try reader["scope"].readIfPresent()
+        value.payerResponsibilityType = try reader["payerResponsibilityType"].readIfPresent()
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.ResourceConfigurationDefinition {
 
     static func write(value: VPCLatticeClientTypes.ResourceConfigurationDefinition?, to writer: SmithyJSON.Writer) throws {
@@ -10386,6 +10530,8 @@ extension VPCLatticeClientTypes.ResourceConfigurationDefinition {
         switch value {
             case let .arnresource(arnresource):
                 try writer["arnResource"].write(arnresource, with: VPCLatticeClientTypes.ArnResource.write(value:to:))
+            case let .cidrresource(cidrresource):
+                try writer["cidrResource"].write(cidrresource, with: VPCLatticeClientTypes.CidrResource.write(value:to:))
             case let .dnsresource(dnsresource):
                 try writer["dnsResource"].write(dnsresource, with: VPCLatticeClientTypes.DnsResource.write(value:to:))
             case let .ipresource(ipresource):
@@ -10405,6 +10551,8 @@ extension VPCLatticeClientTypes.ResourceConfigurationDefinition {
                 return .ipresource(try reader["ipResource"].read(with: VPCLatticeClientTypes.IpResource.read(from:)))
             case "arnResource":
                 return .arnresource(try reader["arnResource"].read(with: VPCLatticeClientTypes.ArnResource.read(from:)))
+            case "cidrResource":
+                return .cidrresource(try reader["cidrResource"].read(with: VPCLatticeClientTypes.CidrResource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -10447,6 +10595,7 @@ extension VPCLatticeClientTypes.ResourceEndpointAssociationSummary {
         value.vpcEndpointOwner = try reader["vpcEndpointOwner"].readIfPresent()
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.payerResponsibility = try reader["payerResponsibility"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
