@@ -2721,6 +2721,21 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// Allows filtering on the IssuerAccountId of a ResaleAuthorization.
+    public struct ResaleAuthorizationIssuerAccountIdFilter: Swift.Sendable {
+        /// Allows filtering on the IssuerAccountId of a ResaleAuthorization with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// Allows filtering on the LastModifiedDate of a ResaleAuthorization with date range as input.
     public struct ResaleAuthorizationLastModifiedDateFilterDateRange: Swift.Sendable {
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization after a date.
@@ -2947,6 +2962,21 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// Allows filtering on the SourceAuthorization of a ResaleAuthorization.
+    public struct ResaleAuthorizationSourceAuthorizationFilter: Swift.Sendable {
+        /// Allows filtering on the SourceAuthorization of a ResaleAuthorization with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     public enum ResaleAuthorizationStatusString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case draft
@@ -3002,6 +3032,8 @@ extension MarketplaceCatalogClientTypes {
         public var createdDate: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter?
         /// Allows filtering on the EntityId of a ResaleAuthorization.
         public var entityId: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter?
+        /// Allows filtering on the IssuerAccountId of a ResaleAuthorization.
+        public var issuerAccountId: MarketplaceCatalogClientTypes.ResaleAuthorizationIssuerAccountIdFilter?
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization.
         public var lastModifiedDate: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilter?
         /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization.
@@ -3022,6 +3054,8 @@ extension MarketplaceCatalogClientTypes {
         public var resellerLegalName: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter?
         /// Allows filtering on the ResellerRole of a ResaleAuthorization.
         public var resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter?
+        /// Allows filtering on the SourceAuthorization of a ResaleAuthorization.
+        public var sourceAuthorization: MarketplaceCatalogClientTypes.ResaleAuthorizationSourceAuthorizationFilter?
         /// Allows filtering on the Status of a ResaleAuthorization.
         public var status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter?
 
@@ -3029,6 +3063,7 @@ extension MarketplaceCatalogClientTypes {
             availabilityEndDate: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter? = nil,
             createdDate: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter? = nil,
             entityId: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter? = nil,
+            issuerAccountId: MarketplaceCatalogClientTypes.ResaleAuthorizationIssuerAccountIdFilter? = nil,
             lastModifiedDate: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilter? = nil,
             manufacturerAccountId: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter? = nil,
             manufacturerLegalName: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalNameFilter? = nil,
@@ -3039,11 +3074,13 @@ extension MarketplaceCatalogClientTypes {
             resellerAccountID: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter? = nil,
             resellerLegalName: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter? = nil,
             resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter? = nil,
+            sourceAuthorization: MarketplaceCatalogClientTypes.ResaleAuthorizationSourceAuthorizationFilter? = nil,
             status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter? = nil
         ) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
             self.entityId = entityId
+            self.issuerAccountId = issuerAccountId
             self.lastModifiedDate = lastModifiedDate
             self.manufacturerAccountId = manufacturerAccountId
             self.manufacturerLegalName = manufacturerLegalName
@@ -3054,6 +3091,7 @@ extension MarketplaceCatalogClientTypes {
             self.resellerAccountID = resellerAccountID
             self.resellerLegalName = resellerLegalName
             self.resellerRole = resellerRole
+            self.sourceAuthorization = sourceAuthorization
             self.status = status
         }
     }
@@ -3544,6 +3582,7 @@ extension MarketplaceCatalogClientTypes {
         case availabilityenddate
         case createddate
         case entityid
+        case issueraccountid
         case lastmodifieddate
         case manufactureraccountid
         case manufacturerlegalname
@@ -3553,6 +3592,8 @@ extension MarketplaceCatalogClientTypes {
         case productname
         case reselleraccountid
         case resellerlegalname
+        case resellerrole
+        case sourceauthorization
         case status
         case sdkUnknown(Swift.String)
 
@@ -3561,6 +3602,7 @@ extension MarketplaceCatalogClientTypes {
                 .availabilityenddate,
                 .createddate,
                 .entityid,
+                .issueraccountid,
                 .lastmodifieddate,
                 .manufactureraccountid,
                 .manufacturerlegalname,
@@ -3570,6 +3612,8 @@ extension MarketplaceCatalogClientTypes {
                 .productname,
                 .reselleraccountid,
                 .resellerlegalname,
+                .resellerrole,
+                .sourceauthorization,
                 .status
             ]
         }
@@ -3584,6 +3628,7 @@ extension MarketplaceCatalogClientTypes {
             case .availabilityenddate: return "AvailabilityEndDate"
             case .createddate: return "CreatedDate"
             case .entityid: return "EntityId"
+            case .issueraccountid: return "IssuerAccountId"
             case .lastmodifieddate: return "LastModifiedDate"
             case .manufactureraccountid: return "ManufacturerAccountId"
             case .manufacturerlegalname: return "ManufacturerLegalName"
@@ -3593,6 +3638,8 @@ extension MarketplaceCatalogClientTypes {
             case .productname: return "ProductName"
             case .reselleraccountid: return "ResellerAccountID"
             case .resellerlegalname: return "ResellerLegalName"
+            case .resellerrole: return "ResellerRole"
+            case .sourceauthorization: return "SourceAuthorization"
             case .status: return "Status"
             case let .sdkUnknown(s): return s
             }
@@ -3929,6 +3976,8 @@ extension MarketplaceCatalogClientTypes {
         public var availabilityEndDate: Swift.String?
         /// The created date of the ResaleAuthorization.
         public var createdDate: Swift.String?
+        /// The issuer account ID of the ResaleAuthorization.
+        public var issuerAccountId: Swift.String?
         /// The manufacturer account ID of the ResaleAuthorization.
         public var manufacturerAccountId: Swift.String?
         /// The manufacturer legal name of the ResaleAuthorization.
@@ -3947,12 +3996,15 @@ extension MarketplaceCatalogClientTypes {
         public var resellerLegalName: Swift.String?
         /// The reseller role of the ResaleAuthorization.
         public var resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString?
+        /// The source authorization of the ResaleAuthorization.
+        public var sourceAuthorization: Swift.String?
         /// The status of the ResaleAuthorization.
         public var status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString?
 
         public init(
             availabilityEndDate: Swift.String? = nil,
             createdDate: Swift.String? = nil,
+            issuerAccountId: Swift.String? = nil,
             manufacturerAccountId: Swift.String? = nil,
             manufacturerLegalName: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -3962,10 +4014,12 @@ extension MarketplaceCatalogClientTypes {
             resellerAccountID: Swift.String? = nil,
             resellerLegalName: Swift.String? = nil,
             resellerRole: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleString? = nil,
+            sourceAuthorization: Swift.String? = nil,
             status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString? = nil
         ) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
+            self.issuerAccountId = issuerAccountId
             self.manufacturerAccountId = manufacturerAccountId
             self.manufacturerLegalName = manufacturerLegalName
             self.name = name
@@ -3975,6 +4029,7 @@ extension MarketplaceCatalogClientTypes {
             self.resellerAccountID = resellerAccountID
             self.resellerLegalName = resellerLegalName
             self.resellerRole = resellerRole
+            self.sourceAuthorization = sourceAuthorization
             self.status = status
         }
     }
@@ -6147,6 +6202,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationFilters {
         try writer["AvailabilityEndDate"].write(value.availabilityEndDate, with: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter.write(value:to:))
         try writer["CreatedDate"].write(value.createdDate, with: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter.write(value:to:))
         try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter.write(value:to:))
+        try writer["IssuerAccountId"].write(value.issuerAccountId, with: MarketplaceCatalogClientTypes.ResaleAuthorizationIssuerAccountIdFilter.write(value:to:))
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilter.write(value:to:))
         try writer["ManufacturerAccountId"].write(value.manufacturerAccountId, with: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter.write(value:to:))
         try writer["ManufacturerLegalName"].write(value.manufacturerLegalName, with: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalNameFilter.write(value:to:))
@@ -6157,7 +6213,16 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationFilters {
         try writer["ResellerAccountID"].write(value.resellerAccountID, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter.write(value:to:))
         try writer["ResellerLegalName"].write(value.resellerLegalName, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter.write(value:to:))
         try writer["ResellerRole"].write(value.resellerRole, with: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerRoleFilter.write(value:to:))
+        try writer["SourceAuthorization"].write(value.sourceAuthorization, with: MarketplaceCatalogClientTypes.ResaleAuthorizationSourceAuthorizationFilter.write(value:to:))
         try writer["Status"].write(value.status, with: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationIssuerAccountIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationIssuerAccountIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6266,6 +6331,14 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationSort {
     }
 }
 
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationSourceAuthorizationFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationSourceAuthorizationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter {
 
     static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter?, to writer: SmithyJSON.Writer) throws {
@@ -6291,6 +6364,8 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
         value.createdDate = try reader["CreatedDate"].readIfPresent()
         value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
         value.resellerRole = try reader["ResellerRole"].readIfPresent()
+        value.sourceAuthorization = try reader["SourceAuthorization"].readIfPresent()
+        value.issuerAccountId = try reader["IssuerAccountId"].readIfPresent()
         return value
     }
 }

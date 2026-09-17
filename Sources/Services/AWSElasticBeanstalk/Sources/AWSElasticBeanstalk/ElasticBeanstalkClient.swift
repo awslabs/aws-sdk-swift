@@ -624,7 +624,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func abortEnvironmentUpdate(input: AbortEnvironmentUpdateInput) async throws -> AbortEnvironmentUpdateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -752,7 +752,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `AssociateEnvironmentOperationsRole` operation on the `ElasticBeanstalk` service.
     ///
-    /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment.
     ///
     /// - Parameter input: Request to add or change the operations role used by an environment. (Type: `AssociateEnvironmentOperationsRoleInput`)
     ///
@@ -761,7 +761,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func associateEnvironmentOperationsRole(input: AssociateEnvironmentOperationsRoleInput) async throws -> AssociateEnvironmentOperationsRoleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -892,7 +892,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
     public func composeEnvironments(input: ComposeEnvironmentsInput) async throws -> ComposeEnvironmentsOutput {
         let context = Smithy.ContextBuilder()
@@ -1020,7 +1020,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `CreateApplicationVersion` operation on the `ElasticBeanstalk` service.
     ///
-    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample application. After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
+    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in CodeCommit, or the output of an CodeBuild build as follows: Specify a commit in an CodeCommit repository with SourceBuildInformation. Specify a build in an CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in Amazon S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample application. After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
     ///
     /// - Parameter input: (Type: `CreateApplicationVersionInput`)
     ///
@@ -1029,8 +1029,8 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CodeBuildNotInServiceRegionException` : AWS CodeBuild is not available in the specified region.
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `CodeBuildNotInServiceRegionException` : CodeBuild is not available in the specified region.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `S3LocationNotInServiceRegionException` : The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:
     ///
     /// * IAD/us-east-1
@@ -1098,7 +1098,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `CreateConfigurationTemplate` operation on the `ElasticBeanstalk` service.
     ///
-    /// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics
+    /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics
     ///
     /// * [DescribeConfigurationOptions]
     ///
@@ -1113,7 +1113,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     /// - `TooManyConfigurationTemplatesException` : The specified account has reached its limit of configuration templates.
     public func createConfigurationTemplate(input: CreateConfigurationTemplateInput) async throws -> CreateConfigurationTemplateOutput {
@@ -1174,7 +1174,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `CreateEnvironment` operation on the `ElasticBeanstalk` service.
     ///
-    /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
+    /// Launches an Elastic Beanstalk environment for the specified application using the specified configuration.
     ///
     /// - Parameter input: (Type: `CreateEnvironmentInput`)
     ///
@@ -1183,7 +1183,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyEnvironmentsException` : The specified account has reached its limit of environments.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput {
         let context = Smithy.ContextBuilder()
@@ -1253,7 +1253,7 @@ extension ElasticBeanstalkClient {
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyPlatformsException` : You have exceeded the maximum number of allowed platforms associated with the account.
     public func createPlatformVersion(input: CreatePlatformVersionInput) async throws -> CreatePlatformVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -1322,7 +1322,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `S3SubscriptionRequiredException` : The specified account does not have a subscription to Amazon S3.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func createStorageLocation(input: CreateStorageLocationInput) async throws -> CreateStorageLocationOutput {
@@ -1460,7 +1460,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     /// - `S3LocationNotInServiceRegionException` : The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:
     ///
@@ -1669,7 +1669,7 @@ extension ElasticBeanstalkClient {
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     /// - `PlatformVersionStillReferencedException` : You cannot delete the platform version because there are still environments running on it.
     public func deletePlatformVersion(input: DeletePlatformVersionInput) async throws -> DeletePlatformVersionOutput {
@@ -1730,7 +1730,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeAccountAttributes` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributes—resource quotas.
+    /// Returns attributes related to Elastic Beanstalk that are associated with the calling Amazon Web Services account. The result currently has one set of attributes—resource quotas. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeAccountAttributesInput`)
     ///
@@ -1739,7 +1739,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1798,7 +1798,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeApplicationVersions` operation on the `ElasticBeanstalk` service.
     ///
-    /// Retrieve a list of application versions.
+    /// Retrieve a list of application versions. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Request to describe application versions. (Type: `DescribeApplicationVersionsInput`)
     ///
@@ -1861,7 +1861,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeApplications` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns the descriptions of existing applications.
+    /// Returns the descriptions of existing applications. This action only returns information about applications that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applications. When the user calls the DescribeApplications action, the response will only include the two applications that the user has permission to access instead of all three applications. If the user doesn’t have access to any of the applications an empty result is returned. The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Request to describe one or more applications. (Type: `DescribeApplicationsInput`)
     ///
@@ -1924,7 +1924,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeConfigurationOptions` operation on the `ElasticBeanstalk` service.
     ///
-    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
+    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Result message containing a list of application version descriptions. (Type: `DescribeConfigurationOptionsInput`)
     ///
@@ -1992,7 +1992,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeConfigurationSettings` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. Related Topics
+    /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic. Related Topics
     ///
     /// * [DeleteEnvironmentConfiguration]
     ///
@@ -2062,11 +2062,11 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeEnvironmentHealth` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
+    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: See the example below to learn how to create a request body. (Type: `DescribeEnvironmentHealthInput`)
     ///
-    /// - Returns: Health details for an AWS Elastic Beanstalk environment. (Type: `DescribeEnvironmentHealthOutput`)
+    /// - Returns: Health details for an Elastic Beanstalk environment. (Type: `DescribeEnvironmentHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2199,7 +2199,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeEnvironmentManagedActions` operation on the `ElasticBeanstalk` service.
     ///
-    /// Lists an environment's upcoming and in-progress managed actions.
+    /// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Request to list an environment's upcoming and in-progress managed actions. (Type: `DescribeEnvironmentManagedActionsInput`)
     ///
@@ -2267,7 +2267,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeEnvironmentResources` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns AWS resources for this environment.
+    /// Returns Amazon Web Services resources for this environment.
     ///
     /// - Parameter input: Request to describe the resources in an environment. (Type: `DescribeEnvironmentResourcesInput`)
     ///
@@ -2276,7 +2276,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func describeEnvironmentResources(input: DescribeEnvironmentResourcesInput) async throws -> DescribeEnvironmentResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2335,7 +2335,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeEnvironments` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns descriptions for existing environments.
+    /// Returns descriptions for existing environments. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls the DescribeEnvironments action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Request to describe one or more environments. (Type: `DescribeEnvironmentsInput`)
     ///
@@ -2398,7 +2398,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeEvents` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken.
+    /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Request to retrieve a list of events for an environment. (Type: `DescribeEventsInput`)
     ///
@@ -2461,11 +2461,11 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribeInstancesHealth` operation on the `ElasticBeanstalk` service.
     ///
-    /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires [enhanced health reporting](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html).
+    /// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires [enhanced health reporting](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html). This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: Parameters for a call to DescribeInstancesHealth. (Type: `DescribeInstancesHealthInput`)
     ///
-    /// - Returns: Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment. (Type: `DescribeInstancesHealthOutput`)
+    /// - Returns: Detailed health information about the Amazon EC2 instances in an Elastic Beanstalk environment. (Type: `DescribeInstancesHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2530,7 +2530,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DescribePlatformVersion` operation on the `ElasticBeanstalk` service.
     ///
-    /// Describes a platform version. Provides full details. Compare to [ListPlatformVersions], which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
+    /// Describes a platform version. Provides full details. Compare to [ListPlatformVersions], which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see [Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html). This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribePlatformVersionInput`)
     ///
@@ -2540,7 +2540,7 @@ extension ElasticBeanstalkClient {
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func describePlatformVersion(input: DescribePlatformVersionInput) async throws -> DescribePlatformVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2599,7 +2599,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `DisassociateEnvironmentOperationsRole` operation on the `ElasticBeanstalk` service.
     ///
-    /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
+    /// The operations role feature of Elastic Beanstalk is in beta release and is subject to change. Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment.
     ///
     /// - Parameter input: Request to disassociate the operations role from an environment. (Type: `DisassociateEnvironmentOperationsRoleInput`)
     ///
@@ -2608,7 +2608,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func disassociateEnvironmentOperationsRole(input: DisassociateEnvironmentOperationsRoleInput) async throws -> DisassociateEnvironmentOperationsRoleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2667,11 +2667,11 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `ListAvailableSolutionStacks` operation on the `ElasticBeanstalk` service.
     ///
-    /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
+    /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAvailableSolutionStacksInput`)
     ///
-    /// - Returns: A list of available AWS Elastic Beanstalk solution stacks. (Type: `ListAvailableSolutionStacksOutput`)
+    /// - Returns: A list of available Elastic Beanstalk solution stacks. (Type: `ListAvailableSolutionStacksOutput`)
     public func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2730,7 +2730,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `ListPlatformBranches` operation on the `ElasticBeanstalk` service.
     ///
-    /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
+    /// Lists the platform branches available for your account in an Amazon Web Services Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see [Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html). This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPlatformBranchesInput`)
     ///
@@ -2793,7 +2793,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `ListPlatformVersions` operation on the `ElasticBeanstalk` service.
     ///
-    /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to [DescribePlatformVersion], which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
+    /// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform version. Compare to [DescribePlatformVersion], which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlatformVersions action, the response will only include the one platform version that the user has permission to access instead of all ten platform versions. If the user doesn’t have access to any of the platform versions an empty result is returned. The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic. For definitions of platform version and other platform-related terms, see [Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPlatformVersionsInput`)
     ///
@@ -2803,7 +2803,7 @@ extension ElasticBeanstalkClient {
     ///
     /// __Possible Exceptions:__
     /// - `ElasticBeanstalkServiceException` : A generic service exception has occurred.
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func listPlatformVersions(input: ListPlatformVersionsInput) async throws -> ListPlatformVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2862,7 +2862,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `ListTagsForResource` operation on the `ElasticBeanstalk` service.
     ///
-    /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html).
+    /// Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned. The [AWSElasticBeanstalkReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSElasticBeanstalkReadOnly.html) managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see [ Managing Elastic Beanstalk user policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html) in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section [ Controlling access with managed policies](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#iam-userpolicies-managed) in the same topic.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -2871,7 +2871,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
     /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -2932,7 +2932,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `RebuildEnvironment` operation on the `ElasticBeanstalk` service.
     ///
-    /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
+    /// Deletes and recreates all of the Amazon Web Services resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
     ///
     /// - Parameter input: (Type: `RebuildEnvironmentInput`)
     ///
@@ -2941,7 +2941,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func rebuildEnvironment(input: RebuildEnvironmentInput) async throws -> RebuildEnvironmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3265,7 +3265,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func terminateEnvironment(input: TerminateEnvironmentInput) async throws -> TerminateEnvironmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3396,7 +3396,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     public func updateApplicationResourceLifecycle(input: UpdateApplicationResourceLifecycleInput) async throws -> UpdateApplicationResourceLifecycleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3529,7 +3529,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func updateConfigurationTemplate(input: UpdateConfigurationTemplateInput) async throws -> UpdateConfigurationTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -3589,7 +3589,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `UpdateEnvironment` operation on the `ElasticBeanstalk` service.
     ///
-    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and [DescribeConfigurationSettings] for this environment returns two setting descriptions with different DeploymentStatus values.
+    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and [DescribeConfigurationSettings] for this environment returns two setting descriptions with different DeploymentStatus values.
     ///
     /// - Parameter input: Request to update an environment. (Type: `UpdateEnvironmentInput`)
     ///
@@ -3598,7 +3598,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput {
         let context = Smithy.ContextBuilder()
@@ -3658,7 +3658,7 @@ extension ElasticBeanstalkClient {
 
     /// Performs the `UpdateTagsForResource` operation on the `ElasticBeanstalk` service.
     ///
-    /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter. elasticbeanstalk:RemoveTags Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter. For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
+    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter. elasticbeanstalk:RemoveTags Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter. For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateTagsForResourceInput`)
     ///
@@ -3667,7 +3667,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `OperationInProgressException` : Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN).
     /// - `ResourceTypeNotSupportedException` : The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
@@ -3739,7 +3739,7 @@ extension ElasticBeanstalkClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more AWS services.
+    /// - `InsufficientPrivilegesException` : The specified account does not have sufficient privileges for one or more Amazon Web Services services.
     /// - `TooManyBucketsException` : The specified account has reached its limit of Amazon S3 buckets.
     public func validateConfigurationSettings(input: ValidateConfigurationSettingsInput) async throws -> ValidateConfigurationSettingsOutput {
         let context = Smithy.ContextBuilder()
