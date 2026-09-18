@@ -33,10 +33,10 @@ extension Target.Dependency {
 let package = Package(
     name: "aws-sdk-swift-integration-tests",
     platforms: [
-        .macOS(.v12),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6)
+        .macOS(.v11),
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v8),
     ],
     dependencies: {
         var deps: [Package.Dependency] = [

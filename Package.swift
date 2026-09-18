@@ -2269,7 +2269,7 @@ let package = Package(
         .macOS(.v11),
         .iOS(.v15),
         .tvOS(.v15),
-        .watchOS(.v8)
+        .watchOS(.v8),
     ],
     products:
         runtimeProducts +
