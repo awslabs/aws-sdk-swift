@@ -4177,6 +4177,27 @@ public struct GetBatchEvaluationInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// A pairing of a session with the specific trace IDs to evaluate within that session. Use this to evaluate individual traces rather than an entire session.
+    public struct SessionTraceIds: Swift.Sendable {
+        /// The unique identifier of the session that contains the traces to evaluate.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The list of trace IDs within the session to evaluate.
+        /// This member is required.
+        public var traceIds: [Swift.String]?
+
+        public init(
+            sessionId: Swift.String? = nil,
+            traceIds: [Swift.String]? = nil
+        ) {
+            self.sessionId = sessionId
+            self.traceIds = traceIds
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// A time range filter for selecting sessions. Specifies the start and end times to narrow down which sessions are included.
     public struct SessionFilterConfig: Swift.Sendable {
         /// The end time of the time range. Only sessions with activity before this timestamp are included.
@@ -4200,14 +4221,18 @@ extension BedrockAgentCoreClientTypes {
     public struct CloudWatchFilterConfig: Swift.Sendable {
         /// A list of specific session IDs to evaluate. If specified, only these sessions are included in the evaluation.
         public var sessionIds: [Swift.String]?
+        /// A list of session and trace ID pairs that restrict evaluation to specific traces within a session. If specified, only the listed traces are evaluated instead of the entire session.
+        public var sessionTraceIds: [BedrockAgentCoreClientTypes.SessionTraceIds]?
         /// The time range filter for selecting sessions to evaluate.
         public var timeRange: BedrockAgentCoreClientTypes.SessionFilterConfig?
 
         public init(
             sessionIds: [Swift.String]? = nil,
+            sessionTraceIds: [BedrockAgentCoreClientTypes.SessionTraceIds]? = nil,
             timeRange: BedrockAgentCoreClientTypes.SessionFilterConfig? = nil
         ) {
             self.sessionIds = sessionIds
+            self.sessionTraceIds = sessionTraceIds
             self.timeRange = timeRange
         }
     }
@@ -16558,6 +16583,7 @@ extension BedrockAgentCoreClientTypes.CloudWatchFilterConfig {
     static func write(value: BedrockAgentCoreClientTypes.CloudWatchFilterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["sessionIds"].writeList(value.sessionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sessionTraceIds"].writeList(value.sessionTraceIds, memberWritingClosure: BedrockAgentCoreClientTypes.SessionTraceIds.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timeRange"].write(value.timeRange, with: BedrockAgentCoreClientTypes.SessionFilterConfig.write(value:to:))
     }
 
@@ -16566,6 +16592,7 @@ extension BedrockAgentCoreClientTypes.CloudWatchFilterConfig {
         var value = BedrockAgentCoreClientTypes.CloudWatchFilterConfig()
         value.sessionIds = try reader["sessionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.timeRange = try reader["timeRange"].readIfPresent(with: BedrockAgentCoreClientTypes.SessionFilterConfig.read(from:))
+        value.sessionTraceIds = try reader["sessionTraceIds"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.SessionTraceIds.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -19388,6 +19415,23 @@ extension BedrockAgentCoreClientTypes.SessionSummary {
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         value.actorId = try reader["actorId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.SessionTraceIds {
+
+    static func write(value: BedrockAgentCoreClientTypes.SessionTraceIds?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionId"].write(value.sessionId)
+        try writer["traceIds"].writeList(value.traceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.SessionTraceIds {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.SessionTraceIds()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.traceIds = try reader["traceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

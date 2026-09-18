@@ -1644,6 +1644,81 @@ extension SocialMessagingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetWhatsAppCallPermission` operation on the `SocialMessaging` service.
+    ///
+    /// Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetWhatsAppCallPermissionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetWhatsAppCallPermissionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedByMetaException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func getWhatsAppCallPermission(input: GetWhatsAppCallPermissionInput) async throws -> GetWhatsAppCallPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getWhatsAppCallPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>(GetWhatsAppCallPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWhatsAppCallPermissionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppCallPermissionOutput>(GetWhatsAppCallPermissionOutput.httpOutput(from:), GetWhatsAppCallPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppCallPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWhatsAppCallPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWhatsAppCallPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SocialMessaging"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWhatsAppCallPermissionInput, GetWhatsAppCallPermissionOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetWhatsAppCallPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetWhatsAppFlow` operation on the `SocialMessaging` service.
     ///
     /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
@@ -2671,6 +2746,82 @@ extension SocialMessagingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SendWhatsAppCallEvent` operation on the `SocialMessaging` service.
+    ///
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendWhatsAppCallEventInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendWhatsAppCallEventOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedByMetaException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func sendWhatsAppCallEvent(input: SendWhatsAppCallEventInput) async throws -> SendWhatsAppCallEventOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendWhatsAppCallEvent")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>(SendWhatsAppCallEventInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendWhatsAppCallEventInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendWhatsAppCallEventOutput>(SendWhatsAppCallEventOutput.httpOutput(from:), SendWhatsAppCallEventOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendWhatsAppCallEventOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendWhatsAppCallEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendWhatsAppCallEventOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SocialMessaging"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendWhatsAppCallEventInput, SendWhatsAppCallEventOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendWhatsAppCallEvent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SendWhatsAppConversionEvent` operation on the `SocialMessaging` service.
     ///
     /// Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
@@ -2952,6 +3103,82 @@ extension SocialMessagingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateLinkedWhatsAppBusinessAccountPhoneNumber` operation on the `SocialMessaging` service.
+    ///
+    /// Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedByMetaException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func updateLinkedWhatsAppBusinessAccountPhoneNumber(input: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput) async throws -> UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLinkedWhatsAppBusinessAccountPhoneNumber")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput.httpOutput(from:), UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SocialMessaging"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

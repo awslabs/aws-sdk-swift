@@ -525,6 +525,29 @@ public struct AssociateWhatsAppBusinessAccountOutput: Swift.Sendable {
     }
 }
 
+/// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request processing has failed because of an unknown error, exception, or failure.
 public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -652,7 +675,7 @@ public struct CreateWhatsAppFlowInput: Swift.Sendable {
     public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
     /// The ID of an existing Flow within the same WhatsApp Business Account to clone.
     public var cloneFlowId: Swift.String?
-    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow has no endpoint (static Flow). Meta only calls the endpoint when the Flow JSON also declares data_api_version. To verify that requests originate from Meta, attach your own Meta app via UpdateWhatsAppFlow.
+    /// The HTTPS endpoint that Meta calls for a data exchange Flow.
     public var endpointUri: Swift.String?
     /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
     public var flowJson: Foundation.Data?
@@ -1198,16 +1221,195 @@ public struct GetLinkedWhatsAppBusinessAccountPhoneNumberInput: Swift.Sendable {
     }
 }
 
+extension SocialMessagingClientTypes {
+
+    /// A time of day, expressed as an hour and minute.
+    public struct WhatsAppTimeOfDay: Swift.Sendable {
+        /// The hour of the day, from 0 to 23.
+        /// This member is required.
+        public var hours: Swift.Int?
+        /// The minute of the hour, from 0 to 59.
+        /// This member is required.
+        public var minutes: Swift.Int?
+
+        public init(
+            hours: Swift.Int? = nil,
+            minutes: Swift.Int? = nil
+        ) {
+            self.hours = hours
+            self.minutes = minutes
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// A date-specific override to the weekly operating hours, such as a holiday.
+    public struct WhatsAppHolidayScheduleEntry: Swift.Sendable {
+        /// The date that the override applies to, in ISO 8601 format (YYYY-MM-DD).
+        /// This member is required.
+        public var date: Swift.String?
+        /// The time of day when the business stops accepting calls on the override date.
+        /// This member is required.
+        public var endTime: SocialMessagingClientTypes.WhatsAppTimeOfDay?
+        /// The time of day when the business begins accepting calls on the override date.
+        /// This member is required.
+        public var startTime: SocialMessagingClientTypes.WhatsAppTimeOfDay?
+
+        public init(
+            date: Swift.String? = nil,
+            endTime: SocialMessagingClientTypes.WhatsAppTimeOfDay? = nil,
+            startTime: SocialMessagingClientTypes.WhatsAppTimeOfDay? = nil
+        ) {
+            self.date = date
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    public enum WhatsAppDayOfWeek: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WhatsAppDayOfWeek] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// A single entry in a weekly calling schedule, defining the open and close times for one day of the week.
+    public struct WhatsAppWeeklyOperatingHoursEntry: Swift.Sendable {
+        /// The time of day when the business stops accepting calls.
+        /// This member is required.
+        public var closeTime: SocialMessagingClientTypes.WhatsAppTimeOfDay?
+        /// The day of the week that the entry applies to.
+        /// This member is required.
+        public var dayOfWeek: SocialMessagingClientTypes.WhatsAppDayOfWeek?
+        /// The time of day when the business begins accepting calls.
+        /// This member is required.
+        public var openTime: SocialMessagingClientTypes.WhatsAppTimeOfDay?
+
+        public init(
+            closeTime: SocialMessagingClientTypes.WhatsAppTimeOfDay? = nil,
+            dayOfWeek: SocialMessagingClientTypes.WhatsAppDayOfWeek? = nil,
+            openTime: SocialMessagingClientTypes.WhatsAppTimeOfDay? = nil
+        ) {
+            self.closeTime = closeTime
+            self.dayOfWeek = dayOfWeek
+            self.openTime = openTime
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// The operating hours during which a business phone number accepts WhatsApp calls, including the time zone, weekly schedule, and any holiday overrides.
+    public struct WhatsAppCallHours: Swift.Sendable {
+        /// Specifies whether call hours are enforced. When disabled, the business accepts calls at any time.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// Date-specific overrides to the weekly operating hours, such as holidays.
+        public var holidaySchedule: [SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry]?
+        /// The IANA time zone in which the operating hours are interpreted, such as America/New_York.
+        /// This member is required.
+        public var timezone: Swift.String?
+        /// The weekly schedule of hours during which the business accepts calls.
+        /// This member is required.
+        public var weeklyOperatingHours: [SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            holidaySchedule: [SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry]? = nil,
+            timezone: Swift.String? = nil,
+            weeklyOperatingHours: [SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry]? = nil
+        ) {
+            self.enabled = enabled
+            self.holidaySchedule = holidaySchedule
+            self.timezone = timezone
+            self.weeklyOperatingHours = weeklyOperatingHours
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// The calling configuration for a WhatsApp business phone number.
+    public struct WhatsAppCallSettings: Swift.Sendable {
+        /// Specifies whether calling is enabled for the phone number.
+        /// This member is required.
+        public var callEnabled: Swift.Bool?
+        /// The hours during which the business accepts calls on the phone number.
+        public var callHours: SocialMessagingClientTypes.WhatsAppCallHours?
+        /// The visibility setting for the call icon shown to end users in WhatsApp.
+        public var callIconVisibility: Swift.String?
+        /// The callback permission status for the phone number.
+        public var callbackPermissionStatus: Swift.String?
+
+        public init(
+            callEnabled: Swift.Bool? = nil,
+            callHours: SocialMessagingClientTypes.WhatsAppCallHours? = nil,
+            callIconVisibility: Swift.String? = nil,
+            callbackPermissionStatus: Swift.String? = nil
+        ) {
+            self.callEnabled = callEnabled
+            self.callHours = callHours
+            self.callIconVisibility = callIconVisibility
+            self.callbackPermissionStatus = callbackPermissionStatus
+        }
+    }
+}
+
 public struct GetLinkedWhatsAppBusinessAccountPhoneNumberOutput: Swift.Sendable {
+    /// The calling settings configured for the phone number. This value is absent when calling is not configured.
+    public var callSettings: SocialMessagingClientTypes.WhatsAppCallSettings?
     /// The WABA identifier linked to the phone number, formatted as waba-01234567890123456789012345678901.
     public var linkedWhatsAppBusinessAccountId: Swift.String?
     /// The details of your WhatsApp phone number.
     public var phoneNumber: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail?
 
     public init(
+        callSettings: SocialMessagingClientTypes.WhatsAppCallSettings? = nil,
         linkedWhatsAppBusinessAccountId: Swift.String? = nil,
         phoneNumber: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail? = nil
     ) {
+        self.callSettings = callSettings
         self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
         self.phoneNumber = phoneNumber
     }
@@ -1226,9 +1428,9 @@ public struct GetWhatsAppBusinessPublicKeyInput: Swift.Sendable {
 }
 
 public struct GetWhatsAppBusinessPublicKeyOutput: Swift.Sendable {
-    /// The stored RSA business public key (PEM), if present.
+    /// The stored PEM-encoded 2048-bit RSA public key.
     public var businessPublicKey: Swift.String?
-    /// Meta's signing status: "VALID" | "MISMATCH".
+    /// The signature status of the stored business public key. Valid values are VALID and MISMATCH.
     public var businessPublicKeySignatureStatus: Swift.String?
 
     public init(
@@ -1237,6 +1439,124 @@ public struct GetWhatsAppBusinessPublicKeyOutput: Swift.Sendable {
     ) {
         self.businessPublicKey = businessPublicKey
         self.businessPublicKeySignatureStatus = businessPublicKeySignatureStatus
+    }
+}
+
+public struct GetWhatsAppCallPermissionInput: Swift.Sendable {
+    /// The end user's phone number, in E.164 format, for which to retrieve the calling permission.
+    public var destinationPhoneNumber: Swift.String?
+    /// The business-scoped user identifier (BSUID) of the end user for which to retrieve the calling permission.
+    public var endUserBsuid: Swift.String?
+    /// The unique identifier of the business phone number for which to retrieve the calling permission. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901.
+    /// This member is required.
+    public var originationPhoneNumberId: Swift.String?
+
+    public init(
+        destinationPhoneNumber: Swift.String? = nil,
+        endUserBsuid: Swift.String? = nil,
+        originationPhoneNumberId: Swift.String? = nil
+    ) {
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.endUserBsuid = endUserBsuid
+        self.originationPhoneNumberId = originationPhoneNumberId
+    }
+}
+
+extension GetWhatsAppCallPermissionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetWhatsAppCallPermissionInput(originationPhoneNumberId: \(Swift.String(describing: originationPhoneNumberId)), destinationPhoneNumber: \"CONTENT_REDACTED\", endUserBsuid: \"CONTENT_REDACTED\")"}
+}
+
+extension SocialMessagingClientTypes {
+
+    /// A time-bound restriction on a calling action, such as the number of calls allowed within a time period.
+    public struct WhatsAppCallPermissionLimit: Swift.Sendable {
+        /// The number of times the action has been used within the current time period.
+        /// This member is required.
+        public var currentUsage: Swift.Int?
+        /// The time when the limit resets. This value is present only when the current usage has reached the maximum allowed.
+        public var limitExpirationTime: Foundation.Date?
+        /// The maximum number of times the action is allowed within the time period.
+        /// This member is required.
+        public var maxAllowed: Swift.Int?
+        /// The time period over which the limit applies, as an ISO 8601 duration.
+        /// This member is required.
+        public var timePeriod: Swift.String?
+
+        public init(
+            currentUsage: Swift.Int? = nil,
+            limitExpirationTime: Foundation.Date? = nil,
+            maxAllowed: Swift.Int? = nil,
+            timePeriod: Swift.String? = nil
+        ) {
+            self.currentUsage = currentUsage
+            self.limitExpirationTime = limitExpirationTime
+            self.maxAllowed = maxAllowed
+            self.timePeriod = timePeriod
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// Describes a single calling action the business can take with an end user, including whether the action is currently allowed and any limits that apply to it. Returned as an item in the actions list from GetWhatsAppCallPermission.
+    public struct WhatsAppCallPermissionAction: Swift.Sendable {
+        /// The name of the calling action.
+        /// This member is required.
+        public var actionName: Swift.String?
+        /// Specifies whether the business can currently perform the action.
+        /// This member is required.
+        public var canPerformAction: Swift.Bool?
+        /// The time-bound limits that apply to the action.
+        /// This member is required.
+        public var limits: [SocialMessagingClientTypes.WhatsAppCallPermissionLimit]?
+
+        public init(
+            actionName: Swift.String? = nil,
+            canPerformAction: Swift.Bool? = nil,
+            limits: [SocialMessagingClientTypes.WhatsAppCallPermissionLimit]? = nil
+        ) {
+            self.actionName = actionName
+            self.canPerformAction = canPerformAction
+            self.limits = limits
+        }
+    }
+}
+
+extension SocialMessagingClientTypes {
+
+    /// The current calling permission state for a business phone number and a specific WhatsApp end user.
+    public struct WhatsAppCallPermission: Swift.Sendable {
+        /// The time when a temporary permission expires. This value is absent for permanent permissions and when there is no permission.
+        public var expirationTime: Foundation.Date?
+        /// The permission status for the end user.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            expirationTime: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.expirationTime = expirationTime
+            self.status = status
+        }
+    }
+}
+
+public struct GetWhatsAppCallPermissionOutput: Swift.Sendable {
+    /// The calling actions the business can take with the end user, and any limits that apply to each action.
+    /// This member is required.
+    public var actions: [SocialMessagingClientTypes.WhatsAppCallPermissionAction]?
+    /// The current calling permission state for the end user.
+    /// This member is required.
+    public var permission: SocialMessagingClientTypes.WhatsAppCallPermission?
+
+    public init(
+        actions: [SocialMessagingClientTypes.WhatsAppCallPermissionAction]? = nil,
+        permission: SocialMessagingClientTypes.WhatsAppCallPermission? = nil
+    ) {
+        self.actions = actions
+        self.permission = permission
     }
 }
 
@@ -1389,7 +1709,7 @@ public struct GetWhatsAppFlowOutput: Swift.Sendable {
     public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
     /// The data API version for data exchange endpoint Flows.
     public var dataApiVersion: Swift.String?
-    /// The endpoint URI for data exchange Flows, if configured.
+    /// The HTTPS endpoint that Meta calls for a data exchange Flow.
     public var endpointUri: Swift.String?
     /// The unique identifier of the Flow.
     /// This member is required.
@@ -2101,7 +2421,7 @@ public struct SendWhatsAppConversionEventOutput: Swift.Sendable {
 public struct UpdateWhatsAppFlowInput: Swift.Sendable {
     /// The updated categories for the Flow.
     public var categories: [SocialMessagingClientTypes.MetaFlowCategory]?
-    /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the Flow's endpoint_uri and called by Meta directly. When omitted, the Flow's endpoint is unchanged.
+    /// The updated HTTPS endpoint for a data exchange Flow.
     public var endpointUri: Swift.String?
     /// The unique identifier of the Flow to update.
     /// This member is required.
@@ -2111,7 +2431,7 @@ public struct UpdateWhatsAppFlowInput: Swift.Sendable {
     /// The ID of the WhatsApp Business Account associated with this Flow.
     /// This member is required.
     public var id: Swift.String?
-    /// Optional Meta app ID to attach to the Flow. Meta signs data-exchange requests with the attached app's secret, so attaching your own app is what enables X-Hub-Signature-256 and flow_token_signature verification at your endpoint. Meta requires the app to be owned by the same business that owns the WABA. Attaching your own app is one-way: the service's app cannot be re-attached afterwards. When omitted, the attached app is unchanged. (Set via update because Meta ignores application_id at creation time.)
+    /// The ID of the Meta application to attach to the Flow.
     public var metaAppId: Swift.String?
 
     public init(
@@ -2251,9 +2571,9 @@ public struct PostWhatsAppMessageMediaOutput: Swift.Sendable {
 }
 
 public struct PutWhatsAppBusinessPublicKeyInput: Swift.Sendable {
-    /// PEM-encoded RSA public key. Mutually exclusive with kmsKeyArn.
+    /// The PEM-encoded 2048-bit RSA public key to set. Mutually exclusive with kmsKeyArn.
     public var businessPublicKey: Swift.String?
-    /// Customer-managed KMS asymmetric RSA key ARN. Mutually exclusive with businessPublicKey.
+    /// The ARN of a customer managed asymmetric RSA key in Amazon Web Services KMS. Mutually exclusive with businessPublicKey.
     public var kmsKeyArn: Swift.String?
     /// The unique identifier of the phone number to associate with the business public key.
     /// This member is required.
@@ -2273,6 +2593,45 @@ public struct PutWhatsAppBusinessPublicKeyInput: Swift.Sendable {
 public struct PutWhatsAppBusinessPublicKeyOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct SendWhatsAppCallEventInput: Swift.Sendable {
+    /// The call event payload to send, as a JSON blob in the format defined by the Meta calling API.
+    /// This member is required.
+    public var callEvent: Foundation.Data?
+    /// The version of the Meta Graph API to use for the request.
+    /// This member is required.
+    public var metaApiVersion: Swift.String?
+    /// The unique identifier of the origination phone number for the call. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount to find a phone number's ID.
+    /// This member is required.
+    public var originationPhoneNumberId: Swift.String?
+
+    public init(
+        callEvent: Foundation.Data? = nil,
+        metaApiVersion: Swift.String? = nil,
+        originationPhoneNumberId: Swift.String? = nil
+    ) {
+        self.callEvent = callEvent
+        self.metaApiVersion = metaApiVersion
+        self.originationPhoneNumberId = originationPhoneNumberId
+    }
+}
+
+extension SendWhatsAppCallEventInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendWhatsAppCallEventInput(metaApiVersion: \(Swift.String(describing: metaApiVersion)), originationPhoneNumberId: \(Swift.String(describing: originationPhoneNumberId)), callEvent: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendWhatsAppCallEventOutput: Swift.Sendable {
+    /// The unique identifier that Meta assigns to the call.
+    /// This member is required.
+    public var callId: Swift.String?
+
+    public init(
+        callId: Swift.String? = nil
+    ) {
+        self.callId = callId
+    }
 }
 
 public struct SendWhatsAppMessageInput: Swift.Sendable {
@@ -2310,6 +2669,35 @@ public struct SendWhatsAppMessageOutput: Swift.Sendable {
         messageId: Swift.String? = nil
     ) {
         self.messageId = messageId
+    }
+}
+
+public struct UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput: Swift.Sendable {
+    /// The calling settings to apply to the phone number.
+    /// This member is required.
+    public var callSettings: SocialMessagingClientTypes.WhatsAppCallSettings?
+    /// The unique identifier of the phone number to update. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        callSettings: SocialMessagingClientTypes.WhatsAppCallSettings? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.callSettings = callSettings
+        self.id = id
+    }
+}
+
+public struct UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput: Swift.Sendable {
+    /// The unique identifier of the phone number that was updated.
+    /// This member is required.
+    public var phoneNumberId: Swift.String?
+
+    public init(
+        phoneNumberId: Swift.String? = nil
+    ) {
+        self.phoneNumberId = phoneNumberId
     }
 }
 
@@ -2641,6 +3029,13 @@ extension GetWhatsAppBusinessPublicKeyInput {
     }
 }
 
+extension GetWhatsAppCallPermissionInput {
+
+    static func urlPathProvider(_ value: GetWhatsAppCallPermissionInput) -> Swift.String? {
+        return "/v1/whatsapp/call/permission/get"
+    }
+}
+
 extension GetWhatsAppFlowInput {
 
     static func urlPathProvider(_ value: GetWhatsAppFlowInput) -> Swift.String? {
@@ -2925,6 +3320,13 @@ extension PutWhatsAppBusinessPublicKeyInput {
     }
 }
 
+extension SendWhatsAppCallEventInput {
+
+    static func urlPathProvider(_ value: SendWhatsAppCallEventInput) -> Swift.String? {
+        return "/v1/whatsapp/call/event"
+    }
+}
+
 extension SendWhatsAppConversionEventInput {
 
     static func urlPathProvider(_ value: SendWhatsAppConversionEventInput) -> Swift.String? {
@@ -2950,6 +3352,27 @@ extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/v1/tags/untag-resource"
+    }
+}
+
+extension UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
+
+    static func urlPathProvider(_ value: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput) -> Swift.String? {
+        return "/v1/whatsapp/waba/phone"
+    }
+}
+
+extension UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
+
+    static func queryItemProvider(_ value: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
@@ -3041,6 +3464,16 @@ extension DeprecateWhatsAppFlowInput {
     }
 }
 
+extension GetWhatsAppCallPermissionInput {
+
+    static func write(value: GetWhatsAppCallPermissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["endUserBsuid"].write(value.endUserBsuid)
+        try writer["originationPhoneNumberId"].write(value.originationPhoneNumberId)
+    }
+}
+
 extension GetWhatsAppMessageMediaInput {
 
     static func write(value: GetWhatsAppMessageMediaInput?, to writer: SmithyJSON.Writer) throws {
@@ -3101,6 +3534,16 @@ extension PutWhatsAppBusinessPublicKeyInput {
     }
 }
 
+extension SendWhatsAppCallEventInput {
+
+    static func write(value: SendWhatsAppCallEventInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["callEvent"].write(value.callEvent)
+        try writer["metaApiVersion"].write(value.metaApiVersion)
+        try writer["originationPhoneNumberId"].write(value.originationPhoneNumberId)
+    }
+}
+
 extension SendWhatsAppConversionEventInput {
 
     static func write(value: SendWhatsAppConversionEventInput?, to writer: SmithyJSON.Writer) throws {
@@ -3136,6 +3579,14 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
+
+    static func write(value: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["callSettings"].write(value.callSettings, with: SocialMessagingClientTypes.WhatsAppCallSettings.write(value:to:))
     }
 }
 
@@ -3315,6 +3766,7 @@ extension GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetLinkedWhatsAppBusinessAccountPhoneNumberOutput()
+        value.callSettings = try reader["callSettings"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppCallSettings.read(from:))
         value.linkedWhatsAppBusinessAccountId = try reader["linkedWhatsAppBusinessAccountId"].readIfPresent()
         value.phoneNumber = try reader["phoneNumber"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:))
         return value
@@ -3330,6 +3782,19 @@ extension GetWhatsAppBusinessPublicKeyOutput {
         var value = GetWhatsAppBusinessPublicKeyOutput()
         value.businessPublicKey = try reader["businessPublicKey"].readIfPresent()
         value.businessPublicKeySignatureStatus = try reader["businessPublicKeySignatureStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GetWhatsAppCallPermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWhatsAppCallPermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetWhatsAppCallPermissionOutput()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppCallPermissionAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.permission = try reader["permission"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppCallPermission.read(from:))
         return value
     }
 }
@@ -3506,6 +3971,18 @@ extension PutWhatsAppBusinessPublicKeyOutput {
     }
 }
 
+extension SendWhatsAppCallEventOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendWhatsAppCallEventOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendWhatsAppCallEventOutput()
+        value.callId = try reader["callId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SendWhatsAppConversionEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendWhatsAppConversionEventOutput {
@@ -3550,6 +4027,18 @@ extension UntagResourceOutput {
         let reader = responseReader
         var value = UntagResourceOutput()
         value.statusCode = try reader["statusCode"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput()
+        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3863,6 +4352,26 @@ enum GetWhatsAppBusinessPublicKeyOutputError {
     }
 }
 
+enum GetWhatsAppCallPermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetWhatsAppFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4136,6 +4645,27 @@ enum PutWhatsAppBusinessPublicKeyOutputError {
     }
 }
 
+enum SendWhatsAppCallEventOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SendWhatsAppConversionEventOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4203,6 +4733,26 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedByMetaException": return try AccessDeniedByMetaException.makeError(baseError: baseError)
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottledRequestException": return try ThrottledRequestException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4365,6 +4915,19 @@ extension AccessDeniedException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4684,6 +5247,103 @@ extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
     }
 }
 
+extension SocialMessagingClientTypes.WhatsAppCallHours {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppCallHours?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["holidaySchedule"].writeList(value.holidaySchedule, memberWritingClosure: SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timezone"].write(value.timezone)
+        try writer["weeklyOperatingHours"].writeList(value.weeklyOperatingHours, memberWritingClosure: SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppCallHours {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppCallHours()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.timezone = try reader["timezone"].readIfPresent() ?? ""
+        value.weeklyOperatingHours = try reader["weeklyOperatingHours"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.holidaySchedule = try reader["holidaySchedule"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppCallPermission {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppCallPermission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppCallPermission()
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppCallPermissionAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppCallPermissionAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppCallPermissionAction()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
+        value.canPerformAction = try reader["canPerformAction"].readIfPresent() ?? false
+        value.limits = try reader["limits"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppCallPermissionLimit.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppCallPermissionLimit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppCallPermissionLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppCallPermissionLimit()
+        value.timePeriod = try reader["timePeriod"].readIfPresent() ?? ""
+        value.maxAllowed = try reader["maxAllowed"].readIfPresent() ?? 0
+        value.currentUsage = try reader["currentUsage"].readIfPresent() ?? 0
+        value.limitExpirationTime = try reader["limitExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppCallSettings {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppCallSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["callEnabled"].write(value.callEnabled)
+        try writer["callHours"].write(value.callHours, with: SocialMessagingClientTypes.WhatsAppCallHours.write(value:to:))
+        try writer["callIconVisibility"].write(value.callIconVisibility)
+        try writer["callbackPermissionStatus"].write(value.callbackPermissionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppCallSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppCallSettings()
+        value.callEnabled = try reader["callEnabled"].readIfPresent() ?? false
+        value.callHours = try reader["callHours"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppCallHours.read(from:))
+        value.callIconVisibility = try reader["callIconVisibility"].readIfPresent()
+        value.callbackPermissionStatus = try reader["callbackPermissionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["date"].write(value.date)
+        try writer["endTime"].write(value.endTime, with: SocialMessagingClientTypes.WhatsAppTimeOfDay.write(value:to:))
+        try writer["startTime"].write(value.startTime, with: SocialMessagingClientTypes.WhatsAppTimeOfDay.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppHolidayScheduleEntry()
+        value.date = try reader["date"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppTimeOfDay.read(from:))
+        value.endTime = try reader["endTime"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppTimeOfDay.read(from:))
+        return value
+    }
+}
+
 extension SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
@@ -4745,6 +5405,42 @@ extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
         var value = SocialMessagingClientTypes.WhatsAppSignupCallbackResult()
         value.associateInProgressToken = try reader["associateInProgressToken"].readIfPresent()
         value.linkedAccountsWithIncompleteSetup = try reader["linkedAccountsWithIncompleteSetup"].readMapIfPresent(valueReadingClosure: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppTimeOfDay {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppTimeOfDay?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hours"].write(value.hours)
+        try writer["minutes"].write(value.minutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppTimeOfDay {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppTimeOfDay()
+        value.hours = try reader["hours"].readIfPresent() ?? 0
+        value.minutes = try reader["minutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["closeTime"].write(value.closeTime, with: SocialMessagingClientTypes.WhatsAppTimeOfDay.write(value:to:))
+        try writer["dayOfWeek"].write(value.dayOfWeek)
+        try writer["openTime"].write(value.openTime, with: SocialMessagingClientTypes.WhatsAppTimeOfDay.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppWeeklyOperatingHoursEntry()
+        value.dayOfWeek = try reader["dayOfWeek"].readIfPresent() ?? .sdkUnknown("")
+        value.openTime = try reader["openTime"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppTimeOfDay.read(from:))
+        value.closeTime = try reader["closeTime"].readIfPresent(with: SocialMessagingClientTypes.WhatsAppTimeOfDay.read(from:))
         return value
     }
 }

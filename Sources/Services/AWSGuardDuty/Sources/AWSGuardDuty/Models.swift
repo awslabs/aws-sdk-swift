@@ -2130,6 +2130,29 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains details about an Amazon Bedrock guardrail evaluated during a model invocation.
+    public struct BedrockGuardrailResource: Swift.Sendable {
+        /// Indicates whether the guardrail intervened during the model invocation.
+        public var guardrailAction: GuardDutyClientTypes.GuardrailAction?
+        /// Indicates whether the guardrail was applied on the input or output of the model invocation.
+        public var guardrailSource: GuardDutyClientTypes.GuardrailSource?
+        /// The version of the Amazon Bedrock guardrail. Valid values are a numeric version, DRAFT, or ENFORCED.
+        public var version: Swift.String?
+
+        public init(
+            guardrailAction: GuardDutyClientTypes.GuardrailAction? = nil,
+            guardrailSource: GuardDutyClientTypes.GuardrailSource? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.guardrailAction = guardrailAction
+            self.guardrailSource = guardrailSource
+            self.version = version
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information on the current bucket policies for the S3 bucket.
     public struct BucketPolicy: Swift.Sendable {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
@@ -7845,6 +7868,8 @@ extension GuardDutyClientTypes {
         public var accessKey: GuardDutyClientTypes.AccessKey?
         /// Contains detailed information about the Auto Scaling Group associated with the activity that prompted GuardDuty to generate a finding.
         public var autoscalingAutoScalingGroup: GuardDutyClientTypes.AutoscalingAutoScalingGroup?
+        /// Contains detailed information about the Amazon Bedrock guardrail associated with the activity that prompted GuardDuty to generate a finding.
+        public var bedrockGuardrail: GuardDutyClientTypes.BedrockGuardrailResource?
         /// Contains detailed information about the CloudFormation stack associated with the activity that prompted GuardDuty to generate a finding.
         public var cloudformationStack: GuardDutyClientTypes.CloudformationStack?
         /// Contains detailed information about the container associated with the activity that prompted GuardDuty to generate a finding.
@@ -7877,6 +7902,7 @@ extension GuardDutyClientTypes {
         public init(
             accessKey: GuardDutyClientTypes.AccessKey? = nil,
             autoscalingAutoScalingGroup: GuardDutyClientTypes.AutoscalingAutoScalingGroup? = nil,
+            bedrockGuardrail: GuardDutyClientTypes.BedrockGuardrailResource? = nil,
             cloudformationStack: GuardDutyClientTypes.CloudformationStack? = nil,
             container: GuardDutyClientTypes.ContainerFindingResource? = nil,
             ec2Image: GuardDutyClientTypes.Ec2Image? = nil,
@@ -7894,6 +7920,7 @@ extension GuardDutyClientTypes {
         ) {
             self.accessKey = accessKey
             self.autoscalingAutoScalingGroup = autoscalingAutoScalingGroup
+            self.bedrockGuardrail = bedrockGuardrail
             self.cloudformationStack = cloudformationStack
             self.container = container
             self.ec2Image = ec2Image
@@ -7917,6 +7944,24 @@ extension GuardDutyClientTypes {
     public enum FindingResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessKey
         case autoscalingAutoScalingGroup
+        /// An application-scoped Amazon Bedrock inference profile used to track invocation usage.
+        case bedrockApplicationInferenceProfile
+        /// An Amazon Bedrock custom model fine-tuned by the customer.
+        case bedrockCustomModel
+        /// A deployment of an Amazon Bedrock custom model.
+        case bedrockCustomModelDeployment
+        /// An Amazon Bedrock guardrail evaluated during a model invocation.
+        case bedrockGuardrail
+        /// An Amazon Bedrock imported model brought in from an external source.
+        case bedrockImportedModel
+        /// An Amazon Bedrock inference profile that routes model invocations across Regions.
+        case bedrockInferenceProfile
+        /// A managed prompt stored in Amazon Bedrock Prompt Management.
+        case bedrockPrompt
+        /// An Amazon Bedrock prompt router that selects a model per request.
+        case bedrockPromptRouter
+        /// An Amazon Bedrock model with provisioned throughput.
+        case bedrockProvisionedModel
         case cloudformationStack
         case container
         case ec2Image
@@ -7931,12 +7976,23 @@ extension GuardDutyClientTypes {
         case kubernetesWorkload
         case s3Bucket
         case s3Object
+        /// An Amazon SageMaker inference endpoint.
+        case sagemakerEndpoint
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FindingResourceType] {
             return [
                 .accessKey,
                 .autoscalingAutoScalingGroup,
+                .bedrockApplicationInferenceProfile,
+                .bedrockCustomModel,
+                .bedrockCustomModelDeployment,
+                .bedrockGuardrail,
+                .bedrockImportedModel,
+                .bedrockInferenceProfile,
+                .bedrockPrompt,
+                .bedrockPromptRouter,
+                .bedrockProvisionedModel,
                 .cloudformationStack,
                 .container,
                 .ec2Image,
@@ -7950,7 +8006,8 @@ extension GuardDutyClientTypes {
                 .iamInstanceProfile,
                 .kubernetesWorkload,
                 .s3Bucket,
-                .s3Object
+                .s3Object,
+                .sagemakerEndpoint
             ]
         }
 
@@ -7963,6 +8020,15 @@ extension GuardDutyClientTypes {
             switch self {
             case .accessKey: return "ACCESS_KEY"
             case .autoscalingAutoScalingGroup: return "AUTOSCALING_AUTO_SCALING_GROUP"
+            case .bedrockApplicationInferenceProfile: return "BEDROCK_APPLICATION_INFERENCE_PROFILE"
+            case .bedrockCustomModel: return "BEDROCK_CUSTOM_MODEL"
+            case .bedrockCustomModelDeployment: return "BEDROCK_CUSTOM_MODEL_DEPLOYMENT"
+            case .bedrockGuardrail: return "BEDROCK_GUARDRAIL"
+            case .bedrockImportedModel: return "BEDROCK_IMPORTED_MODEL"
+            case .bedrockInferenceProfile: return "BEDROCK_INFERENCE_PROFILE"
+            case .bedrockPrompt: return "BEDROCK_PROMPT"
+            case .bedrockPromptRouter: return "BEDROCK_PROMPT_ROUTER"
+            case .bedrockProvisionedModel: return "BEDROCK_PROVISIONED_MODEL"
             case .cloudformationStack: return "CLOUDFORMATION_STACK"
             case .container: return "CONTAINER"
             case .ec2Image: return "EC2_IMAGE"
@@ -7977,6 +8043,7 @@ extension GuardDutyClientTypes {
             case .kubernetesWorkload: return "KUBERNETES_WORKLOAD"
             case .s3Bucket: return "S3_BUCKET"
             case .s3Object: return "S3_OBJECT"
+            case .sagemakerEndpoint: return "SAGEMAKER_ENDPOINT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -21879,6 +21946,18 @@ extension GuardDutyClientTypes.BedrockGuardrailDetails {
     }
 }
 
+extension GuardDutyClientTypes.BedrockGuardrailResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BedrockGuardrailResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.BedrockGuardrailResource()
+        value.version = try reader["version"].readIfPresent()
+        value.guardrailAction = try reader["guardrailAction"].readIfPresent()
+        value.guardrailSource = try reader["guardrailSource"].readIfPresent()
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.BlockPublicAccess {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BlockPublicAccess {
@@ -24110,6 +24189,7 @@ extension GuardDutyClientTypes.ResourceData {
         value.ec2Vpc = try reader["ec2Vpc"].readIfPresent(with: GuardDutyClientTypes.Ec2Vpc.read(from:))
         value.ec2Image = try reader["ec2Image"].readIfPresent(with: GuardDutyClientTypes.Ec2Image.read(from:))
         value.cloudformationStack = try reader["cloudformationStack"].readIfPresent(with: GuardDutyClientTypes.CloudformationStack.read(from:))
+        value.bedrockGuardrail = try reader["bedrockGuardrail"].readIfPresent(with: GuardDutyClientTypes.BedrockGuardrailResource.read(from:))
         return value
     }
 }

@@ -1199,7 +1199,7 @@ extension NotificationsClient {
 
     /// Performs the `DeregisterNotificationHub` operation on the `Notifications` service.
     ///
-    /// Deregisters a NotificationConfiguration in the specified Region. You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents.
+    /// Deregisters a NotificationHub in the specified Region. You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeregisterNotificationHubInput`)
     ///
@@ -3018,7 +3018,7 @@ extension NotificationsClient {
 
     /// Performs the `RegisterNotificationHub` operation on the `Notifications` service.
     ///
-    /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time.
+    /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time.
     ///
     /// - Parameter input: [no documentation found] (Type: `RegisterNotificationHubInput`)
     ///
@@ -3292,6 +3292,79 @@ extension NotificationsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Notifications")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEventRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateManagedNotificationChannelAssociation` operation on the `Notifications` service.
+    ///
+    /// Updates the isSensitiveEventsSubscribed property of a particular ManagedNotification channel association.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateManagedNotificationChannelAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateManagedNotificationChannelAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : This exception is thrown when the notification event fails validation.
+    public func updateManagedNotificationChannelAssociation(input: UpdateManagedNotificationChannelAssociationInput) async throws -> UpdateManagedNotificationChannelAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateManagedNotificationChannelAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "notifications")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>(UpdateManagedNotificationChannelAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateManagedNotificationChannelAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateManagedNotificationChannelAssociationOutput>(UpdateManagedNotificationChannelAssociationOutput.httpOutput(from:), UpdateManagedNotificationChannelAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedNotificationChannelAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Notifications", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateManagedNotificationChannelAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateManagedNotificationChannelAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Notifications"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateManagedNotificationChannelAssociationInput, UpdateManagedNotificationChannelAssociationOutput>(serviceID: serviceName, version: NotificationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Notifications")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateManagedNotificationChannelAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

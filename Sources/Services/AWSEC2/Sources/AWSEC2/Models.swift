@@ -37706,6 +37706,7 @@ extension EC2ClientTypes {
         case interface
         case resource
         case servicenetwork
+        case tunnel
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VpcEndpointType] {
@@ -37714,7 +37715,8 @@ extension EC2ClientTypes {
                 .gatewayloadbalancer,
                 .interface,
                 .resource,
-                .servicenetwork
+                .servicenetwork,
+                .tunnel
             ]
         }
 
@@ -37730,6 +37732,7 @@ extension EC2ClientTypes {
             case .interface: return "Interface"
             case .resource: return "Resource"
             case .servicenetwork: return "ServiceNetwork"
+            case .tunnel: return "Tunnel"
             case let .sdkUnknown(s): return s
             }
         }
@@ -37926,12 +37929,14 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum PayerResponsibilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourcegatewayaccount
         case vpcendpointaccount
         case vpcendpointserviceaccount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PayerResponsibilityType] {
             return [
+                .resourcegatewayaccount,
                 .vpcendpointaccount,
                 .vpcendpointserviceaccount
             ]
@@ -37944,6 +37949,7 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .resourcegatewayaccount: return "resource-gateway-account"
             case .vpcendpointaccount: return "vpc-endpoint-account"
             case .vpcendpointserviceaccount: return "vpc-endpoint-service-account"
             case let .sdkUnknown(s): return s
@@ -37955,11 +37961,13 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum PayerResponsibilityScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourcegatewaycharges
         case vpcendpointcharges
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PayerResponsibilityScope] {
             return [
+                .resourcegatewaycharges,
                 .vpcendpointcharges
             ]
         }
@@ -37971,6 +37979,7 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .resourcegatewaycharges: return "resource-gateway-charges"
             case .vpcendpointcharges: return "vpc-endpoint-charges"
             case let .sdkUnknown(s): return s
             }
@@ -88755,7 +88764,7 @@ public struct ValidateSecurityGroupQuotasForInterfaceInput: Swift.Sendable {
 }
 
 public struct ValidateSecurityGroupQuotasForInterfaceOutput: Swift.Sendable {
-    /// The operation returns true if the specified security groups can be associated with a single network interface without exceeding the quotas. It returns an error if associating the security groups would exceed a quota.
+    /// Specifies whether the specified security groups can be associated with a single network interface without exceeding the quotas. If associating the security groups would exceed a quota, the operation returns an error.
     public var valid: Swift.Bool?
 
     public init(

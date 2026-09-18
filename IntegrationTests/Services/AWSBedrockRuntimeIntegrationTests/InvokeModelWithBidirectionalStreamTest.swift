@@ -15,7 +15,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
     private var client: BedrockRuntimeClient!
     private let region = "us-east-1"
     private var requestEvents: [String] = []
-    private let modelID: String = "amazon.nova-sonic-v1:0"
+    private let modelID: String = "amazon.nova-2-sonic-v1:0"
 
     // The two end events required to close the stream successfully.
     private let CONTENT_END_EVENT =
@@ -34,9 +34,16 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
      {
       "event": {
         "promptEnd": {
-            "promptName": "126680f5-5859-4d15-ae70-488de4146484",
-            "contentName": "b3917935-2398-4889-94a8-e677f6c3e351"
+            "promptName": "126680f5-5859-4d15-ae70-488de4146484"
         }
+      }
+    }
+    """
+    private let SESSION_END_EVENT =
+    """
+     {
+      "event": {
+        "sessionEnd": {}
       }
     }
     """
@@ -71,7 +78,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
                     "sampleRateHertz": 24000,
                     "sampleSizeBits": 16,
                     "channelCount": 1,
-                    "voiceId": "en_us_matthew",
+                    "voiceId": "matthew",
                     "encoding": "base64",
                     "audioType": "SPEECH"
                   },
@@ -93,7 +100,8 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
                   "promptName": "126680f5-5859-4d15-ae70-488de4146484",
                   "contentName": "a6431ef2-e23c-4f8c-a552-3f308629d3c3",
                   "type": "TEXT",
-                  "interactive": true,
+                  "interactive": false,
+                  "role": "SYSTEM",
                   "textInputConfiguration": {
                     "mediaType": "text/plain"
                   }
@@ -108,8 +116,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
                 "textInput": {
                   "promptName": "126680f5-5859-4d15-ae70-488de4146484",
                   "contentName": "a6431ef2-e23c-4f8c-a552-3f308629d3c3",
-                  "content": "You are a friend. The user and you will engage in a spoken dialog exchanging the transcripts of a natural real-time conversation. Keep your responses short, generally two or three sentences for chatty scenarios.",
-                  "role": "SYSTEM"
+                  "content": "You are a friend. The user and you will engage in a spoken dialog exchanging the transcripts of a natural real-time conversation. Keep your responses short, generally two or three sentences for chatty scenarios."
                 }
               }
             }
@@ -134,6 +141,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
                   "contentName": "b3917935-2398-4889-94a8-e677f6c3e351",
                   "type": "AUDIO",
                   "interactive": true,
+                  "role": "USER",
                   "audioInputConfiguration": {
                     "mediaType": "audio/lpcm",
                     "sampleRateHertz": 16000,
@@ -158,8 +166,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
           "audioInput": {
             "promptName": "126680f5-5859-4d15-ae70-488de4146484",
             "contentName": "b3917935-2398-4889-94a8-e677f6c3e351",
-            "content": "%@",
-            "role": "USER"
+            "content": "%@"
           }
         }
         }
@@ -193,7 +200,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
         (inputStream, continuation) = AsyncThrowingStream.makeStream()
 
         // Start up background task that feeds events to the stream.
-        Task { [CONTENT_END_EVENT, PROMPT_END_EVENT, requestEvents] in
+        Task { [CONTENT_END_EVENT, PROMPT_END_EVENT, SESSION_END_EVENT, requestEvents] in
             for event in requestEvents {
                 let currentEvent = BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.chunk(
                     BedrockRuntimeClientTypes.BidirectionalInputPayloadPart(bytes: event.data(using: .utf8))
@@ -207,6 +214,9 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
             ))
             continuation.yield(BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.chunk(
                 BedrockRuntimeClientTypes.BidirectionalInputPayloadPart(bytes: PROMPT_END_EVENT.data(using: .utf8))
+            ))
+            continuation.yield(BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.chunk(
+                BedrockRuntimeClientTypes.BidirectionalInputPayloadPart(bytes: SESSION_END_EVENT.data(using: .utf8))
             ))
             continuation.finish()
         }
