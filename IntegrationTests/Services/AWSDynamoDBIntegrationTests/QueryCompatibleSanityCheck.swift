@@ -18,10 +18,10 @@ final class QueryCompatibleTest: XCTestCase {
     // when service doesn't have @awsQueryCompatible trait
 
     func test_QueryCompatible_TC5_NoQueryModeHeaderForNonCompatibleService() async throws {
-        var capturedHeaders: Headers?
+        let headersRecorder = HeadersRecorder()
 
         let mockHTTPClient = MockHTTPClient { request in
-            capturedHeaders = request.headers
+            await headersRecorder.record(request.headers)
 
             // Return DynamoDB error response
             let response = HTTPResponse(
@@ -56,10 +56,23 @@ final class QueryCompatibleTest: XCTestCase {
             XCTFail("Expected ValidationException error")
         } catch {
             // TC5: Verify x-amzn-query-mode header is NOT present in wire request
+            let capturedHeaders = await headersRecorder.headers
             XCTAssertNotNil(capturedHeaders)
             XCTAssertNil(capturedHeaders?.value(for: "x-amzn-query-mode"),
                         "x-amzn-query-mode header should NOT be present for services without @awsQueryCompatible trait")
         }
+    }
+}
+
+/// Records the headers of the request seen by the mock HTTP client.
+///
+/// The mock's handler is `@Sendable`, so the captured headers cannot be stored in a local
+/// `var`.  An actor gives the handler something safe to capture.
+private actor HeadersRecorder {
+    private(set) var headers: Headers?
+
+    func record(_ headers: Headers) {
+        self.headers = headers
     }
 }
 
@@ -68,9 +81,9 @@ final class QueryCompatibleTest: XCTestCase {
 private final class MockHTTPClient: HTTPClient {
     private let handler: @Sendable (HTTPRequest) async throws -> HTTPResponse
 
-    init(handler: @escaping (HTTPRequest) -> HTTPResponse) {
+    init(handler: @escaping @Sendable (HTTPRequest) async -> HTTPResponse) {
         self.handler = { request in
-            return handler(request)
+            return await handler(request)
         }
     }
 

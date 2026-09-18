@@ -22,16 +22,27 @@ final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
         let n = 5
 
         // Create the S3Express-enabled directory buckets with random names
-        // Use a task group so buckets are created in parallel
-        try await withThrowingTaskGroup(of: Void.self) { group in
+        // Use a task group so buckets are created in parallel.
+        // The child tasks capture only the client & AZ, and return the names they created, so
+        // that `buckets` is only ever mutated here on the test case itself.
+        let client = self.client!
+        let azID = self.azID
+        let newBuckets = try await withThrowingTaskGroup(of: String.self) { group in
             for _ in 1...n {
                 group.addTask {
                     let baseName = String(UUID().uuidString.prefix(8)).lowercased()
-                    _ = try await self.createS3ExpressBucket(baseName: baseName)
+                    return try await Self.createS3ExpressBucket(client: client, azID: azID, baseName: baseName)
                 }
             }
-            try await group.waitForAll()
+            var created = [String]()
+            for try await bucket in group {
+                created.append(bucket)
+            }
+            return created
         }
+
+        // Save the bucket names for use during tear down
+        buckets.append(contentsOf: newBuckets)
 
         // add an object to each bucket
         for bucket in buckets {
