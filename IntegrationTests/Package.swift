@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version: 6.0
 
 //
 // Copyright Amazon.com Inc. or its affiliates.
@@ -42,13 +42,9 @@ let package = Package(
         var deps: [Package.Dependency] = [
             .package(path: "../../smithy-swift"),
             .package(path: "../../aws-sdk-swift"),
-        ]
-        #if swift(>=5.10)
-        deps.append(contentsOf: [
             .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "2.0.0"),
             .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
-        ])
-        #endif
+        ]
         return deps
     }(),
     targets: integrationTestTargets
