@@ -9,7 +9,7 @@ import ArgumentParser
 
 @main
 struct AWSSDKSwiftCLI: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "AWSSDKSwiftCLI",
         abstract: "CLI for managing the AWS SDK for Swift",
         subcommands: [

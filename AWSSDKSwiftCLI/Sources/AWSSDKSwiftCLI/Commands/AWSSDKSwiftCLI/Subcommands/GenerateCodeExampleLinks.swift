@@ -9,7 +9,7 @@ import ArgumentParser
 import Foundation
 
 struct GenerateCodeExampleLinksCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "generate-code-example-links",
         abstract: "Generates CodeExamples.md files with links to code examples from example_meta.json"
     )

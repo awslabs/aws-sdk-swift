@@ -12,7 +12,7 @@ import AWSCLIUtils
 // MARK: - Command
 
 struct PrepareReleaseCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "prepare-release",
         abstract: "Prepares a repository for release",
         discussion: "If there are no changes, then this does nothing as there is nothing new to release"

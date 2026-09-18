@@ -129,10 +129,10 @@ final class QueryCompatibleTests: XCTestCase {
     // Test Case 4: Verify x-amzn-query-mode header is sent
 
     func test_QueryCompatible_TC4_SendsQueryModeHeader() async throws {
-        var capturedHeaders: Headers?
+        let headersRecorder = HeadersRecorder()
 
         let mockHTTPClient = MockHTTPClient { request in
-            capturedHeaders = request.headers
+            await headersRecorder.record(request.headers)
 
             // Return successful response
             let response = HTTPResponse(
@@ -155,9 +155,22 @@ final class QueryCompatibleTests: XCTestCase {
         _ = try await mockClient.getQueueUrl(input: .init(queueName: "test-queue"))
 
         // TC4: Verify x-amzn-query-mode header is present and set to "true"
+        let capturedHeaders = await headersRecorder.headers
         XCTAssertNotNil(capturedHeaders)
         XCTAssertEqual(capturedHeaders?.value(for: "x-amzn-query-mode"), "true",
                       "x-amzn-query-mode header should be present and set to 'true'")
+    }
+}
+
+/// Records the headers of the request seen by the mock HTTP client.
+///
+/// The mock's handler is `@Sendable`, so the captured headers cannot be stored in a local
+/// `var`.  An actor gives the handler something safe to capture.
+private actor HeadersRecorder {
+    private(set) var headers: Headers?
+
+    func record(_ headers: Headers) {
+        self.headers = headers
     }
 }
 
@@ -166,9 +179,9 @@ final class QueryCompatibleTests: XCTestCase {
 private final class MockHTTPClient: HTTPClient {
     private let handler: @Sendable (HTTPRequest) async throws -> HTTPResponse
 
-    init(handler: @escaping (HTTPRequest) -> HTTPResponse) {
+    init(handler: @escaping @Sendable (HTTPRequest) async -> HTTPResponse) {
         self.handler = { request in
-            return handler(request)
+            return await handler(request)
         }
     }
 
