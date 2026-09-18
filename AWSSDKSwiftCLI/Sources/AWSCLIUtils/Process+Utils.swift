@@ -68,7 +68,7 @@ public func _runReturningStdOut(_ process: Process) throws -> String? {
 }
 
 /// A simple struct that runs a process
-public struct ProcessRunner {
+public struct ProcessRunner: @unchecked Sendable {
 
     public init(_ run: @escaping (Process) throws -> Void) {
         self.run = run
@@ -91,6 +91,6 @@ public struct ProcessRunner {
     
     #if DEBUG
     // Set this to a non-nil value in tests to intercept when a process is run
-    public static var testRunner: ProcessRunner? = nil
+    public nonisolated(unsafe) static var testRunner: ProcessRunner? = nil
     #endif
 }

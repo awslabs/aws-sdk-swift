@@ -12,7 +12,7 @@ import AWSCLIUtils
 // MARK: - Command
 
 struct SyncClientRuntimeVersionCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "sync-client-runtime-version",
         abstract: "Sets the version of ClientRuntime in aws-sdk-swift to the version defined in smithy-swift"
     )
