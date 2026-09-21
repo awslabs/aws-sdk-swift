@@ -72542,6 +72542,7 @@ extension EC2ClientTypes {
         case t3
         case t3a
         case t4g
+        case t8i
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UnlimitedSupportedInstanceFamily] {
@@ -72549,7 +72550,8 @@ extension EC2ClientTypes {
                 .t2,
                 .t3,
                 .t3a,
-                .t4g
+                .t4g,
+                .t8i
             ]
         }
 
@@ -72564,6 +72566,7 @@ extension EC2ClientTypes {
             case .t3: return "t3"
             case .t3a: return "t3a"
             case .t4g: return "t4g"
+            case .t8i: return "t8i"
             case let .sdkUnknown(s): return s
             }
         }

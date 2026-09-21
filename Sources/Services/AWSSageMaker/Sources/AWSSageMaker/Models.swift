@@ -47024,6 +47024,7 @@ extension SageMakerClientTypes {
         case experimentTrialComponent
         case featureGroup
         case featureMetadata
+        case hubContent
         case hyperParameterTuningJob
         case image
         case imageVersion
@@ -47047,6 +47048,7 @@ extension SageMakerClientTypes {
                 .experimentTrialComponent,
                 .featureGroup,
                 .featureMetadata,
+                .hubContent,
                 .hyperParameterTuningJob,
                 .image,
                 .imageVersion,
@@ -47076,6 +47078,7 @@ extension SageMakerClientTypes {
             case .experimentTrialComponent: return "ExperimentTrialComponent"
             case .featureGroup: return "FeatureGroup"
             case .featureMetadata: return "FeatureMetadata"
+            case .hubContent: return "HubContent"
             case .hyperParameterTuningJob: return "HyperParameterTuningJob"
             case .image: return "Image"
             case .imageVersion: return "ImageVersion"
@@ -47179,6 +47182,110 @@ extension SageMakerClientTypes {
             secretArn: Swift.String? = nil
         ) {
             self.secretArn = secretArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains information about a hub content resource, including its name, version, type, associated documents, dependencies, and status, as returned by a search result.
+    public struct HubContent: Swift.Sendable {
+        /// The date and time that hub content was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The document schema version for the hub content.
+        /// This member is required.
+        public var documentSchemaVersion: Swift.String?
+        /// The failure reason if importing hub content failed.
+        public var failureReason: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hub that contains the content.
+        /// This member is required.
+        public var hubArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hub content.
+        /// This member is required.
+        public var hubContentArn: Swift.String?
+        /// The location of any dependencies that the hub content has, such as scripts, model artifacts, datasets, or notebooks.
+        public var hubContentDependencies: [SageMakerClientTypes.HubContentDependency]?
+        /// A description of the hub content.
+        public var hubContentDescription: Swift.String?
+        /// The display name of the hub content.
+        public var hubContentDisplayName: Swift.String?
+        /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more.
+        public var hubContentDocument: Swift.String?
+        /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting.
+        public var hubContentMarkdown: Swift.String?
+        /// The name of the hub content.
+        /// This member is required.
+        public var hubContentName: Swift.String?
+        /// The searchable keywords for the hub content.
+        public var hubContentSearchKeywords: [Swift.String]?
+        /// The status of the hub content.
+        /// This member is required.
+        public var hubContentStatus: SageMakerClientTypes.HubContentStatus?
+        /// The type of hub content.
+        /// This member is required.
+        public var hubContentType: SageMakerClientTypes.HubContentType?
+        /// The version of the hub content.
+        /// This member is required.
+        public var hubContentVersion: Swift.String?
+        /// The name of the hub that contains the content.
+        /// This member is required.
+        public var hubName: Swift.String?
+        /// The last modified time of the hub content.
+        public var lastModifiedTime: Foundation.Date?
+        /// The minimum version of the hub content.
+        public var referenceMinVersion: Swift.String?
+        /// The Amazon Resource Name (ARN) of the public hub content.
+        public var sageMakerPublicHubContentArn: Swift.String?
+        /// The support status of the hub content.
+        public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
+        /// Any tags associated with the hub content.
+        public var tags: [SageMakerClientTypes.Tag]?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            documentSchemaVersion: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            hubArn: Swift.String? = nil,
+            hubContentArn: Swift.String? = nil,
+            hubContentDependencies: [SageMakerClientTypes.HubContentDependency]? = nil,
+            hubContentDescription: Swift.String? = nil,
+            hubContentDisplayName: Swift.String? = nil,
+            hubContentDocument: Swift.String? = nil,
+            hubContentMarkdown: Swift.String? = nil,
+            hubContentName: Swift.String? = nil,
+            hubContentSearchKeywords: [Swift.String]? = nil,
+            hubContentStatus: SageMakerClientTypes.HubContentStatus? = nil,
+            hubContentType: SageMakerClientTypes.HubContentType? = nil,
+            hubContentVersion: Swift.String? = nil,
+            hubName: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            referenceMinVersion: Swift.String? = nil,
+            sageMakerPublicHubContentArn: Swift.String? = nil,
+            supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
+            tags: [SageMakerClientTypes.Tag]? = nil
+        ) {
+            self.creationTime = creationTime
+            self.documentSchemaVersion = documentSchemaVersion
+            self.failureReason = failureReason
+            self.hubArn = hubArn
+            self.hubContentArn = hubContentArn
+            self.hubContentDependencies = hubContentDependencies
+            self.hubContentDescription = hubContentDescription
+            self.hubContentDisplayName = hubContentDisplayName
+            self.hubContentDocument = hubContentDocument
+            self.hubContentMarkdown = hubContentMarkdown
+            self.hubContentName = hubContentName
+            self.hubContentSearchKeywords = hubContentSearchKeywords
+            self.hubContentStatus = hubContentStatus
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+            self.lastModifiedTime = lastModifiedTime
+            self.referenceMinVersion = referenceMinVersion
+            self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
+            self.supportStatus = supportStatus
+            self.tags = tags
         }
     }
 }
@@ -59353,6 +59460,8 @@ extension SageMakerClientTypes {
         public var featureGroup: SageMakerClientTypes.FeatureGroup?
         /// The feature metadata used to search through the features.
         public var featureMetadata: SageMakerClientTypes.FeatureMetadata?
+        /// The properties of a hub content resource.
+        public var hubContent: SageMakerClientTypes.HubContent?
         /// The properties of a hyperparameter tuning job.
         public var hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity?
         /// The properties of a job.
@@ -59392,6 +59501,7 @@ extension SageMakerClientTypes {
             experiment: SageMakerClientTypes.Experiment? = nil,
             featureGroup: SageMakerClientTypes.FeatureGroup? = nil,
             featureMetadata: SageMakerClientTypes.FeatureMetadata? = nil,
+            hubContent: SageMakerClientTypes.HubContent? = nil,
             hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity? = nil,
             job: SageMakerClientTypes.Job? = nil,
             model: SageMakerClientTypes.ModelDashboardModel? = nil,
@@ -59410,6 +59520,7 @@ extension SageMakerClientTypes {
             self.experiment = experiment
             self.featureGroup = featureGroup
             self.featureMetadata = featureMetadata
+            self.hubContent = hubContent
             self.hyperParameterTuningJob = hyperParameterTuningJob
             self.job = job
             self.model = model

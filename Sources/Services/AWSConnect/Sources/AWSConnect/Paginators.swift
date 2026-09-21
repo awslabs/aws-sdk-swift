@@ -1569,6 +1569,38 @@ extension PaginatorSequence where OperationStackInput == ListSecurityKeysInput, 
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListSecurityProfileAIAgentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSecurityProfileAIAgentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfileAIAgentsOutput`
+    public func listSecurityProfileAIAgentsPaginated(input: ListSecurityProfileAIAgentsInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfileAIAgentsInput, ListSecurityProfileAIAgentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSecurityProfileAIAgentsInput, ListSecurityProfileAIAgentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityProfileAIAgents(input:))
+    }
+}
+
+extension ListSecurityProfileAIAgentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSecurityProfileAIAgentsInput {
+        return ListSecurityProfileAIAgentsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileId: self.securityProfileId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSecurityProfileAIAgentsInput, OperationStackOutput == ListSecurityProfileAIAgentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfileAIAgentsPaginated`
+    /// to access the nested member `[ConnectClientTypes.AIAgent]`
+    /// - Returns: `[ConnectClientTypes.AIAgent]`
+    public func allowedAIAgents() async throws -> [ConnectClientTypes.AIAgent] {
+        return try await self.asyncCompactMap { item in item.allowedAIAgents }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListSecurityProfileApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

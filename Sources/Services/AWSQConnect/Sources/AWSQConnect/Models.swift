@@ -218,6 +218,18 @@ extension QConnectClientTypes.AgentAttributes: Swift.CustomDebugStringConvertibl
         "AgentAttributes(firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\")"}
 }
 
+extension QConnectClientTypes {
+
+    /// A union that identifies a collaborator agent to engage. Specify either an Amazon Connect AI Agent or a third-party agent.
+    public enum AgentTarget: Swift.Sendable {
+        /// The identifier of an Amazon Connect AI Agent to use as the collaborator agent.
+        case aiagentid(Swift.String)
+        /// The identifier of a third-party agent to use as the collaborator agent.
+        case applicationid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -613,6 +625,101 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// The instruction that guides how the Orchestration AI Agent works with a collaborator agent.
+    public struct MultiAgentInstruction: Swift.Sendable {
+        /// Example interactions that illustrate when the Orchestration AI Agent should engage the collaborator agent.
+        public var examples: [Swift.String]?
+        /// The natural-language instruction that tells the Orchestration AI Agent when and how to engage the collaborator agent.
+        public var instruction: Swift.String?
+
+        public init(
+            examples: [Swift.String]? = nil,
+            instruction: Swift.String? = nil
+        ) {
+            self.examples = examples
+            self.instruction = instruction
+        }
+    }
+}
+
+extension QConnectClientTypes.MultiAgentInstruction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// A collaborator agent configuration in which the Orchestration AI Agent invokes the collaborator, resuming when the collaborator returns.
+    public struct DelegateAgentConfiguration: Swift.Sendable {
+        /// The collaborator agent to delegate to.
+        /// This member is required.
+        public var agentTarget: QConnectClientTypes.AgentTarget?
+        /// The instruction that tells the Orchestration AI Agent when and how to delegate to this collaborator agent.
+        public var instruction: QConnectClientTypes.MultiAgentInstruction?
+
+        public init(
+            agentTarget: QConnectClientTypes.AgentTarget? = nil,
+            instruction: QConnectClientTypes.MultiAgentInstruction? = nil
+        ) {
+            self.agentTarget = agentTarget
+            self.instruction = instruction
+        }
+    }
+}
+
+extension QConnectClientTypes.DelegateAgentConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DelegateAgentConfiguration(agentTarget: \(Swift.String(describing: agentTarget)), instruction: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// A collaborator agent configuration in which the Orchestration AI Agent transfers control of the conversation to the collaborator agent.
+    public struct HandoffAgentConfiguration: Swift.Sendable {
+        /// The collaborator agent to hand off to.
+        /// This member is required.
+        public var agentTarget: QConnectClientTypes.AgentTarget?
+        /// Specifies whether the caller's audio is streamed directly to the collaborator agent and the collaborator's audio response is played back during the handoff. This applies only to voice handoffs.
+        public var audioStreamingEnabled: Swift.Bool?
+        /// Specifies whether the conversation is handed off to this collaborator agent immediately on the first turn, without any orchestration reasoning. At most one handoff in an AI Agent's configuration can set this to true.
+        public var immediateHandoff: Swift.Bool?
+        /// The instruction that tells the Orchestration AI Agent when and how to hand off to this collaborator agent.
+        public var instruction: QConnectClientTypes.MultiAgentInstruction?
+
+        public init(
+            agentTarget: QConnectClientTypes.AgentTarget? = nil,
+            audioStreamingEnabled: Swift.Bool? = nil,
+            immediateHandoff: Swift.Bool? = nil,
+            instruction: QConnectClientTypes.MultiAgentInstruction? = nil
+        ) {
+            self.agentTarget = agentTarget
+            self.audioStreamingEnabled = audioStreamingEnabled
+            self.immediateHandoff = immediateHandoff
+            self.instruction = instruction
+        }
+    }
+}
+
+extension QConnectClientTypes.HandoffAgentConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HandoffAgentConfiguration(agentTarget: \(Swift.String(describing: agentTarget)), audioStreamingEnabled: \(Swift.String(describing: audioStreamingEnabled)), immediateHandoff: \(Swift.String(describing: immediateHandoff)), instruction: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// A union that configures a single collaborator agent for an Orchestration AI Agent, as either a delegate or a handoff.
+    public enum MultiAgentConfiguration: Swift.Sendable {
+        /// Configures the collaborator agent as a delegate that the Orchestration AI Agent invokes while retaining control of the conversation.
+        case delegateagentconfiguration(QConnectClientTypes.DelegateAgentConfiguration)
+        /// Configures the collaborator agent as a handoff target that the Orchestration AI Agent transfers control of the conversation to.
+        case handoffagentconfiguration(QConnectClientTypes.HandoffAgentConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QConnectClientTypes {
+
     /// An annotation that provides additional context or metadata.
     public struct Annotation: Swift.Sendable {
         /// A hint indicating that the annotation contains potentially destructive content.
@@ -908,30 +1015,46 @@ extension QConnectClientTypes {
     public struct OrchestrationAIAgentConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amazon Connect instance used by the Orchestration AI Agent.
         public var connectInstanceArn: Swift.String?
+        /// The JSON schemas that define the structure of the structured data input accepted by the Orchestration AI Agent. The data in a DATA message sent to the agent is validated against these schemas. You can specify at most one schema.
+        public var inputSchemas: [Smithy.Document]?
         /// The locale setting for the Orchestration AI Agent.
         public var locale: Swift.String?
+        /// The collaborator agents that the Orchestration AI Agent can work with. Each entry defines another agent that the orchestrator either delegates to or hands the conversation off to.
+        public var multiAgentConfigurations: [QConnectClientTypes.MultiAgentConfiguration]?
         /// The AI Guardrail identifier used by the Orchestration AI Agent.
         public var orchestrationAIGuardrailId: Swift.String?
         /// The AI Prompt identifier used by the Orchestration AI Agent.
-        /// This member is required.
         public var orchestrationAIPromptId: Swift.String?
+        /// The JSON schemas that define the structure of the structured output generated by the Orchestration AI Agent. You can specify at most one schema.
+        public var outputSchemas: [Smithy.Document]?
         /// The tool configurations used by the Orchestration AI Agent.
         public var toolConfigurations: [QConnectClientTypes.ToolConfiguration]?
 
         public init(
             connectInstanceArn: Swift.String? = nil,
+            inputSchemas: [Smithy.Document]? = nil,
             locale: Swift.String? = nil,
+            multiAgentConfigurations: [QConnectClientTypes.MultiAgentConfiguration]? = nil,
             orchestrationAIGuardrailId: Swift.String? = nil,
             orchestrationAIPromptId: Swift.String? = nil,
+            outputSchemas: [Smithy.Document]? = nil,
             toolConfigurations: [QConnectClientTypes.ToolConfiguration]? = nil
         ) {
             self.connectInstanceArn = connectInstanceArn
+            self.inputSchemas = inputSchemas
             self.locale = locale
+            self.multiAgentConfigurations = multiAgentConfigurations
             self.orchestrationAIGuardrailId = orchestrationAIGuardrailId
             self.orchestrationAIPromptId = orchestrationAIPromptId
+            self.outputSchemas = outputSchemas
             self.toolConfigurations = toolConfigurations
         }
     }
+}
+
+extension QConnectClientTypes.OrchestrationAIAgentConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OrchestrationAIAgentConfiguration(connectInstanceArn: \(Swift.String(describing: connectInstanceArn)), locale: \(Swift.String(describing: locale)), multiAgentConfigurations: \(Swift.String(describing: multiAgentConfigurations)), orchestrationAIGuardrailId: \(Swift.String(describing: orchestrationAIGuardrailId)), orchestrationAIPromptId: \(Swift.String(describing: orchestrationAIPromptId)), toolConfigurations: \(Swift.String(describing: toolConfigurations)), inputSchemas: \"CONTENT_REDACTED\", outputSchemas: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -2058,7 +2181,7 @@ extension QConnectClientTypes {
         ///
         /// * CA_HEALTH_NUMBER A Canadian Health Service Number is a 10-digit unique identifier, required for individuals to access healthcare benefits.
         ///
-        /// * CA_SOCIAL_INSURANCE_NUMBER A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier, required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as 123-456-789. A SIN can be validated through a simple check-digit process called the [Luhn algorithm](https://www.wikipedia.org/wiki/Luhn_algorithm) .
+        /// * CA_SOCIAL_INSURANCE_NUMBER A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier, required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as 123-456-789. A SIN can be validated through a simple check-digit process called the Luhn algorithm. For more information, see [Luhn algorithm](https://www.wikipedia.org/wiki/Luhn_algorithm) on the Wikipedia website.
         ///
         ///
         ///
@@ -3602,7 +3725,7 @@ extension QConnectClientTypes {
 
     /// Content association data for a [step-by-step guide](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html).
     public struct AmazonConnectGuideAssociationData: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
+        /// The Amazon Resource Name (ARN) of an Connect Customer flow. Step-by-step guides are a type of flow.
         public var flowId: Swift.String?
 
         public init(
@@ -6098,7 +6221,7 @@ public struct CreateSessionInput: Swift.Sendable {
     public var assistantId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
+    /// The Amazon Resource Name (ARN) of the email contact in Connect Customer. Used to retrieve email content and establish session context for AI-powered email assistance.
     public var contactArn: Swift.String?
     /// The description.
     public var description: Swift.String?
@@ -6529,6 +6652,8 @@ extension QConnectClientTypes {
         case text(QConnectClientTypes.TextMessage)
         /// The result of tool usage in the message.
         case tooluseresult(QConnectClientTypes.ToolUseResultData)
+        /// The message data as a structured JSON document. This is the payload for a message of type DATA, and must be a JSON object at the root level.
+        case data(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6567,12 +6692,14 @@ extension QConnectClientTypes {
 extension QConnectClientTypes {
 
     public enum MessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case data
         case text
         case toolUseResult
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MessageType] {
             return [
+                .data,
                 .text,
                 .toolUseResult
             ]
@@ -6585,6 +6712,7 @@ extension QConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .data: return "DATA"
             case .text: return "TEXT"
             case .toolUseResult: return "TOOL_USE_RESULT"
             case let .sdkUnknown(s): return s
@@ -7035,6 +7163,84 @@ extension QConnectClientTypes {
 extension QConnectClientTypes.SpanToolUseValue: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SpanToolUseValue(name: \(Swift.String(describing: name)), toolUseId: \(Swift.String(describing: toolUseId)), arguments: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// How an orchestrator agent engaged a collaborator agent.
+    ///
+    /// * DELEGATE indicates that the orchestrator invoked the collaborator agent and retained control of the conversation, resuming when the collaborator returns.
+    ///
+    /// * HANDOFF indicates that the orchestrator transferred control of the conversation to the collaborator agent.
+    public enum InteractionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delegate
+        case handoff
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InteractionMode] {
+            return [
+                .delegate,
+                .handoff
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delegate: return "DELEGATE"
+            case .handoff: return "HANDOFF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// The reason a sub-agent returned control to the calling agent.
+    ///
+    /// * COMPLETE – the request was fulfilled.
+    ///
+    /// * COMPLETE_WITH_ERROR – the sub-agent attempted the request but could not fully complete it.
+    ///
+    /// * ESCALATE – the conversation should be transferred to a human agent.
+    ///
+    /// * OUT_OF_DOMAIN – the request fell outside the sub-agent's domain of expertise.
+    public enum ReturnReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case completeWithError
+        case escalate
+        case outOfDomain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReturnReason] {
+            return [
+                .complete,
+                .completeWithError,
+                .escalate,
+                .outOfDomain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .completeWithError: return "COMPLETE_WITH_ERROR"
+            case .escalate: return "ESCALATE"
+            case .outOfDomain: return "OUT_OF_DOMAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension QConnectClientTypes {
@@ -7644,9 +7850,9 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
-    /// The configuration information of the Amazon Connect data source.
+    /// The configuration information of the Connect Customer data source.
     public struct ConnectConfiguration: Swift.Sendable {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public var instanceId: Swift.String?
 
         public init(
@@ -7661,7 +7867,7 @@ extension QConnectClientTypes {
 
     /// The configuration information of the external data source.
     public enum Configuration: Swift.Sendable {
-        /// The configuration information of the Amazon Connect data source.
+        /// The configuration information of the Connect Customer data source.
         case connectconfiguration(QConnectClientTypes.ConnectConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -9648,7 +9854,7 @@ extension QConnectClientTypes {
         public var criteria: Swift.String?
         /// The list of values that define different groups of Amazon Q in Connect users.
         ///
-        /// * When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of [Amazon Connect routing profiles](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html) as values of this parameter.
+        /// * When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of [Connect Customer routing profiles](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html) as values of this parameter.
         public var values: [Swift.String]?
 
         public init(
@@ -10245,7 +10451,7 @@ extension QConnectClientTypes {
 }
 
 public struct CreateQuickResponseInput: Swift.Sendable {
-    /// The Amazon Connect channels this quick response applies to.
+    /// The Connect Customer channels this quick response applies to.
     public var channels: [Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -10391,7 +10597,7 @@ extension QConnectClientTypes {
 
     /// Information about the quick response.
     public struct QuickResponseData: Swift.Sendable {
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
         ///
@@ -11514,7 +11720,7 @@ extension QConnectClientTypes {
 
     /// The summary information about the quick response.
     public struct QuickResponseSummary: Swift.Sendable {
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
         ///
@@ -11612,7 +11818,7 @@ public struct ListQuickResponsesOutput: Swift.Sendable {
 }
 
 public struct UpdateQuickResponseInput: Swift.Sendable {
-    /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+    /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
     public var channels: [Swift.String]?
     /// The updated content of the quick response.
     public var content: QConnectClientTypes.QuickResponseDataProvider?
@@ -12382,7 +12588,7 @@ extension QConnectClientTypes {
 }
 
 public struct SearchQuickResponsesInput: Swift.Sendable {
-    /// The [user-defined Amazon Connect contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/connect-attrib-list.html#user-defined-attributes) to be resolved when search results are returned.
+    /// The [user-defined Connect Customer contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/connect-attrib-list.html#user-defined-attributes) to be resolved when search results are returned.
     public var attributes: [Swift.String: Swift.String]?
     /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
@@ -12423,7 +12629,7 @@ extension QConnectClientTypes {
         public var attributesInterpolated: [Swift.String]?
         /// The user defined contact attributes that are not resolved when the search result is returned.
         public var attributesNotInterpolated: [Swift.String]?
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
         ///
@@ -13171,6 +13377,8 @@ extension QConnectClientTypes {
         public var inputMessages: [QConnectClientTypes.SpanMessage]?
         /// Amazon Connect instance ARN
         public var instanceArn: Swift.String?
+        /// How the orchestrator engaged the collaborator agent. Present on spans that invoke a collaborator agent.
+        public var interactionMode: QConnectClientTypes.InteractionMode?
         /// Action being performed
         public var operationName: Swift.String?
         /// Output message collection received from LLM
@@ -13195,10 +13403,14 @@ extension QConnectClientTypes {
         public var responseFinishReasons: [Swift.String]?
         /// Actual model used for response (usually matches requestModel)
         public var responseModel: Swift.String?
+        /// Reason a sub-agent returned control to the calling agent. Present on return_to_agent spans.
+        public var returnReason: QConnectClientTypes.ReturnReason?
         /// Session name
         public var sessionName: Swift.String?
         /// System prompt instructions
         public var systemInstructions: [QConnectClientTypes.SpanMessageValue]?
+        /// Identifier of the collaborator agent being invoked. For first-party collaborators this is the Amazon Connect AI agent ID; for third-party collaborators this is the external application ID.
+        public var targetAgentId: Swift.String?
         /// Sampling temperature for generation
         public var temperature: Swift.Float?
         /// Time to first token in milliseconds, measured from when Amazon Bedrock was invoked to when the first token was returned
@@ -13229,6 +13441,7 @@ extension QConnectClientTypes {
             initialContactId: Swift.String? = nil,
             inputMessages: [QConnectClientTypes.SpanMessage]? = nil,
             instanceArn: Swift.String? = nil,
+            interactionMode: QConnectClientTypes.InteractionMode? = nil,
             operationName: Swift.String? = nil,
             outputMessages: [QConnectClientTypes.SpanMessage]? = nil,
             promptArn: Swift.String? = nil,
@@ -13241,8 +13454,10 @@ extension QConnectClientTypes {
             requestModel: Swift.String? = nil,
             responseFinishReasons: [Swift.String]? = nil,
             responseModel: Swift.String? = nil,
+            returnReason: QConnectClientTypes.ReturnReason? = nil,
             sessionName: Swift.String? = nil,
             systemInstructions: [QConnectClientTypes.SpanMessageValue]? = nil,
+            targetAgentId: Swift.String? = nil,
             temperature: Swift.Float? = nil,
             timeToFirstTokenMs: Swift.Int? = nil,
             topp: Swift.Float? = nil,
@@ -13266,6 +13481,7 @@ extension QConnectClientTypes {
             self.initialContactId = initialContactId
             self.inputMessages = inputMessages
             self.instanceArn = instanceArn
+            self.interactionMode = interactionMode
             self.operationName = operationName
             self.outputMessages = outputMessages
             self.promptArn = promptArn
@@ -13278,8 +13494,10 @@ extension QConnectClientTypes {
             self.requestModel = requestModel
             self.responseFinishReasons = responseFinishReasons
             self.responseModel = responseModel
+            self.returnReason = returnReason
             self.sessionName = sessionName
             self.systemInstructions = systemInstructions
+            self.targetAgentId = targetAgentId
             self.temperature = temperature
             self.timeToFirstTokenMs = timeToFirstTokenMs
             self.topp = topp
@@ -18384,6 +18602,34 @@ extension QConnectClientTypes.AgentAttributes {
     }
 }
 
+extension QConnectClientTypes.AgentTarget {
+
+    static func write(value: QConnectClientTypes.AgentTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .aiagentid(aiagentid):
+                try writer["aiAgentId"].write(aiagentid)
+            case let .applicationid(applicationid):
+                try writer["applicationId"].write(applicationid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AgentTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "aiAgentId":
+                return .aiagentid(try reader["aiAgentId"].read())
+            case "applicationId":
+                return .applicationid(try reader["applicationId"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension QConnectClientTypes.AIAgentConfiguration {
 
     static func write(value: QConnectClientTypes.AIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -19533,6 +19779,23 @@ extension QConnectClientTypes.DataSummary {
     }
 }
 
+extension QConnectClientTypes.DelegateAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.DelegateAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentTarget"].write(value.agentTarget, with: QConnectClientTypes.AgentTarget.write(value:to:))
+        try writer["instruction"].write(value.instruction, with: QConnectClientTypes.MultiAgentInstruction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DelegateAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.DelegateAgentConfiguration()
+        value.agentTarget = try reader["agentTarget"].readIfPresent(with: QConnectClientTypes.AgentTarget.read(from:))
+        value.instruction = try reader["instruction"].readIfPresent(with: QConnectClientTypes.MultiAgentInstruction.read(from:))
+        return value
+    }
+}
+
 extension QConnectClientTypes.Document {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Document {
@@ -20007,6 +20270,27 @@ extension QConnectClientTypes.GuardrailWordConfig {
     }
 }
 
+extension QConnectClientTypes.HandoffAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.HandoffAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentTarget"].write(value.agentTarget, with: QConnectClientTypes.AgentTarget.write(value:to:))
+        try writer["audioStreamingEnabled"].write(value.audioStreamingEnabled)
+        try writer["immediateHandoff"].write(value.immediateHandoff)
+        try writer["instruction"].write(value.instruction, with: QConnectClientTypes.MultiAgentInstruction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HandoffAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.HandoffAgentConfiguration()
+        value.agentTarget = try reader["agentTarget"].readIfPresent(with: QConnectClientTypes.AgentTarget.read(from:))
+        value.instruction = try reader["instruction"].readIfPresent(with: QConnectClientTypes.MultiAgentInstruction.read(from:))
+        value.audioStreamingEnabled = try reader["audioStreamingEnabled"].readIfPresent()
+        value.immediateHandoff = try reader["immediateHandoff"].readIfPresent()
+        return value
+    }
+}
+
 extension QConnectClientTypes.HierarchicalChunkingConfiguration {
 
     static func write(value: QConnectClientTypes.HierarchicalChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -20264,6 +20548,8 @@ extension QConnectClientTypes.MessageData {
     static func write(value: QConnectClientTypes.MessageData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .data(data):
+                try writer["data"].write(data)
             case let .text(text):
                 try writer["text"].write(text, with: QConnectClientTypes.TextMessage.write(value:to:))
             case let .tooluseresult(tooluseresult):
@@ -20281,6 +20567,8 @@ extension QConnectClientTypes.MessageData {
                 return .text(try reader["text"].read(with: QConnectClientTypes.TextMessage.read(from:)))
             case "toolUseResult":
                 return .tooluseresult(try reader["toolUseResult"].read(with: QConnectClientTypes.ToolUseResultData.read(from:)))
+            case "data":
+                return .data(try reader["data"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -20596,6 +20884,51 @@ extension QConnectClientTypes.ModelSummary {
     }
 }
 
+extension QConnectClientTypes.MultiAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.MultiAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .delegateagentconfiguration(delegateagentconfiguration):
+                try writer["delegateAgentConfiguration"].write(delegateagentconfiguration, with: QConnectClientTypes.DelegateAgentConfiguration.write(value:to:))
+            case let .handoffagentconfiguration(handoffagentconfiguration):
+                try writer["handoffAgentConfiguration"].write(handoffagentconfiguration, with: QConnectClientTypes.HandoffAgentConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MultiAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "delegateAgentConfiguration":
+                return .delegateagentconfiguration(try reader["delegateAgentConfiguration"].read(with: QConnectClientTypes.DelegateAgentConfiguration.read(from:)))
+            case "handoffAgentConfiguration":
+                return .handoffagentconfiguration(try reader["handoffAgentConfiguration"].read(with: QConnectClientTypes.HandoffAgentConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.MultiAgentInstruction {
+
+    static func write(value: QConnectClientTypes.MultiAgentInstruction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["instruction"].write(value.instruction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MultiAgentInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MultiAgentInstruction()
+        value.instruction = try reader["instruction"].readIfPresent()
+        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension QConnectClientTypes.NotesChunkDataDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotesChunkDataDetails {
@@ -20652,20 +20985,26 @@ extension QConnectClientTypes.OrchestrationAIAgentConfiguration {
     static func write(value: QConnectClientTypes.OrchestrationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectInstanceArn"].write(value.connectInstanceArn)
+        try writer["inputSchemas"].writeList(value.inputSchemas, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["locale"].write(value.locale)
+        try writer["multiAgentConfigurations"].writeList(value.multiAgentConfigurations, memberWritingClosure: QConnectClientTypes.MultiAgentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["orchestrationAIGuardrailId"].write(value.orchestrationAIGuardrailId)
         try writer["orchestrationAIPromptId"].write(value.orchestrationAIPromptId)
+        try writer["outputSchemas"].writeList(value.outputSchemas, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toolConfigurations"].writeList(value.toolConfigurations, memberWritingClosure: QConnectClientTypes.ToolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrchestrationAIAgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.OrchestrationAIAgentConfiguration()
-        value.orchestrationAIPromptId = try reader["orchestrationAIPromptId"].readIfPresent() ?? ""
+        value.orchestrationAIPromptId = try reader["orchestrationAIPromptId"].readIfPresent()
         value.orchestrationAIGuardrailId = try reader["orchestrationAIGuardrailId"].readIfPresent()
         value.toolConfigurations = try reader["toolConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiAgentConfigurations = try reader["multiAgentConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.MultiAgentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectInstanceArn = try reader["connectInstanceArn"].readIfPresent()
         value.locale = try reader["locale"].readIfPresent()
+        value.inputSchemas = try reader["inputSchemas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputSchemas = try reader["outputSchemas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -21535,6 +21874,9 @@ extension QConnectClientTypes.SpanAttributes {
         value.aiAgentVersion = try reader["aiAgentVersion"].readIfPresent()
         value.aiAgentInvoker = try reader["aiAgentInvoker"].readIfPresent()
         value.aiAgentOrchestratorUseCase = try reader["aiAgentOrchestratorUseCase"].readIfPresent()
+        value.interactionMode = try reader["interactionMode"].readIfPresent()
+        value.targetAgentId = try reader["targetAgentId"].readIfPresent()
+        value.returnReason = try reader["returnReason"].readIfPresent()
         value.requestModel = try reader["requestModel"].readIfPresent()
         value.requestMaxTokens = try reader["requestMaxTokens"].readIfPresent()
         value.temperature = try reader["temperature"].readIfPresent()
