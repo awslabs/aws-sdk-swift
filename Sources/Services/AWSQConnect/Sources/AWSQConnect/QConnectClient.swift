@@ -1366,7 +1366,7 @@ extension QConnectClient {
     /// * You can associate a step-by-step guide with multiple content resources.
     ///
     ///
-    /// For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
+    /// For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Connect Customer Administrator Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateContentAssociationInput`)
     ///
@@ -1817,7 +1817,7 @@ extension QConnectClient {
 
     /// Performs the `CreateSession` operation on the `QConnect` service.
     ///
-    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    /// Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
@@ -2586,7 +2586,7 @@ extension QConnectClient {
 
     /// Performs the `DeleteContentAssociation` operation on the `QConnect` service.
     ///
-    /// Deletes the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
+    /// Deletes the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Connect Customer Administrator Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteContentAssociationInput`)
     ///
@@ -3409,7 +3409,7 @@ extension QConnectClient {
 
     /// Performs the `GetContentAssociation` operation on the `QConnect` service.
     ///
-    /// Returns the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
+    /// Returns the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Connect Customer Administrator Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetContentAssociationInput`)
     ///
@@ -3886,7 +3886,7 @@ extension QConnectClient {
 
     /// Performs the `GetRecommendations` operation on the `QConnect` service.
     ///
-    /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
+    /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRecommendationsInput`)
@@ -4579,7 +4579,7 @@ extension QConnectClient {
 
     /// Performs the `ListContentAssociations` operation on the `QConnect` service.
     ///
-    /// Lists the content associations. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
+    /// Lists the content associations. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Connect Customer Administrator Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListContentAssociationsInput`)
     ///
@@ -5468,7 +5468,7 @@ extension QConnectClient {
 
     /// Performs the `QueryAssistant` operation on the `QConnect` service.
     ///
-    /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
+    /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
     /// - Parameter input: [no documentation found] (Type: `QueryAssistantInput`)
@@ -7122,7 +7122,7 @@ extension QConnectClient {
 
     /// Performs the `UpdateSession` operation on the `QConnect` service.
     ///
-    /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    /// Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSessionInput`)
     ///

@@ -1797,6 +1797,26 @@ public struct CreateCallAnalyticsCategoryOutput: Swift.Sendable {
 
 extension TranscribeClientTypes {
 
+    /// Encryption configuration for the invocation
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context).
+        public var kmsEncryptionContext: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the KMS key you want to use to encrypt your resource artifacts. Only full KMS key ARN format is supported. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see [KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN).
+        /// This member is required.
+        public var kmsKey: Swift.String?
+
+        public init(
+            kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
+            kmsKey: Swift.String? = nil
+        ) {
+            self.kmsEncryptionContext = kmsEncryptionContext
+            self.kmsKey = kmsKey
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
     /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri and DataAccessRoleArn. You can optionally include TuningDataS3Uri.
     public struct InputDataConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
@@ -1824,6 +1844,8 @@ public struct CreateLanguageModelInput: Swift.Sendable {
     /// The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
     /// This member is required.
     public var baseModelName: TranscribeClientTypes.BaseModelName?
+    /// Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 location. You can optionally include TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations.
     /// This member is required.
     public var inputDataConfig: TranscribeClientTypes.InputDataConfig?
@@ -1838,12 +1860,14 @@ public struct CreateLanguageModelInput: Swift.Sendable {
 
     public init(
         baseModelName: TranscribeClientTypes.BaseModelName? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         inputDataConfig: TranscribeClientTypes.InputDataConfig? = nil,
         languageCode: TranscribeClientTypes.CLMLanguageCode? = nil,
         modelName: Swift.String? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil
     ) {
         self.baseModelName = baseModelName
+        self.encryptionConfiguration = encryptionConfiguration
         self.inputDataConfig = inputDataConfig
         self.languageCode = languageCode
         self.modelName = modelName
@@ -1996,8 +2020,10 @@ public struct CreateMedicalVocabularyOutput: Swift.Sendable {
 }
 
 public struct CreateVocabularyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
+    /// Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -2013,6 +2039,7 @@ public struct CreateVocabularyInput: Swift.Sendable {
 
     public init(
         dataAccessRoleArn: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         phrases: [Swift.String]? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil,
@@ -2020,6 +2047,7 @@ public struct CreateVocabularyInput: Swift.Sendable {
         vocabularyName: Swift.String? = nil
     ) {
         self.dataAccessRoleArn = dataAccessRoleArn
+        self.encryptionConfiguration = encryptionConfiguration
         self.languageCode = languageCode
         self.phrases = phrases
         self.tags = tags
@@ -2056,8 +2084,10 @@ public struct CreateVocabularyOutput: Swift.Sendable {
 }
 
 public struct CreateVocabularyFilterInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
+    /// Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -2073,6 +2103,7 @@ public struct CreateVocabularyFilterInput: Swift.Sendable {
 
     public init(
         dataAccessRoleArn: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         tags: [TranscribeClientTypes.Tag]? = nil,
         vocabularyFilterFileUri: Swift.String? = nil,
@@ -2080,6 +2111,7 @@ public struct CreateVocabularyFilterInput: Swift.Sendable {
         words: [Swift.String]? = nil
     ) {
         self.dataAccessRoleArn = dataAccessRoleArn
+        self.encryptionConfiguration = encryptionConfiguration
         self.languageCode = languageCode
         self.tags = tags
         self.vocabularyFilterFileUri = vocabularyFilterFileUri
@@ -2284,6 +2316,8 @@ extension TranscribeClientTypes {
         public var baseModelName: TranscribeClientTypes.BaseModelName?
         /// The date and time the specified custom language model was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
         public var createTime: Foundation.Date?
+        /// The encryption configuration used for your custom language model.
+        public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
         /// If ModelStatus is FAILED, FailureReason contains information about why the custom language model request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
         public var failureReason: Swift.String?
         /// The Amazon S3 location of the input files used to train and tune your custom language model, in addition to the data access role ARN (Amazon Resource Name) that has permissions to access these data.
@@ -2302,6 +2336,7 @@ extension TranscribeClientTypes {
         public init(
             baseModelName: TranscribeClientTypes.BaseModelName? = nil,
             createTime: Foundation.Date? = nil,
+            encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
             failureReason: Swift.String? = nil,
             inputDataConfig: TranscribeClientTypes.InputDataConfig? = nil,
             languageCode: TranscribeClientTypes.CLMLanguageCode? = nil,
@@ -2312,6 +2347,7 @@ extension TranscribeClientTypes {
         ) {
             self.baseModelName = baseModelName
             self.createTime = createTime
+            self.encryptionConfiguration = encryptionConfiguration
             self.failureReason = failureReason
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
@@ -3305,8 +3341,12 @@ public struct GetVocabularyInput: Swift.Sendable {
 }
 
 public struct GetVocabularyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM role used to access the Amazon S3 bucket that contains your input files and, if applicable, the KMS key specified in EncryptionConfiguration.
+    public var dataAccessRoleArn: Swift.String?
     /// The Amazon S3 location where the custom vocabulary is stored; use this URI to view or download the custom vocabulary.
     public var downloadUri: Swift.String?
+    /// The encryption configuration used for your custom vocabulary.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// If VocabularyState is FAILED, FailureReason contains information about why the custom vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
     /// The language code you selected for your custom vocabulary.
@@ -3319,14 +3359,18 @@ public struct GetVocabularyOutput: Swift.Sendable {
     public var vocabularyState: TranscribeClientTypes.VocabularyState?
 
     public init(
+        dataAccessRoleArn: Swift.String? = nil,
         downloadUri: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         failureReason: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     ) {
+        self.dataAccessRoleArn = dataAccessRoleArn
         self.downloadUri = downloadUri
+        self.encryptionConfiguration = encryptionConfiguration
         self.failureReason = failureReason
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
@@ -3348,8 +3392,12 @@ public struct GetVocabularyFilterInput: Swift.Sendable {
 }
 
 public struct GetVocabularyFilterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM role used to access the Amazon S3 bucket that contains your input files and, if applicable, the KMS key specified in EncryptionConfiguration.
+    public var dataAccessRoleArn: Swift.String?
     /// The Amazon S3 location where the custom vocabulary filter is stored; use this URI to view or download the custom vocabulary filter.
     public var downloadUri: Swift.String?
+    /// The encryption configuration used for your custom vocabulary filter.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
@@ -3358,12 +3406,16 @@ public struct GetVocabularyFilterOutput: Swift.Sendable {
     public var vocabularyFilterName: Swift.String?
 
     public init(
+        dataAccessRoleArn: Swift.String? = nil,
         downloadUri: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
     ) {
+        self.dataAccessRoleArn = dataAccessRoleArn
         self.downloadUri = downloadUri
+        self.encryptionConfiguration = encryptionConfiguration
         self.languageCode = languageCode
         self.lastModifiedTime = lastModifiedTime
         self.vocabularyFilterName = vocabularyFilterName
@@ -4478,6 +4530,45 @@ public struct UpdateCallAnalyticsCategoryOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateLanguageModelInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of an IAM role. If you include EncryptionConfiguration in your request, this role must have permissions to access the specified KMS key. If the role that you specify doesn't have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    public var dataAccessRoleArn: Swift.String?
+    /// Specifies the new encryption configuration for your custom language model. The model artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
+    /// The name of the custom language model you want to update. Model names are case sensitive.
+    /// This member is required.
+    public var modelName: Swift.String?
+
+    public init(
+        dataAccessRoleArn: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
+        modelName: Swift.String? = nil
+    ) {
+        self.dataAccessRoleArn = dataAccessRoleArn
+        self.encryptionConfiguration = encryptionConfiguration
+        self.modelName = modelName
+    }
+}
+
+public struct UpdateLanguageModelOutput: Swift.Sendable {
+    /// The date and time the specified custom language model was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The name of the custom language model that was updated.
+    public var modelName: Swift.String?
+    /// The status of the specified custom language model.
+    public var modelStatus: TranscribeClientTypes.ModelStatus?
+
+    public init(
+        lastModifiedTime: Foundation.Date? = nil,
+        modelName: Swift.String? = nil,
+        modelStatus: TranscribeClientTypes.ModelStatus? = nil
+    ) {
+        self.lastModifiedTime = lastModifiedTime
+        self.modelName = modelName
+        self.modelStatus = modelStatus
+    }
+}
+
 public struct UpdateMedicalVocabularyInput: Swift.Sendable {
     /// The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     /// This member is required.
@@ -4524,8 +4615,10 @@ public struct UpdateMedicalVocabularyOutput: Swift.Sendable {
 }
 
 public struct UpdateVocabularyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
+    /// Specifies the new encryption configuration for your custom vocabulary. The vocabulary artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeClientTypes.LanguageCode?
@@ -4539,12 +4632,14 @@ public struct UpdateVocabularyInput: Swift.Sendable {
 
     public init(
         dataAccessRoleArn: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
         phrases: [Swift.String]? = nil,
         vocabularyFileUri: Swift.String? = nil,
         vocabularyName: Swift.String? = nil
     ) {
         self.dataAccessRoleArn = dataAccessRoleArn
+        self.encryptionConfiguration = encryptionConfiguration
         self.languageCode = languageCode
         self.phrases = phrases
         self.vocabularyFileUri = vocabularyFileUri
@@ -4576,8 +4671,10 @@ public struct UpdateVocabularyOutput: Swift.Sendable {
 }
 
 public struct UpdateVocabularyFilterInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+    /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
     public var dataAccessRoleArn: Swift.String?
+    /// Specifies the new encryption configuration for your custom vocabulary filter. The vocabulary filter artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    public var encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration?
     /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
     public var vocabularyFilterFileUri: Swift.String?
     /// The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive.
@@ -4588,11 +4685,13 @@ public struct UpdateVocabularyFilterInput: Swift.Sendable {
 
     public init(
         dataAccessRoleArn: Swift.String? = nil,
+        encryptionConfiguration: TranscribeClientTypes.EncryptionConfiguration? = nil,
         vocabularyFilterFileUri: Swift.String? = nil,
         vocabularyFilterName: Swift.String? = nil,
         words: [Swift.String]? = nil
     ) {
         self.dataAccessRoleArn = dataAccessRoleArn
+        self.encryptionConfiguration = encryptionConfiguration
         self.vocabularyFilterFileUri = vocabularyFilterFileUri
         self.vocabularyFilterName = vocabularyFilterName
         self.words = words

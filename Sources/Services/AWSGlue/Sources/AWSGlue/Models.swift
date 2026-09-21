@@ -21616,6 +21616,40 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes {
+
+    /// Specifies the mode for how Glue Data Quality recommends rules.
+    ///
+    /// * BASIC uses an Glue job to analyze table data and recommend rules. This value is the default.
+    ///
+    /// * ADVANCED uses Amazon Athena to analyze table data and Amazon Bedrock to recommend rules.
+    public enum RecommendationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case basic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationMode] {
+            return [
+                .advanced,
+                .basic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .basic: return "BASIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The response for the Data Quality rule recommendation run.
 public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
     /// Additional run options you can specify for a recommendation run.
@@ -21636,9 +21670,11 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
     public var lastModifiedOn: Foundation.Date?
     /// The number of G.1X workers to be used in the run. The default is 5.
     public var numberOfWorkers: Swift.Int?
+    /// The mode that Glue Data Quality uses to recommend rules. The default is BASIC.
+    public var recommendationMode: GlueClientTypes.RecommendationMode?
     /// When a start rule recommendation run completes, it creates a recommended ruleset (a set of rules). This member has those rules in Data Quality Definition Language (DQDL) format.
     public var recommendedRuleset: Swift.String?
-    /// An IAM role supplied to encrypt the results of the run.
+    /// The IAM role that Glue assumes to access resources for the run.
     public var role: Swift.String?
     /// The unique run identifier associated with this run.
     public var runId: Swift.String?
@@ -21659,6 +21695,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
         executionTime: Swift.Int = 0,
         lastModifiedOn: Foundation.Date? = nil,
         numberOfWorkers: Swift.Int? = nil,
+        recommendationMode: GlueClientTypes.RecommendationMode? = nil,
         recommendedRuleset: Swift.String? = nil,
         role: Swift.String? = nil,
         runId: Swift.String? = nil,
@@ -21675,6 +21712,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
         self.executionTime = executionTime
         self.lastModifiedOn = lastModifiedOn
         self.numberOfWorkers = numberOfWorkers
+        self.recommendationMode = recommendationMode
         self.recommendedRuleset = recommendedRuleset
         self.role = role
         self.runId = runId
@@ -26525,6 +26563,8 @@ extension GlueClientTypes {
         public var createdRulesetName: Swift.String?
         /// The data source (Glue table) associated with the recommendation run.
         public var dataSource: GlueClientTypes.DataSource?
+        /// The mode that Glue Data Quality uses to recommend rules. The default is BASIC.
+        public var recommendationMode: GlueClientTypes.RecommendationMode?
         /// The unique run identifier associated with this run.
         public var runId: Swift.String?
         /// The date and time when this run started.
@@ -26535,12 +26575,14 @@ extension GlueClientTypes {
         public init(
             createdRulesetName: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
+            recommendationMode: GlueClientTypes.RecommendationMode? = nil,
             runId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil
         ) {
             self.createdRulesetName = createdRulesetName
             self.dataSource = dataSource
+            self.recommendationMode = recommendationMode
             self.runId = runId
             self.startedOn = startedOn
             self.status = status
@@ -30011,7 +30053,9 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
     public var dataSource: GlueClientTypes.DataSource?
     /// The number of G.1X workers to be used in the run. The default is 5.
     public var numberOfWorkers: Swift.Int?
-    /// An IAM role supplied to encrypt the results of the run.
+    /// The mode that Glue Data Quality uses to recommend rules. The default is BASIC.
+    public var recommendationMode: GlueClientTypes.RecommendationMode?
+    /// The IAM role that Glue assumes to access resources for the run. For more information, see [Configure IAM permissions for Glue Data Quality](https://docs.aws.amazon.com/glue/latest/dg/data-quality-authorization.html).
     /// This member is required.
     public var role: Swift.String?
     /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
@@ -30024,6 +30068,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
         dataQualitySecurityConfiguration: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         numberOfWorkers: Swift.Int? = nil,
+        recommendationMode: GlueClientTypes.RecommendationMode? = nil,
         role: Swift.String? = nil,
         timeout: Swift.Int? = nil
     ) {
@@ -30033,6 +30078,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.dataSource = dataSource
         self.numberOfWorkers = numberOfWorkers
+        self.recommendationMode = recommendationMode
         self.role = role
         self.timeout = timeout
     }

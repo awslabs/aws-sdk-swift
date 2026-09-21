@@ -10002,6 +10002,38 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    /// The type of a notebook in Amazon SageMaker Unified Studio.
+    public enum NotebookType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A data notebook.
+        case data
+        /// A SQL notebook.
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookType] {
+            return [
+                .data,
+                .sql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .data: return "DATA"
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateNotebookInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
     public var clientToken: Swift.String?
@@ -10020,6 +10052,8 @@ public struct CreateNotebookInput: Swift.Sendable {
     public var owningProjectIdentifier: Swift.String?
     /// The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
     public var parameters: [Swift.String: Swift.String]?
+    /// The type of the notebook.
+    public var type: DataZoneClientTypes.NotebookType?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -10028,7 +10062,8 @@ public struct CreateNotebookInput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil,
-        parameters: [Swift.String: Swift.String]? = nil
+        parameters: [Swift.String: Swift.String]? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -10037,12 +10072,13 @@ public struct CreateNotebookInput: Swift.Sendable {
         self.name = name
         self.owningProjectIdentifier = owningProjectIdentifier
         self.parameters = parameters
+        self.type = type
     }
 }
 
 extension CreateNotebookInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNotebookInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "CreateNotebookInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -10259,6 +10295,8 @@ public struct CreateNotebookOutput: Swift.Sendable {
     /// The status of the notebook.
     /// This member is required.
     public var status: DataZoneClientTypes.NotebookStatus?
+    /// The type of the notebook.
+    public var type: DataZoneClientTypes.NotebookType?
     /// The timestamp of when the notebook was last updated.
     public var updatedAt: Foundation.Date?
     /// The identifier of the user who last updated the notebook.
@@ -10283,6 +10321,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         status: DataZoneClientTypes.NotebookStatus? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
     ) {
@@ -10304,6 +10343,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
         self.owningProjectId = owningProjectId
         self.parameters = parameters
         self.status = status
+        self.type = type
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
     }
@@ -10311,7 +10351,7 @@ public struct CreateNotebookOutput: Swift.Sendable {
 
 extension CreateNotebookOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "CreateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -21266,6 +21306,8 @@ public struct GetNotebookOutput: Swift.Sendable {
     /// The status of the notebook.
     /// This member is required.
     public var status: DataZoneClientTypes.NotebookStatus?
+    /// The type of the notebook.
+    public var type: DataZoneClientTypes.NotebookType?
     /// The timestamp of when the notebook was last updated.
     public var updatedAt: Foundation.Date?
     /// The identifier of the user who last updated the notebook.
@@ -21290,6 +21332,7 @@ public struct GetNotebookOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         status: DataZoneClientTypes.NotebookStatus? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
     ) {
@@ -21311,6 +21354,7 @@ public struct GetNotebookOutput: Swift.Sendable {
         self.owningProjectId = owningProjectId
         self.parameters = parameters
         self.status = status
+        self.type = type
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
     }
@@ -21318,7 +21362,7 @@ public struct GetNotebookOutput: Swift.Sendable {
 
 extension GetNotebookOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotebooksInput: Swift.Sendable {
@@ -21338,6 +21382,8 @@ public struct ListNotebooksInput: Swift.Sendable {
     public var sortOrder: DataZoneClientTypes.SortOrder?
     /// The status to filter notebooks by.
     public var status: DataZoneClientTypes.NotebookStatus?
+    /// The type to filter notebooks by.
+    public var type: DataZoneClientTypes.NotebookType?
 
     public init(
         domainIdentifier: Swift.String? = nil,
@@ -21346,7 +21392,8 @@ public struct ListNotebooksInput: Swift.Sendable {
         owningProjectIdentifier: Swift.String? = nil,
         sortBy: DataZoneClientTypes.SortKey? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil,
-        status: DataZoneClientTypes.NotebookStatus? = nil
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil
     ) {
         self.domainIdentifier = domainIdentifier
         self.maxResults = maxResults
@@ -21355,6 +21402,7 @@ public struct ListNotebooksInput: Swift.Sendable {
         self.sortBy = sortBy
         self.sortOrder = sortOrder
         self.status = status
+        self.type = type
     }
 }
 
@@ -21383,6 +21431,8 @@ extension DataZoneClientTypes {
         /// The status of the notebook.
         /// This member is required.
         public var status: DataZoneClientTypes.NotebookStatus?
+        /// The type of the notebook.
+        public var type: DataZoneClientTypes.NotebookType?
         /// The timestamp of when the notebook was last updated.
         public var updatedAt: Foundation.Date?
         /// The identifier of the user who last updated the notebook.
@@ -21397,6 +21447,7 @@ extension DataZoneClientTypes {
             name: Swift.String? = nil,
             owningProjectId: Swift.String? = nil,
             status: DataZoneClientTypes.NotebookStatus? = nil,
+            type: DataZoneClientTypes.NotebookType? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
         ) {
@@ -21408,6 +21459,7 @@ extension DataZoneClientTypes {
             self.name = name
             self.owningProjectId = owningProjectId
             self.status = status
+            self.type = type
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
         }
@@ -21416,7 +21468,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.NotebookSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "NotebookSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "NotebookSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotebooksOutput: Swift.Sendable {
@@ -21457,6 +21509,8 @@ public struct UpdateNotebookInput: Swift.Sendable {
     public var parameters: [Swift.String: Swift.String]?
     /// The updated status of the notebook.
     public var status: DataZoneClientTypes.NotebookStatus?
+    /// The updated type of the notebook.
+    public var type: DataZoneClientTypes.NotebookType?
 
     public init(
         cellOrder: [DataZoneClientTypes.CellInformation]? = nil,
@@ -21468,7 +21522,8 @@ public struct UpdateNotebookInput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
-        status: DataZoneClientTypes.NotebookStatus? = nil
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil
     ) {
         self.cellOrder = cellOrder
         self.clientToken = clientToken
@@ -21480,12 +21535,13 @@ public struct UpdateNotebookInput: Swift.Sendable {
         self.name = name
         self.parameters = parameters
         self.status = status
+        self.type = type
     }
 }
 
 extension UpdateNotebookInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNotebookInput(cellOrder: \(Swift.String(describing: cellOrder)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), identifier: \(Swift.String(describing: identifier)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "UpdateNotebookInput(cellOrder: \(Swift.String(describing: cellOrder)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), identifier: \(Swift.String(describing: identifier)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateNotebookOutput: Swift.Sendable {
@@ -21531,6 +21587,8 @@ public struct UpdateNotebookOutput: Swift.Sendable {
     /// The status of the notebook.
     /// This member is required.
     public var status: DataZoneClientTypes.NotebookStatus?
+    /// The type of the notebook.
+    public var type: DataZoneClientTypes.NotebookType?
     /// The timestamp of when the notebook was last updated.
     public var updatedAt: Foundation.Date?
     /// The identifier of the user who last updated the notebook.
@@ -21555,6 +21613,7 @@ public struct UpdateNotebookOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         status: DataZoneClientTypes.NotebookStatus? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
     ) {
@@ -21576,6 +21635,7 @@ public struct UpdateNotebookOutput: Swift.Sendable {
         self.owningProjectId = owningProjectId
         self.parameters = parameters
         self.status = status
+        self.type = type
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
     }
@@ -21583,7 +21643,7 @@ public struct UpdateNotebookOutput: Swift.Sendable {
 
 extension UpdateNotebookOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "UpdateNotebookOutput(cellOrder: \(Swift.String(describing: cellOrder)), computeId: \(Swift.String(describing: computeId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), gitMetadata: \(Swift.String(describing: gitMetadata)), id: \(Swift.String(describing: id)), lockExpiresAt: \(Swift.String(describing: lockExpiresAt)), lockedAt: \(Swift.String(describing: lockedAt)), lockedBy: \(Swift.String(describing: lockedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], name: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -29115,6 +29175,10 @@ extension ListNotebooksInput {
             let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
         if let status = value.status {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
@@ -30646,6 +30710,7 @@ extension CreateNotebookInput {
         try writer["name"].write(value.name)
         try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -31187,6 +31252,7 @@ extension UpdateNotebookInput {
         try writer["name"].write(value.name)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["status"].write(value.status)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -31896,6 +31962,7 @@ extension CreateNotebookOutput {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -33004,6 +33071,7 @@ extension GetNotebookOutput {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -34420,6 +34488,7 @@ extension UpdateNotebookOutput {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -41638,6 +41707,7 @@ extension DataZoneClientTypes.NotebookSummary {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()

@@ -1716,6 +1716,78 @@ extension BillingconductorClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetBillingTransferPreference` operation on the `Billingconductor` service.
+    ///
+    /// Retrieves the auto billing group creation preference for a billing transfer.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetBillingTransferPreferenceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetBillingTransferPreferenceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
+    public func getBillingTransferPreference(input: GetBillingTransferPreferenceInput) async throws -> GetBillingTransferPreferenceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getBillingTransferPreference")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "billingconductor")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>(GetBillingTransferPreferenceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBillingTransferPreferenceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBillingTransferPreferenceOutput>(GetBillingTransferPreferenceOutput.httpOutput(from:), GetBillingTransferPreferenceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetBillingTransferPreferenceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("billingconductor", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillingTransferPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillingTransferPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "billingconductor"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillingTransferPreferenceInput, GetBillingTransferPreferenceOutput>(serviceID: serviceName, version: BillingconductorClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billingconductor")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetBillingTransferPreference")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAccountAssociations` operation on the `Billingconductor` service.
     ///
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
@@ -2705,6 +2777,81 @@ extension BillingconductorClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billingconductor")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateBillingGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateBillingTransferPreference` operation on the `Billingconductor` service.
+    ///
+    /// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference applies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole permission. While a pricing plan is specified in an enabled preference, you can't delete that pricing plan.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillingTransferPreferenceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateBillingTransferPreferenceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
+    /// - `InternalServerException` : An unexpected error occurred while processing a request.
+    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
+    public func updateBillingTransferPreference(input: UpdateBillingTransferPreferenceInput) async throws -> UpdateBillingTransferPreferenceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateBillingTransferPreference")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "billingconductor")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(UpdateBillingTransferPreferenceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(UpdateBillingTransferPreferenceInput.headerProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateBillingTransferPreferenceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBillingTransferPreferenceOutput>(UpdateBillingTransferPreferenceOutput.httpOutput(from:), UpdateBillingTransferPreferenceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillingTransferPreferenceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("billingconductor", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBillingTransferPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBillingTransferPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "billingconductor"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBillingTransferPreferenceInput, UpdateBillingTransferPreferenceOutput>(serviceID: serviceName, version: BillingconductorClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billingconductor")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateBillingTransferPreference")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

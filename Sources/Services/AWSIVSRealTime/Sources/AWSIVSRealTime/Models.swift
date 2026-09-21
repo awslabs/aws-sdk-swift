@@ -29,7 +29,7 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
-///
+/// User does not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -85,7 +85,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-///
+/// Updating or deleting a resource can cause an inconsistent state.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -141,7 +141,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-///
+/// Unexpected error during processing of request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -197,7 +197,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-///
+/// Your account is pending verification.
 public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -253,7 +253,7 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-///
+/// Request references a resource which does not exist.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -309,7 +309,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-///
+/// Request would cause a service quota to be exceeded.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -365,7 +365,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-///
+/// The input fails to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -699,13 +699,41 @@ extension IVSRealTimeClientTypes.IngestConfiguration: Swift.CustomDebugStringCon
 }
 
 public struct CreateIngestConfigurationOutput: Swift.Sendable {
+    /// See [Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) in the MDN Web Docs.
+    public var accessControlAllowOrigin: Swift.String?
+    /// See [Access-Control-Expose-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers) in the MDN Web Docs.
+    public var accessControlExposeHeaders: Swift.String?
+    /// See [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control) in the MDN Web Docs.
+    public var cacheControl: Swift.String?
+    /// See [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy) in the MDN Web Docs.
+    public var contentSecurityPolicy: Swift.String?
     /// The IngestConfiguration that was created.
     public var ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration?
+    /// See [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security) in the MDN Web Docs.
+    public var strictTransportSecurity: Swift.String?
+    /// See [X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options) in the MDN Web Docs.
+    public var xContentTypeOptions: Swift.String?
+    /// See [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options) in the MDN Web Docs.
+    public var xFrameOptions: Swift.String?
 
     public init(
-        ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.accessControlAllowOrigin = accessControlAllowOrigin
+        self.accessControlExposeHeaders = accessControlExposeHeaders
+        self.cacheControl = cacheControl
+        self.contentSecurityPolicy = contentSecurityPolicy
         self.ingestConfiguration = ingestConfiguration
+        self.strictTransportSecurity = strictTransportSecurity
+        self.xContentTypeOptions = xContentTypeOptions
+        self.xFrameOptions = xFrameOptions
     }
 }
 
@@ -3703,13 +3731,41 @@ public struct UpdateIngestConfigurationInput: Swift.Sendable {
 }
 
 public struct UpdateIngestConfigurationOutput: Swift.Sendable {
+    /// See [Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin) in the MDN Web Docs.
+    public var accessControlAllowOrigin: Swift.String?
+    /// See [Access-Control-Expose-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Expose-Headers) in the MDN Web Docs.
+    public var accessControlExposeHeaders: Swift.String?
+    /// See [Cache-Control](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control) in the MDN Web Docs.
+    public var cacheControl: Swift.String?
+    /// See [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy) in the MDN Web Docs.
+    public var contentSecurityPolicy: Swift.String?
     /// The updated IngestConfiguration.
     public var ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration?
+    /// See [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Strict-Transport-Security) in the MDN Web Docs.
+    public var strictTransportSecurity: Swift.String?
+    /// See [X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Content-Type-Options) in the MDN Web Docs.
+    public var xContentTypeOptions: Swift.String?
+    /// See [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Frame-Options) in the MDN Web Docs.
+    public var xFrameOptions: Swift.String?
 
     public init(
-        ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.accessControlAllowOrigin = accessControlAllowOrigin
+        self.accessControlExposeHeaders = accessControlExposeHeaders
+        self.cacheControl = cacheControl
+        self.contentSecurityPolicy = contentSecurityPolicy
         self.ingestConfiguration = ingestConfiguration
+        self.strictTransportSecurity = strictTransportSecurity
+        self.xContentTypeOptions = xContentTypeOptions
+        self.xFrameOptions = xFrameOptions
     }
 }
 
@@ -4423,6 +4479,27 @@ extension CreateIngestConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateIngestConfigurationOutput()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.ingestConfiguration = try reader["ingestConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.IngestConfiguration.read(from:))
         return value
     }
@@ -4855,6 +4932,27 @@ extension UpdateIngestConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateIngestConfigurationOutput()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.ingestConfiguration = try reader["ingestConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.IngestConfiguration.read(from:))
         return value
     }

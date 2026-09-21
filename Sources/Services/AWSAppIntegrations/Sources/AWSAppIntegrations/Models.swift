@@ -290,6 +290,7 @@ extension AppIntegrationsClientTypes {
 
     /// The type of application
     public enum ApplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a2aServer
         case mcpServer
         case service
         case standard
@@ -297,6 +298,7 @@ extension AppIntegrationsClientTypes {
 
         public static var allCases: [ApplicationType] {
             return [
+                .a2aServer,
                 .mcpServer,
                 .service,
                 .standard
@@ -310,11 +312,57 @@ extension AppIntegrationsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .a2aServer: return "A2A_SERVER"
             case .mcpServer: return "MCP_SERVER"
             case .service: return "SERVICE"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
+    public enum AuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthType] {
+            return [
+                .apiKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiKey: return "API_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
+    /// Contains the authentication settings that Connect Customer uses to call an external application endpoint. The configuration includes the authentication type and credential location.
+    public struct AuthConfig: Swift.Sendable {
+        /// The type of authentication used when calling the external application.
+        public var authType: AppIntegrationsClientTypes.AuthType?
+        /// The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer.
+        public var credentialProviderIdentifier: Swift.String?
+
+        public init(
+            authType: AppIntegrationsClientTypes.AuthType? = nil,
+            credentialProviderIdentifier: Swift.String? = nil
+        ) {
+            self.authType = authType
+            self.credentialProviderIdentifier = credentialProviderIdentifier
         }
     }
 }
@@ -391,6 +439,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
     /// The type of application.
     public var applicationType: AppIntegrationsClientTypes.ApplicationType?
+    /// The authentication settings that Connect Customer uses when calling the external application.
+    public var authConfig: AppIntegrationsClientTypes.AuthConfig?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the application.
@@ -423,6 +473,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
         applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
+        authConfig: AppIntegrationsClientTypes.AuthConfig? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
@@ -438,6 +489,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
         self.applicationType = applicationType
+        self.authConfig = authConfig
         self.clientToken = clientToken
         self.description = description
         self.iframeConfig = iframeConfig
@@ -891,6 +943,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var applicationType: AppIntegrationsClientTypes.ApplicationType?
     /// The Amazon Resource Name (ARN) of the Application.
     public var arn: Swift.String?
+    /// The authentication settings that Connect Customer uses when calling the external application.
+    public var authConfig: AppIntegrationsClientTypes.AuthConfig?
     /// The created time of the Application.
     public var createdTime: Foundation.Date?
     /// The description of the application.
@@ -926,6 +980,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
         applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
         arn: Swift.String? = nil,
+        authConfig: AppIntegrationsClientTypes.AuthConfig? = nil,
         createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -944,6 +999,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         self.applicationSourceConfig = applicationSourceConfig
         self.applicationType = applicationType
         self.arn = arn
+        self.authConfig = authConfig
         self.createdTime = createdTime
         self.description = description
         self.id = id
@@ -1607,6 +1663,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Application.
     /// This member is required.
     public var arn: Swift.String?
+    /// The authentication settings that Connect Customer uses when calling the external application.
+    public var authConfig: AppIntegrationsClientTypes.AuthConfig?
     /// The description of the application.
     public var description: Swift.String?
     /// The iframe configuration for the application.
@@ -1632,6 +1690,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
         applicationType: AppIntegrationsClientTypes.ApplicationType? = nil,
         arn: Swift.String? = nil,
+        authConfig: AppIntegrationsClientTypes.AuthConfig? = nil,
         description: Swift.String? = nil,
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
         initializationTimeout: Swift.Int? = nil,
@@ -1645,6 +1704,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         self.applicationSourceConfig = applicationSourceConfig
         self.applicationType = applicationType
         self.arn = arn
+        self.authConfig = authConfig
         self.description = description
         self.iframeConfig = iframeConfig
         self.initializationTimeout = initializationTimeout
@@ -2084,6 +2144,7 @@ extension CreateApplicationInput {
         try writer["ApplicationConfig"].write(value.applicationConfig, with: AppIntegrationsClientTypes.ApplicationConfig.write(value:to:))
         try writer["ApplicationSourceConfig"].write(value.applicationSourceConfig, with: AppIntegrationsClientTypes.ApplicationSourceConfig.write(value:to:))
         try writer["ApplicationType"].write(value.applicationType)
+        try writer["AuthConfig"].write(value.authConfig, with: AppIntegrationsClientTypes.AuthConfig.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
         try writer["Description"].write(value.description)
         try writer["IframeConfig"].write(value.iframeConfig, with: AppIntegrationsClientTypes.IframeConfig.write(value:to:))
@@ -2155,6 +2216,7 @@ extension UpdateApplicationInput {
         try writer["ApplicationConfig"].write(value.applicationConfig, with: AppIntegrationsClientTypes.ApplicationConfig.write(value:to:))
         try writer["ApplicationSourceConfig"].write(value.applicationSourceConfig, with: AppIntegrationsClientTypes.ApplicationSourceConfig.write(value:to:))
         try writer["ApplicationType"].write(value.applicationType)
+        try writer["AuthConfig"].write(value.authConfig, with: AppIntegrationsClientTypes.AuthConfig.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["IframeConfig"].write(value.iframeConfig, with: AppIntegrationsClientTypes.IframeConfig.write(value:to:))
         try writer["InitializationTimeout"].write(value.initializationTimeout)
@@ -2283,6 +2345,7 @@ extension GetApplicationOutput {
         value.applicationSourceConfig = try reader["ApplicationSourceConfig"].readIfPresent(with: AppIntegrationsClientTypes.ApplicationSourceConfig.read(from:))
         value.applicationType = try reader["ApplicationType"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.authConfig = try reader["AuthConfig"].readIfPresent(with: AppIntegrationsClientTypes.AuthConfig.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
@@ -3057,6 +3120,23 @@ extension AppIntegrationsClientTypes.ApplicationSummary {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.isService = try reader["IsService"].readIfPresent() ?? false
         value.applicationType = try reader["ApplicationType"].readIfPresent()
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.AuthConfig {
+
+    static func write(value: AppIntegrationsClientTypes.AuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthType"].write(value.authType)
+        try writer["CredentialProviderIdentifier"].write(value.credentialProviderIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.AuthConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.AuthConfig()
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.credentialProviderIdentifier = try reader["CredentialProviderIdentifier"].readIfPresent()
         return value
     }
 }
