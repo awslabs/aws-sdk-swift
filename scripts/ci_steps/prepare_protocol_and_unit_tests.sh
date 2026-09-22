@@ -7,7 +7,14 @@ rm -rf Sources/Services/*
 
 # Regenerate the SDK manifest, with only runtime included
 cd AWSSDKSwiftCLI
+set +e
 swift run AWSSDKSwiftCLI generate-package-manifest ..
+cli_status=$?
+set -e
+if [ $cli_status -ne 0 ]; then
+  ../scripts/ci_steps/diagnose_cli_failure.sh $cli_status
+  exit $cli_status
+fi
 cd ..
 
 # Dump the Package.swift contents to the logs
