@@ -96,7 +96,7 @@ jobs:
   codegen-build-test-al2023:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ubuntu-24.04-arm
-    container: swift:6.3-amazonlinux2023
+    container: swift:6.4-amazonlinux2023
     strategy:
       fail-fast: false
       matrix:
@@ -120,10 +120,10 @@ jobs:
         with:
           path: |
             ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-swift-6.3-al2023-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          key: 1-${{ runner.os }}-swift-6.4-al2023-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
           restore-keys: |
-            1-${{ runner.os }}-swift-6.3-al2023-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-swift-6.3-al2023-spm-
+            1-${{ runner.os }}-swift-6.4-al2023-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift-6.4-al2023-spm-
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
