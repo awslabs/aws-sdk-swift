@@ -1833,6 +1833,52 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// The type of the AI agent.
+    public enum AIAgentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case thirdParty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AIAgentType] {
+            return [
+                .thirdParty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .thirdParty: return "THIRD_PARTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about an AI agent that a security profile allows access to for Agent-to-Agent authorization.
+    public struct AIAgent: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AI agent.
+        public var arn: Swift.String?
+        /// The type of the AI agent. The valid value is THIRD_PARTY.
+        public var type: ConnectClientTypes.AIAgentType?
+
+        public init(
+            arn: Swift.String? = nil,
+            type: ConnectClientTypes.AIAgentType? = nil
+        ) {
+            self.arn = arn
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum AiUseCase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentassistance
         case selfservice
@@ -10611,6 +10657,8 @@ extension ConnectClientTypes {
 }
 
 public struct CreateSecurityProfileInput: Swift.Sendable {
+    /// A list of AI agents that the security profile will give access to.
+    public var allowedAIAgents: [ConnectClientTypes.AIAgent]?
     /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
@@ -10639,6 +10687,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        allowedAIAgents: [ConnectClientTypes.AIAgent]? = nil,
         allowedAccessControlHierarchyGroupId: Swift.String? = nil,
         allowedAccessControlTags: [Swift.String: Swift.String]? = nil,
         allowedFlowModules: [ConnectClientTypes.FlowModule]? = nil,
@@ -10652,6 +10701,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
         tagRestrictedResources: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.allowedAIAgents = allowedAIAgents
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.allowedFlowModules = allowedFlowModules
@@ -27161,6 +27211,54 @@ public struct ListSecurityKeysOutput: Swift.Sendable {
     }
 }
 
+public struct ListSecurityProfileAIAgentsInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier for the security profle.
+    /// This member is required.
+    public var securityProfileId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        securityProfileId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.securityProfileId = securityProfileId
+    }
+}
+
+public struct ListSecurityProfileAIAgentsOutput: Swift.Sendable {
+    /// A list of the allowed AI agents and their types.
+    public var allowedAIAgents: [ConnectClientTypes.AIAgent]?
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        allowedAIAgents: [ConnectClientTypes.AIAgent]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.allowedAIAgents = allowedAIAgents
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListSecurityProfileApplicationsInput: Swift.Sendable {
     /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -36402,6 +36500,8 @@ public struct UpdateRuleInput: Swift.Sendable {
 }
 
 public struct UpdateSecurityProfileInput: Swift.Sendable {
+    /// A list of AI agents that the security profile will give access to.
+    public var allowedAIAgents: [ConnectClientTypes.AIAgent]?
     /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
@@ -36428,6 +36528,7 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
     public var tagRestrictedResources: [Swift.String]?
 
     public init(
+        allowedAIAgents: [ConnectClientTypes.AIAgent]? = nil,
         allowedAccessControlHierarchyGroupId: Swift.String? = nil,
         allowedAccessControlTags: [Swift.String: Swift.String]? = nil,
         allowedFlowModules: [ConnectClientTypes.FlowModule]? = nil,
@@ -36440,6 +36541,7 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
         securityProfileId: Swift.String? = nil,
         tagRestrictedResources: [Swift.String]? = nil
     ) {
+        self.allowedAIAgents = allowedAIAgents
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.allowedFlowModules = allowedFlowModules
@@ -43949,6 +44051,35 @@ extension ListSecurityKeysInput {
     }
 }
 
+extension ListSecurityProfileAIAgentsInput {
+
+    static func urlPathProvider(_ value: ListSecurityProfileAIAgentsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let securityProfileId = value.securityProfileId else {
+            return nil
+        }
+        return "/security-profiles-ai-agents/\(instanceId.urlPercentEncoding())/\(securityProfileId.urlPercentEncoding())"
+    }
+}
+
+extension ListSecurityProfileAIAgentsInput {
+
+    static func queryItemProvider(_ value: ListSecurityProfileAIAgentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListSecurityProfileApplicationsInput {
 
     static func urlPathProvider(_ value: ListSecurityProfileApplicationsInput) -> Swift.String? {
@@ -46701,6 +46832,7 @@ extension CreateSecurityProfileInput {
 
     static func write(value: CreateSecurityProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllowedAIAgents"].writeList(value.allowedAIAgents, memberWritingClosure: ConnectClientTypes.AIAgent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllowedAccessControlHierarchyGroupId"].write(value.allowedAccessControlHierarchyGroupId)
         try writer["AllowedAccessControlTags"].writeMap(value.allowedAccessControlTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AllowedFlowModules"].writeList(value.allowedFlowModules, memberWritingClosure: ConnectClientTypes.FlowModule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -48407,6 +48539,7 @@ extension UpdateSecurityProfileInput {
 
     static func write(value: UpdateSecurityProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllowedAIAgents"].writeList(value.allowedAIAgents, memberWritingClosure: ConnectClientTypes.AIAgent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllowedAccessControlHierarchyGroupId"].write(value.allowedAccessControlHierarchyGroupId)
         try writer["AllowedAccessControlTags"].writeMap(value.allowedAccessControlTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AllowedFlowModules"].writeList(value.allowedFlowModules, memberWritingClosure: ConnectClientTypes.FlowModule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -51272,6 +51405,21 @@ extension ListSecurityKeysOutput {
         var value = ListSecurityKeysOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.securityKeys = try reader["SecurityKeys"].readListIfPresent(memberReadingClosure: ConnectClientTypes.SecurityKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSecurityProfileAIAgentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSecurityProfileAIAgentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSecurityProfileAIAgentsOutput()
+        value.allowedAIAgents = try reader["AllowedAIAgents"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AIAgent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -57385,6 +57533,24 @@ enum ListSecurityKeysOutputError {
     }
 }
 
+enum ListSecurityProfileAIAgentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSecurityProfileApplicationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60962,6 +61128,23 @@ extension ConnectClientTypes.AgentStatusSummary {
         value.type = try reader["Type"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.AIAgent {
+
+    static func write(value: ConnectClientTypes.AIAgent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AIAgent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AIAgent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }

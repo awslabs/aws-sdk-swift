@@ -7367,6 +7367,8 @@ extension BedrockAgentCoreClientTypes {
     public struct HarnessOpenAiModelConfig: Swift.Sendable {
         /// Provider-specific parameters passed through to the model provider unchanged.
         public var additionalParams: Smithy.Document?
+        /// Optional custom endpoint URL for an OpenAI-compatible endpoint.
+        public var apiBase: Swift.String?
         /// The API format to use when calling the OpenAI provider.
         public var apiFormat: BedrockAgentCoreClientTypes.HarnessOpenAiApiFormat?
         /// The ARN of your OpenAI API key on AgentCore Identity.
@@ -7384,6 +7386,7 @@ extension BedrockAgentCoreClientTypes {
 
         public init(
             additionalParams: Smithy.Document? = nil,
+            apiBase: Swift.String? = nil,
             apiFormat: BedrockAgentCoreClientTypes.HarnessOpenAiApiFormat? = nil,
             apiKeyArn: Swift.String? = nil,
             maxTokens: Swift.Int? = nil,
@@ -7392,6 +7395,7 @@ extension BedrockAgentCoreClientTypes {
             topp: Swift.Float? = nil
         ) {
             self.additionalParams = additionalParams
+            self.apiBase = apiBase
             self.apiFormat = apiFormat
             self.apiKeyArn = apiKeyArn
             self.maxTokens = maxTokens
@@ -7400,6 +7404,11 @@ extension BedrockAgentCoreClientTypes {
             self.topp = topp
         }
     }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HarnessOpenAiModelConfig(additionalParams: \(Swift.String(describing: additionalParams)), apiFormat: \(Swift.String(describing: apiFormat)), apiKeyArn: \(Swift.String(describing: apiKeyArn)), maxTokens: \(Swift.String(describing: maxTokens)), modelId: \(Swift.String(describing: modelId)), temperature: \(Swift.String(describing: temperature)), topp: \(Swift.String(describing: topp)), apiBase: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -8081,6 +8090,104 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum HarnessHookDecision: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessHookDecision] {
+            return [
+                .allow,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "allow"
+            case .deny: return "deny"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum HarnessHookEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afterInvocation
+        case afterToolCall
+        case beforeInvocation
+        case beforeToolCall
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarnessHookEventType] {
+            return [
+                .afterInvocation,
+                .afterToolCall,
+                .beforeInvocation,
+                .beforeToolCall
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afterInvocation: return "after_invocation"
+            case .afterToolCall: return "after_tool_call"
+            case .beforeInvocation: return "before_invocation"
+            case .beforeToolCall: return "before_tool_call"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A lifecycle hook event emitted in the invocation stream for visibility into hook decisions.
+    public struct HarnessHookEvent: Swift.Sendable {
+        /// The decision applied to the hook event. This field is present only for blocking Lambda targets.
+        public var decision: BedrockAgentCoreClientTypes.HarnessHookDecision?
+        /// The unique identifier for this hook event.
+        /// This member is required.
+        public var hookEventId: Swift.String?
+        /// The name of the hook that ran.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The optional reason for the applied decision.
+        public var reason: Swift.String?
+        /// The type of lifecycle hook event.
+        /// This member is required.
+        public var type: BedrockAgentCoreClientTypes.HarnessHookEventType?
+
+        public init(
+            decision: BedrockAgentCoreClientTypes.HarnessHookDecision? = nil,
+            hookEventId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            reason: Swift.String? = nil,
+            type: BedrockAgentCoreClientTypes.HarnessHookEventType? = nil
+        ) {
+            self.decision = decision
+            self.hookEventId = hookEventId
+            self.name = name
+            self.reason = reason
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Event indicating the start of a message.
     public struct HarnessMessageStartEvent: Swift.Sendable {
         /// The role of the message sender.
@@ -8100,6 +8207,7 @@ extension BedrockAgentCoreClientTypes {
     public enum HarnessStopReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contentFiltered
         case endTurn
+        case hookStopped
         case interrupted
         case malformedModelOutput
         case malformedToolUse
@@ -8118,6 +8226,7 @@ extension BedrockAgentCoreClientTypes {
             return [
                 .contentFiltered,
                 .endTurn,
+                .hookStopped,
                 .interrupted,
                 .malformedModelOutput,
                 .malformedToolUse,
@@ -8142,6 +8251,7 @@ extension BedrockAgentCoreClientTypes {
             switch self {
             case .contentFiltered: return "content_filtered"
             case .endTurn: return "end_turn"
+            case .hookStopped: return "hook_stopped"
             case .interrupted: return "interrupted"
             case .malformedModelOutput: return "malformed_model_output"
             case .malformedToolUse: return "malformed_tool_use"
@@ -8263,6 +8373,8 @@ extension BedrockAgentCoreClientTypes {
         case messagestop(BedrockAgentCoreClientTypes.HarnessMessageStopEvent)
         /// Token usage and latency metrics for the invocation.
         case metadata(BedrockAgentCoreClientTypes.HarnessMetadataEvent)
+        /// A lifecycle hook event emitted when a configured hook runs.
+        case hookevent(BedrockAgentCoreClientTypes.HarnessHookEvent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -16096,6 +16208,9 @@ extension BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput {
                 case "metadata":
                     let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessMetadataEvent.read(from:))
                     return .metadata(value)
+                case "hookEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentCoreClientTypes.HarnessHookEvent.read(from:))
+                    return .hookevent(value)
                 default:
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
@@ -17649,6 +17764,20 @@ extension BedrockAgentCoreClientTypes.HarnessGeminiModelConfig {
     }
 }
 
+extension BedrockAgentCoreClientTypes.HarnessHookEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.HarnessHookEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.HarnessHookEvent()
+        value.hookEventId = try reader["hookEventId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.decision = try reader["decision"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig?, to writer: SmithyJSON.Writer) throws {
@@ -17736,6 +17865,7 @@ extension BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig {
     static func write(value: BedrockAgentCoreClientTypes.HarnessOpenAiModelConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalParams"].write(value.additionalParams)
+        try writer["apiBase"].write(value.apiBase)
         try writer["apiFormat"].write(value.apiFormat)
         try writer["apiKeyArn"].write(value.apiKeyArn)
         try writer["maxTokens"].write(value.maxTokens)

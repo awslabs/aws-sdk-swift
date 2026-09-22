@@ -5239,6 +5239,16 @@ extension SageMakerClientTypes {
         case mlC7i8xlarge
         case mlC7iLarge
         case mlC7iXlarge
+        case mlC8i12xlarge
+        case mlC8i16xlarge
+        case mlC8i24xlarge
+        case mlC8i2xlarge
+        case mlC8i32xlarge
+        case mlC8i48xlarge
+        case mlC8i4xlarge
+        case mlC8i8xlarge
+        case mlC8i96xlarge
+        case mlC8iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -5310,6 +5320,17 @@ extension SageMakerClientTypes {
         case mlM7i8xlarge
         case mlM7iLarge
         case mlM7iXlarge
+        case mlM8i12xlarge
+        case mlM8i16xlarge
+        case mlM8i24xlarge
+        case mlM8i2xlarge
+        case mlM8i32xlarge
+        case mlM8i48xlarge
+        case mlM8i4xlarge
+        case mlM8i8xlarge
+        case mlM8i96xlarge
+        case mlM8iLarge
+        case mlM8iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -5342,6 +5363,15 @@ extension SageMakerClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR6i12xlarge
+        case mlR6i16xlarge
+        case mlR6i24xlarge
+        case mlR6i2xlarge
+        case mlR6i32xlarge
+        case mlR6i4xlarge
+        case mlR6i8xlarge
+        case mlR6iLarge
+        case mlR6iXlarge
         case mlR7i12xlarge
         case mlR7i16xlarge
         case mlR7i24xlarge
@@ -5351,6 +5381,17 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlR8i12xlarge
+        case mlR8i16xlarge
+        case mlR8i24xlarge
+        case mlR8i2xlarge
+        case mlR8i32xlarge
+        case mlR8i48xlarge
+        case mlR8i4xlarge
+        case mlR8i8xlarge
+        case mlR8i96xlarge
+        case mlR8iLarge
+        case mlR8iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -5394,6 +5435,16 @@ extension SageMakerClientTypes {
                 .mlC7i8xlarge,
                 .mlC7iLarge,
                 .mlC7iXlarge,
+                .mlC8i12xlarge,
+                .mlC8i16xlarge,
+                .mlC8i24xlarge,
+                .mlC8i2xlarge,
+                .mlC8i32xlarge,
+                .mlC8i48xlarge,
+                .mlC8i4xlarge,
+                .mlC8i8xlarge,
+                .mlC8i96xlarge,
+                .mlC8iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -5465,6 +5516,17 @@ extension SageMakerClientTypes {
                 .mlM7i8xlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
+                .mlM8i12xlarge,
+                .mlM8i16xlarge,
+                .mlM8i24xlarge,
+                .mlM8i2xlarge,
+                .mlM8i32xlarge,
+                .mlM8i48xlarge,
+                .mlM8i4xlarge,
+                .mlM8i8xlarge,
+                .mlM8i96xlarge,
+                .mlM8iLarge,
+                .mlM8iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -5497,6 +5559,15 @@ extension SageMakerClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR6i12xlarge,
+                .mlR6i16xlarge,
+                .mlR6i24xlarge,
+                .mlR6i2xlarge,
+                .mlR6i32xlarge,
+                .mlR6i4xlarge,
+                .mlR6i8xlarge,
+                .mlR6iLarge,
+                .mlR6iXlarge,
                 .mlR7i12xlarge,
                 .mlR7i16xlarge,
                 .mlR7i24xlarge,
@@ -5506,6 +5577,17 @@ extension SageMakerClientTypes {
                 .mlR7i8xlarge,
                 .mlR7iLarge,
                 .mlR7iXlarge,
+                .mlR8i12xlarge,
+                .mlR8i16xlarge,
+                .mlR8i24xlarge,
+                .mlR8i2xlarge,
+                .mlR8i32xlarge,
+                .mlR8i48xlarge,
+                .mlR8i4xlarge,
+                .mlR8i8xlarge,
+                .mlR8i96xlarge,
+                .mlR8iLarge,
+                .mlR8iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -5555,6 +5637,16 @@ extension SageMakerClientTypes {
             case .mlC7i8xlarge: return "ml.c7i.8xlarge"
             case .mlC7iLarge: return "ml.c7i.large"
             case .mlC7iXlarge: return "ml.c7i.xlarge"
+            case .mlC8i12xlarge: return "ml.c8i.12xlarge"
+            case .mlC8i16xlarge: return "ml.c8i.16xlarge"
+            case .mlC8i24xlarge: return "ml.c8i.24xlarge"
+            case .mlC8i2xlarge: return "ml.c8i.2xlarge"
+            case .mlC8i32xlarge: return "ml.c8i.32xlarge"
+            case .mlC8i48xlarge: return "ml.c8i.48xlarge"
+            case .mlC8i4xlarge: return "ml.c8i.4xlarge"
+            case .mlC8i8xlarge: return "ml.c8i.8xlarge"
+            case .mlC8i96xlarge: return "ml.c8i.96xlarge"
+            case .mlC8iXlarge: return "ml.c8i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -5626,6 +5718,17 @@ extension SageMakerClientTypes {
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
+            case .mlM8i12xlarge: return "ml.m8i.12xlarge"
+            case .mlM8i16xlarge: return "ml.m8i.16xlarge"
+            case .mlM8i24xlarge: return "ml.m8i.24xlarge"
+            case .mlM8i2xlarge: return "ml.m8i.2xlarge"
+            case .mlM8i32xlarge: return "ml.m8i.32xlarge"
+            case .mlM8i48xlarge: return "ml.m8i.48xlarge"
+            case .mlM8i4xlarge: return "ml.m8i.4xlarge"
+            case .mlM8i8xlarge: return "ml.m8i.8xlarge"
+            case .mlM8i96xlarge: return "ml.m8i.96xlarge"
+            case .mlM8iLarge: return "ml.m8i.large"
+            case .mlM8iXlarge: return "ml.m8i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -5658,6 +5761,15 @@ extension SageMakerClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR6i12xlarge: return "ml.r6i.12xlarge"
+            case .mlR6i16xlarge: return "ml.r6i.16xlarge"
+            case .mlR6i24xlarge: return "ml.r6i.24xlarge"
+            case .mlR6i2xlarge: return "ml.r6i.2xlarge"
+            case .mlR6i32xlarge: return "ml.r6i.32xlarge"
+            case .mlR6i4xlarge: return "ml.r6i.4xlarge"
+            case .mlR6i8xlarge: return "ml.r6i.8xlarge"
+            case .mlR6iLarge: return "ml.r6i.large"
+            case .mlR6iXlarge: return "ml.r6i.xlarge"
             case .mlR7i12xlarge: return "ml.r7i.12xlarge"
             case .mlR7i16xlarge: return "ml.r7i.16xlarge"
             case .mlR7i24xlarge: return "ml.r7i.24xlarge"
@@ -5667,6 +5779,17 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlR8i12xlarge: return "ml.r8i.12xlarge"
+            case .mlR8i16xlarge: return "ml.r8i.16xlarge"
+            case .mlR8i24xlarge: return "ml.r8i.24xlarge"
+            case .mlR8i2xlarge: return "ml.r8i.2xlarge"
+            case .mlR8i32xlarge: return "ml.r8i.32xlarge"
+            case .mlR8i48xlarge: return "ml.r8i.48xlarge"
+            case .mlR8i4xlarge: return "ml.r8i.4xlarge"
+            case .mlR8i8xlarge: return "ml.r8i.8xlarge"
+            case .mlR8i96xlarge: return "ml.r8i.96xlarge"
+            case .mlR8iLarge: return "ml.r8i.large"
+            case .mlR8iXlarge: return "ml.r8i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -19473,6 +19596,16 @@ extension SageMakerClientTypes {
         case mlC7i8xlarge
         case mlC7iLarge
         case mlC7iXlarge
+        case mlC8i12xlarge
+        case mlC8i16xlarge
+        case mlC8i24xlarge
+        case mlC8i2xlarge
+        case mlC8i32xlarge
+        case mlC8i48xlarge
+        case mlC8i4xlarge
+        case mlC8i8xlarge
+        case mlC8i96xlarge
+        case mlC8iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -19544,6 +19677,17 @@ extension SageMakerClientTypes {
         case mlM7i8xlarge
         case mlM7iLarge
         case mlM7iXlarge
+        case mlM8i12xlarge
+        case mlM8i16xlarge
+        case mlM8i24xlarge
+        case mlM8i2xlarge
+        case mlM8i32xlarge
+        case mlM8i48xlarge
+        case mlM8i4xlarge
+        case mlM8i8xlarge
+        case mlM8i96xlarge
+        case mlM8iLarge
+        case mlM8iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -19567,6 +19711,15 @@ extension SageMakerClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR6i12xlarge
+        case mlR6i16xlarge
+        case mlR6i24xlarge
+        case mlR6i2xlarge
+        case mlR6i32xlarge
+        case mlR6i4xlarge
+        case mlR6i8xlarge
+        case mlR6iLarge
+        case mlR6iXlarge
         case mlR7i12xlarge
         case mlR7i16xlarge
         case mlR7i24xlarge
@@ -19576,6 +19729,17 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlR8i12xlarge
+        case mlR8i16xlarge
+        case mlR8i24xlarge
+        case mlR8i2xlarge
+        case mlR8i32xlarge
+        case mlR8i48xlarge
+        case mlR8i4xlarge
+        case mlR8i8xlarge
+        case mlR8i96xlarge
+        case mlR8iLarge
+        case mlR8iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -19610,6 +19774,16 @@ extension SageMakerClientTypes {
                 .mlC7i8xlarge,
                 .mlC7iLarge,
                 .mlC7iXlarge,
+                .mlC8i12xlarge,
+                .mlC8i16xlarge,
+                .mlC8i24xlarge,
+                .mlC8i2xlarge,
+                .mlC8i32xlarge,
+                .mlC8i48xlarge,
+                .mlC8i4xlarge,
+                .mlC8i8xlarge,
+                .mlC8i96xlarge,
+                .mlC8iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -19681,6 +19855,17 @@ extension SageMakerClientTypes {
                 .mlM7i8xlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
+                .mlM8i12xlarge,
+                .mlM8i16xlarge,
+                .mlM8i24xlarge,
+                .mlM8i2xlarge,
+                .mlM8i32xlarge,
+                .mlM8i48xlarge,
+                .mlM8i4xlarge,
+                .mlM8i8xlarge,
+                .mlM8i96xlarge,
+                .mlM8iLarge,
+                .mlM8iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -19704,6 +19889,15 @@ extension SageMakerClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR6i12xlarge,
+                .mlR6i16xlarge,
+                .mlR6i24xlarge,
+                .mlR6i2xlarge,
+                .mlR6i32xlarge,
+                .mlR6i4xlarge,
+                .mlR6i8xlarge,
+                .mlR6iLarge,
+                .mlR6iXlarge,
                 .mlR7i12xlarge,
                 .mlR7i16xlarge,
                 .mlR7i24xlarge,
@@ -19713,6 +19907,17 @@ extension SageMakerClientTypes {
                 .mlR7i8xlarge,
                 .mlR7iLarge,
                 .mlR7iXlarge,
+                .mlR8i12xlarge,
+                .mlR8i16xlarge,
+                .mlR8i24xlarge,
+                .mlR8i2xlarge,
+                .mlR8i32xlarge,
+                .mlR8i48xlarge,
+                .mlR8i4xlarge,
+                .mlR8i8xlarge,
+                .mlR8i96xlarge,
+                .mlR8iLarge,
+                .mlR8iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -19753,6 +19958,16 @@ extension SageMakerClientTypes {
             case .mlC7i8xlarge: return "ml.c7i.8xlarge"
             case .mlC7iLarge: return "ml.c7i.large"
             case .mlC7iXlarge: return "ml.c7i.xlarge"
+            case .mlC8i12xlarge: return "ml.c8i.12xlarge"
+            case .mlC8i16xlarge: return "ml.c8i.16xlarge"
+            case .mlC8i24xlarge: return "ml.c8i.24xlarge"
+            case .mlC8i2xlarge: return "ml.c8i.2xlarge"
+            case .mlC8i32xlarge: return "ml.c8i.32xlarge"
+            case .mlC8i48xlarge: return "ml.c8i.48xlarge"
+            case .mlC8i4xlarge: return "ml.c8i.4xlarge"
+            case .mlC8i8xlarge: return "ml.c8i.8xlarge"
+            case .mlC8i96xlarge: return "ml.c8i.96xlarge"
+            case .mlC8iXlarge: return "ml.c8i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -19824,6 +20039,17 @@ extension SageMakerClientTypes {
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
+            case .mlM8i12xlarge: return "ml.m8i.12xlarge"
+            case .mlM8i16xlarge: return "ml.m8i.16xlarge"
+            case .mlM8i24xlarge: return "ml.m8i.24xlarge"
+            case .mlM8i2xlarge: return "ml.m8i.2xlarge"
+            case .mlM8i32xlarge: return "ml.m8i.32xlarge"
+            case .mlM8i48xlarge: return "ml.m8i.48xlarge"
+            case .mlM8i4xlarge: return "ml.m8i.4xlarge"
+            case .mlM8i8xlarge: return "ml.m8i.8xlarge"
+            case .mlM8i96xlarge: return "ml.m8i.96xlarge"
+            case .mlM8iLarge: return "ml.m8i.large"
+            case .mlM8iXlarge: return "ml.m8i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -19847,6 +20073,15 @@ extension SageMakerClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR6i12xlarge: return "ml.r6i.12xlarge"
+            case .mlR6i16xlarge: return "ml.r6i.16xlarge"
+            case .mlR6i24xlarge: return "ml.r6i.24xlarge"
+            case .mlR6i2xlarge: return "ml.r6i.2xlarge"
+            case .mlR6i32xlarge: return "ml.r6i.32xlarge"
+            case .mlR6i4xlarge: return "ml.r6i.4xlarge"
+            case .mlR6i8xlarge: return "ml.r6i.8xlarge"
+            case .mlR6iLarge: return "ml.r6i.large"
+            case .mlR6iXlarge: return "ml.r6i.xlarge"
             case .mlR7i12xlarge: return "ml.r7i.12xlarge"
             case .mlR7i16xlarge: return "ml.r7i.16xlarge"
             case .mlR7i24xlarge: return "ml.r7i.24xlarge"
@@ -19856,6 +20091,17 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlR8i12xlarge: return "ml.r8i.12xlarge"
+            case .mlR8i16xlarge: return "ml.r8i.16xlarge"
+            case .mlR8i24xlarge: return "ml.r8i.24xlarge"
+            case .mlR8i2xlarge: return "ml.r8i.2xlarge"
+            case .mlR8i32xlarge: return "ml.r8i.32xlarge"
+            case .mlR8i48xlarge: return "ml.r8i.48xlarge"
+            case .mlR8i4xlarge: return "ml.r8i.4xlarge"
+            case .mlR8i8xlarge: return "ml.r8i.8xlarge"
+            case .mlR8i96xlarge: return "ml.r8i.96xlarge"
+            case .mlR8iLarge: return "ml.r8i.large"
+            case .mlR8iXlarge: return "ml.r8i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -47024,6 +47270,7 @@ extension SageMakerClientTypes {
         case experimentTrialComponent
         case featureGroup
         case featureMetadata
+        case hubContent
         case hyperParameterTuningJob
         case image
         case imageVersion
@@ -47047,6 +47294,7 @@ extension SageMakerClientTypes {
                 .experimentTrialComponent,
                 .featureGroup,
                 .featureMetadata,
+                .hubContent,
                 .hyperParameterTuningJob,
                 .image,
                 .imageVersion,
@@ -47076,6 +47324,7 @@ extension SageMakerClientTypes {
             case .experimentTrialComponent: return "ExperimentTrialComponent"
             case .featureGroup: return "FeatureGroup"
             case .featureMetadata: return "FeatureMetadata"
+            case .hubContent: return "HubContent"
             case .hyperParameterTuningJob: return "HyperParameterTuningJob"
             case .image: return "Image"
             case .imageVersion: return "ImageVersion"
@@ -47179,6 +47428,110 @@ extension SageMakerClientTypes {
             secretArn: Swift.String? = nil
         ) {
             self.secretArn = secretArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains information about a hub content resource, including its name, version, type, associated documents, dependencies, and status, as returned by a search result.
+    public struct HubContent: Swift.Sendable {
+        /// The date and time that hub content was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The document schema version for the hub content.
+        /// This member is required.
+        public var documentSchemaVersion: Swift.String?
+        /// The failure reason if importing hub content failed.
+        public var failureReason: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hub that contains the content.
+        /// This member is required.
+        public var hubArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hub content.
+        /// This member is required.
+        public var hubContentArn: Swift.String?
+        /// The location of any dependencies that the hub content has, such as scripts, model artifacts, datasets, or notebooks.
+        public var hubContentDependencies: [SageMakerClientTypes.HubContentDependency]?
+        /// A description of the hub content.
+        public var hubContentDescription: Swift.String?
+        /// The display name of the hub content.
+        public var hubContentDisplayName: Swift.String?
+        /// The hub content document that describes information about the hub content such as type, associated containers, scripts, and more.
+        public var hubContentDocument: Swift.String?
+        /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting.
+        public var hubContentMarkdown: Swift.String?
+        /// The name of the hub content.
+        /// This member is required.
+        public var hubContentName: Swift.String?
+        /// The searchable keywords for the hub content.
+        public var hubContentSearchKeywords: [Swift.String]?
+        /// The status of the hub content.
+        /// This member is required.
+        public var hubContentStatus: SageMakerClientTypes.HubContentStatus?
+        /// The type of hub content.
+        /// This member is required.
+        public var hubContentType: SageMakerClientTypes.HubContentType?
+        /// The version of the hub content.
+        /// This member is required.
+        public var hubContentVersion: Swift.String?
+        /// The name of the hub that contains the content.
+        /// This member is required.
+        public var hubName: Swift.String?
+        /// The last modified time of the hub content.
+        public var lastModifiedTime: Foundation.Date?
+        /// The minimum version of the hub content.
+        public var referenceMinVersion: Swift.String?
+        /// The Amazon Resource Name (ARN) of the public hub content.
+        public var sageMakerPublicHubContentArn: Swift.String?
+        /// The support status of the hub content.
+        public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
+        /// Any tags associated with the hub content.
+        public var tags: [SageMakerClientTypes.Tag]?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            documentSchemaVersion: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            hubArn: Swift.String? = nil,
+            hubContentArn: Swift.String? = nil,
+            hubContentDependencies: [SageMakerClientTypes.HubContentDependency]? = nil,
+            hubContentDescription: Swift.String? = nil,
+            hubContentDisplayName: Swift.String? = nil,
+            hubContentDocument: Swift.String? = nil,
+            hubContentMarkdown: Swift.String? = nil,
+            hubContentName: Swift.String? = nil,
+            hubContentSearchKeywords: [Swift.String]? = nil,
+            hubContentStatus: SageMakerClientTypes.HubContentStatus? = nil,
+            hubContentType: SageMakerClientTypes.HubContentType? = nil,
+            hubContentVersion: Swift.String? = nil,
+            hubName: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            referenceMinVersion: Swift.String? = nil,
+            sageMakerPublicHubContentArn: Swift.String? = nil,
+            supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
+            tags: [SageMakerClientTypes.Tag]? = nil
+        ) {
+            self.creationTime = creationTime
+            self.documentSchemaVersion = documentSchemaVersion
+            self.failureReason = failureReason
+            self.hubArn = hubArn
+            self.hubContentArn = hubContentArn
+            self.hubContentDependencies = hubContentDependencies
+            self.hubContentDescription = hubContentDescription
+            self.hubContentDisplayName = hubContentDisplayName
+            self.hubContentDocument = hubContentDocument
+            self.hubContentMarkdown = hubContentMarkdown
+            self.hubContentName = hubContentName
+            self.hubContentSearchKeywords = hubContentSearchKeywords
+            self.hubContentStatus = hubContentStatus
+            self.hubContentType = hubContentType
+            self.hubContentVersion = hubContentVersion
+            self.hubName = hubName
+            self.lastModifiedTime = lastModifiedTime
+            self.referenceMinVersion = referenceMinVersion
+            self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
+            self.supportStatus = supportStatus
+            self.tags = tags
         }
     }
 }
@@ -59353,6 +59706,8 @@ extension SageMakerClientTypes {
         public var featureGroup: SageMakerClientTypes.FeatureGroup?
         /// The feature metadata used to search through the features.
         public var featureMetadata: SageMakerClientTypes.FeatureMetadata?
+        /// The properties of a hub content resource.
+        public var hubContent: SageMakerClientTypes.HubContent?
         /// The properties of a hyperparameter tuning job.
         public var hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity?
         /// The properties of a job.
@@ -59392,6 +59747,7 @@ extension SageMakerClientTypes {
             experiment: SageMakerClientTypes.Experiment? = nil,
             featureGroup: SageMakerClientTypes.FeatureGroup? = nil,
             featureMetadata: SageMakerClientTypes.FeatureMetadata? = nil,
+            hubContent: SageMakerClientTypes.HubContent? = nil,
             hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity? = nil,
             job: SageMakerClientTypes.Job? = nil,
             model: SageMakerClientTypes.ModelDashboardModel? = nil,
@@ -59410,6 +59766,7 @@ extension SageMakerClientTypes {
             self.experiment = experiment
             self.featureGroup = featureGroup
             self.featureMetadata = featureMetadata
+            self.hubContent = hubContent
             self.hyperParameterTuningJob = hyperParameterTuningJob
             self.job = job
             self.model = model

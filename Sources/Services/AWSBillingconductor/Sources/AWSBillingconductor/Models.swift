@@ -112,6 +112,7 @@ extension BillingconductorClientTypes {
 
     public enum ConflictExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pricingPlanAttachedToBillingGroupDeleteConflict
+        case pricingPlanReferencedByPreferenceDeleteConflict
         case pricingRuleAttachedToPricingPlanDeleteConflict
         case pricingRuleInPricingPlanConflict
         case resourceNameConflict
@@ -121,6 +122,7 @@ extension BillingconductorClientTypes {
         public static var allCases: [ConflictExceptionReason] {
             return [
                 .pricingPlanAttachedToBillingGroupDeleteConflict,
+                .pricingPlanReferencedByPreferenceDeleteConflict,
                 .pricingRuleAttachedToPricingPlanDeleteConflict,
                 .pricingRuleInPricingPlanConflict,
                 .resourceNameConflict,
@@ -136,6 +138,7 @@ extension BillingconductorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .pricingPlanAttachedToBillingGroupDeleteConflict: return "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT"
+            case .pricingPlanReferencedByPreferenceDeleteConflict: return "PRICING_PLAN_REFERENCED_BY_PREFERENCE_DELETE_CONFLICT"
             case .pricingRuleAttachedToPricingPlanDeleteConflict: return "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT"
             case .pricingRuleInPricingPlanConflict: return "PRICING_RULE_IN_PRICING_PLAN_CONFLICT"
             case .resourceNameConflict: return "RESOURCE_NAME_CONFLICT"
@@ -737,6 +740,26 @@ extension BillingconductorClientTypes {
         ) {
             self.key = key
             self.value = value
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+
+    /// The auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group, with the specified pricing plan, for each account that transfers its bill to the bill source account of the billing transfer.
+    public struct AutoTransferBillingGroupCreationPreference: Swift.Sendable {
+        /// Specifies whether Billing Conductor automatically creates billing groups for the billing transfer. The preference is disabled by default.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the pricing plan to apply to the automatically created billing groups. This value is required when Enabled is true, and must be omitted when Enabled is false.
+        public var pricingPlanArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            pricingPlanArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.pricingPlanArn = pricingPlanArn
         }
     }
 }
@@ -2453,6 +2476,39 @@ public struct GetBillingGroupCostReportOutput: Swift.Sendable {
     }
 }
 
+public struct GetBillingTransferPreferenceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the billing transfer whose preference you want to retrieve.
+    /// This member is required.
+    public var responsibilityTransferArn: Swift.String?
+
+    public init(
+        responsibilityTransferArn: Swift.String? = nil
+    ) {
+        self.responsibilityTransferArn = responsibilityTransferArn
+    }
+}
+
+public struct GetBillingTransferPreferenceOutput: Swift.Sendable {
+    /// The auto billing group creation preference for the billing transfer.
+    /// This member is required.
+    public var autoBillingTransferBillingGroupCreation: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference?
+    /// The most recent time when the preference was modified. This value is empty if the preference has never been set for the billing transfer.
+    public var lastModifiedTime: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the billing transfer that the preference applies to.
+    /// This member is required.
+    public var responsibilityTransferArn: Swift.String?
+
+    public init(
+        autoBillingTransferBillingGroupCreation: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference? = nil,
+        lastModifiedTime: Swift.Int? = nil,
+        responsibilityTransferArn: Swift.String? = nil
+    ) {
+        self.autoBillingTransferBillingGroupCreation = autoBillingTransferBillingGroupCreation
+        self.lastModifiedTime = lastModifiedTime
+        self.responsibilityTransferArn = responsibilityTransferArn
+    }
+}
+
 extension BillingconductorClientTypes {
 
     /// The filter on the account ID of the linked account, or any of the following: MONITORED: linked accounts that are associated to billing groups. UNMONITORED: linked accounts that are not associated to billing groups. Billing Group Arn: linked accounts that are associated to the provided Billing Group Arn.
@@ -3532,6 +3588,49 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateBillingTransferPreferenceInput: Swift.Sendable {
+    /// The auto billing group creation preference to set for the billing transfer.
+    /// This member is required.
+    public var autoBillingTransferBillingGroupCreation: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference?
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the billing transfer whose preference you want to set.
+    /// This member is required.
+    public var responsibilityTransferArn: Swift.String?
+
+    public init(
+        autoBillingTransferBillingGroupCreation: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference? = nil,
+        clientToken: Swift.String? = nil,
+        responsibilityTransferArn: Swift.String? = nil
+    ) {
+        self.autoBillingTransferBillingGroupCreation = autoBillingTransferBillingGroupCreation
+        self.clientToken = clientToken
+        self.responsibilityTransferArn = responsibilityTransferArn
+    }
+}
+
+public struct UpdateBillingTransferPreferenceOutput: Swift.Sendable {
+    /// The updated auto billing group creation preference for the billing transfer.
+    /// This member is required.
+    public var autoBillingTransferBillingGroupCreation: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference?
+    /// The most recent time when the preference was modified.
+    /// This member is required.
+    public var lastModifiedTime: Swift.Int
+    /// The Amazon Resource Name (ARN) of the billing transfer that the preference applies to.
+    /// This member is required.
+    public var responsibilityTransferArn: Swift.String?
+
+    public init(
+        autoBillingTransferBillingGroupCreation: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference? = nil,
+        lastModifiedTime: Swift.Int = 0,
+        responsibilityTransferArn: Swift.String? = nil
+    ) {
+        self.autoBillingTransferBillingGroupCreation = autoBillingTransferBillingGroupCreation
+        self.lastModifiedTime = lastModifiedTime
+        self.responsibilityTransferArn = responsibilityTransferArn
+    }
+}
+
 extension AssociateAccountsInput {
 
     static func urlPathProvider(_ value: AssociateAccountsInput) -> Swift.String? {
@@ -3681,6 +3780,13 @@ extension GetBillingGroupCostReportInput {
     }
 }
 
+extension GetBillingTransferPreferenceInput {
+
+    static func urlPathProvider(_ value: GetBillingTransferPreferenceInput) -> Swift.String? {
+        return "/get-billing-transfer-preference"
+    }
+}
+
 extension ListAccountAssociationsInput {
 
     static func urlPathProvider(_ value: ListAccountAssociationsInput) -> Swift.String? {
@@ -3801,6 +3907,24 @@ extension UpdateBillingGroupInput {
 
     static func urlPathProvider(_ value: UpdateBillingGroupInput) -> Swift.String? {
         return "/update-billing-group"
+    }
+}
+
+extension UpdateBillingTransferPreferenceInput {
+
+    static func urlPathProvider(_ value: UpdateBillingTransferPreferenceInput) -> Swift.String? {
+        return "/update-billing-transfer-preference"
+    }
+}
+
+extension UpdateBillingTransferPreferenceInput {
+
+    static func headerProvider(_ value: UpdateBillingTransferPreferenceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
     }
 }
 
@@ -3984,6 +4108,14 @@ extension GetBillingGroupCostReportInput {
     }
 }
 
+extension GetBillingTransferPreferenceInput {
+
+    static func write(value: GetBillingTransferPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResponsibilityTransferArn"].write(value.responsibilityTransferArn)
+    }
+}
+
 extension ListAccountAssociationsInput {
 
     static func write(value: ListAccountAssociationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -4112,6 +4244,15 @@ extension UpdateBillingGroupInput {
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["Status"].write(value.status)
+    }
+}
+
+extension UpdateBillingTransferPreferenceInput {
+
+    static func write(value: UpdateBillingTransferPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoBillingTransferBillingGroupCreation"].write(value.autoBillingTransferBillingGroupCreation, with: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference.write(value:to:))
+        try writer["ResponsibilityTransferArn"].write(value.responsibilityTransferArn)
     }
 }
 
@@ -4333,6 +4474,20 @@ extension GetBillingGroupCostReportOutput {
     }
 }
 
+extension GetBillingTransferPreferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBillingTransferPreferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBillingTransferPreferenceOutput()
+        value.autoBillingTransferBillingGroupCreation = try reader["AutoBillingTransferBillingGroupCreation"].readIfPresent(with: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent()
+        value.responsibilityTransferArn = try reader["ResponsibilityTransferArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ListAccountAssociationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountAssociationsOutput {
@@ -4513,6 +4668,20 @@ extension UpdateBillingGroupOutput {
         value.size = try reader["Size"].readIfPresent() ?? 0
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateBillingTransferPreferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBillingTransferPreferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateBillingTransferPreferenceOutput()
+        value.autoBillingTransferBillingGroupCreation = try reader["AutoBillingTransferBillingGroupCreation"].readIfPresent(with: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent() ?? 0
+        value.responsibilityTransferArn = try reader["ResponsibilityTransferArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4858,6 +5027,24 @@ enum GetBillingGroupCostReportOutputError {
     }
 }
 
+enum GetBillingTransferPreferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAccountAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5108,6 +5295,25 @@ enum UpdateBillingGroupOutputError {
     }
 }
 
+enum UpdateBillingTransferPreferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCustomLineItemOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5327,6 +5533,23 @@ extension BillingconductorClientTypes.Attribute {
         var value = BillingconductorClientTypes.Attribute()
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference {
+
+    static func write(value: BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["PricingPlanArn"].write(value.pricingPlanArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingconductorClientTypes.AutoTransferBillingGroupCreationPreference()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.pricingPlanArn = try reader["PricingPlanArn"].readIfPresent()
         return value
     }
 }

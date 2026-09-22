@@ -1193,6 +1193,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Must be a value from 1 to 35.
     public var backupRetentionPeriod: Swift.Int?
+    /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+    public var copyTagsToSnapshot: Swift.Bool?
     /// The cluster identifier. This parameter is stored as a lowercase string. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
@@ -1211,7 +1213,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var dbSubnetGroupName: Swift.String?
     /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
     public var deletionProtection: Swift.Bool?
-    /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more information, see [ Auditing Amazon DocumentDB Events](https://docs.aws.amazon.com/documentdb/latest/developerguide/event-auditing.html) and [ Profiling Amazon DocumentDB Operations](https://docs.aws.amazon.com/documentdb/latest/developerguide/profiling.html).
+    /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more information, see [ Auditing Amazon DocumentDB Events](https://docs.aws.amazon.com/documentdb/latest/devguide/event-auditing.html) and [ Profiling Amazon DocumentDB Operations](https://docs.aws.amazon.com/documentdb/latest/devguide/profiling.html).
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// The name of the database engine to be used for this cluster. Valid values: docdb
     /// This member is required.
@@ -1241,7 +1243,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Cannot be a reserved word for the chosen database engine.
     public var masterUsername: Swift.String?
-    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/devguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The port number on which the instances in the cluster accept connections.
     public var port: Swift.Int?
@@ -1273,6 +1275,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public init(
         availabilityZones: [Swift.String]? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
+        copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
@@ -1299,6 +1302,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ) {
         self.availabilityZones = availabilityZones
         self.backupRetentionPeriod = backupRetentionPeriod
+        self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
@@ -1460,6 +1464,8 @@ extension DocDBClientTypes {
         public var cloneGroupId: Swift.String?
         /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
         public var clusterCreateTime: Foundation.Date?
+        /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+        public var copyTagsToSnapshot: Swift.Bool?
         /// The Amazon Resource Name (ARN) for the cluster.
         public var dbClusterArn: Swift.String?
         /// Contains a user-supplied cluster identifier. This identifier is the unique key that identifies a cluster.
@@ -1498,7 +1504,7 @@ extension DocDBClientTypes {
         public var masterUsername: Swift.String?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
         public var multiAZ: Swift.Bool?
-        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/devguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
         public var networkType: Swift.String?
         /// Specifies the progress of the operation as a percentage.
         public var percentProgress: Swift.String?
@@ -1531,6 +1537,7 @@ extension DocDBClientTypes {
             backupRetentionPeriod: Swift.Int? = nil,
             cloneGroupId: Swift.String? = nil,
             clusterCreateTime: Foundation.Date? = nil,
+            copyTagsToSnapshot: Swift.Bool? = nil,
             dbClusterArn: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbClusterMembers: [DocDBClientTypes.DBClusterMember]? = nil,
@@ -1569,6 +1576,7 @@ extension DocDBClientTypes {
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterArn = dbClusterArn
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterMembers = dbClusterMembers
@@ -1850,7 +1858,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
-    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    /// The CA certificate identifier to use for the DB instance's server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/devguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/devguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
     public var caCertificateIdentifier: Swift.String?
     /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
@@ -1872,7 +1880,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     /// Example: mydbinstance
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html).
+    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/documentdb/latest/devguide/performance-insights.html).
     public var enablePerformanceInsights: Swift.Bool?
     /// The name of the database engine to be used for this instance. Valid value: docdb
     /// This member is required.
@@ -1919,7 +1927,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
 
 extension DocDBClientTypes {
 
-    /// Returns the details of the DB instance’s server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    /// Returns the details of the DB instance’s server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/devguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/devguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
     public struct CertificateDetails: Swift.Sendable {
         /// The CA identifier of the CA certificate used for the DB instance's server certificate.
         public var caIdentifier: Swift.String?
@@ -3726,7 +3734,7 @@ extension DocDBClientTypes {
         public var exportableLogTypes: [Swift.String]?
         /// Specifies any Amazon DocumentDB Serverless properties or limits that differ between Amazon DocumentDB engine versions. You can test the values of this attribute when deciding which Amazon DocumentDB version to use in a new or upgraded cluster. You can also retrieve the version of an existing cluster and check whether that version supports certain Amazon DocumentDB Serverless features before you attempt to use those features.
         public var serverlessV2FeaturesSupport: DocDBClientTypes.ServerlessV2FeaturesSupport?
-        /// A list of the supported CA certificate identifiers. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+        /// A list of the supported CA certificate identifiers. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/devguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/devguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
         public var supportedCACertificateIdentifiers: [Swift.String]?
         /// Indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
         public var supportsCertificateRotationWithoutRestart: Swift.Bool?
@@ -4518,6 +4526,8 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var backupRetentionPeriod: Swift.Int?
     /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
     public var cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration?
+    /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+    public var copyTagsToSnapshot: Swift.Bool?
     /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing DBCluster.
@@ -4542,7 +4552,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     ///
     /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     public var masterUserSecretKmsKeyId: Swift.String?
-    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/devguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:
     ///
@@ -4583,6 +4593,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         applyImmediately: Swift.Bool? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration? = nil,
+        copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
@@ -4604,6 +4615,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.applyImmediately = applyImmediately
         self.backupRetentionPeriod = backupRetentionPeriod
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
+        self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.deletionProtection = deletionProtection
@@ -4764,7 +4776,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Indicates the certificate that needs to be associated with the instance.
     public var caCertificateIdentifier: Swift.String?
-    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
+    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/devguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/devguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
     public var certificateRotationRestart: Swift.Bool?
     /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
@@ -4775,7 +4787,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     /// * Must match the identifier of an existing DBInstance.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html).
+    /// A value that indicates whether to enable Performance Insights for the DB Instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/documentdb/latest/devguide/performance-insights.html).
     public var enablePerformanceInsights: Swift.Bool?
     /// The new instance identifier for the instance when renaming an instance. When you change the instance identifier, an instance reboot occurs immediately if you set Apply Immediately to true. It occurs during the next maintenance window if you set Apply Immediately to false. This value is stored as a lowercase string. Constraints:
     ///
@@ -5191,6 +5203,8 @@ public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.
 public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
     public var availabilityZones: [Swift.String]?
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
+    public var copyTagsToSnapshot: Swift.Bool?
     /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
@@ -5222,7 +5236,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ///
     /// * If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
     public var kmsKeyId: Swift.String?
-    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/devguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
     public var port: Swift.Int?
@@ -5242,6 +5256,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
 
     public init(
         availabilityZones: [Swift.String]? = nil,
+        copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
@@ -5259,6 +5274,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
         self.availabilityZones = availabilityZones
+        self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
@@ -5290,6 +5306,8 @@ public struct RestoreDBClusterFromSnapshotOutput: Swift.Sendable {
 
 /// Represents the input to [RestoreDBClusterToPointInTime].
 public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
+    public var copyTagsToSnapshot: Swift.Bool?
     /// The name of the new cluster to be created. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
@@ -5314,7 +5332,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
     public var kmsKeyId: Swift.String?
-    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/devguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The default port for the engine.
     public var port: Swift.Int?
@@ -5357,6 +5375,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
@@ -5373,6 +5392,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbSubnetGroupName = dbSubnetGroupName
         self.deletionProtection = deletionProtection
@@ -5943,6 +5963,7 @@ extension CreateDBClusterInput {
         guard let value else { return }
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
+        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
@@ -6400,6 +6421,7 @@ extension ModifyDBClusterInput {
         try writer["ApplyImmediately"].write(value.applyImmediately)
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CloudwatchLogsExportConfiguration"].write(value.cloudwatchLogsExportConfiguration, with: DocDBClientTypes.CloudwatchLogsExportConfiguration.write(value:to:))
+        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DeletionProtection"].write(value.deletionProtection)
@@ -6565,6 +6587,7 @@ extension RestoreDBClusterFromSnapshotInput {
     static func write(value: RestoreDBClusterFromSnapshotInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
@@ -6589,6 +6612,7 @@ extension RestoreDBClusterToPointInTimeInput {
 
     static func write(value: RestoreDBClusterToPointInTimeInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
         try writer["DeletionProtection"].write(value.deletionProtection)
@@ -9072,6 +9096,7 @@ extension DocDBClientTypes.DBCluster {
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: DocDBClientTypes.ClusterMasterUserSecret.read(from:))
         value.networkType = try reader["NetworkType"].readIfPresent()
+        value.copyTagsToSnapshot = try reader["CopyTagsToSnapshot"].readIfPresent()
         return value
     }
 }

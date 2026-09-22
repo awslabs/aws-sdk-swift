@@ -625,13 +625,13 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createEncoderConfiguration(input: CreateEncoderConfigurationInput) async throws -> CreateEncoderConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -699,10 +699,10 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `PendingVerification` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createIngestConfiguration(input: CreateIngestConfigurationInput) async throws -> CreateIngestConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -770,11 +770,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -842,10 +842,10 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `PendingVerification` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createStage(input: CreateStageInput) async throws -> CreateStageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -913,13 +913,13 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createStorageConfiguration(input: CreateStorageConfigurationInput) async throws -> CreateStorageConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -987,12 +987,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteEncoderConfiguration(input: DeleteEncoderConfigurationInput) async throws -> DeleteEncoderConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1060,11 +1060,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteIngestConfiguration(input: DeleteIngestConfigurationInput) async throws -> DeleteIngestConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1132,11 +1132,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1204,11 +1204,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1276,12 +1276,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteStorageConfiguration(input: DeleteStorageConfigurationInput) async throws -> DeleteStorageConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1349,10 +1349,10 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1420,12 +1420,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getComposition(input: GetCompositionInput) async throws -> GetCompositionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1493,12 +1493,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getEncoderConfiguration(input: GetEncoderConfigurationInput) async throws -> GetEncoderConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1566,9 +1566,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getIngestConfiguration(input: GetIngestConfigurationInput) async throws -> GetIngestConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1636,9 +1636,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1706,9 +1706,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1776,9 +1776,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getStage(input: GetStageInput) async throws -> GetStageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1846,9 +1846,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1916,12 +1916,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getStorageConfiguration(input: GetStorageConfigurationInput) async throws -> GetStorageConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1989,11 +1989,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `PendingVerification` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func importPublicKey(input: ImportPublicKeyInput) async throws -> ImportPublicKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2061,11 +2061,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listCompositions(input: ListCompositionsInput) async throws -> ListCompositionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2133,11 +2133,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listEncoderConfigurations(input: ListEncoderConfigurationsInput) async throws -> ListEncoderConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2205,8 +2205,8 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listIngestConfigurations(input: ListIngestConfigurationsInput) async throws -> ListIngestConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2274,8 +2274,8 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2343,8 +2343,8 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listParticipantReplicas(input: ListParticipantReplicasInput) async throws -> ListParticipantReplicasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2412,8 +2412,8 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2481,8 +2481,8 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2550,8 +2550,8 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2619,9 +2619,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listStages(input: ListStagesInput) async throws -> ListStagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2689,11 +2689,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listStorageConfigurations(input: ListStorageConfigurationsInput) async throws -> ListStorageConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2761,9 +2761,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2838,13 +2838,13 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startComposition(input: StartCompositionInput) async throws -> StartCompositionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2913,13 +2913,13 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func startParticipantReplication(input: StartParticipantReplicationInput) async throws -> StartParticipantReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2987,12 +2987,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func stopComposition(input: StopCompositionInput) async throws -> StopCompositionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3060,10 +3060,10 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func stopParticipantReplication(input: StopParticipantReplicationInput) async throws -> StopParticipantReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3131,9 +3131,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3201,9 +3201,9 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3269,11 +3269,11 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateIngestConfiguration(input: UpdateIngestConfigurationInput) async throws -> UpdateIngestConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3341,12 +3341,12 @@ extension IVSRealTimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` :
-    /// - `ConflictException` :
-    /// - `PendingVerification` :
-    /// - `ResourceNotFoundException` :
-    /// - `ServiceQuotaExceededException` :
-    /// - `ValidationException` :
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `PendingVerification` : Your account is pending verification.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
