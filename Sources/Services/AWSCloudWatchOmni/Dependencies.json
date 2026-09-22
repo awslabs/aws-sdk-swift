@@ -1,5 +1,5 @@
 {
-  "modelPath": "codegen/sdk-codegen/aws-models/observabilityadmin.json",
+  "modelPath": "codegen/sdk-codegen/aws-models/cloudwatchomni.json",
   "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
@@ -10,10 +10,8 @@
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
-    "SmithyJSON",
-    "SmithyReadWrite",
+    "SmithyRPCv2CBOR",
     "SmithyRetries",
-    "SmithyRetriesAPI",
-    "SmithyTimestamps"
+    "SmithyRetriesAPI"
   ]
 }

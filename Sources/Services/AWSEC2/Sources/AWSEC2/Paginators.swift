@@ -378,6 +378,39 @@ extension PaginatorSequence where OperationStackInput == DescribeCapacityReserva
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeCapacityReservationDateChangeQuotesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityReservationDateChangeQuotesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityReservationDateChangeQuotesOutput`
+    public func describeCapacityReservationDateChangeQuotesPaginated(input: DescribeCapacityReservationDateChangeQuotesInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityReservationDateChangeQuotes(input:))
+    }
+}
+
+extension DescribeCapacityReservationDateChangeQuotesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityReservationDateChangeQuotesInput {
+        return DescribeCapacityReservationDateChangeQuotesInput(
+            capacityReservationModificationQuoteIds: self.capacityReservationModificationQuoteIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityReservationDateChangeQuotesInput, OperationStackOutput == DescribeCapacityReservationDateChangeQuotesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityReservationDateChangeQuotesPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityReservationModificationQuote]`
+    /// - Returns: `[EC2ClientTypes.CapacityReservationModificationQuote]`
+    public func capacityReservationModificationQuotes() async throws -> [EC2ClientTypes.CapacityReservationModificationQuote] {
+        return try await self.asyncCompactMap { item in item.capacityReservationModificationQuotes }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeCapacityReservationFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

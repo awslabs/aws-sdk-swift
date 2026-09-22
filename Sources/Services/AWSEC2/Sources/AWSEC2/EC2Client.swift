@@ -5178,6 +5178,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCapacityReservationDateChangeQuote` operation on the `EC2` service.
+    ///
+    /// Generates a quote for changing the start date of a future-dated Capacity Reservation that has not yet been delivered. The quote includes the new start date, the resulting commitment end date, and a quote ID. Pass the quote ID to ModifyCapacityReservation to apply the change. The cumulative pushout across all changes is limited to 30 days from the Capacity Reservation's original start date. Quotes are valid for 24 hours, and always expire at least one hour before the start date.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityReservationDateChangeQuoteInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCapacityReservationDateChangeQuoteOutput`)
+    public func createCapacityReservationDateChangeQuote(input: CreateCapacityReservationDateChangeQuoteInput) async throws -> CreateCapacityReservationDateChangeQuoteOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCapacityReservationDateChangeQuote")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>(CreateCapacityReservationDateChangeQuoteInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityReservationDateChangeQuoteOutput>(CreateCapacityReservationDateChangeQuoteOutput.httpOutput(from:), CreateCapacityReservationDateChangeQuoteOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityReservationDateChangeQuoteOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCapacityReservationDateChangeQuoteOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityReservationDateChangeQuoteInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityReservationDateChangeQuoteOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityReservationDateChangeQuoteInput, CreateCapacityReservationDateChangeQuoteOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityReservationDateChangeQuote")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateCapacityReservationFleet` operation on the `EC2` service.
     ///
     /// Creates a Capacity Reservation Fleet. For more information, see [Create a Capacity Reservation Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-cr-fleets.html#create-crfleet) in the Amazon EC2 User Guide.
@@ -19859,6 +19923,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityReservationCancellationQuotes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeCapacityReservationDateChangeQuotes` operation on the `EC2` service.
+    ///
+    /// Describes one or more Capacity Reservation date change quotes that you generated by using the CreateCapacityReservationDateChangeQuote operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityReservationDateChangeQuotesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityReservationDateChangeQuotesOutput`)
+    public func describeCapacityReservationDateChangeQuotes(input: DescribeCapacityReservationDateChangeQuotesInput) async throws -> DescribeCapacityReservationDateChangeQuotesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityReservationDateChangeQuotes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>(DescribeCapacityReservationDateChangeQuotesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityReservationDateChangeQuotesOutput>(DescribeCapacityReservationDateChangeQuotesOutput.httpOutput(from:), DescribeCapacityReservationDateChangeQuotesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityReservationDateChangeQuotesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCapacityReservationDateChangeQuotesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityReservationDateChangeQuotesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityReservationDateChangeQuotesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityReservationDateChangeQuotesInput, DescribeCapacityReservationDateChangeQuotesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityReservationDateChangeQuotes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -41445,6 +41572,9 @@ extension EC2Client {
     /// * active state with no commitment duration or elapsed commitment duration - All modifications are allowed.
     ///
     /// * expired, cancelled, unsupported, or failed state - You can't modify the Capacity Reservation in any way.
+    ///
+    ///
+    /// For a future-dated Capacity Reservation that has not yet been delivered, pushing out the start date requires a quote generated by CreateCapacityReservationDateChangeQuote. For more information, see [Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyCapacityReservationInput`)
     ///

@@ -1418,6 +1418,8 @@ extension APIGatewayClientTypes {
         case securitypolicyTls122018Edge
         case securitypolicyTls12Pfs2025Edge
         case securitypolicyTls1312202106
+        case securitypolicyTls1312Ext2FipsPq202509
+        case securitypolicyTls1312Ext2Pq202509
         case securitypolicyTls1312FipsPfsPq202509
         case securitypolicyTls1312FipsPq202509
         case securitypolicyTls1312PfsPq202509
@@ -1434,6 +1436,8 @@ extension APIGatewayClientTypes {
                 .securitypolicyTls122018Edge,
                 .securitypolicyTls12Pfs2025Edge,
                 .securitypolicyTls1312202106,
+                .securitypolicyTls1312Ext2FipsPq202509,
+                .securitypolicyTls1312Ext2Pq202509,
                 .securitypolicyTls1312FipsPfsPq202509,
                 .securitypolicyTls1312FipsPq202509,
                 .securitypolicyTls1312PfsPq202509,
@@ -1456,6 +1460,8 @@ extension APIGatewayClientTypes {
             case .securitypolicyTls122018Edge: return "SecurityPolicy_TLS12_2018_EDGE"
             case .securitypolicyTls12Pfs2025Edge: return "SecurityPolicy_TLS12_PFS_2025_EDGE"
             case .securitypolicyTls1312202106: return "SecurityPolicy_TLS13_1_2_2021_06"
+            case .securitypolicyTls1312Ext2FipsPq202509: return "SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09"
+            case .securitypolicyTls1312Ext2Pq202509: return "SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09"
             case .securitypolicyTls1312FipsPfsPq202509: return "SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09"
             case .securitypolicyTls1312FipsPq202509: return "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
             case .securitypolicyTls1312PfsPq202509: return "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"

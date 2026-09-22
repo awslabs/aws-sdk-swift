@@ -527,6 +527,7 @@ extension EC2ClientTypes {
         case capacityReservation
         case capacityReservationCancellationQuote
         case capacityReservationFleet
+        case capacityReservationModificationQuote
         case carrierGateway
         case clientVpnEndpoint
         case coipPool
@@ -642,6 +643,7 @@ extension EC2ClientTypes {
                 .capacityReservation,
                 .capacityReservationCancellationQuote,
                 .capacityReservationFleet,
+                .capacityReservationModificationQuote,
                 .carrierGateway,
                 .clientVpnEndpoint,
                 .coipPool,
@@ -763,6 +765,7 @@ extension EC2ClientTypes {
             case .capacityReservation: return "capacity-reservation"
             case .capacityReservationCancellationQuote: return "capacity-reservation-cancellation-quote"
             case .capacityReservationFleet: return "capacity-reservation-fleet"
+            case .capacityReservationModificationQuote: return "capacity-reservation-modification-quote"
             case .carrierGateway: return "carrier-gateway"
             case .clientVpnEndpoint: return "client-vpn-endpoint"
             case .coipPool: return "coip-pool"
@@ -11104,6 +11107,73 @@ public struct CreateCapacityReservationInput: Swift.Sendable {
 
 extension EC2ClientTypes {
 
+    /// Describes the configuration that a Capacity Reservation will have after a pending adjustment is applied.
+    public struct CapacityReservationAdjustmentDetails: Swift.Sendable {
+        /// The commitment duration, in seconds, that the Capacity Reservation will have after the adjustment.
+        public var commitmentDuration: Swift.Int?
+        /// The date and time at which the commitment duration will expire after the adjustment.
+        public var commitmentEndDate: Foundation.Date?
+        /// The end date that the Capacity Reservation will have after the adjustment.
+        public var endDate: Foundation.Date?
+        /// Indicates the way in which the Capacity Reservation will end after the adjustment. Possible values are:
+        ///
+        /// * unlimited - The Capacity Reservation remains active until you explicitly cancel it.
+        ///
+        /// * limited - The Capacity Reservation expires automatically at the date and time given by endDate.
+        public var endDateType: Swift.String?
+        /// The start date that the Capacity Reservation will have after the adjustment.
+        public var startDate: Foundation.Date?
+
+        public init(
+            commitmentDuration: Swift.Int? = nil,
+            commitmentEndDate: Foundation.Date? = nil,
+            endDate: Foundation.Date? = nil,
+            endDateType: Swift.String? = nil,
+            startDate: Foundation.Date? = nil
+        ) {
+            self.commitmentDuration = commitmentDuration
+            self.commitmentEndDate = commitmentEndDate
+            self.endDate = endDate
+            self.endDateType = endDateType
+            self.startDate = startDate
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CapacityReservationAdjustmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applied
+        case rejected
+        case requested
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationAdjustmentStatus] {
+            return [
+                .applied,
+                .rejected,
+                .requested
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applied: return "applied"
+            case .rejected: return "rejected"
+            case .requested: return "requested"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// A key-value pair that provides additional metadata about a capacity allocation.
     public struct CapacityAllocationMetadataEntry: Swift.Sendable {
         /// The key of the metadata entry.
@@ -11148,15 +11218,19 @@ extension EC2ClientTypes {
 
     /// Information about your commitment for a future-dated Capacity Reservation.
     public struct CapacityReservationCommitmentInfo: Swift.Sendable {
+        /// The commitment duration, in seconds, for the future-dated Capacity Reservation. This is the minimum duration for which you commit to having the Capacity Reservation in the active state in your account after it has been delivered.
+        public var commitmentDuration: Swift.Int?
         /// The date and time at which the commitment duration expires, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). You can't decrease the instance count or cancel the Capacity Reservation before this date and time.
         public var commitmentEndDate: Foundation.Date?
         /// The instance capacity that you committed to when you requested the future-dated Capacity Reservation.
         public var committedInstanceCount: Swift.Int?
 
         public init(
+            commitmentDuration: Swift.Int? = nil,
             commitmentEndDate: Foundation.Date? = nil,
             committedInstanceCount: Swift.Int? = nil
         ) {
+            self.commitmentDuration = commitmentDuration
             self.commitmentEndDate = commitmentEndDate
             self.committedInstanceCount = committedInstanceCount
         }
@@ -11408,6 +11482,19 @@ extension EC2ClientTypes {
 
     /// Describes a Capacity Reservation.
     public struct CapacityReservation: Swift.Sendable {
+        /// The configuration that the Capacity Reservation will have after the requested adjustment is applied.
+        public var adjustmentDetails: EC2ClientTypes.CapacityReservationAdjustmentDetails?
+        /// The status of the most recent modification to the Capacity Reservation. A Capacity Reservation can have one of the following adjustment statuses:
+        ///
+        /// * requested - The modification was requested and is being processed.
+        ///
+        /// * applied - The modification was applied to the Capacity Reservation.
+        ///
+        /// * rejected - The modification was not applied and the Capacity Reservation keeps its existing configuration.
+        ///
+        ///
+        /// This field is not returned if the Capacity Reservation has never been modified.
+        public var adjustmentStatus: EC2ClientTypes.CapacityReservationAdjustmentStatus?
         /// The Availability Zone in which the capacity is reserved.
         public var availabilityZone: Swift.String?
         /// The ID of the Availability Zone in which the capacity is reserved.
@@ -11458,6 +11545,8 @@ extension EC2ClientTypes {
         public var interruptibleCapacityAllocation: EC2ClientTypes.InterruptibleCapacityAllocation?
         /// Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
         public var interruptionInfo: EC2ClientTypes.InterruptionInfo?
+        /// The start date that you originally requested for the Capacity Reservation, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). This value doesn't change when you push out the start date.
+        public var originalStartDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was created.
         public var outpostArn: Swift.String?
         /// The ID of the Amazon Web Services account that owns the Capacity Reservation.
@@ -11510,6 +11599,8 @@ extension EC2ClientTypes {
         public var zeroSizePreference: EC2ClientTypes.ZeroSizePreference?
 
         public init(
+            adjustmentDetails: EC2ClientTypes.CapacityReservationAdjustmentDetails? = nil,
+            adjustmentStatus: EC2ClientTypes.CapacityReservationAdjustmentStatus? = nil,
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil,
             availableInstanceCount: Swift.Int? = nil,
@@ -11531,6 +11622,7 @@ extension EC2ClientTypes {
             interruptible: Swift.Bool? = nil,
             interruptibleCapacityAllocation: EC2ClientTypes.InterruptibleCapacityAllocation? = nil,
             interruptionInfo: EC2ClientTypes.InterruptionInfo? = nil,
+            originalStartDate: Foundation.Date? = nil,
             outpostArn: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             placementGroupArn: Swift.String? = nil,
@@ -11543,6 +11635,8 @@ extension EC2ClientTypes {
             unusedReservationBillingOwnerId: Swift.String? = nil,
             zeroSizePreference: EC2ClientTypes.ZeroSizePreference? = nil
         ) {
+            self.adjustmentDetails = adjustmentDetails
+            self.adjustmentStatus = adjustmentStatus
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
@@ -11564,6 +11658,7 @@ extension EC2ClientTypes {
             self.interruptible = interruptible
             self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
             self.interruptionInfo = interruptionInfo
+            self.originalStartDate = originalStartDate
             self.outpostArn = outpostArn
             self.ownerId = ownerId
             self.placementGroupArn = placementGroupArn
@@ -11795,6 +11890,187 @@ public struct CreateCapacityReservationCancellationQuoteOutput: Swift.Sendable {
         capacityReservationCancellationQuote: EC2ClientTypes.CapacityReservationCancellationQuote? = nil
     ) {
         self.capacityReservationCancellationQuote = capacityReservationCancellationQuote
+    }
+}
+
+public struct CreateCapacityReservationDateChangeQuoteInput: Swift.Sendable {
+    /// The ID of the Capacity Reservation.
+    /// This member is required.
+    public var capacityReservationId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The requested new start date for the Capacity Reservation, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). The new start date must be later than the current start date and within the cumulative 30-day pushout limit.
+    /// This member is required.
+    public var newStartDate: Foundation.Date?
+    /// The tags to apply to the date change quote.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        capacityReservationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        newStartDate: Foundation.Date? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.capacityReservationId = capacityReservationId
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.newStartDate = newStartDate
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the configuration that a Capacity Reservation has at the time a modification quote is generated.
+    public struct ModificationQuoteCurrentConfiguration: Swift.Sendable {
+        /// The number of instances in the Capacity Reservation.
+        public var instanceCount: Swift.Int?
+        /// The start date that the Capacity Reservation was originally requested with. This value does not change when you push out the start date.
+        public var originalStartDate: Foundation.Date?
+        /// The current state of the Capacity Reservation.
+        public var reservationState: Swift.String?
+        /// The start date that the Capacity Reservation has before the quoted modification is applied.
+        public var startDate: Foundation.Date?
+
+        public init(
+            instanceCount: Swift.Int? = nil,
+            originalStartDate: Foundation.Date? = nil,
+            reservationState: Swift.String? = nil,
+            startDate: Foundation.Date? = nil
+        ) {
+            self.instanceCount = instanceCount
+            self.originalStartDate = originalStartDate
+            self.reservationState = reservationState
+            self.startDate = startDate
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the changes that a Capacity Reservation modification quote will apply to a Capacity Reservation.
+    public struct ModificationReservationUpdate: Swift.Sendable {
+        /// The commitment duration, in seconds, that the Capacity Reservation will have after the modification.
+        public var newCommitmentDuration: Swift.Int?
+        /// The date and time at which the commitment duration will expire after the modification, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ).
+        public var newCommitmentEndDate: Foundation.Date?
+        /// The start date that the Capacity Reservation will have after the modification, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ).
+        public var newStartDate: Foundation.Date?
+
+        public init(
+            newCommitmentDuration: Swift.Int? = nil,
+            newCommitmentEndDate: Foundation.Date? = nil,
+            newStartDate: Foundation.Date? = nil
+        ) {
+            self.newCommitmentDuration = newCommitmentDuration
+            self.newCommitmentEndDate = newCommitmentEndDate
+            self.newStartDate = newStartDate
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the terms of a Capacity Reservation modification quote.
+    public struct ModificationTerms: Swift.Sendable {
+        /// The changes that will be applied to the Capacity Reservation if you accept the modification terms.
+        public var reservationUpdate: EC2ClientTypes.ModificationReservationUpdate?
+
+        public init(
+            reservationUpdate: EC2ClientTypes.ModificationReservationUpdate? = nil
+        ) {
+            self.reservationUpdate = reservationUpdate
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CapacityReservationModificationQuoteState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationModificationQuoteState] {
+            return [
+                .active,
+                .expired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .expired: return "expired"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a Capacity Reservation modification quote, which provides the terms for changing the start date or the commitment of a future-dated Capacity Reservation.
+    public struct CapacityReservationModificationQuote: Swift.Sendable {
+        /// The ID of the Capacity Reservation associated with the modification quote.
+        public var capacityReservationId: Swift.String?
+        /// The ID of the modification quote.
+        public var capacityReservationModificationQuoteId: Swift.String?
+        /// The date and time at which the modification quote was created.
+        public var createTime: Foundation.Date?
+        /// The configuration that the Capacity Reservation has at the time the quote was generated.
+        public var currentConfiguration: EC2ClientTypes.ModificationQuoteCurrentConfiguration?
+        /// The date and time at which the modification quote expires.
+        public var expirationTime: Foundation.Date?
+        /// The terms of the modification, including the configuration that the Capacity Reservation will have if you accept them by using ModifyCapacityReservation.
+        public var modificationTerms: EC2ClientTypes.ModificationTerms?
+        /// The state of the modification quote itself. Possible values are:
+        ///
+        /// * active - The quote can still be used.
+        ///
+        /// * expired - The quote can no longer be used. A quote becomes expired at its expirationTime.
+        public var quoteState: EC2ClientTypes.CapacityReservationModificationQuoteState?
+        /// The tags assigned to the modification quote.
+        public var tags: [EC2ClientTypes.Tag]?
+
+        public init(
+            capacityReservationId: Swift.String? = nil,
+            capacityReservationModificationQuoteId: Swift.String? = nil,
+            createTime: Foundation.Date? = nil,
+            currentConfiguration: EC2ClientTypes.ModificationQuoteCurrentConfiguration? = nil,
+            expirationTime: Foundation.Date? = nil,
+            modificationTerms: EC2ClientTypes.ModificationTerms? = nil,
+            quoteState: EC2ClientTypes.CapacityReservationModificationQuoteState? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil
+        ) {
+            self.capacityReservationId = capacityReservationId
+            self.capacityReservationModificationQuoteId = capacityReservationModificationQuoteId
+            self.createTime = createTime
+            self.currentConfiguration = currentConfiguration
+            self.expirationTime = expirationTime
+            self.modificationTerms = modificationTerms
+            self.quoteState = quoteState
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateCapacityReservationDateChangeQuoteOutput: Swift.Sendable {
+    /// Information about the Capacity Reservation date change quote.
+    public var capacityReservationModificationQuote: EC2ClientTypes.CapacityReservationModificationQuote?
+
+    public init(
+        capacityReservationModificationQuote: EC2ClientTypes.CapacityReservationModificationQuote? = nil
+    ) {
+        self.capacityReservationModificationQuote = capacityReservationModificationQuote
     }
 }
 
@@ -45793,6 +46069,48 @@ public struct DescribeCapacityReservationCancellationQuotesOutput: Swift.Sendabl
     }
 }
 
+public struct DescribeCapacityReservationDateChangeQuotesInput: Swift.Sendable {
+    /// The IDs of the date change quotes to describe.
+    public var capacityReservationModificationQuoteIds: [Swift.String]?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters. Filter names and values are case-sensitive.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityReservationModificationQuoteIds: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityReservationModificationQuoteIds = capacityReservationModificationQuoteIds
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeCapacityReservationDateChangeQuotesOutput: Swift.Sendable {
+    /// Information about the Capacity Reservation date change quotes.
+    public var capacityReservationModificationQuotes: [EC2ClientTypes.CapacityReservationModificationQuote]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityReservationModificationQuotes: [EC2ClientTypes.CapacityReservationModificationQuote]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityReservationModificationQuotes = capacityReservationModificationQuotes
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeCapacityReservationFleetsInput: Swift.Sendable {
     /// The IDs of the Capacity Reservation Fleets to describe.
     public var capacityReservationFleetIds: [Swift.String]?
@@ -79071,6 +79389,8 @@ public struct ModifyAvailabilityZoneGroupOutput: Swift.Sendable {
 public struct ModifyCapacityReservationInput: Swift.Sendable {
     /// Reserved. Capacity Reservations you have created are accepted by default.
     public var accept: Swift.Bool?
+    /// Indicates that you accept the modification terms of the quote identified by QuoteId. To apply a quoted modification, set this parameter to true.
+    public var acceptModificationTerms: Swift.Bool?
     /// Reserved for future use.
     public var additionalInfo: Swift.String?
     /// The ID of the Capacity Reservation.
@@ -79090,18 +79410,26 @@ public struct ModifyCapacityReservationInput: Swift.Sendable {
     public var instanceCount: Swift.Int?
     /// The matching criteria (instance eligibility) that you want to use in the modified Capacity Reservation. If you change the instance eligibility of an existing Capacity Reservation from targeted to open, any running instances that match the attributes of the Capacity Reservation, have the CapacityReservationPreference set to open, and are not yet running in the Capacity Reservation, will automatically use the modified Capacity Reservation. To modify the instance eligibility, the Capacity Reservation must be completely idle (zero usage).
     public var instanceMatchCriteria: EC2ClientTypes.InstanceMatchCriteria?
+    /// The ID of the quote that describes the modification you want to apply. Generate a quote by using CreateCapacityReservationDateChangeQuote. The quote must be in the active state, and each quote can be used only once.
+    public var quoteId: Swift.String?
+    /// The new start date for the Capacity Reservation, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). Applies to future-dated Capacity Reservations only. Requires a quote from CreateCapacityReservationDateChangeQuote; pass the quote ID in QuoteId with AcceptModificationTerms set to true.
+    public var startDate: Foundation.Date?
 
     public init(
         accept: Swift.Bool? = nil,
+        acceptModificationTerms: Swift.Bool? = nil,
         additionalInfo: Swift.String? = nil,
         capacityReservationId: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         endDate: Foundation.Date? = nil,
         endDateType: EC2ClientTypes.EndDateType? = nil,
         instanceCount: Swift.Int? = nil,
-        instanceMatchCriteria: EC2ClientTypes.InstanceMatchCriteria? = nil
+        instanceMatchCriteria: EC2ClientTypes.InstanceMatchCriteria? = nil,
+        quoteId: Swift.String? = nil,
+        startDate: Foundation.Date? = nil
     ) {
         self.accept = accept
+        self.acceptModificationTerms = acceptModificationTerms
         self.additionalInfo = additionalInfo
         self.capacityReservationId = capacityReservationId
         self.dryRun = dryRun
@@ -79109,16 +79437,26 @@ public struct ModifyCapacityReservationInput: Swift.Sendable {
         self.endDateType = endDateType
         self.instanceCount = instanceCount
         self.instanceMatchCriteria = instanceMatchCriteria
+        self.quoteId = quoteId
+        self.startDate = startDate
     }
 }
 
 public struct ModifyCapacityReservationOutput: Swift.Sendable {
+    /// The configuration that the Capacity Reservation will have after the adjustment is applied.
+    public var adjustmentDetails: EC2ClientTypes.CapacityReservationAdjustmentDetails?
+    /// The status of the requested modification. For a description of each possible value, see the adjustmentStatus field of the CapacityReservation data type.
+    public var adjustmentStatus: EC2ClientTypes.CapacityReservationAdjustmentStatus?
     /// Returns true if the request succeeds; otherwise, it returns an error.
     public var `return`: Swift.Bool?
 
     public init(
+        adjustmentDetails: EC2ClientTypes.CapacityReservationAdjustmentDetails? = nil,
+        adjustmentStatus: EC2ClientTypes.CapacityReservationAdjustmentStatus? = nil,
         `return`: Swift.Bool? = nil
     ) {
+        self.adjustmentDetails = adjustmentDetails
+        self.adjustmentStatus = adjustmentStatus
         self.`return` = `return`
     }
 }
@@ -89294,6 +89632,13 @@ extension CreateCapacityReservationCancellationQuoteInput {
     }
 }
 
+extension CreateCapacityReservationDateChangeQuoteInput {
+
+    static func urlPathProvider(_ value: CreateCapacityReservationDateChangeQuoteInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateCapacityReservationFleetInput {
 
     static func urlPathProvider(_ value: CreateCapacityReservationFleetInput) -> Swift.String? {
@@ -90900,6 +91245,13 @@ extension DescribeCapacityReservationBillingRequestsInput {
 extension DescribeCapacityReservationCancellationQuotesInput {
 
     static func urlPathProvider(_ value: DescribeCapacityReservationCancellationQuotesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeCapacityReservationDateChangeQuotesInput {
+
+    static func urlPathProvider(_ value: DescribeCapacityReservationDateChangeQuotesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -95480,6 +95832,22 @@ extension CreateCapacityReservationCancellationQuoteInput {
     }
 }
 
+extension CreateCapacityReservationDateChangeQuoteInput {
+
+    static func write(value: CreateCapacityReservationDateChangeQuoteInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationId"].write(value.capacityReservationId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["NewStartDate"].writeTimestamp(value.newStartDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateCapacityReservationDateChangeQuote")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateCapacityReservationFleetInput {
 
     static func write(value: CreateCapacityReservationFleetInput?, to writer: SmithyFormURL.Writer) throws {
@@ -98967,6 +99335,24 @@ extension DescribeCapacityReservationCancellationQuotesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeCapacityReservationCancellationQuotes")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeCapacityReservationDateChangeQuotesInput {
+
+    static func write(value: DescribeCapacityReservationDateChangeQuotesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.capacityReservationModificationQuoteIds?.isEmpty ?? true) {
+            try writer["CapacityReservationModificationQuoteId"].writeList(value.capacityReservationModificationQuoteIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeCapacityReservationDateChangeQuotes")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -104250,6 +104636,7 @@ extension ModifyCapacityReservationInput {
     static func write(value: ModifyCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Accept"].write(value.accept)
+        try writer["AcceptModificationTerms"].write(value.acceptModificationTerms)
         try writer["AdditionalInfo"].write(value.additionalInfo)
         try writer["CapacityReservationId"].write(value.capacityReservationId)
         try writer["DryRun"].write(value.dryRun)
@@ -104257,6 +104644,8 @@ extension ModifyCapacityReservationInput {
         try writer["EndDateType"].write(value.endDateType)
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceMatchCriteria"].write(value.instanceMatchCriteria)
+        try writer["QuoteId"].write(value.quoteId)
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["Action"].write("ModifyCapacityReservation")
         try writer["Version"].write("2016-11-15")
     }
@@ -107667,6 +108056,18 @@ extension CreateCapacityReservationCancellationQuoteOutput {
     }
 }
 
+extension CreateCapacityReservationDateChangeQuoteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCapacityReservationDateChangeQuoteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCapacityReservationDateChangeQuoteOutput()
+        value.capacityReservationModificationQuote = try reader["capacityReservationModificationQuote"].readIfPresent(with: EC2ClientTypes.CapacityReservationModificationQuote.read(from:))
+        return value
+    }
+}
+
 extension CreateCapacityReservationFleetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCapacityReservationFleetOutput {
@@ -110431,6 +110832,19 @@ extension DescribeCapacityReservationCancellationQuotesOutput {
         let reader = responseReader
         var value = DescribeCapacityReservationCancellationQuotesOutput()
         value.capacityReservationCancellationQuotes = try reader["capacityReservationCancellationQuoteSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityReservationCancellationQuote.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeCapacityReservationDateChangeQuotesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCapacityReservationDateChangeQuotesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCapacityReservationDateChangeQuotesOutput()
+        value.capacityReservationModificationQuotes = try reader["capacityReservationModificationQuoteSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityReservationModificationQuote.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -114876,6 +115290,8 @@ extension ModifyCapacityReservationOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = ModifyCapacityReservationOutput()
+        value.adjustmentDetails = try reader["adjustmentDetails"].readIfPresent(with: EC2ClientTypes.CapacityReservationAdjustmentDetails.read(from:))
+        value.adjustmentStatus = try reader["adjustmentStatus"].readIfPresent()
         value.`return` = try reader["return"].readIfPresent()
         return value
     }
@@ -117676,6 +118092,19 @@ enum CreateCapacityReservationBySplittingOutputError {
 }
 
 enum CreateCapacityReservationCancellationQuoteOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCapacityReservationDateChangeQuoteOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -120666,6 +121095,19 @@ enum DescribeCapacityReservationBillingRequestsOutputError {
 }
 
 enum DescribeCapacityReservationCancellationQuotesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeCapacityReservationDateChangeQuotesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -128417,7 +128859,24 @@ extension EC2ClientTypes.CapacityReservation {
         value.interruptible = try reader["interruptible"].readIfPresent()
         value.interruptibleCapacityAllocation = try reader["interruptibleCapacityAllocation"].readIfPresent(with: EC2ClientTypes.InterruptibleCapacityAllocation.read(from:))
         value.interruptionInfo = try reader["interruptionInfo"].readIfPresent(with: EC2ClientTypes.InterruptionInfo.read(from:))
+        value.adjustmentStatus = try reader["adjustmentStatus"].readIfPresent()
+        value.adjustmentDetails = try reader["adjustmentDetails"].readIfPresent(with: EC2ClientTypes.CapacityReservationAdjustmentDetails.read(from:))
+        value.originalStartDate = try reader["originalStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.zeroSizePreference = try reader["zeroSizePreference"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.CapacityReservationAdjustmentDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityReservationAdjustmentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityReservationAdjustmentDetails()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.commitmentEndDate = try reader["commitmentEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDateType = try reader["endDateType"].readIfPresent()
+        value.commitmentDuration = try reader["commitmentDuration"].readIfPresent()
         return value
     }
 }
@@ -128462,6 +128921,7 @@ extension EC2ClientTypes.CapacityReservationCommitmentInfo {
         var value = EC2ClientTypes.CapacityReservationCommitmentInfo()
         value.committedInstanceCount = try reader["committedInstanceCount"].readIfPresent()
         value.commitmentEndDate = try reader["commitmentEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.commitmentDuration = try reader["commitmentDuration"].readIfPresent()
         return value
     }
 }
@@ -128530,6 +128990,23 @@ extension EC2ClientTypes.CapacityReservationInfo {
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.tenancy = try reader["tenancy"].readIfPresent()
         value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.CapacityReservationModificationQuote {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityReservationModificationQuote {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityReservationModificationQuote()
+        value.capacityReservationModificationQuoteId = try reader["capacityReservationModificationQuoteId"].readIfPresent()
+        value.capacityReservationId = try reader["capacityReservationId"].readIfPresent()
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.quoteState = try reader["quoteState"].readIfPresent()
+        value.currentConfiguration = try reader["currentConfiguration"].readIfPresent(with: EC2ClientTypes.ModificationQuoteCurrentConfiguration.read(from:))
+        value.modificationTerms = try reader["modificationTerms"].readIfPresent(with: EC2ClientTypes.ModificationTerms.read(from:))
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -134998,6 +135475,41 @@ extension EC2ClientTypes.MetricValue {
         var value = EC2ClientTypes.MetricValue()
         value.metric = try reader["metric"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ModificationQuoteCurrentConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ModificationQuoteCurrentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ModificationQuoteCurrentConfiguration()
+        value.instanceCount = try reader["instanceCount"].readIfPresent()
+        value.reservationState = try reader["reservationState"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.originalStartDate = try reader["originalStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ModificationReservationUpdate {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ModificationReservationUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ModificationReservationUpdate()
+        value.newCommitmentEndDate = try reader["newCommitmentEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.newStartDate = try reader["newStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.newCommitmentDuration = try reader["newCommitmentDuration"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ModificationTerms {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ModificationTerms {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ModificationTerms()
+        value.reservationUpdate = try reader["reservationUpdate"].readIfPresent(with: EC2ClientTypes.ModificationReservationUpdate.read(from:))
         return value
     }
 }
