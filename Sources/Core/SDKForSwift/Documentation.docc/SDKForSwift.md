@@ -257,6 +257,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCloudWatchLogs](/sdk-for-swift/latest/api/awscloudwatchlogs/documentation/awscloudwatchlogs)
 
+[AWSCloudWatchOmni](/sdk-for-swift/latest/api/awscloudwatchomni/documentation/awscloudwatchomni)
+
 [AWSCodeBuild](/sdk-for-swift/latest/api/awscodebuild/documentation/awscodebuild)
 
 [AWSCodeCatalyst](/sdk-for-swift/latest/api/awscodecatalyst/documentation/awscodecatalyst)

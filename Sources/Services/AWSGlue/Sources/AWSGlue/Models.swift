@@ -15824,6 +15824,78 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum SubObjectSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hiveCsv
+        case hiveJson
+        case hiveOrc
+        case hiveParquet
+        case iceberg
+        case plainParquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubObjectSourceType] {
+            return [
+                .hiveCsv,
+                .hiveJson,
+                .hiveOrc,
+                .hiveParquet,
+                .iceberg,
+                .plainParquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hiveCsv: return "HIVE_CSV"
+            case .hiveJson: return "HIVE_JSON"
+            case .hiveOrc: return "HIVE_ORC"
+            case .hiveParquet: return "HIVE_PARQUET"
+            case .iceberg: return "ICEBERG"
+            case .plainParquet: return "PLAIN_PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Statistics for one sub-object referenced by a materialized view, recorded when the materialized view was created or last fully refreshed. These values describe what that refresh selected from the sub-object, which can be a subset of the table when the materialized view's definition limits the data it reads. The fields present depend on the sub-object's format.
+    public struct SubObjectStatistics: Swift.Sendable {
+        /// The number of sub-object data files selected for that refresh.
+        public var fileCount: Swift.Int?
+        /// The Glue version ID of the sub-object that the statistics were captured for.
+        public var glueVersionId: Swift.String?
+        /// The number of sub-object partitions selected for that refresh. Not present for unpartitioned sub-objects.
+        public var partitionCount: Swift.Int?
+        /// The source type of the sub-object (for example, its table format), which identifies the sub-object.
+        public var sourceType: GlueClientTypes.SubObjectSourceType?
+        /// The total size, in bytes, of the data files counted by FileCount.
+        public var totalFileBytes: Swift.Int?
+
+        public init(
+            fileCount: Swift.Int? = nil,
+            glueVersionId: Swift.String? = nil,
+            partitionCount: Swift.Int? = nil,
+            sourceType: GlueClientTypes.SubObjectSourceType? = nil,
+            totalFileBytes: Swift.Int? = nil
+        ) {
+            self.fileCount = fileCount
+            self.glueVersionId = glueVersionId
+            self.partitionCount = partitionCount
+            self.sourceType = sourceType
+            self.totalFileBytes = totalFileBytes
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A structure containing details for creating or updating an Glue view.
     public struct ViewDefinitionInput: Swift.Sendable {
         /// The definer of a view in SQL.
@@ -15836,10 +15908,14 @@ extension GlueClientTypes {
         public var refreshSeconds: Swift.Int?
         /// A list of structures that contains the dialect of the view, and the query that defines the view.
         public var representations: [GlueClientTypes.ViewRepresentationInput]?
+        /// A map of key-value pairs containing Spark Declarative Pipelines (SDP) information for the materialized view.
+        public var sparkPipelineInfo: [Swift.String: Swift.String]?
         /// List of the Apache Iceberg table versions referenced by the materialized view.
         public var subObjectVersionIds: [Swift.Int]?
         /// A list of base table ARNs that make up the view.
         public var subObjects: [Swift.String]?
+        /// Statistics for each sub-object referenced by the materialized view, such as the source type, Glue version ID, and the partition, file, and byte counts. Each entry describes one sub-object, identified by its source type.
+        public var subObjectsStatistics: [GlueClientTypes.SubObjectStatistics]?
         /// The ID value that identifies this view's version. For materialized views, the version ID is the Apache Iceberg table's snapshot ID.
         public var viewVersionId: Swift.Int
         /// The version ID of the Apache Iceberg table.
@@ -15851,8 +15927,10 @@ extension GlueClientTypes {
             lastRefreshType: GlueClientTypes.LastRefreshType? = nil,
             refreshSeconds: Swift.Int? = nil,
             representations: [GlueClientTypes.ViewRepresentationInput]? = nil,
+            sparkPipelineInfo: [Swift.String: Swift.String]? = nil,
             subObjectVersionIds: [Swift.Int]? = nil,
             subObjects: [Swift.String]? = nil,
+            subObjectsStatistics: [GlueClientTypes.SubObjectStatistics]? = nil,
             viewVersionId: Swift.Int = 0,
             viewVersionToken: Swift.String? = nil
         ) {
@@ -15861,8 +15939,10 @@ extension GlueClientTypes {
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
             self.representations = representations
+            self.sparkPipelineInfo = sparkPipelineInfo
             self.subObjectVersionIds = subObjectVersionIds
             self.subObjects = subObjects
+            self.subObjectsStatistics = subObjectsStatistics
             self.viewVersionId = viewVersionId
             self.viewVersionToken = viewVersionToken
         }
@@ -24978,10 +25058,14 @@ extension GlueClientTypes {
         public var refreshSeconds: Swift.Int?
         /// A list of representations.
         public var representations: [GlueClientTypes.ViewRepresentation]?
+        /// A map of key-value pairs containing Spark Declarative Pipelines (SDP) information for the materialized view.
+        public var sparkPipelineInfo: [Swift.String: Swift.String]?
         /// List of the Apache Iceberg table versions referenced by the materialized view.
         public var subObjectVersionIds: [Swift.Int]?
         /// A list of table Amazon Resource Names (ARNs).
         public var subObjects: [Swift.String]?
+        /// Statistics captured for each sub-object referenced by the materialized view as of its most recent refresh, such as the source type, Glue version ID, and the partition, file, and byte counts. Each entry describes one sub-object, identified by its source type.
+        public var subObjectsStatistics: [GlueClientTypes.SubObjectStatistics]?
         /// The ID value that identifies this view's version. For materialized views, the version ID is the Apache Iceberg table's snapshot ID.
         public var viewVersionId: Swift.Int
         /// The version ID of the Apache Iceberg table.
@@ -24993,8 +25077,10 @@ extension GlueClientTypes {
             lastRefreshType: GlueClientTypes.LastRefreshType? = nil,
             refreshSeconds: Swift.Int? = nil,
             representations: [GlueClientTypes.ViewRepresentation]? = nil,
+            sparkPipelineInfo: [Swift.String: Swift.String]? = nil,
             subObjectVersionIds: [Swift.Int]? = nil,
             subObjects: [Swift.String]? = nil,
+            subObjectsStatistics: [GlueClientTypes.SubObjectStatistics]? = nil,
             viewVersionId: Swift.Int = 0,
             viewVersionToken: Swift.String? = nil
         ) {
@@ -25003,8 +25089,10 @@ extension GlueClientTypes {
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
             self.representations = representations
+            self.sparkPipelineInfo = sparkPipelineInfo
             self.subObjectVersionIds = subObjectVersionIds
             self.subObjects = subObjects
+            self.subObjectsStatistics = subObjectsStatistics
             self.viewVersionId = viewVersionId
             self.viewVersionToken = viewVersionToken
         }
