@@ -39,10 +39,10 @@ let package = Package(
         .watchOS(.v8),
     ],
     dependencies: {
-        var deps: [Package.Dependency] = [
+        let deps: [Package.Dependency] = [
             .package(path: "../../smithy-swift"),
             .package(path: "../../aws-sdk-swift"),
-            .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "2.0.0"),
+            .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "3.0.0"),
             .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
         ]
         return deps
