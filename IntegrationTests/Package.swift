@@ -70,6 +70,22 @@ private var integrationTestTargets: [Target] {
     return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime], path: "./AWSIntegrationTestUtils")]
 }
 
+/// Whether this service's integration tests have resource files.
+///
+/// The other services' `Resources` directories hold only a `.gitkeep`, which
+/// the build excludes; declaring resources for them produces an empty bundle
+/// that codesign rejects on simulator destinations with "bundle format
+/// unrecognized, invalid, or unsuitable".
+private func hasResources(_ name: String) -> Bool {
+    [
+        "AWSBedrockRuntime",
+        "AWSEC2",
+        "AWSECS",
+        "AWSS3",
+        "AWSTranscribeStreaming",
+    ].contains(name)
+}
+
 private func integrationTestTarget(_ name: String) -> Target {
     let integrationTestName = "\(name)IntegrationTests"
     var additionalDependencies: [String] = []
@@ -122,7 +138,7 @@ private func integrationTestTarget(_ name: String) -> Target {
         } + platformSpecificDependencies,
         path: "./Services/\(integrationTestName)",
         exclude: exclusions,
-        resources: [.process("Resources")]
+        resources: hasResources(name) ? [.process("Resources")] : []
     )
 }
 
