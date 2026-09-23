@@ -13,9 +13,6 @@ rm -rf Sources/Services/*
 ./gradlew -p codegen/sdk-codegen stageSdks
 ./gradlew --stop
 
-# Free the Kotlin compile daemon's heap; --stop above only stops Gradle's daemon
-pkill -f KotlinCompileDaemon || true
-
 # Regenerate the SDK Package.swift to run only integration tests
 cd AWSSDKSwiftCLI
 set +e
