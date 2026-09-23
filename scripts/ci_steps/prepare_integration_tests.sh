@@ -14,16 +14,7 @@ rm -rf Sources/Services/*
 ./gradlew --stop
 
 # Regenerate the SDK Package.swift to run only integration tests
-cd AWSSDKSwiftCLI
-set +e
-swift run AWSSDKSwiftCLI generate-package-manifest --exclude-runtime-tests ..
-cli_status=$?
-set -e
-if [ $cli_status -ne 0 ]; then
-  ../scripts/ci_steps/diagnose_cli_failure.sh $cli_status
-  exit $cli_status
-fi
-cd ..
+./scripts/ci_steps/run_cli.sh generate-package-manifest --exclude-runtime-tests ..
 
 # Dump the Package.swift contents to the logs
 cat Package.swift
