@@ -109,12 +109,10 @@ private func integrationTestTarget(_ name: String) -> Target {
         additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
-        #if swift(>=5.10)
         platformSpecificDependencies = [
             .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry"),
             .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core"),
         ]
-        #endif
     case "AWSCognitoIdentity":
         additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
