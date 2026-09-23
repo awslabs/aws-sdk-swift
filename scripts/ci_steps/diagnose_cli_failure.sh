@@ -42,8 +42,14 @@ if [ "$(uname)" = "Darwin" ]; then
   log show --last 5m --style compact \
     --predicate 'eventMessage CONTAINS "code signature" OR eventMessage CONTAINS "AMFI" OR eventMessage CONTAINS "jetsam" OR eventMessage CONTAINS "Killing process"' | tail -50
 else
-  free -m
-  dmesg | tail -40
+  # `free` is absent and `dmesg` is not permitted in some container images
+  echo "--- memory ---"
+  grep -E "^(MemTotal|MemFree|MemAvailable|SwapTotal|SwapFree)" /proc/meminfo || true
+  echo "--- OOM kills & crashes ---"
+  dmesg 2>/dev/null | tail -40 || echo "dmesg unavailable in this container"
+  echo "--- core dumps ---"
+  cat /proc/sys/kernel/core_pattern 2>/dev/null || true
+  ls -l ./core* 2>/dev/null || echo "no core file in $(pwd)"
 fi
 
 echo "::endgroup::"

@@ -120,13 +120,19 @@ jobs:
       - name: Run Integration Tests
         run: |
           cd aws-sdk-swift/IntegrationTests
+          # Keep the raw xcodebuild output; xcbeautify drops some diagnostics
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
             -testPlan AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
+            -resultBundlePath "${RUNNER_TEMP}/IntegrationTests.xcresult" \
             test 2>&1 \
+            | tee "${RUNNER_TEMP}/xcodebuild-raw.log" \
             | xcbeautify
+      - name: Diagnose Integration Test Failure
+        if: failure()
+        run: ./aws-sdk-swift/scripts/ci_steps/diagnose_xcodebuild_failure.sh
 
   apple-int-complete:
     needs: apple-int
