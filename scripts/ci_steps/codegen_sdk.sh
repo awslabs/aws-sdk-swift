@@ -14,6 +14,9 @@ export AWS_PARTITIONS_FILE_OVERRIDE=codegen/sdk-codegen/sdk-partitions.json
 ./gradlew -p codegen/sdk-codegen stageSdks
 ./gradlew --stop
 
+# Free the Kotlin compile daemon's heap; --stop above only stops Gradle's daemon
+pkill -f KotlinCompileDaemon || true
+
 # Regenerate the SDK Package.swift with all services
 cd AWSSDKSwiftCLI
 swift run AWSSDKSwiftCLI generate-package-manifest ..

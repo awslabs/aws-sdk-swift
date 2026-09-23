@@ -26,5 +26,8 @@ cat Package.swift
 ./gradlew -p codegen/protocol-test-codegen-local build
 ./gradlew --stop
 
+# Free the Kotlin compile daemon's heap; --stop above only stops Gradle's daemon
+pkill -f KotlinCompileDaemon || true
+
 # Run aws-sdk-swift protocol and unit tests as a separate step
 # (allows for use of either Xcode or pure Swift toolchains)
