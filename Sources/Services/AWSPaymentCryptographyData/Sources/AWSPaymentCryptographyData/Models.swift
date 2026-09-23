@@ -2975,9 +2975,11 @@ extension PaymentCryptographyDataClientTypes {
 
     /// Parameters that are required to perform reencryption operation.
     public enum ReEncryptionAttributes: Swift.Sendable {
-        /// Parameters that are required to encrypt data using symmetric keys.
+        /// Specifies the parameters required to encrypt data using symmetric keys.
         case symmetric(PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes)
-        /// Parameters that are required to encrypt plaintext data using DUKPT.
+        /// Specifies the parameters required to encrypt data using an asymmetric key pair. You must specify a PaddingType.
+        case asymmetric(PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes)
+        /// Specifies the parameters required to encrypt data using DUKPT.
         case dukpt(PaymentCryptographyDataClientTypes.DukptEncryptionAttributes)
         case sdkUnknown(Swift.String)
     }
@@ -5104,6 +5106,8 @@ extension PaymentCryptographyDataClientTypes.ReEncryptionAttributes {
     static func write(value: PaymentCryptographyDataClientTypes.ReEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .asymmetric(asymmetric):
+                try writer["Asymmetric"].write(asymmetric, with: PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes.write(value:to:))
             case let .dukpt(dukpt):
                 try writer["Dukpt"].write(dukpt, with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.write(value:to:))
             case let .symmetric(symmetric):
