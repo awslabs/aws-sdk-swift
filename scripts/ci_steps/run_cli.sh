@@ -15,20 +15,8 @@ set -e
 
 cd AWSSDKSwiftCLI
 
-# Runs a command, and on failure dumps diagnostics before propagating the status
-run_with_diagnostics() {
-  set +e
-  "$@"
-  local status=$?
-  set -e
-  if [ $status -ne 0 ]; then
-    ../scripts/ci_steps/diagnose_cli_failure.sh $status
-    exit $status
-  fi
-}
-
-run_with_diagnostics swift build --product AWSSDKSwiftCLI
+swift build --product AWSSDKSwiftCLI
 
 cli="$(swift build --product AWSSDKSwiftCLI --show-bin-path)/AWSSDKSwiftCLI"
 
-run_with_diagnostics "$cli" "$@"
+"$cli" "$@"
