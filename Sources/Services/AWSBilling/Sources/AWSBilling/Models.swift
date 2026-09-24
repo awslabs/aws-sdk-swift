@@ -1920,6 +1920,133 @@ public struct ListBillingViewsOutput: Swift.Sendable {
     }
 }
 
+extension BillingClientTypes {
+
+    /// Specifies a time range with an inclusive begin date and an exclusive end date.
+    public struct BillingViewSegmentTimeRange: Swift.Sendable {
+        /// The inclusive start of the time range. This value can't be in the future.
+        public var beginDateInclusive: Foundation.Date?
+        /// The exclusive end of the time range. This value must be after beginDateInclusive.
+        public var endDateExclusive: Foundation.Date?
+
+        public init(
+            beginDateInclusive: Foundation.Date? = nil,
+            endDateExclusive: Foundation.Date? = nil
+        ) {
+            self.beginDateInclusive = beginDateInclusive
+            self.endDateExclusive = endDateExclusive
+        }
+    }
+}
+
+public struct ListBillingViewSegmentsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the billing view to query. If you don't provide an ARN, the caller's PRIMARY billing view is used. The ARN must reference a primary billing view. Custom billing views aren't supported.
+    public var arn: Swift.String?
+    /// The number of entries a paginated response contains. Valid values range from 1 to 100. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token that is used on subsequent calls to list billing view segments.
+    public var nextToken: Swift.String?
+    /// The billing period to query. If you don't provide a time range, the current billing period, which is the calendar month in UTC, is used.
+    public var timeRange: BillingClientTypes.BillingViewSegmentTimeRange?
+
+    public init(
+        arn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        timeRange: BillingClientTypes.BillingViewSegmentTimeRange? = nil
+    ) {
+        self.arn = arn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.timeRange = timeRange
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The billing domain for a billing view segment. The following values are valid:
+    ///
+    /// * PRO_FORMA - Data shaped by Billing Conductor that doesn't reflect the final charges owed to Amazon Web Services.
+    ///
+    /// * BILLABLE - Data that represents the final charges owed to Amazon Web Services.
+    public enum BillingDomain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billable
+        case proForma
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingDomain] {
+            return [
+                .billable,
+                .proForma
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billable: return "BILLABLE"
+            case .proForma: return "PRO_FORMA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A billing view segment. A segment represents a time range during which the billing domain and account relationships for a billing view remained unchanged.
+    public struct BillingViewSegmentsListElement: Swift.Sendable {
+        /// The billing group primary account ID. The response includes this field for billing group members. Compare this value to your own account ID to determine whether you are the primary account.
+        public var billingGroupPrimaryAccountId: Swift.String?
+        /// The billing transfer account ID. The response includes this field only when the caller is a billing transfer source account. The response omits this field for billing group billing views.
+        public var billingTransferAccountId: Swift.String?
+        /// The billing domain for this segment. The following values are valid:
+        ///
+        /// * PRO_FORMA - Data shaped by Billing Conductor that doesn't reflect the final charges owed to Amazon Web Services.
+        ///
+        /// * BILLABLE - Data that represents the final charges owed to Amazon Web Services.
+        public var domain: BillingClientTypes.BillingDomain?
+        /// The management account ID of the organization. The response includes this field for organization member accounts.
+        public var managementAccountId: Swift.String?
+        /// The time range during which this segment is effective.
+        public var timeRange: BillingClientTypes.BillingViewSegmentTimeRange?
+
+        public init(
+            billingGroupPrimaryAccountId: Swift.String? = nil,
+            billingTransferAccountId: Swift.String? = nil,
+            domain: BillingClientTypes.BillingDomain? = nil,
+            managementAccountId: Swift.String? = nil,
+            timeRange: BillingClientTypes.BillingViewSegmentTimeRange? = nil
+        ) {
+            self.billingGroupPrimaryAccountId = billingGroupPrimaryAccountId
+            self.billingTransferAccountId = billingTransferAccountId
+            self.domain = domain
+            self.managementAccountId = managementAccountId
+            self.timeRange = timeRange
+        }
+    }
+}
+
+public struct ListBillingViewSegmentsOutput: Swift.Sendable {
+    /// A list of billing view segments. Each segment covers a portion of the requested time period. The response omits hidden segments, so the segments it returns might not cover the entire requested time period.
+    /// This member is required.
+    public var items: [BillingClientTypes.BillingViewSegmentsListElement]?
+    /// The pagination token that is used on subsequent calls to list billing view segments.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [BillingClientTypes.BillingViewSegmentsListElement]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 /// The request structure for ListEnterpriseSupportLinkedAccountCharges.
 public struct ListEnterpriseSupportLinkedAccountChargesInput: Swift.Sendable {
     /// An optional linked account ID to filter results to a specific account.
