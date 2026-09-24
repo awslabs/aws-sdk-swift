@@ -73,16 +73,6 @@ jobs:
         with:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-      - name: Cache Swift
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/Library/Caches/org.swift.swiftpm
-            ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-          restore-keys: |
-            1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -155,16 +145,6 @@ jobs:
         with:
           STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
           STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
-      - name: Cache Swift
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/Library/Caches/org.swift.swiftpm
-            ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-          restore-keys: |
-            1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:

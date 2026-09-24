@@ -305,6 +305,8 @@ extension MediaPackageV2ClientTypes {
         case cmafContainerTypeWithMssManifest
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType
         case containerTypeImmutable
+        case contentKeyPeriodTimingRequiresSpekeV21
+        case contentKeyPeriodTimingWithoutKeyRotation
         case customAdTypesInvalidConfiguration
         case dashDvbAttributesWithoutDvbDashProfile
         case decryptSecretFailed
@@ -439,6 +441,8 @@ extension MediaPackageV2ClientTypes {
                 .cmafContainerTypeWithMssManifest,
                 .cmafExcludeSegmentDrmMetadataIncompatibleContainerType,
                 .containerTypeImmutable,
+                .contentKeyPeriodTimingRequiresSpekeV21,
+                .contentKeyPeriodTimingWithoutKeyRotation,
                 .customAdTypesInvalidConfiguration,
                 .dashDvbAttributesWithoutDvbDashProfile,
                 .decryptSecretFailed,
@@ -579,6 +583,8 @@ extension MediaPackageV2ClientTypes {
             case .cmafContainerTypeWithMssManifest: return "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .cmafExcludeSegmentDrmMetadataIncompatibleContainerType: return "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
+            case .contentKeyPeriodTimingRequiresSpekeV21: return "CONTENT_KEY_PERIOD_TIMING_REQUIRES_SPEKE_V2_1"
+            case .contentKeyPeriodTimingWithoutKeyRotation: return "CONTENT_KEY_PERIOD_TIMING_WITHOUT_KEY_ROTATION"
             case .customAdTypesInvalidConfiguration: return "CUSTOM_AD_TYPES_INVALID_CONFIGURATION"
             case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
             case .decryptSecretFailed: return "DECRYPT_SECRET_FAILED"
@@ -992,13 +998,9 @@ extension MediaPackageV2ClientTypes {
 
     /// A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are:
     ///
-    /// * LAYOUT_SINGLE – One tile at full resolution. Use this to serve a single source as a standard stream.
-    ///
     /// * LAYOUT_2EH – Two tiles of equal size, arranged horizontally.
     ///
     /// * LAYOUT_2PL – Two tiles, with one larger primary tile.
-    ///
-    /// * LAYOUT_3EB – Three tiles of equal size, with two on top and one below.
     ///
     /// * LAYOUT_3EL – Three tiles of equal size, arranged in two columns.
     ///
@@ -2525,6 +2527,59 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum ContentKeyPeriodTiming: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case indexOnly
+        case indexWithStartEnd
+        case startEndOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentKeyPeriodTiming] {
+            return [
+                .indexOnly,
+                .indexWithStartEnd,
+                .startEndOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .indexOnly: return "INDEX_ONLY"
+            case .indexWithStartEnd: return "INDEX_WITH_START_END"
+            case .startEndOnly: return "START_END_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The configuration that controls the content key period timing information that MediaPackage signals to your DRM key provider.
+    public struct ContentKeyPeriodConfiguration: Swift.Sendable {
+        /// Specifies what timing information MediaPackage signals in the ContentKeyPeriod to your DRM key provider. If you don't specify a value, the default is INDEX_ONLY. Signaling start and end times (START_END_ONLY or INDEX_WITH_START_END) also requires key rotation to be enabled. The allowed values are:
+        ///
+        /// * INDEX_ONLY - Signals only the content key index. This is the default and matches the current behavior. It's supported for both SPEKE Version 2.0 and 2.1.
+        ///
+        /// * START_END_ONLY - Signals only the start and end times the key is used for. Requires SpekeVersionV2_1.
+        ///
+        /// * INDEX_WITH_START_END - Signals both the content key index and the start and end times the key is used for. Requires SpekeVersionV2_1.
+        public var contentKeyPeriodTiming: MediaPackageV2ClientTypes.ContentKeyPeriodTiming?
+
+        public init(
+            contentKeyPeriodTiming: MediaPackageV2ClientTypes.ContentKeyPeriodTiming? = nil
+        ) {
+            self.contentKeyPeriodTiming = contentKeyPeriodTiming
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum DrmSystem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clearKeyAes128
         case fairplay
@@ -2705,10 +2760,41 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum SpekeVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case v20
+        case v21
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpekeVersion] {
+            return [
+                .v20,
+                .v21
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .v20: return "V2_0"
+            case .v21: return "V2_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The parameters for the SPEKE key provider.
     public struct SpekeKeyProvider: Swift.Sendable {
         /// The ARN for the certificate that you imported to Amazon Web Services Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
         public var certificateArn: Swift.String?
+        /// The configuration that controls whether MediaPackage signals the start and end times a content key is used for, in the ContentKeyPeriod sent to your DRM key provider. Signaling this timing is supported only when key rotation is enabled (KeyRotationIntervalSeconds is set to a non-zero value) and SpekeVersion is V2_1. You can update these settings on an existing origin endpoint.
+        public var contentKeyPeriodConfiguration: MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration?
         /// The DRM solution provider you're using to protect your content during distribution.
         /// This member is required.
         public var drmSystems: [MediaPackageV2ClientTypes.DrmSystem]?
@@ -2721,23 +2807,36 @@ extension MediaPackageV2ClientTypes {
         /// The ARN for the IAM role granted by the key provider that provides access to the key provider API. This role must have a trust policy that allows MediaPackage to assume the role, and it must have a sufficient permissions policy to allow access to the specific key retrieval URL. Get this from your DRM solution provider. Valid format: arn:aws:iam::{accountID}:role/{name}. The following example shows a role ARN: arn:aws:iam::444455556666:role/SpekeAccess
         /// This member is required.
         public var roleArn: Swift.String?
+        /// Specifies the SPEKE version used with your DRM key provider. If you don't specify a value, the default is V2_0. The allowed values are:
+        ///
+        /// * V2_0 - Follows the SPEKE Version 2.0 contract and signals only the content key index in key requests. This is the default.
+        ///
+        /// * V2_1 - Follows the SPEKE Version 2.1 contract and additionally supports signaling the start and end times a content key is used for, using ContentKeyPeriodConfiguration.
+        ///
+        ///
+        /// For more information, see [SPEKE Version 2.0 payload](https://docs.aws.amazon.com/speke/latest/documentation/standard-payload-components-v2.html).
+        public var spekeVersion: MediaPackageV2ClientTypes.SpekeVersion?
         /// The URL of the API Gateway proxy that you set up to talk to your key server. The API Gateway proxy must reside in the same AWS Region as MediaPackage and must start with https://. The following example shows a URL: https://1wm2dx1f33.execute-api.us-west-2.amazonaws.com/SpekeSample/copyProtection
         /// This member is required.
         public var url: Swift.String?
 
         public init(
             certificateArn: Swift.String? = nil,
+            contentKeyPeriodConfiguration: MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration? = nil,
             drmSystems: [MediaPackageV2ClientTypes.DrmSystem]? = nil,
             encryptionContractConfiguration: MediaPackageV2ClientTypes.EncryptionContractConfiguration? = nil,
             resourceId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
+            spekeVersion: MediaPackageV2ClientTypes.SpekeVersion? = nil,
             url: Swift.String? = nil
         ) {
             self.certificateArn = certificateArn
+            self.contentKeyPeriodConfiguration = contentKeyPeriodConfiguration
             self.drmSystems = drmSystems
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
             self.roleArn = roleArn
+            self.spekeVersion = spekeVersion
             self.url = url
         }
     }
@@ -7026,6 +7125,21 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
     }
 }
 
+extension MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentKeyPeriodTiming"].write(value.contentKeyPeriodTiming)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration()
+        value.contentKeyPeriodTiming = try reader["ContentKeyPeriodTiming"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -7798,10 +7912,12 @@ extension MediaPackageV2ClientTypes.SpekeKeyProvider {
     static func write(value: MediaPackageV2ClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CertificateArn"].write(value.certificateArn)
+        try writer["ContentKeyPeriodConfiguration"].write(value.contentKeyPeriodConfiguration, with: MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration.write(value:to:))
         try writer["DrmSystems"].writeList(value.drmSystems, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DrmSystem>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageV2ClientTypes.EncryptionContractConfiguration.write(value:to:))
         try writer["ResourceId"].write(value.resourceId)
         try writer["RoleArn"].write(value.roleArn)
+        try writer["SpekeVersion"].write(value.spekeVersion)
         try writer["Url"].write(value.url)
     }
 
@@ -7814,6 +7930,8 @@ extension MediaPackageV2ClientTypes.SpekeKeyProvider {
         value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.url = try reader["Url"].readIfPresent() ?? ""
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.spekeVersion = try reader["SpekeVersion"].readIfPresent()
+        value.contentKeyPeriodConfiguration = try reader["ContentKeyPeriodConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ContentKeyPeriodConfiguration.read(from:))
         return value
     }
 }
