@@ -68,13 +68,13 @@ public func _runReturningStdOut(_ process: Process) throws -> String? {
 }
 
 /// A simple struct that runs a process
-public struct ProcessRunner: @unchecked Sendable {
+public struct ProcessRunner: Sendable {
 
-    public init(_ run: @escaping (Process) throws -> Void) {
+    public init(_ run: @escaping @Sendable (Process) throws -> Void) {
         self.run = run
     }
 
-    public let run: (Process) throws -> Void
+    public let run: @Sendable (Process) throws -> Void
     
     /// Creates the standard runner to be used by the release version of this CLI
     ///

@@ -25,24 +25,37 @@ final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
         // Use a task group so buckets are created in parallel.
         // The child tasks capture only the client & AZ, and return the names they created, so
         // that `buckets` is only ever mutated here on the test case itself.
+        //
+        // Each child task returns a `Result` instead of throwing, so that a failed creation
+        // doesn't cancel its siblings or discard the names they already created; every bucket
+        // that was created gets recorded for tear down before any error is rethrown below.
         let client = self.client!
         let azID = self.azID
-        let newBuckets = try await withThrowingTaskGroup(of: String.self) { group in
+        let results = await withTaskGroup(of: Result<String, any Error>.self) { group in
             for _ in 1...n {
                 group.addTask {
                     let baseName = String(UUID().uuidString.prefix(8)).lowercased()
-                    return try await Self.createS3ExpressBucket(client: client, azID: azID, baseName: baseName)
+                    do {
+                        return .success(
+                            try await Self.createS3ExpressBucket(client: client, azID: azID, baseName: baseName)
+                        )
+                    } catch {
+                        return .failure(error)
+                    }
                 }
             }
-            var created = [String]()
-            for try await bucket in group {
-                created.append(bucket)
+            var results = [Result<String, any Error>]()
+            for await result in group {
+                results.append(result)
             }
-            return created
+            return results
         }
 
-        // Save the bucket names for use during tear down
-        buckets.append(contentsOf: newBuckets)
+        // Save the bucket names for use during tear down, then surface any creation failure
+        buckets.append(contentsOf: results.compactMap { try? $0.get() })
+        for result in results {
+            _ = try result.get()
+        }
 
         // add an object to each bucket
         for bucket in buckets {

@@ -10,6 +10,7 @@ import AWSDynamoDB
 import ClientRuntime
 import AWSClientRuntime
 import SmithyHTTPAPI
+import AWSIntegrationTestUtils
 import AWSSDKIdentity
 
 final class QueryCompatibleTest: XCTestCase {
@@ -63,36 +64,3 @@ final class QueryCompatibleTest: XCTestCase {
         }
     }
 }
-
-/// Records the headers of the request seen by the mock HTTP client.
-///
-/// The mock's handler is `@Sendable`, so the captured headers cannot be stored in a local
-/// `var`.  An actor gives the handler something safe to capture.
-private actor HeadersRecorder {
-    private(set) var headers: Headers?
-
-    func record(_ headers: Headers) {
-        self.headers = headers
-    }
-}
-
-// Mock HTTP Client Implementation
-
-private final class MockHTTPClient: HTTPClient {
-    private let handler: @Sendable (HTTPRequest) async throws -> HTTPResponse
-
-    init(handler: @escaping @Sendable (HTTPRequest) async -> HTTPResponse) {
-        self.handler = { request in
-            return await handler(request)
-        }
-    }
-
-    func send(request: HTTPRequest) async throws -> HTTPResponse {
-        return try await handler(request)
-    }
-
-    func close() async throws {
-        // No-op for mock
-    }
-}
-

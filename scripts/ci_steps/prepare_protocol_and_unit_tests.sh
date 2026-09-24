@@ -6,7 +6,7 @@ set -e
 rm -rf Sources/Services/*
 
 # Regenerate the SDK manifest, with only runtime included
-./scripts/ci_steps/run_cli.sh generate-package-manifest ..
+./scripts/ci_steps/run_cli.sh generate-package-manifest .
 
 # Dump the Package.swift contents to the logs
 cat Package.swift

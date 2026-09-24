@@ -21,6 +21,9 @@ extension Target.Dependency {
     static var awsSDKIdentityAPI: Self { .product(name: "AWSSDKIdentityAPI", package: "aws-sdk-swift") }
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
 
+    /// A service client product from the SDK, i.e. `AWSIAM`.
+    static func awsSDK(_ name: String) -> Self { .product(name: name, package: "aws-sdk-swift") }
+
     // Smithy modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var smithyIdentity: Self { .product(name: "SmithyIdentity", package: "smithy-swift") }
@@ -38,15 +41,12 @@ let package = Package(
         .tvOS(.v15),
         .watchOS(.v8),
     ],
-    dependencies: {
-        let deps: [Package.Dependency] = [
-            .package(path: "../../smithy-swift"),
-            .package(path: "../../aws-sdk-swift"),
-            .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "3.0.0"),
-            .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
-        ]
-        return deps
-    }(),
+    dependencies: [
+        .package(path: "../../smithy-swift"),
+        .package(path: "../../aws-sdk-swift"),
+        .package(url: "https://github.com/smithy-lang/smithy-swift-opentelemetry.git", from: "3.0.0"),
+        .package(url: "https://github.com/open-telemetry/opentelemetry-swift-core", from: "2.3.0"),
+    ],
     targets: integrationTestTargets
 )
 
@@ -72,11 +72,16 @@ private var integrationTestTargets: [Target] {
 
 /// Whether this service's integration tests bundle resource files at runtime.
 ///
-/// The other services either hold only a `.gitkeep` in `Resources`, or hold
-/// only helper apps that are excluded from the target.  Declaring resources
-/// for those produces a bundle with no payload, which codesign rejects on
-/// simulator destinations with "bundle format unrecognized, invalid, or
-/// unsuitable".
+/// Keep this list in sync with the services that have a `Resources` directory holding
+/// files loaded via `Bundle.module`.  Every other service has no `Resources` directory at
+/// all, except AWSEC2 & AWSECS, which keep helper apps there and exclude them from the
+/// target.  Declaring resources for a target with nothing to bundle produces a bundle with
+/// no payload, which codesign rejects on simulator destinations with "bundle format
+/// unrecognized, invalid, or unsuitable".
+///
+/// This is a hardcoded list rather than a `FileManager` check because SwiftPM caches the
+/// evaluated manifest and does not invalidate that cache when the files a manifest read
+/// change, so a derived value would go stale until `Package.swift` itself was edited.
 private func hasResources(_ name: String) -> Bool {
     [
         "AWSBedrockRuntime",
@@ -87,33 +92,36 @@ private func hasResources(_ name: String) -> Bool {
 
 private func integrationTestTarget(_ name: String) -> Target {
     let integrationTestName = "\(name)IntegrationTests"
-    var additionalDependencies: [String] = []
+    var additionalDependencies: [Target.Dependency] = []
     var exclusions: [String] = []
-    var platformSpecificDependencies: [Target.Dependency] = []
     switch name {
     case "AWSEC2":
-        additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
+        additionalDependencies = [.awsSDK("AWSIAM"), .awsSDK("AWSSTS"), .awsSDK("AWSCloudWatchLogs")]
         exclusions = [
+            "README.md",
             "Resources"
         ]
     case "AWSECS":
-        additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
+        additionalDependencies = [
+            .awsSDK("AWSCloudWatchLogs"), .awsSDK("AWSEC2"), .awsSDK("AWSIAM"), .awsSDK("AWSSTS"),
+        ]
         exclusions = [
             "README.md",
             "Resources"
         ]
     case "AWSS3":
-        additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
+        additionalDependencies = [.awsSDK("AWSSSOAdmin"), .awsSDK("AWSS3Control"), .awsSDK("AWSSTS")]
     case "AWSCloudFrontKeyValueStore":
-        additionalDependencies = ["AWSCloudFront"]
+        additionalDependencies = [.awsSDK("AWSCloudFront")]
     case "AWSSTS":
-        additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
-        platformSpecificDependencies = [
+        additionalDependencies = [
+            .awsSDK("AWSIAM"),
+            .awsSDK("AWSCognitoIdentity"),
             .product(name: "SmithyOpenTelemetry", package: "smithy-swift-opentelemetry"),
             .product(name: "OpenTelemetrySdk", package: "opentelemetry-swift-core"),
         ]
     case "AWSCognitoIdentity":
-        additionalDependencies = ["AWSSTS", "AWSIAM"]
+        additionalDependencies = [.awsSDK("AWSSTS"), .awsSDK("AWSIAM")]
     default:
         break
     }
@@ -130,9 +138,7 @@ private func integrationTestTarget(_ name: String) -> Target {
             .awsIntegrationTestUtils,
             .smithyHttpApi,
             .product(name: name, package: "aws-sdk-swift")
-        ] + additionalDependencies.map {
-            Target.Dependency.product(name: $0, package: "aws-sdk-swift", condition: nil)
-        } + platformSpecificDependencies,
+        ] + additionalDependencies,
         path: "./Services/\(integrationTestName)",
         exclude: exclusions,
         resources: hasResources(name) ? [.process("Resources")] : []

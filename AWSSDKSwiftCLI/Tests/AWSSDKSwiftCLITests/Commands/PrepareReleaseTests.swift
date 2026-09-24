@@ -34,11 +34,8 @@ class PrepareReleaseTests: CLITestCase {
     // MARK: Golden Path; release build
 
     func testGoldenPath() throws {
-        var commands: [String] = []
-        let runner = ProcessRunner {
-            commands.append($0.commandString)
-        }
-        ProcessRunner.testRunner = runner
+        let recorder = CommandRecorder()
+        ProcessRunner.testRunner = recorder.runner
         let previousVersion = try Version("1.2.3")
         let newVersion = try Version("1.2.4")
         let futureVersion = try Version("1.2.5")
@@ -60,22 +57,19 @@ class PrepareReleaseTests: CLITestCase {
         XCTAssertEqual(releaseManifest.name, "\(newVersion)")
         XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
         
-        XCTAssertEqual(commands.count, 5)
-        XCTAssertTrue(commands[0].contains("git add"))
-        XCTAssertTrue(commands[1].contains("git commit"))
-        XCTAssertTrue(commands[2].contains("git tag -a 1.2.4 -m"))
-        XCTAssertTrue(commands[3].contains("git log"))
-        XCTAssertTrue(commands[4].contains("git status"))
+        XCTAssertEqual(recorder.commands.count, 5)
+        XCTAssertTrue(recorder.commands[0].contains("git add"))
+        XCTAssertTrue(recorder.commands[1].contains("git commit"))
+        XCTAssertTrue(recorder.commands[2].contains("git tag -a 1.2.4 -m"))
+        XCTAssertTrue(recorder.commands[3].contains("git log"))
+        XCTAssertTrue(recorder.commands[4].contains("git status"))
     }
 
     // MARK: non-release build with tag modifier
 
     func test_prepareRelease_releaseTagIsModifiedForNonReleaseTypeBuild() throws {
-        var commands: [String] = []
-        let runner = ProcessRunner {
-            commands.append($0.commandString)
-        }
-        ProcessRunner.testRunner = runner
+        let recorder = CommandRecorder()
+        ProcessRunner.testRunner = recorder.runner
         let previousVersion = try Version("1.2.3")
         let newVersion = try Version("1.2.4")
         let futureVersion = try Version("1.2.5")
@@ -98,20 +92,17 @@ class PrepareReleaseTests: CLITestCase {
         XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
 
         // Check that expected Git commands were issued
-        XCTAssertEqual(commands.count, 5)
-        XCTAssertTrue(commands[0].contains("git add"))
-        XCTAssertTrue(commands[1].contains("git commit"))
-        XCTAssertTrue(commands[2].contains("git tag -a 1.2.4-nonrelease -m"))
-        XCTAssertTrue(commands[3].contains("git log"))
-        XCTAssertTrue(commands[4].contains("git status"))
+        XCTAssertEqual(recorder.commands.count, 5)
+        XCTAssertTrue(recorder.commands[0].contains("git add"))
+        XCTAssertTrue(recorder.commands[1].contains("git commit"))
+        XCTAssertTrue(recorder.commands[2].contains("git tag -a 1.2.4-nonrelease -m"))
+        XCTAssertTrue(recorder.commands[3].contains("git log"))
+        XCTAssertTrue(recorder.commands[4].contains("git status"))
     }
 
     func testRunBailsEarlyIfThereAreNoChanges() throws {
-        var commands: [String] = []
-        let runner = ProcessRunner {
-            commands.append($0.commandString)
-        }
-        ProcessRunner.testRunner = runner
+        let recorder = CommandRecorder()
+        ProcessRunner.testRunner = recorder.runner
         let previousVersion = try Version("1.2.3")
         let newVersion = try Version("1.2.4")
         createPackageVersion(previousVersion)
@@ -125,7 +116,7 @@ class PrepareReleaseTests: CLITestCase {
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, previousVersion)
 
-        XCTAssertTrue(commands.isEmpty)
+        XCTAssertTrue(recorder.commands.isEmpty)
 
         // Verify that an empty release manifest was written
         let data = try FileManager.default.loadContents(atPath: "release-manifest.json")
@@ -133,11 +124,8 @@ class PrepareReleaseTests: CLITestCase {
     }
 
     func testRunBailsEarlyIfThereAreNoBuildRequestAndMapping() throws {
-        var commands: [String] = []
-        let runner = ProcessRunner {
-            commands.append($0.commandString)
-        }
-        ProcessRunner.testRunner = runner
+        let recorder = CommandRecorder()
+        ProcessRunner.testRunner = recorder.runner
         let previousVersion = try Version("1.2.3")
         let newVersion = try Version("1.2.4")
         createPackageVersion(previousVersion)
@@ -149,7 +137,7 @@ class PrepareReleaseTests: CLITestCase {
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, previousVersion)
 
-        XCTAssertTrue(commands.isEmpty)
+        XCTAssertTrue(recorder.commands.isEmpty)
 
         // Verify that an empty release manifest was written
         let data = try FileManager.default.loadContents(atPath: "release-manifest.json")
@@ -214,12 +202,9 @@ class PrepareReleaseTests: CLITestCase {
 
     // MARK: stageFiles()
     
-    func testStageFilesForAWSSDKSwift() {
-        var command: String!
-        let runner = ProcessRunner {
-            command = $0.commandString
-        }
-        ProcessRunner.testRunner = runner
+    func testStageFilesForAWSSDKSwift() throws {
+        let recorder = CommandRecorder()
+        ProcessRunner.testRunner = recorder.runner
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift)
         try! subject.stageFiles()
         let expectedCommand = [
@@ -234,17 +219,16 @@ class PrepareReleaseTests: CLITestCase {
             "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift",
             "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/Partitions.swift",
         ].joined(separator: " ")
+        let command = try XCTUnwrap(recorder.commands.last)
         XCTAssertTrue(command.hasSuffix(expectedCommand))
     }
-    
-    func testStageFilesForSmithySwift() {
-        var command: String!
-        let runner = ProcessRunner {
-            command = $0.commandString
-        }
-        ProcessRunner.testRunner = runner
+
+    func testStageFilesForSmithySwift() throws {
+        let recorder = CommandRecorder()
+        ProcessRunner.testRunner = recorder.runner
         let subject = PrepareRelease.mock(repoType: .smithySwift)
         try! subject.stageFiles()
+        let command = try XCTUnwrap(recorder.commands.last)
         XCTAssertTrue(command.hasSuffix("git add Package.version Package.version.next"))
     }
 

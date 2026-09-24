@@ -120,10 +120,6 @@ class S3ExpressXCTestCase: XCTestCase {
     }
 
     // Helper method to create a S3Express-compliant bucket name
-    func bucket(baseName: String) -> String {
-        Self.bucket(baseName: baseName, azID: azID)
-    }
-
     static func bucket(baseName: String, azID: String) -> String {
         "a\(baseName)--\(azID)--x-s3"
     }

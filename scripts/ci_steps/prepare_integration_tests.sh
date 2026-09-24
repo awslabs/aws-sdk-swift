@@ -14,7 +14,7 @@ rm -rf Sources/Services/*
 ./gradlew --stop
 
 # Regenerate the SDK Package.swift to run only integration tests
-./scripts/ci_steps/run_cli.sh generate-package-manifest --exclude-runtime-tests ..
+./scripts/ci_steps/run_cli.sh generate-package-manifest --exclude-runtime-tests .
 
 # Dump the Package.swift contents to the logs
 cat Package.swift

@@ -9,14 +9,16 @@
 # before the CLI starts, and makes a build failure distinguishable from a run
 # failure.
 #
-# Run from the repo root; all arguments are passed through to the CLI.
+# All arguments are passed through to the CLI.  The CLI is always run from the
+# repo root, whatever the caller's working directory, so a path argument meant
+# for the repo root should be passed as `.`.
 
 set -e
 
-cd AWSSDKSwiftCLI
+cd "$(dirname "$0")/../.."
 
-swift build --product AWSSDKSwiftCLI
+swift build --package-path AWSSDKSwiftCLI --product AWSSDKSwiftCLI
 
-cli="$(swift build --product AWSSDKSwiftCLI --show-bin-path)/AWSSDKSwiftCLI"
+cli="$(swift build --package-path AWSSDKSwiftCLI --product AWSSDKSwiftCLI --show-bin-path)/AWSSDKSwiftCLI"
 
 "$cli" "$@"

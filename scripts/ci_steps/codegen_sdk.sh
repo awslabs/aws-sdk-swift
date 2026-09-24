@@ -15,7 +15,7 @@ export AWS_PARTITIONS_FILE_OVERRIDE=codegen/sdk-codegen/sdk-partitions.json
 ./gradlew --stop
 
 # Regenerate the SDK Package.swift with all services
-./scripts/ci_steps/run_cli.sh generate-package-manifest ..
+./scripts/ci_steps/run_cli.sh generate-package-manifest .
 
 # Dump the Package.swift contents to the logs
 cat Package.swift
