@@ -49,6 +49,7 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
+import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -122,6 +123,7 @@ extension MarketplaceDiscoveryClient {
         public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -168,6 +170,7 @@ extension MarketplaceDiscoveryClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -194,6 +197,7 @@ extension MarketplaceDiscoveryClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -204,7 +208,7 @@ extension MarketplaceDiscoveryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultMarketplaceDiscoveryAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
@@ -223,6 +227,7 @@ extension MarketplaceDiscoveryClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -249,6 +254,7 @@ extension MarketplaceDiscoveryClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -259,7 +265,7 @@ extension MarketplaceDiscoveryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultMarketplaceDiscoveryAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
@@ -279,6 +285,7 @@ extension MarketplaceDiscoveryClient {
                 requestChecksumCalculation: nil,
                 responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -309,6 +316,7 @@ extension MarketplaceDiscoveryClient {
                 requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
                 responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: region,
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
@@ -319,7 +327,7 @@ extension MarketplaceDiscoveryClient {
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
                 authSchemePreference: nil,
                 authSchemeResolver: DefaultMarketplaceDiscoveryAuthSchemeResolver(),
                 bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
@@ -353,6 +361,7 @@ extension MarketplaceDiscoveryClient {
         public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
         public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var sigV4aSigningRegionSet: [String]?
         public var region: Swift.String?
         public var signingRegion: Swift.String?
         public var endpointResolver: EndpointResolver
@@ -399,6 +408,7 @@ extension MarketplaceDiscoveryClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -425,6 +435,7 @@ extension MarketplaceDiscoveryClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -435,7 +446,7 @@ extension MarketplaceDiscoveryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultMarketplaceDiscoveryAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
@@ -454,6 +465,7 @@ extension MarketplaceDiscoveryClient {
             requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
             ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            sigV4aSigningRegionSet: [String]? = nil,
             region: Swift.String? = nil,
             signingRegion: Swift.String? = nil,
             endpointResolver: EndpointResolver? = nil,
@@ -480,6 +492,7 @@ extension MarketplaceDiscoveryClient {
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
             self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
             self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.sigV4aSigningRegionSet = sigV4aSigningRegionSet
             self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
@@ -490,7 +503,7 @@ extension MarketplaceDiscoveryClient {
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
             self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
             self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
-            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultMarketplaceDiscoveryAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
@@ -510,6 +523,7 @@ extension MarketplaceDiscoveryClient {
                 requestChecksumCalculation: nil,
                 responseChecksumValidation: nil,
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: nil,
                 signingRegion: nil,
                 endpointResolver: nil,
@@ -540,6 +554,7 @@ extension MarketplaceDiscoveryClient {
                 requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
                 responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
                 ignoreConfiguredEndpointURLs: nil,
+                sigV4aSigningRegionSet: nil,
                 region: region,
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
@@ -550,7 +565,7 @@ extension MarketplaceDiscoveryClient {
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
                 authSchemePreference: nil,
                 authSchemeResolver: DefaultMarketplaceDiscoveryAuthSchemeResolver(),
                 bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
@@ -574,6 +589,7 @@ extension MarketplaceDiscoveryClient {
                 requestChecksumCalculation: self.requestChecksumCalculation,
                 responseChecksumValidation: self.responseChecksumValidation,
                 ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                sigV4aSigningRegionSet: self.sigV4aSigningRegionSet,
                 region: self.region,
                 signingRegion: self.signingRegion,
                 endpointResolver: self.endpointResolver,
@@ -642,6 +658,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetListingInput, GetListingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -714,6 +731,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetOfferInput, GetOfferOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -786,6 +804,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetOfferSetInput, GetOfferSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -858,6 +877,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetOfferTermsInput, GetOfferTermsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -930,6 +950,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetProductInput, GetProductOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1002,6 +1023,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListFulfillmentOptionsInput, ListFulfillmentOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1073,6 +1095,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListPurchaseOptionsInput, ListPurchaseOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1144,6 +1167,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<SearchFacetsInput, SearchFacetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -1215,6 +1239,7 @@ extension MarketplaceDiscoveryClient {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<SearchListingsInput, SearchListingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

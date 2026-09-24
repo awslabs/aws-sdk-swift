@@ -14,37 +14,35 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-public struct MarketplaceDiscoveryAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+public struct EventBridgeV2AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let authSchemePreference: [String]?
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-public protocol MarketplaceDiscoveryAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+public protocol EventBridgeV2AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service MarketplaceDiscovery must conform to.
+    // the service EventBridgeV2 must conform to.
 }
 
-public struct DefaultMarketplaceDiscoveryAuthSchemeResolver: MarketplaceDiscoveryAuthSchemeResolver {
+public struct DefaultEventBridgeV2AuthSchemeResolver: EventBridgeV2AuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? MarketplaceDiscoveryAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? EventBridgeV2AuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
             default:
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "aws-marketplace")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "events")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
-                let sigv4aOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4a")
-                validAuthOptions.append(sigv4aOption)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
@@ -55,6 +53,6 @@ public struct DefaultMarketplaceDiscoveryAuthSchemeResolver: MarketplaceDiscover
         }
         let authSchemePreference = context.getAuthSchemePreference()
         let opRegion = context.getRegion()
-        return MarketplaceDiscoveryAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
+        return EventBridgeV2AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
     }
 }

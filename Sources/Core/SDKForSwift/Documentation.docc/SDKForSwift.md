@@ -409,6 +409,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
 
+[AWSEventBridgeV2](/sdk-for-swift/latest/api/awseventbridgev2/documentation/awseventbridgev2)
+
 [AWSEvs](/sdk-for-swift/latest/api/awsevs/documentation/awsevs)
 
 [AWSFMS](/sdk-for-swift/latest/api/awsfms/documentation/awsfms)

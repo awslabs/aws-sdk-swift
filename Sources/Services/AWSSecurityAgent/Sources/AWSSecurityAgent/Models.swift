@@ -419,11 +419,11 @@ extension SecurityAgentClientTypes {
 
     /// The VPC configuration for a pentest, specifying the VPC, security groups, and subnets to use during testing.
     public struct VpcConfig: Swift.Sendable {
-        /// The Amazon Resource Names (ARNs) of the security groups for the VPC configuration.
+        /// The Amazon Resource Names (ARNs) or IDs of the security groups for the VPC configuration.
         public var securityGroupArns: [Swift.String]?
-        /// The Amazon Resource Names (ARNs) of the subnets for the VPC configuration.
+        /// The Amazon Resource Names (ARNs) or IDs of the subnets for the VPC configuration.
         public var subnetArns: [Swift.String]?
-        /// The Amazon Resource Name (ARN) of the VPC.
+        /// The Amazon Resource Name (ARN) or ID of the VPC.
         public var vpcArn: Swift.String?
 
         public init(
@@ -1215,7 +1215,7 @@ extension SecurityAgentClientTypes {
 
     /// A trust anchor used when validating a target endpoint's TLS certificate.
     public struct TrustedCaCertificate: Swift.Sendable {
-        /// The source that AWS Security Agent reads the certificate from.
+        /// The source that Security Agent reads the certificate from.
         /// This member is required.
         public var source: SecurityAgentClientTypes.CaCertificateSource?
 
@@ -1912,6 +1912,239 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Destination for publishing scan reports to an integrated document provider.
+    public struct ReportDestination: Swift.Sendable {
+        /// The container identifier where the report will be published.
+        /// This member is required.
+        public var containerId: Swift.String?
+        /// The existing document identifier to update instead of creating a new document.
+        public var documentId: Swift.String?
+        /// The integration identifier for the document provider.
+        /// This member is required.
+        public var integrationId: Swift.String?
+        /// The parent document identifier under which the report will be created.
+        public var parentId: Swift.String?
+
+        public init(
+            containerId: Swift.String? = nil,
+            documentId: Swift.String? = nil,
+            integrationId: Swift.String? = nil,
+            parentId: Swift.String? = nil
+        ) {
+            self.containerId = containerId
+            self.documentId = documentId
+            self.integrationId = integrationId
+            self.parentId = parentId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Finding confidence level.
+    public enum ConfidenceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case falsePositive
+        case high
+        case low
+        case medium
+        case unconfirmed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfidenceLevel] {
+            return [
+                .falsePositive,
+                .high,
+                .low,
+                .medium,
+                .unconfirmed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .falsePositive: return "FALSE_POSITIVE"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .unconfirmed: return "UNCONFIRMED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Risk severity level.
+    public enum RiskLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RiskLevel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .informational: return "INFORMATIONAL"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Finding status.
+    public enum FindingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case active
+        case falsePositive
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingStatus] {
+            return [
+                .accepted,
+                .active,
+                .falsePositive,
+                .resolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .active: return "ACTIVE"
+            case .falsePositive: return "FALSE_POSITIVE"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Execution status of a task.
+    public enum TaskExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Task was aborted.
+        case aborted
+        /// Task completed successfully.
+        case completed
+        /// Task failed during execution.
+        case failed
+        /// Task failed due to an internal error.
+        case internalError
+        /// Task is currently running.
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskExecutionStatus] {
+            return [
+                .aborted,
+                .completed,
+                .failed,
+                .internalError,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .internalError: return "INTERNAL_ERROR"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The report-generation filters applied when a pentest or code review report is exported.
+    public struct ReportFilters: Swift.Sendable {
+        /// Whether to include reviewer annotation notes under each finding.
+        public var annotationNotes: Swift.Bool?
+        /// Whether to include the compliance-ready report additions.
+        public var complianceReport: Swift.Bool?
+        /// The confidence levels to include in the report.
+        public var confidenceLevels: [SecurityAgentClientTypes.ConfidenceLevel]?
+        /// The finding types to include in the report.
+        public var findingTypes: [Swift.String]?
+        /// The severity levels to include in the report.
+        public var riskLevels: [SecurityAgentClientTypes.RiskLevel]?
+        /// The risk types to include in the report.
+        public var riskTypes: [SecurityAgentClientTypes.RiskType]?
+        /// The finding statuses to include in the report.
+        public var statuses: [SecurityAgentClientTypes.FindingStatus]?
+        /// The task execution statuses to include in the report's task table.
+        public var taskStatuses: [SecurityAgentClientTypes.TaskExecutionStatus]?
+
+        public init(
+            annotationNotes: Swift.Bool? = nil,
+            complianceReport: Swift.Bool? = nil,
+            confidenceLevels: [SecurityAgentClientTypes.ConfidenceLevel]? = nil,
+            findingTypes: [Swift.String]? = nil,
+            riskLevels: [SecurityAgentClientTypes.RiskLevel]? = nil,
+            riskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
+            statuses: [SecurityAgentClientTypes.FindingStatus]? = nil,
+            taskStatuses: [SecurityAgentClientTypes.TaskExecutionStatus]? = nil
+        ) {
+            self.annotationNotes = annotationNotes
+            self.complianceReport = complianceReport
+            self.confidenceLevels = confidenceLevels
+            self.findingTypes = findingTypes
+            self.riskLevels = riskLevels
+            self.riskTypes = riskTypes
+            self.statuses = statuses
+            self.taskStatuses = taskStatuses
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a pentest configuration that defines the parameters for security testing, including target assets, risk type exclusions, and infrastructure settings.
     public struct Pentest: Swift.Sendable {
         /// The unique identifier of the agent space that contains the pentest.
@@ -1939,6 +2172,10 @@ extension SecurityAgentClientTypes {
         /// The unique identifier of the pentest.
         /// This member is required.
         public var pentestId: Swift.String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public var reportFilters: SecurityAgentClientTypes.ReportFilters?
         /// The IAM service role used for the pentest.
         public var serviceRole: Swift.String?
         /// The title of the pentest.
@@ -1961,6 +2198,8 @@ extension SecurityAgentClientTypes {
             maxTaskHours: Swift.Double? = nil,
             networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
             pentestId: Swift.String? = nil,
+            reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+            reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
             serviceRole: Swift.String? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -1977,6 +2216,8 @@ extension SecurityAgentClientTypes {
             self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
             self.pentestId = pentestId
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -2457,6 +2698,8 @@ extension SecurityAgentClientTypes {
         public var maxTaskHours: Swift.Double?
         /// An overview of the code review job results.
         public var overview: Swift.String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public var reportDestination: SecurityAgentClientTypes.ReportDestination?
         /// The IAM service role used for the code review job.
         public var serviceRole: Swift.String?
         /// The list of source code repositories analyzed during the code review job.
@@ -2482,6 +2725,7 @@ extension SecurityAgentClientTypes {
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
             maxTaskHours: Swift.Double? = nil,
             overview: Swift.String? = nil,
+            reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
             serviceRole: Swift.String? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
@@ -2500,6 +2744,7 @@ extension SecurityAgentClientTypes {
             self.logConfig = logConfig
             self.maxTaskHours = maxTaskHours
             self.overview = overview
+            self.reportDestination = reportDestination
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
             self.status = status
@@ -2559,50 +2804,6 @@ extension SecurityAgentClientTypes {
         ) {
             self.isPrimary = isPrimary
             self.name = name
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Execution status of a task.
-    public enum TaskExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Task was aborted.
-        case aborted
-        /// Task completed successfully.
-        case completed
-        /// Task failed during execution.
-        case failed
-        /// Task failed due to an internal error.
-        case internalError
-        /// Task is currently running.
-        case inProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskExecutionStatus] {
-            return [
-                .aborted,
-                .completed,
-                .failed,
-                .internalError,
-                .inProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aborted: return "ABORTED"
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .internalError: return "INTERNAL_ERROR"
-            case .inProgress: return "IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -2799,6 +3000,10 @@ extension SecurityAgentClientTypes {
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
         /// The maximum number of billable task hours allowed for jobs started from this code review. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.
         public var maxTaskHours: Swift.Double?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public var reportFilters: SecurityAgentClientTypes.ReportFilters?
         /// The IAM service role used for the code review.
         public var serviceRole: Swift.String?
         /// The title of the code review.
@@ -2817,6 +3022,8 @@ extension SecurityAgentClientTypes {
             createdAt: Foundation.Date? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
             maxTaskHours: Swift.Double? = nil,
+            reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+            reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
             serviceRole: Swift.String? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -2829,6 +3036,8 @@ extension SecurityAgentClientTypes {
             self.createdAt = createdAt
             self.logConfig = logConfig
             self.maxTaskHours = maxTaskHours
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -2975,123 +3184,6 @@ extension SecurityAgentClientTypes {
             self.status = status
             self.statusReason = statusReason
             self.taskDetails = taskDetails
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Finding confidence level.
-    public enum ConfidenceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case falsePositive
-        case high
-        case low
-        case medium
-        case unconfirmed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConfidenceLevel] {
-            return [
-                .falsePositive,
-                .high,
-                .low,
-                .medium,
-                .unconfirmed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .falsePositive: return "FALSE_POSITIVE"
-            case .high: return "HIGH"
-            case .low: return "LOW"
-            case .medium: return "MEDIUM"
-            case .unconfirmed: return "UNCONFIRMED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Risk severity level.
-    public enum RiskLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case critical
-        case high
-        case informational
-        case low
-        case medium
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RiskLevel] {
-            return [
-                .critical,
-                .high,
-                .informational,
-                .low,
-                .medium,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .critical: return "CRITICAL"
-            case .high: return "HIGH"
-            case .informational: return "INFORMATIONAL"
-            case .low: return "LOW"
-            case .medium: return "MEDIUM"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Finding status.
-    public enum FindingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accepted
-        case active
-        case falsePositive
-        case resolved
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FindingStatus] {
-            return [
-                .accepted,
-                .active,
-                .falsePositive,
-                .resolved
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accepted: return "ACCEPTED"
-            case .active: return "ACTIVE"
-            case .falsePositive: return "FALSE_POSITIVE"
-            case .resolved: return "RESOLVED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -3412,6 +3504,8 @@ extension SecurityAgentClientTypes {
         public var pentestId: Swift.String?
         /// The unique identifier of the pentest job.
         public var pentestJobId: Swift.String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public var reportDestination: SecurityAgentClientTypes.ReportDestination?
         /// The list of finding identifiers selected for revalidation. Present only when jobType is REVALIDATION.
         public var selectedFindingIds: [Swift.String]?
         /// The IAM service role used for the pentest job.
@@ -3452,6 +3546,7 @@ extension SecurityAgentClientTypes {
             overview: Swift.String? = nil,
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
+            reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
             selectedFindingIds: [Swift.String]? = nil,
             serviceRole: Swift.String? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
@@ -3482,6 +3577,7 @@ extension SecurityAgentClientTypes {
             self.overview = overview
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
+            self.reportDestination = reportDestination
             self.selectedFindingIds = selectedFindingIds
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
@@ -3497,7 +3593,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -4011,6 +4107,8 @@ extension SecurityAgentClientTypes {
         public var executionStartTime: Foundation.Date?
         /// The list of integrated repositories used for threat modeling.
         public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public var reportDestination: SecurityAgentClientTypes.ReportDestination?
         /// The scoped documents for the agent to focus on during threat modeling.
         public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
         /// The list of source code repositories used for threat modeling.
@@ -4036,6 +4134,7 @@ extension SecurityAgentClientTypes {
             executionEndTime: Foundation.Date? = nil,
             executionStartTime: Foundation.Date? = nil,
             integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
+            reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
             scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
@@ -4052,6 +4151,7 @@ extension SecurityAgentClientTypes {
             self.executionEndTime = executionEndTime
             self.executionStartTime = executionStartTime
             self.integratedRepositories = integratedRepositories
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.sourceCode = sourceCode
             self.status = status
@@ -4200,6 +4300,8 @@ extension SecurityAgentClientTypes {
         public var description: Swift.String?
         /// The CloudWatch Logs configuration for the threat model.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public var reportDestination: SecurityAgentClientTypes.ReportDestination?
         /// The scoped documents for the agent to focus on during threat modeling.
         public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
         /// The IAM service role used for the threat model.
@@ -4219,6 +4321,7 @@ extension SecurityAgentClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
             scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
             serviceRole: Swift.String? = nil,
             threatModelId: Swift.String? = nil,
@@ -4230,6 +4333,7 @@ extension SecurityAgentClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.logConfig = logConfig
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.serviceRole = serviceRole
             self.threatModelId = threatModelId
@@ -4999,6 +5103,10 @@ public struct CreateCodeReviewInput: Swift.Sendable {
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
     /// The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.
     public var maxTaskHours: Swift.Double?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role to use for the code review.
     public var serviceRole: Swift.String?
     /// The title of the code review.
@@ -5013,6 +5121,8 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         maxTaskHours: Swift.Double? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         validationMode: SecurityAgentClientTypes.ValidationMode? = nil
@@ -5022,6 +5132,8 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         self.codeRemediationStrategy = codeRemediationStrategy
         self.logConfig = logConfig
         self.maxTaskHours = maxTaskHours
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.validationMode = validationMode
@@ -5045,6 +5157,10 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
     /// The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.
     public var maxTaskHours: Swift.Double?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role used for the code review.
     public var serviceRole: Swift.String?
     /// The title of the code review.
@@ -5062,6 +5178,8 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         maxTaskHours: Swift.Double? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -5074,6 +5192,8 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.logConfig = logConfig
         self.maxTaskHours = maxTaskHours
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
@@ -5414,6 +5534,10 @@ public struct CreatePentestInput: Swift.Sendable {
     public var maxTaskHours: Swift.Double?
     /// The network traffic configuration for the pentest, including custom headers and traffic rules.
     public var networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role to use for the pentest.
     public var serviceRole: Swift.String?
     /// The title of the pentest.
@@ -5431,6 +5555,8 @@ public struct CreatePentestInput: Swift.Sendable {
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         maxTaskHours: Swift.Double? = nil,
         networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
@@ -5443,6 +5569,8 @@ public struct CreatePentestInput: Swift.Sendable {
         self.logConfig = logConfig
         self.maxTaskHours = maxTaskHours
         self.networkTrafficConfig = networkTrafficConfig
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.vpcConfig = vpcConfig
@@ -5463,6 +5591,10 @@ public struct CreatePentestOutput: Swift.Sendable {
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
     /// The unique identifier of the created pentest.
     public var pentestId: Swift.String?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role used for the pentest.
     public var serviceRole: Swift.String?
     /// The title of the pentest.
@@ -5477,6 +5609,8 @@ public struct CreatePentestOutput: Swift.Sendable {
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         pentestId: Swift.String? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
@@ -5487,6 +5621,8 @@ public struct CreatePentestOutput: Swift.Sendable {
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
         self.pentestId = pentestId
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
@@ -6099,35 +6235,6 @@ public struct CreateThreatOutput: Swift.Sendable {
     }
 }
 
-extension SecurityAgentClientTypes {
-
-    /// Destination for publishing scan reports to an integrated document provider.
-    public struct ReportDestination: Swift.Sendable {
-        /// The container identifier where the report will be published.
-        /// This member is required.
-        public var containerId: Swift.String?
-        /// The existing document identifier to update instead of creating a new document.
-        public var documentId: Swift.String?
-        /// The integration identifier for the document provider.
-        /// This member is required.
-        public var integrationId: Swift.String?
-        /// The parent document identifier under which the report will be created.
-        public var parentId: Swift.String?
-
-        public init(
-            containerId: Swift.String? = nil,
-            documentId: Swift.String? = nil,
-            integrationId: Swift.String? = nil,
-            parentId: Swift.String? = nil
-        ) {
-            self.containerId = containerId
-            self.documentId = documentId
-            self.integrationId = integrationId
-            self.parentId = parentId
-        }
-    }
-}
-
 /// Input for creating a new threat model.
 public struct CreateThreatModelInput: Swift.Sendable {
     /// The unique identifier of the agent space to create the threat model in.
@@ -6183,6 +6290,8 @@ public struct CreateThreatModelOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The CloudWatch Logs configuration for the threat model.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
     /// The scoped documents for the agent to focus on during threat modeling.
     public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
     /// The IAM service role used for the threat model.
@@ -6201,6 +6310,7 @@ public struct CreateThreatModelOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
         serviceRole: Swift.String? = nil,
         threatModelId: Swift.String? = nil,
@@ -6212,6 +6322,7 @@ public struct CreateThreatModelOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.logConfig = logConfig
+        self.reportDestination = reportDestination
         self.scopeDocs = scopeDocs
         self.serviceRole = serviceRole
         self.threatModelId = threatModelId
@@ -9295,6 +9406,10 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
     /// The updated maximum number of billable task hours allowed for jobs started from this code review.
     public var maxTaskHours: Swift.Double?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The updated IAM service role for the code review.
     public var serviceRole: Swift.String?
     /// The updated title of the code review.
@@ -9309,6 +9424,8 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
         codeReviewId: Swift.String? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         maxTaskHours: Swift.Double? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         validationMode: SecurityAgentClientTypes.ValidationMode? = nil
@@ -9319,6 +9436,8 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
         self.codeReviewId = codeReviewId
         self.logConfig = logConfig
         self.maxTaskHours = maxTaskHours
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.validationMode = validationMode
@@ -9342,6 +9461,10 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
     /// The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.
     public var maxTaskHours: Swift.Double?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role used for the code review.
     public var serviceRole: Swift.String?
     /// The title of the code review.
@@ -9359,6 +9482,8 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         maxTaskHours: Swift.Double? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -9371,6 +9496,8 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.logConfig = logConfig
         self.maxTaskHours = maxTaskHours
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
@@ -9487,6 +9614,10 @@ public struct UpdatePentestInput: Swift.Sendable {
     /// The unique identifier of the pentest to update.
     /// This member is required.
     public var pentestId: Swift.String?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The updated IAM service role for the pentest.
     public var serviceRole: Swift.String?
     /// The updated title of the pentest.
@@ -9504,6 +9635,8 @@ public struct UpdatePentestInput: Swift.Sendable {
         maxTaskHours: Swift.Double? = nil,
         networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
         pentestId: Swift.String? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
@@ -9517,6 +9650,8 @@ public struct UpdatePentestInput: Swift.Sendable {
         self.maxTaskHours = maxTaskHours
         self.networkTrafficConfig = networkTrafficConfig
         self.pentestId = pentestId
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.vpcConfig = vpcConfig
@@ -9537,6 +9672,10 @@ public struct UpdatePentestOutput: Swift.Sendable {
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
     /// The unique identifier of the pentest.
     public var pentestId: Swift.String?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The report-generation filters applied when the report is exported.
+    public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role used for the pentest.
     public var serviceRole: Swift.String?
     /// The title of the pentest.
@@ -9551,6 +9690,8 @@ public struct UpdatePentestOutput: Swift.Sendable {
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         pentestId: Swift.String? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
@@ -9561,6 +9702,8 @@ public struct UpdatePentestOutput: Swift.Sendable {
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
         self.pentestId = pentestId
+        self.reportDestination = reportDestination
+        self.reportFilters = reportFilters
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
@@ -9746,6 +9889,8 @@ public struct UpdateThreatModelInput: Swift.Sendable {
     public var description: Swift.String?
     /// The updated CloudWatch Logs configuration for the threat model.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
     /// The updated scoped documents for the agent to focus on during threat modeling.
     public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
     /// The updated IAM service role for the threat model.
@@ -9761,6 +9906,7 @@ public struct UpdateThreatModelInput: Swift.Sendable {
         assets: SecurityAgentClientTypes.Assets? = nil,
         description: Swift.String? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
         serviceRole: Swift.String? = nil,
         threatModelId: Swift.String? = nil,
@@ -9770,6 +9916,7 @@ public struct UpdateThreatModelInput: Swift.Sendable {
         self.assets = assets
         self.description = description
         self.logConfig = logConfig
+        self.reportDestination = reportDestination
         self.scopeDocs = scopeDocs
         self.serviceRole = serviceRole
         self.threatModelId = threatModelId
@@ -9789,6 +9936,8 @@ public struct UpdateThreatModelOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The CloudWatch Logs configuration for the threat model.
     public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
     /// The scoped documents for the agent to focus on during threat modeling.
     public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
     /// The IAM service role used for the threat model.
@@ -9807,6 +9956,7 @@ public struct UpdateThreatModelOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
         serviceRole: Swift.String? = nil,
         threatModelId: Swift.String? = nil,
@@ -9818,6 +9968,7 @@ public struct UpdateThreatModelOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.logConfig = logConfig
+        self.reportDestination = reportDestination
         self.scopeDocs = scopeDocs
         self.serviceRole = serviceRole
         self.threatModelId = threatModelId
@@ -10776,6 +10927,8 @@ extension CreateCodeReviewInput {
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["maxTaskHours"].write(value.maxTaskHours)
+        try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
+        try writer["reportFilters"].write(value.reportFilters, with: SecurityAgentClientTypes.ReportFilters.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["validationMode"].write(value.validationMode)
@@ -10819,6 +10972,8 @@ extension CreatePentestInput {
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["maxTaskHours"].write(value.maxTaskHours)
         try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
+        try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
+        try writer["reportFilters"].write(value.reportFilters, with: SecurityAgentClientTypes.ReportFilters.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["vpcConfig"].write(value.vpcConfig, with: SecurityAgentClientTypes.VpcConfig.write(value:to:))
@@ -11370,6 +11525,8 @@ extension UpdateCodeReviewInput {
         try writer["codeReviewId"].write(value.codeReviewId)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["maxTaskHours"].write(value.maxTaskHours)
+        try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
+        try writer["reportFilters"].write(value.reportFilters, with: SecurityAgentClientTypes.ReportFilters.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["validationMode"].write(value.validationMode)
@@ -11417,6 +11574,8 @@ extension UpdatePentestInput {
         try writer["maxTaskHours"].write(value.maxTaskHours)
         try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
         try writer["pentestId"].write(value.pentestId)
+        try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
+        try writer["reportFilters"].write(value.reportFilters, with: SecurityAgentClientTypes.ReportFilters.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["vpcConfig"].write(value.vpcConfig, with: SecurityAgentClientTypes.VpcConfig.write(value:to:))
@@ -11483,6 +11642,7 @@ extension UpdateThreatModelInput {
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
         try writer["description"].write(value.description)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
         try writer["scopeDocs"].writeList(value.scopeDocs, memberWritingClosure: SecurityAgentClientTypes.DocumentInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceRole"].write(value.serviceRole)
         try writer["threatModelId"].write(value.threatModelId)
@@ -11828,6 +11988,8 @@ extension CreateCodeReviewOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -11868,6 +12030,8 @@ extension CreatePentestOutput {
         value.excludeRiskTypes = try reader["excludeRiskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
         value.pentestId = try reader["pentestId"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -11973,6 +12137,7 @@ extension CreateThreatModelOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
@@ -12623,6 +12788,8 @@ extension UpdateCodeReviewOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -12658,6 +12825,8 @@ extension UpdatePentestOutput {
         value.excludeRiskTypes = try reader["excludeRiskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
         value.pentestId = try reader["pentestId"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -12764,6 +12933,7 @@ extension UpdateThreatModelOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
@@ -14614,6 +14784,8 @@ extension SecurityAgentClientTypes.CodeReview {
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.validationMode = try reader["validationMode"].readIfPresent()
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -14640,6 +14812,7 @@ extension SecurityAgentClientTypes.CodeReviewJob {
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15401,6 +15574,8 @@ extension SecurityAgentClientTypes.Pentest {
         value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
         value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15439,6 +15614,7 @@ extension SecurityAgentClientTypes.PentestJob {
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.jobType = try reader["jobType"].readIfPresent()
         value.selectedFindingIds = try reader["selectedFindingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15572,6 +15748,45 @@ extension SecurityAgentClientTypes.ReportDestination {
         try writer["documentId"].write(value.documentId)
         try writer["integrationId"].write(value.integrationId)
         try writer["parentId"].write(value.parentId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ReportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ReportDestination()
+        value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
+        value.containerId = try reader["containerId"].readIfPresent() ?? ""
+        value.parentId = try reader["parentId"].readIfPresent()
+        value.documentId = try reader["documentId"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ReportFilters {
+
+    static func write(value: SecurityAgentClientTypes.ReportFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["annotationNotes"].write(value.annotationNotes)
+        try writer["complianceReport"].write(value.complianceReport)
+        try writer["confidenceLevels"].writeList(value.confidenceLevels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.ConfidenceLevel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["findingTypes"].writeList(value.findingTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["riskLevels"].writeList(value.riskLevels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskLevel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["riskTypes"].writeList(value.riskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.FindingStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taskStatuses"].writeList(value.taskStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.TaskExecutionStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ReportFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ReportFilters()
+        value.riskLevels = try reader["riskLevels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskLevel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.confidenceLevels = try reader["confidenceLevels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.ConfidenceLevel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statuses = try reader["statuses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.FindingStatus>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.riskTypes = try reader["riskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.findingTypes = try reader["findingTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.taskStatuses = try reader["taskStatuses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.TaskExecutionStatus>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.annotationNotes = try reader["annotationNotes"].readIfPresent()
+        value.complianceReport = try reader["complianceReport"].readIfPresent()
+        return value
     }
 }
 
@@ -15818,6 +16033,7 @@ extension SecurityAgentClientTypes.ThreatModel {
         value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15844,6 +16060,7 @@ extension SecurityAgentClientTypes.ThreatModelJob {
         value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
         value.systemOverview = try reader["systemOverview"].readIfPresent()
+        value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         return value
     }
 }
