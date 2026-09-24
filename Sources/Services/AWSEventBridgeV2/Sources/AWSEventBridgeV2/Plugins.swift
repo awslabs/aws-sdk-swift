@@ -13,12 +13,11 @@ import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MarketplaceDiscoveryClientEndpointPlugin: Plugin {
+public class EventBridgeV2ClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -30,7 +29,7 @@ public class MarketplaceDiscoveryClientEndpointPlugin: Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        guard var config = clientConfiguration as? MarketplaceDiscoveryClient.MarketplaceDiscoveryClientConfig else { return }
+        guard var config = clientConfiguration as? EventBridgeV2Client.EventBridgeV2ClientConfig else { return }
         config.endpointResolver = self.endpointResolver
         guard let modifiedConfig = config as? Config else { return }
         clientConfiguration = modifiedConfig
@@ -42,9 +41,9 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? MarketplaceDiscoveryClient.MarketplaceDiscoveryClientConfig {
-            config.authSchemeResolver = DefaultMarketplaceDiscoveryAuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
+        if var config = clientConfiguration as? EventBridgeV2Client.EventBridgeV2ClientConfig {
+            config.authSchemeResolver = DefaultEventBridgeV2AuthSchemeResolver()
+            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
             guard let modifiedConfig = config as? Config else { return }
@@ -53,14 +52,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class MarketplaceDiscoveryClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class EventBridgeV2ClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: MarketplaceDiscoveryAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: EventBridgeV2AuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.authSchemePreference = authSchemePreference ?? []
@@ -69,7 +68,7 @@ public class MarketplaceDiscoveryClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? MarketplaceDiscoveryClient.MarketplaceDiscoveryClientConfig {
+        if var config = clientConfiguration as? EventBridgeV2Client.EventBridgeV2ClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

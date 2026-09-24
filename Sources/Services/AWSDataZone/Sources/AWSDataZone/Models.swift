@@ -4408,6 +4408,32 @@ public struct BatchPutAttributesMetadataOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    public enum BlueprintCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tooling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlueprintCategory] {
+            return [
+                .tooling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tooling: return "TOOLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CancelMetadataGenerationRunInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the metadata generation run is to be cancelled.
     /// This member is required.
@@ -5008,11 +5034,15 @@ extension DataZoneClientTypes {
     public struct IamPropertiesInput: Swift.Sendable {
         /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
         public var glueLineageSyncEnabled: Swift.Bool?
+        /// The ARN of the IAM role to associate with the connection as the project user role. To use this operation, you must have iam:PassRole permission for this role.
+        public var roleArn: Swift.String?
 
         public init(
-            glueLineageSyncEnabled: Swift.Bool? = nil
+            glueLineageSyncEnabled: Swift.Bool? = nil,
+            roleArn: Swift.String? = nil
         ) {
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
+            self.roleArn = roleArn
         }
     }
 }
@@ -9212,6 +9242,8 @@ public struct CreateEnvironmentActionOutput: Swift.Sendable {
 }
 
 public struct CreateEnvironmentBlueprintInput: Swift.Sendable {
+    /// The category of the Amazon DataZone blueprint. The only valid value is TOOLING, which creates a blueprint that provisions the tooling resources of a project.
+    public var blueprintCategory: DataZoneClientTypes.BlueprintCategory?
     /// The description of the Amazon DataZone blueprint.
     public var description: Swift.String?
     /// The identifier of the domain in which this blueprint is created.
@@ -9227,12 +9259,14 @@ public struct CreateEnvironmentBlueprintInput: Swift.Sendable {
     public var userParameters: [DataZoneClientTypes.CustomParameter]?
 
     public init(
+        blueprintCategory: DataZoneClientTypes.BlueprintCategory? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
     ) {
+        self.blueprintCategory = blueprintCategory
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.name = name
@@ -9243,10 +9277,12 @@ public struct CreateEnvironmentBlueprintInput: Swift.Sendable {
 
 extension CreateEnvironmentBlueprintInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentBlueprintInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), name: \(Swift.String(describing: name)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentBlueprintInput(blueprintCategory: \(Swift.String(describing: blueprintCategory)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), name: \(Swift.String(describing: name)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentBlueprintOutput: Swift.Sendable {
+    /// The category of the Amazon DataZone blueprint. The only valid value is TOOLING, which indicates a blueprint that provisions the tooling resources of a project.
+    public var blueprintCategory: DataZoneClientTypes.BlueprintCategory?
     /// The timestamp at which the environment blueprint was created.
     public var createdAt: Foundation.Date?
     /// The deployment properties of this Amazon DataZone blueprint.
@@ -9273,6 +9309,7 @@ public struct CreateEnvironmentBlueprintOutput: Swift.Sendable {
     public var userParameters: [DataZoneClientTypes.CustomParameter]?
 
     public init(
+        blueprintCategory: DataZoneClientTypes.BlueprintCategory? = nil,
         createdAt: Foundation.Date? = nil,
         deploymentProperties: DataZoneClientTypes.DeploymentProperties? = nil,
         description: Swift.String? = nil,
@@ -9284,6 +9321,7 @@ public struct CreateEnvironmentBlueprintOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
     ) {
+        self.blueprintCategory = blueprintCategory
         self.createdAt = createdAt
         self.deploymentProperties = deploymentProperties
         self.description = description
@@ -9299,7 +9337,7 @@ public struct CreateEnvironmentBlueprintOutput: Swift.Sendable {
 
 extension CreateEnvironmentBlueprintOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentBlueprintOutput(createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentBlueprintOutput(blueprintCategory: \(Swift.String(describing: blueprintCategory)), createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentProfileInput: Swift.Sendable {
@@ -16103,6 +16141,8 @@ public struct GetEnvironmentBlueprintInput: Swift.Sendable {
 }
 
 public struct GetEnvironmentBlueprintOutput: Swift.Sendable {
+    /// The category of this Amazon DataZone blueprint. The only valid value is TOOLING, which indicates a blueprint that provisions the tooling resources of a project.
+    public var blueprintCategory: DataZoneClientTypes.BlueprintCategory?
     /// A timestamp of when this blueprint was created.
     public var createdAt: Foundation.Date?
     /// The deployment properties of this Amazon DataZone blueprint.
@@ -16129,6 +16169,7 @@ public struct GetEnvironmentBlueprintOutput: Swift.Sendable {
     public var userParameters: [DataZoneClientTypes.CustomParameter]?
 
     public init(
+        blueprintCategory: DataZoneClientTypes.BlueprintCategory? = nil,
         createdAt: Foundation.Date? = nil,
         deploymentProperties: DataZoneClientTypes.DeploymentProperties? = nil,
         description: Swift.String? = nil,
@@ -16140,6 +16181,7 @@ public struct GetEnvironmentBlueprintOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
     ) {
+        self.blueprintCategory = blueprintCategory
         self.createdAt = createdAt
         self.deploymentProperties = deploymentProperties
         self.description = description
@@ -16155,7 +16197,7 @@ public struct GetEnvironmentBlueprintOutput: Swift.Sendable {
 
 extension GetEnvironmentBlueprintOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEnvironmentBlueprintOutput(createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
+        "GetEnvironmentBlueprintOutput(blueprintCategory: \(Swift.String(describing: blueprintCategory)), createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentCredentialsInput: Swift.Sendable {
@@ -18469,6 +18511,8 @@ extension DataZoneClientTypes {
 
     /// The details of an environment blueprint summary.
     public struct EnvironmentBlueprintSummary: Swift.Sendable {
+        /// The category of the environment blueprint. The only valid value is TOOLING.
+        public var blueprintCategory: DataZoneClientTypes.BlueprintCategory?
         /// The timestamp of when an environment blueprint was created.
         public var createdAt: Foundation.Date?
         /// The description of a blueprint.
@@ -18489,6 +18533,7 @@ extension DataZoneClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            blueprintCategory: DataZoneClientTypes.BlueprintCategory? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -18497,6 +18542,7 @@ extension DataZoneClientTypes {
             provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.blueprintCategory = blueprintCategory
             self.createdAt = createdAt
             self.description = description
             self.id = id
@@ -18510,7 +18556,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.EnvironmentBlueprintSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentBlueprintSummary(createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "EnvironmentBlueprintSummary(blueprintCategory: \(Swift.String(describing: blueprintCategory)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEnvironmentBlueprintsOutput: Swift.Sendable {
@@ -25230,6 +25276,8 @@ public struct UpdateEnvironmentActionOutput: Swift.Sendable {
 }
 
 public struct UpdateEnvironmentBlueprintInput: Swift.Sendable {
+    /// The category to update. The only valid value is TOOLING.
+    public var blueprintCategory: DataZoneClientTypes.BlueprintCategory?
     /// The description to be updated as part of the UpdateEnvironmentBlueprint action.
     public var description: Swift.String?
     /// The identifier of the Amazon DataZone domain in which an environment blueprint is to be updated.
@@ -25244,12 +25292,14 @@ public struct UpdateEnvironmentBlueprintInput: Swift.Sendable {
     public var userParameters: [DataZoneClientTypes.CustomParameter]?
 
     public init(
+        blueprintCategory: DataZoneClientTypes.BlueprintCategory? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         identifier: Swift.String? = nil,
         provisioningProperties: DataZoneClientTypes.ProvisioningProperties? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
     ) {
+        self.blueprintCategory = blueprintCategory
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
@@ -25259,6 +25309,8 @@ public struct UpdateEnvironmentBlueprintInput: Swift.Sendable {
 }
 
 public struct UpdateEnvironmentBlueprintOutput: Swift.Sendable {
+    /// The category of the environment blueprint. The only valid value is TOOLING.
+    public var blueprintCategory: DataZoneClientTypes.BlueprintCategory?
     /// The timestamp of when the environment blueprint was created.
     public var createdAt: Foundation.Date?
     /// The deployment properties to be updated as part of the UpdateEnvironmentBlueprint action.
@@ -25285,6 +25337,7 @@ public struct UpdateEnvironmentBlueprintOutput: Swift.Sendable {
     public var userParameters: [DataZoneClientTypes.CustomParameter]?
 
     public init(
+        blueprintCategory: DataZoneClientTypes.BlueprintCategory? = nil,
         createdAt: Foundation.Date? = nil,
         deploymentProperties: DataZoneClientTypes.DeploymentProperties? = nil,
         description: Swift.String? = nil,
@@ -25296,6 +25349,7 @@ public struct UpdateEnvironmentBlueprintOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         userParameters: [DataZoneClientTypes.CustomParameter]? = nil
     ) {
+        self.blueprintCategory = blueprintCategory
         self.createdAt = createdAt
         self.deploymentProperties = deploymentProperties
         self.description = description
@@ -25311,7 +25365,7 @@ public struct UpdateEnvironmentBlueprintOutput: Swift.Sendable {
 
 extension UpdateEnvironmentBlueprintOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentBlueprintOutput(createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentBlueprintOutput(blueprintCategory: \(Swift.String(describing: blueprintCategory)), createdAt: \(Swift.String(describing: createdAt)), deploymentProperties: \(Swift.String(describing: deploymentProperties)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), provider: \(Swift.String(describing: provider)), provisioningProperties: \(Swift.String(describing: provisioningProperties)), updatedAt: \(Swift.String(describing: updatedAt)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentProfileInput: Swift.Sendable {
@@ -30618,6 +30672,7 @@ extension CreateEnvironmentBlueprintInput {
 
     static func write(value: CreateEnvironmentBlueprintInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["blueprintCategory"].write(value.blueprintCategory)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["provisioningProperties"].write(value.provisioningProperties, with: DataZoneClientTypes.ProvisioningProperties.write(value:to:))
@@ -31190,6 +31245,7 @@ extension UpdateEnvironmentBlueprintInput {
 
     static func write(value: UpdateEnvironmentBlueprintInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["blueprintCategory"].write(value.blueprintCategory)
         try writer["description"].write(value.description)
         try writer["provisioningProperties"].write(value.provisioningProperties, with: DataZoneClientTypes.ProvisioningProperties.write(value:to:))
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.CustomParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -31813,6 +31869,7 @@ extension CreateEnvironmentBlueprintOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateEnvironmentBlueprintOutput()
+        value.blueprintCategory = try reader["blueprintCategory"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
@@ -32746,6 +32803,7 @@ extension GetEnvironmentBlueprintOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEnvironmentBlueprintOutput()
+        value.blueprintCategory = try reader["blueprintCategory"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
@@ -34371,6 +34429,7 @@ extension UpdateEnvironmentBlueprintOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateEnvironmentBlueprintOutput()
+        value.blueprintCategory = try reader["blueprintCategory"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.deploymentProperties = try reader["deploymentProperties"].readIfPresent(with: DataZoneClientTypes.DeploymentProperties.read(from:))
         value.description = try reader["description"].readIfPresent()
@@ -40106,6 +40165,7 @@ extension DataZoneClientTypes.EnvironmentBlueprintSummary {
         value.provisioningProperties = try reader["provisioningProperties"].readIfPresent(with: DataZoneClientTypes.ProvisioningProperties.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.blueprintCategory = try reader["blueprintCategory"].readIfPresent()
         return value
     }
 }
@@ -40916,6 +40976,7 @@ extension DataZoneClientTypes.IamPropertiesInput {
     static func write(value: DataZoneClientTypes.IamPropertiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+        try writer["roleArn"].write(value.roleArn)
     }
 }
 

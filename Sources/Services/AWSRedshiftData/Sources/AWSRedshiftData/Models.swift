@@ -1159,7 +1159,6 @@ public struct ListDatabasesInput: Swift.Sendable {
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
     public var clusterIdentifier: Swift.String?
     /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
-    /// This member is required.
     public var database: Swift.String?
     /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?

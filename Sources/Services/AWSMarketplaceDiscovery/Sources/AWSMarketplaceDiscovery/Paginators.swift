@@ -27,6 +27,7 @@ extension MarketplaceDiscoveryClient {
 extension GetOfferTermsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetOfferTermsInput {
         return GetOfferTermsInput(
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
             offerId: self.offerId
@@ -58,6 +59,7 @@ extension MarketplaceDiscoveryClient {
 extension ListFulfillmentOptionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFulfillmentOptionsInput {
         return ListFulfillmentOptionsInput(
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
             productId: self.productId
@@ -90,6 +92,7 @@ extension ListPurchaseOptionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListPurchaseOptionsInput {
         return ListPurchaseOptionsInput(
             filters: self.filters,
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -122,6 +125,7 @@ extension SearchFacetsInput: ClientRuntime.PaginateToken {
         return SearchFacetsInput(
             facetTypes: self.facetTypes,
             filters: self.filters,
+            locale: self.locale,
             nextToken: token,
             searchText: self.searchText
         )}
@@ -153,6 +157,7 @@ extension SearchListingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> SearchListingsInput {
         return SearchListingsInput(
             filters: self.filters,
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
             searchText: self.searchText,
