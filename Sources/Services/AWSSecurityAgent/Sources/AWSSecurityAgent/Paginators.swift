@@ -11,6 +11,39 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension SecurityAgentClient {
+    /// Paginate over `[ListActorMessagesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListActorMessagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListActorMessagesOutput`
+    public func listActorMessagesPaginated(input: ListActorMessagesInput) -> ClientRuntime.PaginatorSequence<ListActorMessagesInput, ListActorMessagesOutput> {
+        return ClientRuntime.PaginatorSequence<ListActorMessagesInput, ListActorMessagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActorMessages(input:))
+    }
+}
+
+extension ListActorMessagesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListActorMessagesInput {
+        return ListActorMessagesInput(
+            actorIdentifier: self.actorIdentifier,
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pentestId: self.pentestId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListActorMessagesInput, OperationStackOutput == ListActorMessagesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listActorMessagesPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.ActorMessage]`
+    /// - Returns: `[SecurityAgentClientTypes.ActorMessage]`
+    public func messages() async throws -> [SecurityAgentClientTypes.ActorMessage] {
+        return try await self.asyncCompactMap { item in item.messages }
+    }
+}
+extension SecurityAgentClient {
     /// Paginate over `[ListArtifactsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -1696,6 +1696,84 @@ extension ARCRegionswitchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListServiceQuotaWarnings` operation on the `ARCRegionswitch` service.
+    ///
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListServiceQuotaWarningsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListServiceQuotaWarningsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. HTTP Status Code: 500
+    public func listServiceQuotaWarnings(input: ListServiceQuotaWarningsInput) async throws -> ListServiceQuotaWarningsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ARCRegionswitchClient.listServiceQuotaWarningsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listServiceQuotaWarnings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "arc-region-switch")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceQuotaWarningsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Region switch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceQuotaWarningsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceQuotaWarningsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ARC Region switch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(serviceID: serviceName, version: ARCRegionswitchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCRegionswitch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServiceQuotaWarnings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `ARCRegionswitch` service.
     ///
     /// Lists the tags attached to a Region switch resource.

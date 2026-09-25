@@ -1732,11 +1732,15 @@ extension QConnectClientTypes {
         /// The ID of the AI Agent to be configured.
         /// This member is required.
         public var aiAgentId: Swift.String?
+        /// Indicates whether the AI Agent configured for this AI Agent type is enabled. When this value is omitted or set to true, the configured AI Agent runs; when set to false, the AI Agent ID is retained but no AI Agent runs for the AI Agent type. Setting this value to false is currently supported only for the ANSWER_RECOMMENDATION AI Agent type; other requests to set it to false are rejected with a validation error.
+        public var enabled: Swift.Bool?
 
         public init(
-            aiAgentId: Swift.String? = nil
+            aiAgentId: Swift.String? = nil,
+            enabled: Swift.Bool? = nil
         ) {
             self.aiAgentId = aiAgentId
+            self.enabled = enabled
         }
     }
 }
@@ -4412,6 +4416,7 @@ extension QConnectClientTypes {
         case intentAnswerChunk
         case knowledgeContent
         case notesChunk
+        case proactiveRecommendation
         case suggestedMessage
         case sdkUnknown(Swift.String)
 
@@ -4432,6 +4437,7 @@ extension QConnectClientTypes {
                 .intentAnswerChunk,
                 .knowledgeContent,
                 .notesChunk,
+                .proactiveRecommendation,
                 .suggestedMessage
             ]
         }
@@ -4458,6 +4464,7 @@ extension QConnectClientTypes {
             case .intentAnswerChunk: return "INTENT_ANSWER_CHUNK"
             case .knowledgeContent: return "KNOWLEDGE_CONTENT"
             case .notesChunk: return "NOTES_CHUNK"
+            case .proactiveRecommendation: return "PROACTIVE_RECOMMENDATION"
             case .suggestedMessage: return "SUGGESTED_MESSAGE"
             case let .sdkUnknown(s): return s
             }
@@ -4776,6 +4783,22 @@ extension QConnectClientTypes {
 extension QConnectClientTypes.NotesDataDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "NotesDataDetails(completion: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// Details about a proactive recommendation, including the token used to retrieve its chunked response with GetNextMessage.
+    public struct ProactiveRecommendationDataDetails: Swift.Sendable {
+        /// The token used to retrieve the next message in the proactive recommendation. Pass this token in a GetNextMessage request to continue receiving the chunked proactive response. Each response returns the next token to use until the chunked response is complete.
+        /// This member is required.
+        public var nextMessageToken: Swift.String?
+
+        public init(
+            nextMessageToken: Swift.String? = nil
+        ) {
+            self.nextMessageToken = nextMessageToken
+        }
+    }
 }
 
 extension QConnectClientTypes {
@@ -6001,6 +6024,86 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// The error code that categorizes a per-association retrieval failure.
+    ///
+    /// * ACCESS_DENIED – you do not have permission to retrieve from the knowledge base for the assistant association.
+    ///
+    /// * RESOURCE_NOT_FOUND – the assistant association or its knowledge base could not be found.
+    ///
+    /// * VALIDATION_ERROR – the retrieval request or the knowledge base configuration for the assistant association was not valid.
+    ///
+    /// * THROTTLED – the retrieval request for the assistant association was throttled.
+    ///
+    /// * DEPENDENCY_FAILED – a dependency required to query the assistant association failed.
+    ///
+    /// * INTERNAL_SERVER_ERROR – an internal error occurred while querying the assistant association.
+    public enum RetrieveErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case dependencyFailed
+        case internalServerError
+        case resourceNotFound
+        case throttled
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrieveErrorCode] {
+            return [
+                .accessDenied,
+                .dependencyFailed,
+                .internalServerError,
+                .resourceNotFound,
+                .throttled,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .dependencyFailed: return "DEPENDENCY_FAILED"
+            case .internalServerError: return "INTERNAL_SERVER_ERROR"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
+            case .throttled: return "THROTTLED"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// An error returned for a single assistant association whose knowledge base retrieval failed during a Retrieve operation. The overall operation still succeeds and returns the results from the associations that were queried successfully.
+    public struct RetrieveError: Swift.Sendable {
+        /// The identifier of the assistant association whose knowledge base retrieval failed.
+        /// This member is required.
+        public var associationId: Swift.String?
+        /// The error code that categorizes the retrieval failure for the assistant association.
+        /// This member is required.
+        public var code: QConnectClientTypes.RetrieveErrorCode?
+        /// A human-readable description of the retrieval failure for the assistant association.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            associationId: Swift.String? = nil,
+            code: QConnectClientTypes.RetrieveErrorCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.associationId = associationId
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// A single result from a content retrieval operation.
     public struct RetrieveResult: Swift.Sendable {
         /// The identifier of the assistant association for the retrieved result.
@@ -6036,13 +6139,17 @@ extension QConnectClientTypes.RetrieveResult: Swift.CustomDebugStringConvertible
 }
 
 public struct RetrieveOutput: Swift.Sendable {
+    /// The per-association errors returned when one or more knowledge base associations fail during a Retrieve operation that spans multiple assistant associations. The overall operation still succeeds and returns the results from the associations that were queried successfully. This list contains one entry for each association that failed, up to a maximum of five.
+    public var errors: [QConnectClientTypes.RetrieveError]?
     /// The results of the content retrieval operation.
     /// This member is required.
     public var results: [QConnectClientTypes.RetrieveResult]?
 
     public init(
+        errors: [QConnectClientTypes.RetrieveError]? = nil,
         results: [QConnectClientTypes.RetrieveResult]? = nil
     ) {
+        self.errors = errors
         self.results = results
     }
 }
@@ -13161,6 +13268,8 @@ extension QConnectClientTypes {
         case notesdata(QConnectClientTypes.NotesDataDetails)
         /// Details about notes chunk data.
         case noteschunkdata(QConnectClientTypes.NotesChunkDataDetails)
+        /// Details about a proactive recommendation, including the token used to retrieve its chunked response with GetNextMessage.
+        case proactiverecommendationdata(QConnectClientTypes.ProactiveRecommendationDataDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -16517,6 +16626,7 @@ extension RetrieveOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = RetrieveOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: QConnectClientTypes.RetrieveError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.results = try reader["results"].readListIfPresent(memberReadingClosure: QConnectClientTypes.RetrieveResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -18691,12 +18801,14 @@ extension QConnectClientTypes.AIAgentConfigurationData {
     static func write(value: QConnectClientTypes.AIAgentConfigurationData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["aiAgentId"].write(value.aiAgentId)
+        try writer["enabled"].write(value.enabled)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentConfigurationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.AIAgentConfigurationData()
         value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -19744,6 +19856,8 @@ extension QConnectClientTypes.DataDetails {
                 return .notesdata(try reader["notesData"].read(with: QConnectClientTypes.NotesDataDetails.read(from:)))
             case "notesChunkData":
                 return .noteschunkdata(try reader["notesChunkData"].read(with: QConnectClientTypes.NotesChunkDataDetails.read(from:)))
+            case "proactiveRecommendationData":
+                return .proactiverecommendationdata(try reader["proactiveRecommendationData"].read(with: QConnectClientTypes.ProactiveRecommendationDataDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -21086,6 +21200,16 @@ extension QConnectClientTypes.ParsingPrompt {
     }
 }
 
+extension QConnectClientTypes.ProactiveRecommendationDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ProactiveRecommendationDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ProactiveRecommendationDataDetails()
+        value.nextMessageToken = try reader["nextMessageToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension QConnectClientTypes.PushADMMessageTemplateContent {
 
     static func write(value: QConnectClientTypes.PushADMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
@@ -21572,6 +21696,18 @@ extension QConnectClientTypes.RetrievalFilterConfiguration {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension QConnectClientTypes.RetrieveError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RetrieveError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.RetrieveError()
+        value.associationId = try reader["associationId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 
