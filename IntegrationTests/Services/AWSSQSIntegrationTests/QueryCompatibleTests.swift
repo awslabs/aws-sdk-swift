@@ -10,6 +10,7 @@ import AWSSQS
 import ClientRuntime
 import AWSClientRuntime
 import SmithyHTTPAPI
+import AWSIntegrationTestUtils
 
 final class QueryCompatibleTests: XCTestCase {
 
@@ -129,10 +130,10 @@ final class QueryCompatibleTests: XCTestCase {
     // Test Case 4: Verify x-amzn-query-mode header is sent
 
     func test_QueryCompatible_TC4_SendsQueryModeHeader() async throws {
-        var capturedHeaders: Headers?
+        let headersRecorder = HeadersRecorder()
 
         let mockHTTPClient = MockHTTPClient { request in
-            capturedHeaders = request.headers
+            await headersRecorder.record(request.headers)
 
             // Return successful response
             let response = HTTPResponse(
@@ -155,28 +156,9 @@ final class QueryCompatibleTests: XCTestCase {
         _ = try await mockClient.getQueueUrl(input: .init(queueName: "test-queue"))
 
         // TC4: Verify x-amzn-query-mode header is present and set to "true"
+        let capturedHeaders = await headersRecorder.headers
         XCTAssertNotNil(capturedHeaders)
         XCTAssertEqual(capturedHeaders?.value(for: "x-amzn-query-mode"), "true",
                       "x-amzn-query-mode header should be present and set to 'true'")
-    }
-}
-
-// Mock HTTP Client Implementation
-
-private final class MockHTTPClient: HTTPClient {
-    private let handler: @Sendable (HTTPRequest) async throws -> HTTPResponse
-
-    init(handler: @escaping (HTTPRequest) -> HTTPResponse) {
-        self.handler = { request in
-            return handler(request)
-        }
-    }
-
-    func send(request: HTTPRequest) async throws -> HTTPResponse {
-        return try await handler(request)
-    }
-
-    func close() async throws {
-        // No-op for mock
     }
 }

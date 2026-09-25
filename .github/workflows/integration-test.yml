@@ -138,8 +138,8 @@ jobs:
         swift:
           - 6.0-jammy
           - 6.0-rhel-ubi9
-          - 6.3-noble
-          - 6.3-amazonlinux2023
+          - 6.4-noble
+          - 6.4-amazonlinux2023
     steps:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v6

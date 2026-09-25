@@ -33,16 +33,14 @@ rm -rf Sources/Core/AWSSDKIdentity/InternalClients/*
 ./gradlew -p codegen/sdk-codegen stageSdks
 
 # Regenerate the package manifest and doc index, with args passed into this script
-cd AWSSDKSwiftCLI
 unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
-swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..
-swift run AWSSDKSwiftCLI generate-smoke-tests-package-manifest ..
-swift run AWSSDKSwiftCLI generate-doc-index ..
-swift run AWSSDKSwiftCLI generate-partitions ..
+./scripts/ci_steps/run_cli.sh generate-package-manifest "$@" .
+./scripts/ci_steps/run_cli.sh generate-smoke-tests-package-manifest .
+./scripts/ci_steps/run_cli.sh generate-doc-index .
+./scripts/ci_steps/run_cli.sh generate-partitions .
 # Updating package version not needed for development, and clutters PR diffs
 # Uncomment for development if testing versioning
-# swift run AWSSDKSwiftCLI generate-package-version ..
-cd ..
+# ./scripts/ci_steps/run_cli.sh generate-package-version .
 
 # If on Mac, open Xcode to the newly refreshed SDK
 if [ -x "$(command -v osascript)" ]; then
