@@ -5491,6 +5491,7 @@ extension MediaConnectClientTypes {
 
     public enum RouterOutputProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rist
+        case rtmpPush
         case rtp
         case srtCaller
         case srtListener
@@ -5499,6 +5500,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [RouterOutputProtocol] {
             return [
                 .rist,
+                .rtmpPush,
                 .rtp,
                 .srtCaller,
                 .srtListener
@@ -5513,6 +5515,7 @@ extension MediaConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .rist: return "RIST"
+            case .rtmpPush: return "RTMP_PUSH"
             case .rtp: return "RTP"
             case .srtCaller: return "SRT_CALLER"
             case .srtListener: return "SRT_LISTENER"
@@ -5539,6 +5542,106 @@ extension MediaConnectClientTypes {
         ) {
             self.destinationAddress = destinationAddress
             self.destinationPort = destinationPort
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The TLS encryption configuration for destinations that present a certificate from a publicly trusted certificate authority. This type does not require any additional settings.
+    public struct PublicTlsEncryptionConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for TLS encryption.
+    public enum TlsEncryptionConfiguration: Swift.Sendable {
+        /// The TLS encryption configuration that validates the destination by using a publicly trusted certificate authority.
+        case `public`(MediaConnectClientTypes.PublicTlsEncryptionConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum TlsEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlsEncryptionType] {
+            return [
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The Transport Layer Security (TLS) encryption settings used to establish a secure connection to a destination.
+    public struct TlsEncryption: Swift.Sendable {
+        /// The configuration settings for the specified TLS encryption type.
+        /// This member is required.
+        public var encryptionConfiguration: MediaConnectClientTypes.TlsEncryptionConfiguration?
+        /// The type of TLS encryption to use for the connection.
+        public var encryptionType: MediaConnectClientTypes.TlsEncryptionType?
+
+        public init(
+            encryptionConfiguration: MediaConnectClientTypes.TlsEncryptionConfiguration? = nil,
+            encryptionType: MediaConnectClientTypes.TlsEncryptionType? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.encryptionType = encryptionType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified. These settings include the destination address and port, the application and stream names, and optional TLS encryption configuration.
+    public struct RtmpPushRouterOutputConfiguration: Swift.Sendable {
+        /// The name of the RTMP application on the destination server. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://destinationAddress/applicationName/streamName.
+        /// This member is required.
+        public var applicationName: Swift.String?
+        /// The IP address or hostname of the destination RTMP server that the router output pushes the stream to. Provide only the server address; specify the application and stream names separately.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The TCP port on the destination RTMP server. For RTMP, valid values range from 1024 to 65535. For RTMPS (RTMP over TLS), valid values are 443 or 1024 to 65535. RTMP typically uses port 1935, and RTMPS typically uses port 443.
+        /// This member is required.
+        public var destinationPort: Swift.Int?
+        /// The name of the RTMP stream that the output publishes to the destination application. The stream name forms the final segment of the RTMP URL path.
+        /// This member is required.
+        public var streamName: Swift.String?
+        /// The TLS encryption settings for the output. When you specify these settings, the output uses RTMPS (RTMP over TLS) to establish a secure, encrypted connection to the destination server.
+        public var tlsEncryption: MediaConnectClientTypes.TlsEncryption?
+
+        public init(
+            applicationName: Swift.String? = nil,
+            destinationAddress: Swift.String? = nil,
+            destinationPort: Swift.Int? = nil,
+            streamName: Swift.String? = nil,
+            tlsEncryption: MediaConnectClientTypes.TlsEncryption? = nil
+        ) {
+            self.applicationName = applicationName
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.streamName = streamName
+            self.tlsEncryption = tlsEncryption
         }
     }
 }
@@ -5651,6 +5754,8 @@ extension MediaConnectClientTypes {
         case rist(MediaConnectClientTypes.RistRouterOutputConfiguration)
         /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and encryption key configuration.
         case srtlistener(MediaConnectClientTypes.SrtListenerRouterOutputConfiguration)
+        /// The configuration settings for a router output that pushes a stream to a destination using the RTMP (Real-Time Messaging Protocol) protocol, or RTMPS (RTMP over TLS) when TLS encryption is specified. These settings include the destination address and port, the application and stream names, and optional TLS encryption configuration.
+        case rtmppush(MediaConnectClientTypes.RtmpPushRouterOutputConfiguration)
         /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in caller mode, including the destination address and port, minimum latency, stream ID, and encryption key configuration.
         case srtcaller(MediaConnectClientTypes.SrtCallerRouterOutputConfiguration)
         /// The configuration settings for a router output using the RTP (Real-Time Transport Protocol) protocol, including the destination address and port, and forward error correction state.
@@ -16087,6 +16192,19 @@ extension MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
     }
 }
 
+extension MediaConnectClientTypes.PublicTlsEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PublicTlsEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicTlsEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.PublicTlsEncryptionConfiguration()
+    }
+}
+
 extension MediaConnectClientTypes.Reservation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Reservation {
@@ -16599,6 +16717,8 @@ extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
         switch value {
             case let .rist(rist):
                 try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterOutputConfiguration.write(value:to:))
+            case let .rtmppush(rtmppush):
+                try writer["rtmpPush"].write(rtmppush, with: MediaConnectClientTypes.RtmpPushRouterOutputConfiguration.write(value:to:))
             case let .rtp(rtp):
                 try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterOutputConfiguration.write(value:to:))
             case let .srtcaller(srtcaller):
@@ -16618,6 +16738,8 @@ extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
                 return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterOutputConfiguration.read(from:)))
             case "srtListener":
                 return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.read(from:)))
+            case "rtmpPush":
+                return .rtmppush(try reader["rtmpPush"].read(with: MediaConnectClientTypes.RtmpPushRouterOutputConfiguration.read(from:)))
             case "srtCaller":
                 return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.read(from:)))
             case "rtp":
@@ -16643,6 +16765,29 @@ extension MediaConnectClientTypes.RouterOutputStreamDetails {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MediaConnectClientTypes.RtmpPushRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtmpPushRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationName"].write(value.applicationName)
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["streamName"].write(value.streamName)
+        try writer["tlsEncryption"].write(value.tlsEncryption, with: MediaConnectClientTypes.TlsEncryption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtmpPushRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtmpPushRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        value.applicationName = try reader["applicationName"].readIfPresent() ?? ""
+        value.streamName = try reader["streamName"].readIfPresent() ?? ""
+        value.tlsEncryption = try reader["tlsEncryption"].readIfPresent(with: MediaConnectClientTypes.TlsEncryption.read(from:))
+        return value
     }
 }
 
@@ -16998,6 +17143,47 @@ extension MediaConnectClientTypes.ThumbnailDetails {
         value.timecode = try reader["timecode"].readIfPresent()
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
+    }
+}
+
+extension MediaConnectClientTypes.TlsEncryption {
+
+    static func write(value: MediaConnectClientTypes.TlsEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.TlsEncryptionConfiguration.write(value:to:))
+        try writer["encryptionType"].write(value.encryptionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TlsEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.TlsEncryption()
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.TlsEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.TlsEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.TlsEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`public`(`public`):
+                try writer["public"].write(`public`, with: MediaConnectClientTypes.PublicTlsEncryptionConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TlsEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "public":
+                return .`public`(try reader["public"].read(with: MediaConnectClientTypes.PublicTlsEncryptionConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

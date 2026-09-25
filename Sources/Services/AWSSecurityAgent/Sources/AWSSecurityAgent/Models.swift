@@ -192,6 +192,38 @@ extension SecurityAgentClientTypes.Actor: Swift.CustomDebugStringConvertible {
         "Actor(authentication: \(Swift.String(describing: authentication)), description: \(Swift.String(describing: description)), enableEmailMfa: \(Swift.String(describing: enableEmailMfa)), identifier: \(Swift.String(describing: identifier)), uris: \(Swift.String(describing: uris)), mfaForwardingAddress: \"CONTENT_REDACTED\")"}
 }
 
+extension SecurityAgentClientTypes {
+
+    /// A message received at an actor's server-generated email MFA address.
+    public struct ActorMessage: Swift.Sendable {
+        /// The plain-text body of the message, containing the MFA code or verification link.
+        public var body: Swift.String?
+        /// The time the message was received.
+        public var receivedAt: Foundation.Date?
+        /// The address the message was sent from.
+        public var sender: Swift.String?
+        /// The subject line of the message.
+        public var subject: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            receivedAt: Foundation.Date? = nil,
+            sender: Swift.String? = nil,
+            subject: Swift.String? = nil
+        ) {
+            self.body = body
+            self.receivedAt = receivedAt
+            self.sender = sender
+            self.subject = subject
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.ActorMessage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ActorMessage(receivedAt: \(Swift.String(describing: receivedAt)), body: \"CONTENT_REDACTED\", sender: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
+}
+
 /// An unexpected error occurred during the processing of your request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7428,6 +7460,51 @@ public struct ListIntegrationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListActorMessagesInput: Swift.Sendable {
+    /// The identifier of the actor whose messages to list. The identifier is case-insensitive.
+    /// This member is required.
+    public var actorIdentifier: Swift.String?
+    /// The unique identifier of the agent space that owns the pentest.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the pentest that the actor belongs to.
+    /// This member is required.
+    public var pentestId: Swift.String?
+
+    public init(
+        actorIdentifier: Swift.String? = nil,
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pentestId: Swift.String? = nil
+    ) {
+        self.actorIdentifier = actorIdentifier
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pentestId = pentestId
+    }
+}
+
+public struct ListActorMessagesOutput: Swift.Sendable {
+    /// The list of messages received for the actor, most recent first.
+    public var messages: [SecurityAgentClientTypes.ActorMessage]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        messages: [SecurityAgentClientTypes.ActorMessage]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.messages = messages
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListArtifactsInput: Swift.Sendable {
     /// The unique identifier of the agent space to list artifacts for.
     /// This member is required.
@@ -10362,6 +10439,13 @@ extension InitiateProviderRegistrationInput {
     }
 }
 
+extension ListActorMessagesInput {
+
+    static func urlPathProvider(_ value: ListActorMessagesInput) -> Swift.String? {
+        return "/ListActorMessages"
+    }
+}
+
 extension ListAgentSpacesInput {
 
     static func urlPathProvider(_ value: ListAgentSpacesInput) -> Swift.String? {
@@ -11173,6 +11257,18 @@ extension InitiateProviderRegistrationInput {
     static func write(value: InitiateProviderRegistrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["provider"].write(value.provider)
+    }
+}
+
+extension ListActorMessagesInput {
+
+    static func write(value: ListActorMessagesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actorIdentifier"].write(value.actorIdentifier)
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["pentestId"].write(value.pentestId)
     }
 }
 
@@ -12345,6 +12441,19 @@ extension InitiateProviderRegistrationOutput {
         var value = InitiateProviderRegistrationOutput()
         value.csrfState = try reader["csrfState"].readIfPresent() ?? ""
         value.redirectTo = try reader["redirectTo"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListActorMessagesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListActorMessagesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListActorMessagesOutput()
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ActorMessage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -13693,6 +13802,19 @@ enum InitiateProviderRegistrationOutputError {
     }
 }
 
+enum ListActorMessagesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAgentSpacesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14426,6 +14548,19 @@ extension SecurityAgentClientTypes.Actor {
         value.description = try reader["description"].readIfPresent()
         value.enableEmailMfa = try reader["enableEmailMfa"].readIfPresent()
         value.mfaForwardingAddress = try reader["mfaForwardingAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ActorMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ActorMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ActorMessage()
+        value.sender = try reader["sender"].readIfPresent()
+        value.subject = try reader["subject"].readIfPresent()
+        value.body = try reader["body"].readIfPresent()
+        value.receivedAt = try reader["receivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

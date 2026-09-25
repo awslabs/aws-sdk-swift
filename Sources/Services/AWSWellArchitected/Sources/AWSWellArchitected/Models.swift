@@ -1134,6 +1134,8 @@ extension WellArchitectedClientTypes {
         /// The effort required to implement the recommendation.
         /// This member is required.
         public var effort: WellArchitectedClientTypes.Effort?
+        /// The identifier of the generation process that produced this recommendation.
+        public var generationId: Swift.String?
         /// The severity of the recommendation's impact.
         /// This member is required.
         public var impact: WellArchitectedClientTypes.ImpactCategory?
@@ -1181,6 +1183,7 @@ extension WellArchitectedClientTypes {
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
             effort: WellArchitectedClientTypes.Effort? = nil,
+            generationId: Swift.String? = nil,
             impact: WellArchitectedClientTypes.ImpactCategory? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             lastModifiedBy: Swift.String? = nil,
@@ -1203,6 +1206,7 @@ extension WellArchitectedClientTypes {
             self.createdBy = createdBy
             self.description = description
             self.effort = effort
+            self.generationId = generationId
             self.impact = impact
             self.lastModifiedAt = lastModifiedAt
             self.lastModifiedBy = lastModifiedBy
@@ -1223,7 +1227,7 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.AgentRecommendationSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgentRecommendationSummary(applications: \(Swift.String(describing: applications)), awsServices: \(Swift.String(describing: awsServices)), businessUnits: \(Swift.String(describing: businessUnits)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), effort: \(Swift.String(describing: effort)), impact: \(Swift.String(describing: impact)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), numberOfResources: \(Swift.String(describing: numberOfResources)), pillar: \(Swift.String(describing: pillar)), priority: \(Swift.String(describing: priority)), profileArn: \(Swift.String(describing: profileArn)), recommendationArn: \(Swift.String(describing: recommendationArn)), roi: \(Swift.String(describing: roi)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", updateReason: \"CONTENT_REDACTED\")"}
+        "AgentRecommendationSummary(applications: \(Swift.String(describing: applications)), awsServices: \(Swift.String(describing: awsServices)), businessUnits: \(Swift.String(describing: businessUnits)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), effort: \(Swift.String(describing: effort)), generationId: \(Swift.String(describing: generationId)), impact: \(Swift.String(describing: impact)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), numberOfResources: \(Swift.String(describing: numberOfResources)), pillar: \(Swift.String(describing: pillar)), priority: \(Swift.String(describing: priority)), profileArn: \(Swift.String(describing: profileArn)), recommendationArn: \(Swift.String(describing: recommendationArn)), roi: \(Swift.String(describing: roi)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", updateReason: \"CONTENT_REDACTED\")"}
 }
 
 extension WellArchitectedClientTypes {
@@ -4378,6 +4382,8 @@ public struct GetAgentRecommendationOutput: Swift.Sendable {
     /// The effort required to implement the recommendation.
     /// This member is required.
     public var effort: WellArchitectedClientTypes.Effort?
+    /// The identifier of the generation process that produced this recommendation.
+    public var generationId: Swift.String?
     /// Goals that this recommendation targets.
     public var goals: [WellArchitectedClientTypes.RecommendationGoal]?
     /// Highlights describing what was detected.
@@ -4448,6 +4454,7 @@ public struct GetAgentRecommendationOutput: Swift.Sendable {
         crossPillarBenefits: [WellArchitectedClientTypes.CrossPillarBenefit]? = nil,
         description: Swift.String? = nil,
         effort: WellArchitectedClientTypes.Effort? = nil,
+        generationId: Swift.String? = nil,
         goals: [WellArchitectedClientTypes.RecommendationGoal]? = nil,
         highlights: [Swift.String]? = nil,
         impact: WellArchitectedClientTypes.ImpactCategory? = nil,
@@ -4480,6 +4487,7 @@ public struct GetAgentRecommendationOutput: Swift.Sendable {
         self.crossPillarBenefits = crossPillarBenefits
         self.description = description
         self.effort = effort
+        self.generationId = generationId
         self.goals = goals
         self.highlights = highlights
         self.impact = impact
@@ -4508,7 +4516,7 @@ public struct GetAgentRecommendationOutput: Swift.Sendable {
 
 extension GetAgentRecommendationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAgentRecommendationOutput(applications: \(Swift.String(describing: applications)), awsServices: \(Swift.String(describing: awsServices)), businessUnits: \(Swift.String(describing: businessUnits)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), crossPillarBenefits: \(Swift.String(describing: crossPillarBenefits)), effort: \(Swift.String(describing: effort)), goals: \(Swift.String(describing: goals)), highlights: \(Swift.String(describing: highlights)), impact: \(Swift.String(describing: impact)), impactDetails: \(Swift.String(describing: impactDetails)), insights: \(Swift.String(describing: insights)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), numberOfResources: \(Swift.String(describing: numberOfResources)), pillar: \(Swift.String(describing: pillar)), priority: \(Swift.String(describing: priority)), profileArn: \(Swift.String(describing: profileArn)), recommendationArn: \(Swift.String(describing: recommendationArn)), remediationSummary: \(Swift.String(describing: remediationSummary)), remediations: \(Swift.String(describing: remediations)), roi: \(Swift.String(describing: roi)), sources: \(Swift.String(describing: sources)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), tradeOffs: \(Swift.String(describing: tradeOffs)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", updateReason: \"CONTENT_REDACTED\")"}
+        "GetAgentRecommendationOutput(applications: \(Swift.String(describing: applications)), awsServices: \(Swift.String(describing: awsServices)), businessUnits: \(Swift.String(describing: businessUnits)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), crossPillarBenefits: \(Swift.String(describing: crossPillarBenefits)), effort: \(Swift.String(describing: effort)), generationId: \(Swift.String(describing: generationId)), goals: \(Swift.String(describing: goals)), highlights: \(Swift.String(describing: highlights)), impact: \(Swift.String(describing: impact)), impactDetails: \(Swift.String(describing: impactDetails)), insights: \(Swift.String(describing: insights)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), numberOfResources: \(Swift.String(describing: numberOfResources)), pillar: \(Swift.String(describing: pillar)), priority: \(Swift.String(describing: priority)), profileArn: \(Swift.String(describing: profileArn)), recommendationArn: \(Swift.String(describing: recommendationArn)), remediationSummary: \(Swift.String(describing: remediationSummary)), remediations: \(Swift.String(describing: remediations)), roi: \(Swift.String(describing: roi)), sources: \(Swift.String(describing: sources)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), tradeOffs: \(Swift.String(describing: tradeOffs)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\", updateReason: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetAgentRecommendationGenerationInput: Swift.Sendable {
@@ -11989,6 +11997,7 @@ extension GetAgentRecommendationOutput {
         value.crossPillarBenefits = try reader["crossPillarBenefits"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.CrossPillarBenefit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent() ?? ""
         value.effort = try reader["effort"].readIfPresent() ?? .sdkUnknown("")
+        value.generationId = try reader["generationId"].readIfPresent()
         value.goals = try reader["goals"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.RecommendationGoal.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.highlights = try reader["highlights"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.impact = try reader["impact"].readIfPresent() ?? .sdkUnknown("")
@@ -14802,6 +14811,7 @@ extension WellArchitectedClientTypes.AgentRecommendationSummary {
         var value = WellArchitectedClientTypes.AgentRecommendationSummary()
         value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
         value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.generationId = try reader["generationId"].readIfPresent()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")

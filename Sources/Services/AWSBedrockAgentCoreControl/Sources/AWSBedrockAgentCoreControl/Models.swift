@@ -11034,7 +11034,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var endpoint: Swift.String?
         /// The listing mode for the MCP server target configuration. MCP resources for default targets are cached at the control plane for faster access. MCP resources for dynamic targets will be dynamically retrieved when listing tools.
         public var listingMode: BedrockAgentCoreControlClientTypes.ListingMode?
-        /// The tool schema configuration for the MCP server target. Supported only when the credential provider is configured with an authorization code grant type. Dynamic tool discovery/synchronization will be disabled when target is configured with mcpToolSchema.
+        /// A static tool list for the MCP server target. It is supported for all credential providers. Dynamic tool discovery/synchronization will be disabled when a target is configured with mcpToolSchema.
         public var mcpToolSchema: BedrockAgentCoreControlClientTypes.McpToolSchemaConfiguration?
         /// Priority for resolving MCP server targets with shared resource URIs. Lower values take precedence. Defaults to 1000 when not set.
         public var resourcePriority: Swift.Int?
@@ -19235,6 +19235,8 @@ public struct GetPaymentConnectorOutput: Swift.Sendable {
     /// The credential provider configurations for the payment connector.
     /// This member is required.
     public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]?
+    /// The timestamp when the payment connector's current service-managed credentials took effect. It is first set when the credentials are provisioned and is updated by each rotation. This field is present only for payment connectors with a provisionMode of QUICK_CREATE.
+    public var credentialsUpdatedAt: Foundation.Date?
     /// The description of the payment connector.
     public var description: Swift.String?
     /// The timestamp when the payment connector was last updated.
@@ -19246,6 +19248,12 @@ public struct GetPaymentConnectorOutput: Swift.Sendable {
     /// The unique identifier of the payment connector.
     /// This member is required.
     public var paymentConnectorId: Swift.String?
+    /// Specifies how the payment connector was provisioned. Payment connectors that were created before this field was available return MANUAL.
+    ///
+    /// * MANUAL - You provided the credential provider configurations, so you own the credentials. Rotate them with the payment provider, then call UpdatePaymentCredentialProvider.
+    ///
+    /// * QUICK_CREATE - AgentCore provisioned the credential provider for you, so the credentials are service-managed. You can rotate them with RotatePaymentConnectorCredentials.
+    public var provisionMode: BedrockAgentCoreControlClientTypes.PaymentConnectorProvisionMode?
     /// The current status of the payment connector. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
@@ -19257,20 +19265,24 @@ public struct GetPaymentConnectorOutput: Swift.Sendable {
         authorizationUrl: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration]? = nil,
+        credentialsUpdatedAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         paymentConnectorId: Swift.String? = nil,
+        provisionMode: BedrockAgentCoreControlClientTypes.PaymentConnectorProvisionMode? = nil,
         status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
         type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
     ) {
         self.authorizationUrl = authorizationUrl
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
+        self.credentialsUpdatedAt = credentialsUpdatedAt
         self.description = description
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.paymentConnectorId = paymentConnectorId
+        self.provisionMode = provisionMode
         self.status = status
         self.type = type
     }
@@ -19309,6 +19321,12 @@ extension BedrockAgentCoreControlClientTypes {
         /// The unique identifier of the payment connector.
         /// This member is required.
         public var paymentConnectorId: Swift.String?
+        /// Specifies how the payment connector was provisioned. Payment connectors that were created before this field was available return MANUAL.
+        ///
+        /// * MANUAL - You provided the credential provider configurations, so you own the credentials.
+        ///
+        /// * QUICK_CREATE - AgentCore provisioned the credential provider for you, so the credentials are service-managed and you can rotate them with RotatePaymentConnectorCredentials.
+        public var provisionMode: BedrockAgentCoreControlClientTypes.PaymentConnectorProvisionMode?
         /// The current status of the payment connector. Possible values include CREATING, READY, UPDATING, DELETING, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED.
         /// This member is required.
         public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
@@ -19320,12 +19338,14 @@ extension BedrockAgentCoreControlClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             paymentConnectorId: Swift.String? = nil,
+            provisionMode: BedrockAgentCoreControlClientTypes.PaymentConnectorProvisionMode? = nil,
             status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil,
             type: BedrockAgentCoreControlClientTypes.PaymentConnectorType? = nil
         ) {
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.paymentConnectorId = paymentConnectorId
+            self.provisionMode = provisionMode
             self.status = status
             self.type = type
         }
@@ -19345,6 +19365,118 @@ public struct ListPaymentConnectorsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.paymentConnectors = paymentConnectors
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum CoinbaseCdpSecret: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiKey
+        case walletSecret
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CoinbaseCdpSecret] {
+            return [
+                .apiKey,
+                .walletSecret
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiKey: return "API_KEY"
+            case .walletSecret: return "WALLET_SECRET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies the service-managed Coinbase CDP secrets to rotate.
+    public struct CoinbaseCdpRotationTargets: Swift.Sendable {
+        /// The secrets to rotate. Specify at least one value. Each secret that you specify is rotated independently.
+        ///
+        /// * API_KEY - The API key that the payment connector uses to call Coinbase CDP. Rotate it as routine maintenance, or if you suspect that it is compromised.
+        ///
+        /// * WALLET_SECRET - The wallet secret that signs transactions. Rotate it only if it is lost or compromised. Coinbase CDP allows one wallet secret per project, so it is replaced in place and signing can be briefly interrupted.
+        /// This member is required.
+        public var secrets: [BedrockAgentCoreControlClientTypes.CoinbaseCdpSecret]?
+
+        public init(
+            secrets: [BedrockAgentCoreControlClientTypes.CoinbaseCdpSecret]? = nil
+        ) {
+            self.secrets = secrets
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies the service-managed credentials to rotate. Provide the member that matches the payment connector's type.
+    public enum CredentialRotationConfig: Swift.Sendable {
+        /// The credentials to rotate for a Coinbase CDP payment connector.
+        case coinbasecdp(BedrockAgentCoreControlClientTypes.CoinbaseCdpRotationTargets)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct RotatePaymentConnectorCredentialsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The credentials to rotate. Specify the member that matches the payment connector's type. Each credential that you select is rotated independently.
+    /// This member is required.
+    public var credentialsToRotate: BedrockAgentCoreControlClientTypes.CredentialRotationConfig?
+    /// The unique identifier of the payment connector whose credentials you want to rotate.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        credentialsToRotate: BedrockAgentCoreControlClientTypes.CredentialRotationConfig? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.credentialsToRotate = credentialsToRotate
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+    }
+}
+
+public struct RotatePaymentConnectorCredentialsOutput: Swift.Sendable {
+    /// The timestamp when the payment connector was last updated, which is when the rotation completed.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique identifier of the payment connector.
+    /// This member is required.
+    public var paymentConnectorId: Swift.String?
+    /// The unique identifier of the parent payment manager.
+    /// This member is required.
+    public var paymentManagerId: Swift.String?
+    /// The current status of the payment connector, which is READY after a successful rotation.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus?
+
+    public init(
+        lastUpdatedAt: Foundation.Date? = nil,
+        paymentConnectorId: Swift.String? = nil,
+        paymentManagerId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.PaymentConnectorStatus? = nil
+    ) {
+        self.lastUpdatedAt = lastUpdatedAt
+        self.paymentConnectorId = paymentConnectorId
+        self.paymentManagerId = paymentManagerId
+        self.status = status
     }
 }
 
@@ -26072,6 +26204,19 @@ extension PutResourcePolicyInput {
     }
 }
 
+extension RotatePaymentConnectorCredentialsInput {
+
+    static func urlPathProvider(_ value: RotatePaymentConnectorCredentialsInput) -> Swift.String? {
+        guard let paymentManagerId = value.paymentManagerId else {
+            return nil
+        }
+        guard let paymentConnectorId = value.paymentConnectorId else {
+            return nil
+        }
+        return "/payments/managers/\(paymentManagerId.urlPercentEncoding())/connectors/\(paymentConnectorId.urlPercentEncoding())/rotate-credentials"
+    }
+}
+
 extension SetTokenVaultCMKInput {
 
     static func urlPathProvider(_ value: SetTokenVaultCMKInput) -> Swift.String? {
@@ -27034,6 +27179,15 @@ extension PutResourcePolicyInput {
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["policy"].write(value.policy)
+    }
+}
+
+extension RotatePaymentConnectorCredentialsInput {
+
+    static func write(value: RotatePaymentConnectorCredentialsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["credentialsToRotate"].write(value.credentialsToRotate, with: BedrockAgentCoreControlClientTypes.CredentialRotationConfig.write(value:to:))
     }
 }
 
@@ -28796,10 +28950,12 @@ extension GetPaymentConnectorOutput {
         value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialsProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.credentialsUpdatedAt = try reader["credentialsUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.provisionMode = try reader["provisionMode"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -29587,6 +29743,21 @@ extension PutResourcePolicyOutput {
         let reader = responseReader
         var value = PutResourcePolicyOutput()
         value.policy = try reader["policy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RotatePaymentConnectorCredentialsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RotatePaymentConnectorCredentialsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RotatePaymentConnectorCredentialsOutput()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
+        value.paymentManagerId = try reader["paymentManagerId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -32733,6 +32904,25 @@ enum PutResourcePolicyOutputError {
     }
 }
 
+enum RotatePaymentConnectorCredentialsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SetTokenVaultCMKOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34458,6 +34648,14 @@ extension BedrockAgentCoreControlClientTypes.CoinbaseCdpConfigurationOutput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.CoinbaseCdpRotationTargets {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CoinbaseCdpRotationTargets?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secrets"].writeList(value.secrets, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.CoinbaseCdpSecret>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ComponentConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ComponentConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -34833,6 +35031,19 @@ extension BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration {
         value.credentialProviderType = try reader["credentialProviderType"].readIfPresent() ?? .sdkUnknown("")
         value.credentialProvider = try reader["credentialProvider"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CredentialProvider.read(from:))
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CredentialRotationConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CredentialRotationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .coinbasecdp(coinbasecdp):
+                try writer["coinbaseCDP"].write(coinbasecdp, with: BedrockAgentCoreControlClientTypes.CoinbaseCdpRotationTargets.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -38513,6 +38724,7 @@ extension BedrockAgentCoreControlClientTypes.PaymentConnectorSummary {
         value.paymentConnectorId = try reader["paymentConnectorId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.provisionMode = try reader["provisionMode"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value

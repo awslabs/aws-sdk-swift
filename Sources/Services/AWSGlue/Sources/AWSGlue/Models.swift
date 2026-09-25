@@ -15705,6 +15705,33 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// A table that points to an entity outside the Glue Data Catalog.
+    public struct FederatedTable: Swift.Sendable {
+        /// The name of the connection to the external metastore.
+        public var connectionName: Swift.String?
+        /// The type of connection used to access the federated table, specifying the protocol or method for connecting to the external data source.
+        public var connectionType: Swift.String?
+        /// A unique identifier for the federated database.
+        public var databaseIdentifier: Swift.String?
+        /// A unique identifier for the federated table.
+        public var identifier: Swift.String?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            connectionType: Swift.String? = nil,
+            databaseIdentifier: Swift.String? = nil,
+            identifier: Swift.String? = nil
+        ) {
+            self.connectionName = connectionName
+            self.connectionType = connectionType
+            self.databaseIdentifier = databaseIdentifier
+            self.identifier = identifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A structure that describes a target table for resource linking.
     public struct TableIdentifier: Swift.Sendable {
         /// The ID of the Data Catalog in which the table resides.
@@ -15955,6 +15982,8 @@ extension GlueClientTypes {
     public struct TableInput: Swift.Sendable {
         /// A description of the table.
         public var description: Swift.String?
+        /// A FederatedTable structure that references an entity outside the Glue Data Catalog. Specify this field to create a federated table, which points to a table in an external metastore instead of describing data managed in the Glue Data Catalog.
+        public var federatedTable: GlueClientTypes.FederatedTable?
         /// The last time that the table was accessed.
         public var lastAccessTime: Foundation.Date?
         /// The last time that column statistics were computed for this table.
@@ -15985,6 +16014,7 @@ extension GlueClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            federatedTable: GlueClientTypes.FederatedTable? = nil,
             lastAccessTime: Foundation.Date? = nil,
             lastAnalyzedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -16000,6 +16030,7 @@ extension GlueClientTypes {
             viewOriginalText: Swift.String? = nil
         ) {
             self.description = description
+            self.federatedTable = federatedTable
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
             self.name = name
@@ -24821,33 +24852,6 @@ public struct GetTableInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
-    /// A table that points to an entity outside the Glue Data Catalog.
-    public struct FederatedTable: Swift.Sendable {
-        /// The name of the connection to the external metastore.
-        public var connectionName: Swift.String?
-        /// The type of connection used to access the federated table, specifying the protocol or method for connecting to the external data source.
-        public var connectionType: Swift.String?
-        /// A unique identifier for the federated database.
-        public var databaseIdentifier: Swift.String?
-        /// A unique identifier for the federated table.
-        public var identifier: Swift.String?
-
-        public init(
-            connectionName: Swift.String? = nil,
-            connectionType: Swift.String? = nil,
-            databaseIdentifier: Swift.String? = nil,
-            identifier: Swift.String? = nil
-        ) {
-            self.connectionName = connectionName
-            self.connectionType = connectionType
-            self.databaseIdentifier = databaseIdentifier
-            self.identifier = identifier
-        }
-    }
-}
-
-extension GlueClientTypes {
-
     /// The Apache Iceberg table metadata, including format version, table identifier, schemas, partition specifications, sort orders, and table properties. This structure captures the current state of an Iceberg table's metadata as managed by the Glue Data Catalog.
     public struct IcebergTableMetadata: Swift.Sendable {
         /// The identifier of the schema that is currently active for the Iceberg table. Matches an entry in Schemas.
@@ -25149,6 +25153,35 @@ public struct GetTableOptimizerOutput: Swift.Sendable {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum TableResourceShareType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case federated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableResourceShareType] {
+            return [
+                .all,
+                .federated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .federated: return "FEDERATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTablesInput: Swift.Sendable {
     /// Specifies the table fields returned by the GetTables call. This parameter doesn’t accept an empty list. The request must include NAME. The following are the valid combinations of values:
     ///
@@ -25173,6 +25206,12 @@ public struct GetTablesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId.
     public var queryAsOfTime: Foundation.Date?
+    /// Specifies which tables the GetTables call returns. The allowable values are FEDERATED or ALL.
+    ///
+    /// * If set to FEDERATED, returns only federated tables, which reference an entity outside the Glue Data Catalog.
+    ///
+    /// * If set to ALL, returns all tables in the database, both federated and non-federated.
+    public var resourceShareType: GlueClientTypes.TableResourceShareType?
     /// The transaction ID at which to read the table contents.
     public var transactionId: Swift.String?
 
@@ -25186,6 +25225,7 @@ public struct GetTablesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryAsOfTime: Foundation.Date? = nil,
+        resourceShareType: GlueClientTypes.TableResourceShareType? = nil,
         transactionId: Swift.String? = nil
     ) {
         self.attributesToGet = attributesToGet
@@ -25197,6 +25237,7 @@ public struct GetTablesInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryAsOfTime = queryAsOfTime
+        self.resourceShareType = resourceShareType
         self.transactionId = transactionId
     }
 }
