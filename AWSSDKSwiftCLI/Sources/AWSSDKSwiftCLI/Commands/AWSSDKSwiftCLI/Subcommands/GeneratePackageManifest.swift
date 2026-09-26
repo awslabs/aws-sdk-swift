@@ -12,7 +12,7 @@ import AWSCLIUtils
 // MARK: - Command
 
 struct GeneratePackageManifestCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "generate-package-manifest",
         abstract: "Generates the Package.swift manifest for the aws-sdk-swift package."
     )

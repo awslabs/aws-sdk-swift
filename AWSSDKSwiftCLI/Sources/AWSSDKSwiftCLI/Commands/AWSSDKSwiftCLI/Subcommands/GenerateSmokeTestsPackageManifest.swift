@@ -10,7 +10,7 @@ import Foundation
 import AWSCLIUtils
 
 struct GenerateSmokeTestsPackageManifestCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "generate-smoke-tests-package-manifest",
         abstract: "Generates the Package.swift manifest for the aws-sdk-swift/SmokeTests package."
     )

@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
 //
 // Copyright Amazon.com Inc. or its affiliates.
@@ -2281,10 +2281,10 @@ extension Target.PluginUsage {
 let package = Package(
     name: "aws-sdk-swift",
     platforms: [
-        .macOS(.v12),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6)
+        .macOS(.v11),
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v8),
     ],
     products:
         runtimeProducts +

@@ -27,9 +27,7 @@ run_lint() {
 
 run_analyze() {
     rm -rf Sources/Services/*
-    cd AWSSDKSwiftCLI
-    swift run AWSSDKSwiftCLI generate-package-manifest ..
-    cd ..
+    ./scripts/ci_steps/run_cli.sh generate-package-manifest .
     xcodebuild -scheme aws-sdk-swift-Package -destination platform=macOS > xcodebuild.log 2>&1 || {
         echo "xcodebuild failed. See xcodebuild.log"
         exit 1

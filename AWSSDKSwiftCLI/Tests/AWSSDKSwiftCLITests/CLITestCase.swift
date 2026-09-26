@@ -43,3 +43,24 @@ class CLITestCase: XCTestCase {
         super.tearDown()
     }
 }
+
+/// Records the commands issued to a `ProcessRunner`, in the order they were run.
+///
+/// `ProcessRunner`'s closure is `@Sendable`, so a test can't append to a captured `var`.
+/// This recorder owns the storage and guards it with a lock instead.
+final class CommandRecorder: @unchecked Sendable {
+    private let lock = NSLock()
+    private var storage = [String]()
+
+    /// A runner that records each command instead of running it.
+    var runner: ProcessRunner {
+        ProcessRunner { [self] process in
+            lock.withLock { storage.append(process.commandString) }
+        }
+    }
+
+    /// The commands recorded so far.
+    var commands: [String] {
+        lock.withLock { storage }
+    }
+}
