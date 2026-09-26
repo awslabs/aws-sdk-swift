@@ -9291,7 +9291,7 @@ public struct DeleteV2LoggingLevelInput: Swift.Sendable {
     /// The name of the resource for which you are configuring logging.
     /// This member is required.
     public var targetName: Swift.String?
-    /// The type of resource for which you are configuring logging. Must be THING_Group.
+    /// The type of resource for which you are configuring logging. Must be DEFAULT, THING_GROUP, CLIENT_ID, SOURCE_IP, or PRINCIPAL_ID.
     /// This member is required.
     public var targetType: IoTClientTypes.LogTargetType?
 
@@ -17996,7 +17996,7 @@ public struct ListV2LoggingLevelsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
-    /// The type of resource for which you are configuring logging. Must be THING_Group.
+    /// The type of resource for which you are configuring logging. Must be DEFAULT, THING_GROUP, CLIENT_ID, SOURCE_IP, or PRINCIPAL_ID.
     public var targetType: IoTClientTypes.LogTargetType?
 
     public init(

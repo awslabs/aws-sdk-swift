@@ -16747,6 +16747,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum InstanceAttributeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoMuteAgentOnHold
         case autoResolveBestVoices
         case contactflowLogs
         case contactLens
@@ -16764,6 +16765,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [InstanceAttributeType] {
             return [
+                .autoMuteAgentOnHold,
                 .autoResolveBestVoices,
                 .contactflowLogs,
                 .contactLens,
@@ -16787,6 +16789,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .autoMuteAgentOnHold: return "AUTO_MUTE_AGENT_ON_HOLD"
             case .autoResolveBestVoices: return "AUTO_RESOLVE_BEST_VOICES"
             case .contactflowLogs: return "CONTACTFLOW_LOGS"
             case .contactLens: return "CONTACT_LENS"
@@ -35670,7 +35673,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
 }
 
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
-    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource.
+    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. If you set the attribute type AUTO_MUTE_AGENT_ON_HOLD to true, the system automatically mutes agents while they're on hold and unmutes them when they resume the contact. Agents can't change their mute state while on hold.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).

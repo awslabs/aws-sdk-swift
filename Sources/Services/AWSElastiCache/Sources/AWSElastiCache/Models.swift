@@ -135,6 +135,29 @@ public struct CacheSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// The Global datastore does not exist
+public struct GlobalReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GlobalReplicationGroupNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
 public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -144,6 +167,30 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidARN" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The value for a parameter is invalid.
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A parameter value is invalid.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValue" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -413,7 +460,7 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension ElastiCacheClientTypes {
 
-    /// A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted.
+    /// A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted.
     public struct Tag: Swift.Sendable {
         /// The key for the tag. May not be null.
         public var key: Swift.String?
@@ -516,30 +563,6 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidParameterCombination" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The value for a parameter is invalid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A parameter value is invalid.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterValue" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3770,15 +3793,19 @@ public struct CreateGlobalReplicationGroupInput: Swift.Sendable {
     /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
     /// This member is required.
     public var primaryReplicationGroupId: Swift.String?
+    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+    public var tags: [ElastiCacheClientTypes.Tag]?
 
     public init(
         globalReplicationGroupDescription: Swift.String? = nil,
         globalReplicationGroupIdSuffix: Swift.String? = nil,
-        primaryReplicationGroupId: Swift.String? = nil
+        primaryReplicationGroupId: Swift.String? = nil,
+        tags: [ElastiCacheClientTypes.Tag]? = nil
     ) {
         self.globalReplicationGroupDescription = globalReplicationGroupDescription
         self.globalReplicationGroupIdSuffix = globalReplicationGroupIdSuffix
         self.primaryReplicationGroupId = primaryReplicationGroupId
+        self.tags = tags
     }
 }
 
@@ -3907,29 +3934,6 @@ public struct CreateGlobalReplicationGroupOutput: Swift.Sendable {
         globalReplicationGroup: ElastiCacheClientTypes.GlobalReplicationGroup? = nil
     ) {
         self.globalReplicationGroup = globalReplicationGroup
-    }
-}
-
-/// The Global datastore does not exist
-public struct GlobalReplicationGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "GlobalReplicationGroupNotFoundFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -9965,6 +9969,7 @@ extension CreateGlobalReplicationGroupInput {
         try writer["GlobalReplicationGroupDescription"].write(value.globalReplicationGroupDescription)
         try writer["GlobalReplicationGroupIdSuffix"].write(value.globalReplicationGroupIdSuffix)
         try writer["PrimaryReplicationGroupId"].write(value.primaryReplicationGroupId)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ElastiCacheClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateGlobalReplicationGroup")
         try writer["Version"].write("2015-02-02")
     }
@@ -11833,7 +11838,9 @@ enum AddTagsToResourceOutputError {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
+            case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
             case "InvalidARN": return try InvalidARNFault.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
             case "InvalidServerlessCacheSnapshotStateFault": return try InvalidServerlessCacheSnapshotStateFault.makeError(baseError: baseError)
             case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
@@ -12051,6 +12058,7 @@ enum CreateGlobalReplicationGroupOutputError {
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
             case "ReplicationGroupNotFoundFault": return try ReplicationGroupNotFoundFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
+            case "TagQuotaPerResourceExceeded": return try TagQuotaPerResourceExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12852,7 +12860,9 @@ enum ListTagsForResourceOutputError {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
+            case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
             case "InvalidARN": return try InvalidARNFault.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
             case "InvalidServerlessCacheSnapshotStateFault": return try InvalidServerlessCacheSnapshotStateFault.makeError(baseError: baseError)
             case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
@@ -13118,7 +13128,9 @@ enum RemoveTagsFromResourceOutputError {
             case "CacheParameterGroupNotFound": return try CacheParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "CacheSecurityGroupNotFound": return try CacheSecurityGroupNotFoundFault.makeError(baseError: baseError)
             case "CacheSubnetGroupNotFoundFault": return try CacheSubnetGroupNotFoundFault.makeError(baseError: baseError)
+            case "GlobalReplicationGroupNotFoundFault": return try GlobalReplicationGroupNotFoundFault.makeError(baseError: baseError)
             case "InvalidARN": return try InvalidARNFault.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
             case "InvalidServerlessCacheSnapshotStateFault": return try InvalidServerlessCacheSnapshotStateFault.makeError(baseError: baseError)
             case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
@@ -13279,11 +13291,37 @@ extension CacheSubnetGroupNotFoundFault {
     }
 }
 
+extension GlobalReplicationGroupNotFoundFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = GlobalReplicationGroupNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidARNFault {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidARNFault {
         let reader = baseError.errorBodyReader
         var value = InvalidARNFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterValueException {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13466,19 +13504,6 @@ extension InvalidParameterCombinationException {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterCombinationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterValueException {
-
-    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13804,19 +13829,6 @@ extension GlobalReplicationGroupAlreadyExistsFault {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = GlobalReplicationGroupAlreadyExistsFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension GlobalReplicationGroupNotFoundFault {
-
-    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalReplicationGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = GlobalReplicationGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

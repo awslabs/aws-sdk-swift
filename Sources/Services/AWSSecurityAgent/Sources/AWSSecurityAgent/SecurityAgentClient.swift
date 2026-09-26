@@ -3822,6 +3822,69 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListActorMessages` operation on the `SecurityAgent` service.
+    ///
+    /// Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListActorMessagesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListActorMessagesOutput`)
+    public func listActorMessages(input: ListActorMessagesInput) async throws -> ListActorMessagesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listActorMessages")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListActorMessagesInput, ListActorMessagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListActorMessagesInput, ListActorMessagesOutput>(ListActorMessagesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListActorMessagesInput, ListActorMessagesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListActorMessagesInput, ListActorMessagesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListActorMessagesInput, ListActorMessagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListActorMessagesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListActorMessagesInput, ListActorMessagesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActorMessagesOutput>(ListActorMessagesOutput.httpOutput(from:), ListActorMessagesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActorMessagesInput, ListActorMessagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListActorMessagesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListActorMessagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListActorMessagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListActorMessagesInput, ListActorMessagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListActorMessagesInput, ListActorMessagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListActorMessagesInput, ListActorMessagesOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListActorMessages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAgentSpaces` operation on the `SecurityAgent` service.
     ///
     /// Returns a paginated list of agent space summaries in your account.

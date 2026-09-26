@@ -125,10 +125,10 @@ class ECSAWSCredentialIdentityResolverTests: XCTestCase {
 }
 
 private class MockURLProtocol: URLProtocol {
-    static var expectedURL: URL?
-    static var expectedHeaders: [String: String] = [:]
-    static var unexpectedHeaders: [String: String] = [:]
-    static var responseJSON: [String: Any] = [
+    nonisolated(unsafe) static var expectedURL: URL?
+    nonisolated(unsafe) static var expectedHeaders: [String: String] = [:]
+    nonisolated(unsafe) static var unexpectedHeaders: [String: String] = [:]
+    nonisolated(unsafe) static let responseJSON: [String: Any] = [
         "AccessKeyId": "access-123",
         "SecretAccessKey": "secret-123",
         "Token": "token-123",

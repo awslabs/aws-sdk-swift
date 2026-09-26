@@ -28714,6 +28714,10 @@ extension QuickSightClientTypes {
         public var action: QuickSightClientTypes.CapabilityState?
         /// The ability to add or run anomaly detection.
         public var addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Adobe Marketing Agent connectors.
+        public var adobeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Airtable connectors.
+        public var airtableAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Bedrock Agent connectors.
         public var amazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Bedrock Runtime connectors.
@@ -28740,6 +28744,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var bedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Bee connectors.
+        public var beeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Box Agent connectors.
         public var boxAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -28754,6 +28760,10 @@ extension QuickSightClientTypes {
         public var canvaAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform chat-related actions.
         public var chatAgent: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Cisco Webex Meetings connectors.
+        public var ciscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Cisco Webex Video Messaging Agent connectors.
+        public var ciscoWebexVidcastAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Comprehend connectors.
         public var comprehendAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Comprehend Medical connectors.
@@ -28766,6 +28776,10 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var confluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Adobe Marketing Agent actions.
+        public var createAndUpdateAdobeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Airtable actions.
+        public var createAndUpdateAirtableAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Bedrock Agent actions.
         public var createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Bedrock Runtime actions.
@@ -28786,6 +28800,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var createAndUpdateBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Bee actions.
+        public var createAndUpdateBeeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Box Agent actions.
         public var createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -28796,6 +28812,10 @@ extension QuickSightClientTypes {
         public var createAndUpdateBoxKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Canva Agent actions.
         public var createAndUpdateCanvaAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Cisco Webex Meetings actions.
+        public var createAndUpdateCiscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Cisco Webex Video Messaging Agent actions.
+        public var createAndUpdateCiscoWebexVidcastAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Comprehend actions.
         public var createAndUpdateComprehendAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Comprehend Medical actions.
@@ -28814,20 +28834,44 @@ extension QuickSightClientTypes {
         public var createAndUpdateDataSources: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update datasets.
         public var createAndUpdateDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Dropbox actions.
+        public var createAndUpdateDropboxAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Dun and Bradstreet actions.
+        public var createAndUpdateDunAndBradstreetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update FactSet actions.
         public var createAndUpdateFactSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Figma actions.
+        public var createAndUpdateFigmaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update REST API connection actions.
         public var createAndUpdateGenericHTTPAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update GitHub actions.
         public var createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Gmail actions.
+        public var createAndUpdateGmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Analytics actions.
+        public var createAndUpdateGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Google Calendar actions.
         public var createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Chat actions.
+        public var createAndUpdateGoogleChatAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Docs actions.
+        public var createAndUpdateGoogleDocsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Drive actions.
+        public var createAndUpdateGoogleDriveAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var createAndUpdateGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Meet actions.
+        public var createAndUpdateGoogleMeetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Sheets actions.
+        public var createAndUpdateGoogleSheetsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Slides actions.
+        public var createAndUpdateGoogleSlidesAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update HG Insights Agent actions.
+        public var createAndUpdateHGInsightsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Hubspot actions.
         public var createAndUpdateHubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update HuggingFace actions.
@@ -28858,6 +28902,8 @@ extension QuickSightClientTypes {
         public var createAndUpdateMSTeamsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Monday actions.
         public var createAndUpdateMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Moody's GenAI Ready Data actions.
+        public var createAndUpdateMoodysAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update New Relic actions.
         public var createAndUpdateNewRelicAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Notion actions.
@@ -28870,16 +28916,22 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var createAndUpdateOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Microsoft OneNote actions.
+        public var createAndUpdateOneNoteAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update OpenAPI Specification actions.
         public var createAndUpdateOpenAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update PagerDuty Advance actions.
         public var createAndUpdatePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update PagerDuty Agent actions.
+        public var createAndUpdatePagerDutyAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var createAndUpdateQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update QuickBooks actions.
+        public var createAndUpdateQuickBooksAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
@@ -28912,24 +28964,38 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var createAndUpdateSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Shopify actions.
+        public var createAndUpdateShopifyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Slack actions.
         public var createAndUpdateSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Smartsheet actions.
         public var createAndUpdateSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Snowflake Cortex Agent actions.
+        public var createAndUpdateSnowFlakeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Textract actions.
         public var createAndUpdateTextractAction: QuickSightClientTypes.CapabilityState?
         /// The ability to export to Create and Update themes.
         public var createAndUpdateThemes: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update threshold alerts.
         public var createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Visier Agent actions.
+        public var createAndUpdateVisierAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var createAndUpdateWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update WhatsApp actions.
+        public var createAndUpdateWhatsAppAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Zapier Agent actions.
+        public var createAndUpdateZapierAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Zendesk actions.
         public var createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Zoom actions.
+        public var createAndUpdateZoomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update ZoomInfo Agent actions.
+        public var createAndUpdateZoomInfoAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create chat agents.
         public var createChatAgents: QuickSightClientTypes.CapabilityState?
         /// The ability to Create Executive Summary
@@ -28942,6 +29008,10 @@ extension QuickSightClientTypes {
         public var createSpaces: QuickSightClientTypes.CapabilityState?
         /// The ability to perform dashboard-related actions.
         public var dashboard: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Dropbox connectors.
+        public var dropboxAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Dun and Bradstreet connectors.
+        public var dunAndBradstreetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to Edit Visual with AI
         public var editVisualWithQ: QuickSightClientTypes.CapabilityState?
         /// The ability to export to CSV files from the UI.
@@ -28960,6 +29030,8 @@ extension QuickSightClientTypes {
         public var `extension`: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using FactSet connectors.
         public var factSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Figma connectors.
+        public var figmaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform flow-related actions.
         public var flow: QuickSightClientTypes.CapabilityState?
         /// The ability to generate analysis using AI
@@ -28968,14 +29040,32 @@ extension QuickSightClientTypes {
         public var genericHTTPAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using GitHub connectors.
         public var githubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Gmail connectors.
+        public var gmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Analytics connectors.
+        public var googleAnalyticsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Calendar connectors.
         public var googleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Chat connectors.
+        public var googleChatAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Docs connectors.
+        public var googleDocsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Drive connectors.
+        public var googleDriveAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var googleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Meet connectors.
+        public var googleMeetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Sheets connectors.
+        public var googleSheetsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Slides connectors.
+        public var googleSlidesAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using HG Insights Agent connectors.
+        public var hgInsightsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Hubspot connectors.
         public var hubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using HuggingFace connectors.
@@ -29006,6 +29096,8 @@ extension QuickSightClientTypes {
         public var mcpAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Monday connectors.
         public var mondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Moody's GenAI Ready Data connectors.
+        public var moodysAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft Outlook connectors.
         public var msExchangeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft Teams connectors.
@@ -29022,10 +29114,14 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var oneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Microsoft OneNote connectors.
+        public var oneNoteAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using OpenAPI Specification connectors.
         public var openAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using PagerDuty Advance connectors.
         public var pagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using PagerDuty Agent connectors.
+        public var pagerDutyAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use UI Agent step to perform tasks on public websites.
         public var performFlowUiTask: QuickSightClientTypes.CapabilityState?
         /// The ability to print reports.
@@ -29038,6 +29134,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var qBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using QuickBooks connectors.
+        public var quickBooksAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.
         public var quickEventTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to rename shared folders.
@@ -29074,6 +29172,10 @@ extension QuickSightClientTypes {
         public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
         public var serviceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Adobe Marketing Agent actions.
+        public var shareAdobeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Airtable actions.
+        public var shareAirtableAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Bedrock Agent actions.
         public var shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Bedrock Runtime actions.
@@ -29096,6 +29198,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Bee actions.
+        public var shareBeeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Box Agent actions.
         public var shareBoxAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29108,6 +29212,10 @@ extension QuickSightClientTypes {
         public var shareCanvaAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share chat agents with other users and groups.
         public var shareChatAgents: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Cisco Webex Meetings actions.
+        public var shareCiscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Cisco Webex Video Messaging Agent actions.
+        public var shareCiscoWebexVidcastAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Comprehend actions.
         public var shareComprehendAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Comprehend Medical actions.
@@ -29126,20 +29234,44 @@ extension QuickSightClientTypes {
         public var shareDataSources: QuickSightClientTypes.CapabilityState?
         /// The ability to share datasets.
         public var shareDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Dropbox actions.
+        public var shareDropboxAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Dun and Bradstreet actions.
+        public var shareDunAndBradstreetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share FactSet actions.
         public var shareFactSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Figma actions.
+        public var shareFigmaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share REST API connection actions.
         public var shareGenericHTTPAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share GitHub actions.
         public var shareGithubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Gmail actions.
+        public var shareGmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Analytics actions.
+        public var shareGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Calendar actions.
         public var shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Chat actions.
+        public var shareGoogleChatAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Docs actions.
+        public var shareGoogleDocsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Drive actions.
+        public var shareGoogleDriveAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Meet actions.
+        public var shareGoogleMeetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Sheets actions.
+        public var shareGoogleSheetsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Slides actions.
+        public var shareGoogleSlidesAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share HG Insights Agent actions.
+        public var shareHGInsightsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Hubspot actions.
         public var shareHubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share HuggingFace actions.
@@ -29170,6 +29302,8 @@ extension QuickSightClientTypes {
         public var shareMSTeamsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Monday actions.
         public var shareMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Moody's GenAI Ready Data actions.
+        public var shareMoodysAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share New Relic actions.
         public var shareNewRelicAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Notion actions.
@@ -29182,10 +29316,14 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Microsoft OneNote actions.
+        public var shareOneNoteAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share OpenAPI Specification actions.
         public var shareOpenAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share PagerDuty Advance actions.
         public var sharePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share PagerDuty Agent actions.
+        public var sharePagerDutyAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft SharePoint Online connectors.
         public var sharePointAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29200,6 +29338,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share QuickBooks actions.
+        public var shareQuickBooksAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
@@ -29232,26 +29372,44 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Shopify actions.
+        public var shareShopifyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Slack actions.
         public var shareSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Smartsheet actions.
         public var shareSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Snowflake Cortex Agent actions.
+        public var shareSnowFlakeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share spaces with other users and groups.
         public var shareSpaces: QuickSightClientTypes.CapabilityState?
         /// The ability to share Textract actions.
         public var shareTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Visier Agent actions.
+        public var shareVisierAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share WhatsApp actions.
+        public var shareWhatsAppAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Zapier Agent actions.
+        public var shareZapierAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Zendesk actions.
         public var shareZendeskAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Zoom actions.
+        public var shareZoomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share ZoomInfo Agent actions.
+        public var shareZoomInfoAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Shopify connectors.
+        public var shopifyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Slack connectors.
         public var slackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Smartsheet connectors.
         public var smartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Snowflake Cortex Agent connectors.
+        public var snowFlakeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform space-related actions.
         public var space: QuickSightClientTypes.CapabilityState?
         /// The ability to perform Story-related actions.
@@ -29264,8 +29422,12 @@ extension QuickSightClientTypes {
         public var topic: QuickSightClientTypes.CapabilityState?
         /// The ability to manage trigger-related settings for flows and automations.
         public var trigger: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Adobe Marketing Agent actions.
+        public var useAdobeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research. Web search queries will be processed securely in an Amazon Web Services region us-east-1.
         public var useAgentWebSearch: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Airtable actions.
+        public var useAirtableAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Bedrock Agent actions.
         public var useAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Bedrock Runtime actions.
@@ -29286,6 +29448,8 @@ extension QuickSightClientTypes {
         public var useBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to use Bedrock models for general knowledge step in flows.
         public var useBedrockModels: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Bee actions.
+        public var useBeeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Box Agent actions.
         public var useBoxAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29298,6 +29462,10 @@ extension QuickSightClientTypes {
         public var useBrowserExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use Canva Agent actions.
         public var useCanvaAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Cisco Webex Meetings actions.
+        public var useCiscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Cisco Webex Video Messaging Agent actions.
+        public var useCiscoWebexVidcastAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Comprehend actions.
         public var useComprehendAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Comprehend Medical actions.
@@ -29310,22 +29478,46 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var useConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Dropbox actions.
+        public var useDropboxAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Dun and Bradstreet actions.
+        public var useDunAndBradstreetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft Excel add-in.
         public var useExcelAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use FactSet actions.
         public var useFactSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Figma actions.
+        public var useFigmaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use REST API connection actions.
         public var useGenericHTTPAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use GitHub actions.
         public var useGithubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Gmail actions.
+        public var useGmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Analytics actions.
+        public var useGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Google Calendar actions.
         public var useGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Chat actions.
+        public var useGoogleChatAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Docs actions.
+        public var useGoogleDocsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Drive actions.
+        public var useGoogleDriveAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var useGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Meet actions.
+        public var useGoogleMeetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Sheets actions.
+        public var useGoogleSheetsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Slides actions.
+        public var useGoogleSlidesAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use HG Insights Agent actions.
+        public var useHGInsightsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Hubspot actions.
         public var useHubspotAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use HuggingFace actions.
@@ -29350,6 +29542,8 @@ extension QuickSightClientTypes {
         public var useMSTeamsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Monday actions.
         public var useMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Moody's GenAI Ready Data actions.
+        public var useMoodysAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use New Relic actions.
         public var useNewRelicAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Notion actions.
@@ -29362,12 +29556,16 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var useOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Microsoft OneNote actions.
+        public var useOneNoteAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use OpenAPI Specification actions.
         public var useOpenAPIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft Outlook add-in.
         public var useOutlookAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The ability to use PagerDuty Advance actions.
         public var usePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use PagerDuty Agent actions.
+        public var usePagerDutyAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft PowerPoint add-in.
         public var usePowerpointAddInExtension: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29376,6 +29574,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var useQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use QuickBooks actions.
+        public var useQuickBooksAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
@@ -29408,37 +29608,63 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var useSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Shopify actions.
+        public var useShopifyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Slack actions.
         public var useSlackAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Smartsheet actions.
         public var useSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Snowflake Cortex Agent actions.
+        public var useSnowFlakeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Textract actions.
         public var useTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Visier Agent actions.
+        public var useVisierAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var useWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use WhatsApp actions.
+        public var useWhatsAppAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Amazon Quick through the Microsoft Word add-in.
         public var useWordAddInExtension: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Zapier Agent actions.
+        public var useZapierAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Zendesk actions.
         public var useZendeskAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Zoom actions.
+        public var useZoomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use ZoomInfo Agent actions.
+        public var useZoomInfoAction: QuickSightClientTypes.CapabilityState?
         /// The ability to view account SPICE capacity.
         public var viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Visier Agent connectors.
+        public var visierAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var webCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using WhatsApp connectors.
+        public var whatsAppAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Zapier Agent connectors.
+        public var zapierAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Zendesk connectors.
         public var zendeskAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Zoom connectors.
+        public var zoomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using ZoomInfo Agent connectors.
+        public var zoomInfoAction: QuickSightClientTypes.CapabilityState?
 
         public init(
             accessAppsNativeDataStore: QuickSightClientTypes.CapabilityState? = nil,
             action: QuickSightClientTypes.CapabilityState? = nil,
             addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            adobeAction: QuickSightClientTypes.CapabilityState? = nil,
+            airtableAction: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29450,15 +29676,20 @@ extension QuickSightClientTypes {
             automate: QuickSightClientTypes.CapabilityState? = nil,
             bambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             bedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            beeAction: QuickSightClientTypes.CapabilityState? = nil,
             boxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             boxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             buildCalculatedFieldWithQ: QuickSightClientTypes.CapabilityState? = nil,
             canvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             chatAgent: QuickSightClientTypes.CapabilityState? = nil,
+            ciscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState? = nil,
+            ciscoWebexVidcastAction: QuickSightClientTypes.CapabilityState? = nil,
             comprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             comprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             confluenceAction: QuickSightClientTypes.CapabilityState? = nil,
             confluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAdobeAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAirtableAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29467,9 +29698,12 @@ extension QuickSightClientTypes {
             createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateBeeAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateBoxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateCiscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateCiscoWebexVidcastAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29477,11 +29711,23 @@ extension QuickSightClientTypes {
             createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDataSources: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateDropboxAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateDunAndBradstreetAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateFigmaAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleChatAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleDocsAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleMeetAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleSheetsAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleSlidesAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateHGInsightsAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
@@ -29493,13 +29739,17 @@ extension QuickSightClientTypes {
             createAndUpdateMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateMoodysAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateOneNoteAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdatePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdatePagerDutyAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateQuickBooksAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29512,19 +29762,28 @@ extension QuickSightClientTypes {
             createAndUpdateServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateShopifyAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSnowFlakeAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateTextractAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThemes: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateVisierAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateWhatsAppAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateZapierAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateZoomAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateZoomInfoAction: QuickSightClientTypes.CapabilityState? = nil,
             createChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             createDashboardExecutiveSummaryWithQ: QuickSightClientTypes.CapabilityState? = nil,
             createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
             createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             createSpaces: QuickSightClientTypes.CapabilityState? = nil,
             dashboard: QuickSightClientTypes.CapabilityState? = nil,
+            dropboxAction: QuickSightClientTypes.CapabilityState? = nil,
+            dunAndBradstreetAction: QuickSightClientTypes.CapabilityState? = nil,
             editVisualWithQ: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsv: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsvInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
@@ -29534,12 +29793,22 @@ extension QuickSightClientTypes {
             exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
             `extension`: QuickSightClientTypes.CapabilityState? = nil,
             factSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            figmaAction: QuickSightClientTypes.CapabilityState? = nil,
             flow: QuickSightClientTypes.CapabilityState? = nil,
             generateAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             genericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             githubAction: QuickSightClientTypes.CapabilityState? = nil,
+            gmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
             googleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleChatAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleDocsAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             googleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            googleMeetAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleSheetsAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleSlidesAction: QuickSightClientTypes.CapabilityState? = nil,
+            hgInsightsAction: QuickSightClientTypes.CapabilityState? = nil,
             hubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             idcKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
@@ -29553,18 +29822,22 @@ extension QuickSightClientTypes {
             manageSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             mcpAction: QuickSightClientTypes.CapabilityState? = nil,
             mondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            moodysAction: QuickSightClientTypes.CapabilityState? = nil,
             msExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
             msTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
             newRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             notionAction: QuickSightClientTypes.CapabilityState? = nil,
             oneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             oneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            oneNoteAction: QuickSightClientTypes.CapabilityState? = nil,
             openAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             pagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            pagerDutyAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             performFlowUiTask: QuickSightClientTypes.CapabilityState? = nil,
             printReports: QuickSightClientTypes.CapabilityState? = nil,
             publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
             qBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            quickBooksAction: QuickSightClientTypes.CapabilityState? = nil,
             quickEventTrigger: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             research: QuickSightClientTypes.CapabilityState? = nil,
@@ -29581,6 +29854,8 @@ extension QuickSightClientTypes {
             scheduleTrigger: QuickSightClientTypes.CapabilityState? = nil,
             selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             serviceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAdobeAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAirtableAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29590,10 +29865,13 @@ extension QuickSightClientTypes {
             shareAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareBeeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBoxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             shareChatAgents: QuickSightClientTypes.CapabilityState? = nil,
+            shareCiscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareCiscoWebexVidcastAction: QuickSightClientTypes.CapabilityState? = nil,
             shareComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             shareComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             shareConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29601,11 +29879,23 @@ extension QuickSightClientTypes {
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
             shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
             shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            shareDropboxAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareDunAndBradstreetAction: QuickSightClientTypes.CapabilityState? = nil,
             shareFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareFigmaAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGithubAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleChatAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleDocsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleMeetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleSheetsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleSlidesAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareHGInsightsAction: QuickSightClientTypes.CapabilityState? = nil,
             shareHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             shareHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             shareIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
@@ -29617,15 +29907,19 @@ extension QuickSightClientTypes {
             shareMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMoodysAction: QuickSightClientTypes.CapabilityState? = nil,
             shareNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             shareNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareOneNoteAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            sharePagerDutyAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareQuickBooksAction: QuickSightClientTypes.CapabilityState? = nil,
             shareS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29638,21 +29932,32 @@ extension QuickSightClientTypes {
             shareServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareShopifyAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSnowFlakeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSpaces: QuickSightClientTypes.CapabilityState? = nil,
             shareTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareVisierAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             shareWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareWhatsAppAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareZapierAction: QuickSightClientTypes.CapabilityState? = nil,
             shareZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareZoomAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareZoomInfoAction: QuickSightClientTypes.CapabilityState? = nil,
+            shopifyAction: QuickSightClientTypes.CapabilityState? = nil,
             slackAction: QuickSightClientTypes.CapabilityState? = nil,
             smartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            snowFlakeAction: QuickSightClientTypes.CapabilityState? = nil,
             space: QuickSightClientTypes.CapabilityState? = nil,
             story: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             textractAction: QuickSightClientTypes.CapabilityState? = nil,
             topic: QuickSightClientTypes.CapabilityState? = nil,
             trigger: QuickSightClientTypes.CapabilityState? = nil,
+            useAdobeAction: QuickSightClientTypes.CapabilityState? = nil,
             useAgentWebSearch: QuickSightClientTypes.CapabilityState? = nil,
+            useAirtableAction: QuickSightClientTypes.CapabilityState? = nil,
             useAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             useAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
             useAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29661,20 +29966,35 @@ extension QuickSightClientTypes {
             useBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             useBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useBedrockModels: QuickSightClientTypes.CapabilityState? = nil,
+            useBeeAction: QuickSightClientTypes.CapabilityState? = nil,
             useBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             useBoxKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useBrowserExtension: QuickSightClientTypes.CapabilityState? = nil,
             useCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            useCiscoWebexMeetingsAction: QuickSightClientTypes.CapabilityState? = nil,
+            useCiscoWebexVidcastAction: QuickSightClientTypes.CapabilityState? = nil,
             useComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
             useComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             useConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
             useConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useDropboxAction: QuickSightClientTypes.CapabilityState? = nil,
+            useDunAndBradstreetAction: QuickSightClientTypes.CapabilityState? = nil,
             useExcelAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            useFigmaAction: QuickSightClientTypes.CapabilityState? = nil,
             useGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             useGithubAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
             useGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleChatAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleDocsAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             useGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleMeetAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleSheetsAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleSlidesAction: QuickSightClientTypes.CapabilityState? = nil,
+            useHGInsightsAction: QuickSightClientTypes.CapabilityState? = nil,
             useHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             useHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             useIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
@@ -29685,15 +30005,19 @@ extension QuickSightClientTypes {
             useMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
             useMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
             useMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            useMoodysAction: QuickSightClientTypes.CapabilityState? = nil,
             useNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             useNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             useOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             useOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useOneNoteAction: QuickSightClientTypes.CapabilityState? = nil,
             useOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
             useOutlookAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             usePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            usePagerDutyAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             usePowerpointAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
             useQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useQuickBooksAction: QuickSightClientTypes.CapabilityState? = nil,
             useS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             useSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29706,19 +30030,33 @@ extension QuickSightClientTypes {
             useServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
             useSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             useSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useShopifyAction: QuickSightClientTypes.CapabilityState? = nil,
             useSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             useSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSnowFlakeAction: QuickSightClientTypes.CapabilityState? = nil,
             useTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            useVisierAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             useWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            useWhatsAppAction: QuickSightClientTypes.CapabilityState? = nil,
             useWordAddInExtension: QuickSightClientTypes.CapabilityState? = nil,
+            useZapierAction: QuickSightClientTypes.CapabilityState? = nil,
             useZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
+            useZoomAction: QuickSightClientTypes.CapabilityState? = nil,
+            useZoomInfoAction: QuickSightClientTypes.CapabilityState? = nil,
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil,
+            visierAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             webCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
-            zendeskAction: QuickSightClientTypes.CapabilityState? = nil
+            whatsAppAction: QuickSightClientTypes.CapabilityState? = nil,
+            zapierAction: QuickSightClientTypes.CapabilityState? = nil,
+            zendeskAction: QuickSightClientTypes.CapabilityState? = nil,
+            zoomAction: QuickSightClientTypes.CapabilityState? = nil,
+            zoomInfoAction: QuickSightClientTypes.CapabilityState? = nil
         ) {
             self.accessAppsNativeDataStore = accessAppsNativeDataStore
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.adobeAction = adobeAction
+            self.airtableAction = airtableAction
             self.amazonBedrockARSAction = amazonBedrockARSAction
             self.amazonBedrockFSAction = amazonBedrockFSAction
             self.amazonBedrockKRSAction = amazonBedrockKRSAction
@@ -29730,15 +30068,20 @@ extension QuickSightClientTypes {
             self.automate = automate
             self.bambooHRAction = bambooHRAction
             self.bedrockManagedKnowledgeBase = bedrockManagedKnowledgeBase
+            self.beeAction = beeAction
             self.boxAgentAction = boxAgentAction
             self.boxKnowledgeBase = boxKnowledgeBase
             self.buildCalculatedFieldWithQ = buildCalculatedFieldWithQ
             self.canvaAgentAction = canvaAgentAction
             self.chatAgent = chatAgent
+            self.ciscoWebexMeetingsAction = ciscoWebexMeetingsAction
+            self.ciscoWebexVidcastAction = ciscoWebexVidcastAction
             self.comprehendAction = comprehendAction
             self.comprehendMedicalAction = comprehendMedicalAction
             self.confluenceAction = confluenceAction
             self.confluenceKnowledgeBase = confluenceKnowledgeBase
+            self.createAndUpdateAdobeAction = createAndUpdateAdobeAction
+            self.createAndUpdateAirtableAction = createAndUpdateAirtableAction
             self.createAndUpdateAmazonBedrockARSAction = createAndUpdateAmazonBedrockARSAction
             self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
             self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
@@ -29747,9 +30090,12 @@ extension QuickSightClientTypes {
             self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
             self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
             self.createAndUpdateBedrockManagedKnowledgeBase = createAndUpdateBedrockManagedKnowledgeBase
+            self.createAndUpdateBeeAction = createAndUpdateBeeAction
             self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
             self.createAndUpdateBoxKnowledgeBase = createAndUpdateBoxKnowledgeBase
             self.createAndUpdateCanvaAgentAction = createAndUpdateCanvaAgentAction
+            self.createAndUpdateCiscoWebexMeetingsAction = createAndUpdateCiscoWebexMeetingsAction
+            self.createAndUpdateCiscoWebexVidcastAction = createAndUpdateCiscoWebexVidcastAction
             self.createAndUpdateComprehendAction = createAndUpdateComprehendAction
             self.createAndUpdateComprehendMedicalAction = createAndUpdateComprehendMedicalAction
             self.createAndUpdateConfluenceAction = createAndUpdateConfluenceAction
@@ -29757,11 +30103,23 @@ extension QuickSightClientTypes {
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDataSources = createAndUpdateDataSources
             self.createAndUpdateDatasets = createAndUpdateDatasets
+            self.createAndUpdateDropboxAction = createAndUpdateDropboxAction
+            self.createAndUpdateDunAndBradstreetAction = createAndUpdateDunAndBradstreetAction
             self.createAndUpdateFactSetAction = createAndUpdateFactSetAction
+            self.createAndUpdateFigmaAction = createAndUpdateFigmaAction
             self.createAndUpdateGenericHTTPAction = createAndUpdateGenericHTTPAction
             self.createAndUpdateGithubAction = createAndUpdateGithubAction
+            self.createAndUpdateGmailAction = createAndUpdateGmailAction
+            self.createAndUpdateGoogleAnalyticsAction = createAndUpdateGoogleAnalyticsAction
             self.createAndUpdateGoogleCalendarAction = createAndUpdateGoogleCalendarAction
+            self.createAndUpdateGoogleChatAction = createAndUpdateGoogleChatAction
+            self.createAndUpdateGoogleDocsAction = createAndUpdateGoogleDocsAction
+            self.createAndUpdateGoogleDriveAction = createAndUpdateGoogleDriveAction
             self.createAndUpdateGoogleDriveKnowledgeBase = createAndUpdateGoogleDriveKnowledgeBase
+            self.createAndUpdateGoogleMeetAction = createAndUpdateGoogleMeetAction
+            self.createAndUpdateGoogleSheetsAction = createAndUpdateGoogleSheetsAction
+            self.createAndUpdateGoogleSlidesAction = createAndUpdateGoogleSlidesAction
+            self.createAndUpdateHGInsightsAction = createAndUpdateHGInsightsAction
             self.createAndUpdateHubspotAction = createAndUpdateHubspotAction
             self.createAndUpdateHuggingFaceAction = createAndUpdateHuggingFaceAction
             self.createAndUpdateIDCKnowledgeBase = createAndUpdateIDCKnowledgeBase
@@ -29773,13 +30131,17 @@ extension QuickSightClientTypes {
             self.createAndUpdateMSExchangeAction = createAndUpdateMSExchangeAction
             self.createAndUpdateMSTeamsAction = createAndUpdateMSTeamsAction
             self.createAndUpdateMondayAction = createAndUpdateMondayAction
+            self.createAndUpdateMoodysAction = createAndUpdateMoodysAction
             self.createAndUpdateNewRelicAction = createAndUpdateNewRelicAction
             self.createAndUpdateNotionAction = createAndUpdateNotionAction
             self.createAndUpdateOneDriveAction = createAndUpdateOneDriveAction
             self.createAndUpdateOneDriveKnowledgeBase = createAndUpdateOneDriveKnowledgeBase
+            self.createAndUpdateOneNoteAction = createAndUpdateOneNoteAction
             self.createAndUpdateOpenAPIAction = createAndUpdateOpenAPIAction
             self.createAndUpdatePagerDutyAction = createAndUpdatePagerDutyAction
+            self.createAndUpdatePagerDutyAgentAction = createAndUpdatePagerDutyAgentAction
             self.createAndUpdateQBusinessKnowledgeBase = createAndUpdateQBusinessKnowledgeBase
+            self.createAndUpdateQuickBooksAction = createAndUpdateQuickBooksAction
             self.createAndUpdateS3KnowledgeBase = createAndUpdateS3KnowledgeBase
             self.createAndUpdateSAPBillOfMaterialAction = createAndUpdateSAPBillOfMaterialAction
             self.createAndUpdateSAPBusinessPartnerAction = createAndUpdateSAPBusinessPartnerAction
@@ -29792,19 +30154,28 @@ extension QuickSightClientTypes {
             self.createAndUpdateServiceNowAction = createAndUpdateServiceNowAction
             self.createAndUpdateSharePointAction = createAndUpdateSharePointAction
             self.createAndUpdateSharePointKnowledgeBase = createAndUpdateSharePointKnowledgeBase
+            self.createAndUpdateShopifyAction = createAndUpdateShopifyAction
             self.createAndUpdateSlackAction = createAndUpdateSlackAction
             self.createAndUpdateSmartsheetAction = createAndUpdateSmartsheetAction
+            self.createAndUpdateSnowFlakeAction = createAndUpdateSnowFlakeAction
             self.createAndUpdateTextractAction = createAndUpdateTextractAction
             self.createAndUpdateThemes = createAndUpdateThemes
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createAndUpdateVisierAgentAction = createAndUpdateVisierAgentAction
             self.createAndUpdateWebCrawlerKnowledgeBase = createAndUpdateWebCrawlerKnowledgeBase
+            self.createAndUpdateWhatsAppAction = createAndUpdateWhatsAppAction
+            self.createAndUpdateZapierAction = createAndUpdateZapierAction
             self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
+            self.createAndUpdateZoomAction = createAndUpdateZoomAction
+            self.createAndUpdateZoomInfoAction = createAndUpdateZoomInfoAction
             self.createChatAgents = createChatAgents
             self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
             self.createSPICEDataset = createSPICEDataset
             self.createSharedFolders = createSharedFolders
             self.createSpaces = createSpaces
             self.dashboard = dashboard
+            self.dropboxAction = dropboxAction
+            self.dunAndBradstreetAction = dunAndBradstreetAction
             self.editVisualWithQ = editVisualWithQ
             self.exportToCsv = exportToCsv
             self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
@@ -29814,12 +30185,22 @@ extension QuickSightClientTypes {
             self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
             self.`extension` = `extension`
             self.factSetAction = factSetAction
+            self.figmaAction = figmaAction
             self.flow = flow
             self.generateAnalyses = generateAnalyses
             self.genericHTTPAction = genericHTTPAction
             self.githubAction = githubAction
+            self.gmailAction = gmailAction
+            self.googleAnalyticsAction = googleAnalyticsAction
             self.googleCalendarAction = googleCalendarAction
+            self.googleChatAction = googleChatAction
+            self.googleDocsAction = googleDocsAction
+            self.googleDriveAction = googleDriveAction
             self.googleDriveKnowledgeBase = googleDriveKnowledgeBase
+            self.googleMeetAction = googleMeetAction
+            self.googleSheetsAction = googleSheetsAction
+            self.googleSlidesAction = googleSlidesAction
+            self.hgInsightsAction = hgInsightsAction
             self.hubspotAction = hubspotAction
             self.huggingFaceAction = huggingFaceAction
             self.idcKnowledgeBase = idcKnowledgeBase
@@ -29833,18 +30214,22 @@ extension QuickSightClientTypes {
             self.manageSharedFolders = manageSharedFolders
             self.mcpAction = mcpAction
             self.mondayAction = mondayAction
+            self.moodysAction = moodysAction
             self.msExchangeAction = msExchangeAction
             self.msTeamsAction = msTeamsAction
             self.newRelicAction = newRelicAction
             self.notionAction = notionAction
             self.oneDriveAction = oneDriveAction
             self.oneDriveKnowledgeBase = oneDriveKnowledgeBase
+            self.oneNoteAction = oneNoteAction
             self.openAPIAction = openAPIAction
             self.pagerDutyAction = pagerDutyAction
+            self.pagerDutyAgentAction = pagerDutyAgentAction
             self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
             self.qBusinessKnowledgeBase = qBusinessKnowledgeBase
+            self.quickBooksAction = quickBooksAction
             self.quickEventTrigger = quickEventTrigger
             self.renameSharedFolders = renameSharedFolders
             self.research = research
@@ -29861,6 +30246,8 @@ extension QuickSightClientTypes {
             self.scheduleTrigger = scheduleTrigger
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
+            self.shareAdobeAction = shareAdobeAction
+            self.shareAirtableAction = shareAirtableAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
             self.shareAmazonBedrockFSAction = shareAmazonBedrockFSAction
             self.shareAmazonBedrockKRSAction = shareAmazonBedrockKRSAction
@@ -29870,10 +30257,13 @@ extension QuickSightClientTypes {
             self.shareAsanaAction = shareAsanaAction
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBedrockManagedKnowledgeBase = shareBedrockManagedKnowledgeBase
+            self.shareBeeAction = shareBeeAction
             self.shareBoxAgentAction = shareBoxAgentAction
             self.shareBoxKnowledgeBase = shareBoxKnowledgeBase
             self.shareCanvaAgentAction = shareCanvaAgentAction
             self.shareChatAgents = shareChatAgents
+            self.shareCiscoWebexMeetingsAction = shareCiscoWebexMeetingsAction
+            self.shareCiscoWebexVidcastAction = shareCiscoWebexVidcastAction
             self.shareComprehendAction = shareComprehendAction
             self.shareComprehendMedicalAction = shareComprehendMedicalAction
             self.shareConfluenceAction = shareConfluenceAction
@@ -29881,11 +30271,23 @@ extension QuickSightClientTypes {
             self.shareDashboards = shareDashboards
             self.shareDataSources = shareDataSources
             self.shareDatasets = shareDatasets
+            self.shareDropboxAction = shareDropboxAction
+            self.shareDunAndBradstreetAction = shareDunAndBradstreetAction
             self.shareFactSetAction = shareFactSetAction
+            self.shareFigmaAction = shareFigmaAction
             self.shareGenericHTTPAction = shareGenericHTTPAction
             self.shareGithubAction = shareGithubAction
+            self.shareGmailAction = shareGmailAction
+            self.shareGoogleAnalyticsAction = shareGoogleAnalyticsAction
             self.shareGoogleCalendarAction = shareGoogleCalendarAction
+            self.shareGoogleChatAction = shareGoogleChatAction
+            self.shareGoogleDocsAction = shareGoogleDocsAction
+            self.shareGoogleDriveAction = shareGoogleDriveAction
             self.shareGoogleDriveKnowledgeBase = shareGoogleDriveKnowledgeBase
+            self.shareGoogleMeetAction = shareGoogleMeetAction
+            self.shareGoogleSheetsAction = shareGoogleSheetsAction
+            self.shareGoogleSlidesAction = shareGoogleSlidesAction
+            self.shareHGInsightsAction = shareHGInsightsAction
             self.shareHubspotAction = shareHubspotAction
             self.shareHuggingFaceAction = shareHuggingFaceAction
             self.shareIDCKnowledgeBase = shareIDCKnowledgeBase
@@ -29897,15 +30299,19 @@ extension QuickSightClientTypes {
             self.shareMSExchangeAction = shareMSExchangeAction
             self.shareMSTeamsAction = shareMSTeamsAction
             self.shareMondayAction = shareMondayAction
+            self.shareMoodysAction = shareMoodysAction
             self.shareNewRelicAction = shareNewRelicAction
             self.shareNotionAction = shareNotionAction
             self.shareOneDriveAction = shareOneDriveAction
             self.shareOneDriveKnowledgeBase = shareOneDriveKnowledgeBase
+            self.shareOneNoteAction = shareOneNoteAction
             self.shareOpenAPIAction = shareOpenAPIAction
             self.sharePagerDutyAction = sharePagerDutyAction
+            self.sharePagerDutyAgentAction = sharePagerDutyAgentAction
             self.sharePointAction = sharePointAction
             self.sharePointKnowledgeBase = sharePointKnowledgeBase
             self.shareQBusinessKnowledgeBase = shareQBusinessKnowledgeBase
+            self.shareQuickBooksAction = shareQuickBooksAction
             self.shareS3KnowledgeBase = shareS3KnowledgeBase
             self.shareSAPBillOfMaterialAction = shareSAPBillOfMaterialAction
             self.shareSAPBusinessPartnerAction = shareSAPBusinessPartnerAction
@@ -29918,21 +30324,32 @@ extension QuickSightClientTypes {
             self.shareServiceNowAction = shareServiceNowAction
             self.shareSharePointAction = shareSharePointAction
             self.shareSharePointKnowledgeBase = shareSharePointKnowledgeBase
+            self.shareShopifyAction = shareShopifyAction
             self.shareSlackAction = shareSlackAction
             self.shareSmartsheetAction = shareSmartsheetAction
+            self.shareSnowFlakeAction = shareSnowFlakeAction
             self.shareSpaces = shareSpaces
             self.shareTextractAction = shareTextractAction
+            self.shareVisierAgentAction = shareVisierAgentAction
             self.shareWebCrawlerKnowledgeBase = shareWebCrawlerKnowledgeBase
+            self.shareWhatsAppAction = shareWhatsAppAction
+            self.shareZapierAction = shareZapierAction
             self.shareZendeskAction = shareZendeskAction
+            self.shareZoomAction = shareZoomAction
+            self.shareZoomInfoAction = shareZoomInfoAction
+            self.shopifyAction = shopifyAction
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
+            self.snowFlakeAction = snowFlakeAction
             self.space = space
             self.story = story
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
             self.textractAction = textractAction
             self.topic = topic
             self.trigger = trigger
+            self.useAdobeAction = useAdobeAction
             self.useAgentWebSearch = useAgentWebSearch
+            self.useAirtableAction = useAirtableAction
             self.useAmazonBedrockARSAction = useAmazonBedrockARSAction
             self.useAmazonBedrockFSAction = useAmazonBedrockFSAction
             self.useAmazonBedrockKRSAction = useAmazonBedrockKRSAction
@@ -29941,20 +30358,35 @@ extension QuickSightClientTypes {
             self.useBambooHRAction = useBambooHRAction
             self.useBedrockManagedKnowledgeBase = useBedrockManagedKnowledgeBase
             self.useBedrockModels = useBedrockModels
+            self.useBeeAction = useBeeAction
             self.useBoxAgentAction = useBoxAgentAction
             self.useBoxKnowledgeBase = useBoxKnowledgeBase
             self.useBrowserExtension = useBrowserExtension
             self.useCanvaAgentAction = useCanvaAgentAction
+            self.useCiscoWebexMeetingsAction = useCiscoWebexMeetingsAction
+            self.useCiscoWebexVidcastAction = useCiscoWebexVidcastAction
             self.useComprehendAction = useComprehendAction
             self.useComprehendMedicalAction = useComprehendMedicalAction
             self.useConfluenceAction = useConfluenceAction
             self.useConfluenceKnowledgeBase = useConfluenceKnowledgeBase
+            self.useDropboxAction = useDropboxAction
+            self.useDunAndBradstreetAction = useDunAndBradstreetAction
             self.useExcelAddInExtension = useExcelAddInExtension
             self.useFactSetAction = useFactSetAction
+            self.useFigmaAction = useFigmaAction
             self.useGenericHTTPAction = useGenericHTTPAction
             self.useGithubAction = useGithubAction
+            self.useGmailAction = useGmailAction
+            self.useGoogleAnalyticsAction = useGoogleAnalyticsAction
             self.useGoogleCalendarAction = useGoogleCalendarAction
+            self.useGoogleChatAction = useGoogleChatAction
+            self.useGoogleDocsAction = useGoogleDocsAction
+            self.useGoogleDriveAction = useGoogleDriveAction
             self.useGoogleDriveKnowledgeBase = useGoogleDriveKnowledgeBase
+            self.useGoogleMeetAction = useGoogleMeetAction
+            self.useGoogleSheetsAction = useGoogleSheetsAction
+            self.useGoogleSlidesAction = useGoogleSlidesAction
+            self.useHGInsightsAction = useHGInsightsAction
             self.useHubspotAction = useHubspotAction
             self.useHuggingFaceAction = useHuggingFaceAction
             self.useIDCKnowledgeBase = useIDCKnowledgeBase
@@ -29965,15 +30397,19 @@ extension QuickSightClientTypes {
             self.useMSExchangeAction = useMSExchangeAction
             self.useMSTeamsAction = useMSTeamsAction
             self.useMondayAction = useMondayAction
+            self.useMoodysAction = useMoodysAction
             self.useNewRelicAction = useNewRelicAction
             self.useNotionAction = useNotionAction
             self.useOneDriveAction = useOneDriveAction
             self.useOneDriveKnowledgeBase = useOneDriveKnowledgeBase
+            self.useOneNoteAction = useOneNoteAction
             self.useOpenAPIAction = useOpenAPIAction
             self.useOutlookAddInExtension = useOutlookAddInExtension
             self.usePagerDutyAction = usePagerDutyAction
+            self.usePagerDutyAgentAction = usePagerDutyAgentAction
             self.usePowerpointAddInExtension = usePowerpointAddInExtension
             self.useQBusinessKnowledgeBase = useQBusinessKnowledgeBase
+            self.useQuickBooksAction = useQuickBooksAction
             self.useS3KnowledgeBase = useS3KnowledgeBase
             self.useSAPBillOfMaterialAction = useSAPBillOfMaterialAction
             self.useSAPBusinessPartnerAction = useSAPBusinessPartnerAction
@@ -29986,15 +30422,27 @@ extension QuickSightClientTypes {
             self.useServiceNowAction = useServiceNowAction
             self.useSharePointAction = useSharePointAction
             self.useSharePointKnowledgeBase = useSharePointKnowledgeBase
+            self.useShopifyAction = useShopifyAction
             self.useSlackAction = useSlackAction
             self.useSmartsheetAction = useSmartsheetAction
+            self.useSnowFlakeAction = useSnowFlakeAction
             self.useTextractAction = useTextractAction
+            self.useVisierAgentAction = useVisierAgentAction
             self.useWebCrawlerKnowledgeBase = useWebCrawlerKnowledgeBase
+            self.useWhatsAppAction = useWhatsAppAction
             self.useWordAddInExtension = useWordAddInExtension
+            self.useZapierAction = useZapierAction
             self.useZendeskAction = useZendeskAction
+            self.useZoomAction = useZoomAction
+            self.useZoomInfoAction = useZoomInfoAction
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
+            self.visierAgentAction = visierAgentAction
             self.webCrawlerKnowledgeBase = webCrawlerKnowledgeBase
+            self.whatsAppAction = whatsAppAction
+            self.zapierAction = zapierAction
             self.zendeskAction = zendeskAction
+            self.zoomAction = zoomAction
+            self.zoomInfoAction = zoomInfoAction
         }
     }
 }
@@ -77700,6 +78148,8 @@ extension QuickSightClientTypes.Capabilities {
         try writer["AccessAppsNativeDataStore"].write(value.accessAppsNativeDataStore)
         try writer["Action"].write(value.action)
         try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
+        try writer["AdobeAction"].write(value.adobeAction)
+        try writer["AirtableAction"].write(value.airtableAction)
         try writer["AmazonBedrockARSAction"].write(value.amazonBedrockARSAction)
         try writer["AmazonBedrockFSAction"].write(value.amazonBedrockFSAction)
         try writer["AmazonBedrockKRSAction"].write(value.amazonBedrockKRSAction)
@@ -77711,15 +78161,20 @@ extension QuickSightClientTypes.Capabilities {
         try writer["Automate"].write(value.automate)
         try writer["BambooHRAction"].write(value.bambooHRAction)
         try writer["BedrockManagedKnowledgeBase"].write(value.bedrockManagedKnowledgeBase)
+        try writer["BeeAction"].write(value.beeAction)
         try writer["BoxAgentAction"].write(value.boxAgentAction)
         try writer["BoxKnowledgeBase"].write(value.boxKnowledgeBase)
         try writer["BuildCalculatedFieldWithQ"].write(value.buildCalculatedFieldWithQ)
         try writer["CanvaAgentAction"].write(value.canvaAgentAction)
         try writer["ChatAgent"].write(value.chatAgent)
+        try writer["CiscoWebexMeetingsAction"].write(value.ciscoWebexMeetingsAction)
+        try writer["CiscoWebexVidcastAction"].write(value.ciscoWebexVidcastAction)
         try writer["ComprehendAction"].write(value.comprehendAction)
         try writer["ComprehendMedicalAction"].write(value.comprehendMedicalAction)
         try writer["ConfluenceAction"].write(value.confluenceAction)
         try writer["ConfluenceKnowledgeBase"].write(value.confluenceKnowledgeBase)
+        try writer["CreateAndUpdateAdobeAction"].write(value.createAndUpdateAdobeAction)
+        try writer["CreateAndUpdateAirtableAction"].write(value.createAndUpdateAirtableAction)
         try writer["CreateAndUpdateAmazonBedrockARSAction"].write(value.createAndUpdateAmazonBedrockARSAction)
         try writer["CreateAndUpdateAmazonBedrockFSAction"].write(value.createAndUpdateAmazonBedrockFSAction)
         try writer["CreateAndUpdateAmazonBedrockKRSAction"].write(value.createAndUpdateAmazonBedrockKRSAction)
@@ -77728,9 +78183,12 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateAsanaAction"].write(value.createAndUpdateAsanaAction)
         try writer["CreateAndUpdateBambooHRAction"].write(value.createAndUpdateBambooHRAction)
         try writer["CreateAndUpdateBedrockManagedKnowledgeBase"].write(value.createAndUpdateBedrockManagedKnowledgeBase)
+        try writer["CreateAndUpdateBeeAction"].write(value.createAndUpdateBeeAction)
         try writer["CreateAndUpdateBoxAgentAction"].write(value.createAndUpdateBoxAgentAction)
         try writer["CreateAndUpdateBoxKnowledgeBase"].write(value.createAndUpdateBoxKnowledgeBase)
         try writer["CreateAndUpdateCanvaAgentAction"].write(value.createAndUpdateCanvaAgentAction)
+        try writer["CreateAndUpdateCiscoWebexMeetingsAction"].write(value.createAndUpdateCiscoWebexMeetingsAction)
+        try writer["CreateAndUpdateCiscoWebexVidcastAction"].write(value.createAndUpdateCiscoWebexVidcastAction)
         try writer["CreateAndUpdateComprehendAction"].write(value.createAndUpdateComprehendAction)
         try writer["CreateAndUpdateComprehendMedicalAction"].write(value.createAndUpdateComprehendMedicalAction)
         try writer["CreateAndUpdateConfluenceAction"].write(value.createAndUpdateConfluenceAction)
@@ -77738,11 +78196,23 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateDashboardEmailReports"].write(value.createAndUpdateDashboardEmailReports)
         try writer["CreateAndUpdateDataSources"].write(value.createAndUpdateDataSources)
         try writer["CreateAndUpdateDatasets"].write(value.createAndUpdateDatasets)
+        try writer["CreateAndUpdateDropboxAction"].write(value.createAndUpdateDropboxAction)
+        try writer["CreateAndUpdateDunAndBradstreetAction"].write(value.createAndUpdateDunAndBradstreetAction)
         try writer["CreateAndUpdateFactSetAction"].write(value.createAndUpdateFactSetAction)
+        try writer["CreateAndUpdateFigmaAction"].write(value.createAndUpdateFigmaAction)
         try writer["CreateAndUpdateGenericHTTPAction"].write(value.createAndUpdateGenericHTTPAction)
         try writer["CreateAndUpdateGithubAction"].write(value.createAndUpdateGithubAction)
+        try writer["CreateAndUpdateGmailAction"].write(value.createAndUpdateGmailAction)
+        try writer["CreateAndUpdateGoogleAnalyticsAction"].write(value.createAndUpdateGoogleAnalyticsAction)
         try writer["CreateAndUpdateGoogleCalendarAction"].write(value.createAndUpdateGoogleCalendarAction)
+        try writer["CreateAndUpdateGoogleChatAction"].write(value.createAndUpdateGoogleChatAction)
+        try writer["CreateAndUpdateGoogleDocsAction"].write(value.createAndUpdateGoogleDocsAction)
+        try writer["CreateAndUpdateGoogleDriveAction"].write(value.createAndUpdateGoogleDriveAction)
         try writer["CreateAndUpdateGoogleDriveKnowledgeBase"].write(value.createAndUpdateGoogleDriveKnowledgeBase)
+        try writer["CreateAndUpdateGoogleMeetAction"].write(value.createAndUpdateGoogleMeetAction)
+        try writer["CreateAndUpdateGoogleSheetsAction"].write(value.createAndUpdateGoogleSheetsAction)
+        try writer["CreateAndUpdateGoogleSlidesAction"].write(value.createAndUpdateGoogleSlidesAction)
+        try writer["CreateAndUpdateHGInsightsAction"].write(value.createAndUpdateHGInsightsAction)
         try writer["CreateAndUpdateHubspotAction"].write(value.createAndUpdateHubspotAction)
         try writer["CreateAndUpdateHuggingFaceAction"].write(value.createAndUpdateHuggingFaceAction)
         try writer["CreateAndUpdateIDCKnowledgeBase"].write(value.createAndUpdateIDCKnowledgeBase)
@@ -77754,13 +78224,17 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateMSExchangeAction"].write(value.createAndUpdateMSExchangeAction)
         try writer["CreateAndUpdateMSTeamsAction"].write(value.createAndUpdateMSTeamsAction)
         try writer["CreateAndUpdateMondayAction"].write(value.createAndUpdateMondayAction)
+        try writer["CreateAndUpdateMoodysAction"].write(value.createAndUpdateMoodysAction)
         try writer["CreateAndUpdateNewRelicAction"].write(value.createAndUpdateNewRelicAction)
         try writer["CreateAndUpdateNotionAction"].write(value.createAndUpdateNotionAction)
         try writer["CreateAndUpdateOneDriveAction"].write(value.createAndUpdateOneDriveAction)
         try writer["CreateAndUpdateOneDriveKnowledgeBase"].write(value.createAndUpdateOneDriveKnowledgeBase)
+        try writer["CreateAndUpdateOneNoteAction"].write(value.createAndUpdateOneNoteAction)
         try writer["CreateAndUpdateOpenAPIAction"].write(value.createAndUpdateOpenAPIAction)
         try writer["CreateAndUpdatePagerDutyAction"].write(value.createAndUpdatePagerDutyAction)
+        try writer["CreateAndUpdatePagerDutyAgentAction"].write(value.createAndUpdatePagerDutyAgentAction)
         try writer["CreateAndUpdateQBusinessKnowledgeBase"].write(value.createAndUpdateQBusinessKnowledgeBase)
+        try writer["CreateAndUpdateQuickBooksAction"].write(value.createAndUpdateQuickBooksAction)
         try writer["CreateAndUpdateS3KnowledgeBase"].write(value.createAndUpdateS3KnowledgeBase)
         try writer["CreateAndUpdateSAPBillOfMaterialAction"].write(value.createAndUpdateSAPBillOfMaterialAction)
         try writer["CreateAndUpdateSAPBusinessPartnerAction"].write(value.createAndUpdateSAPBusinessPartnerAction)
@@ -77773,19 +78247,28 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateServiceNowAction"].write(value.createAndUpdateServiceNowAction)
         try writer["CreateAndUpdateSharePointAction"].write(value.createAndUpdateSharePointAction)
         try writer["CreateAndUpdateSharePointKnowledgeBase"].write(value.createAndUpdateSharePointKnowledgeBase)
+        try writer["CreateAndUpdateShopifyAction"].write(value.createAndUpdateShopifyAction)
         try writer["CreateAndUpdateSlackAction"].write(value.createAndUpdateSlackAction)
         try writer["CreateAndUpdateSmartsheetAction"].write(value.createAndUpdateSmartsheetAction)
+        try writer["CreateAndUpdateSnowFlakeAction"].write(value.createAndUpdateSnowFlakeAction)
         try writer["CreateAndUpdateTextractAction"].write(value.createAndUpdateTextractAction)
         try writer["CreateAndUpdateThemes"].write(value.createAndUpdateThemes)
         try writer["CreateAndUpdateThresholdAlerts"].write(value.createAndUpdateThresholdAlerts)
+        try writer["CreateAndUpdateVisierAgentAction"].write(value.createAndUpdateVisierAgentAction)
         try writer["CreateAndUpdateWebCrawlerKnowledgeBase"].write(value.createAndUpdateWebCrawlerKnowledgeBase)
+        try writer["CreateAndUpdateWhatsAppAction"].write(value.createAndUpdateWhatsAppAction)
+        try writer["CreateAndUpdateZapierAction"].write(value.createAndUpdateZapierAction)
         try writer["CreateAndUpdateZendeskAction"].write(value.createAndUpdateZendeskAction)
+        try writer["CreateAndUpdateZoomAction"].write(value.createAndUpdateZoomAction)
+        try writer["CreateAndUpdateZoomInfoAction"].write(value.createAndUpdateZoomInfoAction)
         try writer["CreateChatAgents"].write(value.createChatAgents)
         try writer["CreateDashboardExecutiveSummaryWithQ"].write(value.createDashboardExecutiveSummaryWithQ)
         try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
         try writer["CreateSharedFolders"].write(value.createSharedFolders)
         try writer["CreateSpaces"].write(value.createSpaces)
         try writer["Dashboard"].write(value.dashboard)
+        try writer["DropboxAction"].write(value.dropboxAction)
+        try writer["DunAndBradstreetAction"].write(value.dunAndBradstreetAction)
         try writer["EditVisualWithQ"].write(value.editVisualWithQ)
         try writer["ExportToCsv"].write(value.exportToCsv)
         try writer["ExportToCsvInScheduledReports"].write(value.exportToCsvInScheduledReports)
@@ -77795,12 +78278,22 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ExportToPdfInScheduledReports"].write(value.exportToPdfInScheduledReports)
         try writer["Extension"].write(value.`extension`)
         try writer["FactSetAction"].write(value.factSetAction)
+        try writer["FigmaAction"].write(value.figmaAction)
         try writer["Flow"].write(value.flow)
         try writer["GenerateAnalyses"].write(value.generateAnalyses)
         try writer["GenericHTTPAction"].write(value.genericHTTPAction)
         try writer["GithubAction"].write(value.githubAction)
+        try writer["GmailAction"].write(value.gmailAction)
+        try writer["GoogleAnalyticsAction"].write(value.googleAnalyticsAction)
         try writer["GoogleCalendarAction"].write(value.googleCalendarAction)
+        try writer["GoogleChatAction"].write(value.googleChatAction)
+        try writer["GoogleDocsAction"].write(value.googleDocsAction)
+        try writer["GoogleDriveAction"].write(value.googleDriveAction)
         try writer["GoogleDriveKnowledgeBase"].write(value.googleDriveKnowledgeBase)
+        try writer["GoogleMeetAction"].write(value.googleMeetAction)
+        try writer["GoogleSheetsAction"].write(value.googleSheetsAction)
+        try writer["GoogleSlidesAction"].write(value.googleSlidesAction)
+        try writer["HGInsightsAction"].write(value.hgInsightsAction)
         try writer["HubspotAction"].write(value.hubspotAction)
         try writer["HuggingFaceAction"].write(value.huggingFaceAction)
         try writer["IDCKnowledgeBase"].write(value.idcKnowledgeBase)
@@ -77816,16 +78309,20 @@ extension QuickSightClientTypes.Capabilities {
         try writer["MSTeamsAction"].write(value.msTeamsAction)
         try writer["ManageSharedFolders"].write(value.manageSharedFolders)
         try writer["MondayAction"].write(value.mondayAction)
+        try writer["MoodysAction"].write(value.moodysAction)
         try writer["NewRelicAction"].write(value.newRelicAction)
         try writer["NotionAction"].write(value.notionAction)
         try writer["OneDriveAction"].write(value.oneDriveAction)
         try writer["OneDriveKnowledgeBase"].write(value.oneDriveKnowledgeBase)
+        try writer["OneNoteAction"].write(value.oneNoteAction)
         try writer["OpenAPIAction"].write(value.openAPIAction)
         try writer["PagerDutyAction"].write(value.pagerDutyAction)
+        try writer["PagerDutyAgentAction"].write(value.pagerDutyAgentAction)
         try writer["PerformFlowUiTask"].write(value.performFlowUiTask)
         try writer["PrintReports"].write(value.printReports)
         try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
         try writer["QBusinessKnowledgeBase"].write(value.qBusinessKnowledgeBase)
+        try writer["QuickBooksAction"].write(value.quickBooksAction)
         try writer["QuickEventTrigger"].write(value.quickEventTrigger)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["Research"].write(value.research)
@@ -77842,6 +78339,8 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ScheduleTrigger"].write(value.scheduleTrigger)
         try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ServiceNowAction"].write(value.serviceNowAction)
+        try writer["ShareAdobeAction"].write(value.shareAdobeAction)
+        try writer["ShareAirtableAction"].write(value.shareAirtableAction)
         try writer["ShareAmazonBedrockARSAction"].write(value.shareAmazonBedrockARSAction)
         try writer["ShareAmazonBedrockFSAction"].write(value.shareAmazonBedrockFSAction)
         try writer["ShareAmazonBedrockKRSAction"].write(value.shareAmazonBedrockKRSAction)
@@ -77851,10 +78350,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareAsanaAction"].write(value.shareAsanaAction)
         try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
         try writer["ShareBedrockManagedKnowledgeBase"].write(value.shareBedrockManagedKnowledgeBase)
+        try writer["ShareBeeAction"].write(value.shareBeeAction)
         try writer["ShareBoxAgentAction"].write(value.shareBoxAgentAction)
         try writer["ShareBoxKnowledgeBase"].write(value.shareBoxKnowledgeBase)
         try writer["ShareCanvaAgentAction"].write(value.shareCanvaAgentAction)
         try writer["ShareChatAgents"].write(value.shareChatAgents)
+        try writer["ShareCiscoWebexMeetingsAction"].write(value.shareCiscoWebexMeetingsAction)
+        try writer["ShareCiscoWebexVidcastAction"].write(value.shareCiscoWebexVidcastAction)
         try writer["ShareComprehendAction"].write(value.shareComprehendAction)
         try writer["ShareComprehendMedicalAction"].write(value.shareComprehendMedicalAction)
         try writer["ShareConfluenceAction"].write(value.shareConfluenceAction)
@@ -77862,11 +78364,23 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareDashboards"].write(value.shareDashboards)
         try writer["ShareDataSources"].write(value.shareDataSources)
         try writer["ShareDatasets"].write(value.shareDatasets)
+        try writer["ShareDropboxAction"].write(value.shareDropboxAction)
+        try writer["ShareDunAndBradstreetAction"].write(value.shareDunAndBradstreetAction)
         try writer["ShareFactSetAction"].write(value.shareFactSetAction)
+        try writer["ShareFigmaAction"].write(value.shareFigmaAction)
         try writer["ShareGenericHTTPAction"].write(value.shareGenericHTTPAction)
         try writer["ShareGithubAction"].write(value.shareGithubAction)
+        try writer["ShareGmailAction"].write(value.shareGmailAction)
+        try writer["ShareGoogleAnalyticsAction"].write(value.shareGoogleAnalyticsAction)
         try writer["ShareGoogleCalendarAction"].write(value.shareGoogleCalendarAction)
+        try writer["ShareGoogleChatAction"].write(value.shareGoogleChatAction)
+        try writer["ShareGoogleDocsAction"].write(value.shareGoogleDocsAction)
+        try writer["ShareGoogleDriveAction"].write(value.shareGoogleDriveAction)
         try writer["ShareGoogleDriveKnowledgeBase"].write(value.shareGoogleDriveKnowledgeBase)
+        try writer["ShareGoogleMeetAction"].write(value.shareGoogleMeetAction)
+        try writer["ShareGoogleSheetsAction"].write(value.shareGoogleSheetsAction)
+        try writer["ShareGoogleSlidesAction"].write(value.shareGoogleSlidesAction)
+        try writer["ShareHGInsightsAction"].write(value.shareHGInsightsAction)
         try writer["ShareHubspotAction"].write(value.shareHubspotAction)
         try writer["ShareHuggingFaceAction"].write(value.shareHuggingFaceAction)
         try writer["ShareIDCKnowledgeBase"].write(value.shareIDCKnowledgeBase)
@@ -77878,15 +78392,19 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareMSExchangeAction"].write(value.shareMSExchangeAction)
         try writer["ShareMSTeamsAction"].write(value.shareMSTeamsAction)
         try writer["ShareMondayAction"].write(value.shareMondayAction)
+        try writer["ShareMoodysAction"].write(value.shareMoodysAction)
         try writer["ShareNewRelicAction"].write(value.shareNewRelicAction)
         try writer["ShareNotionAction"].write(value.shareNotionAction)
         try writer["ShareOneDriveAction"].write(value.shareOneDriveAction)
         try writer["ShareOneDriveKnowledgeBase"].write(value.shareOneDriveKnowledgeBase)
+        try writer["ShareOneNoteAction"].write(value.shareOneNoteAction)
         try writer["ShareOpenAPIAction"].write(value.shareOpenAPIAction)
         try writer["SharePagerDutyAction"].write(value.sharePagerDutyAction)
+        try writer["SharePagerDutyAgentAction"].write(value.sharePagerDutyAgentAction)
         try writer["SharePointAction"].write(value.sharePointAction)
         try writer["SharePointKnowledgeBase"].write(value.sharePointKnowledgeBase)
         try writer["ShareQBusinessKnowledgeBase"].write(value.shareQBusinessKnowledgeBase)
+        try writer["ShareQuickBooksAction"].write(value.shareQuickBooksAction)
         try writer["ShareS3KnowledgeBase"].write(value.shareS3KnowledgeBase)
         try writer["ShareSAPBillOfMaterialAction"].write(value.shareSAPBillOfMaterialAction)
         try writer["ShareSAPBusinessPartnerAction"].write(value.shareSAPBusinessPartnerAction)
@@ -77899,21 +78417,32 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareServiceNowAction"].write(value.shareServiceNowAction)
         try writer["ShareSharePointAction"].write(value.shareSharePointAction)
         try writer["ShareSharePointKnowledgeBase"].write(value.shareSharePointKnowledgeBase)
+        try writer["ShareShopifyAction"].write(value.shareShopifyAction)
         try writer["ShareSlackAction"].write(value.shareSlackAction)
         try writer["ShareSmartsheetAction"].write(value.shareSmartsheetAction)
+        try writer["ShareSnowFlakeAction"].write(value.shareSnowFlakeAction)
         try writer["ShareSpaces"].write(value.shareSpaces)
         try writer["ShareTextractAction"].write(value.shareTextractAction)
+        try writer["ShareVisierAgentAction"].write(value.shareVisierAgentAction)
         try writer["ShareWebCrawlerKnowledgeBase"].write(value.shareWebCrawlerKnowledgeBase)
+        try writer["ShareWhatsAppAction"].write(value.shareWhatsAppAction)
+        try writer["ShareZapierAction"].write(value.shareZapierAction)
         try writer["ShareZendeskAction"].write(value.shareZendeskAction)
+        try writer["ShareZoomAction"].write(value.shareZoomAction)
+        try writer["ShareZoomInfoAction"].write(value.shareZoomInfoAction)
+        try writer["ShopifyAction"].write(value.shopifyAction)
         try writer["SlackAction"].write(value.slackAction)
         try writer["SmartsheetAction"].write(value.smartsheetAction)
+        try writer["SnowFlakeAction"].write(value.snowFlakeAction)
         try writer["Space"].write(value.space)
         try writer["Story"].write(value.story)
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
         try writer["TextractAction"].write(value.textractAction)
         try writer["Topic"].write(value.topic)
         try writer["Trigger"].write(value.trigger)
+        try writer["UseAdobeAction"].write(value.useAdobeAction)
         try writer["UseAgentWebSearch"].write(value.useAgentWebSearch)
+        try writer["UseAirtableAction"].write(value.useAirtableAction)
         try writer["UseAmazonBedrockARSAction"].write(value.useAmazonBedrockARSAction)
         try writer["UseAmazonBedrockFSAction"].write(value.useAmazonBedrockFSAction)
         try writer["UseAmazonBedrockKRSAction"].write(value.useAmazonBedrockKRSAction)
@@ -77922,20 +78451,35 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseBambooHRAction"].write(value.useBambooHRAction)
         try writer["UseBedrockManagedKnowledgeBase"].write(value.useBedrockManagedKnowledgeBase)
         try writer["UseBedrockModels"].write(value.useBedrockModels)
+        try writer["UseBeeAction"].write(value.useBeeAction)
         try writer["UseBoxAgentAction"].write(value.useBoxAgentAction)
         try writer["UseBoxKnowledgeBase"].write(value.useBoxKnowledgeBase)
         try writer["UseBrowserExtension"].write(value.useBrowserExtension)
         try writer["UseCanvaAgentAction"].write(value.useCanvaAgentAction)
+        try writer["UseCiscoWebexMeetingsAction"].write(value.useCiscoWebexMeetingsAction)
+        try writer["UseCiscoWebexVidcastAction"].write(value.useCiscoWebexVidcastAction)
         try writer["UseComprehendAction"].write(value.useComprehendAction)
         try writer["UseComprehendMedicalAction"].write(value.useComprehendMedicalAction)
         try writer["UseConfluenceAction"].write(value.useConfluenceAction)
         try writer["UseConfluenceKnowledgeBase"].write(value.useConfluenceKnowledgeBase)
+        try writer["UseDropboxAction"].write(value.useDropboxAction)
+        try writer["UseDunAndBradstreetAction"].write(value.useDunAndBradstreetAction)
         try writer["UseExcelAddInExtension"].write(value.useExcelAddInExtension)
         try writer["UseFactSetAction"].write(value.useFactSetAction)
+        try writer["UseFigmaAction"].write(value.useFigmaAction)
         try writer["UseGenericHTTPAction"].write(value.useGenericHTTPAction)
         try writer["UseGithubAction"].write(value.useGithubAction)
+        try writer["UseGmailAction"].write(value.useGmailAction)
+        try writer["UseGoogleAnalyticsAction"].write(value.useGoogleAnalyticsAction)
         try writer["UseGoogleCalendarAction"].write(value.useGoogleCalendarAction)
+        try writer["UseGoogleChatAction"].write(value.useGoogleChatAction)
+        try writer["UseGoogleDocsAction"].write(value.useGoogleDocsAction)
+        try writer["UseGoogleDriveAction"].write(value.useGoogleDriveAction)
         try writer["UseGoogleDriveKnowledgeBase"].write(value.useGoogleDriveKnowledgeBase)
+        try writer["UseGoogleMeetAction"].write(value.useGoogleMeetAction)
+        try writer["UseGoogleSheetsAction"].write(value.useGoogleSheetsAction)
+        try writer["UseGoogleSlidesAction"].write(value.useGoogleSlidesAction)
+        try writer["UseHGInsightsAction"].write(value.useHGInsightsAction)
         try writer["UseHubspotAction"].write(value.useHubspotAction)
         try writer["UseHuggingFaceAction"].write(value.useHuggingFaceAction)
         try writer["UseIDCKnowledgeBase"].write(value.useIDCKnowledgeBase)
@@ -77946,15 +78490,19 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseMSExchangeAction"].write(value.useMSExchangeAction)
         try writer["UseMSTeamsAction"].write(value.useMSTeamsAction)
         try writer["UseMondayAction"].write(value.useMondayAction)
+        try writer["UseMoodysAction"].write(value.useMoodysAction)
         try writer["UseNewRelicAction"].write(value.useNewRelicAction)
         try writer["UseNotionAction"].write(value.useNotionAction)
         try writer["UseOneDriveAction"].write(value.useOneDriveAction)
         try writer["UseOneDriveKnowledgeBase"].write(value.useOneDriveKnowledgeBase)
+        try writer["UseOneNoteAction"].write(value.useOneNoteAction)
         try writer["UseOpenAPIAction"].write(value.useOpenAPIAction)
         try writer["UseOutlookAddInExtension"].write(value.useOutlookAddInExtension)
         try writer["UsePagerDutyAction"].write(value.usePagerDutyAction)
+        try writer["UsePagerDutyAgentAction"].write(value.usePagerDutyAgentAction)
         try writer["UsePowerpointAddInExtension"].write(value.usePowerpointAddInExtension)
         try writer["UseQBusinessKnowledgeBase"].write(value.useQBusinessKnowledgeBase)
+        try writer["UseQuickBooksAction"].write(value.useQuickBooksAction)
         try writer["UseS3KnowledgeBase"].write(value.useS3KnowledgeBase)
         try writer["UseSAPBillOfMaterialAction"].write(value.useSAPBillOfMaterialAction)
         try writer["UseSAPBusinessPartnerAction"].write(value.useSAPBusinessPartnerAction)
@@ -77967,15 +78515,27 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseServiceNowAction"].write(value.useServiceNowAction)
         try writer["UseSharePointAction"].write(value.useSharePointAction)
         try writer["UseSharePointKnowledgeBase"].write(value.useSharePointKnowledgeBase)
+        try writer["UseShopifyAction"].write(value.useShopifyAction)
         try writer["UseSlackAction"].write(value.useSlackAction)
         try writer["UseSmartsheetAction"].write(value.useSmartsheetAction)
+        try writer["UseSnowFlakeAction"].write(value.useSnowFlakeAction)
         try writer["UseTextractAction"].write(value.useTextractAction)
+        try writer["UseVisierAgentAction"].write(value.useVisierAgentAction)
         try writer["UseWebCrawlerKnowledgeBase"].write(value.useWebCrawlerKnowledgeBase)
+        try writer["UseWhatsAppAction"].write(value.useWhatsAppAction)
         try writer["UseWordAddInExtension"].write(value.useWordAddInExtension)
+        try writer["UseZapierAction"].write(value.useZapierAction)
         try writer["UseZendeskAction"].write(value.useZendeskAction)
+        try writer["UseZoomAction"].write(value.useZoomAction)
+        try writer["UseZoomInfoAction"].write(value.useZoomInfoAction)
         try writer["ViewAccountSPICECapacity"].write(value.viewAccountSPICECapacity)
+        try writer["VisierAgentAction"].write(value.visierAgentAction)
         try writer["WebCrawlerKnowledgeBase"].write(value.webCrawlerKnowledgeBase)
+        try writer["WhatsAppAction"].write(value.whatsAppAction)
+        try writer["ZapierAction"].write(value.zapierAction)
         try writer["ZendeskAction"].write(value.zendeskAction)
+        try writer["ZoomAction"].write(value.zoomAction)
+        try writer["ZoomInfoAction"].write(value.zoomInfoAction)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Capabilities {
@@ -78234,6 +78794,118 @@ extension QuickSightClientTypes.Capabilities {
         value.createAndUpdateNewRelicAction = try reader["CreateAndUpdateNewRelicAction"].readIfPresent()
         value.shareNewRelicAction = try reader["ShareNewRelicAction"].readIfPresent()
         value.useNewRelicAction = try reader["UseNewRelicAction"].readIfPresent()
+        value.pagerDutyAgentAction = try reader["PagerDutyAgentAction"].readIfPresent()
+        value.createAndUpdatePagerDutyAgentAction = try reader["CreateAndUpdatePagerDutyAgentAction"].readIfPresent()
+        value.sharePagerDutyAgentAction = try reader["SharePagerDutyAgentAction"].readIfPresent()
+        value.usePagerDutyAgentAction = try reader["UsePagerDutyAgentAction"].readIfPresent()
+        value.visierAgentAction = try reader["VisierAgentAction"].readIfPresent()
+        value.createAndUpdateVisierAgentAction = try reader["CreateAndUpdateVisierAgentAction"].readIfPresent()
+        value.shareVisierAgentAction = try reader["ShareVisierAgentAction"].readIfPresent()
+        value.useVisierAgentAction = try reader["UseVisierAgentAction"].readIfPresent()
+        value.zoomAction = try reader["ZoomAction"].readIfPresent()
+        value.createAndUpdateZoomAction = try reader["CreateAndUpdateZoomAction"].readIfPresent()
+        value.shareZoomAction = try reader["ShareZoomAction"].readIfPresent()
+        value.useZoomAction = try reader["UseZoomAction"].readIfPresent()
+        value.snowFlakeAction = try reader["SnowFlakeAction"].readIfPresent()
+        value.createAndUpdateSnowFlakeAction = try reader["CreateAndUpdateSnowFlakeAction"].readIfPresent()
+        value.shareSnowFlakeAction = try reader["ShareSnowFlakeAction"].readIfPresent()
+        value.useSnowFlakeAction = try reader["UseSnowFlakeAction"].readIfPresent()
+        value.zapierAction = try reader["ZapierAction"].readIfPresent()
+        value.createAndUpdateZapierAction = try reader["CreateAndUpdateZapierAction"].readIfPresent()
+        value.shareZapierAction = try reader["ShareZapierAction"].readIfPresent()
+        value.useZapierAction = try reader["UseZapierAction"].readIfPresent()
+        value.airtableAction = try reader["AirtableAction"].readIfPresent()
+        value.createAndUpdateAirtableAction = try reader["CreateAndUpdateAirtableAction"].readIfPresent()
+        value.shareAirtableAction = try reader["ShareAirtableAction"].readIfPresent()
+        value.useAirtableAction = try reader["UseAirtableAction"].readIfPresent()
+        value.dropboxAction = try reader["DropboxAction"].readIfPresent()
+        value.createAndUpdateDropboxAction = try reader["CreateAndUpdateDropboxAction"].readIfPresent()
+        value.shareDropboxAction = try reader["ShareDropboxAction"].readIfPresent()
+        value.useDropboxAction = try reader["UseDropboxAction"].readIfPresent()
+        value.gmailAction = try reader["GmailAction"].readIfPresent()
+        value.createAndUpdateGmailAction = try reader["CreateAndUpdateGmailAction"].readIfPresent()
+        value.shareGmailAction = try reader["ShareGmailAction"].readIfPresent()
+        value.useGmailAction = try reader["UseGmailAction"].readIfPresent()
+        value.googleAnalyticsAction = try reader["GoogleAnalyticsAction"].readIfPresent()
+        value.createAndUpdateGoogleAnalyticsAction = try reader["CreateAndUpdateGoogleAnalyticsAction"].readIfPresent()
+        value.shareGoogleAnalyticsAction = try reader["ShareGoogleAnalyticsAction"].readIfPresent()
+        value.useGoogleAnalyticsAction = try reader["UseGoogleAnalyticsAction"].readIfPresent()
+        value.googleDocsAction = try reader["GoogleDocsAction"].readIfPresent()
+        value.createAndUpdateGoogleDocsAction = try reader["CreateAndUpdateGoogleDocsAction"].readIfPresent()
+        value.shareGoogleDocsAction = try reader["ShareGoogleDocsAction"].readIfPresent()
+        value.useGoogleDocsAction = try reader["UseGoogleDocsAction"].readIfPresent()
+        value.googleDriveAction = try reader["GoogleDriveAction"].readIfPresent()
+        value.createAndUpdateGoogleDriveAction = try reader["CreateAndUpdateGoogleDriveAction"].readIfPresent()
+        value.shareGoogleDriveAction = try reader["ShareGoogleDriveAction"].readIfPresent()
+        value.useGoogleDriveAction = try reader["UseGoogleDriveAction"].readIfPresent()
+        value.googleMeetAction = try reader["GoogleMeetAction"].readIfPresent()
+        value.createAndUpdateGoogleMeetAction = try reader["CreateAndUpdateGoogleMeetAction"].readIfPresent()
+        value.shareGoogleMeetAction = try reader["ShareGoogleMeetAction"].readIfPresent()
+        value.useGoogleMeetAction = try reader["UseGoogleMeetAction"].readIfPresent()
+        value.googleSheetsAction = try reader["GoogleSheetsAction"].readIfPresent()
+        value.createAndUpdateGoogleSheetsAction = try reader["CreateAndUpdateGoogleSheetsAction"].readIfPresent()
+        value.shareGoogleSheetsAction = try reader["ShareGoogleSheetsAction"].readIfPresent()
+        value.useGoogleSheetsAction = try reader["UseGoogleSheetsAction"].readIfPresent()
+        value.googleSlidesAction = try reader["GoogleSlidesAction"].readIfPresent()
+        value.createAndUpdateGoogleSlidesAction = try reader["CreateAndUpdateGoogleSlidesAction"].readIfPresent()
+        value.shareGoogleSlidesAction = try reader["ShareGoogleSlidesAction"].readIfPresent()
+        value.useGoogleSlidesAction = try reader["UseGoogleSlidesAction"].readIfPresent()
+        value.quickBooksAction = try reader["QuickBooksAction"].readIfPresent()
+        value.createAndUpdateQuickBooksAction = try reader["CreateAndUpdateQuickBooksAction"].readIfPresent()
+        value.shareQuickBooksAction = try reader["ShareQuickBooksAction"].readIfPresent()
+        value.useQuickBooksAction = try reader["UseQuickBooksAction"].readIfPresent()
+        value.figmaAction = try reader["FigmaAction"].readIfPresent()
+        value.createAndUpdateFigmaAction = try reader["CreateAndUpdateFigmaAction"].readIfPresent()
+        value.shareFigmaAction = try reader["ShareFigmaAction"].readIfPresent()
+        value.useFigmaAction = try reader["UseFigmaAction"].readIfPresent()
+        value.whatsAppAction = try reader["WhatsAppAction"].readIfPresent()
+        value.createAndUpdateWhatsAppAction = try reader["CreateAndUpdateWhatsAppAction"].readIfPresent()
+        value.shareWhatsAppAction = try reader["ShareWhatsAppAction"].readIfPresent()
+        value.useWhatsAppAction = try reader["UseWhatsAppAction"].readIfPresent()
+        value.googleChatAction = try reader["GoogleChatAction"].readIfPresent()
+        value.createAndUpdateGoogleChatAction = try reader["CreateAndUpdateGoogleChatAction"].readIfPresent()
+        value.shareGoogleChatAction = try reader["ShareGoogleChatAction"].readIfPresent()
+        value.useGoogleChatAction = try reader["UseGoogleChatAction"].readIfPresent()
+        value.oneNoteAction = try reader["OneNoteAction"].readIfPresent()
+        value.createAndUpdateOneNoteAction = try reader["CreateAndUpdateOneNoteAction"].readIfPresent()
+        value.shareOneNoteAction = try reader["ShareOneNoteAction"].readIfPresent()
+        value.useOneNoteAction = try reader["UseOneNoteAction"].readIfPresent()
+        value.shopifyAction = try reader["ShopifyAction"].readIfPresent()
+        value.createAndUpdateShopifyAction = try reader["CreateAndUpdateShopifyAction"].readIfPresent()
+        value.shareShopifyAction = try reader["ShareShopifyAction"].readIfPresent()
+        value.useShopifyAction = try reader["UseShopifyAction"].readIfPresent()
+        value.adobeAction = try reader["AdobeAction"].readIfPresent()
+        value.createAndUpdateAdobeAction = try reader["CreateAndUpdateAdobeAction"].readIfPresent()
+        value.shareAdobeAction = try reader["ShareAdobeAction"].readIfPresent()
+        value.useAdobeAction = try reader["UseAdobeAction"].readIfPresent()
+        value.ciscoWebexVidcastAction = try reader["CiscoWebexVidcastAction"].readIfPresent()
+        value.createAndUpdateCiscoWebexVidcastAction = try reader["CreateAndUpdateCiscoWebexVidcastAction"].readIfPresent()
+        value.shareCiscoWebexVidcastAction = try reader["ShareCiscoWebexVidcastAction"].readIfPresent()
+        value.useCiscoWebexVidcastAction = try reader["UseCiscoWebexVidcastAction"].readIfPresent()
+        value.ciscoWebexMeetingsAction = try reader["CiscoWebexMeetingsAction"].readIfPresent()
+        value.createAndUpdateCiscoWebexMeetingsAction = try reader["CreateAndUpdateCiscoWebexMeetingsAction"].readIfPresent()
+        value.shareCiscoWebexMeetingsAction = try reader["ShareCiscoWebexMeetingsAction"].readIfPresent()
+        value.useCiscoWebexMeetingsAction = try reader["UseCiscoWebexMeetingsAction"].readIfPresent()
+        value.dunAndBradstreetAction = try reader["DunAndBradstreetAction"].readIfPresent()
+        value.createAndUpdateDunAndBradstreetAction = try reader["CreateAndUpdateDunAndBradstreetAction"].readIfPresent()
+        value.shareDunAndBradstreetAction = try reader["ShareDunAndBradstreetAction"].readIfPresent()
+        value.useDunAndBradstreetAction = try reader["UseDunAndBradstreetAction"].readIfPresent()
+        value.hgInsightsAction = try reader["HGInsightsAction"].readIfPresent()
+        value.createAndUpdateHGInsightsAction = try reader["CreateAndUpdateHGInsightsAction"].readIfPresent()
+        value.shareHGInsightsAction = try reader["ShareHGInsightsAction"].readIfPresent()
+        value.useHGInsightsAction = try reader["UseHGInsightsAction"].readIfPresent()
+        value.zoomInfoAction = try reader["ZoomInfoAction"].readIfPresent()
+        value.createAndUpdateZoomInfoAction = try reader["CreateAndUpdateZoomInfoAction"].readIfPresent()
+        value.shareZoomInfoAction = try reader["ShareZoomInfoAction"].readIfPresent()
+        value.useZoomInfoAction = try reader["UseZoomInfoAction"].readIfPresent()
+        value.moodysAction = try reader["MoodysAction"].readIfPresent()
+        value.createAndUpdateMoodysAction = try reader["CreateAndUpdateMoodysAction"].readIfPresent()
+        value.shareMoodysAction = try reader["ShareMoodysAction"].readIfPresent()
+        value.useMoodysAction = try reader["UseMoodysAction"].readIfPresent()
+        value.beeAction = try reader["BeeAction"].readIfPresent()
+        value.createAndUpdateBeeAction = try reader["CreateAndUpdateBeeAction"].readIfPresent()
+        value.shareBeeAction = try reader["ShareBeeAction"].readIfPresent()
+        value.useBeeAction = try reader["UseBeeAction"].readIfPresent()
         value.topic = try reader["Topic"].readIfPresent()
         value.editVisualWithQ = try reader["EditVisualWithQ"].readIfPresent()
         value.buildCalculatedFieldWithQ = try reader["BuildCalculatedFieldWithQ"].readIfPresent()

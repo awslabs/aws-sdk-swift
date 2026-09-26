@@ -5321,6 +5321,71 @@ extension RekognitionClientTypes {
     }
 }
 
+extension RekognitionClientTypes {
+
+    public enum FeedbackCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eyesClosedDetected
+        case faceNotAligned
+        case faceNotVisible
+        case faceObstructionDetected
+        case highLightingDetected
+        case lowLightingDetected
+        case lowVideoQualityDetected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeedbackCode] {
+            return [
+                .eyesClosedDetected,
+                .faceNotAligned,
+                .faceNotVisible,
+                .faceObstructionDetected,
+                .highLightingDetected,
+                .lowLightingDetected,
+                .lowVideoQualityDetected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eyesClosedDetected: return "EYES_CLOSED_DETECTED"
+            case .faceNotAligned: return "FACE_NOT_ALIGNED"
+            case .faceNotVisible: return "FACE_NOT_VISIBLE"
+            case .faceObstructionDetected: return "FACE_OBSTRUCTION_DETECTED"
+            case .highLightingDetected: return "HIGH_LIGHTING_DETECTED"
+            case .lowLightingDetected: return "LOW_LIGHTING_DETECTED"
+            case .lowVideoQualityDetected: return "LOW_VIDEO_QUALITY_DETECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RekognitionClientTypes {
+
+    /// Describes a condition that was detected in the Face Liveness video and that contributed to the confidence score returned for the session.
+    public struct FeedbackItem: Swift.Sendable {
+        /// A code identifying the condition that was detected during the Face Liveness session.
+        /// This member is required.
+        public var code: RekognitionClientTypes.FeedbackCode?
+        /// A human-readable description of the detected condition, suitable for displaying to an end user before they retry a Face Liveness check. Use Code rather than this message for programmatic decisions, because the message text can change.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: RekognitionClientTypes.FeedbackCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
 public struct GetCelebrityInfoInput: Swift.Sendable {
     /// The ID for the celebrity. You get the celebrity ID from a call to the [RecognizeCelebrities] operation, which recognizes celebrities in an image.
     /// This member is required.
@@ -5727,6 +5792,22 @@ public struct GetFaceLivenessSessionResultsInput: Swift.Sendable {
 
 extension RekognitionClientTypes {
 
+    /// Contains metadata about the client that streamed the video for a Face Liveness session.
+    public struct SessionMetadata: Swift.Sendable {
+        /// The type of SDK that was used to stream the video for the Face Liveness session. This value is self-reported by the client that streamed the session, and Amazon Rekognition doesn't verify it. Don't rely on it for authentication, authorization, or any other security decision.
+        /// This member is required.
+        public var sdkType: Swift.String?
+
+        public init(
+            sdkType: Swift.String? = nil
+        ) {
+            self.sdkType = sdkType
+        }
+    }
+}
+
+extension RekognitionClientTypes {
+
     public enum LivenessSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case expired
@@ -5770,6 +5851,10 @@ public struct GetFaceLivenessSessionResultsOutput: Swift.Sendable {
     public var challenge: RekognitionClientTypes.Challenge?
     /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
     public var confidence: Swift.Float?
+    /// A list of conditions that were detected in the Face Liveness video and that contributed to the returned Confidence score. Each item contains a code and a human-readable message. Feedback is returned only for sessions with a Status of SUCCEEDED, and the list is empty when no such conditions were detected.
+    public var feedback: [RekognitionClientTypes.FeedbackItem]?
+    /// Metadata about the client that streamed the video for the Face Liveness session.
+    public var metadata: RekognitionClientTypes.SessionMetadata?
     /// A high-quality image from the Face Liveness video that can be used for face comparison or search. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. In case the reference image is not returned, it's recommended to retry the Liveness check.
     public var referenceImage: RekognitionClientTypes.AuditImage?
     /// The sessionId for which this request was called.
@@ -5783,6 +5868,8 @@ public struct GetFaceLivenessSessionResultsOutput: Swift.Sendable {
         auditImages: [RekognitionClientTypes.AuditImage]? = nil,
         challenge: RekognitionClientTypes.Challenge? = nil,
         confidence: Swift.Float? = nil,
+        feedback: [RekognitionClientTypes.FeedbackItem]? = nil,
+        metadata: RekognitionClientTypes.SessionMetadata? = nil,
         referenceImage: RekognitionClientTypes.AuditImage? = nil,
         sessionId: Swift.String? = nil,
         status: RekognitionClientTypes.LivenessSessionStatus? = nil
@@ -5790,6 +5877,8 @@ public struct GetFaceLivenessSessionResultsOutput: Swift.Sendable {
         self.auditImages = auditImages
         self.challenge = challenge
         self.confidence = confidence
+        self.feedback = feedback
+        self.metadata = metadata
         self.referenceImage = referenceImage
         self.sessionId = sessionId
         self.status = status

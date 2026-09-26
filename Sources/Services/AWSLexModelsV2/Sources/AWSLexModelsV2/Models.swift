@@ -3960,6 +3960,22 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// Specifies configuration that restricts speech detection to the primary (loudest) speaker during streaming audio conversations, so that speech from background speakers does not start a turn, interrupt the bot, or reach speech recognition.
+    public struct SpeakerDiarizationSettings: Swift.Sendable {
+        /// Specifies whether speaker diarization is enabled for the bot locale. Set to true to have Amazon Lex treat speech from speakers other than the primary speaker as non-speech. Set to false to disable speaker diarization and rely on voice activity detection alone.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// Determines the sensitivity level for voice activity detection (VAD) in noisy environments. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise. Valid values include:
     ///
     /// * Default - Standard sensitivity level suitable for most environments
@@ -4035,6 +4051,7 @@ extension LexModelsV2ClientTypes {
 extension LexModelsV2ClientTypes {
 
     public enum SpeechModelPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
         case deepgram
         case neural
         case standard
@@ -4042,6 +4059,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [SpeechModelPreference] {
             return [
+                .advanced,
                 .deepgram,
                 .neural,
                 .standard
@@ -4055,6 +4073,7 @@ extension LexModelsV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .advanced: return "Advanced"
             case .deepgram: return "Deepgram"
             case .neural: return "Neural"
             case .standard: return "Standard"
@@ -4207,6 +4226,8 @@ extension LexModelsV2ClientTypes {
         ///
         /// * IntentC
         public var nluIntentConfidenceThreshold: Swift.Double?
+        /// The speaker diarization settings to apply when importing the bot locale configuration.
+        public var speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings?
         /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
         public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
         /// Speech-to-text settings to apply when importing the bot locale configuration.
@@ -4230,6 +4251,7 @@ extension LexModelsV2ClientTypes {
             botVersion: Swift.String? = nil,
             localeId: Swift.String? = nil,
             nluIntentConfidenceThreshold: Swift.Double? = nil,
+            speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings? = nil,
             speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
             speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
             unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
@@ -4240,6 +4262,7 @@ extension LexModelsV2ClientTypes {
             self.botVersion = botVersion
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -6331,6 +6354,8 @@ public struct CreateBotLocaleInput: Swift.Sendable {
     /// * IntentC
     /// This member is required.
     public var nluIntentConfidenceThreshold: Swift.Double?
+    /// The speaker diarization settings to configure for the new bot locale. When enabled, Amazon Lex restricts speech detection to the primary (loudest) speaker during streaming audio conversations.
+    public var speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings?
     /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
     /// Speech-to-text settings to configure for the new bot locale.
@@ -6348,6 +6373,7 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
+        speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
@@ -6360,6 +6386,7 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+        self.speakerDiarizationSettings = speakerDiarizationSettings
         self.speechDetectionSensitivity = speechDetectionSensitivity
         self.speechRecognitionSettings = speechRecognitionSettings
         self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -6388,6 +6415,8 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
     public var localeName: Swift.String?
     /// The specified confidence threshold for inserting the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents.
     public var nluIntentConfidenceThreshold: Swift.Double?
+    /// The speaker diarization settings configured for the created bot locale.
+    public var speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings?
     /// The sensitivity level for voice activity detection (VAD) that was specified for the bot locale.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
     /// The speech-to-text settings configured for the created bot locale.
@@ -6408,6 +6437,7 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
+        speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
@@ -6423,6 +6453,7 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         self.localeId = localeId
         self.localeName = localeName
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+        self.speakerDiarizationSettings = speakerDiarizationSettings
         self.speechDetectionSensitivity = speechDetectionSensitivity
         self.speechRecognitionSettings = speechRecognitionSettings
         self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -8950,6 +8981,8 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
     public var recommendedActions: [Swift.String]?
     /// The number of slot types defined for the locale.
     public var slotTypesCount: Swift.Int?
+    /// The speaker diarization settings configured for the bot locale.
+    public var speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings?
     /// The sensitivity level for voice activity detection (VAD) configured for the bot locale.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
     /// The speech-to-text settings configured for the bot locale.
@@ -8977,6 +9010,7 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         recommendedActions: [Swift.String]? = nil,
         slotTypesCount: Swift.Int? = nil,
+        speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
@@ -8999,6 +9033,7 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.recommendedActions = recommendedActions
         self.slotTypesCount = slotTypesCount
+        self.speakerDiarizationSettings = speakerDiarizationSettings
         self.speechDetectionSensitivity = speechDetectionSensitivity
         self.speechRecognitionSettings = speechRecognitionSettings
         self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -15175,6 +15210,8 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
     /// The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
     /// This member is required.
     public var nluIntentConfidenceThreshold: Swift.Double?
+    /// The updated speaker diarization settings to apply to the bot locale. If you omit this field, Amazon Lex keeps the setting currently stored on the bot locale. To turn speaker diarization off, set enabled to false explicitly.
+    public var speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings?
     /// The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
     /// Updated speech-to-text settings to apply to the bot locale.
@@ -15192,6 +15229,7 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
+        speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
@@ -15204,6 +15242,7 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+        self.speakerDiarizationSettings = speakerDiarizationSettings
         self.speechDetectionSensitivity = speechDetectionSensitivity
         self.speechRecognitionSettings = speechRecognitionSettings
         self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -15238,6 +15277,8 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
     public var nluIntentConfidenceThreshold: Swift.Double?
     /// Recommended actions to take to resolve an error in the failureReasons field.
     public var recommendedActions: [Swift.String]?
+    /// The updated speaker diarization settings for the bot locale.
+    public var speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings?
     /// The updated sensitivity level for voice activity detection (VAD) in the bot locale.
     public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
     /// The updated speech-to-text settings for the bot locale.
@@ -15261,6 +15302,7 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         recommendedActions: [Swift.String]? = nil,
+        speakerDiarizationSettings: LexModelsV2ClientTypes.SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
@@ -15279,6 +15321,7 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         self.localeName = localeName
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.recommendedActions = recommendedActions
+        self.speakerDiarizationSettings = speakerDiarizationSettings
         self.speechDetectionSensitivity = speechDetectionSensitivity
         self.speechRecognitionSettings = speechRecognitionSettings
         self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -18821,6 +18864,7 @@ extension CreateBotLocaleInput {
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["localeId"].write(value.localeId)
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
+        try writer["speakerDiarizationSettings"].write(value.speakerDiarizationSettings, with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.write(value:to:))
         try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
         try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
         try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
@@ -19407,6 +19451,7 @@ extension UpdateBotLocaleInput {
         try writer["description"].write(value.description)
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
+        try writer["speakerDiarizationSettings"].write(value.speakerDiarizationSettings, with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.write(value:to:))
         try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
         try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
         try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
@@ -19625,6 +19670,7 @@ extension CreateBotLocaleOutput {
         value.localeId = try reader["localeId"].readIfPresent()
         value.localeName = try reader["localeName"].readIfPresent()
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
+        value.speakerDiarizationSettings = try reader["speakerDiarizationSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.read(from:))
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
         value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
         value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
@@ -20083,6 +20129,7 @@ extension DescribeBotLocaleOutput {
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.slotTypesCount = try reader["slotTypesCount"].readIfPresent()
+        value.speakerDiarizationSettings = try reader["speakerDiarizationSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.read(from:))
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
         value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
         value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
@@ -21150,6 +21197,7 @@ extension UpdateBotLocaleOutput {
         value.localeName = try reader["localeName"].readIfPresent()
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.speakerDiarizationSettings = try reader["speakerDiarizationSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.read(from:))
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
         value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
         value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
@@ -24146,6 +24194,7 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         try writer["botVersion"].write(value.botVersion)
         try writer["localeId"].write(value.localeId)
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
+        try writer["speakerDiarizationSettings"].write(value.speakerDiarizationSettings, with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.write(value:to:))
         try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
         try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
         try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
@@ -24164,6 +24213,7 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
         value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.audioFillerSettings = try reader["audioFillerSettings"].readIfPresent(with: LexModelsV2ClientTypes.AudioFillerSettings.read(from:))
+        value.speakerDiarizationSettings = try reader["speakerDiarizationSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeakerDiarizationSettings.read(from:))
         return value
     }
 }
@@ -26571,6 +26621,21 @@ extension LexModelsV2ClientTypes.SlotValueSelectionSetting {
         value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.regexFilter = try reader["regexFilter"].readIfPresent(with: LexModelsV2ClientTypes.SlotValueRegexFilter.read(from:))
         value.advancedRecognitionSetting = try reader["advancedRecognitionSetting"].readIfPresent(with: LexModelsV2ClientTypes.AdvancedRecognitionSetting.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeakerDiarizationSettings {
+
+    static func write(value: LexModelsV2ClientTypes.SpeakerDiarizationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeakerDiarizationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeakerDiarizationSettings()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }

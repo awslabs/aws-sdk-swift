@@ -80,7 +80,24 @@ class S3ExpressXCTestCase: XCTestCase {
     func createS3ExpressBucket(
         baseName: String = String(UUID().uuidString.prefix(8)).lowercased()
     ) async throws -> String {
-        let bucket = bucket(baseName: baseName)
+        let bucket = try await Self.createS3ExpressBucket(client: client, azID: azID, baseName: baseName)
+
+        // Save the bucket name in the `buckets` array for use during tear down
+        buckets.append(bucket)
+        return bucket
+    }
+
+    /// Creates a directory bucket and returns its name, without recording it for tear down.
+    ///
+    /// Takes the client & availability zone as parameters instead of reading them off of `self`,
+    /// so that it may be called from a `@Sendable` closure such as a task group's child task.
+    /// Callers are responsible for adding the returned name to `buckets`.
+    static func createS3ExpressBucket(
+        client: S3Client,
+        azID: String,
+        baseName: String
+    ) async throws -> String {
+        let bucket = bucket(baseName: baseName, azID: azID)
         let input = CreateBucketInput(
             bucket: bucket,
             createBucketConfiguration: .init(
@@ -89,9 +106,6 @@ class S3ExpressXCTestCase: XCTestCase {
             )
         )
         let _ = try await client.createBucket(input: input)
-
-        // Save the bucket name in the `buckets` array for use during tear down
-        buckets.append(bucket)
         return bucket
     }
 
@@ -106,7 +120,7 @@ class S3ExpressXCTestCase: XCTestCase {
     }
 
     // Helper method to create a S3Express-compliant bucket name
-    func bucket(baseName: String) -> String {
+    static func bucket(baseName: String, azID: String) -> String {
         "a\(baseName)--\(azID)--x-s3"
     }
 }

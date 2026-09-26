@@ -478,6 +478,7 @@ extension GetTablesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             queryAsOfTime: self.queryAsOfTime,
+            resourceShareType: self.resourceShareType,
             transactionId: self.transactionId
         )}
 }

@@ -235,3 +235,34 @@ extension PaginatorSequence where OperationStackInput == ListRoute53HealthChecks
         return try await self.asyncCompactMap { item in item.healthChecks }
     }
 }
+extension ARCRegionswitchClient {
+    /// Paginate over `[ListServiceQuotaWarningsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServiceQuotaWarningsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotaWarningsOutput`
+    public func listServiceQuotaWarningsPaginated(input: ListServiceQuotaWarningsInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceQuotaWarningsInput, ListServiceQuotaWarningsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceQuotaWarnings(input:))
+    }
+}
+
+extension ListServiceQuotaWarningsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServiceQuotaWarningsInput {
+        return ListServiceQuotaWarningsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            planArns: self.planArns
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListServiceQuotaWarningsInput, OperationStackOutput == ListServiceQuotaWarningsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listServiceQuotaWarningsPaginated`
+    /// to access the nested member `[ARCRegionswitchClientTypes.ServiceQuotaWarningSummary]`
+    /// - Returns: `[ARCRegionswitchClientTypes.ServiceQuotaWarningSummary]`
+    public func serviceQuotaWarningSummaries() async throws -> [ARCRegionswitchClientTypes.ServiceQuotaWarningSummary] {
+        return try await self.asyncCompactMap { item in item.serviceQuotaWarningSummaries }
+    }
+}

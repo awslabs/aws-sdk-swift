@@ -257,6 +257,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCloudWatchLogs](/sdk-for-swift/latest/api/awscloudwatchlogs/documentation/awscloudwatchlogs)
 
+[AWSCloudWatchOmni](/sdk-for-swift/latest/api/awscloudwatchomni/documentation/awscloudwatchomni)
+
 [AWSCodeBuild](/sdk-for-swift/latest/api/awscodebuild/documentation/awscodebuild)
 
 [AWSCodeCatalyst](/sdk-for-swift/latest/api/awscodecatalyst/documentation/awscodecatalyst)
@@ -406,6 +408,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSEntityResolution](/sdk-for-swift/latest/api/awsentityresolution/documentation/awsentityresolution)
 
 [AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
+
+[AWSEventBridgeV2](/sdk-for-swift/latest/api/awseventbridgev2/documentation/awseventbridgev2)
 
 [AWSEvs](/sdk-for-swift/latest/api/awsevs/documentation/awsevs)
 
@@ -652,6 +656,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSNetworkManager](/sdk-for-swift/latest/api/awsnetworkmanager/documentation/awsnetworkmanager)
 
 [AWSNetworkMonitor](/sdk-for-swift/latest/api/awsnetworkmonitor/documentation/awsnetworkmonitor)
+
+[AWSNetworkSecurityManager](/sdk-for-swift/latest/api/awsnetworksecuritymanager/documentation/awsnetworksecuritymanager)
 
 [AWSNotifications](/sdk-for-swift/latest/api/awsnotifications/documentation/awsnotifications)
 

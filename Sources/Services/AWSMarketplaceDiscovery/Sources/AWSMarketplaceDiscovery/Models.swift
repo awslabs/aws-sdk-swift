@@ -53,6 +53,26 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension MarketplaceDiscoveryClientTypes {
 
+    /// Contains supported Amazon EBS volume information for an AMI fulfillment option.
+    public struct AmazonMachineImageEbsVolume: Swift.Sendable {
+        /// The total number of provisioned IOPS supported.
+        public var iops: Swift.Int?
+        /// The supported Amazon EBS volume types.
+        /// This member is required.
+        public var volumeTypes: [Swift.String]?
+
+        public init(
+            iops: Swift.Int? = nil,
+            volumeTypes: [Swift.String]? = nil
+        ) {
+            self.iops = iops
+            self.volumeTypes = volumeTypes
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
     public enum FulfillmentOptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonMachineImage
         case api
@@ -137,16 +157,51 @@ extension MarketplaceDiscoveryClientTypes {
 
 extension MarketplaceDiscoveryClientTypes {
 
+    /// Contains a recommended security group configuration for an AMI fulfillment option.
+    public struct AmazonMachineImageSecurityGroup: Swift.Sendable {
+        /// The IP address ranges in CIDR format.
+        /// This member is required.
+        public var cidrIpAddresses: [Swift.String]?
+        /// The start of the port range.
+        /// This member is required.
+        public var fromPort: Swift.Int?
+        /// The IP protocol name, such as tcp.
+        /// This member is required.
+        public var `protocol`: Swift.String?
+        /// The end of the port range.
+        /// This member is required.
+        public var toPort: Swift.Int?
+
+        public init(
+            cidrIpAddresses: [Swift.String]? = nil,
+            fromPort: Swift.Int? = nil,
+            `protocol`: Swift.String? = nil,
+            toPort: Swift.Int? = nil
+        ) {
+            self.cidrIpAddresses = cidrIpAddresses
+            self.fromPort = fromPort
+            self.`protocol` = `protocol`
+            self.toPort = toPort
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
     /// Recommended instance types for running an AMI fulfillment option.
     public struct AmazonMachineImageRecommendation: Swift.Sendable {
         /// The recommended EC2 instance type for this AMI.
         /// This member is required.
         public var instanceType: Swift.String?
+        /// The recommended security group configurations for this AMI.
+        public var securityGroups: [MarketplaceDiscoveryClientTypes.AmazonMachineImageSecurityGroup]?
 
         public init(
-            instanceType: Swift.String? = nil
+            instanceType: Swift.String? = nil,
+            securityGroups: [MarketplaceDiscoveryClientTypes.AmazonMachineImageSecurityGroup]? = nil
         ) {
             self.instanceType = instanceType
+            self.securityGroups = securityGroups
         }
     }
 }
@@ -155,6 +210,17 @@ extension MarketplaceDiscoveryClientTypes {
 
     /// Describes an Amazon Machine Image (AMI) fulfillment option, including version details, supported operating systems, and recommended instance types.
     public struct AmazonMachineImageFulfillmentOption: Swift.Sendable {
+        /// The URL pattern for accessing the product when an instance is running.
+        public var accessUrlTemplate: Swift.String?
+        /// The alias of the AMI associated with this fulfillment option.
+        public var amiAlias: Swift.String?
+        /// The architecture of the AMI, such as x86_64.
+        /// This member is required.
+        public var architecture: Swift.String?
+        /// The date and time when the AMI became available for fulfillment.
+        public var availableFromTime: Foundation.Date?
+        /// The supported Amazon EBS volume configuration for the AMI.
+        public var ebsVolume: MarketplaceDiscoveryClientTypes.AmazonMachineImageEbsVolume?
         /// A human-readable name for the fulfillment option type.
         /// This member is required.
         public var fulfillmentOptionDisplayName: Swift.String?
@@ -176,10 +242,17 @@ extension MarketplaceDiscoveryClientTypes {
         public var recommendation: MarketplaceDiscoveryClientTypes.AmazonMachineImageRecommendation?
         /// Release notes describing changes in this version of the fulfillment option.
         public var releaseNotes: Swift.String?
+        /// A short description of the fulfillment option.
+        public var shortDescription: Swift.String?
         /// Instructions on how to deploy and use this fulfillment option.
         public var usageInstructions: Swift.String?
 
         public init(
+            accessUrlTemplate: Swift.String? = nil,
+            amiAlias: Swift.String? = nil,
+            architecture: Swift.String? = nil,
+            availableFromTime: Foundation.Date? = nil,
+            ebsVolume: MarketplaceDiscoveryClientTypes.AmazonMachineImageEbsVolume? = nil,
             fulfillmentOptionDisplayName: Swift.String? = nil,
             fulfillmentOptionId: Swift.String? = nil,
             fulfillmentOptionName: Swift.String? = nil,
@@ -188,8 +261,14 @@ extension MarketplaceDiscoveryClientTypes {
             operatingSystems: [MarketplaceDiscoveryClientTypes.AmazonMachineImageOperatingSystem]? = nil,
             recommendation: MarketplaceDiscoveryClientTypes.AmazonMachineImageRecommendation? = nil,
             releaseNotes: Swift.String? = nil,
+            shortDescription: Swift.String? = nil,
             usageInstructions: Swift.String? = nil
         ) {
+            self.accessUrlTemplate = accessUrlTemplate
+            self.amiAlias = amiAlias
+            self.architecture = architecture
+            self.availableFromTime = availableFromTime
+            self.ebsVolume = ebsVolume
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionName = fulfillmentOptionName
@@ -198,6 +277,7 @@ extension MarketplaceDiscoveryClientTypes {
             self.operatingSystems = operatingSystems
             self.recommendation = recommendation
             self.releaseNotes = releaseNotes
+            self.shortDescription = shortDescription
             self.usageInstructions = usageInstructions
         }
     }
@@ -291,11 +371,15 @@ public struct GetListingInput: Swift.Sendable {
     /// The unique identifier of the listing to retrieve.
     /// This member is required.
     public var listingId: Swift.String?
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
 
     public init(
-        listingId: Swift.String? = nil
+        listingId: Swift.String? = nil,
+        locale: Swift.String? = nil
     ) {
         self.listingId = listingId
+        self.locale = locale
     }
 }
 
@@ -1005,6 +1089,8 @@ public struct GetListingOutput: Swift.Sendable {
     /// The human-readable display name of the listing.
     /// This member is required.
     public var listingName: Swift.String?
+    /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+    public var locale: Swift.String?
     /// The URL of the logo thumbnail image for the listing.
     /// This member is required.
     public var logoThumbnailUrl: Swift.String?
@@ -1048,6 +1134,7 @@ public struct GetListingOutput: Swift.Sendable {
         integrationGuide: Swift.String? = nil,
         listingId: Swift.String? = nil,
         listingName: Swift.String? = nil,
+        locale: Swift.String? = nil,
         logoThumbnailUrl: Swift.String? = nil,
         longDescription: Swift.String? = nil,
         pricingModels: [MarketplaceDiscoveryClientTypes.PricingModel]? = nil,
@@ -1069,6 +1156,7 @@ public struct GetListingOutput: Swift.Sendable {
         self.integrationGuide = integrationGuide
         self.listingId = listingId
         self.listingName = listingName
+        self.locale = locale
         self.logoThumbnailUrl = logoThumbnailUrl
         self.longDescription = longDescription
         self.pricingModels = pricingModels
@@ -1084,13 +1172,17 @@ public struct GetListingOutput: Swift.Sendable {
 }
 
 public struct GetOfferInput: Swift.Sendable {
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The unique identifier of the offer to retrieve.
     /// This member is required.
     public var offerId: Swift.String?
 
     public init(
+        locale: Swift.String? = nil,
         offerId: Swift.String? = nil
     ) {
+        self.locale = locale
         self.offerId = offerId
     }
 }
@@ -1209,6 +1301,8 @@ public struct GetOfferOutput: Swift.Sendable {
     public var catalog: Swift.String?
     /// The date and time until when the offer can be procured. This value is null for offers that never expire.
     public var expirationTime: Foundation.Date?
+    /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+    public var locale: Swift.String?
     /// The unique identifier of the offer.
     /// This member is required.
     public var offerId: Swift.String?
@@ -1230,6 +1324,7 @@ public struct GetOfferOutput: Swift.Sendable {
         badges: [MarketplaceDiscoveryClientTypes.PurchaseOptionBadge]? = nil,
         catalog: Swift.String? = nil,
         expirationTime: Foundation.Date? = nil,
+        locale: Swift.String? = nil,
         offerId: Swift.String? = nil,
         offerName: Swift.String? = nil,
         pricingModel: MarketplaceDiscoveryClientTypes.PricingModel? = nil,
@@ -1242,6 +1337,7 @@ public struct GetOfferOutput: Swift.Sendable {
         self.badges = badges
         self.catalog = catalog
         self.expirationTime = expirationTime
+        self.locale = locale
         self.offerId = offerId
         self.offerName = offerName
         self.pricingModel = pricingModel
@@ -1251,13 +1347,17 @@ public struct GetOfferOutput: Swift.Sendable {
 }
 
 public struct GetOfferSetInput: Swift.Sendable {
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The unique identifier of the offer set to retrieve.
     /// This member is required.
     public var offerSetId: Swift.String?
 
     public init(
+        locale: Swift.String? = nil,
         offerSetId: Swift.String? = nil
     ) {
+        self.locale = locale
         self.offerSetId = offerSetId
     }
 }
@@ -1299,6 +1399,8 @@ public struct GetOfferSetOutput: Swift.Sendable {
     public var catalog: Swift.String?
     /// The date and time when the offer set expires and is no longer available for procurement.
     public var expirationTime: Foundation.Date?
+    /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+    public var locale: Swift.String?
     /// The unique identifier of the offer set.
     /// This member is required.
     public var offerSetId: Swift.String?
@@ -1315,6 +1417,7 @@ public struct GetOfferSetOutput: Swift.Sendable {
         buyerNotes: Swift.String? = nil,
         catalog: Swift.String? = nil,
         expirationTime: Foundation.Date? = nil,
+        locale: Swift.String? = nil,
         offerSetId: Swift.String? = nil,
         offerSetName: Swift.String? = nil,
         sellerOfRecord: MarketplaceDiscoveryClientTypes.SellerInformation? = nil
@@ -1325,6 +1428,7 @@ public struct GetOfferSetOutput: Swift.Sendable {
         self.buyerNotes = buyerNotes
         self.catalog = catalog
         self.expirationTime = expirationTime
+        self.locale = locale
         self.offerSetId = offerSetId
         self.offerSetName = offerSetName
         self.sellerOfRecord = sellerOfRecord
@@ -1332,6 +1436,8 @@ public struct GetOfferSetOutput: Swift.Sendable {
 }
 
 public struct GetOfferTermsInput: Swift.Sendable {
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to get more results.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -1341,10 +1447,12 @@ public struct GetOfferTermsInput: Swift.Sendable {
     public var offerId: Swift.String?
 
     public init(
+        locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         offerId: Swift.String? = nil
     ) {
+        self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.offerId = offerId
@@ -2075,13 +2183,13 @@ extension MarketplaceDiscoveryClientTypes {
 
     /// A single installment entry in the renewal payment schedule.
     public struct PaymentScheduleEntry: Swift.Sendable {
-        /// The relative offset from the renewal agreement start date when this installment is due, in ISO 8601 duration format. The offset uses months only or days only (for example, P1M or P30D); mixed units are not supported, and every offset in a schedule uses the same unit.
+        /// The relative offset from the renewal agreement start date when this installment is due, represented in ISO 8601 duration format (for example, P1M or P30D).
         /// This member is required.
         public var chargeDateOffset: Swift.String?
-        /// The percentage of the increased TCV to charge in this installment. All entries in a schedule sum to 100.00.
+        /// The percentage of the increased Total Contract Value (TCV) to charge in this installment. All entries in a schedule sum to 100.00.
         /// This member is required.
         public var chargePercentage: Swift.String?
-        /// The optional calendar day of month on which the charge occurs. When absent, the charge day is derived from chargeDateOffset, and this field does not apply when chargeDateOffset is expressed in days. For months with fewer days than the specified day, the charge occurs on the last day of the month. For example, if dayOfMonth is 31, the charge in April occurs on April 30.
+        /// The optional calendar day of month on which the charge occurs. When absent, the charge day is derived from chargeDateOffset. For months with fewer days than the specified day, the charge occurs on the last day of the month. For example, if dayOfMonth is 31, the charge in April occurs on April 30.
         public var dayOfMonth: Swift.Int?
 
         public init(
@@ -2335,6 +2443,8 @@ extension MarketplaceDiscoveryClientTypes {
 }
 
 public struct GetOfferTermsOutput: Swift.Sendable {
+    /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+    public var locale: Swift.String?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The terms attached to the offer. Each element contains exactly one term type.
@@ -2342,22 +2452,28 @@ public struct GetOfferTermsOutput: Swift.Sendable {
     public var offerTerms: [MarketplaceDiscoveryClientTypes.OfferTerm]?
 
     public init(
+        locale: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         offerTerms: [MarketplaceDiscoveryClientTypes.OfferTerm]? = nil
     ) {
+        self.locale = locale
         self.nextToken = nextToken
         self.offerTerms = offerTerms
     }
 }
 
 public struct GetProductInput: Swift.Sendable {
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The unique identifier of the product to retrieve.
     /// This member is required.
     public var productId: Swift.String?
 
     public init(
+        locale: Swift.String? = nil,
         productId: Swift.String? = nil
     ) {
+        self.locale = locale
         self.productId = productId
     }
 }
@@ -2410,6 +2526,11 @@ public struct GetProductOutput: Swift.Sendable {
     /// A list of key features that the product offers to customers.
     /// This member is required.
     public var highlights: [Swift.String]?
+    /// The default listing identifier associated with the product.
+    /// This member is required.
+    public var listingId: Swift.String?
+    /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+    public var locale: Swift.String?
     /// The URL of the logo thumbnail image for the product.
     /// This member is required.
     public var logoThumbnailUrl: Swift.String?
@@ -2444,6 +2565,8 @@ public struct GetProductOutput: Swift.Sendable {
         deployedOnAws: MarketplaceDiscoveryClientTypes.DeployedOnAwsStatus? = nil,
         fulfillmentOptionSummaries: [MarketplaceDiscoveryClientTypes.FulfillmentOptionSummary]? = nil,
         highlights: [Swift.String]? = nil,
+        listingId: Swift.String? = nil,
+        locale: Swift.String? = nil,
         logoThumbnailUrl: Swift.String? = nil,
         longDescription: Swift.String? = nil,
         manufacturer: MarketplaceDiscoveryClientTypes.SellerInformation? = nil,
@@ -2459,6 +2582,8 @@ public struct GetProductOutput: Swift.Sendable {
         self.deployedOnAws = deployedOnAws
         self.fulfillmentOptionSummaries = fulfillmentOptionSummaries
         self.highlights = highlights
+        self.listingId = listingId
+        self.locale = locale
         self.logoThumbnailUrl = logoThumbnailUrl
         self.longDescription = longDescription
         self.manufacturer = manufacturer
@@ -2495,6 +2620,8 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 public struct ListFulfillmentOptionsInput: Swift.Sendable {
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to get more results.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -2504,10 +2631,12 @@ public struct ListFulfillmentOptionsInput: Swift.Sendable {
     public var productId: Swift.String?
 
     public init(
+        locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         productId: Swift.String? = nil
     ) {
+        self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.productId = productId
@@ -2518,6 +2647,8 @@ extension MarketplaceDiscoveryClientTypes {
 
     /// Describes an AWS CloudFormation template fulfillment option for infrastructure deployment.
     public struct CloudFormationFulfillmentOption: Swift.Sendable {
+        /// The date and time when the CloudFormation fulfillment option became available for fulfillment.
+        public var availableFromTime: Foundation.Date?
         /// A human-readable name for the fulfillment option type.
         /// This member is required.
         public var fulfillmentOptionDisplayName: Swift.String?
@@ -2532,26 +2663,36 @@ extension MarketplaceDiscoveryClientTypes {
         public var fulfillmentOptionType: MarketplaceDiscoveryClientTypes.FulfillmentOptionType?
         /// The version identifier of the fulfillment option.
         public var fulfillmentOptionVersion: Swift.String?
+        /// A detailed description of the fulfillment option.
+        public var longDescription: Swift.String?
         /// Release notes describing changes in this version of the fulfillment option.
         public var releaseNotes: Swift.String?
+        /// A short description of the fulfillment option.
+        public var shortDescription: Swift.String?
         /// Instructions on how to deploy and use this CloudFormation template.
         public var usageInstructions: Swift.String?
 
         public init(
+            availableFromTime: Foundation.Date? = nil,
             fulfillmentOptionDisplayName: Swift.String? = nil,
             fulfillmentOptionId: Swift.String? = nil,
             fulfillmentOptionName: Swift.String? = nil,
             fulfillmentOptionType: MarketplaceDiscoveryClientTypes.FulfillmentOptionType? = nil,
             fulfillmentOptionVersion: Swift.String? = nil,
+            longDescription: Swift.String? = nil,
             releaseNotes: Swift.String? = nil,
+            shortDescription: Swift.String? = nil,
             usageInstructions: Swift.String? = nil
         ) {
+            self.availableFromTime = availableFromTime
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionName = fulfillmentOptionName
             self.fulfillmentOptionType = fulfillmentOptionType
             self.fulfillmentOptionVersion = fulfillmentOptionVersion
+            self.longDescription = longDescription
             self.releaseNotes = releaseNotes
+            self.shortDescription = shortDescription
             self.usageInstructions = usageInstructions
         }
     }
@@ -2911,8 +3052,39 @@ extension MarketplaceDiscoveryClientTypes {
 
 extension MarketplaceDiscoveryClientTypes {
 
+    public enum SaasQuickLaunchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SaasQuickLaunchStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes {
+
     /// Describes a Software as a Service (SaaS) fulfillment option.
     public struct SaasFulfillmentOption: Swift.Sendable {
+        /// The date and time when the SaaS product became available for fulfillment.
+        public var availableFromTime: Foundation.Date?
         /// A human-readable name for the fulfillment option type.
         /// This member is required.
         public var fulfillmentOptionDisplayName: Swift.String?
@@ -2924,20 +3096,31 @@ extension MarketplaceDiscoveryClientTypes {
         public var fulfillmentOptionType: MarketplaceDiscoveryClientTypes.FulfillmentOptionType?
         /// The URL of the seller's software registration landing page.
         public var fulfillmentUrl: Swift.String?
+        /// The URL that a buyer uses to launch the seller's SaaS product. This URL is distinct from fulfillmentUrl, which is the seller's software registration landing page.
+        public var launchUrl: Swift.String?
+        /// Specifies whether the SaaS product supports quick-launch deployment.
+        /// This member is required.
+        public var quickLaunch: MarketplaceDiscoveryClientTypes.SaasQuickLaunchStatus?
         /// Instructions on how to access and use this SaaS product.
         public var usageInstructions: Swift.String?
 
         public init(
+            availableFromTime: Foundation.Date? = nil,
             fulfillmentOptionDisplayName: Swift.String? = nil,
             fulfillmentOptionId: Swift.String? = nil,
             fulfillmentOptionType: MarketplaceDiscoveryClientTypes.FulfillmentOptionType? = nil,
             fulfillmentUrl: Swift.String? = nil,
+            launchUrl: Swift.String? = nil,
+            quickLaunch: MarketplaceDiscoveryClientTypes.SaasQuickLaunchStatus? = nil,
             usageInstructions: Swift.String? = nil
         ) {
+            self.availableFromTime = availableFromTime
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionType = fulfillmentOptionType
             self.fulfillmentUrl = fulfillmentUrl
+            self.launchUrl = launchUrl
+            self.quickLaunch = quickLaunch
             self.usageInstructions = usageInstructions
         }
     }
@@ -3049,6 +3232,10 @@ extension MarketplaceDiscoveryClientTypes {
         public var recommendation: MarketplaceDiscoveryClientTypes.SageMakerModelRecommendation?
         /// Release notes describing changes in this version of the fulfillment option.
         public var releaseNotes: Swift.String?
+        /// The MIME types that this model accepts as input.
+        public var supportedContentTypes: [Swift.String]?
+        /// The MIME types that this model returns as output.
+        public var supportedResponseMimeTypes: [Swift.String]?
         /// Instructions on how to use this SageMaker model.
         public var usageInstructions: Swift.String?
 
@@ -3059,6 +3246,8 @@ extension MarketplaceDiscoveryClientTypes {
             fulfillmentOptionVersion: Swift.String? = nil,
             recommendation: MarketplaceDiscoveryClientTypes.SageMakerModelRecommendation? = nil,
             releaseNotes: Swift.String? = nil,
+            supportedContentTypes: [Swift.String]? = nil,
+            supportedResponseMimeTypes: [Swift.String]? = nil,
             usageInstructions: Swift.String? = nil
         ) {
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
@@ -3067,6 +3256,8 @@ extension MarketplaceDiscoveryClientTypes {
             self.fulfillmentOptionVersion = fulfillmentOptionVersion
             self.recommendation = recommendation
             self.releaseNotes = releaseNotes
+            self.supportedContentTypes = supportedContentTypes
+            self.supportedResponseMimeTypes = supportedResponseMimeTypes
             self.usageInstructions = usageInstructions
         }
     }
@@ -3108,14 +3299,53 @@ public struct ListFulfillmentOptionsOutput: Swift.Sendable {
     /// The fulfillment options available for the product. Each option describes how the buyer can deploy or access the product.
     /// This member is required.
     public var fulfillmentOptions: [MarketplaceDiscoveryClientTypes.FulfillmentOption]?
+    /// A BCP 47 language tag or comma-separated priority list of language tags that specifies the preferred locale for response content. The field accepts a maximum of two language tags. The service resolves a locale string to the nearest supported locale. If no supported locale matches, the service applies the fallback behavior described below.
+    ///
+    /// * Preferred locale (first tag) – The locale you want the service to return content in.
+    ///
+    /// * Fallback locale (optional, second tag) – The service default locale (en-US or en). The service returns content in this locale when translated content for the preferred locale is unavailable.
+    ///
+    ///
+    /// The field is optional. If omitted or null, the service returns content in the default locale (en-US). Supported locales:
+    ///
+    /// * en-US – English (service default, also resolves from en)
+    ///
+    /// * fr – French
+    ///
+    /// * es – Spanish
+    ///
+    /// * ko – Korean
+    ///
+    /// * ja – Japanese
+    ///
+    ///
+    /// Fallback behavior:
+    ///
+    /// * If translated content for the preferred locale is unavailable, the service returns content in the default locale.
+    ///
+    /// * If the preferred locale is not supported and no fallback is provided, the service returns a ValidationException.
+    ///
+    /// * If you provide an unsupported locale with the default locale as fallback (for example, xx, en-US), the service returns content in the default locale.
+    ///
+    ///
+    /// Response locale field (Get APIs): The locale field in Get API responses indicates the locale of the returned content. You can use this field to determine whether the response contains content in the requested locale or the default locale. Examples:
+    ///
+    /// * fr – Request French content. If unavailable, falls back to en-US.
+    ///
+    /// * fr, en-US – Request French content with explicit fallback to English.
+    ///
+    /// * en-US – Request content in the default locale.
+    public var locale: Swift.String?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
         fulfillmentOptions: [MarketplaceDiscoveryClientTypes.FulfillmentOption]? = nil,
+        locale: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.fulfillmentOptions = fulfillmentOptions
+        self.locale = locale
         self.nextToken = nextToken
     }
 }
@@ -3165,7 +3395,20 @@ extension MarketplaceDiscoveryClientTypes {
         /// The type of filter to apply, such as PRODUCT_ID, VISIBILITY_SCOPE, or PURCHASE_OPTION_TYPE.
         /// This member is required.
         public var filterType: MarketplaceDiscoveryClientTypes.PurchaseOptionFilterType?
-        /// The values to filter by. Multiple values within the same filter are combined with OR logic.
+        /// The values to filter by. Supported values depend on filterType:
+        ///
+        /// * PRODUCT_ID – One or more product identifiers to filter by.
+        ///
+        /// * SELLER_OF_RECORD_PROFILE_ID – One or more seller profile identifiers to filter by.
+        ///
+        /// * PURCHASE_OPTION_TYPE – One or more purchase option types to filter by: OFFER or OFFERSET.
+        ///
+        /// * VISIBILITY_SCOPE – The visibility scope to filter by: PRIVATE.
+        ///
+        /// * AVAILABILITY_STATUS – One or more availability statuses to filter by: AVAILABLE or EXPIRED.
+        ///
+        ///
+        /// To retrieve private offers and offer sets visible to you, use VISIBILITY_SCOPE with PRIVATE. OR logic combines multiple values within the same filter.
         /// This member is required.
         public var filterValues: [Swift.String]?
 
@@ -3182,6 +3425,8 @@ extension MarketplaceDiscoveryClientTypes {
 public struct ListPurchaseOptionsInput: Swift.Sendable {
     /// Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
     public var filters: [MarketplaceDiscoveryClientTypes.PurchaseOptionFilter]?
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to get more results.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -3189,10 +3434,12 @@ public struct ListPurchaseOptionsInput: Swift.Sendable {
 
     public init(
         filters: [MarketplaceDiscoveryClientTypes.PurchaseOptionFilter]? = nil,
+        locale: Swift.String? = nil,
         maxResults: Swift.Int? = 25,
         nextToken: Swift.String? = nil
     ) {
         self.filters = filters
+        self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3442,6 +3689,8 @@ public struct SearchFacetsInput: Swift.Sendable {
     public var facetTypes: [MarketplaceDiscoveryClientTypes.SearchFacetType]?
     /// Filters to apply before retrieving facets. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
     public var filters: [MarketplaceDiscoveryClientTypes.SearchFilter]?
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The search query text to filter listings before retrieving facets.
@@ -3450,11 +3699,13 @@ public struct SearchFacetsInput: Swift.Sendable {
     public init(
         facetTypes: [MarketplaceDiscoveryClientTypes.SearchFacetType]? = nil,
         filters: [MarketplaceDiscoveryClientTypes.SearchFilter]? = nil,
+        locale: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         searchText: Swift.String? = nil
     ) {
         self.facetTypes = facetTypes
         self.filters = filters
+        self.locale = locale
         self.nextToken = nextToken
         self.searchText = searchText
     }
@@ -3572,6 +3823,8 @@ extension MarketplaceDiscoveryClientTypes {
 public struct SearchListingsInput: Swift.Sendable {
     /// Filters to narrow search results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
     public var filters: [MarketplaceDiscoveryClientTypes.SearchFilter]?
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+    public var locale: Swift.String?
     /// The maximum number of results that are returned per call. You can use nextToken to get more results.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -3585,6 +3838,7 @@ public struct SearchListingsInput: Swift.Sendable {
 
     public init(
         filters: [MarketplaceDiscoveryClientTypes.SearchFilter]? = nil,
+        locale: Swift.String? = nil,
         maxResults: Swift.Int? = 25,
         nextToken: Swift.String? = nil,
         searchText: Swift.String? = nil,
@@ -3592,6 +3846,7 @@ public struct SearchListingsInput: Swift.Sendable {
         sortOrder: MarketplaceDiscoveryClientTypes.SearchListingsSortOrder? = nil
     ) {
         self.filters = filters
+        self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.searchText = searchText
@@ -3862,6 +4117,7 @@ extension GetListingInput {
     static func write(value: GetListingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["listingId"].write(value.listingId)
+        try writer["locale"].write(value.locale)
     }
 }
 
@@ -3869,6 +4125,7 @@ extension GetOfferInput {
 
     static func write(value: GetOfferInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["locale"].write(value.locale)
         try writer["offerId"].write(value.offerId)
     }
 }
@@ -3877,6 +4134,7 @@ extension GetOfferSetInput {
 
     static func write(value: GetOfferSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["locale"].write(value.locale)
         try writer["offerSetId"].write(value.offerSetId)
     }
 }
@@ -3885,6 +4143,7 @@ extension GetOfferTermsInput {
 
     static func write(value: GetOfferTermsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["locale"].write(value.locale)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["offerId"].write(value.offerId)
@@ -3895,6 +4154,7 @@ extension GetProductInput {
 
     static func write(value: GetProductInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["locale"].write(value.locale)
         try writer["productId"].write(value.productId)
     }
 }
@@ -3903,6 +4163,7 @@ extension ListFulfillmentOptionsInput {
 
     static func write(value: ListFulfillmentOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["locale"].write(value.locale)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["productId"].write(value.productId)
@@ -3914,6 +4175,7 @@ extension ListPurchaseOptionsInput {
     static func write(value: ListPurchaseOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: MarketplaceDiscoveryClientTypes.PurchaseOptionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["locale"].write(value.locale)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -3925,6 +4187,7 @@ extension SearchFacetsInput {
         guard let value else { return }
         try writer["facetTypes"].writeList(value.facetTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceDiscoveryClientTypes.SearchFacetType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].writeList(value.filters, memberWritingClosure: MarketplaceDiscoveryClientTypes.SearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["locale"].write(value.locale)
         try writer["nextToken"].write(value.nextToken)
         try writer["searchText"].write(value.searchText)
     }
@@ -3935,6 +4198,7 @@ extension SearchListingsInput {
     static func write(value: SearchListingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filters"].writeList(value.filters, memberWritingClosure: MarketplaceDiscoveryClientTypes.SearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["locale"].write(value.locale)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["searchText"].write(value.searchText)
@@ -3959,6 +4223,7 @@ extension GetListingOutput {
         value.integrationGuide = try reader["integrationGuide"].readIfPresent()
         value.listingId = try reader["listingId"].readIfPresent() ?? ""
         value.listingName = try reader["listingName"].readIfPresent() ?? ""
+        value.locale = try reader["locale"].readIfPresent()
         value.logoThumbnailUrl = try reader["logoThumbnailUrl"].readIfPresent() ?? ""
         value.longDescription = try reader["longDescription"].readIfPresent() ?? ""
         value.pricingModels = try reader["pricingModels"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.PricingModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3987,6 +4252,7 @@ extension GetOfferOutput {
         value.badges = try reader["badges"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.PurchaseOptionBadge.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.catalog = try reader["catalog"].readIfPresent() ?? ""
         value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.locale = try reader["locale"].readIfPresent()
         value.offerId = try reader["offerId"].readIfPresent() ?? ""
         value.offerName = try reader["offerName"].readIfPresent()
         value.pricingModel = try reader["pricingModel"].readIfPresent(with: MarketplaceDiscoveryClientTypes.PricingModel.read(from:))
@@ -4009,6 +4275,7 @@ extension GetOfferSetOutput {
         value.buyerNotes = try reader["buyerNotes"].readIfPresent()
         value.catalog = try reader["catalog"].readIfPresent() ?? ""
         value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.locale = try reader["locale"].readIfPresent()
         value.offerSetId = try reader["offerSetId"].readIfPresent() ?? ""
         value.offerSetName = try reader["offerSetName"].readIfPresent()
         value.sellerOfRecord = try reader["sellerOfRecord"].readIfPresent(with: MarketplaceDiscoveryClientTypes.SellerInformation.read(from:))
@@ -4023,6 +4290,7 @@ extension GetOfferTermsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOfferTermsOutput()
+        value.locale = try reader["locale"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.offerTerms = try reader["offerTerms"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.OfferTerm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
@@ -4041,6 +4309,8 @@ extension GetProductOutput {
         value.deployedOnAws = try reader["deployedOnAws"].readIfPresent() ?? .sdkUnknown("")
         value.fulfillmentOptionSummaries = try reader["fulfillmentOptionSummaries"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.FulfillmentOptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.highlights = try reader["highlights"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.listingId = try reader["listingId"].readIfPresent() ?? ""
+        value.locale = try reader["locale"].readIfPresent()
         value.logoThumbnailUrl = try reader["logoThumbnailUrl"].readIfPresent() ?? ""
         value.longDescription = try reader["longDescription"].readIfPresent() ?? ""
         value.manufacturer = try reader["manufacturer"].readIfPresent(with: MarketplaceDiscoveryClientTypes.SellerInformation.read(from:))
@@ -4062,6 +4332,7 @@ extension ListFulfillmentOptionsOutput {
         let reader = responseReader
         var value = ListFulfillmentOptionsOutput()
         value.fulfillmentOptions = try reader["fulfillmentOptions"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.FulfillmentOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.locale = try reader["locale"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4316,6 +4587,17 @@ extension ValidationException {
     }
 }
 
+extension MarketplaceDiscoveryClientTypes.AmazonMachineImageEbsVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.AmazonMachineImageEbsVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.AmazonMachineImageEbsVolume()
+        value.volumeTypes = try reader["volumeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.iops = try reader["iops"].readIfPresent()
+        return value
+    }
+}
+
 extension MarketplaceDiscoveryClientTypes.AmazonMachineImageFulfillmentOption {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.AmazonMachineImageFulfillmentOption {
@@ -4330,6 +4612,12 @@ extension MarketplaceDiscoveryClientTypes.AmazonMachineImageFulfillmentOption {
         value.recommendation = try reader["recommendation"].readIfPresent(with: MarketplaceDiscoveryClientTypes.AmazonMachineImageRecommendation.read(from:))
         value.releaseNotes = try reader["releaseNotes"].readIfPresent()
         value.usageInstructions = try reader["usageInstructions"].readIfPresent()
+        value.availableFromTime = try reader["availableFromTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.accessUrlTemplate = try reader["accessUrlTemplate"].readIfPresent()
+        value.architecture = try reader["architecture"].readIfPresent() ?? ""
+        value.amiAlias = try reader["amiAlias"].readIfPresent()
+        value.ebsVolume = try reader["ebsVolume"].readIfPresent(with: MarketplaceDiscoveryClientTypes.AmazonMachineImageEbsVolume.read(from:))
+        value.shortDescription = try reader["shortDescription"].readIfPresent()
         return value
     }
 }
@@ -4352,6 +4640,20 @@ extension MarketplaceDiscoveryClientTypes.AmazonMachineImageRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MarketplaceDiscoveryClientTypes.AmazonMachineImageRecommendation()
         value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: MarketplaceDiscoveryClientTypes.AmazonMachineImageSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceDiscoveryClientTypes.AmazonMachineImageSecurityGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceDiscoveryClientTypes.AmazonMachineImageSecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceDiscoveryClientTypes.AmazonMachineImageSecurityGroup()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? ""
+        value.fromPort = try reader["fromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["toPort"].readIfPresent() ?? 0
+        value.cidrIpAddresses = try reader["cidrIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4416,6 +4718,9 @@ extension MarketplaceDiscoveryClientTypes.CloudFormationFulfillmentOption {
         value.fulfillmentOptionVersion = try reader["fulfillmentOptionVersion"].readIfPresent()
         value.releaseNotes = try reader["releaseNotes"].readIfPresent()
         value.usageInstructions = try reader["usageInstructions"].readIfPresent()
+        value.availableFromTime = try reader["availableFromTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.shortDescription = try reader["shortDescription"].readIfPresent()
+        value.longDescription = try reader["longDescription"].readIfPresent()
         return value
     }
 }
@@ -5178,6 +5483,9 @@ extension MarketplaceDiscoveryClientTypes.SaasFulfillmentOption {
         value.fulfillmentOptionDisplayName = try reader["fulfillmentOptionDisplayName"].readIfPresent() ?? ""
         value.fulfillmentUrl = try reader["fulfillmentUrl"].readIfPresent()
         value.usageInstructions = try reader["usageInstructions"].readIfPresent()
+        value.availableFromTime = try reader["availableFromTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.launchUrl = try reader["launchUrl"].readIfPresent()
+        value.quickLaunch = try reader["quickLaunch"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5222,6 +5530,8 @@ extension MarketplaceDiscoveryClientTypes.SageMakerModelFulfillmentOption {
         value.releaseNotes = try reader["releaseNotes"].readIfPresent()
         value.usageInstructions = try reader["usageInstructions"].readIfPresent()
         value.recommendation = try reader["recommendation"].readIfPresent(with: MarketplaceDiscoveryClientTypes.SageMakerModelRecommendation.read(from:))
+        value.supportedContentTypes = try reader["supportedContentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedResponseMimeTypes = try reader["supportedResponseMimeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -6235,6 +6235,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify whether to pass SMPTE 337M-wrapped audio (such as Dolby E) through without unwrapping. Choose Enabled to pass the SMPTE 337M container through unchanged, treating the track as raw PCM. Choose Disabled (default) to automatically detect and unwrap SMPTE 337M data, extracting the underlying Dolby E programs as separate audio tracks for encoding. When this field is absent, the service defaults to Disabled (auto-unwrap).
+    public enum AudioSmpte337Passthrough: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioSmpte337Passthrough] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Use Audio selectors to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
     public struct AudioSelector: Swift.Sendable {
         /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion. * Force: Apply audio duration correction, either Track or Frame depending on your input, regardless of the accuracy of your input's STTS table. Your output audio and video may not be aligned or it may contain audio artifacts.
@@ -6259,6 +6289,8 @@ extension MediaConvertClientTypes {
         public var remixSettings: MediaConvertClientTypes.RemixSettings?
         /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
         public var selectorType: MediaConvertClientTypes.AudioSelectorType?
+        /// Specify whether to pass SMPTE 337M-wrapped audio (such as Dolby E) through without unwrapping. Choose Enabled to pass the SMPTE 337M container through unchanged, treating the track as raw PCM. Choose Disabled (default) to automatically detect and unwrap SMPTE 337M data, extracting the underlying Dolby E programs as separate audio tracks for encoding. When this field is absent, the service defaults to Disabled (auto-unwrap).
+        public var smpte337Passthrough: MediaConvertClientTypes.AudioSmpte337Passthrough?
         /// Identify a track from the input audio to include in this selector by entering the stream index number. These numberings count all tracks in the input file, but only a track containing audio data may be used here. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public var streams: [Swift.Int]?
         /// Identify a track from the input audio to include in this selector by entering the track index number. These numberings include only tracks recognized as audio. If the service recognizes more types of audio tracks in the future, these numberings may shift. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
@@ -6276,6 +6308,7 @@ extension MediaConvertClientTypes {
             programSelection: Swift.Int? = nil,
             remixSettings: MediaConvertClientTypes.RemixSettings? = nil,
             selectorType: MediaConvertClientTypes.AudioSelectorType? = nil,
+            smpte337Passthrough: MediaConvertClientTypes.AudioSmpte337Passthrough? = nil,
             streams: [Swift.Int]? = nil,
             tracks: [Swift.Int]? = nil
         ) {
@@ -6290,6 +6323,7 @@ extension MediaConvertClientTypes {
             self.programSelection = programSelection
             self.remixSettings = remixSettings
             self.selectorType = selectorType
+            self.smpte337Passthrough = smpte337Passthrough
             self.streams = streams
             self.tracks = tracks
         }
@@ -18953,6 +18987,39 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Choose how MediaConvert determines segment boundaries when you passthrough video to a segmented ABR output (HLS, DASH, or CMAF). This setting applies only to ABR outputs. Keep the default value, Auto, to let MediaConvert choose based on your input: when your input is a segmented HLS or DASH source, MediaConvert reproduces your input's own segment boundaries, with one output segment per input segment; for all other inputs, MediaConvert places boundaries by duration, cutting at the first eligible IDR-frame at or after each configured Segment length or Fragment length target. Choose Duration based to always place boundaries by duration, at the first eligible IDR-frame at or after each configured Segment length or Fragment length target, regardless of your input. When your input GOP duration does not evenly divide your target segment length, output segment durations will vary. Choose GOP count to place a fixed number of input GOPs in every segment, and specify GOPs per segment. Every segment contains the same number of input GOPs, which produces consistent segment durations when your input GOP cadence is constant. In this mode MediaConvert ignores your configured Segment length and Fragment length for video boundary placement. Ad avails and input discontinuities are still honored as segment boundaries.
+    public enum PassthroughSegmentationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case durationBased
+        case gopCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PassthroughSegmentationMode] {
+            return [
+                .auto,
+                .durationBased,
+                .gopCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .durationBased: return "DURATION_BASED"
+            case .gopCount: return "GOP_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
     public enum VideoSelectorMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
@@ -18987,14 +19054,22 @@ extension MediaConvertClientTypes {
     public struct PassthroughSettings: Swift.Sendable {
         /// Choose how MediaConvert handles start and end times for input clipping with video passthrough. Your input video codec must be H.264 or H.265 to use IFRAME. To clip at the nearest IDR-frame: Choose Nearest IDR. If an IDR-frame is not found at the frame that you specify, MediaConvert uses the next compatible IDR-frame. Note that your output may be shorter than your input clip duration. To clip at the nearest I-frame: Choose Nearest I-frame. If an I-frame is not found at the frame that you specify, MediaConvert uses the next compatible I-frame. Note that your output may be shorter than your input clip duration. We only recommend this setting for special workflows, and when you choose this setting your output may not be compatible with most players.
         public var frameControl: MediaConvertClientTypes.FrameControl?
+        /// Specify how many input GOPs MediaConvert places in each output segment when you set Passthrough segmentation mode to GOP count. For example, if your input has a closed GOP every 1.92 seconds and you specify 2, each output segment is 3.84 seconds. In this mode, output segment duration is determined by your input GOP structure rather than by your configured Segment length or Fragment length, so segment durations are consistent only when your input GOP cadence is constant. Segments at input discontinuities or ad avails may contain fewer GOPs.
+        public var gopsPerSegment: Swift.Int?
+        /// Choose how MediaConvert determines segment boundaries when you passthrough video to a segmented ABR output (HLS, DASH, or CMAF). This setting applies only to ABR outputs. Keep the default value, Auto, to let MediaConvert choose based on your input: when your input is a segmented HLS or DASH source, MediaConvert reproduces your input's own segment boundaries, with one output segment per input segment; for all other inputs, MediaConvert places boundaries by duration, cutting at the first eligible IDR-frame at or after each configured Segment length or Fragment length target. Choose Duration based to always place boundaries by duration, at the first eligible IDR-frame at or after each configured Segment length or Fragment length target, regardless of your input. When your input GOP duration does not evenly divide your target segment length, output segment durations will vary. Choose GOP count to place a fixed number of input GOPs in every segment, and specify GOPs per segment. Every segment contains the same number of input GOPs, which produces consistent segment durations when your input GOP cadence is constant. In this mode MediaConvert ignores your configured Segment length and Fragment length for video boundary placement. Ad avails and input discontinuities are still honored as segment boundaries.
+        public var segmentationMode: MediaConvertClientTypes.PassthroughSegmentationMode?
         /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
         public var videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode?
 
         public init(
             frameControl: MediaConvertClientTypes.FrameControl? = nil,
+            gopsPerSegment: Swift.Int? = nil,
+            segmentationMode: MediaConvertClientTypes.PassthroughSegmentationMode? = nil,
             videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode? = nil
         ) {
             self.frameControl = frameControl
+            self.gopsPerSegment = gopsPerSegment
+            self.segmentationMode = segmentationMode
             self.videoSelectorMode = videoSelectorMode
         }
     }
@@ -20474,7 +20549,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
+    /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that when you choose XAVC_HD_INTRA_CBG, MediaConvert supports interlaced outputs only when they are top field first and your output frame rate is 25 or 29.97 fps.
     public enum XavcProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case xavc4k
         case xavc4kIntraCbg
@@ -20972,7 +21047,7 @@ extension MediaConvertClientTypes {
 
     /// Required when you set Profile to the value XAVC_HD_INTRA_CBG.
     public struct XavcHdIntraCbgProfileSettings: Swift.Sendable {
-        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        /// Choose the scan line type for the output. Keep the default value, Progressive, to create a progressive output, regardless of the scan type of your input. To create an interlaced output, choose Top field first or Follow, default top. Outputs that you create with this profile are always top field first when they are interlaced. When you create an interlaced output, set your output frame rate to 25 or 29.97.
         public var interlaceMode: MediaConvertClientTypes.XavcInterlaceMode?
         /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public var xavcClass: MediaConvertClientTypes.XavcHdIntraCbgProfileClass?
@@ -21148,7 +21223,7 @@ extension MediaConvertClientTypes {
         public var framerateNumerator: Swift.Int?
         /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
-        /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
+        /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that when you choose XAVC_HD_INTRA_CBG, MediaConvert supports interlaced outputs only when they are top field first and your output frame rate is 25 or 29.97 fps.
         public var profile: MediaConvertClientTypes.XavcProfile?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Frame rate to 25.
         public var slowPal: MediaConvertClientTypes.XavcSlowPal?
@@ -22702,6 +22777,8 @@ extension MediaConvertClientTypes {
         public var kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
         public var motionImageInserter: MediaConvertClientTypes.MotionImageInserter?
+        /// Array of motion image inserters for overlaying multiple independent motion graphics. Compositing order follows array index. Mutually exclusive with motionImageInserter.
+        public var motionImageInserters: [MediaConvertClientTypes.MotionImageInserter]?
         /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
         public var nielsenConfiguration: MediaConvertClientTypes.NielsenConfiguration?
         /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC] Version [7.0.0]
@@ -22723,6 +22800,7 @@ extension MediaConvertClientTypes {
             inputs: [MediaConvertClientTypes.Input]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
+            motionImageInserters: [MediaConvertClientTypes.MotionImageInserter]? = nil,
             nielsenConfiguration: MediaConvertClientTypes.NielsenConfiguration? = nil,
             nielsenNonLinearWatermark: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings? = nil,
             outputGroups: [MediaConvertClientTypes.OutputGroup]? = nil,
@@ -22738,6 +22816,7 @@ extension MediaConvertClientTypes {
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
+            self.motionImageInserters = motionImageInserters
             self.nielsenConfiguration = nielsenConfiguration
             self.nielsenNonLinearWatermark = nielsenNonLinearWatermark
             self.outputGroups = outputGroups
@@ -23210,6 +23289,8 @@ extension MediaConvertClientTypes {
         public var kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
         public var motionImageInserter: MediaConvertClientTypes.MotionImageInserter?
+        /// Array of motion image inserters for overlaying multiple independent motion graphics. Compositing order follows array index. Mutually exclusive with motionImageInserter.
+        public var motionImageInserters: [MediaConvertClientTypes.MotionImageInserter]?
         /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
         public var nielsenConfiguration: MediaConvertClientTypes.NielsenConfiguration?
         /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC] Version [7.0.0]
@@ -23231,6 +23312,7 @@ extension MediaConvertClientTypes {
             inputs: [MediaConvertClientTypes.InputTemplate]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
+            motionImageInserters: [MediaConvertClientTypes.MotionImageInserter]? = nil,
             nielsenConfiguration: MediaConvertClientTypes.NielsenConfiguration? = nil,
             nielsenNonLinearWatermark: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings? = nil,
             outputGroups: [MediaConvertClientTypes.OutputGroup]? = nil,
@@ -23246,6 +23328,7 @@ extension MediaConvertClientTypes {
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
+            self.motionImageInserters = motionImageInserters
             self.nielsenConfiguration = nielsenConfiguration
             self.nielsenNonLinearWatermark = nielsenNonLinearWatermark
             self.outputGroups = outputGroups
@@ -23439,8 +23522,11 @@ extension MediaConvertClientTypes {
 extension MediaConvertClientTypes {
 
     public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aac
+        case ac3
         case asf
         case avi
+        case eac3
         case flac
         case matroska
         case mp3
@@ -23450,14 +23536,19 @@ extension MediaConvertClientTypes {
         case mxf
         case ogg
         case quicktime
+        case threeG2
+        case threeGp
         case wave
         case webm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Format] {
             return [
+                .aac,
+                .ac3,
                 .asf,
                 .avi,
+                .eac3,
                 .flac,
                 .matroska,
                 .mp3,
@@ -23467,6 +23558,8 @@ extension MediaConvertClientTypes {
                 .mxf,
                 .ogg,
                 .quicktime,
+                .threeG2,
+                .threeGp,
                 .wave,
                 .webm
             ]
@@ -23479,8 +23572,11 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .aac: return "aac"
+            case .ac3: return "ac3"
             case .asf: return "asf"
             case .avi: return "avi"
+            case .eac3: return "eac3"
             case .flac: return "flac"
             case .matroska: return "matroska"
             case .mp3: return "mp3"
@@ -23490,6 +23586,8 @@ extension MediaConvertClientTypes {
             case .mxf: return "mxf"
             case .ogg: return "ogg"
             case .quicktime: return "quicktime"
+            case .threeG2: return "three_g2"
+            case .threeGp: return "three_gp"
             case .wave: return "wave"
             case .webm: return "webm"
             case let .sdkUnknown(s): return s
@@ -23521,11 +23619,11 @@ extension MediaConvertClientTypes {
 
     /// Details about the media file's audio track.
     public struct AudioProperties: Swift.Sendable {
-        /// The bit depth of the audio track.
+        /// The bit depth of the audio track. This value is exact for PCM and FLAC audio. For lossy codecs, such as AAC, AC-3, and E-AC-3, it is a nominal value and should be treated as approximate.
         public var bitDepth: Swift.Int?
         /// The bit rate of the audio track, in bits per second.
         public var bitRate: Swift.Int?
-        /// The audio channel layout of the track, such as "mono", "stereo", "5.1", or "7.1". Object-based or immersive audio is reported as "5.1.4" or "7.1.4".
+        /// The audio channel layout of the track, such as "mono", "stereo", "5.1", or "7.1". Object-based or immersive audio is reported as "5.1.4" or "7.1.4". The layout is exact for AC-3 and E-AC-3 audio. For other codecs, it is inferred from the channel count and should be treated as approximate.
         public var channelLayout: Swift.String?
         /// The number of audio channels in the audio track.
         public var channels: Swift.Int?
@@ -24097,7 +24195,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions.
+    /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions. These fields are returned for H.264 (AVC), H.265 (HEVC), and MPEG-2 video, and might not be returned for other codecs. For MPEG-TS and MPEG-PS inputs, color information (color primaries, transfer characteristics, and matrix coefficients) appears in these fields rather than in the top-level videoProperties.
     public struct CodecMetadata: Swift.Sendable {
         /// The number of bits used per color component in the video essence such as 8, 10, or 12 bits. Standard range (SDR) video typically uses 8-bit, while 10-bit is common for high dynamic range (HDR).
         public var bitDepth: Swift.Int?
@@ -24256,7 +24354,7 @@ extension MediaConvertClientTypes {
         public var bitDepth: Swift.Int?
         /// The bit rate of the video track, in bits per second.
         public var bitRate: Swift.Int?
-        /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions.
+        /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions. These fields are returned for H.264 (AVC), H.265 (HEVC), and MPEG-2 video, and might not be returned for other codecs. For MPEG-TS and MPEG-PS inputs, color information (color primaries, transfer characteristics, and matrix coefficients) appears in these fields rather than in the top-level videoProperties.
         public var codecMetadata: MediaConvertClientTypes.CodecMetadata?
         /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
@@ -24358,7 +24456,7 @@ extension MediaConvertClientTypes {
         public var bitRate: Swift.Int?
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, MP3, FLAC, ASF (Windows Media / WMA), or OGG. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, MP3, FLAC, ASF (Windows Media / WMA), OGG, 3GP, 3G2, AAC (raw ADTS), AC-3, or Enhanced AC-3 (E-AC-3). Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
         public var startTimecode: Swift.String?
@@ -28413,6 +28511,7 @@ extension MediaConvertClientTypes.AudioSelector {
         try writer["programSelection"].write(value.programSelection)
         try writer["remixSettings"].write(value.remixSettings, with: MediaConvertClientTypes.RemixSettings.write(value:to:))
         try writer["selectorType"].write(value.selectorType)
+        try writer["smpte337Passthrough"].write(value.smpte337Passthrough)
         try writer["streams"].writeList(value.streams, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tracks"].writeList(value.tracks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -28431,6 +28530,7 @@ extension MediaConvertClientTypes.AudioSelector {
         value.programSelection = try reader["programSelection"].readIfPresent()
         value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaConvertClientTypes.RemixSettings.read(from:))
         value.selectorType = try reader["selectorType"].readIfPresent()
+        value.smpte337Passthrough = try reader["smpte337Passthrough"].readIfPresent()
         value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -31046,6 +31146,7 @@ extension MediaConvertClientTypes.JobSettings {
         try writer["inputs"].writeList(value.inputs, memberWritingClosure: MediaConvertClientTypes.Input.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kantarWatermark"].write(value.kantarWatermark, with: MediaConvertClientTypes.KantarWatermarkSettings.write(value:to:))
         try writer["motionImageInserter"].write(value.motionImageInserter, with: MediaConvertClientTypes.MotionImageInserter.write(value:to:))
+        try writer["motionImageInserters"].writeList(value.motionImageInserters, memberWritingClosure: MediaConvertClientTypes.MotionImageInserter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nielsenConfiguration"].write(value.nielsenConfiguration, with: MediaConvertClientTypes.NielsenConfiguration.write(value:to:))
         try writer["nielsenNonLinearWatermark"].write(value.nielsenNonLinearWatermark, with: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings.write(value:to:))
         try writer["outputGroups"].writeList(value.outputGroups, memberWritingClosure: MediaConvertClientTypes.OutputGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -31065,6 +31166,7 @@ extension MediaConvertClientTypes.JobSettings {
         value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Input.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.kantarWatermark = try reader["kantarWatermark"].readIfPresent(with: MediaConvertClientTypes.KantarWatermarkSettings.read(from:))
         value.motionImageInserter = try reader["motionImageInserter"].readIfPresent(with: MediaConvertClientTypes.MotionImageInserter.read(from:))
+        value.motionImageInserters = try reader["motionImageInserters"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.MotionImageInserter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nielsenConfiguration = try reader["nielsenConfiguration"].readIfPresent(with: MediaConvertClientTypes.NielsenConfiguration.read(from:))
         value.nielsenNonLinearWatermark = try reader["nielsenNonLinearWatermark"].readIfPresent(with: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings.read(from:))
         value.outputGroups = try reader["outputGroups"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.OutputGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31118,6 +31220,7 @@ extension MediaConvertClientTypes.JobTemplateSettings {
         try writer["inputs"].writeList(value.inputs, memberWritingClosure: MediaConvertClientTypes.InputTemplate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kantarWatermark"].write(value.kantarWatermark, with: MediaConvertClientTypes.KantarWatermarkSettings.write(value:to:))
         try writer["motionImageInserter"].write(value.motionImageInserter, with: MediaConvertClientTypes.MotionImageInserter.write(value:to:))
+        try writer["motionImageInserters"].writeList(value.motionImageInserters, memberWritingClosure: MediaConvertClientTypes.MotionImageInserter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nielsenConfiguration"].write(value.nielsenConfiguration, with: MediaConvertClientTypes.NielsenConfiguration.write(value:to:))
         try writer["nielsenNonLinearWatermark"].write(value.nielsenNonLinearWatermark, with: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings.write(value:to:))
         try writer["outputGroups"].writeList(value.outputGroups, memberWritingClosure: MediaConvertClientTypes.OutputGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -31137,6 +31240,7 @@ extension MediaConvertClientTypes.JobTemplateSettings {
         value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.InputTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.kantarWatermark = try reader["kantarWatermark"].readIfPresent(with: MediaConvertClientTypes.KantarWatermarkSettings.read(from:))
         value.motionImageInserter = try reader["motionImageInserter"].readIfPresent(with: MediaConvertClientTypes.MotionImageInserter.read(from:))
+        value.motionImageInserters = try reader["motionImageInserters"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.MotionImageInserter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nielsenConfiguration = try reader["nielsenConfiguration"].readIfPresent(with: MediaConvertClientTypes.NielsenConfiguration.read(from:))
         value.nielsenNonLinearWatermark = try reader["nielsenNonLinearWatermark"].readIfPresent(with: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings.read(from:))
         value.outputGroups = try reader["outputGroups"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.OutputGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -32154,6 +32258,8 @@ extension MediaConvertClientTypes.PassthroughSettings {
     static func write(value: MediaConvertClientTypes.PassthroughSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["frameControl"].write(value.frameControl)
+        try writer["gopsPerSegment"].write(value.gopsPerSegment)
+        try writer["segmentationMode"].write(value.segmentationMode)
         try writer["videoSelectorMode"].write(value.videoSelectorMode)
     }
 
@@ -32161,6 +32267,8 @@ extension MediaConvertClientTypes.PassthroughSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.PassthroughSettings()
         value.frameControl = try reader["frameControl"].readIfPresent()
+        value.gopsPerSegment = try reader["gopsPerSegment"].readIfPresent()
+        value.segmentationMode = try reader["segmentationMode"].readIfPresent()
         value.videoSelectorMode = try reader["videoSelectorMode"].readIfPresent()
         return value
     }

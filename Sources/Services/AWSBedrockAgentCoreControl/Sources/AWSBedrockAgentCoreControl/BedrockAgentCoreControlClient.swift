@@ -10406,6 +10406,80 @@ extension BedrockAgentCoreControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RotatePaymentConnectorCredentials` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE. For payment connectors with a provisionMode of MANUAL, call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one rotation runs at a time for a given payment connector. When it succeeds, the new credential is in effect and the payment connector stays in the READY state. When it fails, an error is returned, the payment connector and its existing credential are left unchanged, and you can retry the request. Rotation replaces the credential on the connector's credential provider, so every payment connector that uses that provider is affected. Replace any copy of the previous credential that you use outside AgentCore.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RotatePaymentConnectorCredentialsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RotatePaymentConnectorCredentialsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func rotatePaymentConnectorCredentials(input: RotatePaymentConnectorCredentialsInput) async throws -> RotatePaymentConnectorCredentialsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rotatePaymentConnectorCredentials")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>(RotatePaymentConnectorCredentialsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RotatePaymentConnectorCredentialsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RotatePaymentConnectorCredentialsOutput>(RotatePaymentConnectorCredentialsOutput.httpOutput(from:), RotatePaymentConnectorCredentialsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RotatePaymentConnectorCredentialsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RotatePaymentConnectorCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotatePaymentConnectorCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock AgentCore Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotatePaymentConnectorCredentialsInput, RotatePaymentConnectorCredentialsOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RotatePaymentConnectorCredentials")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SetTokenVaultCMK` operation on the `BedrockAgentCoreControl` service.
     ///
     /// Sets the customer master key (CMK) for a token vault.

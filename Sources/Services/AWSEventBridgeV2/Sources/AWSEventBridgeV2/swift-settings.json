@@ -1,0 +1,4 @@
+{
+    "service": "com.amazonaws.eventbridgev2#AWSEventsV2",
+    "modelPath": "codegen/sdk-codegen/aws-models/eventbridgev2.json"
+}

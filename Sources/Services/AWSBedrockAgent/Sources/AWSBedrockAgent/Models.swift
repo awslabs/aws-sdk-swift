@@ -2959,6 +2959,218 @@ public struct UpdateAgentAliasOutput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
+    /// The protocol used to connect to the resource. Valid values:
+    ///
+    /// * HTTP – Connect over plaintext HTTP.
+    ///
+    /// * HTTPS – Connect over TLS.
+    public enum VpcProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcProtocol] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Controls how a domain-name resource target is resolved. This applies only when the target is a domain name; it has no effect for IP-address targets. In all cases the resolved address must be reachable from inside the VPC. Valid values:
+    ///
+    /// * IN_VPC (default, recommended) – The target domain name is resolved privately, using the DNS resolvers of the VPC.
+    ///
+    /// * PUBLIC – The target domain name is resolved against public DNS resolvers, for the uncommon case where the name must resolve through public DNS but the resulting address remains reachable from the VPC.
+    public enum VpcResolutionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inVpc
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcResolutionMode] {
+            return [
+                .inVpc,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inVpc: return "IN_VPC"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateVpcConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// An optional description of the VPC configuration. If you don't specify a description, the VPC configuration has no description.
+    public var description: Swift.String?
+    /// An optional HTTP Host header value to send when invoking the resource. Set this only if your resource (or an upstream router or ingress) routes by the Host header and that host differs from the target. This setting is independent of tlsServerName.
+    public var hostHeader: Swift.String?
+    /// The unique identifier of the knowledge base to associate this VPC configuration with.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// An optional human-readable name for the VPC configuration. If you don't specify a name, the VPC configuration has no name.
+    public var name: Swift.String?
+    /// The port on which to reach the resource.
+    /// This member is required.
+    public var port: Swift.Int?
+    /// The protocol used to connect to the resource. Specify HTTP for plaintext or HTTPS for TLS. When you specify HTTPS, you must also provide tlsServerName.
+    /// This member is required.
+    public var `protocol`: BedrockAgentClientTypes.VpcProtocol?
+    /// Controls how a domain-name resourceTarget is resolved. This applies only when the target is a domain name; it has no effect for IP-address targets, which have no name to resolve. In all cases the resolved address must be reachable from inside your VPC. Valid values:
+    ///
+    /// * IN_VPC (default, recommended) – The target domain name is resolved privately, using the DNS resolvers of the VPC, such as private Route 53 hosted zones or on-premises DNS reachable from the VPC. Use this for targets that are private to your VPC, such as internal load balancers, private hosted-zone names, or on-premises hosts.
+    ///
+    /// * PUBLIC – The target domain name is resolved against public DNS resolvers. Select this only when the target's domain name must be resolved through public DNS and the resulting address is still reachable from the VPC, an uncommon split-horizon configuration. If you are unsure, use IN_VPC.
+    /// This member is required.
+    public var resolutionMode: BedrockAgentClientTypes.VpcResolutionMode?
+    /// The private IPv4 address or DNS name of the resource you want the knowledge base to reach. The target must be privately reachable from inside your VPC, such as an internal load balancer or a private IP. The following are not supported:
+    ///
+    /// * Internet-facing endpoints
+    ///
+    /// * Loopback addresses
+    ///
+    /// * Link-local addresses
+    ///
+    /// * Wildcard addresses
+    ///
+    /// * Multicast addresses
+    ///
+    /// * IPv6 literals
+    /// This member is required.
+    public var resourceTarget: Swift.String?
+    /// The subnets, in the VPC identified by vpcId, that the knowledge base uses to connect to the resource.
+    /// This member is required.
+    public var subnetIds: [Swift.String]?
+    /// The expected TLS server name. The service matches this value against the Subject Alternative Names on your resource's TLS certificate during invocation. This field is required when protocol is HTTPS. Set it to a hostname on your certificate, such as app.internal.example.com. You can use a single leftmost wildcard, such as *.example.com. The value must be a hostname without a port.
+    public var tlsServerName: Swift.String?
+    /// The identifier of the VPC that the knowledge base connects through to reach the resource.
+    /// This member is required.
+    public var vpcId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        hostHeader: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        port: Swift.Int? = nil,
+        `protocol`: BedrockAgentClientTypes.VpcProtocol? = nil,
+        resolutionMode: BedrockAgentClientTypes.VpcResolutionMode? = nil,
+        resourceTarget: Swift.String? = nil,
+        subnetIds: [Swift.String]? = nil,
+        tlsServerName: Swift.String? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.hostHeader = hostHeader
+        self.knowledgeBaseId = knowledgeBaseId
+        self.name = name
+        self.port = port
+        self.`protocol` = `protocol`
+        self.resolutionMode = resolutionMode
+        self.resourceTarget = resourceTarget
+        self.subnetIds = subnetIds
+        self.tlsServerName = tlsServerName
+        self.vpcId = vpcId
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The lifecycle status of a VPC configuration. Valid values:
+    ///
+    /// * CREATING – The configuration is being created.
+    ///
+    /// * CREATED – The configuration is ready to use.
+    ///
+    /// * DELETING – The configuration is being deleted.
+    ///
+    /// * CREATE_FAILED – Creation failed. See statusMessage for the cause.
+    ///
+    /// * DELETE_FAILED – Deletion failed. See statusMessage for the cause.
+    public enum VpcConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcConfigurationStatus] {
+            return [
+                .created,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateVpcConfigurationOutput: Swift.Sendable {
+    /// The current status of the VPC configuration. Immediately after creation this is CREATING.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.VpcConfigurationStatus?
+    /// The unique identifier of the VPC configuration that was created.
+    /// This member is required.
+    public var vpcConfigurationId: Swift.String?
+
+    public init(
+        status: BedrockAgentClientTypes.VpcConfigurationStatus? = nil,
+        vpcConfigurationId: Swift.String? = nil
+    ) {
+        self.status = status
+        self.vpcConfigurationId = vpcConfigurationId
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     public enum DataDeletionPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delete
         case retain
@@ -4943,6 +5155,40 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     ) {
         self.resourceArn = resourceArn
         self.revisionId = revisionId
+    }
+}
+
+public struct DeleteVpcConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the knowledge base that owns the VPC configuration.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The unique identifier of the VPC configuration to delete.
+    /// This member is required.
+    public var vpcConfigurationId: Swift.String?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        vpcConfigurationId: Swift.String? = nil
+    ) {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.vpcConfigurationId = vpcConfigurationId
+    }
+}
+
+public struct DeleteVpcConfigurationOutput: Swift.Sendable {
+    /// The current status of the VPC configuration. Immediately after a delete request this is DELETING.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.VpcConfigurationStatus?
+    /// The unique identifier of the VPC configuration being deleted.
+    /// This member is required.
+    public var vpcConfigurationId: Swift.String?
+
+    public init(
+        status: BedrockAgentClientTypes.VpcConfigurationStatus? = nil,
+        vpcConfigurationId: Swift.String? = nil
+    ) {
+        self.status = status
+        self.vpcConfigurationId = vpcConfigurationId
     }
 }
 
@@ -8079,6 +8325,116 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+public struct GetVpcConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the knowledge base that owns the VPC configuration.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The unique identifier of the VPC configuration to retrieve.
+    /// This member is required.
+    public var vpcConfigurationId: Swift.String?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        vpcConfigurationId: Swift.String? = nil
+    ) {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.vpcConfigurationId = vpcConfigurationId
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the details of a VPC configuration, including its connection settings, resolution mode, and current lifecycle status.
+    public struct VpcConfiguration: Swift.Sendable {
+        /// The time at which the VPC configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the VPC configuration, if provided.
+        public var description: Swift.String?
+        /// The HTTP Host header value sent when invoking the resource, if configured.
+        public var hostHeader: Swift.String?
+        /// The human-readable name of the VPC configuration, if provided.
+        public var name: Swift.String?
+        /// The port on which the resource is reached.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The protocol used to connect to the resource.
+        /// This member is required.
+        public var `protocol`: BedrockAgentClientTypes.VpcProtocol?
+        /// Specifies how the resource target is resolved.
+        /// This member is required.
+        public var resolutionMode: BedrockAgentClientTypes.VpcResolutionMode?
+        /// The private IPv4 address or DNS name of the resource.
+        /// This member is required.
+        public var resourceTarget: Swift.String?
+        /// The current lifecycle status of the VPC configuration.
+        /// This member is required.
+        public var status: BedrockAgentClientTypes.VpcConfigurationStatus?
+        /// Additional detail about the current status, such as the cause of a CREATE_FAILED or DELETE_FAILED status.
+        public var statusMessage: Swift.String?
+        /// The subnets that the knowledge base uses to connect to the resource.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The expected TLS server name that the service matches against the Subject Alternative Names on the resource's TLS certificate. Present when protocol is HTTPS.
+        public var tlsServerName: Swift.String?
+        /// The time at which the VPC configuration was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The unique identifier of the VPC configuration.
+        /// This member is required.
+        public var vpcConfigurationId: Swift.String?
+        /// The identifier of the VPC that the knowledge base connects through to reach the resource.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            hostHeader: Swift.String? = nil,
+            name: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: BedrockAgentClientTypes.VpcProtocol? = nil,
+            resolutionMode: BedrockAgentClientTypes.VpcResolutionMode? = nil,
+            resourceTarget: Swift.String? = nil,
+            status: BedrockAgentClientTypes.VpcConfigurationStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            tlsServerName: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            vpcConfigurationId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.hostHeader = hostHeader
+            self.name = name
+            self.port = port
+            self.`protocol` = `protocol`
+            self.resolutionMode = resolutionMode
+            self.resourceTarget = resourceTarget
+            self.status = status
+            self.statusMessage = statusMessage
+            self.subnetIds = subnetIds
+            self.tlsServerName = tlsServerName
+            self.updatedAt = updatedAt
+            self.vpcConfigurationId = vpcConfigurationId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+public struct GetVpcConfigurationOutput: Swift.Sendable {
+    /// The VPC configuration, including its connection settings, resolution mode, and current lifecycle status.
+    /// This member is required.
+    public var vpcConfiguration: BedrockAgentClientTypes.VpcConfiguration?
+
+    public init(
+        vpcConfiguration: BedrockAgentClientTypes.VpcConfiguration? = nil
+    ) {
+        self.vpcConfiguration = vpcConfiguration
+    }
+}
+
 public struct GetIngestionJobInput: Swift.Sendable {
     /// The unique identifier of the data source for the data ingestion job you want to get information on.
     /// This member is required.
@@ -9555,7 +9911,7 @@ extension BedrockAgentClientTypes {
         public var dimensions: Swift.Int?
         /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
         public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
-        /// Model-specific configuration for the embedding model, provided as a JSON object. Use this field to specify settings that apply to the embedding model that you selected, such as how audio and video files are divided into segments. The fields that this object accepts depend on the embedding model. For the settings that each model accepts, see the documentation for that model.
+        /// Model-specific configuration for the embedding model, provided as a JSON object. Use this field to specify settings that apply to the embedding model that you selected, such as how audio and video files are divided into segments. The fields that this object accepts depend on the embedding model. For the settings that each model accepts, see the documentation for that model. For an example of a [CreateKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateKnowledgeBase.html) request that uses this field to configure a multimodal embedding model, see the [Examples](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateKnowledgeBase.html#API_agent_CreateKnowledgeBase_Examples) section of [CreateKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateKnowledgeBase.html).
         public var modelConfiguration: Smithy.Document?
         /// Configuration settings for processing video content in multimodal knowledge bases. This field is deprecated. Use modelConfiguration instead.
         @available(*, deprecated, message: "Use Managed Knowledge Base's modelConfiguration field. https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html API deprecated since 2026-09-01")
@@ -11329,6 +11685,117 @@ public struct UpdateKnowledgeBaseOutput: Swift.Sendable {
     }
 }
 
+public struct ListVpcConfigurationsInput: Swift.Sendable {
+    /// The unique identifier of the knowledge base whose VPC configurations you want to list.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The maximum number of results to return in the response. If more results are available, the response returns a nextToken.
+    public var maxResults: Swift.Int?
+    /// A pagination token to retrieve the next page of results, returned in a previous response when more results are available.
+    public var nextToken: Swift.String?
+    /// The status to filter the results by. Only VPC configurations with the specified status are returned.
+    public var statusFilter: BedrockAgentClientTypes.VpcConfigurationStatus?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statusFilter: BedrockAgentClientTypes.VpcConfigurationStatus? = nil
+    ) {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statusFilter = statusFilter
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// A summary of a VPC configuration returned by ListVpcConfigurations.
+    public struct VpcConfigurationSummary: Swift.Sendable {
+        /// The time at which the VPC configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the VPC configuration, if provided.
+        public var description: Swift.String?
+        /// The HTTP Host header value sent when invoking the resource, if configured.
+        public var hostHeader: Swift.String?
+        /// The human-readable name of the VPC configuration, if provided.
+        public var name: Swift.String?
+        /// The port on which the resource is reached.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The protocol used to connect to the resource.
+        /// This member is required.
+        public var `protocol`: BedrockAgentClientTypes.VpcProtocol?
+        /// Specifies how the resource target is resolved.
+        /// This member is required.
+        public var resolutionMode: BedrockAgentClientTypes.VpcResolutionMode?
+        /// The private IPv4 address or DNS name of the resource.
+        /// This member is required.
+        public var resourceTarget: Swift.String?
+        /// The current lifecycle status of the VPC configuration.
+        /// This member is required.
+        public var status: BedrockAgentClientTypes.VpcConfigurationStatus?
+        /// Additional detail about the current status, such as the cause of a failure.
+        public var statusMessage: Swift.String?
+        /// The expected TLS server name that the service matches against the Subject Alternative Names on the resource's TLS certificate. Present when protocol is HTTPS.
+        public var tlsServerName: Swift.String?
+        /// The unique identifier of the VPC configuration.
+        /// This member is required.
+        public var vpcConfigurationId: Swift.String?
+        /// The identifier of the VPC that the knowledge base connects through to reach the resource.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            hostHeader: Swift.String? = nil,
+            name: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: BedrockAgentClientTypes.VpcProtocol? = nil,
+            resolutionMode: BedrockAgentClientTypes.VpcResolutionMode? = nil,
+            resourceTarget: Swift.String? = nil,
+            status: BedrockAgentClientTypes.VpcConfigurationStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            tlsServerName: Swift.String? = nil,
+            vpcConfigurationId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.hostHeader = hostHeader
+            self.name = name
+            self.port = port
+            self.`protocol` = `protocol`
+            self.resolutionMode = resolutionMode
+            self.resourceTarget = resourceTarget
+            self.status = status
+            self.statusMessage = statusMessage
+            self.tlsServerName = tlsServerName
+            self.vpcConfigurationId = vpcConfigurationId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+public struct ListVpcConfigurationsOutput: Swift.Sendable {
+    /// A list of VPC configuration summaries.
+    /// This member is required.
+    public var items: [BedrockAgentClientTypes.VpcConfigurationSummary]?
+    /// A pagination token to retrieve the next page of results, present when the total number of results exceeds the maximum number of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [BedrockAgentClientTypes.VpcConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 extension BedrockAgentClientTypes {
 
     /// Contains specifications for an Amazon Bedrock agent with which to use the prompt. For more information, see [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html) and [Automate tasks in your application using conversational agents](https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html).
@@ -12801,6 +13268,16 @@ extension CreatePromptVersionInput {
     }
 }
 
+extension CreateVpcConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateVpcConfigurationInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/vpcconfigurations"
+    }
+}
+
 extension DeleteAgentInput {
 
     static func urlPathProvider(_ value: DeleteAgentInput) -> Swift.String? {
@@ -13026,6 +13503,19 @@ extension DeleteResourcePolicyInput {
             items.append(expectedRevisionIdQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteVpcConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteVpcConfigurationInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let vpcConfigurationId = value.vpcConfigurationId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/vpcconfigurations/\(vpcConfigurationId.urlPercentEncoding())"
     }
 }
 
@@ -13293,6 +13783,19 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension GetVpcConfigurationInput {
+
+    static func urlPathProvider(_ value: GetVpcConfigurationInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let vpcConfigurationId = value.vpcConfigurationId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/vpcconfigurations/\(vpcConfigurationId.urlPercentEncoding())"
+    }
+}
+
 extension IngestKnowledgeBaseDocumentsInput {
 
     static func urlPathProvider(_ value: IngestKnowledgeBaseDocumentsInput) -> Swift.String? {
@@ -13524,6 +14027,36 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListVpcConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListVpcConfigurationsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/vpcconfigurations"
+    }
+}
+
+extension ListVpcConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListVpcConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let statusFilter = value.statusFilter {
+            let statusFilterQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(statusFilter.rawValue).urlPercentEncoding())
+            items.append(statusFilterQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -13913,6 +14446,24 @@ extension CreatePromptVersionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateVpcConfigurationInput {
+
+    static func write(value: CreateVpcConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["hostHeader"].write(value.hostHeader)
+        try writer["name"].write(value.name)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["resolutionMode"].write(value.resolutionMode)
+        try writer["resourceTarget"].write(value.resourceTarget)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tlsServerName"].write(value.tlsServerName)
+        try writer["vpcId"].write(value.vpcId)
     }
 }
 
@@ -14383,6 +14934,19 @@ extension CreatePromptVersionOutput {
     }
 }
 
+extension CreateVpcConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVpcConfigurationOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcConfigurationId = try reader["vpcConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeleteAgentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentOutput {
@@ -14530,6 +15094,19 @@ extension DeleteResourcePolicyOutput {
         var value = DeleteResourcePolicyOutput()
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.revisionId = try reader["revisionId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteVpcConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVpcConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteVpcConfigurationOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcConfigurationId = try reader["vpcConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14767,6 +15344,18 @@ extension GetResourcePolicyOutput {
     }
 }
 
+extension GetVpcConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVpcConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVpcConfigurationOutput()
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VpcConfiguration.read(from:))
+        return value
+    }
+}
+
 extension IngestKnowledgeBaseDocumentsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IngestKnowledgeBaseDocumentsOutput {
@@ -14969,6 +15558,19 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ListVpcConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVpcConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVpcConfigurationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.VpcConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -15447,6 +16049,26 @@ enum CreatePromptVersionOutputError {
     }
 }
 
+enum CreateVpcConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAgentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15656,6 +16278,25 @@ enum DeletePromptOutputError {
 }
 
 enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteVpcConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15983,6 +16624,24 @@ enum GetResourcePolicyOutputError {
     }
 }
 
+enum GetVpcConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum IngestKnowledgeBaseDocumentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16253,6 +16912,24 @@ enum ListPromptsOutputError {
 }
 
 enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListVpcConfigurationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -21052,6 +21729,52 @@ extension BedrockAgentClientTypes.VideoSegmentationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.VideoSegmentationConfiguration()
         value.fixedLengthDuration = try reader["fixedLengthDuration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VpcConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VpcConfiguration()
+        value.vpcConfigurationId = try reader["vpcConfigurationId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceTarget = try reader["resourceTarget"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.resolutionMode = try reader["resolutionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.hostHeader = try reader["hostHeader"].readIfPresent()
+        value.tlsServerName = try reader["tlsServerName"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VpcConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VpcConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VpcConfigurationSummary()
+        value.vpcConfigurationId = try reader["vpcConfigurationId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        value.resourceTarget = try reader["resourceTarget"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.resolutionMode = try reader["resolutionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.hostHeader = try reader["hostHeader"].readIfPresent()
+        value.tlsServerName = try reader["tlsServerName"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

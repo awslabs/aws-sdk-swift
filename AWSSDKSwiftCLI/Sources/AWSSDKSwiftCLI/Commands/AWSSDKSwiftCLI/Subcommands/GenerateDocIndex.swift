@@ -12,7 +12,7 @@ import AWSCLIUtils
 // MARK: - Command
 
 struct GenerateDocIndexCommand: ParsableCommand {
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "generate-doc-index",
         abstract: "Generates the documentation index for the SDKforSwift documentation target."
     )

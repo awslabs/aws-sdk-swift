@@ -959,7 +959,7 @@ extension KinesisClient {
 
     /// Performs the `DeleteChannel` operation on the `Kinesis` service.
     ///
-    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. To delete the stream, first delete all channels attached to it. To find them, use [ListChannels] with a stream filter. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use [ListChannels] with a stream filter to find the channels attached to a stream before deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
@@ -4078,6 +4078,93 @@ extension KinesisClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamMode")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateStreamRecordDistributionStrategy` operation on the `Kinesis` service.
+    ///
+    /// Updates the record distribution strategy for the specified Amazon Kinesis Data Streams on-demand data stream. The record distribution strategy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or disruption to producer or consumer applications:
+    ///
+    /// * AUTO – Amazon Kinesis Data Streams distributes records evenly across shards using service-managed algorithms, and ignores any partition key and ExplicitHashKey that a producer provides. Use this strategy for stateless workloads that do not require partition-key ordering.
+    ///
+    /// * USER_PARTITION_KEY – Producers must provide a partition key, and Amazon Kinesis Data Streams uses the partition key to determine shard placement. Records that share a partition key are sent to the same shard. This is the default strategy.
+    ///
+    ///
+    /// This operation is only supported for data streams that use the on-demand capacity mode. Provisioned capacity mode streams do not support the record distribution strategy setting. Attempting to set AUTO on a provisioned stream results in an InvalidArgumentException. New records that arrive after the change are distributed according to the new strategy. Records already in the stream keep their original shard assignments and are not redistributed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamRecordDistributionStrategyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateStreamRecordDistributionStrategyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    public func updateStreamRecordDistributionStrategy(input: UpdateStreamRecordDistributionStrategyInput) async throws -> UpdateStreamRecordDistributionStrategyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisClient.updateStreamRecordDistributionStrategyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateStreamRecordDistributionStrategy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamRecordDistributionStrategyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, operationType: "control", region: config.region, streamARN: input.streamARN, streamId: input.streamId, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStreamRecordDistributionStrategyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>(overrides: ["X-Amz-Target": "Kinesis_20131202.UpdateStreamRecordDistributionStrategy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamRecordDistributionStrategyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStreamRecordDistributionStrategyInput, UpdateStreamRecordDistributionStrategyOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamRecordDistributionStrategy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

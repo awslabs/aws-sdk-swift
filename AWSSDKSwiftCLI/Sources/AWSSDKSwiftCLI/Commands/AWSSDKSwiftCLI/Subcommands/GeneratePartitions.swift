@@ -11,7 +11,7 @@ import AWSCLIUtils
 
 struct GeneratePartitionsCommand: ParsableCommand {
 
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "generate-partitions",
         abstract: "Generates the Partitions.swift file for the AWSSDKDynamic target."
     )

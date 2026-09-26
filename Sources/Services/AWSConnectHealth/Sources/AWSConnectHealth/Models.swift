@@ -1095,11 +1095,13 @@ extension ConnectHealthClientTypes {
 
     public enum MedicalScribeLanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enUs
+        case multi
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MedicalScribeLanguageCode] {
             return [
-                .enUs
+                .enUs,
+                .multi
             ]
         }
 
@@ -1111,6 +1113,7 @@ extension ConnectHealthClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .enUs: return "en-US"
+            case .multi: return "multi"
             case let .sdkUnknown(s): return s
             }
         }

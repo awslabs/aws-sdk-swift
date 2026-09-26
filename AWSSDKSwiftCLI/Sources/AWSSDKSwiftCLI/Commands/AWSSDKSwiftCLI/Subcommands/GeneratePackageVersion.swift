@@ -11,7 +11,7 @@ import AWSCLIUtils
 
 struct GeneratePackageVersionCommand: ParsableCommand {
 
-    static var configuration = CommandConfiguration(
+    static let configuration = CommandConfiguration(
         commandName: "generate-package-version",
         abstract: "Generates the PackageVersion.swift file for the AWSSDKDynamic target."
     )

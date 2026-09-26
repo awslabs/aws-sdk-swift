@@ -1424,6 +1424,35 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    public enum WaitELBTargetGroupHealthy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WaitELBTargetGroupHealthy] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     /// Configuration for increasing the capacity of Amazon EC2 Auto Scaling groups during a Region switch.
     public struct Ec2AsgCapacityIncreaseConfiguration: Swift.Sendable {
         /// The EC2 Auto Scaling groups for the configuration.
@@ -1437,19 +1466,23 @@ extension ARCRegionswitchClientTypes {
         public var timeoutMinutes: Swift.Int?
         /// The settings for ungraceful execution.
         public var ungraceful: ARCRegionswitchClientTypes.Ec2Ungraceful?
+        /// If enabled, the step completes only after each attached ELB target group reports a healthy target count that matches the group's new desired capacity calculated in the step.
+        public var waitELBTargetGroupHealthy: ARCRegionswitchClientTypes.WaitELBTargetGroupHealthy?
 
         public init(
             asgs: [ARCRegionswitchClientTypes.Asg]? = nil,
             capacityMonitoringApproach: ARCRegionswitchClientTypes.Ec2AsgCapacityMonitoringApproach? = .sampledMaxInLast24Hours,
             targetPercent: Swift.Int? = 100,
             timeoutMinutes: Swift.Int? = 60,
-            ungraceful: ARCRegionswitchClientTypes.Ec2Ungraceful? = nil
+            ungraceful: ARCRegionswitchClientTypes.Ec2Ungraceful? = nil,
+            waitELBTargetGroupHealthy: ARCRegionswitchClientTypes.WaitELBTargetGroupHealthy? = nil
         ) {
             self.asgs = asgs
             self.capacityMonitoringApproach = capacityMonitoringApproach
             self.targetPercent = targetPercent
             self.timeoutMinutes = timeoutMinutes
             self.ungraceful = ungraceful
+            self.waitELBTargetGroupHealthy = waitELBTargetGroupHealthy
         }
     }
 }
@@ -1541,19 +1574,23 @@ extension ARCRegionswitchClientTypes {
         public var timeoutMinutes: Swift.Int?
         /// The settings for ungraceful execution.
         public var ungraceful: ARCRegionswitchClientTypes.EcsUngraceful?
+        /// If enabled, the step completes only after each attached ELB target group reports a healthy target count that matches the service's new desired task count calculated in the step.
+        public var waitELBTargetGroupHealthy: ARCRegionswitchClientTypes.WaitELBTargetGroupHealthy?
 
         public init(
             capacityMonitoringApproach: ARCRegionswitchClientTypes.EcsCapacityMonitoringApproach? = .sampledMaxInLast24Hours,
             services: [ARCRegionswitchClientTypes.Service]? = nil,
             targetPercent: Swift.Int? = 100,
             timeoutMinutes: Swift.Int? = 60,
-            ungraceful: ARCRegionswitchClientTypes.EcsUngraceful? = nil
+            ungraceful: ARCRegionswitchClientTypes.EcsUngraceful? = nil,
+            waitELBTargetGroupHealthy: ARCRegionswitchClientTypes.WaitELBTargetGroupHealthy? = nil
         ) {
             self.capacityMonitoringApproach = capacityMonitoringApproach
             self.services = services
             self.targetPercent = targetPercent
             self.timeoutMinutes = timeoutMinutes
             self.ungraceful = ungraceful
+            self.waitELBTargetGroupHealthy = waitELBTargetGroupHealthy
         }
     }
 }
@@ -2913,6 +2950,143 @@ public struct ListRoute53HealthChecksInRegionOutput: Swift.Sendable {
     }
 }
 
+public struct ListServiceQuotaWarningsInput: Swift.Sendable {
+    /// The maximum number of results to return with this call. Valid values are 1 to 100. If you don't specify a value, the operation returns up to the maximum number of results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the plans to return service quota warnings for. You can specify up to 100 plan ARNs. Region switch ignores any plan ARN that you can't access. If you omit this parameter, Region switch returns the warnings for all of your accessible plans.
+    public var planArns: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        planArns: [Swift.String]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.planArns = planArns
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// The status of a service quota warning. Valid values: pending - Region switch submitted a quota increase request that is still open. denied - The quota increase request was denied. insufficientPermissions - The plan's execution role is missing a permission that service quota checks require. maxRegionSwitchRequestsExceeded - Region switch reached its limit on the number of open quota increase requests. maxAccountRequestsExceeded - The account reached the maximum number of open quota increase requests.
+    public enum ServiceQuotaWarningStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case denied
+        case insufficientPermissions
+        case maxAccountRequestsExceeded
+        case maxRegionSwitchRequestsExceeded
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceQuotaWarningStatus] {
+            return [
+                .denied,
+                .insufficientPermissions,
+                .maxAccountRequestsExceeded,
+                .maxRegionSwitchRequestsExceeded,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .denied: return "denied"
+            case .insufficientPermissions: return "insufficientPermissions"
+            case .maxAccountRequestsExceeded: return "maxAccountRequestsExceeded"
+            case .maxRegionSwitchRequestsExceeded: return "maxRegionSwitchRequestsExceeded"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// A service quota warning for a plan. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value for the matching resource in another Region or account in the plan, or when it can't complete a service quota check.
+    public struct ServiceQuotaWarningSummary: Swift.Sendable {
+        /// The Amazon Web Services account ID that owns the plan that the warning applies to.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The ID of the support case associated with the quota increase request, if Region switch submitted one for this quota.
+        public var caseId: Swift.String?
+        /// The time (UTC) when Region switch last checked this quota.
+        public var lastCheckedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the plan that the warning applies to.
+        /// This member is required.
+        public var planArn: Swift.String?
+        /// The quota code of the quota that the warning applies to, as defined in Service Quotas.
+        public var quotaCode: Swift.String?
+        /// The name of the quota that the warning applies to, as defined in Service Quotas.
+        public var quotaName: Swift.String?
+        /// The Amazon Web Services Region that the quota applies to.
+        /// This member is required.
+        public var quotaRegion: Swift.String?
+        /// The ID of the quota increase request that Region switch submitted, if it submitted one for this quota.
+        public var requestId: Swift.String?
+        /// The service code of the service that the quota belongs to, as defined in Service Quotas. For example, ec2.
+        public var serviceCode: Swift.String?
+        /// The status of the service quota warning.
+        /// This member is required.
+        public var status: ARCRegionswitchClientTypes.ServiceQuotaWarningStatus?
+        /// The time (UTC) when Region switch created this warning.
+        public var warningCreatedAt: Foundation.Date?
+        /// A message that describes the service quota warning.
+        public var warningMessage: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            caseId: Swift.String? = nil,
+            lastCheckedAt: Foundation.Date? = nil,
+            planArn: Swift.String? = nil,
+            quotaCode: Swift.String? = nil,
+            quotaName: Swift.String? = nil,
+            quotaRegion: Swift.String? = nil,
+            requestId: Swift.String? = nil,
+            serviceCode: Swift.String? = nil,
+            status: ARCRegionswitchClientTypes.ServiceQuotaWarningStatus? = nil,
+            warningCreatedAt: Foundation.Date? = nil,
+            warningMessage: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.caseId = caseId
+            self.lastCheckedAt = lastCheckedAt
+            self.planArn = planArn
+            self.quotaCode = quotaCode
+            self.quotaName = quotaName
+            self.quotaRegion = quotaRegion
+            self.requestId = requestId
+            self.serviceCode = serviceCode
+            self.status = status
+            self.warningCreatedAt = warningCreatedAt
+            self.warningMessage = warningMessage
+        }
+    }
+}
+
+public struct ListServiceQuotaWarningsOutput: Swift.Sendable {
+    /// A pagination token. A response may contain no results while still including a nextToken. Continue paginating until nextToken is null to retrieve all results.
+    public var nextToken: Swift.String?
+    /// The service quota warnings for the plans that you can access.
+    /// This member is required.
+    public var serviceQuotaWarningSummaries: [ARCRegionswitchClientTypes.ServiceQuotaWarningSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceQuotaWarningSummaries: [ARCRegionswitchClientTypes.ServiceQuotaWarningSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceQuotaWarningSummaries = serviceQuotaWarningSummaries
+    }
+}
+
 /// The operation failed because the current state of the resource doesn't allow the operation to proceed. HTTP Status Code: 400
 public struct IllegalStateException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3446,6 +3620,8 @@ extension ARCRegionswitchClientTypes {
         public var regions: [Swift.String]?
         /// The report configuration for a plan.
         public var reportConfiguration: ARCRegionswitchClientTypes.ReportConfiguration?
+        /// Indicates whether service quota checks are enabled for the Region switch plan. When enabled, Region switch compares the applied service quota values across the plan's Amazon Web Services Regions and creates a warning when a quota in one Region is lower than the value required for the matching resource in another Region. Service quota checks are advisory and don't prevent you from creating, evaluating, or executing a plan.
+        public var serviceQuotaChecksEnabled: Swift.Bool?
         /// The triggers for a plan.
         public var triggers: [ARCRegionswitchClientTypes.Trigger]?
         /// The timestamp when the plan was last updated.
@@ -3468,6 +3644,7 @@ extension ARCRegionswitchClientTypes {
             recoveryTimeObjectiveMinutes: Swift.Int? = nil,
             regions: [Swift.String]? = nil,
             reportConfiguration: ARCRegionswitchClientTypes.ReportConfiguration? = nil,
+            serviceQuotaChecksEnabled: Swift.Bool? = nil,
             triggers: [ARCRegionswitchClientTypes.Trigger]? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil,
@@ -3484,6 +3661,7 @@ extension ARCRegionswitchClientTypes {
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
             self.regions = regions
             self.reportConfiguration = reportConfiguration
+            self.serviceQuotaChecksEnabled = serviceQuotaChecksEnabled
             self.triggers = triggers
             self.updatedAt = updatedAt
             self.version = version
@@ -3515,6 +3693,8 @@ public struct CreatePlanInput: Swift.Sendable {
     public var regions: [Swift.String]?
     /// Configuration for automatic report generation for plan executions. When configured, Region switch automatically generates a report after each plan execution that includes execution events, plan configuration, and CloudWatch alarm states.
     public var reportConfiguration: ARCRegionswitchClientTypes.ReportConfiguration?
+    /// Specifies whether to enable service quota checks for the Region switch plan.
+    public var serviceQuotaChecksEnabled: Swift.Bool?
     /// The tags to apply to the Region switch plan.
     public var tags: [Swift.String: Swift.String]?
     /// The triggers associated with a Region switch plan.
@@ -3533,6 +3713,7 @@ public struct CreatePlanInput: Swift.Sendable {
         recoveryTimeObjectiveMinutes: Swift.Int? = nil,
         regions: [Swift.String]? = nil,
         reportConfiguration: ARCRegionswitchClientTypes.ReportConfiguration? = nil,
+        serviceQuotaChecksEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         triggers: [ARCRegionswitchClientTypes.Trigger]? = nil,
         workflows: [ARCRegionswitchClientTypes.Workflow]? = nil
@@ -3546,6 +3727,7 @@ public struct CreatePlanInput: Swift.Sendable {
         self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
         self.regions = regions
         self.reportConfiguration = reportConfiguration
+        self.serviceQuotaChecksEnabled = serviceQuotaChecksEnabled
         self.tags = tags
         self.triggers = triggers
         self.workflows = workflows
@@ -3567,6 +3749,8 @@ public struct UpdatePlanInput: Swift.Sendable {
     public var recoveryTimeObjectiveMinutes: Swift.Int?
     /// The updated report configuration for the plan.
     public var reportConfiguration: ARCRegionswitchClientTypes.ReportConfiguration?
+    /// Specifies whether service quota checks are enabled for the Region switch plan.
+    public var serviceQuotaChecksEnabled: Swift.Bool?
     /// The updated conditions that can automatically trigger the execution of the plan.
     public var triggers: [ARCRegionswitchClientTypes.Trigger]?
     /// The updated workflows for the Region switch plan.
@@ -3580,6 +3764,7 @@ public struct UpdatePlanInput: Swift.Sendable {
         executionRole: Swift.String? = nil,
         recoveryTimeObjectiveMinutes: Swift.Int? = nil,
         reportConfiguration: ARCRegionswitchClientTypes.ReportConfiguration? = nil,
+        serviceQuotaChecksEnabled: Swift.Bool? = nil,
         triggers: [ARCRegionswitchClientTypes.Trigger]? = nil,
         workflows: [ARCRegionswitchClientTypes.Workflow]? = nil
     ) {
@@ -3589,6 +3774,7 @@ public struct UpdatePlanInput: Swift.Sendable {
         self.executionRole = executionRole
         self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
         self.reportConfiguration = reportConfiguration
+        self.serviceQuotaChecksEnabled = serviceQuotaChecksEnabled
         self.triggers = triggers
         self.workflows = workflows
     }

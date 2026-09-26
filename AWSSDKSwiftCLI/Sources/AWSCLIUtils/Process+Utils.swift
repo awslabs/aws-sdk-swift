@@ -68,13 +68,13 @@ public func _runReturningStdOut(_ process: Process) throws -> String? {
 }
 
 /// A simple struct that runs a process
-public struct ProcessRunner {
+public struct ProcessRunner: Sendable {
 
-    public init(_ run: @escaping (Process) throws -> Void) {
+    public init(_ run: @escaping @Sendable (Process) throws -> Void) {
         self.run = run
     }
 
-    public let run: (Process) throws -> Void
+    public let run: @Sendable (Process) throws -> Void
     
     /// Creates the standard runner to be used by the release version of this CLI
     ///
@@ -91,6 +91,6 @@ public struct ProcessRunner {
     
     #if DEBUG
     // Set this to a non-nil value in tests to intercept when a process is run
-    public static var testRunner: ProcessRunner? = nil
+    public nonisolated(unsafe) static var testRunner: ProcessRunner? = nil
     #endif
 }

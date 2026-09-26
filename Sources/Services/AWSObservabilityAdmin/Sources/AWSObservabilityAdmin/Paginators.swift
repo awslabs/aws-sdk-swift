@@ -43,6 +43,36 @@ extension PaginatorSequence where OperationStackInput == ListCentralizationRules
     }
 }
 extension ObservabilityAdminClient {
+    /// Paginate over `[ListDatasetIntegrationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetIntegrationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetIntegrationsOutput`
+    public func listDatasetIntegrationsPaginated(input: ListDatasetIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListDatasetIntegrationsInput, ListDatasetIntegrationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetIntegrationsInput, ListDatasetIntegrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetIntegrations(input:))
+    }
+}
+
+extension ListDatasetIntegrationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDatasetIntegrationsInput {
+        return ListDatasetIntegrationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDatasetIntegrationsInput, OperationStackOutput == ListDatasetIntegrationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetIntegrationsPaginated`
+    /// to access the nested member `[ObservabilityAdminClientTypes.DatasetIntegrationSummary]`
+    /// - Returns: `[ObservabilityAdminClientTypes.DatasetIntegrationSummary]`
+    public func datasetIntegrationSummaries() async throws -> [ObservabilityAdminClientTypes.DatasetIntegrationSummary] {
+        return try await self.asyncCompactMap { item in item.datasetIntegrationSummaries }
+    }
+}
+extension ObservabilityAdminClient {
     /// Paginate over `[ListResourceTelemetryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

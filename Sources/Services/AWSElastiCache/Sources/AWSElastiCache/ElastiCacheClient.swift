@@ -615,7 +615,7 @@ extension ElastiCacheClient {
 extension ElastiCacheClient {
     /// Performs the `AddTagsToResource` operation on the `ElastiCache` service.
     ///
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html) in the ElastiCache User Guide.
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html) in the ElastiCache User Guide.
     ///
     /// - Parameter input: Represents the input of an AddTagsToResource operation. (Type: `AddTagsToResourceInput`)
     ///
@@ -628,7 +628,9 @@ extension ElastiCacheClient {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
@@ -1464,6 +1466,7 @@ extension ElastiCacheClient {
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     public func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4724,7 +4727,7 @@ extension ElastiCacheClient {
 
     /// Performs the `ListTagsForResource` operation on the `ElastiCache` service.
     ///
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
     ///
     /// - Parameter input: The input parameters for the ListTagsForResource operation. (Type: `ListTagsForResourceInput`)
     ///
@@ -4737,7 +4740,9 @@ extension ElastiCacheClient {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
@@ -5706,7 +5711,7 @@ extension ElastiCacheClient {
 
     /// Performs the `RemoveTagsFromResource` operation on the `ElastiCache` service.
     ///
-    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
+    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
     ///
     /// - Parameter input: Represents the input of a RemoveTagsFromResource operation. (Type: `RemoveTagsFromResourceInput`)
     ///
@@ -5719,7 +5724,9 @@ extension ElastiCacheClient {
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
+    /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
     /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.

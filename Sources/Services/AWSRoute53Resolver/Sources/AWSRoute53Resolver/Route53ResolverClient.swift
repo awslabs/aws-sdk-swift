@@ -614,7 +614,7 @@ extension Route53ResolverClient {
 extension Route53ResolverClient {
     /// Performs the `AssociateFirewallRuleGroup` operation on the `Route53Resolver` service.
     ///
-    /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active AWS Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
+    /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateFirewallRuleGroupInput`)
     ///
@@ -1252,11 +1252,11 @@ extension Route53ResolverClient {
     ///
     /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field — they are mutually exclusive:
     ///
-    /// * FirewallDomainListId — match a customer-managed or AWS-managed domain list.
+    /// * FirewallDomainListId — match a customer-managed or Amazon Web Services-managed domain list.
     ///
     /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
     ///
-    /// * FirewallRuleType — match one of the rule-type variants returned by [ListFirewallRuleTypes]: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, or PartnerThreatProtection. The PartnerThreatProtection variant requires an active AWS Marketplace subscription to the named partner product.
+    /// * FirewallRuleType — match one of the rule-type variants returned by [ListFirewallRuleTypes]: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, or PartnerThreatProtection. The PartnerThreatProtection variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
     ///
     ///
     /// For rules that require asynchronous provisioning (today, the PartnerThreatProtection rule type), the rule's Status begins at CREATING and transitions to COMPLETE once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, Status becomes CREATION_FAILED and StatusMessage contains a human-readable reason; the rule is then immutable and must be removed with [DeleteFirewallRule].
@@ -1418,7 +1418,7 @@ extension Route53ResolverClient {
 
     /// Performs the `CreateOutpostResolver` operation on the `Route53Resolver` service.
     ///
-    /// Creates a Route 53 Resolver on an Outpost.
+    /// Creates a Route 53 Resolver on an Outpost. This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOutpostResolverInput`)
     ///
@@ -1981,7 +1981,7 @@ extension Route53ResolverClient {
 
     /// Performs the `DeleteOutpostResolver` operation on the `Route53Resolver` service.
     ///
-    /// Deletes a Resolver on the Outpost.
+    /// Deletes a Resolver on the Outpost. This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteOutpostResolverInput`)
     ///
@@ -4258,7 +4258,7 @@ extension Route53ResolverClient {
 
     /// Performs the `ListFirewallRuleTypes` operation on the `Route53Resolver` service.
     ///
-    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of [CreateFirewallRule] and [UpdateFirewallRule]. Each returned [FirewallRuleTypeDefinition] identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a [SubscriptionInfo] identifying the AWS Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by AWS and requires no separate subscription.
+    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of [CreateFirewallRule] and [UpdateFirewallRule]. Each returned [FirewallRuleTypeDefinition] identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a [SubscriptionInfo] identifying the Amazon Web Services Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by Amazon Web Services and requires no separate subscription.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleTypesInput`)
     ///
@@ -5908,7 +5908,7 @@ extension Route53ResolverClient {
 
     /// Performs the `UpdateOutpostResolver` operation on the `Route53Resolver` service.
     ///
-    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost.
+    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. This operation applies to first-generation Outposts only. On second-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateOutpostResolverInput`)
     ///

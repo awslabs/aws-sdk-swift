@@ -66,7 +66,8 @@ final class RetryIntegrationTests: XCTestCase {
         // Replace the retry strategy's sleeper with a mock, to allow tests to run without delay and for us to
         // check the delay time
         // Treat nil and 0.0 time the same (change 0.0 to nil)
-        subject.sleeper = { self.next.actualDelay = ($0 != 0.0) ? $0 : nil }
+        let delayRecorder = next.delayRecorder
+        subject.sleeper = { @Sendable in await delayRecorder.record(($0 != 0.0) ? $0 : nil) }
 
         builder = TestOrchestrator.httpBuilder()
             .attributes(context)
@@ -267,7 +268,8 @@ final class RetryIntegrationTests: XCTestCase {
             useNewRetries2026: true
         )
         subject = DefaultRetryStrategy(options: retryStrategyOptions)
-        subject.sleeper = { self.next.actualDelay = ($0 != 0.0) ? $0 : nil }
+        let delayRecorder = next.delayRecorder
+        subject.sleeper = { @Sendable in await delayRecorder.record(($0 != 0.0) ? $0 : nil) }
 
         let errorInfoProvider: (Error) -> RetryErrorInfo? = if let sdkID {
             AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: sdkID)
@@ -357,6 +359,24 @@ private enum TestOutputError {
     }
 }
 
+/// Records the delay passed to the retry strategy's sleeper.
+///
+/// The sleeper closure is `@Sendable`, so the delay cannot be stored directly on the
+/// (non-`Sendable`) test class or handler.  An actor gives the closure something safe to capture.
+private actor DelayRecorder {
+    private var delay: TimeInterval?
+
+    func record(_ delay: TimeInterval?) {
+        self.delay = delay
+    }
+
+    /// Returns the recorded delay, then clears it so the next attempt starts fresh.
+    func consume() -> TimeInterval? {
+        defer { delay = nil }
+        return delay
+    }
+}
+
 private class TestOutputHandler: ExecuteRequest {
     typealias RequestType = HTTPRequest
     typealias ResponseType = HTTPResponse
@@ -365,7 +385,7 @@ private class TestOutputHandler: ExecuteRequest {
     fileprivate var testSteps = [TestStep]()
     private var latestTestStep: TestStep?
     var quota: RetryQuota!
-    var actualDelay: TimeInterval?
+    let delayRecorder = DelayRecorder()
     var finalError: Error?
     var invocationID = ""
     var prevAttemptNum = 0
@@ -411,8 +431,8 @@ private class TestOutputHandler: ExecuteRequest {
         XCTAssertEqual(testStep.retryQuota, availableCapacity)
 
         // Test delay
+        let actualDelay = await delayRecorder.consume()
         XCTAssertEqual(testStep.delay, actualDelay, file: testStep.file, line: testStep.line)
-        actualDelay = nil
 
         // When called after all test steps have been performed, this
         // logic will verify that the last test step had the expected result.

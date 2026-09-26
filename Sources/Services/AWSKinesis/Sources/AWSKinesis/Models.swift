@@ -105,6 +105,11 @@ public struct UpdateStreamModeOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateStreamRecordDistributionStrategyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Specifies that you do not have the permissions required to perform this operation.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -486,7 +491,7 @@ extension KinesisClientTypes {
         public var outputKeyTemplate: Swift.String?
         /// The Amazon S3 storage class for delivered objects. Valid values:
         ///
-        /// * STANDARD - Default storage class for frequently accessed data. (default)
+        /// * STANDARD - The default storage class, for frequently accessed data.
         ///
         /// * INTELLIGENT_TIERING - Automatically moves objects to the most cost-effective access tier based on usage patterns.
         ///
@@ -736,7 +741,7 @@ extension KinesisClientTypes {
 
     /// Specifies the format of records read from the source stream.
     public struct RecordConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Glue Schema Registry schema used to validate records. Required when the channel destination is a streaming table (Amazon S3 Tables), for both the JSON and GSR_JSON record formats.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Glue Schema Registry schema used to validate records. Required when the channel destination is a streaming table.
         public var gsrSchemaARN: Swift.String?
         /// The format of records on the source stream. Valid values:
         ///
@@ -817,7 +822,7 @@ extension KinesisClientTypes {
         public var channelStatus: KinesisClientTypes.ChannelStatus?
         /// A message describing the reason for a FAILED status.
         public var channelStatusReason: Swift.String?
-        /// The server-side encryption configuration for the channel.
+        /// The Amazon Web Services KMS key configuration that Amazon Kinesis Data Streams uses to encrypt data delivered to the channel's destination.
         public var encryptionConfiguration: KinesisClientTypes.ChannelEncryptionConfiguration?
         /// The Amazon CloudWatch Logs configuration for the channel.
         /// This member is required.
@@ -920,7 +925,7 @@ extension KinesisClientTypes {
 
     /// The updated Amazon CloudWatch Logs configuration for a channel. Used in [UpdateChannel].
     public struct ChannelLoggingUpdateInput: Swift.Sendable {
-        /// The updated Amazon CloudWatch Logs settings for the channel.
+        /// The updated Amazon CloudWatch Logs settings, including whether logging is enabled and the target log group and log stream.
         /// This member is required.
         public var cloudWatchLogs: KinesisClientTypes.CloudWatchLogsUpdateInput?
 
@@ -1355,7 +1360,7 @@ extension KinesisClientTypes {
 
     /// The configuration for delivery to a general purpose Amazon S3 bucket. Used in [CreateChannel].
     public struct S3DestinationConfiguration: Swift.Sendable {
-        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). The default value is 300 seconds.
+        /// The maximum age, in seconds, of undelivered data before the channel delivers it to the destination. The default value is 300 seconds.
         public var dataFreshnessInSeconds: Swift.Int?
         /// The dead-letter queue configuration for records that cannot be delivered. Optional for general purpose Amazon S3 destinations. If not specified, it defaults to the destination bucket with an error prefix.
         public var deadLetterQueueS3Configuration: KinesisClientTypes.DeadLetterQueueS3Configuration?
@@ -1379,7 +1384,7 @@ extension KinesisClientTypes {
 
     /// The configuration for delivery to streaming tables on Apache Iceberg. Used in [CreateChannel].
     public struct S3TablesDestinationConfiguration: Swift.Sendable {
-        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). The default value is 300 seconds.
+        /// The maximum age, in seconds, of undelivered data before the channel delivers it to the destination. The default value is 300 seconds.
         public var dataFreshnessInSeconds: Swift.Int?
         /// The dead-letter queue configuration for records that cannot be delivered. Required for streaming table destinations.
         /// This member is required.
@@ -1408,9 +1413,9 @@ public struct CreateChannelInput: Swift.Sendable {
     public var encryptionConfiguration: KinesisClientTypes.ChannelEncryptionConfiguration?
     /// The Amazon CloudWatch Logs configuration for the channel.
     public var loggingConfiguration: KinesisClientTypes.ChannelLoggingConfiguration?
-    /// The configuration for delivery to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+    /// The configuration for delivery to a general purpose Amazon S3 bucket. Specify this parameter when S3TablesDestinationConfiguration is not specified.
     public var s3DestinationConfiguration: KinesisClientTypes.S3DestinationConfiguration?
-    /// The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+    /// The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. Specify this parameter when S3DestinationConfiguration is not specified.
     public var s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Data Streams assumes to write records to the destination.
     /// This member is required.
@@ -1443,7 +1448,7 @@ public struct CreateChannelInput: Swift.Sendable {
 }
 
 public struct CreateChannelOutput: Swift.Sendable {
-    /// The configuration and current status of the channel.
+    /// The configuration and current status of the channel, including its ARN, destination configuration, and lifecycle state. Immediately after creation, the state is CREATING.
     /// This member is required.
     public var channelDescription: KinesisClientTypes.ChannelDescription?
 
@@ -1451,6 +1456,35 @@ public struct CreateChannelOutput: Swift.Sendable {
         channelDescription: KinesisClientTypes.ChannelDescription? = nil
     ) {
         self.channelDescription = channelDescription
+    }
+}
+
+extension KinesisClientTypes {
+
+    public enum RecordDistributionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case userPartitionKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordDistributionStrategy] {
+            return [
+                .auto,
+                .userPartitionKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .userPartitionKey: return "USER_PARTITION_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1503,6 +1537,15 @@ extension KinesisClientTypes {
 public struct CreateStreamInput: Swift.Sendable {
     /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
     public var maxRecordSizeInKiB: Swift.Int?
+    /// The record distribution strategy for the stream, which determines how Amazon Kinesis Data Streams distributes records across shards. Specify one of the following values:
+    ///
+    /// * AUTO – Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. Use this value for stateless workloads that do not require partition-key ordering.
+    ///
+    /// * USER_PARTITION_KEY – Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default.
+    ///
+    ///
+    /// The record distribution strategy is only supported for streams that use the on-demand capacity mode. If you do not specify this parameter, the stream uses USER_PARTITION_KEY.
+    public var recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy?
     /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput.
     public var shardCount: Swift.Int?
     /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
@@ -1517,6 +1560,7 @@ public struct CreateStreamInput: Swift.Sendable {
 
     public init(
         maxRecordSizeInKiB: Swift.Int? = nil,
+        recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy? = nil,
         shardCount: Swift.Int? = nil,
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
         streamName: Swift.String? = nil,
@@ -1524,6 +1568,7 @@ public struct CreateStreamInput: Swift.Sendable {
         warmThroughputMiBps: Swift.Int? = nil
     ) {
         self.maxRecordSizeInKiB = maxRecordSizeInKiB
+        self.recordDistributionStrategy = recordDistributionStrategy
         self.shardCount = shardCount
         self.streamModeDetails = streamModeDetails
         self.streamName = streamName
@@ -1721,7 +1766,7 @@ public struct DescribeChannelInput: Swift.Sendable {
 }
 
 public struct DescribeChannelOutput: Swift.Sendable {
-    /// The configuration and current status of the channel.
+    /// The configuration and current status of the channel, including its ARN, source stream, destination configuration, and lifecycle state.
     /// This member is required.
     public var channelDescription: KinesisClientTypes.ChannelDescription?
 
@@ -2204,6 +2249,8 @@ extension KinesisClientTypes {
         /// The number of open shards in the stream.
         /// This member is required.
         public var openShardCount: Swift.Int?
+        /// The record distribution strategy that the stream currently uses. A value of AUTO indicates that Amazon Kinesis Data Streams distributes records across shards using service-managed algorithms. A value of USER_PARTITION_KEY indicates that shard placement is determined by the partition key that producers supply. This field is only present for streams that use the on-demand capacity mode.
+        public var recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy?
         /// The current retention period, in hours.
         /// This member is required.
         public var retentionPeriodHours: Swift.Int?
@@ -2242,6 +2289,7 @@ extension KinesisClientTypes {
             keyId: Swift.String? = nil,
             maxRecordSizeInKiB: Swift.Int? = nil,
             openShardCount: Swift.Int? = nil,
+            recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy? = nil,
             retentionPeriodHours: Swift.Int? = nil,
             streamARN: Swift.String? = nil,
             streamCreationTimestamp: Foundation.Date? = nil,
@@ -2258,6 +2306,7 @@ extension KinesisClientTypes {
             self.keyId = keyId
             self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.openShardCount = openShardCount
+            self.recordDistributionStrategy = recordDistributionStrategy
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
             self.streamCreationTimestamp = streamCreationTimestamp
@@ -2579,8 +2628,7 @@ extension KinesisClientTypes {
         ///
         /// * KMS: Use server-side encryption on the records in the stream using a customer-managed Amazon Web Services KMS key.
         public var encryptionType: KinesisClientTypes.EncryptionType?
-        /// Identifies which shard in the stream the data record is assigned to.
-        /// This member is required.
+        /// Identifies which shard in the stream the data record is assigned to. For a stream that uses the AUTO record distribution strategy, this value is not returned if the producer did not provide a partition key when writing the record. If the producer provided a partition key, the original value is returned even though it was not used to determine shard placement.
         public var partitionKey: Swift.String?
         /// The unique identifier of the record within its shard.
         /// This member is required.
@@ -2805,7 +2853,7 @@ extension KinesisClientTypes {
 public struct ListChannelsInput: Swift.Sendable {
     /// The maximum number of channels to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     public var maxResults: Swift.Int?
-    /// The pagination token returned by a previous call. Specify this token to retrieve the next page of results. This value is null when there are no more results to return.
+    /// The pagination token returned by a previous call. Specify this token to retrieve the next page of results.
     public var nextToken: Swift.String?
     /// Filters the results to channels associated with the specified streams.
     public var streamFilter: [KinesisClientTypes.StreamFilter]?
@@ -3223,8 +3271,7 @@ public struct PutRecordInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
     public var explicitHashKey: Swift.String?
-    /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
-    /// This member is required.
+    /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. If the stream uses the USER_PARTITION_KEY record distribution strategy (the default), a partition key is required. If the stream uses the AUTO record distribution strategy, the partition key is optional and any value you provide is ignored, along with any ExplicitHashKey you provide. In that case, Amazon Kinesis Data Streams distributes the record across shards using service-managed algorithms. For more information, see UpdateStreamRecordDistributionStrategy.
     public var partitionKey: Swift.String?
     /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records are coarsely ordered based on arrival time.
     public var sequenceNumberForOrdering: Swift.String?
@@ -3291,8 +3338,7 @@ extension KinesisClientTypes {
         public var data: Foundation.Data?
         /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
         public var explicitHashKey: Swift.String?
-        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
-        /// This member is required.
+        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. If the stream uses the USER_PARTITION_KEY record distribution strategy (the default), a partition key is required for each record. If the stream uses the AUTO record distribution strategy, the partition key is optional and any value you provide is ignored, along with any ExplicitHashKey you provide. In that case, Amazon Kinesis Data Streams distributes records across shards using service-managed algorithms. For more information, see UpdateStreamRecordDistributionStrategy.
         public var partitionKey: Swift.String?
 
         public init(
@@ -3807,7 +3853,7 @@ extension KinesisClientTypes {
 
     /// The updated configuration for a general purpose Amazon S3 destination. Used in [UpdateChannel]. Only DataFreshnessInSeconds can be updated.
     public struct S3DestinationUpdateInput: Swift.Sendable {
-        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes).
+        /// The maximum age, in seconds, of undelivered data before the channel delivers it to the destination.
         /// This member is required.
         public var dataFreshnessInSeconds: Swift.Int?
 
@@ -3823,7 +3869,7 @@ extension KinesisClientTypes {
 
     /// The updated configuration for a streaming table destination. Used in [UpdateChannel]. Only DataFreshnessInSeconds can be updated.
     public struct S3TablesDestinationUpdateInput: Swift.Sendable {
-        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes).
+        /// The maximum age, in seconds, of undelivered data before the channel delivers it to the destination.
         /// This member is required.
         public var dataFreshnessInSeconds: Swift.Int?
 
@@ -3841,9 +3887,9 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var channelARN: Swift.String?
     /// The updated Amazon CloudWatch Logs configuration for the channel.
     public var loggingConfiguration: KinesisClientTypes.ChannelLoggingUpdateInput?
-    /// The updated configuration for a general purpose Amazon S3 destination. Only DataFreshnessInSeconds can be updated.
+    /// The updated configuration for a general purpose Amazon S3 destination. Specify this parameter when the channel delivers to a general purpose Amazon S3 bucket. Only DataFreshnessInSeconds can be updated.
     public var s3DestinationConfiguration: KinesisClientTypes.S3DestinationUpdateInput?
-    /// The updated configuration for a streaming table destination. Only DataFreshnessInSeconds can be updated.
+    /// The updated configuration for a streaming table destination. Specify this parameter when the channel delivers to streaming tables on Apache Iceberg in Amazon S3 Tables. Only DataFreshnessInSeconds can be updated.
     public var s3TablesDestinationConfiguration: KinesisClientTypes.S3TablesDestinationUpdateInput?
 
     public init(
@@ -3860,7 +3906,7 @@ public struct UpdateChannelInput: Swift.Sendable {
 }
 
 public struct UpdateChannelOutput: Swift.Sendable {
-    /// The configuration and current status of the updated channel.
+    /// The configuration and current status of the channel after the update, including its ARN, destination configuration, and lifecycle state. Immediately after the request, the state is UPDATING.
     /// This member is required.
     public var channelDescription: KinesisClientTypes.ChannelDescription?
 
@@ -3999,6 +4045,31 @@ public struct UpdateStreamModeInput: Swift.Sendable {
         self.streamId = streamId
         self.streamModeDetails = streamModeDetails
         self.warmThroughputMiBps = warmThroughputMiBps
+    }
+}
+
+public struct UpdateStreamRecordDistributionStrategyInput: Swift.Sendable {
+    /// The record distribution strategy to apply to the stream. Specify one of the following values:
+    ///
+    /// * AUTO – Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply.
+    ///
+    /// * USER_PARTITION_KEY – Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default.
+    /// This member is required.
+    public var recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy?
+    /// The Amazon Resource Name (ARN) of the stream to update.
+    /// This member is required.
+    public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
+
+    public init(
+        recordDistributionStrategy: KinesisClientTypes.RecordDistributionStrategy? = nil,
+        streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
+    ) {
+        self.recordDistributionStrategy = recordDistributionStrategy
+        self.streamARN = streamARN
+        self.streamId = streamId
     }
 }
 

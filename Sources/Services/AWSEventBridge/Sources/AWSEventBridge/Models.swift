@@ -1501,7 +1501,7 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html) in the EventBridge User Guide.
     public struct LogConfig: Swift.Sendable {
         /// Whether EventBridge include detailed event information in the records it generates. Detailed data can be useful for troubleshooting and debugging. This information includes details of the event itself, as well as target details. For more information, see [Including detail data in event bus logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html#eb-event-logs-data) in the EventBridge User Guide.
         public var includeDetail: EventBridgeClientTypes.IncludeDetail?
@@ -1555,7 +1555,7 @@ public struct CreateEventBusInput: Swift.Sendable {
     ///
     /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
-    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html) in the EventBridge User Guide.
     public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     /// This member is required.
@@ -1591,7 +1591,7 @@ public struct CreateEventBusOutput: Swift.Sendable {
     public var eventBusArn: Swift.String?
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
-    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html) in the EventBridge User Guide.
     public var logConfig: EventBridgeClientTypes.LogConfig?
 
     public init(
@@ -2286,8 +2286,10 @@ public struct DescribeEventBusOutput: Swift.Sendable {
     public var kmsKeyIdentifier: Swift.String?
     /// The time the event bus was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html) in the EventBridge User Guide.
     public var logConfig: EventBridgeClientTypes.LogConfig?
+    /// If the event bus was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the event bus.
+    public var managedBy: Swift.String?
     /// The name of the event bus. Currently, this is always default.
     public var name: Swift.String?
     /// The policy that enables the external account to send events to your account.
@@ -2301,6 +2303,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         kmsKeyIdentifier: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         logConfig: EventBridgeClientTypes.LogConfig? = nil,
+        managedBy: Swift.String? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
     ) {
@@ -2311,6 +2314,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastModifiedTime = lastModifiedTime
         self.logConfig = logConfig
+        self.managedBy = managedBy
         self.name = name
         self.policy = policy
     }
@@ -2925,6 +2929,8 @@ extension EventBridgeClientTypes {
         public var description: Swift.String?
         /// The time the event bus was last modified.
         public var lastModifiedTime: Foundation.Date?
+        /// If the event bus was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the event bus.
+        public var managedBy: Swift.String?
         /// The name of the event bus.
         public var name: Swift.String?
         /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
@@ -2935,6 +2941,7 @@ extension EventBridgeClientTypes {
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            managedBy: Swift.String? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil
         ) {
@@ -2942,6 +2949,7 @@ extension EventBridgeClientTypes {
             self.creationTime = creationTime
             self.description = description
             self.lastModifiedTime = lastModifiedTime
+            self.managedBy = managedBy
             self.name = name
             self.policy = policy
         }
@@ -3987,9 +3995,9 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// This structure includes the custom parameter to be used when the target is an SQS FIFO queue.
+    /// The custom parameters for EventBridge to use for a target that is an Amazon SQS fair or FIFO queue.
     public struct SqsParameters: Swift.Sendable {
-        /// The FIFO message group ID to use as the target.
+        /// The ID of the message group to use as the target.
         public var messageGroupId: Swift.String?
 
         public init(
@@ -4038,7 +4046,7 @@ extension EventBridgeClientTypes {
         public var runCommandParameters: EventBridgeClientTypes.RunCommandParameters?
         /// Contains the SageMaker AI Model Building Pipeline parameters to start execution of a SageMaker AI Model Building Pipeline. If you specify a SageMaker AI Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
         public var sageMakerPipelineParameters: EventBridgeClientTypes.SageMakerPipelineParameters?
-        /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
+        /// Contains the message group ID to use when the target is an Amazon SQS fair or FIFO queue. If you specify a fair or FIFO queue as a target, the queue must have content-based deduplication enabled.
         public var sqsParameters: EventBridgeClientTypes.SqsParameters?
 
         public init(
@@ -5083,7 +5091,7 @@ public struct UpdateEventBusInput: Swift.Sendable {
     ///
     /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
-    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html) in the EventBridge User Guide.
     public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the event bus.
     public var name: Swift.String?
@@ -5112,7 +5120,7 @@ public struct UpdateEventBusOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
-    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html) in the EventBridge User Guide.
     public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The event bus name.
     public var name: Swift.String?

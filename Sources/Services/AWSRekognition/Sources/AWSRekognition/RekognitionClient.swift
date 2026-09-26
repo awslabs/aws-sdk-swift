@@ -1029,7 +1029,7 @@ extension RekognitionClient {
 
     /// Performs the `CreateFaceLivenessSession` operation on the `Rekognition` service.
     ///
-    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead. You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
+    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead. You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video. You can use the ChallengePreferences option in the Settings parameter to choose between the 'FaceMovementAndLightChallenge' or FaceMovementChallenge' settings. See the [Shared Responsibility](https://docs.aws.amazon.com/rekognition/latest/dg/face-liveness-shared-responsibility-model.html) page for details on guidance for which setting to choose between these two settings depending on your use case and preferences. This parameter is optional and if no parameter is provided, then the 'FaceMovementAndLightChallenge' settings is applied by default.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateFaceLivenessSessionInput`)
     ///
@@ -1269,7 +1269,7 @@ extension RekognitionClient {
 
     /// Performs the `CreateStreamProcessor` operation on the `Rekognition` service.
     ///
-    /// Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.
     ///
     /// * If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream for receiving the output. You must use the FaceSearch option in Settings, specifying the collection that contains the faces you want to recognize. After you have finished analyzing a streaming video, use [StopStreamProcessor] to stop processing.
     ///
@@ -1919,7 +1919,7 @@ extension RekognitionClient {
 
     /// Performs the `DeleteStreamProcessor` operation on the `Rekognition` service.
     ///
-    /// Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with [CreateStreamProcessor]. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with [CreateStreamProcessor]. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteStreamProcessorInput`)
     ///
@@ -2398,7 +2398,7 @@ extension RekognitionClient {
 
     /// Performs the `DescribeStreamProcessor` operation on the `Rekognition` service.
     ///
-    /// Provides information about a stream processor created by [CreateStreamProcessor]. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Provides information about a stream processor created by [CreateStreamProcessor]. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeStreamProcessorInput`)
     ///
@@ -3509,7 +3509,7 @@ extension RekognitionClient {
 
     /// Performs the `GetFaceLivenessSessionResults` operation on the `Rekognition` service.
     ///
-    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible.
+    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible. For a session that has completed, the response can also include a Feedback list describing conditions that were detected in the selfie-video, such as low lighting or an obstructed face, and Metadata about the client that streamed the session.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFaceLivenessSessionResultsInput`)
     ///
@@ -3765,7 +3765,7 @@ extension RekognitionClient {
 
     /// Performs the `GetMediaAnalysisJob` operation on the `Rekognition` service.
     ///
-    /// Retrieves the results for a given media analysis job. Takes a JobId returned by StartMediaAnalysisJob.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Retrieves the results for a given media analysis job. Takes a JobId returned by StartMediaAnalysisJob.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMediaAnalysisJobInput`)
     ///
@@ -4523,7 +4523,7 @@ extension RekognitionClient {
 
     /// Performs the `ListMediaAnalysisJobs` operation on the `Rekognition` service.
     ///
-    /// Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListMediaAnalysisJobsInput`)
     ///
@@ -4682,7 +4682,7 @@ extension RekognitionClient {
 
     /// Performs the `ListStreamProcessors` operation on the `Rekognition` service.
     ///
-    /// Gets a list of stream processors that you have created with [CreateStreamProcessor].
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Gets a list of stream processors that you have created with [CreateStreamProcessor].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListStreamProcessorsInput`)
     ///
@@ -5818,7 +5818,7 @@ extension RekognitionClient {
 
     /// Performs the `StartMediaAnalysisJob` operation on the `Rekognition` service.
     ///
-    /// Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMediaAnalysisJobInput`)
     ///
@@ -6151,7 +6151,7 @@ extension RekognitionClient {
 
     /// Performs the `StartStreamProcessor` operation on the `Rekognition` service.
     ///
-    /// Starts processing a stream processor. You create a stream processor by calling [CreateStreamProcessor]. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Starts processing a stream processor. You create a stream processor by calling [CreateStreamProcessor]. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartStreamProcessorInput`)
     ///
@@ -6393,7 +6393,7 @@ extension RekognitionClient {
 
     /// Performs the `StopStreamProcessor` operation on the `Rekognition` service.
     ///
-    /// Stops a running stream processor that was created by [CreateStreamProcessor].
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by [CreateStreamProcessor].
     ///
     /// - Parameter input: [no documentation found] (Type: `StopStreamProcessorInput`)
     ///
@@ -6713,7 +6713,7 @@ extension RekognitionClient {
 
     /// Performs the `UpdateStreamProcessor` operation on the `Rekognition` service.
     ///
-    /// Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
+    /// Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see [Rekognition feature availability changes](https://docs.aws.amazon.com/rekognition/latest/dg/rekognition-availability-changes.html). This change does not impact the availability of other Amazon Rekognition features. Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateStreamProcessorInput`)
     ///

@@ -1,0 +1,18 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/eventbridgev2.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyRPCv2CBOR",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyWaitersAPI"
+  ]
+}

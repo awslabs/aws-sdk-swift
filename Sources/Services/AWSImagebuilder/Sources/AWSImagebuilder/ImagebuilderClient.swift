@@ -617,7 +617,7 @@ extension ImagebuilderClient {
 extension ImagebuilderClient {
     /// Performs the `CancelImageCreation` operation on the `Imagebuilder` service.
     ///
-    /// Cancels the creation of an image. This operation can only be used on images in a non-terminal state.
+    /// Cancels the creation of an image. This operation can only be used on images in a non-terminal state. Cancellation is asynchronous: the request returns immediately, then Image Builder stops the running build and moves the image to the CANCELLED state. Output resources that the build already created, such as AMIs and snapshots, aren't removed.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelImageCreationInput`)
     ///
@@ -626,13 +626,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func cancelImageCreation(input: CancelImageCreationInput) async throws -> CancelImageCreationOutput {
         let context = Smithy.ContextBuilder()
@@ -693,7 +693,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CancelLifecycleExecution` operation on the `Imagebuilder` service.
     ///
-    /// Cancels a specific image lifecycle policy runtime instance.
+    /// Cancels a lifecycle execution – a single run of lifecycle actions that a lifecycle policy or a [StartResourceStateUpdate] request started. You can only cancel an execution that hasn't reached a terminal state. Cancellation is asynchronous and doesn't undo completed lifecycle actions.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelLifecycleExecutionInput`)
     ///
@@ -702,13 +702,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func cancelLifecycleExecution(input: CancelLifecycleExecutionInput) async throws -> CancelLifecycleExecutionOutput {
         let context = Smithy.ContextBuilder()
@@ -775,6 +775,9 @@ extension ImagebuilderClient {
     ///
     /// * A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body.
     ///
+    ///
+    /// Image Builder determines the component type from the document. If the document contains a single phase named test, the component type is TEST. Otherwise, the component type is BUILD.
+    ///
     /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CreateComponentOutput`)
@@ -782,16 +785,16 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidParameterCombinationException` : You have specified a combination of parameters that isn't valid. For example, two mutually exclusive parameters, or a parameter without its required companion parameter. Review the error message for details.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput {
@@ -862,16 +865,16 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
     /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createContainerRecipe(input: CreateContainerRecipeInput) async throws -> CreateContainerRecipeOutput {
@@ -933,7 +936,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
+    /// Creates a new distribution configuration. Distribution configurations define and configure the outputs for your images, including the target Regions, accounts, and settings for each Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDistributionConfigurationInput`)
     ///
@@ -942,16 +945,16 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidParameterCombinationException` : You have specified a combination of parameters that isn't valid. For example, two mutually exclusive parameters, or a parameter without its required companion parameter. Review the error message for details.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createDistributionConfiguration(input: CreateDistributionConfigurationInput) async throws -> CreateDistributionConfigurationOutput {
@@ -1013,7 +1016,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateImage` operation on the `Imagebuilder` service.
     ///
-    /// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
+    /// Creates a new image along with all configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. The response returns as soon as Image Builder creates the new image resource. The image build process runs asynchronously. To check its progress, call [GetImage](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_GetImage.html) and check the image status.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateImageInput`)
     ///
@@ -1022,13 +1025,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createImage(input: CreateImageInput) async throws -> CreateImageOutput {
@@ -1090,7 +1093,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateImagePipeline` operation on the `Imagebuilder` service.
     ///
-    /// Creates a new image pipeline. Use image pipelines to automate the creation and distribution of images.
+    /// Creates a new image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for the pipeline, using either a containerRecipeArn or an imageRecipeArn.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateImagePipelineInput`)
     ///
@@ -1099,15 +1102,15 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createImagePipeline(input: CreateImagePipelineInput) async throws -> CreateImagePipelineOutput {
@@ -1178,16 +1181,16 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
     /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createImageRecipe(input: CreateImageRecipeInput) async throws -> CreateImageRecipeOutput {
@@ -1258,15 +1261,15 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createInfrastructureConfiguration(input: CreateInfrastructureConfigurationInput) async throws -> CreateInfrastructureConfigurationOutput {
@@ -1337,15 +1340,15 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput {
@@ -1407,7 +1410,7 @@ extension ImagebuilderClient {
 
     /// Performs the `CreateWorkflow` operation on the `Imagebuilder` service.
     ///
-    /// Creates a new workflow or a new version of an existing workflow.
+    /// Creates a new workflow or a new version of an existing workflow. If a workflow with the same name and semantic version already exists, and your request changes its configuration, Image Builder creates a new build version. If the configuration is identical to the latest build version, the request fails because that workflow configuration already exists.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
@@ -1416,16 +1419,16 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `DryRunOperationException` : The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidParameterCombinationException` : You have specified a combination of parameters that isn't valid. For example, two mutually exclusive parameters, or a parameter without its required companion parameter. Review the error message for details.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput {
@@ -1487,7 +1490,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteComponent` operation on the `Imagebuilder` service.
     ///
-    /// Deletes a component build version.
+    /// Deletes a component build version. The request fails with ResourceDependencyException if an image recipe or container recipe references this component version. It also fails if the component build version is shared with other accounts.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
@@ -1496,12 +1499,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput {
         let context = Smithy.ContextBuilder()
@@ -1559,7 +1562,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteContainerRecipe` operation on the `Imagebuilder` service.
     ///
-    /// Deletes a container recipe.
+    /// Deletes a container recipe. The request fails with ResourceDependencyException if the recipe is shared with other accounts, or if an image pipeline references it.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteContainerRecipeInput`)
     ///
@@ -1568,12 +1571,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteContainerRecipe(input: DeleteContainerRecipeInput) async throws -> DeleteContainerRecipeOutput {
         let context = Smithy.ContextBuilder()
@@ -1631,7 +1634,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Deletes a distribution configuration.
+    /// Deletes a distribution configuration. You can't delete a configuration that an image pipeline still references. The request fails with ResourceDependencyException. Update or delete the referencing pipelines first.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDistributionConfigurationInput`)
     ///
@@ -1640,12 +1643,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteDistributionConfiguration(input: DeleteDistributionConfigurationInput) async throws -> DeleteDistributionConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -1703,7 +1706,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteImage` operation on the `Imagebuilder` service.
     ///
-    /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands.
+    /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI commands. The request fails with ResourceDependencyException if the image is shared with other accounts, or if other resources depend on it. It also fails while the image build is still running. Cancel an in-progress build with [CancelImageCreation] before you delete the image.
     ///
     /// * To deregister an EC2 Linux AMI, see [Deregister your Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html) in the Amazon EC2 User Guide .
     ///
@@ -1718,12 +1721,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput {
         let context = Smithy.ContextBuilder()
@@ -1781,7 +1784,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteImagePipeline` operation on the `Imagebuilder` service.
     ///
-    /// Deletes an image pipeline.
+    /// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with [DeleteImage]. You can delete a pipeline while a build that it started is still running. The build continues independently.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteImagePipelineInput`)
     ///
@@ -1790,12 +1793,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteImagePipeline(input: DeleteImagePipelineInput) async throws -> DeleteImagePipelineOutput {
         let context = Smithy.ContextBuilder()
@@ -1862,12 +1865,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteImageRecipe(input: DeleteImageRecipeInput) async throws -> DeleteImageRecipeOutput {
         let context = Smithy.ContextBuilder()
@@ -1925,7 +1928,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Deletes an infrastructure configuration.
+    /// Deletes an infrastructure configuration. You can't delete a configuration that an image pipeline still references. The request fails with ResourceDependencyException. Update or delete the referencing pipelines first.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteInfrastructureConfigurationInput`)
     ///
@@ -1934,12 +1937,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteInfrastructureConfiguration(input: DeleteInfrastructureConfigurationInput) async throws -> DeleteInfrastructureConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -1997,7 +2000,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Deletes the specified lifecycle policy resource.
+    /// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that policy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy already applied to your resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
@@ -2006,12 +2009,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2069,7 +2072,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DeleteWorkflow` operation on the `Imagebuilder` service.
     ///
-    /// Deletes a specific workflow resource.
+    /// Deletes a specific workflow resource. You can't delete a workflow build version while an image pipeline references it. The request fails with ResourceDependencyException.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
@@ -2078,12 +2081,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput {
         let context = Smithy.ContextBuilder()
@@ -2151,14 +2154,14 @@ extension ImagebuilderClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have permissions to perform the requested operation.
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     /// - `TooManyRequestsException` : You have attempted too many requests for the specific operation.
@@ -2230,11 +2233,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getComponent(input: GetComponentInput) async throws -> GetComponentOutput {
         let context = Smithy.ContextBuilder()
@@ -2301,11 +2304,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getComponentPolicy(input: GetComponentPolicyInput) async throws -> GetComponentPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2372,11 +2375,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getContainerRecipe(input: GetContainerRecipeInput) async throws -> GetContainerRecipeOutput {
         let context = Smithy.ContextBuilder()
@@ -2443,11 +2446,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getContainerRecipePolicy(input: GetContainerRecipePolicyInput) async throws -> GetContainerRecipePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2514,11 +2517,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getDistributionConfiguration(input: GetDistributionConfigurationInput) async throws -> GetDistributionConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -2585,11 +2588,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImage(input: GetImageInput) async throws -> GetImageOutput {
         let context = Smithy.ContextBuilder()
@@ -2656,11 +2659,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImagePipeline(input: GetImagePipelineInput) async throws -> GetImagePipelineOutput {
         let context = Smithy.ContextBuilder()
@@ -2727,11 +2730,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImagePolicy(input: GetImagePolicyInput) async throws -> GetImagePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2798,11 +2801,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImageRecipe(input: GetImageRecipeInput) async throws -> GetImageRecipeOutput {
         let context = Smithy.ContextBuilder()
@@ -2869,11 +2872,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImageRecipePolicy(input: GetImageRecipePolicyInput) async throws -> GetImageRecipePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2940,11 +2943,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getInfrastructureConfiguration(input: GetInfrastructureConfigurationInput) async throws -> GetInfrastructureConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -3002,7 +3005,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetLifecycleExecution` operation on the `Imagebuilder` service.
     ///
-    /// Retrieves the runtime information for a specific runtime instance of the lifecycle policy.
+    /// Retrieves runtime information for a lifecycle execution – a single run of lifecycle actions that a lifecycle policy or a [StartResourceStateUpdate] request started.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLifecycleExecutionInput`)
     ///
@@ -3011,11 +3014,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getLifecycleExecution(input: GetLifecycleExecutionInput) async throws -> GetLifecycleExecutionOutput {
         let context = Smithy.ContextBuilder()
@@ -3082,11 +3085,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -3144,7 +3147,7 @@ extension ImagebuilderClient {
 
     /// Performs the `GetMarketplaceResource` operation on the `Imagebuilder` service.
     ///
-    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts.
+    /// Verifies the subscription and performs resource dependency checks on the requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMarketplaceResourceInput`)
     ///
@@ -3153,11 +3156,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getMarketplaceResource(input: GetMarketplaceResourceInput) async throws -> GetMarketplaceResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -3226,11 +3229,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput {
         let context = Smithy.ContextBuilder()
@@ -3297,11 +3300,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getWorkflowExecution(input: GetWorkflowExecutionInput) async throws -> GetWorkflowExecutionOutput {
         let context = Smithy.ContextBuilder()
@@ -3368,11 +3371,11 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getWorkflowStepExecution(input: GetWorkflowStepExecutionInput) async throws -> GetWorkflowStepExecutionOutput {
         let context = Smithy.ContextBuilder()
@@ -3430,7 +3433,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ImportComponent` operation on the `Imagebuilder` service.
     ///
-    /// Imports a component and transforms its data into a component document.
+    /// Imports a component and transforms its data into a component document. For the SHELL format, Image Builder wraps your script in a component document with a single step that runs the script.
     ///
     /// - Parameter input: [no documentation found] (Type: `ImportComponentInput`)
     ///
@@ -3439,15 +3442,15 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidParameterCombinationException` : You have specified a combination of parameters that isn't valid. For example, two mutually exclusive parameters, or a parameter without its required companion parameter. Review the error message for details.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func importComponent(input: ImportComponentInput) async throws -> ImportComponentOutput {
         let context = Smithy.ContextBuilder()
@@ -3512,6 +3515,9 @@ extension ImagebuilderClient {
     ///
     /// * Windows 11 Enterprise
     ///
+    ///
+    /// The response returns as soon as Image Builder creates the new image resource in the PENDING state. The conversion from ISO file to AMI then runs asynchronously on an EC2 instance that Image Builder launches with the specified infrastructure configuration.
+    ///
     /// - Parameter input: [no documentation found] (Type: `ImportDiskImageInput`)
     ///
     /// - Returns: [no documentation found] (Type: `ImportDiskImageOutput`)
@@ -3520,8 +3526,8 @@ extension ImagebuilderClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have permissions to perform the requested operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     /// - `TooManyRequestsException` : You have attempted too many requests for the specific operation.
     public func importDiskImage(input: ImportDiskImageInput) async throws -> ImportDiskImageOutput {
@@ -3583,7 +3589,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ImportVmImage` operation on the `Imagebuilder` service.
     ///
-    /// When you export your virtual machine (VM) from its virtualization environment, that process creates a set of one or more disk container files that act as snapshots of your VM’s environment, settings, and data. The Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) action uses those files to import your VM and create an AMI. To import using the CLI command, see [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe.
+    /// Creates an Image Builder image resource from an Amazon EC2 VM import task. The response returns as soon as Image Builder creates the image resource in the PENDING state. Image Builder then monitors the import task asynchronously. When the task completes, Image Builder records the AMI that it produced as the new image's output resource and marks the image AVAILABLE. You can then use the imported image as the base image for your recipes. To create the VM import task, use the Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) operation, or the [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) CLI command.
     ///
     /// - Parameter input: [no documentation found] (Type: `ImportVmImageInput`)
     ///
@@ -3592,8 +3598,8 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func importVmImage(input: ImportVmImageInput) async throws -> ImportVmImageOutput {
         let context = Smithy.ContextBuilder()
@@ -3654,7 +3660,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListComponentBuildVersions` operation on the `Imagebuilder` service.
     ///
-    /// Returns the list of component build versions for the specified component version Amazon Resource Name (ARN).
+    /// Returns a list of component build versions for the specified component version ARN. You can only list build versions for components that your account owns. Deprecated build versions aren't included in the results.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListComponentBuildVersionsInput`)
     ///
@@ -3663,12 +3669,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listComponentBuildVersions(input: ListComponentBuildVersionsInput) async throws -> ListComponentBuildVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -3728,7 +3734,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListComponents` operation on the `Imagebuilder` service.
     ///
-    /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
+    /// Returns the list of components that you have access to. By default, the response doesn't include components in the DEPRECATED state. To list deprecated components, use the status filter with the value DEPRECATED. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
@@ -3737,12 +3743,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput {
         let context = Smithy.ContextBuilder()
@@ -3811,12 +3817,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listContainerRecipes(input: ListContainerRecipesInput) async throws -> ListContainerRecipesOutput {
         let context = Smithy.ContextBuilder()
@@ -3885,12 +3891,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listDistributionConfigurations(input: ListDistributionConfigurationsInput) async throws -> ListDistributionConfigurationsOutput {
         let context = Smithy.ContextBuilder()
@@ -3959,12 +3965,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageBuildVersions(input: ListImageBuildVersionsInput) async throws -> ListImageBuildVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -4033,13 +4039,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImagePackages(input: ListImagePackagesInput) async throws -> ListImagePackagesOutput {
         let context = Smithy.ContextBuilder()
@@ -4108,13 +4114,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImagePipelineImages(input: ListImagePipelineImagesInput) async throws -> ListImagePipelineImagesOutput {
         let context = Smithy.ContextBuilder()
@@ -4183,12 +4189,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImagePipelines(input: ListImagePipelinesInput) async throws -> ListImagePipelinesOutput {
         let context = Smithy.ContextBuilder()
@@ -4257,12 +4263,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageRecipes(input: ListImageRecipesInput) async throws -> ListImageRecipesOutput {
         let context = Smithy.ContextBuilder()
@@ -4324,8 +4330,6 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the imagePipelineArn filter. If you don't specify a filter, Image Builder returns an aggregation for your account. To streamline results, you can use the following filters in your request:
     ///
-    /// * accountId
-    ///
     /// * imageBuildVersionArn
     ///
     /// * imagePipelineArn
@@ -4339,12 +4343,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageScanFindingAggregations(input: ListImageScanFindingAggregationsInput) async throws -> ListImageScanFindingAggregationsOutput {
         let context = Smithy.ContextBuilder()
@@ -4404,7 +4408,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListImageScanFindings` operation on the `Imagebuilder` service.
     ///
-    /// Returns a list of image scan findings for your account.
+    /// Returns a list of image scan findings for your account. Amazon Inspector generates the findings when it scans images that have scanning enabled.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListImageScanFindingsInput`)
     ///
@@ -4413,12 +4417,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageScanFindings(input: ListImageScanFindingsInput) async throws -> ListImageScanFindingsOutput {
         let context = Smithy.ContextBuilder()
@@ -4478,7 +4482,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListImages` operation on the `Imagebuilder` service.
     ///
-    /// Returns the list of images that you have access to. Newly created images can take up to two minutes to appear in the ListImages API Results.
+    /// Returns the list of images that you have access to.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListImagesInput`)
     ///
@@ -4487,12 +4491,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImages(input: ListImagesInput) async throws -> ListImagesOutput {
         let context = Smithy.ContextBuilder()
@@ -4561,12 +4565,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listInfrastructureConfigurations(input: ListInfrastructureConfigurationsInput) async throws -> ListInfrastructureConfigurationsOutput {
         let context = Smithy.ContextBuilder()
@@ -4635,12 +4639,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listLifecycleExecutionResources(input: ListLifecycleExecutionResourcesInput) async throws -> ListLifecycleExecutionResourcesOutput {
         let context = Smithy.ContextBuilder()
@@ -4709,12 +4713,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listLifecycleExecutions(input: ListLifecycleExecutionsInput) async throws -> ListLifecycleExecutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -4783,12 +4787,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listLifecyclePolicies(input: ListLifecyclePoliciesInput) async throws -> ListLifecyclePoliciesOutput {
         let context = Smithy.ContextBuilder()
@@ -4859,7 +4863,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4915,7 +4919,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListWaitingWorkflowSteps` operation on the `Imagebuilder` service.
     ///
-    /// Retrieves a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account.
+    /// Lists the workflow steps in your Amazon Web Services account that have paused at a WaitForAction step, and are waiting for you to respond. To send a response, call [SendWorkflowStepAction].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListWaitingWorkflowStepsInput`)
     ///
@@ -4924,12 +4928,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWaitingWorkflowSteps(input: ListWaitingWorkflowStepsInput) async throws -> ListWaitingWorkflowStepsOutput {
         let context = Smithy.ContextBuilder()
@@ -4998,12 +5002,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWorkflowBuildVersions(input: ListWorkflowBuildVersionsInput) async throws -> ListWorkflowBuildVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -5072,12 +5076,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -5146,12 +5150,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWorkflowStepExecutions(input: ListWorkflowStepExecutionsInput) async throws -> ListWorkflowStepExecutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -5211,7 +5215,7 @@ extension ImagebuilderClient {
 
     /// Performs the `ListWorkflows` operation on the `Imagebuilder` service.
     ///
-    /// Lists workflow build versions based on filtering parameters.
+    /// Lists workflow versions based on filtering parameters. To list the build versions of a specific workflow version, call [ListWorkflowBuildVersions].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
@@ -5220,12 +5224,12 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput {
         let context = Smithy.ContextBuilder()
@@ -5285,7 +5289,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutComponentPolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to a component. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
+    /// Applies a policy to a component. The preferred way to share resources is with the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you use the PutComponentPolicy operation instead, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html). Otherwise, the resource isn't visible to the principals that it's shared with.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutComponentPolicyInput`)
     ///
@@ -5294,13 +5298,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putComponentPolicy(input: PutComponentPolicyInput) async throws -> PutComponentPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -5360,7 +5364,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutContainerRecipePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to a container image. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
+    /// Applies a policy to a container recipe. The preferred way to share resources is with the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you use the PutContainerRecipePolicy operation instead, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html). Otherwise, the resource isn't visible to the principals that it's shared with.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutContainerRecipePolicyInput`)
     ///
@@ -5369,13 +5373,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putContainerRecipePolicy(input: PutContainerRecipePolicyInput) async throws -> PutContainerRecipePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -5435,7 +5439,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutImagePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to an image. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image. The preferred way to share resources is with the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you use the PutImagePolicy operation instead, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html). Otherwise, the resource isn't visible to the principals that it's shared with.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutImagePolicyInput`)
     ///
@@ -5444,13 +5448,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putImagePolicy(input: PutImagePolicyInput) async throws -> PutImagePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -5510,7 +5514,7 @@ extension ImagebuilderClient {
 
     /// Performs the `PutImageRecipePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Applies a policy to an image recipe. To share resources, call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you call this API, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) so that the resource is visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image recipe. The preferred way to share resources is with the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html). If you use the PutImageRecipePolicy operation instead, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html). Otherwise, the resource isn't visible to the principals that it's shared with.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutImageRecipePolicyInput`)
     ///
@@ -5519,13 +5523,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putImageRecipePolicy(input: PutImageRecipePolicyInput) async throws -> PutImageRecipePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -5585,7 +5589,7 @@ extension ImagebuilderClient {
 
     /// Performs the `RetryImage` operation on the `Imagebuilder` service.
     ///
-    /// Retries an image distribution or test without rebuilding the image.
+    /// Retries a failed or canceled image build without rebuilding the phases that already completed. The image re-runs asynchronously in place: the same build version returns to the test or distribution phase where it failed and continues from there. No new image build version is created. Retry is only supported for AMI-based images.
     ///
     /// - Parameter input: [no documentation found] (Type: `RetryImageInput`)
     ///
@@ -5594,13 +5598,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func retryImage(input: RetryImageInput) async throws -> RetryImageOutput {
         let context = Smithy.ContextBuilder()
@@ -5661,7 +5665,7 @@ extension ImagebuilderClient {
 
     /// Performs the `SendWorkflowStepAction` operation on the `Imagebuilder` service.
     ///
-    /// Pauses or resumes image creation when the associated workflow runs a WaitForAction step.
+    /// Sends an action to a workflow step that has paused at a WaitForAction step, so that image creation can continue. To find the steps that are waiting for an action, call [ListWaitingWorkflowSteps].
     ///
     /// - Parameter input: [no documentation found] (Type: `SendWorkflowStepActionInput`)
     ///
@@ -5670,15 +5674,15 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
     /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func sendWorkflowStepAction(input: SendWorkflowStepActionInput) async throws -> SendWorkflowStepActionOutput {
         let context = Smithy.ContextBuilder()
@@ -5739,7 +5743,7 @@ extension ImagebuilderClient {
 
     /// Performs the `StartImagePipelineExecution` operation on the `Imagebuilder` service.
     ///
-    /// Manually triggers a pipeline to create an image.
+    /// Manually triggers a pipeline to create an image. You can start a build this way whether the pipeline is enabled or disabled. The response returns as soon as Image Builder creates the new image resource and queues the build. Use the returned imageBuildVersionArn with [GetImage] to track build progress.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartImagePipelineExecutionInput`)
     ///
@@ -5748,14 +5752,14 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func startImagePipelineExecution(input: StartImagePipelineExecutionInput) async throws -> StartImagePipelineExecutionOutput {
         let context = Smithy.ContextBuilder()
@@ -5816,7 +5820,7 @@ extension ImagebuilderClient {
 
     /// Performs the `StartResourceStateUpdate` operation on the `Imagebuilder` service.
     ///
-    /// Begins an asynchronous resource state update for lifecycle changes to the specified image resources.
+    /// Begins an ad-hoc state change for the specified image build version. This is a one-time operation - if you schedule the update, it runs only once. If the request includes underlying resources, or schedules the update far enough in the future, Image Builder runs the update as an asynchronous lifecycle execution and returns its identifier. Otherwise, for target states other than DELETED, the state change applies immediately. If a request that starts a lifecycle execution arrives while the image already has one in progress, Image Builder rejects it.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartResourceStateUpdateInput`)
     ///
@@ -5825,14 +5829,14 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func startResourceStateUpdate(input: StartResourceStateUpdateInput) async throws -> StartResourceStateUpdateOutput {
         let context = Smithy.ContextBuilder()
@@ -5904,7 +5908,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5974,7 +5978,7 @@ extension ImagebuilderClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -6031,7 +6035,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateDistributionConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Updates a distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
+    /// Updates a distribution configuration. Distribution configurations define and configure the outputs for your images, including the target Regions, accounts, and settings for each Region. This operation doesn't support selective updates. The request replaces the stored configuration, so include every setting that you want to keep.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDistributionConfigurationInput`)
     ///
@@ -6040,14 +6044,14 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidParameterCombinationException` : You have specified a combination of parameters that isn't valid. For example, two mutually exclusive parameters, or a parameter without its required companion parameter. Review the error message for details.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput) async throws -> UpdateDistributionConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -6108,7 +6112,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateImagePipeline` operation on the `Imagebuilder` service.
     ///
-    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
+    /// Updates an image pipeline. Use image pipelines to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. The recipe must be the same type, image or container, as the pipeline's current recipe. UpdateImagePipeline does not support selective updates. The request replaces the pipeline's entire configuration, so include every setting that you want to keep. Any optional property that you omit is removed or reset to its default.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateImagePipelineInput`)
     ///
@@ -6117,13 +6121,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateImagePipeline(input: UpdateImagePipelineInput) async throws -> UpdateImagePipelineOutput {
         let context = Smithy.ContextBuilder()
@@ -6184,7 +6188,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateInfrastructureConfiguration` operation on the `Imagebuilder` service.
     ///
-    /// Updates an infrastructure configuration. An infrastructure configuration defines the environment in which Image Builder builds and tests your image.
+    /// Updates an infrastructure configuration. An infrastructure configuration defines the environment in which Image Builder builds and tests your image. This operation doesn't support selective updates. The request replaces the configuration, so include every setting that you want to keep. Omitted optional properties are cleared.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateInfrastructureConfigurationInput`)
     ///
@@ -6193,13 +6197,13 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateInfrastructureConfiguration(input: UpdateInfrastructureConfigurationInput) async throws -> UpdateInfrastructureConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -6260,7 +6264,7 @@ extension ImagebuilderClient {
 
     /// Performs the `UpdateLifecyclePolicy` operation on the `Imagebuilder` service.
     ///
-    /// Updates the specified lifecycle policy.
+    /// Updates the specified lifecycle policy. The request replaces the existing policy configuration rather than merging changes, so re-specify every setting that you want to keep. The resourceType must match the existing policy's value.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLifecyclePolicyInput`)
     ///
@@ -6269,14 +6273,14 @@ extension ImagebuilderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
-    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder calls on your behalf. Retry with an increasing or variable delay between requests.
+    /// - `ClientException` : A generic client error. This error usually indicates that the request failed a validation check, such as when a downstream service rejects a configured value.
     /// - `ForbiddenException` : You are not authorized to perform the requested operation.
     /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
-    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
-    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidParameterCombinationException` : You have specified a combination of parameters that isn't valid. For example, two mutually exclusive parameters, or a parameter without its required companion parameter. Review the error message for details.
+    /// - `InvalidRequestException` : The request is malformed or otherwise invalid. Verify the request and try again.
     /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
-    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceException` : An internal server error occurred while Image Builder processed the request. Retrying the request may succeed.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutput {
         let context = Smithy.ContextBuilder()

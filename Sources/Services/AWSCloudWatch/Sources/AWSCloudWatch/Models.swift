@@ -1129,6 +1129,82 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, Clien
 
 extension CloudWatchClientTypes {
 
+    /// Specifies which metrics Amazon CloudWatch collects for a resource metrics configuration. Include this in a [CreateResourceMetricsConfiguration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_CreateResourceMetricsConfiguration.html) or [UpdateResourceMetricsConfiguration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UpdateResourceMetricsConfiguration.html) request to limit collection to a specific set of metrics. If you omit metric selections, Amazon CloudWatch collects all available detailed metrics for the resource.
+    public struct ResourceMetricSelection: Swift.Sendable {
+        /// The names of the metrics to collect for the resource. Amazon CloudWatch collects only the metrics that you list here.
+        /// This member is required.
+        public var includeMetrics: [Swift.String]?
+
+        public init(
+            includeMetrics: [Swift.String]? = nil
+        ) {
+            self.includeMetrics = includeMetrics
+        }
+    }
+}
+
+/// Specifies the resource ARN and optional metric selections for a CreateResourceMetricsConfiguration request.
+public struct CreateResourceMetricsConfigurationInput: Swift.Sendable {
+    /// Specifies which metrics Amazon CloudWatch collects for the resource. If you omit this parameter, Amazon CloudWatch collects all available detailed metrics for the resource.
+    public var metricSelections: [CloudWatchClientTypes.ResourceMetricSelection]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        metricSelections: [CloudWatchClientTypes.ResourceMetricSelection]? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.metricSelections = metricSelections
+        self.resourceArn = resourceArn
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Represents a resource metrics configuration for an Amazon Web Services resource. A resource metrics configuration enables detailed metric collection for the resource that is identified by its Amazon Resource Name (ARN). Each Amazon Web Services resource can have only one resource metrics configuration. This structure is returned by the [CreateResourceMetricsConfiguration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_CreateResourceMetricsConfiguration.html), [UpdateResourceMetricsConfiguration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UpdateResourceMetricsConfiguration.html), and [GetResourceMetricsConfiguration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetResourceMetricsConfiguration.html) operations.
+    public struct ResourceMetricsConfiguration: Swift.Sendable {
+        /// The date and time that the resource metrics configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The metrics that Amazon CloudWatch collects for the resource. If this field is not present, Amazon CloudWatch collects all available detailed metrics for the resource.
+        public var metricSelections: [CloudWatchClientTypes.ResourceMetricSelection]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource that this configuration applies to.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// The date and time that the resource metrics configuration was last updated. When the configuration is first created, this value is the same as CreatedAt.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            metricSelections: [CloudWatchClientTypes.ResourceMetricSelection]? = nil,
+            resourceArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.metricSelections = metricSelections
+            self.resourceArn = resourceArn
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Returns the newly created resource metrics configuration.
+public struct CreateResourceMetricsConfigurationOutput: Swift.Sendable {
+    /// The resource metrics configuration that was created by this operation.
+    /// This member is required.
+    public var resourceMetricsConfiguration: CloudWatchClientTypes.ResourceMetricsConfiguration?
+
+    public init(
+        resourceMetricsConfiguration: CloudWatchClientTypes.ResourceMetricsConfiguration? = nil
+    ) {
+        self.resourceMetricsConfiguration = resourceMetricsConfiguration
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// Represents a specific dashboard.
     public struct DashboardEntry: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the dashboard.
@@ -1555,6 +1631,25 @@ public struct DeleteMetricStreamInput: Swift.Sendable {
 }
 
 public struct DeleteMetricStreamOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Specifies the resource ARN for a DeleteResourceMetricsConfiguration request.
+public struct DeleteResourceMetricsConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to delete the resource metrics configuration for.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+/// No data is returned.
+public struct DeleteResourceMetricsConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3518,6 +3613,26 @@ public struct GetOTelEnrichmentInput: Swift.Sendable {
 
 extension CloudWatchClientTypes {
 
+    /// Selects the metrics in one namespace, for use in the IncludeFilters or ExcludeFilters parameter of [StartOTelEnrichment](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_StartOTelEnrichment.html) or [UpdateOTelEnrichment](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UpdateOTelEnrichment.html). A maximum of 100 selectors is allowed across IncludeFilters and ExcludeFilters combined.
+    public struct OTelEnrichmentMetricSelector: Swift.Sendable {
+        /// The names of the metrics to select within the namespace. Metric names are matched exactly and are case-sensitive. If this parameter is omitted, every metric in the namespace is selected. A maximum of 100 metric names is allowed for each selector.
+        public var metricNames: [Swift.String]?
+        /// The namespace of the metrics to select. Namespaces are matched exactly and are case-sensitive.
+        /// This member is required.
+        public var namespace: Swift.String?
+
+        public init(
+            metricNames: [Swift.String]? = nil,
+            namespace: Swift.String? = nil
+        ) {
+            self.metricNames = metricNames
+            self.namespace = namespace
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// The status of OTel enrichment for the account.
     public enum OTelEnrichmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case running
@@ -3547,14 +3662,56 @@ extension CloudWatchClientTypes {
 }
 
 public struct GetOTelEnrichmentOutput: Swift.Sendable {
+    /// The date and time that enrichment started for the account. This parameter is omitted when enrichment is stopped.
+    public var createdAt: Foundation.Date?
+    /// The metric namespaces, and the metric names, that are left unenriched. This parameter is omitted when enrichment is stopped, and when enrichment is running with no exclude filters, which means that nothing is excluded.
+    public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The metric namespaces, and the metric names, that are enriched. This parameter is omitted when enrichment is stopped, and when enrichment is running with no include filters, which means that every supported namespace is in scope.
+    public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
     /// The status of OTel enrichment for the account. Valid values are Running (enrichment is enabled) and Stopped (enrichment is disabled).
     /// This member is required.
     public var status: CloudWatchClientTypes.OTelEnrichmentStatus?
+    /// The date and time that the enrichment configuration for the account was last stored.
+    public var updatedAt: Foundation.Date?
 
     public init(
-        status: CloudWatchClientTypes.OTelEnrichmentStatus? = nil
+        createdAt: Foundation.Date? = nil,
+        excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        status: CloudWatchClientTypes.OTelEnrichmentStatus? = nil,
+        updatedAt: Foundation.Date? = nil
     ) {
+        self.createdAt = createdAt
+        self.excludeFilters = excludeFilters
+        self.includeFilters = includeFilters
         self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Specifies the resource ARN for a GetResourceMetricsConfiguration request.
+public struct GetResourceMetricsConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+/// Returns the current resource metrics configuration for the specified resource.
+public struct GetResourceMetricsConfigurationOutput: Swift.Sendable {
+    /// The resource metrics configuration for the specified resource.
+    /// This member is required.
+    public var resourceMetricsConfiguration: CloudWatchClientTypes.ResourceMetricsConfiguration?
+
+    public init(
+        resourceMetricsConfiguration: CloudWatchClientTypes.ResourceMetricsConfiguration? = nil
+    ) {
+        self.resourceMetricsConfiguration = resourceMetricsConfiguration
     }
 }
 
@@ -4767,14 +4924,65 @@ public struct StartMetricStreamsOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct StartOTelEnrichmentInput: Swift.Sendable {
+/// The request failed validation. One or more input parameters do not satisfy the constraints that the operation requires.
+public struct ValidationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public init() { }
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationError" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct StartOTelEnrichmentInput: Swift.Sendable {
+    /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+
+    public init(
+        excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil
+    ) {
+        self.excludeFilters = excludeFilters
+        self.includeFilters = includeFilters
+    }
 }
 
 public struct StartOTelEnrichmentOutput: Swift.Sendable {
+    /// The date and time that enrichment started for the account.
+    public var createdAt: Foundation.Date?
+    /// The exclude filters that are stored for the account.
+    public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The include filters that are stored for the account.
+    public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The date and time that the enrichment configuration for the account was last stored.
+    public var updatedAt: Foundation.Date?
 
-    public init() { }
+    public init(
+        createdAt: Foundation.Date? = nil,
+        excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.excludeFilters = excludeFilters
+        self.includeFilters = includeFilters
+        self.updatedAt = updatedAt
+    }
 }
 
 public struct StopMetricStreamsInput: Swift.Sendable {
@@ -4846,6 +5054,74 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateOTelEnrichmentInput: Swift.Sendable {
+    /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+
+    public init(
+        excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil
+    ) {
+        self.excludeFilters = excludeFilters
+        self.includeFilters = includeFilters
+    }
+}
+
+public struct UpdateOTelEnrichmentOutput: Swift.Sendable {
+    /// The date and time that enrichment started for the account.
+    public var createdAt: Foundation.Date?
+    /// The exclude filters that are stored for the account after the replacement. This parameter is omitted when the request cleared the exclude filters, which means that nothing is excluded.
+    public var excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The include filters that are stored for the account after the replacement. This parameter is omitted when the request cleared the include filters, which means that every supported namespace is in scope.
+    public var includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]?
+    /// The date and time that the enrichment configuration for the account was last stored.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        excludeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [CloudWatchClientTypes.OTelEnrichmentMetricSelector]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.excludeFilters = excludeFilters
+        self.includeFilters = includeFilters
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Specifies the resource ARN and optional replacement metric selections for an UpdateResourceMetricsConfiguration request.
+public struct UpdateResourceMetricsConfigurationInput: Swift.Sendable {
+    /// Specifies which metrics Amazon CloudWatch collects for the resource. The selections that you provide completely replace any existing metric selections. If you omit this parameter, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource.
+    public var metricSelections: [CloudWatchClientTypes.ResourceMetricSelection]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        metricSelections: [CloudWatchClientTypes.ResourceMetricSelection]? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.metricSelections = metricSelections
+        self.resourceArn = resourceArn
+    }
+}
+
+/// Returns the updated resource metrics configuration.
+public struct UpdateResourceMetricsConfigurationOutput: Swift.Sendable {
+    /// The resource metrics configuration after the update was applied.
+    /// This member is required.
+    public var resourceMetricsConfiguration: CloudWatchClientTypes.ResourceMetricsConfiguration?
+
+    public init(
+        resourceMetricsConfiguration: CloudWatchClientTypes.ResourceMetricsConfiguration? = nil
+    ) {
+        self.resourceMetricsConfiguration = resourceMetricsConfiguration
+    }
 }
 
 public enum CloudWatchClientTypes {}
