@@ -80,6 +80,12 @@ public struct SigV4AuthScheme: AuthScheme {
             value: context.isChunkedEligibleStream
         )
 
+        // Copy aws-chunked enablement flag from middleware context to signing properties
+        updatedSigningProperties.set(
+            key: SigningPropertyKeys.enableAwsChunked,
+            value: context.enableAwsChunked
+        )
+
         // Optionally toggle unsigned body
         if self.requestUnsignedBody {
             updatedSigningProperties.set(key: SigningPropertyKeys.requestUnsignedBody, value: true)
