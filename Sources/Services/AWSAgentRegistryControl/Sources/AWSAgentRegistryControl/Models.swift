@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -257,7 +258,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension AgentRegistryControlClientTypes {
 
-    /// The protocol type of an AgentCore Gateway.
     public enum AgentCoreGatewayProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mcp
         case sdkUnknown(Swift.String)
@@ -567,7 +567,7 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// Workload identity details associated with a source resource.
+    /// The workload identity details associated with a source resource. Present on the source details of a provenance entry when the upstream resource has a workload identity configured.
     public struct WorkloadIdentityDetails: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the workload identity associated with the source resource.
         /// This member is required.
@@ -583,15 +583,15 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// Source details for a record auto-detected from an AgentCore Gateway resource.
+    /// The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Gateway resource.
     public struct AgentCoreGatewaySourceDetails: Swift.Sendable {
         /// The authorizer configuration for a registry. Exactly one member is set.
         public var authorizerConfiguration: AgentRegistryControlClientTypes.AuthorizerConfiguration?
         /// The type of authorizer configured on the AgentCore Gateway resource that the registry record was detected from.
         public var authorizerType: Swift.String?
-        /// The protocol type of an AgentCore Gateway.
+        /// The protocol type of the AgentCore Gateway resource that the registry record was detected from, for example MCP.
         public var protocolType: AgentRegistryControlClientTypes.AgentCoreGatewayProtocolType?
-        /// Workload identity details associated with a source resource.
+        /// The workload identity details for the AgentCore Gateway resource. Present when the gateway has a workload identity configured.
         public var workloadIdentityDetails: AgentRegistryControlClientTypes.WorkloadIdentityDetails?
 
         public init(
@@ -610,7 +610,6 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// The server protocol used by an AgentCore Runtime.
     public enum AgentCoreRuntimeServerProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case a2a
         case agui
@@ -646,9 +645,9 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// Protocol configuration for an AgentCore Runtime.
+    /// The protocol configuration of an AgentCore Runtime resource that a registry record was auto-detected from.
     public struct AgentCoreRuntimeProtocolConfiguration: Swift.Sendable {
-        /// The server protocol used by an AgentCore Runtime.
+        /// The server protocol used by the AgentCore Runtime, such as MCP, HTTP, A2A, or AGUI.
         public var serverProtocol: AgentRegistryControlClientTypes.AgentCoreRuntimeServerProtocol?
 
         public init(
@@ -661,13 +660,13 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// Source details for a record auto-detected from an AgentCore Runtime resource.
+    /// The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Runtime resource.
     public struct AgentCoreRuntimeSourceDetails: Swift.Sendable {
         /// The authorizer configuration for a registry. Exactly one member is set.
         public var authorizerConfiguration: AgentRegistryControlClientTypes.AuthorizerConfiguration?
-        /// Protocol configuration for an AgentCore Runtime.
+        /// The protocol configuration of the AgentCore Runtime resource that the registry record was detected from.
         public var protocolConfiguration: AgentRegistryControlClientTypes.AgentCoreRuntimeProtocolConfiguration?
-        /// Workload identity details associated with a source resource.
+        /// The workload identity details for the AgentCore Runtime resource. Present when the runtime has a workload identity configured.
         public var workloadIdentityDetails: AgentRegistryControlClientTypes.WorkloadIdentityDetails?
 
         public init(
@@ -1141,7 +1140,6 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// The relationship between the registry record and its provenance source.
     public enum ProvenanceRelation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case detectedFrom
         case sdkUnknown(Swift.String)
@@ -1170,9 +1168,9 @@ extension AgentRegistryControlClientTypes {
 
     /// The details about the upstream source from which a registry record was detected. Exactly one member is populated, corresponding to the source type.
     public enum SourceDetails: Swift.Sendable {
-        /// Source details for a record auto-detected from an AgentCore Runtime resource.
+        /// The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Runtime resource. Populated when the source type is AWS::BedrockAgentCore::Runtime.
         case agentcoreruntime(AgentRegistryControlClientTypes.AgentCoreRuntimeSourceDetails)
-        /// Source details for a record auto-detected from an AgentCore Gateway resource.
+        /// The source details for a registry record that was auto-detected from an Amazon Bedrock AgentCore Gateway resource. Populated when the source type is AWS::BedrockAgentCore::Gateway.
         case agentcoregateway(AgentRegistryControlClientTypes.AgentCoreGatewaySourceDetails)
         case sdkUnknown(Swift.String)
     }
@@ -1209,9 +1207,9 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// One provenance entry describing the lineage of a registry record.
+    /// A provenance entry that describes the lineage of a registry record. Records that were auto-detected by Amazon Web Services Agent Registry carry a provenance entry that links the record back to its upstream source.
     public struct Provenance: Swift.Sendable {
-        /// The relationship between the registry record and its provenance source.
+        /// The relationship between the registry record and its upstream source. DETECTED_FROM indicates that the record was auto-detected from the source resource.
         /// This member is required.
         public var relation: AgentRegistryControlClientTypes.ProvenanceRelation?
         /// Additional details about the upstream source that the registry record was detected from, such as the AgentCore Gateway or Runtime configuration. The populated member corresponds to the source type.
@@ -1278,6 +1276,8 @@ extension AgentRegistryControlClientTypes {
 public struct CreateRegistryRecordInput: Swift.Sendable {
     /// Client token for idempotency
     public var clientToken: Swift.String?
+    /// The custom metadata to attach to the registry record. Each key must match a property defined in the registry's custom metadata schema. Values can be strings (maximum 128 characters) or native JSON booleans (true or false). Values are validated against the schema at creation time.
+    public var customMetadata: Smithy.Document?
     /// The description of the registry record
     public var description: Swift.String?
     /// The typed descriptor content for the registry record
@@ -1288,7 +1288,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
     /// The name of the registry record
     /// This member is required.
     public var name: Swift.String?
-    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    /// The provenance lineage entries for the registry record. This field is reserved for the Amazon Web Services Agent Registry auto-detection service principal. Requests that include this field from other callers are rejected.
     public var provenance: [AgentRegistryControlClientTypes.Provenance]?
     /// The type of the registry record, which determines the descriptor format
     /// This member is required.
@@ -1303,6 +1303,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        customMetadata: Smithy.Document? = nil,
         description: Swift.String? = nil,
         descriptors: AgentRegistryControlClientTypes.Descriptors? = nil,
         displayName: Swift.String? = nil,
@@ -1314,6 +1315,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.customMetadata = customMetadata
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
@@ -1328,7 +1330,7 @@ public struct CreateRegistryRecordInput: Swift.Sendable {
 
 extension CreateRegistryRecordInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRegistryRecordInput(clientToken: \(Swift.String(describing: clientToken)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateRegistryRecordInput(clientToken: \(Swift.String(describing: clientToken)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryId: \(Swift.String(describing: registryId)), tags: \(Swift.String(describing: tags)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -1440,6 +1442,36 @@ public struct GetRegistryRecordInput: Swift.Sendable {
     }
 }
 
+extension AgentRegistryControlClientTypes {
+
+    /// Indicates whether a registry record's custom metadata conforms to the registry's current schema. COMPLIANT means all required fields are present and all values match their declared types. NON_COMPLIANT means the metadata does not satisfy the current schema, for example because the schema was updated after the record was last modified.
+    public enum CustomMetadataSchemaComplianceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compliant
+        case nonCompliant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomMetadataSchemaComplianceStatus] {
+            return [
+                .compliant,
+                .nonCompliant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compliant: return "COMPLIANT"
+            case .nonCompliant: return "NON_COMPLIANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Response structure for retrieving a registry record
 public struct GetRegistryRecordOutput: Swift.Sendable {
     /// The timestamp when the registry record was created.
@@ -1449,6 +1481,10 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     public var createdBy: Swift.String?
     /// Specifies whether the registry record was created by auto-detection. true indicates the record was automatically created by the service based on the registry's auto-detection configuration; false indicates the record was created through a control-plane API call.
     public var createdByAutoDetection: Swift.Bool?
+    /// The custom metadata attached to this registry record. Values are strings (maximum 128 characters) or booleans.
+    public var customMetadata: Smithy.Document?
+    /// Indicates whether this record's custom metadata conforms to the registry's current schema. This status is computed at read time against the latest schema.
+    public var customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus?
     /// A description of the registry record.
     public var description: Swift.String?
     /// The typed descriptors that define the content of the registry record.
@@ -1458,7 +1494,7 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
     /// The name of the registry record. Names are unique within a registry.
     /// This member is required.
     public var name: Swift.String?
-    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    /// The provenance lineage entries for the registry record. Populated for records created by auto-detection; each entry identifies the upstream source that the record was detected from.
     public var provenance: [AgentRegistryControlClientTypes.Provenance]?
     /// The Amazon Resource Name (ARN) of the registry record.
     /// This member is required.
@@ -1487,6 +1523,8 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         createdByAutoDetection: Swift.Bool? = nil,
+        customMetadata: Smithy.Document? = nil,
+        customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus? = nil,
         description: Swift.String? = nil,
         descriptors: AgentRegistryControlClientTypes.Descriptors? = nil,
         displayName: Swift.String? = nil,
@@ -1504,6 +1542,8 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.createdByAutoDetection = createdByAutoDetection
+        self.customMetadata = customMetadata
+        self.customMetadataSchemaComplianceStatus = customMetadataSchemaComplianceStatus
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
@@ -1522,7 +1562,7 @@ public struct GetRegistryRecordOutput: Swift.Sendable {
 
 extension GetRegistryRecordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -1604,9 +1644,9 @@ public struct ListRegistryRecordsInput: Swift.Sendable {
 
 extension AgentRegistryControlClientTypes {
 
-    /// Condensed provenance entry for list results — the key triple only (no sourceDetails union). Enough to display and client-side-filter lineage without the full-read config payload.
+    /// A condensed provenance entry surfaced in list results. Contains the source identity of a lineage entry without the source details returned by GetRegistryRecord.
     public struct ProvenanceSummary: Swift.Sendable {
-        /// The relationship between the registry record and its provenance source.
+        /// The relationship between the registry record and its upstream source. DETECTED_FROM indicates that the record was auto-detected from the source resource.
         /// This member is required.
         public var relation: AgentRegistryControlClientTypes.ProvenanceRelation?
         /// The identifier of the upstream source that the registry record was detected from.
@@ -1638,6 +1678,8 @@ extension AgentRegistryControlClientTypes {
         public var createdBy: Swift.String?
         /// Specifies whether the registry record was created by auto-detection. true indicates the record was automatically created by the service based on the registry's auto-detection configuration; false indicates the record was created through a control-plane API call.
         public var createdByAutoDetection: Swift.Bool?
+        /// Indicates whether this record's custom metadata conforms to the registry's current schema.
+        public var customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus?
         /// A description of the registry record.
         public var description: Swift.String?
         /// The human-readable display name of the registry record.
@@ -1645,7 +1687,7 @@ extension AgentRegistryControlClientTypes {
         /// The name of the registry record. Names are unique within a registry.
         /// This member is required.
         public var name: Swift.String?
-        /// List of condensed provenance entries surfaced on RegistryRecordSummary. Mirrors ProvenanceList's cardinality (one entry today); modeled as a list for forward-compatibility.
+        /// The condensed provenance lineage for the registry record. Each entry contains the source relation, source identifier, and source type of an auto-detection lineage entry. Populated for records created by auto-detection.
         public var provenanceSummaryList: [AgentRegistryControlClientTypes.ProvenanceSummary]?
         /// The Amazon Resource Name (ARN) of the registry record.
         /// This member is required.
@@ -1673,6 +1715,7 @@ extension AgentRegistryControlClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             createdByAutoDetection: Swift.Bool? = nil,
+            customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -1688,6 +1731,7 @@ extension AgentRegistryControlClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.createdByAutoDetection = createdByAutoDetection
+            self.customMetadataSchemaComplianceStatus = customMetadataSchemaComplianceStatus
             self.description = description
             self.displayName = displayName
             self.name = name
@@ -1705,7 +1749,7 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes.RegistryRecordSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenanceSummaryList: \(Swift.String(describing: provenanceSummaryList)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenanceSummaryList: \(Swift.String(describing: provenanceSummaryList)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 /// Response structure for listing registry records
@@ -1773,6 +1817,26 @@ public struct SubmitRegistryRecordForApprovalOutput: Swift.Sendable {
         self.status = status
         self.updatedAt = updatedAt
     }
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// The custom metadata patch wrapper. Omit to leave the existing metadata unchanged; supply with a null value to clear all metadata; supply with key-value pairs to replace the existing metadata.
+    public struct UpdatedCustomMetadataMap: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: Smithy.Document?
+
+        public init(
+            optionalValue: Smithy.Document? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedCustomMetadataMap: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatedCustomMetadataMap(optionalValue: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -2251,6 +2315,8 @@ extension AgentRegistryControlClientTypes {
 }
 
 public struct UpdateRegistryRecordInput: Swift.Sendable {
+    /// The updated custom metadata for the registry record. Values can be strings (maximum 128 characters) or native JSON booleans (true or false). Omit to leave the existing metadata unchanged. Supply the wrapper with a full replacement set to update, or with a null value to clear all metadata.
+    public var customMetadata: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap?
     /// The updated description of the registry record. Omit to leave the description unchanged; provide an empty wrapper to unset it.
     public var description: AgentRegistryControlClientTypes.UpdatedDescription?
     /// The updated typed descriptor content for the registry record. Omit to leave the descriptors unchanged.
@@ -2259,7 +2325,7 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
     public var displayName: AgentRegistryControlClientTypes.UpdatedDisplayName?
     /// The updated name of the registry record. Omit to leave the name unchanged.
     public var name: Swift.String?
-    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    /// The provenance lineage re-assertion for the registry record. This field is reserved for the Amazon Web Services Agent Registry auto-detection service principal. Requests that include this field from other callers are rejected. The source identity of an existing lineage is immutable; a re-assertion may only refresh the source details.
     public var provenance: [AgentRegistryControlClientTypes.Provenance]?
     /// The identifier of the registry record to update (ARN or ID)
     /// This member is required.
@@ -2275,6 +2341,7 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
     public var triggerSynchronization: Swift.Bool?
 
     public init(
+        customMetadata: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap? = nil,
         description: AgentRegistryControlClientTypes.UpdatedDescription? = nil,
         descriptors: AgentRegistryControlClientTypes.UpdatedDescriptors? = nil,
         displayName: AgentRegistryControlClientTypes.UpdatedDisplayName? = nil,
@@ -2286,6 +2353,7 @@ public struct UpdateRegistryRecordInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         triggerSynchronization: Swift.Bool? = nil
     ) {
+        self.customMetadata = customMetadata
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
@@ -2308,6 +2376,10 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     public var createdBy: Swift.String?
     /// Specifies whether the registry record was created by auto-detection. true indicates the record was automatically created by the service based on the registry's auto-detection configuration; false indicates the record was created through a control-plane API call.
     public var createdByAutoDetection: Swift.Bool?
+    /// The custom metadata attached to this registry record. Values are strings (maximum 128 characters) or booleans.
+    public var customMetadata: Smithy.Document?
+    /// Indicates whether this record's custom metadata conforms to the registry's current schema. This status is computed at read time against the latest schema.
+    public var customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus?
     /// A description of the registry record.
     public var description: Swift.String?
     /// The typed descriptors that define the content of the registry record.
@@ -2317,7 +2389,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
     /// The name of the registry record. Names are unique within a registry.
     /// This member is required.
     public var name: Swift.String?
-    /// List of provenance entries on a registry record. Capped at one entry today: a record carries a single DETECTED_FROM lineage. Modeled as a list so additional relations can be unlocked post-GA by raising this bound without a breaking shape change.
+    /// The provenance lineage entries for the registry record. Populated for records created by auto-detection; each entry identifies the upstream source that the record was detected from.
     public var provenance: [AgentRegistryControlClientTypes.Provenance]?
     /// The Amazon Resource Name (ARN) of the registry record.
     /// This member is required.
@@ -2346,6 +2418,8 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         createdByAutoDetection: Swift.Bool? = nil,
+        customMetadata: Smithy.Document? = nil,
+        customMetadataSchemaComplianceStatus: AgentRegistryControlClientTypes.CustomMetadataSchemaComplianceStatus? = nil,
         description: Swift.String? = nil,
         descriptors: AgentRegistryControlClientTypes.Descriptors? = nil,
         displayName: Swift.String? = nil,
@@ -2363,6 +2437,8 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.createdByAutoDetection = createdByAutoDetection
+        self.customMetadata = customMetadata
+        self.customMetadataSchemaComplianceStatus = customMetadataSchemaComplianceStatus
         self.description = description
         self.descriptors = descriptors
         self.displayName = displayName
@@ -2381,7 +2457,7 @@ public struct UpdateRegistryRecordOutput: Swift.Sendable {
 
 extension UpdateRegistryRecordOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "UpdateRegistryRecordOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), createdByAutoDetection: \(Swift.String(describing: createdByAutoDetection)), customMetadataSchemaComplianceStatus: \(Swift.String(describing: customMetadataSchemaComplianceStatus)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), provenance: \(Swift.String(describing: provenance)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateRegistryRecordStatusInput: Swift.Sendable {
@@ -2539,6 +2615,57 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
+    /// A schema override for a specific record type within a custom metadata schema configuration.
+    public struct RecordTypeSchemaOverride: Swift.Sendable {
+        /// The record type that this schema override applies to.
+        /// This member is required.
+        public var recordType: AgentRegistryControlClientTypes.RecordType?
+        /// The JSON Schema for the specified record type. Must follow the same structural rules as the default schema.
+        /// This member is required.
+        public var schema: Swift.String?
+
+        public init(
+            recordType: AgentRegistryControlClientTypes.RecordType? = nil,
+            schema: Swift.String? = nil
+        ) {
+            self.recordType = recordType
+            self.schema = schema
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.RecordTypeSchemaOverride: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RecordTypeSchemaOverride(recordType: \(Swift.String(describing: recordType)), schema: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
+    /// Configuration that defines a typed metadata schema for a registry. Specify at least one of a default schema or per-record-type schema overrides. You can provide both.
+    public struct CustomMetadataSchemaConfiguration: Swift.Sendable {
+        /// The default JSON Schema that applies to record types without a specific override. Supported property types are string, string with an enum constraint, string with a uri format, and boolean.
+        public var defaultSchema: Swift.String?
+        /// A list of per-record-type schema overrides. When a record's type matches an override, that override's schema is used instead of the default schema for validation. If you don't specify an override for a record type, the default schema applies. If no default schema exists, custom metadata on records of that type is rejected.
+        public var recordTypeSchemaOverrides: [AgentRegistryControlClientTypes.RecordTypeSchemaOverride]?
+
+        public init(
+            defaultSchema: Swift.String? = nil,
+            recordTypeSchemaOverrides: [AgentRegistryControlClientTypes.RecordTypeSchemaOverride]? = nil
+        ) {
+            self.defaultSchema = defaultSchema
+            self.recordTypeSchemaOverrides = recordTypeSchemaOverrides
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension AgentRegistryControlClientTypes {
+
     public enum RegistryAuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsIam
         case customJwt
@@ -2609,6 +2736,8 @@ public struct CreateRegistryInput: Swift.Sendable {
     public var autoDetectionConfiguration: AgentRegistryControlClientTypes.AutoDetectionConfiguration?
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
     public var clientToken: Swift.String?
+    /// The optional custom metadata schema configuration for the registry. When provided, registry records can carry structured metadata validated against this schema.
+    public var customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration?
     /// The description of the registry
     public var description: Swift.String?
     /// Discovery configuration for the registry
@@ -2625,6 +2754,7 @@ public struct CreateRegistryInput: Swift.Sendable {
         approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil,
         autoDetectionConfiguration: AgentRegistryControlClientTypes.AutoDetectionConfiguration? = nil,
         clientToken: Swift.String? = nil,
+        customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration? = nil,
         description: Swift.String? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
         encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration? = nil,
@@ -2634,6 +2764,7 @@ public struct CreateRegistryInput: Swift.Sendable {
         self.approvalConfiguration = approvalConfiguration
         self.autoDetectionConfiguration = autoDetectionConfiguration
         self.clientToken = clientToken
+        self.customMetadataSchemaConfiguration = customMetadataSchemaConfiguration
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
         self.encryptionConfiguration = encryptionConfiguration
@@ -2644,7 +2775,7 @@ public struct CreateRegistryInput: Swift.Sendable {
 
 extension CreateRegistryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateRegistryInput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetectionConfiguration: \(Swift.String(describing: autoDetectionConfiguration)), clientToken: \(Swift.String(describing: clientToken)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateRegistryInput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetectionConfiguration: \(Swift.String(describing: autoDetectionConfiguration)), clientToken: \(Swift.String(describing: clientToken)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), customMetadataSchemaConfiguration: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 /// Response structure for creating a registry
@@ -2806,6 +2937,8 @@ public struct GetRegistryOutput: Swift.Sendable {
     /// The timestamp when the registry was created
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The custom metadata schema configuration for this registry, if one has been defined.
+    public var customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration?
     /// The description of the registry
     public var description: Swift.String?
     /// Discovery configuration for the registry
@@ -2834,6 +2967,7 @@ public struct GetRegistryOutput: Swift.Sendable {
         approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil,
         autoDetection: AgentRegistryControlClientTypes.AutoDetection? = nil,
         createdAt: Foundation.Date? = nil,
+        customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration? = nil,
         description: Swift.String? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
         encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration? = nil,
@@ -2847,6 +2981,7 @@ public struct GetRegistryOutput: Swift.Sendable {
         self.approvalConfiguration = approvalConfiguration
         self.autoDetection = autoDetection
         self.createdAt = createdAt
+        self.customMetadataSchemaConfiguration = customMetadataSchemaConfiguration
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
         self.encryptionConfiguration = encryptionConfiguration
@@ -2861,7 +2996,7 @@ public struct GetRegistryOutput: Swift.Sendable {
 
 extension GetRegistryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadataSchemaConfiguration: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension AgentRegistryControlClientTypes {
@@ -3045,6 +3180,26 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
+    /// The custom metadata schema configuration patch wrapper. Omit to leave the existing schema unchanged.
+    public struct UpdatedCustomMetadataSchemaConfiguration: Swift.Sendable {
+        /// The value to set for this field. Omit the wrapper to leave the field unchanged.
+        public var optionalValue: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration?
+
+        public init(
+            optionalValue: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration? = nil
+        ) {
+            self.optionalValue = optionalValue
+        }
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatedCustomMetadataSchemaConfiguration(optionalValue: \"CONTENT_REDACTED\")"}
+}
+
+extension AgentRegistryControlClientTypes {
+
     /// Wrapper for updating an optional authorizer configuration with PATCH semantics.
     public struct UpdatedAuthorizerConfiguration: Swift.Sendable {
         /// The new authorizer configuration to set. Omit to leave the existing configuration unchanged.
@@ -3079,6 +3234,8 @@ public struct UpdateRegistryInput: Swift.Sendable {
     public var approvalConfiguration: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration?
     /// The updated auto-detection configuration for the registry, with PATCH semantics. Omit this field to leave the current configuration unchanged. Supply an empty wrapper to unset it. Supply optionalValue to replace it.
     public var autoDetectionConfiguration: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration?
+    /// Updated custom metadata schema configuration for the registry. Omit to leave the existing schema unchanged. Schema evolution is additive only: you can add properties and enum values, but you cannot remove properties, change property types or formats, add or remove enum constraints, or remove record type overrides.
+    public var customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration?
     /// The updated description of the registry
     public var description: AgentRegistryControlClientTypes.UpdatedDescription?
     /// The updated discovery configuration. Changing the discovery authorization can break existing consumers that rely on the previous authorization type.
@@ -3092,6 +3249,7 @@ public struct UpdateRegistryInput: Swift.Sendable {
     public init(
         approvalConfiguration: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration? = nil,
         autoDetectionConfiguration: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration? = nil,
+        customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration? = nil,
         description: AgentRegistryControlClientTypes.UpdatedDescription? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.UpdatedDiscoveryConfiguration? = nil,
         name: Swift.String? = nil,
@@ -3099,6 +3257,7 @@ public struct UpdateRegistryInput: Swift.Sendable {
     ) {
         self.approvalConfiguration = approvalConfiguration
         self.autoDetectionConfiguration = autoDetectionConfiguration
+        self.customMetadataSchemaConfiguration = customMetadataSchemaConfiguration
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
         self.name = name
@@ -3115,6 +3274,8 @@ public struct UpdateRegistryOutput: Swift.Sendable {
     /// The timestamp when the registry was created
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The custom metadata schema configuration for this registry, if one has been defined.
+    public var customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration?
     /// The description of the registry
     public var description: Swift.String?
     /// Discovery configuration for the registry
@@ -3143,6 +3304,7 @@ public struct UpdateRegistryOutput: Swift.Sendable {
         approvalConfiguration: AgentRegistryControlClientTypes.ApprovalConfiguration? = nil,
         autoDetection: AgentRegistryControlClientTypes.AutoDetection? = nil,
         createdAt: Foundation.Date? = nil,
+        customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration? = nil,
         description: Swift.String? = nil,
         discoveryConfiguration: AgentRegistryControlClientTypes.DiscoveryConfiguration? = nil,
         encryptionConfiguration: AgentRegistryControlClientTypes.EncryptionConfiguration? = nil,
@@ -3156,6 +3318,7 @@ public struct UpdateRegistryOutput: Swift.Sendable {
         self.approvalConfiguration = approvalConfiguration
         self.autoDetection = autoDetection
         self.createdAt = createdAt
+        self.customMetadataSchemaConfiguration = customMetadataSchemaConfiguration
         self.description = description
         self.discoveryConfiguration = discoveryConfiguration
         self.encryptionConfiguration = encryptionConfiguration
@@ -3170,7 +3333,7 @@ public struct UpdateRegistryOutput: Swift.Sendable {
 
 extension UpdateRegistryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "UpdateRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), autoDetection: \(Swift.String(describing: autoDetection)), createdAt: \(Swift.String(describing: createdAt)), discoveryConfiguration: \(Swift.String(describing: discoveryConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadataSchemaConfiguration: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -3399,6 +3562,7 @@ extension CreateRegistryInput {
         try writer["approvalConfiguration"].write(value.approvalConfiguration, with: AgentRegistryControlClientTypes.ApprovalConfiguration.write(value:to:))
         try writer["autoDetectionConfiguration"].write(value.autoDetectionConfiguration, with: AgentRegistryControlClientTypes.AutoDetectionConfiguration.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["customMetadataSchemaConfiguration"].write(value.customMetadataSchemaConfiguration, with: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["discoveryConfiguration"].write(value.discoveryConfiguration, with: AgentRegistryControlClientTypes.DiscoveryConfiguration.write(value:to:))
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: AgentRegistryControlClientTypes.EncryptionConfiguration.write(value:to:))
@@ -3412,6 +3576,7 @@ extension CreateRegistryRecordInput {
     static func write(value: CreateRegistryRecordInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["customMetadata"].write(value.customMetadata)
         try writer["description"].write(value.description)
         try writer["descriptors"].write(value.descriptors, with: AgentRegistryControlClientTypes.Descriptors.write(value:to:))
         try writer["displayName"].write(value.displayName)
@@ -3457,6 +3622,7 @@ extension UpdateRegistryInput {
         guard let value else { return }
         try writer["approvalConfiguration"].write(value.approvalConfiguration, with: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration.write(value:to:))
         try writer["autoDetectionConfiguration"].write(value.autoDetectionConfiguration, with: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration.write(value:to:))
+        try writer["customMetadataSchemaConfiguration"].write(value.customMetadataSchemaConfiguration, with: AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration.write(value:to:))
         try writer["description"].write(value.description, with: AgentRegistryControlClientTypes.UpdatedDescription.write(value:to:))
         try writer["discoveryConfiguration"].write(value.discoveryConfiguration, with: AgentRegistryControlClientTypes.UpdatedDiscoveryConfiguration.write(value:to:))
         try writer["name"].write(value.name)
@@ -3467,6 +3633,7 @@ extension UpdateRegistryRecordInput {
 
     static func write(value: UpdateRegistryRecordInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customMetadata"].write(value.customMetadata, with: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap.write(value:to:))
         try writer["description"].write(value.description, with: AgentRegistryControlClientTypes.UpdatedDescription.write(value:to:))
         try writer["descriptors"].write(value.descriptors, with: AgentRegistryControlClientTypes.UpdatedDescriptors.write(value:to:))
         try writer["displayName"].write(value.displayName, with: AgentRegistryControlClientTypes.UpdatedDisplayName.write(value:to:))
@@ -3541,6 +3708,7 @@ extension GetRegistryOutput {
         value.approvalConfiguration = try reader["approvalConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.ApprovalConfiguration.read(from:))
         value.autoDetection = try reader["autoDetection"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetection.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customMetadataSchemaConfiguration = try reader["customMetadataSchemaConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.discoveryConfiguration = try reader["discoveryConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.DiscoveryConfiguration.read(from:))
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.EncryptionConfiguration.read(from:))
@@ -3564,6 +3732,8 @@ extension GetRegistryRecordOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
+        value.customMetadata = try reader["customMetadata"].readIfPresent()
+        value.customMetadataSchemaComplianceStatus = try reader["customMetadataSchemaComplianceStatus"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.descriptors = try reader["descriptors"].readIfPresent(with: AgentRegistryControlClientTypes.Descriptors.read(from:))
         value.displayName = try reader["displayName"].readIfPresent()
@@ -3659,6 +3829,7 @@ extension UpdateRegistryOutput {
         value.approvalConfiguration = try reader["approvalConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.ApprovalConfiguration.read(from:))
         value.autoDetection = try reader["autoDetection"].readIfPresent(with: AgentRegistryControlClientTypes.AutoDetection.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customMetadataSchemaConfiguration = try reader["customMetadataSchemaConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.discoveryConfiguration = try reader["discoveryConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.DiscoveryConfiguration.read(from:))
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: AgentRegistryControlClientTypes.EncryptionConfiguration.read(from:))
@@ -3682,6 +3853,8 @@ extension UpdateRegistryRecordOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
+        value.customMetadata = try reader["customMetadata"].readIfPresent()
+        value.customMetadataSchemaComplianceStatus = try reader["customMetadataSchemaComplianceStatus"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.descriptors = try reader["descriptors"].readIfPresent(with: AgentRegistryControlClientTypes.Descriptors.read(from:))
         value.displayName = try reader["displayName"].readIfPresent()
@@ -4407,6 +4580,23 @@ extension AgentRegistryControlClientTypes.CustomJWTAuthorizerConfiguration {
     }
 }
 
+extension AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultSchema"].write(value.defaultSchema)
+        try writer["recordTypeSchemaOverrides"].writeList(value.recordTypeSchemaOverrides, memberWritingClosure: AgentRegistryControlClientTypes.RecordTypeSchemaOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration()
+        value.defaultSchema = try reader["defaultSchema"].readIfPresent()
+        value.recordTypeSchemaOverrides = try reader["recordTypeSchemaOverrides"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.RecordTypeSchemaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.Descriptors {
 
     static func write(value: AgentRegistryControlClientTypes.Descriptors?, to writer: SmithyJSON.Writer) throws {
@@ -4667,6 +4857,23 @@ extension AgentRegistryControlClientTypes.ProvenanceSummary {
     }
 }
 
+extension AgentRegistryControlClientTypes.RecordTypeSchemaOverride {
+
+    static func write(value: AgentRegistryControlClientTypes.RecordTypeSchemaOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordType"].write(value.recordType)
+        try writer["schema"].write(value.schema)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AgentRegistryControlClientTypes.RecordTypeSchemaOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AgentRegistryControlClientTypes.RecordTypeSchemaOverride()
+        value.recordType = try reader["recordType"].readIfPresent() ?? .sdkUnknown("")
+        value.schema = try reader["schema"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AgentRegistryControlClientTypes.RegistryFilter {
 
     static func write(value: AgentRegistryControlClientTypes.RegistryFilter?, to writer: SmithyJSON.Writer) throws {
@@ -4789,6 +4996,7 @@ extension AgentRegistryControlClientTypes.RegistryRecordSummary {
         value.createdByAutoDetection = try reader["createdByAutoDetection"].readIfPresent()
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.provenanceSummaryList = try reader["provenanceSummaryList"].readListIfPresent(memberReadingClosure: AgentRegistryControlClientTypes.ProvenanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customMetadataSchemaComplianceStatus = try reader["customMetadataSchemaComplianceStatus"].readIfPresent()
         return value
     }
 }
@@ -4987,6 +5195,22 @@ extension AgentRegistryControlClientTypes.UpdatedCustomDescriptorFields {
     static func write(value: AgentRegistryControlClientTypes.UpdatedCustomDescriptorFields?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["data"].write(value.data, with: AgentRegistryControlClientTypes.UpdatedDescriptorData.write(value:to:))
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedCustomMetadataMap {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedCustomMetadataMap?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue)
+    }
+}
+
+extension AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration {
+
+    static func write(value: AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["optionalValue"].write(value.optionalValue, with: AgentRegistryControlClientTypes.CustomMetadataSchemaConfiguration.write(value:to:))
     }
 }
 

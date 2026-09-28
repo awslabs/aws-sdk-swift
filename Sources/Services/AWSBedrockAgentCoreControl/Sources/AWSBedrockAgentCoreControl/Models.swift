@@ -8723,6 +8723,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The configuration for a Model Context Protocol (MCP) gateway. This structure defines how the gateway implements the MCP protocol.
     public struct MCPGatewayConfiguration: Swift.Sendable {
+        /// Specifies whether pagination is disabled for the Model Context Protocol (MCP) tools/list operation. When set to true, the gateway returns the complete list of tools in a single response without a pagination cursor. When set to false or omitted, the gateway returns tools in paginated responses.
+        public var disableMcpListToolsPagination: Swift.Bool?
         /// The instructions for using the Model Context Protocol gateway. These instructions provide guidance on how to interact with the gateway.
         public var instructions: Swift.String?
         /// The search type for the Model Context Protocol gateway. This field specifies how the gateway handles search operations.
@@ -8735,12 +8737,14 @@ extension BedrockAgentCoreControlClientTypes {
         public var supportedVersions: [Swift.String]?
 
         public init(
+            disableMcpListToolsPagination: Swift.Bool? = nil,
             instructions: Swift.String? = nil,
             searchType: BedrockAgentCoreControlClientTypes.SearchType? = nil,
             sessionConfiguration: BedrockAgentCoreControlClientTypes.SessionConfiguration? = nil,
             streamingConfiguration: BedrockAgentCoreControlClientTypes.StreamingConfiguration? = nil,
             supportedVersions: [Swift.String]? = nil
         ) {
+            self.disableMcpListToolsPagination = disableMcpListToolsPagination
             self.instructions = instructions
             self.searchType = searchType
             self.sessionConfiguration = sessionConfiguration
@@ -8752,7 +8756,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MCPGatewayConfiguration(searchType: \(Swift.String(describing: searchType)), sessionConfiguration: \(Swift.String(describing: sessionConfiguration)), streamingConfiguration: \(Swift.String(describing: streamingConfiguration)), supportedVersions: \(Swift.String(describing: supportedVersions)), instructions: \"CONTENT_REDACTED\")"}
+        "MCPGatewayConfiguration(disableMcpListToolsPagination: \(Swift.String(describing: disableMcpListToolsPagination)), searchType: \(Swift.String(describing: searchType)), sessionConfiguration: \(Swift.String(describing: sessionConfiguration)), streamingConfiguration: \(Swift.String(describing: streamingConfiguration)), supportedVersions: \(Swift.String(describing: supportedVersions)), instructions: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -37941,6 +37945,7 @@ extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["disableMcpListToolsPagination"].write(value.disableMcpListToolsPagination)
         try writer["instructions"].write(value.instructions)
         try writer["searchType"].write(value.searchType)
         try writer["sessionConfiguration"].write(value.sessionConfiguration, with: BedrockAgentCoreControlClientTypes.SessionConfiguration.write(value:to:))
@@ -37956,6 +37961,7 @@ extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
         value.searchType = try reader["searchType"].readIfPresent()
         value.sessionConfiguration = try reader["sessionConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SessionConfiguration.read(from:))
         value.streamingConfiguration = try reader["streamingConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StreamingConfiguration.read(from:))
+        value.disableMcpListToolsPagination = try reader["disableMcpListToolsPagination"].readIfPresent()
         return value
     }
 }

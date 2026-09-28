@@ -588,13 +588,17 @@ extension GuardDutyClientTypes {
         public var accountId: Swift.String?
         /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment. If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
         public var affiliated: Swift.Bool?
+        /// If the remote account belongs to an Amazon Web Services service, this field indicates which service the remote account belongs to.
+        public var awsServiceName: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
-            affiliated: Swift.Bool? = nil
+            affiliated: Swift.Bool? = nil,
+            awsServiceName: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.affiliated = affiliated
+            self.awsServiceName = awsServiceName
         }
     }
 }
@@ -24111,6 +24115,7 @@ extension GuardDutyClientTypes.RemoteAccountDetails {
         var value = GuardDutyClientTypes.RemoteAccountDetails()
         value.accountId = try reader["accountId"].readIfPresent()
         value.affiliated = try reader["affiliated"].readIfPresent()
+        value.awsServiceName = try reader["awsServiceName"].readIfPresent()
         return value
     }
 }

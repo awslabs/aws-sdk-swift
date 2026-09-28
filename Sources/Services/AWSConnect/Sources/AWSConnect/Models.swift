@@ -33017,6 +33017,41 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authenticationSession
+        case connectionCredentials
+        case webrtcConnection
+        case websocket
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionType] {
+            return [
+                .authenticationSession,
+                .connectionCredentials,
+                .webrtcConnection,
+                .websocket
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authenticationSession: return "AUTHENTICATION_SESSION"
+            case .connectionCredentials: return "CONNECTION_CREDENTIALS"
+            case .webrtcConnection: return "WEBRTC_CONNECTION"
+            case .websocket: return "WEBSOCKET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum DisconnectOnCustomerExitParticipantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
         case sdkUnknown(Swift.String)
@@ -33085,7 +33120,47 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// The credentials that a chat participant uses to connect to the Connect Customer Participant Service.
+    public struct ConnectionCredentials: Swift.Sendable {
+        /// The connection token used by the chat participant to call the Connect Customer Participant Service.
+        public var connectionToken: Swift.String?
+        /// The expiration of the token. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public var expiry: Swift.String?
+
+        public init(
+            connectionToken: Swift.String? = nil,
+            expiry: Swift.String? = nil
+        ) {
+            self.connectionToken = connectionToken
+            self.expiry = expiry
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The websocket that a chat participant uses to receive messages and events for the chat.
+    public struct Websocket: Swift.Sendable {
+        /// The expiration of the websocket URL. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public var connectionExpiry: Swift.String?
+        /// The URL of the websocket.
+        public var url: Swift.String?
+
+        public init(
+            connectionExpiry: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.connectionExpiry = connectionExpiry
+            self.url = url
+        }
+    }
+}
+
 public struct StartChatContactOutput: Swift.Sendable {
+    /// The connection credentials for the chat participant. Returned only when the request includes CONNECTION_CREDENTIALS in ConnectionTypes.
+    public var connectionCredentials: ConnectClientTypes.ConnectionCredentials?
     /// The identifier of this contact within the Connect Customer instance.
     public var contactId: Swift.String?
     /// The contactId from which a persistent chat session is started. This field is populated only for persistent chats.
@@ -33094,17 +33169,27 @@ public struct StartChatContactOutput: Swift.Sendable {
     public var participantId: Swift.String?
     /// The token used by the chat participant to call [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html). The participant token is valid for the lifetime of a chat participant.
     public var participantToken: Swift.String?
+    /// The identifier of the streaming configuration enabled with the chat. Returned only when the request sets ChatStreamingConfiguration. Use this value to call [StopContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StopContactStreaming.html).
+    public var streamingId: Swift.String?
+    /// The websocket for the chat participant. Returned only when the request includes WEBSOCKET in ConnectionTypes.
+    public var websocket: ConnectClientTypes.Websocket?
 
     public init(
+        connectionCredentials: ConnectClientTypes.ConnectionCredentials? = nil,
         contactId: Swift.String? = nil,
         continuedFromContactId: Swift.String? = nil,
         participantId: Swift.String? = nil,
-        participantToken: Swift.String? = nil
+        participantToken: Swift.String? = nil,
+        streamingId: Swift.String? = nil,
+        websocket: ConnectClientTypes.Websocket? = nil
     ) {
+        self.connectionCredentials = connectionCredentials
         self.contactId = contactId
         self.continuedFromContactId = continuedFromContactId
         self.participantId = participantId
         self.participantToken = participantToken
+        self.streamingId = streamingId
+        self.websocket = websocket
     }
 }
 
@@ -35673,7 +35758,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
 }
 
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
-    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. If you set the attribute type AUTO_MUTE_AGENT_ON_HOLD to true, the system automatically mutes agents while they're on hold and unmutes them when they resume the contact. Agents can't change their mute state while on hold.
+    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -38863,8 +38948,12 @@ public struct StartChatContactInput: Swift.Sendable {
     public var attributes: [Swift.String: Swift.String]?
     /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     public var chatDurationInMinutes: Swift.Int?
+    /// The streaming configuration, such as the Amazon SNS streaming endpoint. Use it to initiate real-time message streaming when the chat is created. This parameter is optional. When you set this parameter, the response includes StreamingId. You do not need to call [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html). This parameter starts message streaming only. The response does not include connection information, and setting this parameter does not remove the need to call [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html).
+    public var chatStreamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
+    /// The types of connection information to return in the response. This parameter is optional. Specify CONNECTION_CREDENTIALS to receive a connection token. Specify WEBSOCKET to receive a websocket URL. You can specify both. No other value returns connection information. Request WEBSOCKET to get a URL the participant connects to directly. You do not need to call [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html) for it. Request CONNECTION_CREDENTIALS on its own and the response returns a connection token but no websocket URL. If you omit this parameter, the response has no connection information. If the information you request cannot be returned, StartChatContact returns an error rather than a response that omits it.
+    public var connectionTypes: [ConnectClientTypes.ConnectionType]?
     /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
@@ -38894,7 +38983,9 @@ public struct StartChatContactInput: Swift.Sendable {
     public init(
         attributes: [Swift.String: Swift.String]? = nil,
         chatDurationInMinutes: Swift.Int? = nil,
+        chatStreamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration? = nil,
         clientToken: Swift.String? = nil,
+        connectionTypes: [ConnectClientTypes.ConnectionType]? = nil,
         contactFlowId: Swift.String? = nil,
         customerId: Swift.String? = nil,
         disconnectOnCustomerExit: [ConnectClientTypes.DisconnectOnCustomerExitParticipantType]? = nil,
@@ -38909,7 +39000,9 @@ public struct StartChatContactInput: Swift.Sendable {
     ) {
         self.attributes = attributes
         self.chatDurationInMinutes = chatDurationInMinutes
+        self.chatStreamingConfiguration = chatStreamingConfiguration
         self.clientToken = clientToken
+        self.connectionTypes = connectionTypes
         self.contactFlowId = contactFlowId
         self.customerId = customerId
         self.disconnectOnCustomerExit = disconnectOnCustomerExit
@@ -38926,7 +39019,7 @@ public struct StartChatContactInput: Swift.Sendable {
 
 extension StartChatContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), disconnectOnCustomerExit: \(Swift.String(describing: disconnectOnCustomerExit)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantConfiguration: \(Swift.String(describing: participantConfiguration)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), chatStreamingConfiguration: \(Swift.String(describing: chatStreamingConfiguration)), clientToken: \(Swift.String(describing: clientToken)), connectionTypes: \(Swift.String(describing: connectionTypes)), contactFlowId: \(Swift.String(describing: contactFlowId)), disconnectOnCustomerExit: \(Swift.String(describing: disconnectOnCustomerExit)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantConfiguration: \(Swift.String(describing: participantConfiguration)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartEmailContactInput: Swift.Sendable {
@@ -47740,7 +47833,9 @@ extension StartChatContactInput {
         guard let value else { return }
         try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ChatDurationInMinutes"].write(value.chatDurationInMinutes)
+        try writer["ChatStreamingConfiguration"].write(value.chatStreamingConfiguration, with: ConnectClientTypes.ChatStreamingConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
+        try writer["ConnectionTypes"].writeList(value.connectionTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.ConnectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContactFlowId"].write(value.contactFlowId)
         try writer["CustomerId"].write(value.customerId)
         try writer["DisconnectOnCustomerExit"].writeList(value.disconnectOnCustomerExit, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.DisconnectOnCustomerExitParticipantType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -52222,10 +52317,13 @@ extension StartChatContactOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartChatContactOutput()
+        value.connectionCredentials = try reader["ConnectionCredentials"].readIfPresent(with: ConnectClientTypes.ConnectionCredentials.read(from:))
         value.contactId = try reader["ContactId"].readIfPresent()
         value.continuedFromContactId = try reader["ContinuedFromContactId"].readIfPresent()
         value.participantId = try reader["ParticipantId"].readIfPresent()
         value.participantToken = try reader["ParticipantToken"].readIfPresent()
+        value.streamingId = try reader["StreamingId"].readIfPresent()
+        value.websocket = try reader["Websocket"].readIfPresent(with: ConnectClientTypes.Websocket.read(from:))
         return value
     }
 }
@@ -61902,6 +62000,17 @@ extension ConnectClientTypes.Condition {
     }
 }
 
+extension ConnectClientTypes.ConnectionCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ConnectionCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ConnectionCredentials()
+        value.connectionToken = try reader["ConnectionToken"].readIfPresent()
+        value.expiry = try reader["Expiry"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.ConnectionData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ConnectionData {
@@ -69071,6 +69180,17 @@ extension ConnectClientTypes.WebNotificationSource {
     static func write(value: ConnectClientTypes.WebNotificationSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SourceCampaign"].write(value.sourceCampaign, with: ConnectClientTypes.SourceCampaign.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.Websocket {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Websocket {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Websocket()
+        value.url = try reader["Url"].readIfPresent()
+        value.connectionExpiry = try reader["ConnectionExpiry"].readIfPresent()
+        return value
     }
 }
 

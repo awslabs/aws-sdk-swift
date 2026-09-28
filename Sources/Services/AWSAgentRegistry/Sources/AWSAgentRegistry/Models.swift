@@ -712,6 +712,8 @@ extension AgentRegistryClientTypes {
         /// The timestamp when the registry record was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The custom metadata attached to this registry record. Values are strings (maximum 128 characters) or booleans. This field is only present if the registry has a custom metadata schema configured.
+        public var customMetadata: Smithy.Document?
         /// A human-readable description of the registry record. Use this field to explain the record's purpose or content to consumers discovering it in the registry.
         public var description: Swift.String?
         /// The protocol-specific descriptors that describe how to connect to and use the record.
@@ -746,6 +748,7 @@ extension AgentRegistryClientTypes {
 
         public init(
             createdAt: Foundation.Date? = nil,
+            customMetadata: Smithy.Document? = nil,
             description: Swift.String? = nil,
             descriptors: AgentRegistryClientTypes.Descriptors? = nil,
             displayName: Swift.String? = nil,
@@ -759,6 +762,7 @@ extension AgentRegistryClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
+            self.customMetadata = customMetadata
             self.description = description
             self.descriptors = descriptors
             self.displayName = displayName
@@ -776,7 +780,7 @@ extension AgentRegistryClientTypes {
 
 extension AgentRegistryClientTypes.RegistryRecordSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "RegistryRecordSummary(createdAt: \(Swift.String(describing: createdAt)), descriptors: \(Swift.String(describing: descriptors)), displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), recordArn: \(Swift.String(describing: recordArn)), recordId: \(Swift.String(describing: recordId)), recordType: \(Swift.String(describing: recordType)), recordVersion: \(Swift.String(describing: recordVersion)), registryArn: \(Swift.String(describing: registryArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), customMetadata: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchGetDiscoverableRegistryRecordOutput: Swift.Sendable {
@@ -962,7 +966,7 @@ public struct ListDiscoverableRegistryRecordsOutput: Swift.Sendable {
 }
 
 public struct SearchDiscoverableRegistryRecordsInput: Swift.Sendable {
-    /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq, $ne, and $in, and the logical operators $and and $or on filterable fields.
+    /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq, $ne, and $in, and the logical operators $and and $or on filterable fields. You can also filter on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "production"}}. Filter values must be strings, so match a boolean field on its string form: {"customMetadata.requiresApproval": {"$eq": "true"}}.
     public var filters: Smithy.Document?
     /// The maximum number of results to return. Valid values are 1 through 20. The default value is 10.
     public var maxResults: Swift.Int?
@@ -1445,6 +1449,7 @@ extension AgentRegistryClientTypes.RegistryRecordSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customMetadata = try reader["customMetadata"].readIfPresent()
         return value
     }
 }

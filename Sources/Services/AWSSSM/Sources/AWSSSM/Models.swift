@@ -4729,7 +4729,42 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+extension SSMClientTypes {
+
+    public enum DeletionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case removesharing
+        case rollbackmigration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionMode] {
+            return [
+                .removesharing,
+                .rollbackmigration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .removesharing: return "RemoveSharing"
+            case .rollbackmigration: return "RollbackMigration"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// Specifies the intended outcome of the operation. Applies only to the Document resource type. The operation ignores this parameter for other resource types. Optional. Defaults to RemoveSharing.
+    ///
+    /// * RemoveSharing – Deletes the resource policy and removes sharing of the document.
+    ///
+    /// * RollbackMigration – Reverts the document to Custom sharing, preserving existing consumer access, instead of removing the policy.
+    public var deletionMode: SSMClientTypes.DeletionMode?
     /// ID of the current policy version. The hash helps to prevent multiple calls from attempting to overwrite a policy.
     /// This member is required.
     public var policyHash: Swift.String?
@@ -4741,10 +4776,12 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public var resourceArn: Swift.String?
 
     public init(
+        deletionMode: SSMClientTypes.DeletionMode? = nil,
         policyHash: Swift.String? = nil,
         policyId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     ) {
+        self.deletionMode = deletionMode
         self.policyHash = policyHash
         self.policyId = policyId
         self.resourceArn = resourceArn
@@ -19205,7 +19242,7 @@ public struct UpdateDocumentInput: Swift.Sendable {
     public var content: Swift.String?
     /// The friendly name of the SSM document that you want to update. This value can differ for each version of the document. If you don't specify a value for this parameter in your request, the existing value is applied to the new document version.
     public var displayName: Swift.String?
-    /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
+    /// Specify the document format for the new document version. The document format can be JSON, YAML, or TEXT. JSON is the default format.
     public var documentFormat: SSMClientTypes.DocumentFormat?
     /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
     public var documentVersion: Swift.String?

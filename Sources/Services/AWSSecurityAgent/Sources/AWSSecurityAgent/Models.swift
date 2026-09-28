@@ -1572,6 +1572,21 @@ public struct BatchDeletePentestsInput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// The configuration that enables a pentest to run as part of a CI/CD pipeline, scoped to the code changes in each pipeline run.
+    public struct CiCdConfiguration: Swift.Sendable {
+        /// Whether CI/CD pentesting is enabled for this pentest.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Strategy for handling resources created during a pentest.
     public enum CleanUpStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Attempt to delete resources created during the pentest on a best-effort basis.
@@ -2185,6 +2200,8 @@ extension SecurityAgentClientTypes {
         /// The assets included in the pentest.
         /// This member is required.
         public var assets: SecurityAgentClientTypes.Assets?
+        /// The CI/CD pentesting configuration for this pentest. Present when the pentest is set up to run from a CI/CD pipeline.
+        public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
         /// The code remediation strategy for the pentest.
@@ -2221,6 +2238,7 @@ extension SecurityAgentClientTypes {
         public init(
             agentSpaceId: Swift.String? = nil,
             assets: SecurityAgentClientTypes.Assets? = nil,
+            cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
             cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
@@ -2239,6 +2257,7 @@ extension SecurityAgentClientTypes {
         ) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
@@ -3464,6 +3483,8 @@ extension SecurityAgentClientTypes {
 
     /// The type of pentest job execution.
     public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A CI/CD pentest job that tests only the code changes in a single pipeline run, as determined by the scope changes supplied when the job is started.
+        case cicd
         /// A full pentest job that executes all phases including scanning, managed execution, and guided exploration.
         case full
         /// A targeted revalidation job that retests specific findings to determine whether they are still exploitable.
@@ -3472,6 +3493,7 @@ extension SecurityAgentClientTypes {
 
         public static var allCases: [JobType] {
             return [
+                .cicd,
                 .full,
                 .revalidation
             ]
@@ -3484,10 +3506,102 @@ extension SecurityAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cicd: return "CICD"
             case .full: return "FULL"
             case .revalidation: return "REVALIDATION"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A code change in a CI/CD pipeline run that defines what a CI/CD pentest job tests. Each scope change identifies an integrated repository and the commit range for the change.
+    public struct ScopeChange: Swift.Sendable {
+        /// The commit SHA that the change is compared against. When omitted, the change is evaluated against the head commit alone.
+        public var baseCommitSha: Swift.String?
+        /// The commit SHA at the tip of the change to be tested.
+        /// This member is required.
+        public var headCommitSha: Swift.String?
+        /// The identifier of the integration for the source-code provider that hosts the repository.
+        /// This member is required.
+        public var integrationId: Swift.String?
+        /// The provider-specific identifier of the repository the change belongs to.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+        /// The identifier of the CI/CD pipeline run that triggered this pentest job.
+        public var triggerRunId: Swift.String?
+
+        public init(
+            baseCommitSha: Swift.String? = nil,
+            headCommitSha: Swift.String? = nil,
+            integrationId: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil,
+            triggerRunId: Swift.String? = nil
+        ) {
+            self.baseCommitSha = baseCommitSha
+            self.headCommitSha = headCommitSha
+            self.integrationId = integrationId
+            self.providerResourceId = providerResourceId
+            self.triggerRunId = triggerRunId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The scoping decision for a CI/CD pentest job, indicating whether the supplied code changes are tested.
+    public enum ScopeDecision: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The code changes are in scope and are tested by the pentest job.
+        case inScope
+        /// The code changes are out of scope and are not tested. No pentest is run for the changes.
+        case scopedOut
+        /// The code changes could not be conclusively scoped because of a conflict in the scoping inputs.
+        case scopeConflict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopeDecision] {
+            return [
+                .inScope,
+                .scopedOut,
+                .scopeConflict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inScope: return "IN_SCOPE"
+            case .scopedOut: return "SCOPED_OUT"
+            case .scopeConflict: return "SCOPE_CONFLICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The outcome of scoping a CI/CD pentest job's code changes, including the decision and the reason for it.
+    public struct ScopeResult: Swift.Sendable {
+        /// The scoping decision for the job's code changes.
+        /// This member is required.
+        public var decision: SecurityAgentClientTypes.ScopeDecision?
+        /// A human-readable explanation of the scoping decision.
+        /// This member is required.
+        public var reason: Swift.String?
+
+        public init(
+            decision: SecurityAgentClientTypes.ScopeDecision? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.decision = decision
+            self.reason = reason
         }
     }
 }
@@ -3500,6 +3614,8 @@ extension SecurityAgentClientTypes {
         public var actors: [SecurityAgentClientTypes.Actor]?
         /// The list of domains allowed during the pentest job.
         public var allowedDomains: [SecurityAgentClientTypes.Endpoint]?
+        /// The configuration that enables a pentest to run as part of a CI/CD pipeline, scoped to the code changes in each pipeline run.
+        public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
         /// The code remediation strategy for the pentest job.
@@ -3522,7 +3638,7 @@ extension SecurityAgentClientTypes {
         public var executionContext: [SecurityAgentClientTypes.ExecutionContext]?
         /// The list of integrated repositories associated with the pentest job.
         public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
-        /// The type of the pentest job. Valid values are FULL and REVALIDATION.
+        /// The type of the pentest job. Valid values are FULL, REVALIDATION, and CICD.
         public var jobType: SecurityAgentClientTypes.JobType?
         /// The CloudWatch Logs configuration for the pentest job.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
@@ -3538,6 +3654,12 @@ extension SecurityAgentClientTypes {
         public var pentestJobId: Swift.String?
         /// The destination for publishing scan reports to an integrated document provider.
         public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+        /// The URL to view this pentest job's findings report in the console.
+        public var reportUrl: Swift.String?
+        /// The code changes that defined the scope of this CI/CD pentest job. Present only for jobs of type CICD.
+        public var scopeChanges: [SecurityAgentClientTypes.ScopeChange]?
+        /// The scoping outcome for this CI/CD pentest job. Present only for jobs of type CICD.
+        public var scopeResult: SecurityAgentClientTypes.ScopeResult?
         /// The list of finding identifiers selected for revalidation. Present only when jobType is REVALIDATION.
         public var selectedFindingIds: [Swift.String]?
         /// The IAM service role used for the pentest job.
@@ -3560,6 +3682,7 @@ extension SecurityAgentClientTypes {
         public init(
             actors: [SecurityAgentClientTypes.Actor]? = nil,
             allowedDomains: [SecurityAgentClientTypes.Endpoint]? = nil,
+            cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
             cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
@@ -3579,6 +3702,9 @@ extension SecurityAgentClientTypes {
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
             reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+            reportUrl: Swift.String? = nil,
+            scopeChanges: [SecurityAgentClientTypes.ScopeChange]? = nil,
+            scopeResult: SecurityAgentClientTypes.ScopeResult? = nil,
             selectedFindingIds: [Swift.String]? = nil,
             serviceRole: Swift.String? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
@@ -3591,6 +3717,7 @@ extension SecurityAgentClientTypes {
         ) {
             self.actors = actors
             self.allowedDomains = allowedDomains
+            self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
@@ -3610,6 +3737,9 @@ extension SecurityAgentClientTypes {
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.reportDestination = reportDestination
+            self.reportUrl = reportUrl
+            self.scopeChanges = scopeChanges
+            self.scopeResult = scopeResult
             self.selectedFindingIds = selectedFindingIds
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
@@ -3625,7 +3755,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -5554,6 +5684,8 @@ public struct CreatePentestInput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The assets to include in the pentest, such as endpoints, actors, documents, and source code.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The CI/CD pentesting configuration to apply to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The code remediation strategy for the pentest. Valid values are AUTOMATIC and DISABLED.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -5581,6 +5713,7 @@ public struct CreatePentestInput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
@@ -5595,6 +5728,7 @@ public struct CreatePentestInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.codeRemediationStrategy = codeRemediationStrategy
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
@@ -5615,6 +5749,8 @@ public struct CreatePentestOutput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The assets included in the pentest.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The CI/CD pentesting configuration applied to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The date and time the pentest was created, in UTC format.
     public var createdAt: Foundation.Date?
     /// The list of risk types excluded from the pentest.
@@ -5637,6 +5773,7 @@ public struct CreatePentestOutput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
@@ -5649,6 +5786,7 @@ public struct CreatePentestOutput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.createdAt = createdAt
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
@@ -8028,6 +8166,8 @@ public struct ListPentestJobsForPentestInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Filters the returned pentest jobs to only those of the specified job type.
+    public var jobType: SecurityAgentClientTypes.JobType?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
@@ -8038,11 +8178,13 @@ public struct ListPentestJobsForPentestInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        jobType: SecurityAgentClientTypes.JobType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pentestId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.jobType = jobType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pentestId = pentestId
@@ -8055,12 +8197,16 @@ extension SecurityAgentClientTypes {
     public struct PentestJobSummary: Swift.Sendable {
         /// The date and time the pentest job was created, in UTC format.
         public var createdAt: Foundation.Date?
+        /// The type of the pentest job. Valid values are FULL, REVALIDATION, and CICD.
+        public var jobType: SecurityAgentClientTypes.JobType?
         /// The unique identifier of the pentest associated with the job.
         /// This member is required.
         public var pentestId: Swift.String?
         /// The unique identifier of the pentest job.
         /// This member is required.
         public var pentestJobId: Swift.String?
+        /// The URL to view this pentest job's findings report in the console.
+        public var reportUrl: Swift.String?
         /// The current status of the pentest job.
         public var status: SecurityAgentClientTypes.JobStatus?
         /// The title of the pentest job.
@@ -8070,15 +8216,19 @@ extension SecurityAgentClientTypes {
 
         public init(
             createdAt: Foundation.Date? = nil,
+            jobType: SecurityAgentClientTypes.JobType? = nil,
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
+            reportUrl: Swift.String? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
+            self.jobType = jobType
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
+            self.reportUrl = reportUrl
             self.status = status
             self.title = title
             self.updatedAt = updatedAt
@@ -9178,11 +9328,13 @@ public struct StartPentestJobInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// The type of pentest job to start. Valid values are FULL and REVALIDATION. When set to REVALIDATION, the selectedFindingIds parameter is required.
+    /// The type of pentest job to start. Valid values are FULL, REVALIDATION, and CICD. When set to REVALIDATION, the selectedFindingIds parameter is required. When set to CICD, the scopeChanges parameter defines the code changes to test.
     public var jobType: SecurityAgentClientTypes.JobType?
     /// The unique identifier of the pentest to start a job for.
     /// This member is required.
     public var pentestId: Swift.String?
+    /// The code changes that define the scope of a CI/CD pentest job. Provide this when starting a job with jobType CICD to test only the changes in the current pipeline run.
+    public var scopeChanges: [SecurityAgentClientTypes.ScopeChange]?
     /// The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.
     public var selectedFindingIds: [Swift.String]?
 
@@ -9190,11 +9342,13 @@ public struct StartPentestJobInput: Swift.Sendable {
         agentSpaceId: Swift.String? = nil,
         jobType: SecurityAgentClientTypes.JobType? = nil,
         pentestId: Swift.String? = nil,
+        scopeChanges: [SecurityAgentClientTypes.ScopeChange]? = nil,
         selectedFindingIds: [Swift.String]? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.jobType = jobType
         self.pentestId = pentestId
+        self.scopeChanges = scopeChanges
         self.selectedFindingIds = selectedFindingIds
     }
 }
@@ -9676,6 +9830,8 @@ public struct UpdatePentestInput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The updated assets for the pentest.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The updated CI/CD pentesting configuration to apply to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The updated code remediation strategy for the pentest.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -9705,6 +9861,7 @@ public struct UpdatePentestInput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
@@ -9720,6 +9877,7 @@ public struct UpdatePentestInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.codeRemediationStrategy = codeRemediationStrategy
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
@@ -9741,6 +9899,8 @@ public struct UpdatePentestOutput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The assets included in the pentest.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The CI/CD pentesting configuration applied to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The date and time the pentest was created, in UTC format.
     public var createdAt: Foundation.Date?
     /// The list of risk types excluded from the pentest.
@@ -9763,6 +9923,7 @@ public struct UpdatePentestOutput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
@@ -9775,6 +9936,7 @@ public struct UpdatePentestOutput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.createdAt = createdAt
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
@@ -11050,6 +11212,7 @@ extension CreatePentestInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["cicdConfiguration"].write(value.cicdConfiguration, with: SecurityAgentClientTypes.CiCdConfiguration.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11402,6 +11565,7 @@ extension ListPentestJobsForPentestInput {
     static func write(value: ListPentestJobsForPentestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["jobType"].write(value.jobType)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["pentestId"].write(value.pentestId)
@@ -11540,6 +11704,7 @@ extension StartPentestJobInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["jobType"].write(value.jobType)
         try writer["pentestId"].write(value.pentestId)
+        try writer["scopeChanges"].writeList(value.scopeChanges, memberWritingClosure: SecurityAgentClientTypes.ScopeChange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["selectedFindingIds"].writeList(value.selectedFindingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -11663,6 +11828,7 @@ extension UpdatePentestInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["cicdConfiguration"].write(value.cicdConfiguration, with: SecurityAgentClientTypes.CiCdConfiguration.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12122,6 +12288,7 @@ extension CreatePentestOutput {
         var value = CreatePentestOutput()
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
         value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.excludeRiskTypes = try reader["excludeRiskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
@@ -12930,6 +13097,7 @@ extension UpdatePentestOutput {
         var value = UpdatePentestOutput()
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
         value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.excludeRiskTypes = try reader["excludeRiskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
@@ -14851,6 +15019,21 @@ extension SecurityAgentClientTypes.Category {
     }
 }
 
+extension SecurityAgentClientTypes.CiCdConfiguration {
+
+    static func write(value: SecurityAgentClientTypes.CiCdConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CiCdConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CiCdConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.CloudWatchLog {
 
     static func write(value: SecurityAgentClientTypes.CloudWatchLog?, to writer: SmithyJSON.Writer) throws {
@@ -15711,6 +15894,7 @@ extension SecurityAgentClientTypes.Pentest {
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15750,6 +15934,10 @@ extension SecurityAgentClientTypes.PentestJob {
         value.jobType = try reader["jobType"].readIfPresent()
         value.selectedFindingIds = try reader["selectedFindingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportUrl = try reader["reportUrl"].readIfPresent()
+        value.scopeResult = try reader["scopeResult"].readIfPresent(with: SecurityAgentClientTypes.ScopeResult.read(from:))
+        value.scopeChanges = try reader["scopeChanges"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ScopeChange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15767,6 +15955,8 @@ extension SecurityAgentClientTypes.PentestJobSummary {
         value.status = try reader["status"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobType = try reader["jobType"].readIfPresent()
+        value.reportUrl = try reader["reportUrl"].readIfPresent()
         return value
     }
 }
@@ -15921,6 +16111,40 @@ extension SecurityAgentClientTypes.ReportFilters {
         value.taskStatuses = try reader["taskStatuses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.TaskExecutionStatus>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.annotationNotes = try reader["annotationNotes"].readIfPresent()
         value.complianceReport = try reader["complianceReport"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ScopeChange {
+
+    static func write(value: SecurityAgentClientTypes.ScopeChange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["baseCommitSha"].write(value.baseCommitSha)
+        try writer["headCommitSha"].write(value.headCommitSha)
+        try writer["integrationId"].write(value.integrationId)
+        try writer["providerResourceId"].write(value.providerResourceId)
+        try writer["triggerRunId"].write(value.triggerRunId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ScopeChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ScopeChange()
+        value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.baseCommitSha = try reader["baseCommitSha"].readIfPresent()
+        value.headCommitSha = try reader["headCommitSha"].readIfPresent() ?? ""
+        value.triggerRunId = try reader["triggerRunId"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ScopeResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ScopeResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ScopeResult()
+        value.decision = try reader["decision"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent() ?? ""
         return value
     }
 }
