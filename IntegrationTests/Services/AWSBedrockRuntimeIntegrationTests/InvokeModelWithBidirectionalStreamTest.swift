@@ -193,7 +193,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
         }
     }
 
-    func xtestInvokeModelWithBidirectionalStream() async throws {
+    func testInvokeModelWithBidirectionalStream() async throws {
         // Initialize input stream & continuation for the API input.
         let inputStream: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>
         let continuation: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>.Continuation
