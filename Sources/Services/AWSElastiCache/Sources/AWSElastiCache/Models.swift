@@ -4465,9 +4465,40 @@ extension ElastiCacheClientTypes {
     }
 }
 
+extension ElastiCacheClientTypes {
+
+    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "public"
+            case .vpc: return "vpc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateServerlessCacheInput: Swift.Sendable {
     /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
     public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+    /// The connection type for the serverless cache. Must be either vpc | public. Use vpc to access the cache through a VPC endpoint, or public to access the cache over the internet. If not specified, defaults to vpc. This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above.
+    public var connectionType: ElastiCacheClientTypes.ConnectionType?
     /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with 0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
     public var dailySnapshotTime: Swift.String?
     /// User-provided description for the serverless cache. The default is NULL, i.e. if no description is provided then an empty string will be returned. The maximum length is 255 characters.
@@ -4499,6 +4530,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
 
     public init(
         cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
+        connectionType: ElastiCacheClientTypes.ConnectionType? = nil,
         dailySnapshotTime: Swift.String? = nil,
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
@@ -4514,6 +4546,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         userGroupId: Swift.String? = nil
     ) {
         self.cacheUsageLimits = cacheUsageLimits
+        self.connectionType = connectionType
         self.dailySnapshotTime = dailySnapshotTime
         self.description = description
         self.engine = engine
@@ -4538,6 +4571,8 @@ extension ElastiCacheClientTypes {
         public var arn: Swift.String?
         /// The cache usage limit for the serverless cache.
         public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+        /// The connection type for the serverless cache. Must be either vpc | public. If not specified, defaults to vpc.
+        public var connectionType: ElastiCacheClientTypes.ConnectionType?
         /// When the serverless cache was created.
         public var createTime: Foundation.Date?
         /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -4576,6 +4611,7 @@ extension ElastiCacheClientTypes {
         public init(
             arn: Swift.String? = nil,
             cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
+            connectionType: ElastiCacheClientTypes.ConnectionType? = nil,
             createTime: Foundation.Date? = nil,
             dailySnapshotTime: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -4596,6 +4632,7 @@ extension ElastiCacheClientTypes {
         ) {
             self.arn = arn
             self.cacheUsageLimits = cacheUsageLimits
+            self.connectionType = connectionType
             self.createTime = createTime
             self.dailySnapshotTime = dailySnapshotTime
             self.description = description
@@ -10029,6 +10066,7 @@ extension CreateServerlessCacheInput {
     static func write(value: CreateServerlessCacheInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["CacheUsageLimits"].write(value.cacheUsageLimits, with: ElastiCacheClientTypes.CacheUsageLimits.write(value:to:))
+        try writer["ConnectionType"].write(value.connectionType)
         try writer["DailySnapshotTime"].write(value.dailySnapshotTime)
         try writer["Description"].write(value.description)
         try writer["Engine"].write(value.engine)
@@ -15082,6 +15120,7 @@ extension ElastiCacheClientTypes.ServerlessCache {
         value.snapshotRetentionLimit = try reader["SnapshotRetentionLimit"].readIfPresent()
         value.dailySnapshotTime = try reader["DailySnapshotTime"].readIfPresent()
         value.networkType = try reader["NetworkType"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
         return value
     }
 }

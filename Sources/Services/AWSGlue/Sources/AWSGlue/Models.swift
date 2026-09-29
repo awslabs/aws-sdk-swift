@@ -15927,6 +15927,8 @@ extension GlueClientTypes {
     public struct ViewDefinitionInput: Swift.Sendable {
         /// The definer of a view in SQL.
         public var definer: Swift.String?
+        /// Specifies whether the materialized view is managed by Glue.
+        public var isManaged: Swift.Bool?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public var isProtected: Swift.Bool?
         /// The type of the materialized view's last refresh. Valid values: Full, Incremental.
@@ -15950,6 +15952,7 @@ extension GlueClientTypes {
 
         public init(
             definer: Swift.String? = nil,
+            isManaged: Swift.Bool? = nil,
             isProtected: Swift.Bool? = nil,
             lastRefreshType: GlueClientTypes.LastRefreshType? = nil,
             refreshSeconds: Swift.Int? = nil,
@@ -15962,6 +15965,7 @@ extension GlueClientTypes {
             viewVersionToken: Swift.String? = nil
         ) {
             self.definer = definer
+            self.isManaged = isManaged
             self.isProtected = isProtected
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
@@ -25054,6 +25058,8 @@ extension GlueClientTypes {
     public struct ViewDefinition: Swift.Sendable {
         /// The definer of a view in SQL.
         public var definer: Swift.String?
+        /// Specifies whether the materialized view is managed by Glue.
+        public var isManaged: Swift.Bool?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public var isProtected: Swift.Bool?
         /// Sets the method used for the most recent refresh.
@@ -25077,6 +25083,7 @@ extension GlueClientTypes {
 
         public init(
             definer: Swift.String? = nil,
+            isManaged: Swift.Bool? = nil,
             isProtected: Swift.Bool? = nil,
             lastRefreshType: GlueClientTypes.LastRefreshType? = nil,
             refreshSeconds: Swift.Int? = nil,
@@ -25089,6 +25096,7 @@ extension GlueClientTypes {
             viewVersionToken: Swift.String? = nil
         ) {
             self.definer = definer
+            self.isManaged = isManaged
             self.isProtected = isProtected
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds

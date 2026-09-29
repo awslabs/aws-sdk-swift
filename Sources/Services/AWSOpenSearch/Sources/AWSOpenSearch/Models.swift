@@ -5854,8 +5854,62 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    public enum ValidationFailureSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationFailureSeverity] {
+            return [
+                .critical,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "Critical"
+            case .warning: return "Warning"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A validation failure that occurred as the result of a pre-update validation check (verbose dry run) on a domain.
+    public struct ValidationFailure: Swift.Sendable {
+        /// The error code of the failure.
+        public var code: Swift.String?
+        /// A message corresponding to the failure.
+        public var message: Swift.String?
+        /// The severity of the validation failure.
+        public var severity: OpenSearchClientTypes.ValidationFailureSeverity?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            severity: OpenSearchClientTypes.ValidationFailureSeverity? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.severity = severity
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The progress details of a specific domain configuration change.
     public struct ChangeProgressStatusDetails: Swift.Sendable {
+        /// The list of advisory warning codes that were accepted for the configuration change.
+        public var acceptedWarnings: [Swift.String]?
         /// The unique change identifier associated with a specific domain configuration change.
         public var changeId: Swift.String?
         /// The specific stages that the domain is going through to perform the configuration change.
@@ -5876,8 +5930,11 @@ extension OpenSearchClientTypes {
         public var status: OpenSearchClientTypes.OverallChangeStatus?
         /// The total number of stages required for the configuration change.
         public var totalNumberOfStages: Swift.Int
+        /// The validation failures that occurred as a result of the configuration change.
+        public var validationFailures: [OpenSearchClientTypes.ValidationFailure]?
 
         public init(
+            acceptedWarnings: [Swift.String]? = nil,
             changeId: Swift.String? = nil,
             changeProgressStages: [OpenSearchClientTypes.ChangeProgressStage]? = nil,
             completedProperties: [Swift.String]? = nil,
@@ -5887,8 +5944,10 @@ extension OpenSearchClientTypes {
             pendingProperties: [Swift.String]? = nil,
             startTime: Foundation.Date? = nil,
             status: OpenSearchClientTypes.OverallChangeStatus? = nil,
-            totalNumberOfStages: Swift.Int = 0
+            totalNumberOfStages: Swift.Int = 0,
+            validationFailures: [OpenSearchClientTypes.ValidationFailure]? = nil
         ) {
+            self.acceptedWarnings = acceptedWarnings
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
             self.completedProperties = completedProperties
@@ -5899,6 +5958,7 @@ extension OpenSearchClientTypes {
             self.startTime = startTime
             self.status = status
             self.totalNumberOfStages = totalNumberOfStages
+            self.validationFailures = validationFailures
         }
     }
 }
@@ -6994,27 +7054,10 @@ public struct DescribeDryRunProgressInput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
-    /// A validation failure that occurred as the result of a pre-update validation check (verbose dry run) on a domain.
-    public struct ValidationFailure: Swift.Sendable {
-        /// The error code of the failure.
-        public var code: Swift.String?
-        /// A message corresponding to the failure.
-        public var message: Swift.String?
-
-        public init(
-            code: Swift.String? = nil,
-            message: Swift.String? = nil
-        ) {
-            self.code = code
-            self.message = message
-        }
-    }
-}
-
-extension OpenSearchClientTypes {
-
     /// Information about the progress of a pre-upgrade dry run analysis.
     public struct DryRunProgressStatus: Swift.Sendable {
+        /// The list of advisory warning codes that were accepted for the configuration change.
+        public var acceptedWarnings: [Swift.String]?
         /// The timestamp when the dry run was initiated.
         /// This member is required.
         public var creationDate: Swift.String?
@@ -7027,16 +7070,18 @@ extension OpenSearchClientTypes {
         /// The timestamp when the dry run was last updated.
         /// This member is required.
         public var updateDate: Swift.String?
-        /// Any validation failures that occurred as a result of the dry run.
+        /// The validation failures that occurred as a result of the dry run.
         public var validationFailures: [OpenSearchClientTypes.ValidationFailure]?
 
         public init(
+            acceptedWarnings: [Swift.String]? = nil,
             creationDate: Swift.String? = nil,
             dryRunId: Swift.String? = nil,
             dryRunStatus: Swift.String? = nil,
             updateDate: Swift.String? = nil,
             validationFailures: [OpenSearchClientTypes.ValidationFailure]? = nil
         ) {
+            self.acceptedWarnings = acceptedWarnings
             self.creationDate = creationDate
             self.dryRunId = dryRunId
             self.dryRunStatus = dryRunStatus
@@ -10903,6 +10948,8 @@ extension OpenSearchClientTypes {
 
 /// Container for the request parameters to the UpdateDomain operation.
 public struct UpdateDomainConfigInput: Swift.Sendable {
+    /// A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in theValidationFailures list returned by DescribeDomainChangeProgressand DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
+    public var acceptedWarnings: [Swift.String]?
     /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
     public var accessPolicies: Swift.String?
     /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:
@@ -10969,6 +11016,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var vpcOptions: OpenSearchClientTypes.VPCOptions?
 
     public init(
+        acceptedWarnings: [Swift.String]? = nil,
         accessPolicies: Swift.String? = nil,
         advancedOptions: [Swift.String: Swift.String]? = nil,
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
@@ -10995,6 +11043,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         useCase: OpenSearchClientTypes.DomainUseCase? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     ) {
+        self.acceptedWarnings = acceptedWarnings
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
@@ -13040,6 +13089,7 @@ extension UpdateDomainConfigInput {
     static func write(value: UpdateDomainConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AIMLOptions"].write(value.aimlOptions, with: OpenSearchClientTypes.AIMLOptionsInput.write(value:to:))
+        try writer["AcceptedWarnings"].writeList(value.acceptedWarnings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AccessPolicies"].write(value.accessPolicies)
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
@@ -16756,6 +16806,8 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails {
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.configChangeStatus = try reader["ConfigChangeStatus"].readIfPresent()
         value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
+        value.validationFailures = try reader["ValidationFailures"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ValidationFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.acceptedWarnings = try reader["AcceptedWarnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17270,6 +17322,7 @@ extension OpenSearchClientTypes.DryRunProgressStatus {
         value.creationDate = try reader["CreationDate"].readIfPresent() ?? ""
         value.updateDate = try reader["UpdateDate"].readIfPresent() ?? ""
         value.validationFailures = try reader["ValidationFailures"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ValidationFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.acceptedWarnings = try reader["AcceptedWarnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18502,6 +18555,7 @@ extension OpenSearchClientTypes.ValidationFailure {
         var value = OpenSearchClientTypes.ValidationFailure()
         value.code = try reader["Code"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
         return value
     }
 }

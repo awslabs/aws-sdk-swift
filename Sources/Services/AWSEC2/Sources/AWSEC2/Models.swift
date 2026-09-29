@@ -11389,6 +11389,35 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum CapacityReservationLaunchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case launchable
+        case unlaunchable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationLaunchStatus] {
+            return [
+                .launchable,
+                .unlaunchable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .launchable: return "launchable"
+            case .unlaunchable: return "unlaunchable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum CapacityReservationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityBlock
         case `default`
@@ -11545,6 +11574,12 @@ extension EC2ClientTypes {
         public var interruptibleCapacityAllocation: EC2ClientTypes.InterruptibleCapacityAllocation?
         /// Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
         public var interruptionInfo: EC2ClientTypes.InterruptionInfo?
+        /// Only supported for UltraServers. Indicates whether you can launch instances into the Capacity Reservation. A Capacity Reservation can have the following launch statuses:
+        ///
+        /// * launchable - You can launch instances into the Capacity Reservation.
+        ///
+        /// * unlaunchable - You can't launch instances into the Capacity Reservation. For example, the Capacity Reservation is not active.
+        public var launchStatus: EC2ClientTypes.CapacityReservationLaunchStatus?
         /// The start date that you originally requested for the Capacity Reservation, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). This value doesn't change when you push out the start date.
         public var originalStartDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was created.
@@ -11622,6 +11657,7 @@ extension EC2ClientTypes {
             interruptible: Swift.Bool? = nil,
             interruptibleCapacityAllocation: EC2ClientTypes.InterruptibleCapacityAllocation? = nil,
             interruptionInfo: EC2ClientTypes.InterruptionInfo? = nil,
+            launchStatus: EC2ClientTypes.CapacityReservationLaunchStatus? = nil,
             originalStartDate: Foundation.Date? = nil,
             outpostArn: Swift.String? = nil,
             ownerId: Swift.String? = nil,
@@ -11658,6 +11694,7 @@ extension EC2ClientTypes {
             self.interruptible = interruptible
             self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
             self.interruptionInfo = interruptionInfo
+            self.launchStatus = launchStatus
             self.originalStartDate = originalStartDate
             self.outpostArn = outpostArn
             self.ownerId = ownerId
@@ -129376,6 +129413,7 @@ extension EC2ClientTypes.CapacityReservation {
         value.adjustmentDetails = try reader["adjustmentDetails"].readIfPresent(with: EC2ClientTypes.CapacityReservationAdjustmentDetails.read(from:))
         value.originalStartDate = try reader["originalStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.zeroSizePreference = try reader["zeroSizePreference"].readIfPresent()
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
         return value
     }
 }

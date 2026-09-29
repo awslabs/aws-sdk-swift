@@ -20,6 +20,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -444,6 +445,8 @@ extension DeadlineClientTypes {
         /// The log configuration for the worker's assigned session.
         /// This member is required.
         public var logConfiguration: DeadlineClientTypes.LogConfiguration?
+        /// Key-value hints that the service provides to guide how the session runs. This value is used by the worker agent.
+        public var metadata: [Swift.String: Swift.String]?
         /// The queue ID of the assigned session.
         /// This member is required.
         public var queueId: Swift.String?
@@ -454,11 +457,13 @@ extension DeadlineClientTypes {
         public init(
             jobId: Swift.String? = nil,
             logConfiguration: DeadlineClientTypes.LogConfiguration? = nil,
+            metadata: [Swift.String: Swift.String]? = nil,
             queueId: Swift.String? = nil,
             sessionActions: [DeadlineClientTypes.AssignedSessionAction]? = nil
         ) {
             self.jobId = jobId
             self.logConfiguration = logConfiguration
+            self.metadata = metadata
             self.queueId = queueId
             self.sessionActions = sessionActions
         }
@@ -1672,6 +1677,22 @@ extension DeadlineClientTypes {
         case string(Swift.String)
         /// A file system path represented as a string.
         case path(Swift.String)
+        /// A boolean value represented as a string. Accepted values are true, false, yes, no, on, off, 1, and 0, case-insensitive.
+        case bool(Swift.String)
+        /// An Open Job Description range expression represented as a string, such as 1-10:2.
+        case rangeexpr(Swift.String)
+        /// A list of UTF-8 strings.
+        case stringlist([Swift.String])
+        /// A list of file system paths, each represented as a string.
+        case pathlist([Swift.String])
+        /// A list of signed integers, each represented as a string.
+        case intlist([Swift.String])
+        /// A list of double precision IEEE-754 floating point numbers, each represented as a string.
+        case floatlist([Swift.String])
+        /// A list of boolean values, each represented as a string.
+        case boollist([Swift.String])
+        /// A list of lists of signed integers, each represented as a string.
+        case intlistlist([[Swift.String]])
         case sdkUnknown(Swift.String)
     }
 }
@@ -2042,9 +2063,13 @@ extension DeadlineClientTypes {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
+        /// The Open Job Description extensions that the environment uses. This value is used by the worker agent.
+        public var extensions: [Swift.String]?
         /// The job ID.
         /// This member is required.
         public var jobId: Swift.String?
+        /// The resolved symbol table for the environment's expressions, serialized as JSON. This value is used by the worker agent.
+        public var resolvedSymbolTable: Swift.String?
         /// The schema version in the environment.
         /// This member is required.
         public var schemaVersion: Swift.String?
@@ -2054,12 +2079,16 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil,
+            extensions: [Swift.String]? = nil,
             jobId: Swift.String? = nil,
+            resolvedSymbolTable: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             template: Smithy.Document? = nil
         ) {
             self.environmentId = environmentId
+            self.extensions = extensions
             self.jobId = jobId
+            self.resolvedSymbolTable = resolvedSymbolTable
             self.schemaVersion = schemaVersion
             self.template = template
         }
@@ -2068,7 +2097,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.EnvironmentDetailsEntity: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentDetailsEntity(environmentId: \(Swift.String(describing: environmentId)), jobId: \(Swift.String(describing: jobId)), schemaVersion: \(Swift.String(describing: schemaVersion)), template: \"CONTENT_REDACTED\")"}
+        "EnvironmentDetailsEntity(environmentId: \(Swift.String(describing: environmentId)), extensions: \(Swift.String(describing: extensions)), jobId: \(Swift.String(describing: jobId)), resolvedSymbolTable: \(Swift.String(describing: resolvedSymbolTable)), schemaVersion: \(Swift.String(describing: schemaVersion)), template: \"CONTENT_REDACTED\")"}
 }
 
 extension DeadlineClientTypes {
@@ -2244,6 +2273,8 @@ extension DeadlineClientTypes {
 
     /// The job details for a specific job.
     public struct JobDetailsEntity: Swift.Sendable {
+        /// The Open Job Description extensions that the job template uses. This value is used by the worker agent.
+        public var extensions: [Swift.String]?
         /// The job attachment settings.
         public var jobAttachmentSettings: DeadlineClientTypes.JobDetailsJobAttachmentSettings?
         /// The job ID.
@@ -2265,6 +2296,7 @@ extension DeadlineClientTypes {
         public var schemaVersion: Swift.String?
 
         public init(
+            extensions: [Swift.String]? = nil,
             jobAttachmentSettings: DeadlineClientTypes.JobDetailsJobAttachmentSettings? = nil,
             jobId: Swift.String? = nil,
             jobRunAsUser: DeadlineClientTypes.JobRunAsUser? = nil,
@@ -2274,6 +2306,7 @@ extension DeadlineClientTypes {
             queueRoleArn: Swift.String? = nil,
             schemaVersion: Swift.String? = nil
         ) {
+            self.extensions = extensions
             self.jobAttachmentSettings = jobAttachmentSettings
             self.jobId = jobId
             self.jobRunAsUser = jobRunAsUser
@@ -2288,7 +2321,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.JobDetailsEntity: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobDetailsEntity(jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobId: \(Swift.String(describing: jobId)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), logGroupName: \(Swift.String(describing: logGroupName)), queueRoleArn: \(Swift.String(describing: queueRoleArn)), schemaVersion: \(Swift.String(describing: schemaVersion)), parameters: \"CONTENT_REDACTED\", pathMappingRules: \"CONTENT_REDACTED\")"}
+        "JobDetailsEntity(extensions: \(Swift.String(describing: extensions)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobId: \(Swift.String(describing: jobId)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), logGroupName: \(Swift.String(describing: logGroupName)), queueRoleArn: \(Swift.String(describing: queueRoleArn)), schemaVersion: \(Swift.String(describing: schemaVersion)), parameters: \"CONTENT_REDACTED\", pathMappingRules: \"CONTENT_REDACTED\")"}
 }
 
 extension DeadlineClientTypes {
@@ -2298,9 +2331,13 @@ extension DeadlineClientTypes {
         /// The dependencies for a step.
         /// This member is required.
         public var dependencies: [Swift.String]?
+        /// The Open Job Description extensions that the step uses. This value is used by the worker agent.
+        public var extensions: [Swift.String]?
         /// The job ID.
         /// This member is required.
         public var jobId: Swift.String?
+        /// The resolved symbol table for the step's expressions, serialized as JSON. This value is used by the worker agent.
+        public var resolvedSymbolTable: Swift.String?
         /// The schema version for a step template.
         /// This member is required.
         public var schemaVersion: Swift.String?
@@ -2313,13 +2350,17 @@ extension DeadlineClientTypes {
 
         public init(
             dependencies: [Swift.String]? = nil,
+            extensions: [Swift.String]? = nil,
             jobId: Swift.String? = nil,
+            resolvedSymbolTable: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             stepId: Swift.String? = nil,
             template: Smithy.Document? = nil
         ) {
             self.dependencies = dependencies
+            self.extensions = extensions
             self.jobId = jobId
+            self.resolvedSymbolTable = resolvedSymbolTable
             self.schemaVersion = schemaVersion
             self.stepId = stepId
             self.template = template
@@ -2329,7 +2370,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.StepDetailsEntity: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StepDetailsEntity(dependencies: \(Swift.String(describing: dependencies)), jobId: \(Swift.String(describing: jobId)), schemaVersion: \(Swift.String(describing: schemaVersion)), stepId: \(Swift.String(describing: stepId)), template: \"CONTENT_REDACTED\")"}
+        "StepDetailsEntity(dependencies: \(Swift.String(describing: dependencies)), extensions: \(Swift.String(describing: extensions)), jobId: \(Swift.String(describing: jobId)), resolvedSymbolTable: \(Swift.String(describing: resolvedSymbolTable)), schemaVersion: \(Swift.String(describing: schemaVersion)), stepId: \(Swift.String(describing: stepId)), template: \"CONTENT_REDACTED\")"}
 }
 
 extension DeadlineClientTypes {
@@ -5813,6 +5854,48 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    public enum FleetSoftwareAddOnName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case docker
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetSoftwareAddOnName] {
+            return [
+                .docker
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .docker: return "docker"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Software that the service installs on worker hosts in a service-managed fleet.
+    public struct FleetSoftwareAddOn: Swift.Sendable {
+        /// The name of the software add-on. The supported value is docker.
+        /// This member is required.
+        public var name: DeadlineClientTypes.FleetSoftwareAddOnName?
+
+        public init(
+            name: DeadlineClientTypes.FleetSoftwareAddOnName? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The Amazon EC2 instance capabilities.
     public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
         /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
@@ -5836,6 +5919,8 @@ extension DeadlineClientTypes {
         public var osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily?
         /// The root EBS volume.
         public var rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume?
+        /// The software add-ons that the service installs on worker hosts when they launch.
+        public var softwareAddOns: [DeadlineClientTypes.FleetSoftwareAddOn]?
         /// The amount of vCPU to require for instances in this fleet.
         /// This member is required.
         public var vCpuCount: DeadlineClientTypes.VCpuCountRange?
@@ -5850,6 +5935,7 @@ extension DeadlineClientTypes {
             memoryMiB: DeadlineClientTypes.MemoryMiBRange? = nil,
             osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily? = nil,
             rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume? = nil,
+            softwareAddOns: [DeadlineClientTypes.FleetSoftwareAddOn]? = nil,
             vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
         ) {
             self.acceleratorCapabilities = acceleratorCapabilities
@@ -5861,6 +5947,7 @@ extension DeadlineClientTypes {
             self.memoryMiB = memoryMiB
             self.osFamily = osFamily
             self.rootEbsVolume = rootEbsVolume
+            self.softwareAddOns = softwareAddOns
             self.vCpuCount = vCpuCount
         }
     }
@@ -6966,7 +7053,7 @@ public struct CreateWorkerOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
-    /// The time stamp in date-time format.
+    /// The timestamp in date-time format.
     public struct DateTimeFilterExpression: Swift.Sendable {
         /// The date and time.
         /// This member is required.
@@ -13774,7 +13861,7 @@ public struct StartSessionsStatisticsAggregationInput: Swift.Sendable {
     /// One to four statistics to return.
     /// This member is required.
     public var statistics: [DeadlineClientTypes.UsageStatistic]?
-    /// The timezone to use for the statistics. Use UTC notation such as "UTC+8."
+    /// The time zone to use for the statistics. Use UTC notation such as "UTC+8."
     public var timezone: Swift.String?
 
     public init(
@@ -21219,6 +21306,7 @@ extension DeadlineClientTypes.AssignedSession {
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.sessionActions = try reader["sessionActions"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AssignedSessionAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -21874,6 +21962,8 @@ extension DeadlineClientTypes.EnvironmentDetailsEntity {
         value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
         value.template = try reader["template"].readIfPresent() ?? [:]
+        value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolvedSymbolTable = try reader["resolvedSymbolTable"].readIfPresent()
         return value
     }
 }
@@ -22105,6 +22195,21 @@ extension DeadlineClientTypes.FleetMember {
     }
 }
 
+extension DeadlineClientTypes.FleetSoftwareAddOn {
+
+    static func write(value: DeadlineClientTypes.FleetSoftwareAddOn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.FleetSoftwareAddOn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.FleetSoftwareAddOn()
+        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeadlineClientTypes.FleetSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.FleetSummary {
@@ -22265,6 +22370,7 @@ extension DeadlineClientTypes.JobDetailsEntity {
         value.queueRoleArn = try reader["queueRoleArn"].readIfPresent()
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
+        value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.pathMappingRules = try reader["pathMappingRules"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.PathMappingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -22361,14 +22467,30 @@ extension DeadlineClientTypes.JobParameter {
     static func write(value: DeadlineClientTypes.JobParameter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .bool(bool):
+                try writer["bool"].write(bool)
+            case let .boollist(boollist):
+                try writer["boolList"].writeList(boollist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .float(float):
                 try writer["float"].write(float)
+            case let .floatlist(floatlist):
+                try writer["floatList"].writeList(floatlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .int(int):
                 try writer["int"].write(int)
+            case let .intlist(intlist):
+                try writer["intList"].writeList(intlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .intlistlist(intlistlist):
+                try writer["intListList"].writeList(intlistlist, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
             case let .path(path):
                 try writer["path"].write(path)
+            case let .pathlist(pathlist):
+                try writer["pathList"].writeList(pathlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .rangeexpr(rangeexpr):
+                try writer["rangeExpr"].write(rangeexpr)
             case let .string(string):
                 try writer["string"].write(string)
+            case let .stringlist(stringlist):
+                try writer["stringList"].writeList(stringlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -22386,6 +22508,22 @@ extension DeadlineClientTypes.JobParameter {
                 return .string(try reader["string"].read())
             case "path":
                 return .path(try reader["path"].read())
+            case "bool":
+                return .bool(try reader["bool"].read())
+            case "rangeExpr":
+                return .rangeexpr(try reader["rangeExpr"].read())
+            case "stringList":
+                return .stringlist(try reader["stringList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "pathList":
+                return .pathlist(try reader["pathList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "intList":
+                return .intlist(try reader["intList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "floatList":
+                return .floatlist(try reader["floatList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "boolList":
+                return .boollist(try reader["boolList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            case "intListList":
+                return .intlistlist(try reader["intListList"].readList(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -23020,6 +23158,7 @@ extension DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities {
         try writer["memoryMiB"].write(value.memoryMiB, with: DeadlineClientTypes.MemoryMiBRange.write(value:to:))
         try writer["osFamily"].write(value.osFamily)
         try writer["rootEbsVolume"].write(value.rootEbsVolume, with: DeadlineClientTypes.Ec2EbsVolume.write(value:to:))
+        try writer["softwareAddOns"].writeList(value.softwareAddOns, memberWritingClosure: DeadlineClientTypes.FleetSoftwareAddOn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vCpuCount"].write(value.vCpuCount, with: DeadlineClientTypes.VCpuCountRange.write(value:to:))
     }
 
@@ -23036,6 +23175,7 @@ extension DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities {
         value.excludedInstanceTypes = try reader["excludedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customAmounts = try reader["customAmounts"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.FleetAmountCapability.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customAttributes = try reader["customAttributes"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.FleetAttributeCapability.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.softwareAddOns = try reader["softwareAddOns"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.FleetSoftwareAddOn.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -23237,6 +23377,8 @@ extension DeadlineClientTypes.StepDetailsEntity {
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? ""
         value.template = try reader["template"].readIfPresent() ?? [:]
         value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolvedSymbolTable = try reader["resolvedSymbolTable"].readIfPresent()
         return value
     }
 }

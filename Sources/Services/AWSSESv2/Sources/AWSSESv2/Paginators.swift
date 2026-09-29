@@ -50,6 +50,7 @@ extension SESv2Client {
 extension ListConfigurationSetsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListConfigurationSetsInput {
         return ListConfigurationSetsInput(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )}
@@ -202,6 +203,7 @@ extension SESv2Client {
 extension ListEmailIdentitiesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListEmailIdentitiesInput {
         return ListEmailIdentitiesInput(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )}
@@ -491,6 +493,7 @@ extension SESv2Client {
 extension ListTenantsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListTenantsInput {
         return ListTenantsInput(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )}

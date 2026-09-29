@@ -4160,6 +4160,21 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
+    /// Describes the software metadata for an image, such as the installed NVIDIA GRID driver version.
+    public struct ImageSoftwareMetadata: Swift.Sendable {
+        /// The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.
+        public var nvidiaGridDriverVersion: Swift.String?
+
+        public init(
+            nvidiaGridDriverVersion: Swift.String? = nil
+        ) {
+            self.nvidiaGridDriverVersion = nvidiaGridDriverVersion
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
     /// The image type is the type of AppStream image resource.
     public enum ImageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case byol
@@ -4357,6 +4372,8 @@ extension AppStreamClientTypes {
         public var imagePermissions: AppStreamClientTypes.ImagePermissions?
         /// Indicates whether the image is shared with another account ID.
         public var imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers?
+        /// The software metadata associated with the image.
+        public var imageSoftwareMetadata: AppStreamClientTypes.ImageSoftwareMetadata?
         /// The type of the image. Images created through AMI import have type "custom", while WorkSpaces Applications provided images have type "native". Custom images support additional instance types including GeneralPurpose, MemoryOptimized, ComputeOptimized, and Accelerated instance families.
         public var imageType: AppStreamClientTypes.ImageType?
         /// Indicates whether the image is using the latest WorkSpaces Applications agent version or not.
@@ -4405,6 +4422,7 @@ extension AppStreamClientTypes {
             imageErrors: [AppStreamClientTypes.ResourceError]? = nil,
             imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
             imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers? = nil,
+            imageSoftwareMetadata: AppStreamClientTypes.ImageSoftwareMetadata? = nil,
             imageType: AppStreamClientTypes.ImageType? = nil,
             latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion? = nil,
             managedSoftwareIncluded: Swift.Bool? = nil,
@@ -4429,6 +4447,7 @@ extension AppStreamClientTypes {
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
+            self.imageSoftwareMetadata = imageSoftwareMetadata
             self.imageType = imageType
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.managedSoftwareIncluded = managedSoftwareIncluded

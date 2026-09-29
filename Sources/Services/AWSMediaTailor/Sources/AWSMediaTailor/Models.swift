@@ -49,6 +49,7 @@ extension MediaTailorClientTypes {
     public enum AdsInteractionExcludeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adMarkerFound
         case beaconFired
+        case beaconReceived
         case emptyVastResponse
         case emptyVmapResponse
         case errorAdsInvalidResponse
@@ -100,6 +101,7 @@ extension MediaTailorClientTypes {
             return [
                 .adMarkerFound,
                 .beaconFired,
+                .beaconReceived,
                 .emptyVastResponse,
                 .emptyVmapResponse,
                 .errorAdsInvalidResponse,
@@ -157,6 +159,7 @@ extension MediaTailorClientTypes {
             switch self {
             case .adMarkerFound: return "AD_MARKER_FOUND"
             case .beaconFired: return "BEACON_FIRED"
+            case .beaconReceived: return "BEACON_RECEIVED"
             case .emptyVastResponse: return "EMPTY_VAST_RESPONSE"
             case .emptyVmapResponse: return "EMPTY_VMAP_RESPONSE"
             case .errorAdsInvalidResponse: return "ERROR_ADS_INVALID_RESPONSE"
@@ -1736,6 +1739,115 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// A player operation event that MediaTailor can report on. Only the player can detect when a viewer performs this action, so MediaTailor doesn't send these beacons itself.
+    public enum BeaconEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mute
+        case pause
+        case skip
+        case unmute
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BeaconEventType] {
+            return [
+                .mute,
+                .pause,
+                .skip,
+                .unmute
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mute: return "MUTE"
+            case .pause: return "PAUSE"
+            case .skip: return "SKIP"
+            case .unmute: return "UNMUTE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum ClientSideBeaconingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Tracking response returned unmodified.
+        case disabled
+        /// EMT beacon URLs added alongside the ad server's. Effective default when BeaconingConfiguration is absent.
+        case insights
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientSideBeaconingMode] {
+            return [
+                .disabled,
+                .insights
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .insights: return "INSIGHTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The beaconing settings that apply to client-side reporting sessions: whether MediaTailor includes its beacons in the ad tracking response, and which player operation events it reports on.
+    public struct ClientSideBeaconingConfiguration: Swift.Sendable {
+        /// The player operation events to report on, in addition to the ad progress events that MediaTailor always reports on. The default is an empty list. This parameter is valid only when ReportingMode is INSIGHTS. MediaTailor rejects the request if you specify a value while ReportingMode is DISABLED, or if you specify duplicate values.
+        public var additionalEventTypes: [MediaTailorClientTypes.BeaconEventType]?
+        /// Specifies whether MediaTailor includes its beacons in the ad tracking response. Valid values, which are case-sensitive:
+        ///
+        /// * INSIGHTS – MediaTailor includes its beacons in the ad tracking response.
+        ///
+        /// * DISABLED – MediaTailor doesn't include its beacons in the ad tracking response.
+        ///
+        ///
+        /// If you send a ClientSide object, this setting is required. If you omit BeaconingConfiguration or ClientSide entirely, MediaTailor uses INSIGHTS. PutPlaybackConfiguration replaces the whole playback configuration. To keep beaconing off, include DISABLED in every subsequent write.
+        /// This member is required.
+        public var reportingMode: MediaTailorClientTypes.ClientSideBeaconingMode?
+
+        public init(
+            additionalEventTypes: [MediaTailorClientTypes.BeaconEventType]? = nil,
+            reportingMode: MediaTailorClientTypes.ClientSideBeaconingMode? = nil
+        ) {
+            self.additionalEventTypes = additionalEventTypes
+            self.reportingMode = reportingMode
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The beaconing configuration for a playback configuration. Beaconing controls whether MediaTailor includes its own beacons in the ad tracking response, in addition to the ad server beacons.
+    public struct BeaconingConfiguration: Swift.Sendable {
+        /// The beaconing settings for client-side reporting sessions. If you omit this object, MediaTailor uses INSIGHTS reporting mode.
+        public var clientSide: MediaTailorClientTypes.ClientSideBeaconingConfiguration?
+
+        public init(
+            clientSide: MediaTailorClientTypes.ClientSideBeaconingConfiguration? = nil
+        ) {
+            self.clientSide = clientSide
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
     public struct Bumper: Swift.Sendable {
         /// The URL for the end bumper asset.
@@ -2325,6 +2437,8 @@ extension MediaTailorClientTypes {
         public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
         public var availSuppression: MediaTailorClientTypes.AvailSuppression?
+        /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response.
+        public var beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
         public var bumper: MediaTailorClientTypes.Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -2377,6 +2491,7 @@ extension MediaTailorClientTypes {
             adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
             adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
             availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
+            beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration? = nil,
             bumper: MediaTailorClientTypes.Bumper? = nil,
             cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
             configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
@@ -2406,6 +2521,7 @@ extension MediaTailorClientTypes {
             self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
             self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
+            self.beaconingConfiguration = beaconingConfiguration
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
@@ -4984,6 +5100,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public var availSuppression: MediaTailorClientTypes.AvailSuppression?
+    /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. MediaTailor always returns this setting. If you created the playback configuration before this setting existed, MediaTailor reports ReportingMode as INSIGHTS. This is also the value MediaTailor uses for that configuration at playback time.
+    public var beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration?
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -5036,6 +5154,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
         adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
+        beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
@@ -5065,6 +5184,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
         self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
         self.availSuppression = availSuppression
+        self.beaconingConfiguration = beaconingConfiguration
         self.bumper = bumper
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
@@ -5483,6 +5603,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public var availSuppression: MediaTailorClientTypes.AvailSuppression?
+    /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. If you omit this setting, MediaTailor uses INSIGHTS.
+    public var beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration?
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -5522,6 +5644,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
         adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
+        beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
@@ -5544,6 +5667,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
         self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
         self.availSuppression = availSuppression
+        self.beaconingConfiguration = beaconingConfiguration
         self.bumper = bumper
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
@@ -5575,6 +5699,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
     public var availSuppression: MediaTailorClientTypes.AvailSuppression?
+    /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response.
+    public var beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration?
     /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see [Bumpers](https://docs.aws.amazon.com/mediatailor/latest/ug/bumpers.html).
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
@@ -5627,6 +5753,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         adsPersonalizationConcurrency: MediaTailorClientTypes.AdsPersonalizationConcurrency? = nil,
         adsPersonalizationTimeouts: MediaTailorClientTypes.AdsPersonalizationTimeouts? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
+        beaconingConfiguration: MediaTailorClientTypes.BeaconingConfiguration? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String: [Swift.String: Swift.String]]? = nil,
@@ -5656,6 +5783,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
         self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
         self.availSuppression = availSuppression
+        self.beaconingConfiguration = beaconingConfiguration
         self.bumper = bumper
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
@@ -6640,6 +6768,7 @@ extension PutPlaybackConfigurationInput {
         try writer["AdsPersonalizationConcurrency"].write(value.adsPersonalizationConcurrency, with: MediaTailorClientTypes.AdsPersonalizationConcurrency.write(value:to:))
         try writer["AdsPersonalizationTimeouts"].write(value.adsPersonalizationTimeouts, with: MediaTailorClientTypes.AdsPersonalizationTimeouts.write(value:to:))
         try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
+        try writer["BeaconingConfiguration"].write(value.beaconingConfiguration, with: MediaTailorClientTypes.BeaconingConfiguration.write(value:to:))
         try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
         try writer["CdnConfiguration"].write(value.cdnConfiguration, with: MediaTailorClientTypes.CdnConfiguration.write(value:to:))
         try writer["ConfigurationAliases"].writeMap(value.configurationAliases, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7094,6 +7223,7 @@ extension GetPlaybackConfigurationOutput {
         value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
         value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
+        value.beaconingConfiguration = try reader["BeaconingConfiguration"].readIfPresent(with: MediaTailorClientTypes.BeaconingConfiguration.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
         value.cdnConfiguration = try reader["CdnConfiguration"].readIfPresent(with: MediaTailorClientTypes.CdnConfiguration.read(from:))
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7298,6 +7428,7 @@ extension PutPlaybackConfigurationOutput {
         value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
         value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
+        value.beaconingConfiguration = try reader["BeaconingConfiguration"].readIfPresent(with: MediaTailorClientTypes.BeaconingConfiguration.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
         value.cdnConfiguration = try reader["CdnConfiguration"].readIfPresent(with: MediaTailorClientTypes.CdnConfiguration.read(from:))
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8377,6 +8508,21 @@ extension MediaTailorClientTypes.AwsServiceRequestConfiguration {
     }
 }
 
+extension MediaTailorClientTypes.BeaconingConfiguration {
+
+    static func write(value: MediaTailorClientTypes.BeaconingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientSide"].write(value.clientSide, with: MediaTailorClientTypes.ClientSideBeaconingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.BeaconingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.BeaconingConfiguration()
+        value.clientSide = try reader["ClientSide"].readIfPresent(with: MediaTailorClientTypes.ClientSideBeaconingConfiguration.read(from:))
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.Bumper {
 
     static func write(value: MediaTailorClientTypes.Bumper?, to writer: SmithyJSON.Writer) throws {
@@ -8428,6 +8574,23 @@ extension MediaTailorClientTypes.Channel {
         value.tier = try reader["Tier"].readIfPresent() ?? ""
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfigurationForChannel.read(from:))
         value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ClientSideBeaconingConfiguration {
+
+    static func write(value: MediaTailorClientTypes.ClientSideBeaconingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalEventTypes"].writeList(value.additionalEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.BeaconEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReportingMode"].write(value.reportingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ClientSideBeaconingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ClientSideBeaconingConfiguration()
+        value.reportingMode = try reader["ReportingMode"].readIfPresent() ?? .sdkUnknown("")
+        value.additionalEventTypes = try reader["AdditionalEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.BeaconEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8836,6 +8999,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.functionMapping = try reader["FunctionMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.adsPersonalizationTimeouts = try reader["AdsPersonalizationTimeouts"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationTimeouts.read(from:))
         value.adsPersonalizationConcurrency = try reader["AdsPersonalizationConcurrency"].readIfPresent(with: MediaTailorClientTypes.AdsPersonalizationConcurrency.read(from:))
+        value.beaconingConfiguration = try reader["BeaconingConfiguration"].readIfPresent(with: MediaTailorClientTypes.BeaconingConfiguration.read(from:))
         return value
     }
 }
