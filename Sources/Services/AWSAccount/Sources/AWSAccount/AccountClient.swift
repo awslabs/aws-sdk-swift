@@ -1689,6 +1689,79 @@ extension AccountClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SendPhoneNumberVerification` operation on the `Account` service.
+    ///
+    /// Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use [VerifyPhoneNumber] to submit the passcode and complete the verification. For complete details about how to use the primary contact operations, see [Update the primary contact for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendPhoneNumberVerificationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendPhoneNumberVerificationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `ConflictException` : The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING) or if you try to change an account’s root user email to an email address which is already in use.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
+    public func sendPhoneNumberVerification(input: SendPhoneNumberVerificationInput) async throws -> SendPhoneNumberVerificationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendPhoneNumberVerification")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>(SendPhoneNumberVerificationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendPhoneNumberVerificationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendPhoneNumberVerificationOutput>(SendPhoneNumberVerificationOutput.httpOutput(from:), SendPhoneNumberVerificationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendPhoneNumberVerificationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendPhoneNumberVerificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendPhoneNumberVerificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendPhoneNumberVerificationInput, SendPhoneNumberVerificationOutput>(serviceID: serviceName, version: AccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Account")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendPhoneNumberVerification")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartPrimaryEmailUpdate` operation on the `Account` service.
     ///
     /// Starts the process to update the primary email address for the specified account.
@@ -1750,6 +1823,79 @@ extension AccountClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Account")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartPrimaryEmailUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `VerifyPhoneNumber` operation on the `Account` service.
+    ///
+    /// Verifies the phone number in the primary contact information of an Amazon Web Services account by submitting the one-time passcode that [SendPhoneNumberVerification] sent to that phone number. For complete details about how to use the primary contact operations, see [Update the primary contact for your Amazon Web Services account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `VerifyPhoneNumberInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `VerifyPhoneNumberOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `ConflictException` : The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING) or if you try to change an account’s root user email to an email address which is already in use.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
+    public func verifyPhoneNumber(input: VerifyPhoneNumberInput) async throws -> VerifyPhoneNumberOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "verifyPhoneNumber")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<VerifyPhoneNumberInput, VerifyPhoneNumberOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>(VerifyPhoneNumberInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: VerifyPhoneNumberInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyPhoneNumberOutput>(VerifyPhoneNumberOutput.httpOutput(from:), VerifyPhoneNumberOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<VerifyPhoneNumberOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Account", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<VerifyPhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyPhoneNumberOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Account"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyPhoneNumberInput, VerifyPhoneNumberOutput>(serviceID: serviceName, version: AccountClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Account")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "VerifyPhoneNumber")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

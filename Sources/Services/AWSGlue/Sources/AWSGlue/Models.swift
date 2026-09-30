@@ -2854,6 +2854,8 @@ extension GlueClientTypes {
 
     /// Specifies a crawler program that examines a data source and uses classifiers to try to determine its schema. If successful, the crawler records metadata concerning the data source in the Glue Data Catalog.
     public struct Crawler: Swift.Sendable {
+        /// The ID of the Data Catalog in which the crawler's output is stored.
+        public var catalogId: Swift.String?
         /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public var classifiers: [Swift.String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
@@ -2896,6 +2898,7 @@ extension GlueClientTypes {
         public var version: Swift.Int
 
         public init(
+            catalogId: Swift.String? = nil,
             classifiers: [Swift.String]? = nil,
             configuration: Swift.String? = nil,
             crawlElapsedTime: Swift.Int = 0,
@@ -2917,6 +2920,7 @@ extension GlueClientTypes {
             targets: GlueClientTypes.CrawlerTargets? = nil,
             version: Swift.Int = 0
         ) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -12742,6 +12746,8 @@ public struct CreateConnectionOutput: Swift.Sendable {
 }
 
 public struct CreateCrawlerInput: Swift.Sendable {
+    /// The ID of the Data Catalog in which to store the crawler's output. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogId: Swift.String?
     /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     public var classifiers: [Swift.String]?
     /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
@@ -12777,6 +12783,7 @@ public struct CreateCrawlerInput: Swift.Sendable {
     public var targets: GlueClientTypes.CrawlerTargets?
 
     public init(
+        catalogId: Swift.String? = nil,
         classifiers: [Swift.String]? = nil,
         configuration: Swift.String? = nil,
         crawlerSecurityConfiguration: Swift.String? = nil,
@@ -12793,6 +12800,7 @@ public struct CreateCrawlerInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         targets: GlueClientTypes.CrawlerTargets? = nil
     ) {
+        self.catalogId = catalogId
         self.classifiers = classifiers
         self.configuration = configuration
         self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -16691,6 +16699,8 @@ public struct DeleteColumnStatisticsForTableOutput: Swift.Sendable {
 }
 
 public struct DeleteColumnStatisticsTaskSettingsInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -16699,9 +16709,11 @@ public struct DeleteColumnStatisticsTaskSettingsInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        catalogID: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.catalogID = catalogID
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -20297,6 +20309,8 @@ public struct GetColumnStatisticsTaskRunOutput: Swift.Sendable {
 }
 
 public struct GetColumnStatisticsTaskRunsInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -20309,11 +20323,13 @@ public struct GetColumnStatisticsTaskRunsInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        catalogID: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.catalogID = catalogID
         self.databaseName = databaseName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -20337,6 +20353,8 @@ public struct GetColumnStatisticsTaskRunsOutput: Swift.Sendable {
 }
 
 public struct GetColumnStatisticsTaskSettingsInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -20345,9 +20363,11 @@ public struct GetColumnStatisticsTaskSettingsInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        catalogID: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.catalogID = catalogID
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -30072,6 +30092,8 @@ public struct StartColumnStatisticsTaskRunOutput: Swift.Sendable {
 }
 
 public struct StartColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -30080,9 +30102,11 @@ public struct StartColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        catalogID: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.catalogID = catalogID
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -30668,6 +30692,8 @@ public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError,
 }
 
 public struct StopColumnStatisticsTaskRunInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -30676,9 +30702,11 @@ public struct StopColumnStatisticsTaskRunInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        catalogID: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.catalogID = catalogID
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -30690,6 +30718,8 @@ public struct StopColumnStatisticsTaskRunOutput: Swift.Sendable {
 }
 
 public struct StopColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
+    /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
     /// The name of the database where the table resides.
     /// This member is required.
     public var databaseName: Swift.String?
@@ -30698,9 +30728,11 @@ public struct StopColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        catalogID: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.catalogID = catalogID
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -31515,6 +31547,8 @@ public struct UpdateConnectionOutput: Swift.Sendable {
 }
 
 public struct UpdateCrawlerInput: Swift.Sendable {
+    /// The ID of the Data Catalog in which to store the crawler's output. If you omit this value, the existing value on the crawler is preserved.
+    public var catalogId: Swift.String?
     /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     public var classifiers: [Swift.String]?
     /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see [Setting crawler configuration options](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
@@ -31546,6 +31580,7 @@ public struct UpdateCrawlerInput: Swift.Sendable {
     public var targets: GlueClientTypes.CrawlerTargets?
 
     public init(
+        catalogId: Swift.String? = nil,
         classifiers: [Swift.String]? = nil,
         configuration: Swift.String? = nil,
         crawlerSecurityConfiguration: Swift.String? = nil,
@@ -31561,6 +31596,7 @@ public struct UpdateCrawlerInput: Swift.Sendable {
         tablePrefix: Swift.String? = nil,
         targets: GlueClientTypes.CrawlerTargets? = nil
     ) {
+        self.catalogId = catalogId
         self.classifiers = classifiers
         self.configuration = configuration
         self.crawlerSecurityConfiguration = crawlerSecurityConfiguration

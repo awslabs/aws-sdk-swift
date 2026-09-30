@@ -1025,8 +1025,93 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The desired state for the Batch-managed Amazon EKS access entry on a compute environment.
+    public enum EksAccessEntryDesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case inheritFromCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksAccessEntryDesiredState] {
+            return [
+                .disabled,
+                .enabled,
+                .inheritFromCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .inheritFromCluster: return "INHERIT_FROM_CLUSTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The observed state of the Batch-managed Amazon EKS access entry on a compute environment.
+    public enum EksAccessEntryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksAccessEntryStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Configures whether Batch manages an Amazon EKS access entry on the cluster for the compute environment. For information on how the fields interact with the cluster's authenticationMode and with other compute environments that share the cluster, see [Amazon EKS access entry authentication](https://docs.aws.amazon.com/batch/latest/userguide/eks-access-entries.html) in the Batch User Guide. Setting desiredState=ENABLED on a single compute environment does not guarantee that Batch creates an access entry, and setting desiredState=DISABLED on a single compute environment does not guarantee that Batch deletes one. Batch compares the desiredState across all compute environments that target the same cluster. The Batch-managed access entry is created only when all compute environments have desiredState=ENABLED, and deleted only when all have desiredState=DISABLED. If you have multiple compute environments on the same cluster, set desiredState consistently across all of them to avoid uncertainty. For more information, see [Reconciling desiredState across compute environments](https://docs.aws.amazon.com/batch/latest/userguide/eks-access-entries.html#eks-access-entries-reconciliation) in the Batch User Guide.
+    public struct EksAccessEntry: Swift.Sendable {
+        /// The desired access entry state for the compute environment. Valid values: ENABLED Batch manages an access entry on the cluster for the compute environment. DISABLED Batch deletes the Batch-managed access entry for the cluster. This value is rejected if the cluster's authenticationMode is API, because such a cluster doesn't support the aws-auth ConfigMap. INHERIT_FROM_CLUSTER Batch defers to the cluster's current access entry status. On a cluster whose authentication mode is API, Batch creates and manages an access entry. On a cluster whose authentication mode is API_AND_CONFIG_MAP or CONFIG_MAP, Batch neither adds nor removes an access entry.
+        /// This member is required.
+        public var desiredState: BatchClientTypes.EksAccessEntryDesiredState?
+        /// The observed state of the access entry on the cluster. ACTIVE means that an access entry for the compute environment exists on the cluster and takes precedence over the aws-auth ConfigMap. INACTIVE means that no Batch-managed access entry is present. This is a read-only field returned by DescribeComputeEnvironments.
+        public var status: BatchClientTypes.EksAccessEntryStatus?
+
+        public init(
+            desiredState: BatchClientTypes.EksAccessEntryDesiredState? = nil,
+            status: BatchClientTypes.EksAccessEntryStatus? = nil
+        ) {
+            self.desiredState = desiredState
+            self.status = status
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Configuration for the Amazon EKS cluster that supports the Batch compute environment. The cluster must exist before the compute environment can be created.
     public struct EksConfiguration: Swift.Sendable {
+        /// The Batch-managed Amazon EKS access entry for the compute environment. Set desiredState to declare whether Batch manages an access entry on the cluster. In a DescribeComputeEnvironments response, desiredState is the value that Batch recorded for the compute environment and status is the observed state of the access entry on the cluster. To change the access entry on an existing compute environment, use [EksConfigurationUpdate.accessEntry](https://docs.aws.amazon.com/batch/latest/APIReference/API_EksConfigurationUpdate.html#Batch-Type-EksConfigurationUpdate-accessEntry). Whether the entry is provisioned on the cluster depends on the cluster's authenticationMode and the desiredState recorded for each Batch compute environment targeting the cluster. For more information, see [Amazon EKS access entry authentication](https://docs.aws.amazon.com/batch/latest/userguide/eks-access-entries.html) in the Batch User Guide. If you don't specify this field, Batch doesn't record a desiredState for the compute environment and DescribeComputeEnvironments doesn't return one. For the purpose of provisioning the access entry, Batch behaves as it does for INHERIT_FROM_CLUSTER.
+        public var accessEntry: BatchClientTypes.EksAccessEntry?
         /// The Amazon Resource Name (ARN) of the Amazon EKS cluster. An example is arn:aws:eks:us-east-1:123456789012:cluster/ClusterForBatch .
         /// This member is required.
         public var eksClusterArn: Swift.String?
@@ -1035,9 +1120,11 @@ extension BatchClientTypes {
         public var kubernetesNamespace: Swift.String?
 
         public init(
+            accessEntry: BatchClientTypes.EksAccessEntry? = nil,
             eksClusterArn: Swift.String? = nil,
             kubernetesNamespace: Swift.String? = nil
         ) {
+            self.accessEntry = accessEntry
             self.eksClusterArn = eksClusterArn
             self.kubernetesNamespace = kubernetesNamespace
         }
@@ -1113,7 +1200,7 @@ public struct CreateComputeEnvironmentInput: Swift.Sendable {
     public var context: Swift.String?
     /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
     public var ecsSettings: BatchClientTypes.EcsSettings?
-    /// The details for the Amazon EKS cluster that supports the compute environment. To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
+    /// The details for the Amazon EKS cluster that supports the compute environment. To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster. Additional Amazon EKS permissions are required for Batch to manage an access entry on the cluster; see [Amazon EKS access entry authentication](https://docs.aws.amazon.com/batch/latest/userguide/eks-access-entries.html) in the Batch User Guide.
     public var eksConfiguration: BatchClientTypes.EksConfiguration?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole. If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
@@ -3195,7 +3282,7 @@ extension BatchClientTypes {
         public var readonlyRootFilesystem: Swift.Bool?
         /// The private repository authentication credentials to use.
         public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
-        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        /// The type and amount of a resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secrets: [BatchClientTypes.Secret]?
@@ -7582,6 +7669,21 @@ extension BatchClientTypes {
     }
 }
 
+extension BatchClientTypes {
+
+    /// An object that represents the attributes of an Batch compute environment's Amazon EKS configuration that can be updated. Currently accessEntry is the only attribute that you can change after the compute environment is created. For more information, see [Amazon EKS access entry authentication](https://docs.aws.amazon.com/batch/latest/userguide/eks-access-entries.html) in the Batch User Guide.
+    public struct EksConfigurationUpdate: Swift.Sendable {
+        /// The updated access entry configuration for the compute environment. Set desiredState to declare whether Batch will manage an access entry on the cluster. For the accepted values, see [EksAccessEntry](https://docs.aws.amazon.com/batch/latest/APIReference/API_EksAccessEntry.html).
+        public var accessEntry: BatchClientTypes.EksAccessEntry?
+
+        public init(
+            accessEntry: BatchClientTypes.EksAccessEntry? = nil
+        ) {
+            self.accessEntry = accessEntry
+        }
+    }
+}
+
 /// Contains the parameters for UpdateComputeEnvironment.
 public struct UpdateComputeEnvironmentInput: Swift.Sendable {
     /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
@@ -7593,6 +7695,8 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
     public var context: Swift.String?
     /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
     public var ecsSettings: BatchClientTypes.EcsSettings?
+    /// Updates the Amazon EKS configuration for the compute environment. Only specify this parameter if the compute environment's containerOrchestrationType is EKS. Currently, the accessEntry setting is the only Amazon EKS configuration that you can change after the compute environment is created. For more information, see [Amazon EKS access entry authentication](https://docs.aws.amazon.com/batch/latest/userguide/eks-access-entries.html) in the Batch User Guide.
+    public var eksConfiguration: BatchClientTypes.EksConfigurationUpdate?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
     /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -7607,6 +7711,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         computeResources: BatchClientTypes.ComputeResourceUpdate? = nil,
         context: Swift.String? = nil,
         ecsSettings: BatchClientTypes.EcsSettings? = nil,
+        eksConfiguration: BatchClientTypes.EksConfigurationUpdate? = nil,
         serviceRole: Swift.String? = nil,
         state: BatchClientTypes.CEState? = nil,
         unmanagedvCpus: Swift.Int? = nil,
@@ -7616,6 +7721,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Sendable {
         self.computeResources = computeResources
         self.context = context
         self.ecsSettings = ecsSettings
+        self.eksConfiguration = eksConfiguration
         self.serviceRole = serviceRole
         self.state = state
         self.unmanagedvCpus = unmanagedvCpus
@@ -8671,6 +8777,7 @@ extension UpdateComputeEnvironmentInput {
         try writer["computeResources"].write(value.computeResources, with: BatchClientTypes.ComputeResourceUpdate.write(value:to:))
         try writer["context"].write(value.context)
         try writer["ecsSettings"].write(value.ecsSettings, with: BatchClientTypes.EcsSettings.write(value:to:))
+        try writer["eksConfiguration"].write(value.eksConfiguration, with: BatchClientTypes.EksConfigurationUpdate.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["state"].write(value.state)
         try writer["unmanagedvCpus"].write(value.unmanagedvCpus)
@@ -10705,6 +10812,23 @@ extension BatchClientTypes.EFSVolumeConfiguration {
     }
 }
 
+extension BatchClientTypes.EksAccessEntry {
+
+    static func write(value: BatchClientTypes.EksAccessEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["desiredState"].write(value.desiredState)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAccessEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.EksAccessEntry()
+        value.desiredState = try reader["desiredState"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.EksAttemptContainerDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.EksAttemptContainerDetail {
@@ -10740,6 +10864,7 @@ extension BatchClientTypes.EksConfiguration {
 
     static func write(value: BatchClientTypes.EksConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessEntry"].write(value.accessEntry, with: BatchClientTypes.EksAccessEntry.write(value:to:))
         try writer["eksClusterArn"].write(value.eksClusterArn)
         try writer["kubernetesNamespace"].write(value.kubernetesNamespace)
     }
@@ -10749,7 +10874,16 @@ extension BatchClientTypes.EksConfiguration {
         var value = BatchClientTypes.EksConfiguration()
         value.eksClusterArn = try reader["eksClusterArn"].readIfPresent() ?? ""
         value.kubernetesNamespace = try reader["kubernetesNamespace"].readIfPresent() ?? ""
+        value.accessEntry = try reader["accessEntry"].readIfPresent(with: BatchClientTypes.EksAccessEntry.read(from:))
         return value
+    }
+}
+
+extension BatchClientTypes.EksConfigurationUpdate {
+
+    static func write(value: BatchClientTypes.EksConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessEntry"].write(value.accessEntry, with: BatchClientTypes.EksAccessEntry.write(value:to:))
     }
 }
 

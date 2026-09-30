@@ -5434,6 +5434,9 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct DeleteConfigurationBundleOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted configuration bundle.
+    /// This member is required.
+    public var bundleArn: Swift.String?
     /// The unique identifier of the deleted configuration bundle.
     /// This member is required.
     public var bundleId: Swift.String?
@@ -5442,9 +5445,11 @@ public struct DeleteConfigurationBundleOutput: Swift.Sendable {
     public var status: BedrockAgentCoreControlClientTypes.ConfigurationBundleStatus?
 
     public init(
+        bundleArn: Swift.String? = nil,
         bundleId: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.ConfigurationBundleStatus? = nil
     ) {
+        self.bundleArn = bundleArn
         self.bundleId = bundleId
         self.status = status
     }
@@ -5807,6 +5812,7 @@ public struct UpdateConfigurationBundleInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// A commit message describing the changes in this version.
+    /// This member is required.
     public var commitMessage: Swift.String?
     /// The updated component configurations. Creates a new version of the bundle.
     public var components: [Swift.String: BedrockAgentCoreControlClientTypes.ComponentConfiguration]?
@@ -10049,6 +10055,54 @@ public struct UpdateGatewayRuleOutput: Swift.Sendable {
         self.status = status
         self.system = system
         self.updatedAt = updatedAt
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A reference to a PEM-encoded private CA certificate stored as an Amazon S3 object.
+    public struct S3CertificateConfiguration: Swift.Sendable {
+        /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
+        public var bucketOwnerAccountId: Swift.String?
+        /// The URI of the Amazon S3 object that contains the PEM-encoded certificate.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            bucketOwnerAccountId: Swift.String? = nil,
+            uri: Swift.String? = nil
+        ) {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.uri = uri
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A reference to a PEM-encoded private CA certificate stored in an Amazon Web Services Secrets Manager secret.
+    public struct SecretsManagerCertificateConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the PEM-encoded certificate.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A reference to a private certificate authority (CA) certificate that the gateway uses to verify TLS connections to the target endpoint. Use this when the target presents a certificate issued by a private CA that is not trusted by default. Specify exactly one certificate source. The configuration is a reference only and never contains the certificate content.
+    public enum CertificateConfiguration: Swift.Sendable {
+        /// The Amazon S3 location of the PEM-encoded private CA certificate.
+        case s3(BedrockAgentCoreControlClientTypes.S3CertificateConfiguration)
+        /// The Amazon Web Services Secrets Manager location of the PEM-encoded private CA certificate.
+        case secretsmanager(BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -23701,6 +23755,8 @@ extension BedrockAgentCoreControlClientTypes {
     public struct GatewayTarget: Swift.Sendable {
         /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
         /// The date and time at which the target was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -23742,6 +23798,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public init(
             authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
+            certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
             createdAt: Foundation.Date? = nil,
             credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
             description: Swift.String? = nil,
@@ -23759,6 +23816,7 @@ extension BedrockAgentCoreControlClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -23780,10 +23838,12 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.GatewayTarget: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GatewayTarget(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GatewayTarget(authorizationData: \(Swift.String(describing: authorizationData)), certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetInput: Swift.Sendable {
+    /// The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list.
+    public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
@@ -23804,6 +23864,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
     public var targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration?
 
     public init(
+        certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
         clientToken: Swift.String? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -23813,6 +23874,7 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
         privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil
     ) {
+        self.certificateConfigurations = certificateConfigurations
         self.clientToken = clientToken
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -23826,12 +23888,14 @@ public struct CreateGatewayTargetInput: Swift.Sendable {
 
 extension CreateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetInput(clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetInput(certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), clientToken: \(Swift.String(describing: clientToken)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGatewayTargetOutput: Swift.Sendable {
     /// OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
     public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
+    /// The private certificate authority (CA) configurations for the gateway target.
+    public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
     /// The timestamp when the target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -23873,6 +23937,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
 
     public init(
         authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
+        certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -23890,6 +23955,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.authorizationData = authorizationData
+        self.certificateConfigurations = certificateConfigurations
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -23910,12 +23976,14 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
 
 extension CreateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetGatewayTargetOutput: Swift.Sendable {
     /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
     public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
+    /// The private certificate authority (CA) configurations for the gateway target.
+    public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
     /// The timestamp when the gateway target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -23957,6 +24025,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
 
     public init(
         authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
+        certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -23974,6 +24043,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.authorizationData = authorizationData
+        self.certificateConfigurations = certificateConfigurations
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -23994,10 +24064,12 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
 
 extension GetGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetInput: Swift.Sendable {
+    /// The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list. To remove a previously configured certificate authority, omit this field on update.
+    public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
     /// The updated credential provider configurations for the gateway target.
     public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]?
     /// The updated description for the gateway target.
@@ -24019,6 +24091,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
     public var targetId: Swift.String?
 
     public init(
+        certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
         gatewayIdentifier: Swift.String? = nil,
@@ -24028,6 +24101,7 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
         targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
         targetId: Swift.String? = nil
     ) {
+        self.certificateConfigurations = certificateConfigurations
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
         self.gatewayIdentifier = gatewayIdentifier
@@ -24041,12 +24115,14 @@ public struct UpdateGatewayTargetInput: Swift.Sendable {
 
 extension UpdateGatewayTargetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetInput(credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetInput(certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetOutput: Swift.Sendable {
     /// OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
     public var authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData?
+    /// The private certificate authority (CA) configurations for the gateway target.
+    public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
     /// The timestamp when the gateway target was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -24088,6 +24164,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
 
     public init(
         authorizationData: BedrockAgentCoreControlClientTypes.AuthorizationData? = nil,
+        certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
         createdAt: Foundation.Date? = nil,
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
@@ -24105,6 +24182,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.authorizationData = authorizationData
+        self.certificateConfigurations = certificateConfigurations
         self.createdAt = createdAt
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
@@ -24125,7 +24203,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
 
 extension UpdateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetOutput(authorizationData: \(Swift.String(describing: authorizationData)), certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointManagedResources: \(Swift.String(describing: privateEndpointManagedResources)), protocolType: \(Swift.String(describing: protocolType)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct SynchronizeGatewayTargetsOutput: Swift.Sendable {
@@ -26813,6 +26891,7 @@ extension CreateGatewayTargetInput {
 
     static func write(value: CreateGatewayTargetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["certificateConfigurations"].writeList(value.certificateConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
@@ -27383,6 +27462,7 @@ extension UpdateGatewayTargetInput {
 
     static func write(value: UpdateGatewayTargetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["certificateConfigurations"].writeList(value.certificateConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["credentialProviderConfigurations"].writeList(value.credentialProviderConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.MetadataConfiguration.write(value:to:))
@@ -27869,6 +27949,7 @@ extension CreateGatewayTargetOutput {
         let reader = responseReader
         var value = CreateGatewayTargetOutput()
         value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
+        value.certificateConfigurations = try reader["certificateConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -28197,6 +28278,7 @@ extension DeleteConfigurationBundleOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteConfigurationBundleOutput()
+        value.bundleArn = try reader["bundleArn"].readIfPresent() ?? ""
         value.bundleId = try reader["bundleId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -28839,6 +28921,7 @@ extension GetGatewayTargetOutput {
         let reader = responseReader
         var value = GetGatewayTargetOutput()
         value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
+        value.certificateConfigurations = try reader["certificateConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -30078,6 +30161,7 @@ extension UpdateGatewayTargetOutput {
         let reader = responseReader
         var value = UpdateGatewayTargetOutput()
         value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
+        value.certificateConfigurations = try reader["certificateConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
@@ -34417,6 +34501,34 @@ extension BedrockAgentCoreControlClientTypes.Certificate {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.CertificateConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3CertificateConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CertificateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3CertificateConfiguration.read(from:)))
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.CertificateLocation {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CertificateLocation?, to writer: SmithyJSON.Writer) throws {
@@ -36105,6 +36217,7 @@ extension BedrockAgentCoreControlClientTypes.GatewayTarget {
         value.privateEndpointManagedResources = try reader["privateEndpointManagedResources"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ManagedResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authorizationData = try reader["authorizationData"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizationData.read(from:))
         value.protocolType = try reader["protocolType"].readIfPresent()
+        value.certificateConfigurations = try reader["certificateConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -39531,6 +39644,23 @@ extension BedrockAgentCoreControlClientTypes.RuntimeTargetConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.S3CertificateConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3CertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketOwnerAccountId"].write(value.bucketOwnerAccountId)
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3CertificateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.S3CertificateConfiguration()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        value.bucketOwnerAccountId = try reader["bucketOwnerAccountId"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.S3Configuration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
@@ -39687,6 +39817,21 @@ extension BedrockAgentCoreControlClientTypes.SecretReference {
         guard let value else { return }
         try writer["jsonKey"].write(value.jsonKey)
         try writer["secretId"].write(value.secretId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

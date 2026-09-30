@@ -4578,116 +4578,6 @@ extension DynamoDBClientTypes {
     }
 }
 
-extension DynamoDBClientTypes {
-
-    /// Represents the properties of the exported table.
-    public struct ExportDescription: Swift.Sendable {
-        /// The billable size of the table export.
-        public var billedSizeBytes: Swift.Int?
-        /// The client token that was provided for the export task. A client token makes calls to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call.
-        public var clientToken: Swift.String?
-        /// The time at which the export task completed.
-        public var endTime: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of the table export.
-        public var exportArn: Swift.String?
-        /// The format of the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
-        public var exportFormat: DynamoDBClientTypes.ExportFormat?
-        /// The name of the manifest file for the export task.
-        public var exportManifest: Swift.String?
-        /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
-        public var exportStatus: DynamoDBClientTypes.ExportStatus?
-        /// Point in time from which table data was exported.
-        public var exportTime: Foundation.Date?
-        /// The type of export that was performed. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT.
-        public var exportType: DynamoDBClientTypes.ExportType?
-        /// Status code for the result of the failed export.
-        public var failureCode: Swift.String?
-        /// Export failure reason description.
-        public var failureMessage: Swift.String?
-        /// Optional object containing the parameters specific to an incremental export.
-        public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
-        /// The number of items exported.
-        public var itemCount: Swift.Int?
-        /// The name of the Amazon S3 bucket containing the export.
-        public var s3Bucket: Swift.String?
-        /// The ID of the Amazon Web Services account that owns the bucket containing the export.
-        public var s3BucketOwner: Swift.String?
-        /// The Amazon S3 bucket prefix used as the file name and path of the exported snapshot.
-        public var s3Prefix: Swift.String?
-        /// Type of encryption used on the bucket where export data is stored. Valid values for S3SseAlgorithm are:
-        ///
-        /// * AES256 - server-side encryption with Amazon S3 managed keys
-        ///
-        /// * KMS - server-side encryption with KMS managed keys
-        public var s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
-        /// The ID of the KMS managed key used to encrypt the S3 bucket where export data is stored (if applicable).
-        public var s3SseKmsKeyId: Swift.String?
-        /// The time at which the export task began.
-        public var startTime: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of the table that was exported.
-        public var tableArn: Swift.String?
-        /// Unique ID of the table that was exported.
-        public var tableId: Swift.String?
-
-        public init(
-            billedSizeBytes: Swift.Int? = nil,
-            clientToken: Swift.String? = nil,
-            endTime: Foundation.Date? = nil,
-            exportArn: Swift.String? = nil,
-            exportFormat: DynamoDBClientTypes.ExportFormat? = nil,
-            exportManifest: Swift.String? = nil,
-            exportStatus: DynamoDBClientTypes.ExportStatus? = nil,
-            exportTime: Foundation.Date? = nil,
-            exportType: DynamoDBClientTypes.ExportType? = nil,
-            failureCode: Swift.String? = nil,
-            failureMessage: Swift.String? = nil,
-            incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification? = nil,
-            itemCount: Swift.Int? = nil,
-            s3Bucket: Swift.String? = nil,
-            s3BucketOwner: Swift.String? = nil,
-            s3Prefix: Swift.String? = nil,
-            s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm? = nil,
-            s3SseKmsKeyId: Swift.String? = nil,
-            startTime: Foundation.Date? = nil,
-            tableArn: Swift.String? = nil,
-            tableId: Swift.String? = nil
-        ) {
-            self.billedSizeBytes = billedSizeBytes
-            self.clientToken = clientToken
-            self.endTime = endTime
-            self.exportArn = exportArn
-            self.exportFormat = exportFormat
-            self.exportManifest = exportManifest
-            self.exportStatus = exportStatus
-            self.exportTime = exportTime
-            self.exportType = exportType
-            self.failureCode = failureCode
-            self.failureMessage = failureMessage
-            self.incrementalExportSpecification = incrementalExportSpecification
-            self.itemCount = itemCount
-            self.s3Bucket = s3Bucket
-            self.s3BucketOwner = s3BucketOwner
-            self.s3Prefix = s3Prefix
-            self.s3SseAlgorithm = s3SseAlgorithm
-            self.s3SseKmsKeyId = s3SseKmsKeyId
-            self.startTime = startTime
-            self.tableArn = tableArn
-            self.tableId = tableId
-        }
-    }
-}
-
-public struct DescribeExportOutput: Swift.Sendable {
-    /// Represents the properties of the export.
-    public var exportDescription: DynamoDBClientTypes.ExportDescription?
-
-    public init(
-        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
-    ) {
-        self.exportDescription = exportDescription
-    }
-}
-
 /// The specified global table does not exist.
 public struct GlobalTableNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5750,74 +5640,6 @@ public struct PointInTimeRecoveryUnavailableException: ClientRuntime.ModeledErro
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-public struct ExportTableToPointInTimeInput: Swift.Sendable {
-    /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ExportConflictException.
-    public var clientToken: Swift.String?
-    /// The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
-    public var exportFormat: DynamoDBClientTypes.ExportFormat?
-    /// Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
-    public var exportTime: Foundation.Date?
-    /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
-    public var exportType: DynamoDBClientTypes.ExportType?
-    /// Optional object containing the parameters specific to an incremental export.
-    public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
-    /// The name of the Amazon S3 bucket to export the snapshot to.
-    /// This member is required.
-    public var s3Bucket: Swift.String?
-    /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in. S3BucketOwner is a required parameter when exporting to a S3 bucket in another account.
-    public var s3BucketOwner: Swift.String?
-    /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
-    public var s3Prefix: Swift.String?
-    /// Type of encryption used on the bucket where export data will be stored. Valid values for S3SseAlgorithm are:
-    ///
-    /// * AES256 - server-side encryption with Amazon S3 managed keys
-    ///
-    /// * KMS - server-side encryption with KMS managed keys
-    public var s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
-    /// The ID of the KMS managed key used to encrypt the S3 bucket where export data will be stored (if applicable).
-    public var s3SseKmsKeyId: Swift.String?
-    /// The Amazon Resource Name (ARN) associated with the table to export.
-    /// This member is required.
-    public var tableArn: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        exportFormat: DynamoDBClientTypes.ExportFormat? = nil,
-        exportTime: Foundation.Date? = nil,
-        exportType: DynamoDBClientTypes.ExportType? = nil,
-        incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification? = nil,
-        s3Bucket: Swift.String? = nil,
-        s3BucketOwner: Swift.String? = nil,
-        s3Prefix: Swift.String? = nil,
-        s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm? = nil,
-        s3SseKmsKeyId: Swift.String? = nil,
-        tableArn: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.exportFormat = exportFormat
-        self.exportTime = exportTime
-        self.exportType = exportType
-        self.incrementalExportSpecification = incrementalExportSpecification
-        self.s3Bucket = s3Bucket
-        self.s3BucketOwner = s3BucketOwner
-        self.s3Prefix = s3Prefix
-        self.s3SseAlgorithm = s3SseAlgorithm
-        self.s3SseKmsKeyId = s3SseKmsKeyId
-        self.tableArn = tableArn
-    }
-}
-
-public struct ExportTableToPointInTimeOutput: Swift.Sendable {
-    /// Contains a description of the table export.
-    public var exportDescription: DynamoDBClientTypes.ExportDescription?
-
-    public init(
-        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
-    ) {
-        self.exportDescription = exportDescription
     }
 }
 
@@ -7627,6 +7449,37 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    /// Contains the filter criteria used to limit which items are included in an export. If you don't include this parameter, all items and attributes are exported.
+    public struct FilterSpecification: Swift.Sendable {
+        /// One or more substitution tokens for attribute names in an expression. For more information, see [Expression Attribute Names](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeNames.html) in the Amazon DynamoDB Developer Guide.
+        public var expressionAttributeNames: [Swift.String: Swift.String]?
+        /// One or more values that can be substituted in an expression. For more information, see [Expression Attribute Values](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ExpressionAttributeValues.html) in the Amazon DynamoDB Developer Guide.
+        public var expressionAttributeValues: [Swift.String: DynamoDBClientTypes.AttributeValue]?
+        /// A condition that filters which items are included in the export. This parameter uses the same syntax as FilterExpression in Query and Scan. If you don't provide KeyConditionExpression, this expression can also reference key attributes. If you don't specify this parameter, all items are included in the export.
+        public var filterExpression: Swift.String?
+        /// A condition expression that filters items by key values. The expression must test equality on a single partition key value and can optionally compare a sort key value. This parameter uses the same syntax as KeyConditionExpression in Query. When you provide this parameter, FilterExpression can only reference non-key attributes. If you don't specify this parameter, all items are eligible for export.
+        public var keyConditionExpression: Swift.String?
+        /// The attributes you want to retrieve for items included in the export. Separate attribute names in the expression with commas. If you don't specify this parameter, all attributes are returned.
+        public var projectionExpression: Swift.String?
+
+        public init(
+            expressionAttributeNames: [Swift.String: Swift.String]? = nil,
+            expressionAttributeValues: [Swift.String: DynamoDBClientTypes.AttributeValue]? = nil,
+            filterExpression: Swift.String? = nil,
+            keyConditionExpression: Swift.String? = nil,
+            projectionExpression: Swift.String? = nil
+        ) {
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.filterExpression = filterExpression
+            self.keyConditionExpression = keyConditionExpression
+            self.projectionExpression = projectionExpression
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Specifies an item and related attribute values to retrieve in a TransactGetItem object.
     public struct Get: Swift.Sendable {
         /// One or more substitution tokens for attribute names in the ProjectionExpression parameter.
@@ -7875,6 +7728,109 @@ public struct GetItemOutput: Swift.Sendable {
 
 extension DynamoDBClientTypes {
 
+    /// Represents the properties of the exported table.
+    public struct ExportDescription: Swift.Sendable {
+        /// The billable size of the table export.
+        public var billedSizeBytes: Swift.Int?
+        /// The client token that was provided for the export task. A client token makes calls to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call.
+        public var clientToken: Swift.String?
+        /// The time at which the export task completed.
+        public var endTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the table export.
+        public var exportArn: Swift.String?
+        /// The format of the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
+        public var exportFormat: DynamoDBClientTypes.ExportFormat?
+        /// The name of the manifest file for the export task.
+        public var exportManifest: Swift.String?
+        /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
+        public var exportStatus: DynamoDBClientTypes.ExportStatus?
+        /// Point in time from which table data was exported.
+        public var exportTime: Foundation.Date?
+        /// The type of export that was performed. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT.
+        public var exportType: DynamoDBClientTypes.ExportType?
+        /// Status code for the result of the failed export.
+        public var failureCode: Swift.String?
+        /// Export failure reason description.
+        public var failureMessage: Swift.String?
+        /// The filter criteria applied to the export. When present, only items that match the specified key conditions and filter expressions are included in the export output.
+        public var filterSpecification: DynamoDBClientTypes.FilterSpecification?
+        /// Optional object containing the parameters specific to an incremental export.
+        public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
+        /// The number of items exported.
+        public var itemCount: Swift.Int?
+        /// The name of the Amazon S3 bucket containing the export.
+        public var s3Bucket: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the bucket containing the export.
+        public var s3BucketOwner: Swift.String?
+        /// The Amazon S3 bucket prefix used as the file name and path of the exported snapshot.
+        public var s3Prefix: Swift.String?
+        /// Type of encryption used on the bucket where export data is stored. Valid values for S3SseAlgorithm are:
+        ///
+        /// * AES256 - server-side encryption with Amazon S3 managed keys
+        ///
+        /// * KMS - server-side encryption with KMS managed keys
+        public var s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
+        /// The ID of the KMS managed key used to encrypt the S3 bucket where export data is stored (if applicable).
+        public var s3SseKmsKeyId: Swift.String?
+        /// The time at which the export task began.
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the table that was exported.
+        public var tableArn: Swift.String?
+        /// Unique ID of the table that was exported.
+        public var tableId: Swift.String?
+
+        public init(
+            billedSizeBytes: Swift.Int? = nil,
+            clientToken: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            exportArn: Swift.String? = nil,
+            exportFormat: DynamoDBClientTypes.ExportFormat? = nil,
+            exportManifest: Swift.String? = nil,
+            exportStatus: DynamoDBClientTypes.ExportStatus? = nil,
+            exportTime: Foundation.Date? = nil,
+            exportType: DynamoDBClientTypes.ExportType? = nil,
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            filterSpecification: DynamoDBClientTypes.FilterSpecification? = nil,
+            incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification? = nil,
+            itemCount: Swift.Int? = nil,
+            s3Bucket: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
+            s3Prefix: Swift.String? = nil,
+            s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm? = nil,
+            s3SseKmsKeyId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            tableArn: Swift.String? = nil,
+            tableId: Swift.String? = nil
+        ) {
+            self.billedSizeBytes = billedSizeBytes
+            self.clientToken = clientToken
+            self.endTime = endTime
+            self.exportArn = exportArn
+            self.exportFormat = exportFormat
+            self.exportManifest = exportManifest
+            self.exportStatus = exportStatus
+            self.exportTime = exportTime
+            self.exportType = exportType
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.filterSpecification = filterSpecification
+            self.incrementalExportSpecification = incrementalExportSpecification
+            self.itemCount = itemCount
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Prefix = s3Prefix
+            self.s3SseAlgorithm = s3SseAlgorithm
+            self.s3SseKmsKeyId = s3SseKmsKeyId
+            self.startTime = startTime
+            self.tableArn = tableArn
+            self.tableId = tableId
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents a set of primary keys and, for each key, the attributes to retrieve from the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key. For a composite primary key, you must provide both the partition key and the sort key.
     public struct KeysAndAttributes: Swift.Sendable {
         /// This is a legacy parameter. Use ProjectionExpression instead. For more information, see [Legacy Conditional Parameters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html) in the Amazon DynamoDB Developer Guide.
@@ -7942,6 +7898,67 @@ extension DynamoDBClientTypes {
         ) {
             self.`get` = `get`
         }
+    }
+}
+
+public struct ExportTableToPointInTimeInput: Swift.Sendable {
+    /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ExportConflictException.
+    public var clientToken: Swift.String?
+    /// The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
+    public var exportFormat: DynamoDBClientTypes.ExportFormat?
+    /// Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
+    public var exportTime: Foundation.Date?
+    /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+    public var exportType: DynamoDBClientTypes.ExportType?
+    /// The criteria used to filter which items are included in the point-in-time export. When you specify this parameter, only items that match the key conditions and filter expressions are exported.
+    public var filterSpecification: DynamoDBClientTypes.FilterSpecification?
+    /// Optional object containing the parameters specific to an incremental export.
+    public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
+    /// The name of the Amazon S3 bucket to export the snapshot to.
+    /// This member is required.
+    public var s3Bucket: Swift.String?
+    /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in. S3BucketOwner is a required parameter when exporting to a S3 bucket in another account.
+    public var s3BucketOwner: Swift.String?
+    /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
+    public var s3Prefix: Swift.String?
+    /// Type of encryption used on the bucket where export data will be stored. Valid values for S3SseAlgorithm are:
+    ///
+    /// * AES256 - server-side encryption with Amazon S3 managed keys
+    ///
+    /// * KMS - server-side encryption with KMS managed keys
+    public var s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
+    /// The ID of the KMS managed key used to encrypt the S3 bucket where export data will be stored (if applicable).
+    public var s3SseKmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) associated with the table to export.
+    /// This member is required.
+    public var tableArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        exportFormat: DynamoDBClientTypes.ExportFormat? = nil,
+        exportTime: Foundation.Date? = nil,
+        exportType: DynamoDBClientTypes.ExportType? = nil,
+        filterSpecification: DynamoDBClientTypes.FilterSpecification? = nil,
+        incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification? = nil,
+        s3Bucket: Swift.String? = nil,
+        s3BucketOwner: Swift.String? = nil,
+        s3Prefix: Swift.String? = nil,
+        s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm? = nil,
+        s3SseKmsKeyId: Swift.String? = nil,
+        tableArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.exportFormat = exportFormat
+        self.exportTime = exportTime
+        self.exportType = exportType
+        self.filterSpecification = filterSpecification
+        self.incrementalExportSpecification = incrementalExportSpecification
+        self.s3Bucket = s3Bucket
+        self.s3BucketOwner = s3BucketOwner
+        self.s3Prefix = s3Prefix
+        self.s3SseAlgorithm = s3SseAlgorithm
+        self.s3SseKmsKeyId = s3SseKmsKeyId
+        self.tableArn = tableArn
     }
 }
 
@@ -8116,6 +8133,17 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
     }
 }
 
+public struct DescribeExportOutput: Swift.Sendable {
+    /// Represents the properties of the export.
+    public var exportDescription: DynamoDBClientTypes.ExportDescription?
+
+    public init(
+        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
+    ) {
+        self.exportDescription = exportDescription
+    }
+}
+
 public struct ExecuteTransactionInput: Swift.Sendable {
     /// Set this value to get remaining results, if NextToken was returned in the statement response.
     public var clientRequestToken: Swift.String?
@@ -8148,6 +8176,17 @@ public struct ExecuteTransactionOutput: Swift.Sendable {
     ) {
         self.consumedCapacity = consumedCapacity
         self.responses = responses
+    }
+}
+
+public struct ExportTableToPointInTimeOutput: Swift.Sendable {
+    /// Contains a description of the table export.
+    public var exportDescription: DynamoDBClientTypes.ExportDescription?
+
+    public init(
+        exportDescription: DynamoDBClientTypes.ExportDescription? = nil
+    ) {
+        self.exportDescription = exportDescription
     }
 }
 
