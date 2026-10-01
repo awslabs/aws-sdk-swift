@@ -27,6 +27,8 @@ public struct CloudFrontKeyValueStoreAuthSchemeResolverParameters: SmithyHTTPAut
     public let region: Swift.String?
     /// When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.
     public let useFIPS: Swift.Bool
+    /// The client's configured endpoint resolver, used to resolve auth schemes from endpoint rules.
+    public let endpointResolver: (any EndpointResolver)?
 }
 
 public protocol CloudFrontKeyValueStoreAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
@@ -68,7 +70,8 @@ public struct DefaultCloudFrontKeyValueStoreAuthSchemeResolver: CloudFrontKeyVal
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         let endpointParams = EndpointParams(authSchemeParams: serviceParams)
-        let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)
+        let endpointResolver = try serviceParams.endpointResolver ?? DefaultEndpointResolver()
+        let endpoint = try endpointResolver.resolve(params: endpointParams)
         guard let authSchemes = endpoint.authSchemes() else {
             return try InternalModeledCloudFrontKeyValueStoreAuthSchemeResolver().resolveAuthScheme(params: params)
         }
@@ -101,6 +104,6 @@ public struct DefaultCloudFrontKeyValueStoreAuthSchemeResolver: CloudFrontKeyVal
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
         let authSchemePreference = context.getAuthSchemePreference()
-        return CloudFrontKeyValueStoreAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, kvsARN: endpointParam.kvsARN, region: endpointParam.region, useFIPS: endpointParam.useFIPS)
+        return CloudFrontKeyValueStoreAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, kvsARN: endpointParam.kvsARN, region: endpointParam.region, useFIPS: endpointParam.useFIPS, endpointResolver: (context.clientConfig as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig)?.endpointResolver)
     }
 }
