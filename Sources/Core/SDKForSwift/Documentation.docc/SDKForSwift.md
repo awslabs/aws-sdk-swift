@@ -405,6 +405,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElementalInference](/sdk-for-swift/latest/api/awselementalinference/documentation/awselementalinference)
 
+[AWSEndUserMessaging](/sdk-for-swift/latest/api/awsendusermessaging/documentation/awsendusermessaging)
+
 [AWSEntityResolution](/sdk-for-swift/latest/api/awsentityresolution/documentation/awsentityresolution)
 
 [AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
@@ -548,6 +550,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSLambdaCore](/sdk-for-swift/latest/api/awslambdacore/documentation/awslambdacore)
 
 [AWSLambdaMicrovms](/sdk-for-swift/latest/api/awslambdamicrovms/documentation/awslambdamicrovms)
+
+[AWSLambdaWeb](/sdk-for-swift/latest/api/awslambdaweb/documentation/awslambdaweb)
 
 [AWSLaunchWizard](/sdk-for-swift/latest/api/awslaunchwizard/documentation/awslaunchwizard)
 

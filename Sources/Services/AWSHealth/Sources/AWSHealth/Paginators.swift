@@ -234,3 +234,34 @@ extension PaginatorSequence where OperationStackInput == DescribeEventTypesInput
         return try await self.asyncCompactMap { item in item.eventTypes }
     }
 }
+extension HealthClient {
+    /// Paginate over `[DescribeServiceLifecycleOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeServiceLifecycleInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceLifecycleOutput`
+    public func describeServiceLifecyclePaginated(input: DescribeServiceLifecycleInput) -> ClientRuntime.PaginatorSequence<DescribeServiceLifecycleInput, DescribeServiceLifecycleOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeServiceLifecycleInput, DescribeServiceLifecycleOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeServiceLifecycle(input:))
+    }
+}
+
+extension DescribeServiceLifecycleInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeServiceLifecycleInput {
+        return DescribeServiceLifecycleInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeServiceLifecycleInput, OperationStackOutput == DescribeServiceLifecycleOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeServiceLifecyclePaginated`
+    /// to access the nested member `[HealthClientTypes.ServiceLifecycle]`
+    /// - Returns: `[HealthClientTypes.ServiceLifecycle]`
+    public func serviceLifecycles() async throws -> [HealthClientTypes.ServiceLifecycle] {
+        return try await self.asyncCompactMap { item in item.serviceLifecycles }
+    }
+}

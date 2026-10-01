@@ -327,7 +327,7 @@ extension SecurityHubClientTypes {
         /// The date and time at which the free trial period began.
         /// This member is required.
         public var startedAt: Foundation.Date?
-        /// Whether the free trial period is currently active. Valid values:
+        /// Specifies whether the free trial period is currently active. Valid values:
         ///
         /// * ACTIVE specifies that the free trial period is ongoing.
         ///
@@ -1751,6 +1751,8 @@ extension SecurityHubClientTypes {
         /// The condition to apply to a string value when filtering Security Hub CSPM findings. To search for values that have the filter value, use one of the following comparison operators:
         ///
         /// * To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.
+        ///
+        /// * To search for values that contain a word matching the filter value, regardless of case, use CONTAINS_WORD. For example, the filter Title CONTAINS_WORD lambda matches a finding whose Title is GuardDuty Lambda Protection, because the Title contains the word Lambda. Including special characters in the filter value might produce unexpected search results.
         ///
         /// * To search for values that exactly match the filter value, use EQUALS. For example, the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of 123456789012.
         ///
@@ -26639,6 +26641,118 @@ public struct EnableSecurityHubV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    public enum ExposureImpact: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case reduces
+        case resolves
+        case unchanged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExposureImpact] {
+            return [
+                .reduces,
+                .resolves,
+                .unchanged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .reduces: return "Reduces"
+            case .resolves: return "Resolves"
+            case .unchanged: return "Unchanged"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ExposureSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExposureSeverity] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "Critical"
+            case .high: return "High"
+            case .informational: return "Informational"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides details about an exposure finding and the effect the specific remediation target has on it.
+    public struct ExposureFinding: Swift.Sendable {
+        /// The impact resolving a remediation target has on the exposure finding.
+        ///
+        /// * Reduces specifies that resolving the remediation target lowers the severity of the exposure finding, but does not resolve it.
+        ///
+        /// * Resolves specifies that resolving the remediation target resolves the exposure finding.
+        ///
+        /// * Unchanged specifies that resolving the remediation target does not change the severity of the exposure finding.
+        /// This member is required.
+        public var impact: SecurityHubClientTypes.ExposureImpact?
+        /// The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding.
+        /// This member is required.
+        public var metadataUid: Swift.String?
+        /// The severity of the exposure finding before the remediation target is resolved.
+        /// This member is required.
+        public var previousSeverity: SecurityHubClientTypes.ExposureSeverity?
+        /// The severity of the exposure finding after the remediation target is resolved.
+        /// This member is required.
+        public var projectedSeverity: SecurityHubClientTypes.ExposureSeverity?
+        /// The title of the exposure finding.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            impact: SecurityHubClientTypes.ExposureImpact? = nil,
+            metadataUid: Swift.String? = nil,
+            previousSeverity: SecurityHubClientTypes.ExposureSeverity? = nil,
+            projectedSeverity: SecurityHubClientTypes.ExposureSeverity? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.impact = impact
+            self.metadataUid = metadataUid
+            self.previousSeverity = previousSeverity
+            self.projectedSeverity = projectedSeverity
+            self.title = title
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// A finding aggregator is a Security Hub CSPM resource that specifies cross-Region aggregation settings, including the home Region and any linked Regions.
     public struct FindingAggregator: Swift.Sendable {
         /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and delete the finding aggregator.
@@ -28246,6 +28360,777 @@ public struct GetRecommendedPolicyV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    public enum RemediationStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case priority
+        case resourceCloudProvider
+        case resourceId
+        case resourceOwnerAccountId
+        case resourceType
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemediationStringField] {
+            return [
+                .priority,
+                .resourceCloudProvider,
+                .resourceId,
+                .resourceOwnerAccountId,
+                .resourceType,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .priority: return "Priority"
+            case .resourceCloudProvider: return "Resource.CloudProvider"
+            case .resourceId: return "Resource.Id"
+            case .resourceOwnerAccountId: return "Resource.ResourceOwnerAccountId"
+            case .resourceType: return "Resource.Type"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The condition to apply to the string filter.
+    public struct RemediationStringFilterCondition: Swift.Sendable {
+        /// The value the string filter is comparing against.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            value: Swift.String? = nil
+        ) {
+            self.value = value
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A string filter for filtering remediation targets.
+    public struct RemediationStringFilter: Swift.Sendable {
+        /// The name of the filter field. Valid values are Resource.Type, Priority, Status, Resource.Id, Resource.ResourceOwnerAccountId, and Resource.CloudProvider.
+        /// This member is required.
+        public var fieldName: SecurityHubClientTypes.RemediationStringField?
+        /// The string filter definition.
+        /// This member is required.
+        public var filter: SecurityHubClientTypes.RemediationStringFilterCondition?
+
+        public init(
+            fieldName: SecurityHubClientTypes.RemediationStringField? = nil,
+            filter: SecurityHubClientTypes.RemediationStringFilterCondition? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the creation of criteria for remediation targets.
+    public struct RemediationCompositeFilter: Swift.Sendable {
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.RemediationStringFilter]?
+
+        public init(
+            stringFilters: [SecurityHubClientTypes.RemediationStringFilter]? = nil
+        ) {
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains the criteria used to filter remediation targets, such as resource type, priority, or status.
+    public struct RemediationFilters: Swift.Sendable {
+        /// A collection of complex filtering conditions that can be applied to remediation target data.
+        public var compositeFilters: [SecurityHubClientTypes.RemediationCompositeFilter]?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.RemediationCompositeFilter]? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum GuidanceFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case awsCli
+        case cdk
+        case cli
+        case cloudformation
+        case iac
+        case python
+        case template
+        case terraform
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuidanceFormat] {
+            return [
+                .all,
+                .awsCli,
+                .cdk,
+                .cli,
+                .cloudformation,
+                .iac,
+                .python,
+                .template,
+                .terraform
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .awsCli: return "AwsCli"
+            case .cdk: return "Cdk"
+            case .cli: return "Cli"
+            case .cloudformation: return "CloudFormation"
+            case .iac: return "IaC"
+            case .python: return "Python"
+            case .template: return "Template"
+            case .terraform: return "Terraform"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetRemediationsV2Input: Swift.Sendable {
+    /// Filters remediation targets based on a set of criteria. You can't use Filters together with TargetUid or MetadataUid.
+    public var filters: SecurityHubClientTypes.RemediationFilters?
+    /// The format of the remediation guidance examples to return. Valid values are All, AwsCli, Cli, Python, Terraform, Cdk, CloudFormation, IaC, and Template. If you don't specify a value, all formats are returned. Applies only when ShowGuidance is true.
+    public var guidanceFormat: SecurityHubClientTypes.GuidanceFormat?
+    /// The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    public var maxResults: Swift.Int?
+    /// The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding. Returns the remediation targets associated with that finding. You can't use MetadataUid together with TargetUid or Filters.
+    public var metadataUid: Swift.String?
+    /// The token used to paginate the remediations target list returned. On your first call to GetRemediationsV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Specifies whether to show remediation target guidance.
+    public var showGuidance: Swift.Bool?
+    /// The unique identifier (ID) of an existing remediation target to return. Returns the single matching target. You can't use TargetUid together with MetadataUid or Filters.
+    public var targetUid: Swift.String?
+
+    public init(
+        filters: SecurityHubClientTypes.RemediationFilters? = nil,
+        guidanceFormat: SecurityHubClientTypes.GuidanceFormat? = nil,
+        maxResults: Swift.Int? = nil,
+        metadataUid: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        showGuidance: Swift.Bool? = nil,
+        targetUid: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.guidanceFormat = guidanceFormat
+        self.maxResults = maxResults
+        self.metadataUid = metadataUid
+        self.nextToken = nextToken
+        self.showGuidance = showGuidance
+        self.targetUid = targetUid
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The context behind the remediation target's existence and guidance.
+    public struct RemediationGuidanceContext: Swift.Sendable {
+        /// The scope of the resources affected by the resolution of the remediation target.
+        public var affectedScope: Swift.String?
+        /// An array of prerequisite steps in resolving the remediation target.
+        public var prerequisites: [Swift.String]?
+        /// Explains the cause which directly created the remediation target.
+        public var problemStatement: Swift.String?
+        /// An assessment of the existing risk the remediation target creates.
+        public var riskAssessment: Swift.String?
+
+        public init(
+            affectedScope: Swift.String? = nil,
+            prerequisites: [Swift.String]? = nil,
+            problemStatement: Swift.String? = nil,
+            riskAssessment: Swift.String? = nil
+        ) {
+            self.affectedScope = affectedScope
+            self.prerequisites = prerequisites
+            self.problemStatement = problemStatement
+            self.riskAssessment = riskAssessment
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provided remediation guidance examples in different formats that can be run for remediating the target.
+    public struct RemediationGuidanceExamples: Swift.Sendable {
+        /// An AWS CLI snippet version of the example.
+        public var awsCli: Swift.String?
+        /// A CDK snippet version of the example.
+        public var cdk: Swift.String?
+        /// A CLI snippet version of the example.
+        public var cli: Swift.String?
+        /// A CloudFormation snippet version of the example.
+        public var cloudFormation: Swift.String?
+        /// An IaC snippet version of the example.
+        public var iac: Swift.String?
+        /// A Python snippet version of the example.
+        public var python: Swift.String?
+        /// A Template snippet version of the example.
+        public var template: Swift.String?
+        /// A Terraform snippet version of the example.
+        public var terraform: Swift.String?
+
+        public init(
+            awsCli: Swift.String? = nil,
+            cdk: Swift.String? = nil,
+            cli: Swift.String? = nil,
+            cloudFormation: Swift.String? = nil,
+            iac: Swift.String? = nil,
+            python: Swift.String? = nil,
+            template: Swift.String? = nil,
+            terraform: Swift.String? = nil
+        ) {
+            self.awsCli = awsCli
+            self.cdk = cdk
+            self.cli = cli
+            self.cloudFormation = cloudFormation
+            self.iac = iac
+            self.python = python
+            self.template = template
+            self.terraform = terraform
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The metadata of the remediation guidance.
+    public struct RemediationGuidanceMetadata: Swift.Sendable {
+        /// The extent to which the guidance can be automated, for example Full.
+        public var automationLevel: Swift.String?
+        /// The exposure type of the related exposure findings.
+        /// This member is required.
+        public var exposureType: Swift.String?
+        /// When the fix takes effect, for example Immediate or Deferred.
+        /// This member is required.
+        public var fixEffect: Swift.String?
+        /// Timestamp of when the guidance was generated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        public var generatedAt: Foundation.Date?
+        /// Specifies whether human review is required.
+        public var humanReviewRequired: Swift.Bool?
+        /// The resource type of the remediation target.
+        /// This member is required.
+        public var resourceType: Swift.String?
+        /// The extent to which changes made in accordance with the guidance can be reversed, for example Fully reversible.
+        /// This member is required.
+        public var reversibility: Swift.String?
+        /// The risk when implementing the guidance provided.
+        /// This member is required.
+        public var riskLevel: Swift.String?
+        /// The titles of traits this guidance applies to.
+        /// This member is required.
+        public var traitTitles: [Swift.String]?
+        /// Verification status of the guidance.
+        public var verificationStatus: Swift.String?
+
+        public init(
+            automationLevel: Swift.String? = nil,
+            exposureType: Swift.String? = nil,
+            fixEffect: Swift.String? = nil,
+            generatedAt: Foundation.Date? = nil,
+            humanReviewRequired: Swift.Bool? = nil,
+            resourceType: Swift.String? = nil,
+            reversibility: Swift.String? = nil,
+            riskLevel: Swift.String? = nil,
+            traitTitles: [Swift.String]? = nil,
+            verificationStatus: Swift.String? = nil
+        ) {
+            self.automationLevel = automationLevel
+            self.exposureType = exposureType
+            self.fixEffect = fixEffect
+            self.generatedAt = generatedAt
+            self.humanReviewRequired = humanReviewRequired
+            self.resourceType = resourceType
+            self.reversibility = reversibility
+            self.riskLevel = riskLevel
+            self.traitTitles = traitTitles
+            self.verificationStatus = verificationStatus
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A parameter used in running the guidance steps.
+    public struct RemediationParameter: Swift.Sendable {
+        /// A description of the parameter.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the parameter.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies whether the parameter is required for running the guidance steps.
+        public var `required`: Swift.Bool?
+        /// The type of the parameter.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            `required`: Swift.Bool? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.`required` = `required`
+            self.type = type
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A step in the remediation guidance.
+    public struct RemediationStep: Swift.Sendable {
+        /// The action to be taken for this step.
+        /// This member is required.
+        public var action: Swift.String?
+        /// A description of what the step does.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The inverse of the step, to be used if the step needs to be rolled back.
+        public var inverse: Swift.String?
+        /// The logic behind the existence of this step.
+        public var logic: Swift.String?
+        /// The phase of the remediation plan that this step belongs to (for example, FIX).
+        /// This member is required.
+        public var phase: Swift.String?
+        /// Which service this step is performed in.
+        /// This member is required.
+        public var service: Swift.String?
+        /// The action to take after the step to verify its success.
+        public var verifyAfter: Swift.String?
+
+        public init(
+            action: Swift.String? = nil,
+            description: Swift.String? = nil,
+            inverse: Swift.String? = nil,
+            logic: Swift.String? = nil,
+            phase: Swift.String? = nil,
+            service: Swift.String? = nil,
+            verifyAfter: Swift.String? = nil
+        ) {
+            self.action = action
+            self.description = description
+            self.inverse = inverse
+            self.logic = logic
+            self.phase = phase
+            self.service = service
+            self.verifyAfter = verifyAfter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The specification of the remediation target guidance. This outlines required resource parameters and permissions, remediation steps, and the end state.
+    public struct RemediationGuidanceSpecification: Swift.Sendable {
+        /// The expected end state of the associated resources after completion of the steps.
+        public var expectedEndState: Swift.String?
+        /// An array of the parameters used in running the steps provided.
+        public var parameters: [SecurityHubClientTypes.RemediationParameter]?
+        /// An array of required permissions to run the steps.
+        public var requiredPermissions: [Swift.String]?
+        /// An array of ordered steps for resolving the remediation targets.
+        public var steps: [SecurityHubClientTypes.RemediationStep]?
+
+        public init(
+            expectedEndState: Swift.String? = nil,
+            parameters: [SecurityHubClientTypes.RemediationParameter]? = nil,
+            requiredPermissions: [Swift.String]? = nil,
+            steps: [SecurityHubClientTypes.RemediationStep]? = nil
+        ) {
+            self.expectedEndState = expectedEndState
+            self.parameters = parameters
+            self.requiredPermissions = requiredPermissions
+            self.steps = steps
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A remediation guidebook outlining guidance in resolving the remediation target.
+    public struct RemediationGuidance: Swift.Sendable {
+        /// The context behind the remediation target's existence and guidance.
+        /// This member is required.
+        public var context: SecurityHubClientTypes.RemediationGuidanceContext?
+        /// Provided remediation guidance examples in different formats that can be run for remediating the target.
+        /// This member is required.
+        public var examples: SecurityHubClientTypes.RemediationGuidanceExamples?
+        /// The metadata of the remediation guidance.
+        /// This member is required.
+        public var metadata: SecurityHubClientTypes.RemediationGuidanceMetadata?
+        /// The remediation pattern of the remediation target.
+        /// This member is required.
+        public var pattern: Swift.String?
+        /// The specification of the remediation target guidance. This outlines required resource parameters and permissions, remediation steps, and the end state.
+        /// This member is required.
+        public var specification: SecurityHubClientTypes.RemediationGuidanceSpecification?
+        /// The name of the remediation target type.
+        /// This member is required.
+        public var targetTypeName: Swift.String?
+        /// The guidance version.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            context: SecurityHubClientTypes.RemediationGuidanceContext? = nil,
+            examples: SecurityHubClientTypes.RemediationGuidanceExamples? = nil,
+            metadata: SecurityHubClientTypes.RemediationGuidanceMetadata? = nil,
+            pattern: Swift.String? = nil,
+            specification: SecurityHubClientTypes.RemediationGuidanceSpecification? = nil,
+            targetTypeName: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.context = context
+            self.examples = examples
+            self.metadata = metadata
+            self.pattern = pattern
+            self.specification = specification
+            self.targetTypeName = targetTypeName
+            self.version = version
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The outcome from resolving the remediation target.
+    public struct RemediationOutcome: Swift.Sendable {
+        /// The number of associated exposure findings that are resolved by remediating the target.
+        /// This member is required.
+        public var resolvedFindingsCount: Swift.Int?
+        /// The number of associated exposure findings whose severity is reduced by remediating the target.
+        /// This member is required.
+        public var severityReductionFindingsCount: Swift.Int?
+        /// The number of associated exposure findings whose severity is unchanged by remediating the target.
+        /// This member is required.
+        public var severityUnchangedCount: Swift.Int?
+
+        public init(
+            resolvedFindingsCount: Swift.Int? = nil,
+            severityReductionFindingsCount: Swift.Int? = nil,
+            severityUnchangedCount: Swift.Int? = nil
+        ) {
+            self.resolvedFindingsCount = resolvedFindingsCount
+            self.severityReductionFindingsCount = severityReductionFindingsCount
+            self.severityUnchangedCount = severityUnchangedCount
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum RemediationPriority: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemediationPriority] {
+            return [
+                .critical,
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "Critical"
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A knowledge base article that provides additional guidance related to the remediation target.
+    public struct KbArticle: Swift.Sendable {
+        /// The title of the KbArticle.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The URL of the KbArticle.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A summary of the remediation target.
+    public struct RemediationSummaryDetail: Swift.Sendable {
+        /// A summarized action to take for the remediation target.
+        /// This member is required.
+        public var action: Swift.String?
+        /// A description of the remediation target.
+        public var description: Swift.String?
+        /// Specifies whether the effect of this target is immediate.
+        /// This member is required.
+        public var isImmediate: Swift.Bool?
+        /// An array of KbArticle objects.
+        public var kbArticles: [SecurityHubClientTypes.KbArticle]?
+        /// An array of steps to be taken after remediation.
+        public var postRemediationSteps: [Swift.String]?
+
+        public init(
+            action: Swift.String? = nil,
+            description: Swift.String? = nil,
+            isImmediate: Swift.Bool? = nil,
+            kbArticles: [SecurityHubClientTypes.KbArticle]? = nil,
+            postRemediationSteps: [Swift.String]? = nil
+        ) {
+            self.action = action
+            self.description = description
+            self.isImmediate = isImmediate
+            self.kbArticles = kbArticles
+            self.postRemediationSteps = postRemediationSteps
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides comprehensive details about a resource.
+    public struct RemediationResource: Swift.Sendable {
+        /// The Amazon Web Services account that recorded the resource data in Security Hub.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The cloud provider where the resource exists.
+        ///
+        /// * AWS specifies that the resource exists in Amazon Web Services.
+        ///
+        /// * Azure specifies that the resource exists in Microsoft Azure.
+        /// This member is required.
+        public var cloudProvider: SecurityHubClientTypes.CloudProviderName?
+        /// The unique identifier for a resource.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the resource.
+        public var name: Swift.String?
+        /// The Amazon Web Services Region in which Security Hub recorded the resource data.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The global identifier used to identify a resource.
+        public var resourceGuid: Swift.String?
+        /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
+        public var resourceOwnerAccountId: Swift.String?
+        /// The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.
+        public var resourceOwnerOrgId: Swift.String?
+        /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2). This field is always included.
+        /// This member is required.
+        public var resourceRegion: Swift.String?
+        /// The type of the resource.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            cloudProvider: SecurityHubClientTypes.CloudProviderName? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceGuid: Swift.String? = nil,
+            resourceOwnerAccountId: Swift.String? = nil,
+            resourceOwnerOrgId: Swift.String? = nil,
+            resourceRegion: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.cloudProvider = cloudProvider
+            self.id = id
+            self.name = name
+            self.region = region
+            self.resourceGuid = resourceGuid
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
+            self.resourceRegion = resourceRegion
+            self.type = type
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum RemediationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case new
+        case resolved
+        case updated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemediationStatus] {
+            return [
+                .new,
+                .resolved,
+                .updated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .new: return "New"
+            case .resolved: return "Resolved"
+            case .updated: return "Updated"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The trait associated with the remediation target.
+    public struct RemediationTrait: Swift.Sendable {
+        /// The trait title.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The trait type.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            title: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.title = title
+            self.type = type
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A remediation target.
+    public struct RemediationV2Item: Swift.Sendable {
+        /// The remediation target's guidance. Returned only when ShowGuidance is true in the request.
+        public var guidance: SecurityHubClientTypes.RemediationGuidance?
+        /// The outcome of the remediation target's resolution.
+        /// This member is required.
+        public var outcome: SecurityHubClientTypes.RemediationOutcome?
+        /// The remediation target's priority. Valid values are Critical, High, Medium, and Low.
+        /// This member is required.
+        public var priority: SecurityHubClientTypes.RemediationPriority?
+        /// A summary of the remediation target.
+        /// This member is required.
+        public var remediationSummary: SecurityHubClientTypes.RemediationSummaryDetail?
+        /// The remediation target's associated resource.
+        /// This member is required.
+        public var resource: SecurityHubClientTypes.RemediationResource?
+        /// The current status of the remediation target.
+        ///
+        /// * New specifies that the remediation target was newly identified.
+        ///
+        /// * Updated specifies that the remediation target changed after it was identified.
+        ///
+        /// * Resolved specifies that the remediation target is no longer present.
+        /// This member is required.
+        public var status: SecurityHubClientTypes.RemediationStatus?
+        /// The unique identifier (ID) of the remediation target.
+        /// This member is required.
+        public var targetUid: Swift.String?
+        /// The trait associated with the remediation target.
+        /// This member is required.
+        public var trait: SecurityHubClientTypes.RemediationTrait?
+        /// The remediation target's last updated timestamp. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            guidance: SecurityHubClientTypes.RemediationGuidance? = nil,
+            outcome: SecurityHubClientTypes.RemediationOutcome? = nil,
+            priority: SecurityHubClientTypes.RemediationPriority? = nil,
+            remediationSummary: SecurityHubClientTypes.RemediationSummaryDetail? = nil,
+            resource: SecurityHubClientTypes.RemediationResource? = nil,
+            status: SecurityHubClientTypes.RemediationStatus? = nil,
+            targetUid: Swift.String? = nil,
+            trait: SecurityHubClientTypes.RemediationTrait? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.guidance = guidance
+            self.outcome = outcome
+            self.priority = priority
+            self.remediationSummary = remediationSummary
+            self.resource = resource
+            self.status = status
+            self.targetUid = targetUid
+            self.trait = trait
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetRemediationsV2Output: Swift.Sendable {
+    /// An array of remediation targets returned by the operation.
+    /// This member is required.
+    public var items: [SecurityHubClientTypes.RemediationV2Item]?
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [SecurityHubClientTypes.RemediationV2Item]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum ResourcesDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case resourceCreationTimeDt
         case resourceDetailCaptureTimeDt
@@ -29550,6 +30435,62 @@ public struct ListEnabledProductsForImportOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.productSubscriptions = productSubscriptions
+    }
+}
+
+public struct ListExposuresByRemediationV2Input: Swift.Sendable {
+    /// The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+    public var maxResults: Swift.Int?
+    /// The token used to paginate the exposures list returned. On your first call to ListExposuresByRemediationV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier (ID) of an existing remediation target to list exposure findings for.
+    /// This member is required.
+    public var targetUid: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        targetUid: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.targetUid = targetUid
+    }
+}
+
+public struct ListExposuresByRemediationV2Output: Swift.Sendable {
+    /// An array of exposure findings returned by the operation.
+    /// This member is required.
+    public var items: [SecurityHubClientTypes.ExposureFinding]?
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// Provides comprehensive details about a resource.
+    /// This member is required.
+    public var resource: SecurityHubClientTypes.RemediationResource?
+    /// The unique identifier (ID) of the remediation target that the exposure findings are associated with.
+    /// This member is required.
+    public var targetUid: Swift.String?
+    /// The total count of exposure findings associated with the remediation target.
+    /// This member is required.
+    public var totalCount: Swift.Int?
+    /// The specific trait associated with the remediation target.
+    /// This member is required.
+    public var trait: SecurityHubClientTypes.RemediationTrait?
+
+    public init(
+        items: [SecurityHubClientTypes.ExposureFinding]? = nil,
+        nextToken: Swift.String? = nil,
+        resource: SecurityHubClientTypes.RemediationResource? = nil,
+        targetUid: Swift.String? = nil,
+        totalCount: Swift.Int? = nil,
+        trait: SecurityHubClientTypes.RemediationTrait? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+        self.resource = resource
+        self.targetUid = targetUid
+        self.totalCount = totalCount
+        self.trait = trait
     }
 }
 
@@ -31739,6 +32680,13 @@ extension GetRecommendedPolicyV2Input {
     }
 }
 
+extension GetRemediationsV2Input {
+
+    static func urlPathProvider(_ value: GetRemediationsV2Input) -> Swift.String? {
+        return "/GetRemediationsV2"
+    }
+}
+
 extension GetResourcesStatisticsV2Input {
 
     static func urlPathProvider(_ value: GetResourcesStatisticsV2Input) -> Swift.String? {
@@ -31977,6 +32925,13 @@ extension ListEnabledProductsForImportInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension ListExposuresByRemediationV2Input {
+
+    static func urlPathProvider(_ value: ListExposuresByRemediationV2Input) -> Swift.String? {
+        return "/ListExposuresByRemediationV2"
     }
 }
 
@@ -32764,6 +33719,20 @@ extension GetMembersInput {
     }
 }
 
+extension GetRemediationsV2Input {
+
+    static func write(value: GetRemediationsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.RemediationFilters.write(value:to:))
+        try writer["GuidanceFormat"].write(value.guidanceFormat)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MetadataUid"].write(value.metadataUid)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ShowGuidance"].write(value.showGuidance)
+        try writer["TargetUid"].write(value.targetUid)
+    }
+}
+
 extension GetResourcesStatisticsV2Input {
 
     static func write(value: GetResourcesStatisticsV2Input?, to writer: SmithyJSON.Writer) throws {
@@ -32814,6 +33783,16 @@ extension ListConfigurationPolicyAssociationsInput {
         try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.AssociationFilters.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListExposuresByRemediationV2Input {
+
+    static func write(value: ListExposuresByRemediationV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TargetUid"].write(value.targetUid)
     }
 }
 
@@ -33946,6 +34925,19 @@ extension GetRecommendedPolicyV2Output {
     }
 }
 
+extension GetRemediationsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRemediationsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRemediationsV2Output()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.RemediationV2Item.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension GetResourcesStatisticsV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcesStatisticsV2Output {
@@ -34109,6 +35101,23 @@ extension ListEnabledProductsForImportOutput {
         var value = ListEnabledProductsForImportOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.productSubscriptions = try reader["ProductSubscriptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListExposuresByRemediationV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExposuresByRemediationV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExposuresByRemediationV2Output()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ExposureFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resource = try reader["Resource"].readIfPresent(with: SecurityHubClientTypes.RemediationResource.read(from:))
+        value.targetUid = try reader["TargetUid"].readIfPresent() ?? ""
+        value.totalCount = try reader["TotalCount"].readIfPresent() ?? 0
+        value.trait = try reader["Trait"].readIfPresent(with: SecurityHubClientTypes.RemediationTrait.read(from:))
         return value
     }
 }
@@ -35819,6 +36828,24 @@ enum GetRecommendedPolicyV2OutputError {
     }
 }
 
+enum GetRemediationsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetResourcesStatisticsV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36055,6 +37082,24 @@ enum ListEnabledProductsForImportOutputError {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListExposuresByRemediationV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -49376,6 +50421,20 @@ extension SecurityHubClientTypes.EnumListConfigurationOptions {
     }
 }
 
+extension SecurityHubClientTypes.ExposureFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExposureFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ExposureFinding()
+        value.metadataUid = try reader["MetadataUid"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.previousSeverity = try reader["PreviousSeverity"].readIfPresent() ?? .sdkUnknown("")
+        value.projectedSeverity = try reader["ProjectedSeverity"].readIfPresent() ?? .sdkUnknown("")
+        value.impact = try reader["Impact"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.ExternalIntegrationConfiguration {
 
     static func write(value: SecurityHubClientTypes.ExternalIntegrationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -49929,6 +50988,17 @@ extension SecurityHubClientTypes.JiraCloudUpdateConfiguration {
     static func write(value: SecurityHubClientTypes.JiraCloudUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ProjectKey"].write(value.projectKey)
+    }
+}
+
+extension SecurityHubClientTypes.KbArticle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.KbArticle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.KbArticle()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -50931,6 +52001,220 @@ extension SecurityHubClientTypes.Remediation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.Remediation()
         value.recommendation = try reader["Recommendation"].readIfPresent(with: SecurityHubClientTypes.Recommendation.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationCompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.RemediationCompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.RemediationStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.RemediationFilters {
+
+    static func write(value: SecurityHubClientTypes.RemediationFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.RemediationCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.RemediationGuidance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationGuidance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationGuidance()
+        value.targetTypeName = try reader["TargetTypeName"].readIfPresent() ?? ""
+        value.pattern = try reader["Pattern"].readIfPresent() ?? ""
+        value.version = try reader["Version"].readIfPresent() ?? ""
+        value.context = try reader["Context"].readIfPresent(with: SecurityHubClientTypes.RemediationGuidanceContext.read(from:))
+        value.specification = try reader["Specification"].readIfPresent(with: SecurityHubClientTypes.RemediationGuidanceSpecification.read(from:))
+        value.examples = try reader["Examples"].readIfPresent(with: SecurityHubClientTypes.RemediationGuidanceExamples.read(from:))
+        value.metadata = try reader["Metadata"].readIfPresent(with: SecurityHubClientTypes.RemediationGuidanceMetadata.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationGuidanceContext {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationGuidanceContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationGuidanceContext()
+        value.problemStatement = try reader["ProblemStatement"].readIfPresent()
+        value.riskAssessment = try reader["RiskAssessment"].readIfPresent()
+        value.affectedScope = try reader["AffectedScope"].readIfPresent()
+        value.prerequisites = try reader["Prerequisites"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationGuidanceExamples {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationGuidanceExamples {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationGuidanceExamples()
+        value.awsCli = try reader["AwsCli"].readIfPresent()
+        value.cli = try reader["Cli"].readIfPresent()
+        value.python = try reader["Python"].readIfPresent()
+        value.terraform = try reader["Terraform"].readIfPresent()
+        value.cdk = try reader["Cdk"].readIfPresent()
+        value.cloudFormation = try reader["CloudFormation"].readIfPresent()
+        value.iac = try reader["IaC"].readIfPresent()
+        value.template = try reader["Template"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationGuidanceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationGuidanceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationGuidanceMetadata()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.exposureType = try reader["ExposureType"].readIfPresent() ?? ""
+        value.traitTitles = try reader["TraitTitles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.reversibility = try reader["Reversibility"].readIfPresent() ?? ""
+        value.fixEffect = try reader["FixEffect"].readIfPresent() ?? ""
+        value.riskLevel = try reader["RiskLevel"].readIfPresent() ?? ""
+        value.automationLevel = try reader["AutomationLevel"].readIfPresent()
+        value.humanReviewRequired = try reader["HumanReviewRequired"].readIfPresent()
+        value.generatedAt = try reader["GeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationGuidanceSpecification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationGuidanceSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationGuidanceSpecification()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.RemediationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.RemediationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedEndState = try reader["ExpectedEndState"].readIfPresent()
+        value.requiredPermissions = try reader["RequiredPermissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationOutcome {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationOutcome {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationOutcome()
+        value.resolvedFindingsCount = try reader["ResolvedFindingsCount"].readIfPresent() ?? 0
+        value.severityReductionFindingsCount = try reader["SeverityReductionFindingsCount"].readIfPresent() ?? 0
+        value.severityUnchangedCount = try reader["SeverityUnchangedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationParameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.`required` = try reader["Required"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationResource()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.resourceOwnerAccountId = try reader["ResourceOwnerAccountId"].readIfPresent()
+        value.resourceOwnerOrgId = try reader["ResourceOwnerOrgId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.resourceGuid = try reader["ResourceGuid"].readIfPresent()
+        value.resourceRegion = try reader["ResourceRegion"].readIfPresent() ?? ""
+        value.cloudProvider = try reader["CloudProvider"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationStep()
+        value.phase = try reader["Phase"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.service = try reader["Service"].readIfPresent() ?? ""
+        value.action = try reader["Action"].readIfPresent() ?? ""
+        value.logic = try reader["Logic"].readIfPresent()
+        value.inverse = try reader["Inverse"].readIfPresent()
+        value.verifyAfter = try reader["VerifyAfter"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationStringFilter {
+
+    static func write(value: SecurityHubClientTypes.RemediationStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.RemediationStringFilterCondition.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.RemediationStringFilterCondition {
+
+    static func write(value: SecurityHubClientTypes.RemediationStringFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension SecurityHubClientTypes.RemediationSummaryDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationSummaryDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationSummaryDetail()
+        value.action = try reader["Action"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.isImmediate = try reader["IsImmediate"].readIfPresent() ?? false
+        value.postRemediationSteps = try reader["PostRemediationSteps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kbArticles = try reader["KbArticles"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.KbArticle.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationTrait {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationTrait {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationTrait()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.RemediationV2Item {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.RemediationV2Item {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.RemediationV2Item()
+        value.targetUid = try reader["TargetUid"].readIfPresent() ?? ""
+        value.outcome = try reader["Outcome"].readIfPresent(with: SecurityHubClientTypes.RemediationOutcome.read(from:))
+        value.priority = try reader["Priority"].readIfPresent() ?? .sdkUnknown("")
+        value.remediationSummary = try reader["RemediationSummary"].readIfPresent(with: SecurityHubClientTypes.RemediationSummaryDetail.read(from:))
+        value.resource = try reader["Resource"].readIfPresent(with: SecurityHubClientTypes.RemediationResource.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.trait = try reader["Trait"].readIfPresent(with: SecurityHubClientTypes.RemediationTrait.read(from:))
+        value.guidance = try reader["Guidance"].readIfPresent(with: SecurityHubClientTypes.RemediationGuidance.read(from:))
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

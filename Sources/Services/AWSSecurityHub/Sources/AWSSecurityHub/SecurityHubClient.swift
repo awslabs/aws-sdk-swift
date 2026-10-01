@@ -6233,6 +6233,78 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetRemediationsV2` operation on the `SecurityHub` service.
+    ///
+    /// Retrieves remediation targets for the account, or for all member accounts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or MetadataUid to scope the request to a single target or finding.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRemediationsV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRemediationsV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getRemediationsV2(input: GetRemediationsV2Input) async throws -> GetRemediationsV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRemediationsV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRemediationsV2Input, GetRemediationsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>(GetRemediationsV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRemediationsV2Input, GetRemediationsV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRemediationsV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRemediationsV2Output>(GetRemediationsV2Output.httpOutput(from:), GetRemediationsV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRemediationsV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRemediationsV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRemediationsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRemediationsV2Input, GetRemediationsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRemediationsV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetResourcesStatisticsV2` operation on the `SecurityHub` service.
     ///
     /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. If you set GroupByField to ResourceSubCategory, ResourceInfo.AIDetails.HostResourceType, or ResourceInfo.AIDetails.CanonicalId, you must include a ResourceCategory string filter with comparison set to EQUALS and value AI/ML in the corresponding ResourceGroupByRule.
@@ -7148,6 +7220,78 @@ extension SecurityHubClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEnabledProductsForImport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListExposuresByRemediationV2` operation on the `SecurityHub` service.
+    ///
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are paginated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListExposuresByRemediationV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListExposuresByRemediationV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func listExposuresByRemediationV2(input: ListExposuresByRemediationV2Input) async throws -> ListExposuresByRemediationV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listExposuresByRemediationV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>(ListExposuresByRemediationV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExposuresByRemediationV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExposuresByRemediationV2Output>(ListExposuresByRemediationV2Output.httpOutput(from:), ListExposuresByRemediationV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExposuresByRemediationV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExposuresByRemediationV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExposuresByRemediationV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExposuresByRemediationV2")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

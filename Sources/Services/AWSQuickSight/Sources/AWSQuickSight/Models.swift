@@ -5136,6 +5136,152 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The title format text configuration for a sheet control. This is a tagged union type. Specify either PlainText or RichText, but not both.
+    public struct ControlTitleFormatText: Swift.Sendable {
+        /// The plain text format of the title text.
+        public var plainText: Swift.String?
+        /// The rich text format of the title text.
+        public var richText: Swift.String?
+
+        public init(
+            plainText: Swift.String? = nil,
+            richText: Swift.String? = nil
+        ) {
+            self.plainText = plainText
+            self.richText = richText
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The display options of a control.
+    public struct HierarchyFilterDropDownControlDisplayOptions: Swift.Sendable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public var titleOptions: QuickSightClientTypes.LabelOptions?
+
+        public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
+            titleOptions: QuickSightClientTypes.LabelOptions? = nil
+        ) {
+            self.infoIconLabelOptions = infoIconLabelOptions
+            self.titleOptions = titleOptions
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The default options that correspond to the HierarchyDropdown filter control type.
+    public struct DefaultHierarchyFilterDropDownControlOptions: Swift.Sendable {
+        /// The visibility configuration of the Apply button on a HierarchyFilterDropDownControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions?
+        /// The type of the DefaultHierarchyFilterDropDownControlOptions. Choose one of the following options:
+        ///
+        /// * MULTI_SELECT: The user can select multiple entries from a dropdown menu.
+        ///
+        /// * SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public var type: QuickSightClientTypes.SheetControlListType?
+
+        public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
+            displayOptions: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions? = nil,
+            type: QuickSightClientTypes.SheetControlListType? = nil
+        ) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration of the search options in a hierarchy list control.
+    public struct HierarchyFilterListControlSearchOptions: Swift.Sendable {
+        /// The visibility configuration of the search options in a hierarchy list control.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            visibility: QuickSightClientTypes.Visibility? = nil
+        ) {
+            self.visibility = visibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The display options of a control.
+    public struct HierarchyFilterListControlDisplayOptions: Swift.Sendable {
+        /// The configuration of info icon label options.
+        public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
+        /// The configuration of the search options in a hierarchy list control.
+        public var searchOptions: QuickSightClientTypes.HierarchyFilterListControlSearchOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public var titleOptions: QuickSightClientTypes.LabelOptions?
+
+        public init(
+            infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
+            searchOptions: QuickSightClientTypes.HierarchyFilterListControlSearchOptions? = nil,
+            titleOptions: QuickSightClientTypes.LabelOptions? = nil
+        ) {
+            self.infoIconLabelOptions = infoIconLabelOptions
+            self.searchOptions = searchOptions
+            self.titleOptions = titleOptions
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The default options that correspond to the HierarchyList filter control type.
+    public struct DefaultHierarchyFilterListControlOptions: Swift.Sendable {
+        /// The visibility configuration of the Apply button on a HierarchyFilterListControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions?
+        /// The type of the DefaultHierarchyFilterListControlOptions. Choose one of the following options:
+        ///
+        /// * MULTI_SELECT: The user can select multiple entries from the list.
+        ///
+        /// * SINGLE_SELECT: The user can select a single entry from the list.
+        public var type: QuickSightClientTypes.SheetControlListType?
+
+        public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
+            displayOptions: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions? = nil,
+            type: QuickSightClientTypes.SheetControlListType? = nil
+        ) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The configuration of the search options in a list control.
     public struct ListControlSearchOptions: Swift.Sendable {
         /// The visibility configuration of the search options in a list control.
@@ -5438,6 +5584,10 @@ extension QuickSightClientTypes {
         public var defaultDateTimePickerOptions: QuickSightClientTypes.DefaultDateTimePickerControlOptions?
         /// The default options that correspond to the Dropdown filter control type.
         public var defaultDropdownOptions: QuickSightClientTypes.DefaultFilterDropDownControlOptions?
+        /// The default options that correspond to the HierarchyDropdown filter control type.
+        public var defaultHierarchyDropdown: QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions?
+        /// The default options that correspond to the HierarchyList filter control type.
+        public var defaultHierarchyList: QuickSightClientTypes.DefaultHierarchyFilterListControlOptions?
         /// The default options that correspond to the List filter control type.
         public var defaultListOptions: QuickSightClientTypes.DefaultFilterListControlOptions?
         /// The default options that correspond to the RelativeDateTime filter control type.
@@ -5452,6 +5602,8 @@ extension QuickSightClientTypes {
         public init(
             defaultDateTimePickerOptions: QuickSightClientTypes.DefaultDateTimePickerControlOptions? = nil,
             defaultDropdownOptions: QuickSightClientTypes.DefaultFilterDropDownControlOptions? = nil,
+            defaultHierarchyDropdown: QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions? = nil,
+            defaultHierarchyList: QuickSightClientTypes.DefaultHierarchyFilterListControlOptions? = nil,
             defaultListOptions: QuickSightClientTypes.DefaultFilterListControlOptions? = nil,
             defaultRelativeDateTimeOptions: QuickSightClientTypes.DefaultRelativeDateTimeControlOptions? = nil,
             defaultSliderOptions: QuickSightClientTypes.DefaultSliderControlOptions? = nil,
@@ -5460,30 +5612,13 @@ extension QuickSightClientTypes {
         ) {
             self.defaultDateTimePickerOptions = defaultDateTimePickerOptions
             self.defaultDropdownOptions = defaultDropdownOptions
+            self.defaultHierarchyDropdown = defaultHierarchyDropdown
+            self.defaultHierarchyList = defaultHierarchyList
             self.defaultListOptions = defaultListOptions
             self.defaultRelativeDateTimeOptions = defaultRelativeDateTimeOptions
             self.defaultSliderOptions = defaultSliderOptions
             self.defaultTextAreaOptions = defaultTextAreaOptions
             self.defaultTextFieldOptions = defaultTextFieldOptions
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The title format text configuration for a sheet control. This is a tagged union type. Specify either PlainText or RichText, but not both.
-    public struct ControlTitleFormatText: Swift.Sendable {
-        /// The plain text format of the title text.
-        public var plainText: Swift.String?
-        /// The rich text format of the title text.
-        public var richText: Swift.String?
-
-        public init(
-            plainText: Swift.String? = nil,
-            richText: Swift.String? = nil
-        ) {
-            self.plainText = plainText
-            self.richText = richText
         }
     }
 }
@@ -5538,6 +5673,51 @@ extension QuickSightClientTypes {
             self.configuration = configuration
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// One level of the drill-down path of a HierarchyFilter.
+    public struct HierarchyFilterLevel: Swift.Sendable {
+        /// The column that this level of the hierarchy drills down by. This column must belong to the same dataset as HierarchyFilter$Column.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil
+        ) {
+            self.column = column
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum HierarchyFilterMatchOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HierarchyFilterMatchOperator] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -6192,49 +6372,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// With a Filter, you can remove portions of data from a particular visual or view. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct Filter: Swift.Sendable {
-        /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon Quick Suite User Guide.
-        public var categoryFilter: QuickSightClientTypes.CategoryFilter?
-        /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
-        public var nestedFilter: QuickSightClientTypes.NestedFilter?
-        /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
-        public var numericEqualityFilter: QuickSightClientTypes.NumericEqualityFilter?
-        /// A NumericRangeFilter filters numeric values that are either inside or outside a given numeric range.
-        public var numericRangeFilter: QuickSightClientTypes.NumericRangeFilter?
-        /// A RelativeDatesFilter filters date values that are relative to a given date.
-        public var relativeDatesFilter: QuickSightClientTypes.RelativeDatesFilter?
-        /// A TimeEqualityFilter filters date-time values that equal or do not equal a given date/time value.
-        public var timeEqualityFilter: QuickSightClientTypes.TimeEqualityFilter?
-        /// A TimeRangeFilter filters date-time values that are either inside or outside a given date/time range.
-        public var timeRangeFilter: QuickSightClientTypes.TimeRangeFilter?
-        /// A TopBottomFilter filters data to the top or bottom values for a given column.
-        public var topBottomFilter: QuickSightClientTypes.TopBottomFilter?
-
-        public init(
-            categoryFilter: QuickSightClientTypes.CategoryFilter? = nil,
-            nestedFilter: QuickSightClientTypes.NestedFilter? = nil,
-            numericEqualityFilter: QuickSightClientTypes.NumericEqualityFilter? = nil,
-            numericRangeFilter: QuickSightClientTypes.NumericRangeFilter? = nil,
-            relativeDatesFilter: QuickSightClientTypes.RelativeDatesFilter? = nil,
-            timeEqualityFilter: QuickSightClientTypes.TimeEqualityFilter? = nil,
-            timeRangeFilter: QuickSightClientTypes.TimeRangeFilter? = nil,
-            topBottomFilter: QuickSightClientTypes.TopBottomFilter? = nil
-        ) {
-            self.categoryFilter = categoryFilter
-            self.nestedFilter = nestedFilter
-            self.numericEqualityFilter = numericEqualityFilter
-            self.numericRangeFilter = numericRangeFilter
-            self.relativeDatesFilter = relativeDatesFilter
-            self.timeEqualityFilter = timeEqualityFilter
-            self.timeRangeFilter = timeRangeFilter
-            self.topBottomFilter = topBottomFilter
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     public enum FilterVisualScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allVisuals
         case selectedVisuals
@@ -6321,45 +6458,6 @@ extension QuickSightClientTypes {
         ) {
             self.allSheets = allSheets
             self.selectedSheets = selectedSheets
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// A grouping of individual filters. Filter groups are applied to the same group of visuals. For more information, see [Adding filter conditions (group filters) with AND and OR operators](https://docs.aws.amazon.com/quicksight/latest/user/add-a-compound-filter.html) in the Amazon Quick Suite User Guide.
-    public struct FilterGroup: Swift.Sendable {
-        /// The filter new feature which can apply filter group to all data sets. Choose one of the following options:
-        ///
-        /// * ALL_DATASETS
-        ///
-        /// * SINGLE_DATASET
-        /// This member is required.
-        public var crossDataset: QuickSightClientTypes.CrossDatasetTypes?
-        /// The value that uniquely identifies a FilterGroup within a dashboard, template, or analysis.
-        /// This member is required.
-        public var filterGroupId: Swift.String?
-        /// The list of filters that are present in a FilterGroup.
-        /// This member is required.
-        public var filters: [QuickSightClientTypes.Filter]?
-        /// The configuration that specifies what scope to apply to a FilterGroup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-        /// This member is required.
-        public var scopeConfiguration: QuickSightClientTypes.FilterScopeConfiguration?
-        /// The status of the FilterGroup.
-        public var status: QuickSightClientTypes.WidgetStatus?
-
-        public init(
-            crossDataset: QuickSightClientTypes.CrossDatasetTypes? = nil,
-            filterGroupId: Swift.String? = nil,
-            filters: [QuickSightClientTypes.Filter]? = nil,
-            scopeConfiguration: QuickSightClientTypes.FilterScopeConfiguration? = nil,
-            status: QuickSightClientTypes.WidgetStatus? = nil
-        ) {
-            self.crossDataset = crossDataset
-            self.filterGroupId = filterGroupId
-            self.filters = filters
-            self.scopeConfiguration = scopeConfiguration
-            self.status = status
         }
     }
 }
@@ -7273,6 +7371,104 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A control from a hierarchy filter that displays the hierarchy as a dropdown list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.
+    public struct HierarchyFilterDropDownControl: Swift.Sendable {
+        /// The visibility configuration of the Apply button on a HierarchyFilterDropDownControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions?
+        /// The ID of the HierarchyFilterDropDownControl.
+        /// This member is required.
+        public var filterControlId: Swift.String?
+        /// The source filter ID of the HierarchyFilterDropDownControl. This must be the FilterId of a HierarchyFilter.
+        /// This member is required.
+        public var sourceFilterId: Swift.String?
+        /// The title of the HierarchyFilterDropDownControl.
+        public var title: Swift.String?
+        /// The type of the HierarchyFilterDropDownControl. Choose one of the following options:
+        ///
+        /// * MULTI_SELECT: The user can select multiple entries from a dropdown menu.
+        ///
+        /// * SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public var type: QuickSightClientTypes.SheetControlListType?
+
+        public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
+            displayOptions: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions? = nil,
+            filterControlId: Swift.String? = nil,
+            sourceFilterId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            type: QuickSightClientTypes.SheetControlListType? = nil
+        ) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A control from a hierarchy filter that displays the hierarchy as a list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.
+    public struct HierarchyFilterListControl: Swift.Sendable {
+        /// The visibility configuration of the Apply button on a HierarchyFilterListControl.
+        public var commitMode: QuickSightClientTypes.CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public var controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public var controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText?
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions?
+        /// The ID of the HierarchyFilterListControl.
+        /// This member is required.
+        public var filterControlId: Swift.String?
+        /// The source filter ID of the HierarchyFilterListControl. This must be the FilterId of a HierarchyFilter.
+        /// This member is required.
+        public var sourceFilterId: Swift.String?
+        /// The title of the HierarchyFilterListControl.
+        public var title: Swift.String?
+        /// The type of the HierarchyFilterListControl. Choose one of the following options:
+        ///
+        /// * MULTI_SELECT: The user can select multiple entries from the list.
+        ///
+        /// * SINGLE_SELECT: The user can select a single entry from the list.
+        public var type: QuickSightClientTypes.SheetControlListType?
+
+        public init(
+            commitMode: QuickSightClientTypes.CommitMode? = nil,
+            controlSortConfigurations: [QuickSightClientTypes.ControlSortConfiguration]? = nil,
+            controlTitleFormatText: QuickSightClientTypes.ControlTitleFormatText? = nil,
+            displayOptions: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions? = nil,
+            filterControlId: Swift.String? = nil,
+            sourceFilterId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            type: QuickSightClientTypes.SheetControlListType? = nil
+        ) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A control to display a list of buttons or boxes. This is used to select either a single value or multiple values.
     public struct FilterListControl: Swift.Sendable {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
@@ -7497,6 +7693,10 @@ extension QuickSightClientTypes {
         public var dateTimePicker: QuickSightClientTypes.FilterDateTimePickerControl?
         /// A control to display a dropdown list with buttons that are used to select a single value.
         public var dropdown: QuickSightClientTypes.FilterDropDownControl?
+        /// A control from a hierarchy filter that displays the hierarchy as a dropdown list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.
+        public var hierarchyDropdown: QuickSightClientTypes.HierarchyFilterDropDownControl?
+        /// A control from a hierarchy filter that displays the hierarchy as a list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.
+        public var hierarchyList: QuickSightClientTypes.HierarchyFilterListControl?
         /// A control to display a list of buttons or boxes. This is used to select either a single value or multiple values.
         public var list: QuickSightClientTypes.FilterListControl?
         /// A control from a date filter that is used to specify the relative date.
@@ -7512,6 +7712,8 @@ extension QuickSightClientTypes {
             crossSheet: QuickSightClientTypes.FilterCrossSheetControl? = nil,
             dateTimePicker: QuickSightClientTypes.FilterDateTimePickerControl? = nil,
             dropdown: QuickSightClientTypes.FilterDropDownControl? = nil,
+            hierarchyDropdown: QuickSightClientTypes.HierarchyFilterDropDownControl? = nil,
+            hierarchyList: QuickSightClientTypes.HierarchyFilterListControl? = nil,
             list: QuickSightClientTypes.FilterListControl? = nil,
             relativeDateTime: QuickSightClientTypes.FilterRelativeDateTimeControl? = nil,
             slider: QuickSightClientTypes.FilterSliderControl? = nil,
@@ -7521,6 +7723,8 @@ extension QuickSightClientTypes {
             self.crossSheet = crossSheet
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
+            self.hierarchyDropdown = hierarchyDropdown
+            self.hierarchyList = hierarchyList
             self.list = list
             self.relativeDateTime = relativeDateTime
             self.slider = slider
@@ -21525,66 +21729,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The definition of an analysis.
-    public struct AnalysisDefinition: Swift.Sendable {
-        /// The configuration for default analysis settings.
-        public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
-        /// An array of calculated field definitions for the analysis.
-        public var calculatedFields: [QuickSightClientTypes.CalculatedField]?
-        /// An array of analysis-level column configurations. Column configurations can be used to set default formatting for a column to be used throughout an analysis.
-        public var columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]?
-        /// An array of dataset identifier declarations. This mapping allows the usage of dataset identifiers instead of dataset ARNs throughout analysis sub-structures.
-        /// This member is required.
-        public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
-        /// Filter definitions for an analysis. For more information, see [Filtering Data in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon Quick Suite User Guide.
-        public var filterGroups: [QuickSightClientTypes.FilterGroup]?
-        /// An array of option definitions for an analysis.
-        public var options: QuickSightClientTypes.AssetOptions?
-        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
-        public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
-        /// A structure that describes the query execution options.
-        public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
-        /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
-        public var sheets: [QuickSightClientTypes.SheetDefinition]?
-        /// The static files for the definition.
-        public var staticFiles: [QuickSightClientTypes.StaticFile]?
-        /// An array of tooltip sheet definitions for an analysis. Each TooltipSheetDefinition provides detailed information about a tooltip sheet within this analysis.
-        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
-        /// An array of topic identifier declarations. This mapping allows the usage of topic identifiers instead of topic ARNs throughout analysis sub-structures.
-        public var topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]?
-
-        public init(
-            analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
-            calculatedFields: [QuickSightClientTypes.CalculatedField]? = nil,
-            columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
-            dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]? = nil,
-            filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
-            parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
-            queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
-            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
-            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
-            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
-            topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]? = nil
-        ) {
-            self.analysisDefaults = analysisDefaults
-            self.calculatedFields = calculatedFields
-            self.columnConfigurations = columnConfigurations
-            self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
-            self.filterGroups = filterGroups
-            self.options = options
-            self.parameterDeclarations = parameterDeclarations
-            self.queryExecutionOptions = queryExecutionOptions
-            self.sheets = sheets
-            self.staticFiles = staticFiles
-            self.tooltipSheets = tooltipSheets
-            self.topicIdentifierDeclarations = topicIdentifierDeclarations
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     public enum AnalysisFilterAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case analysisName
         case directQuicksightOwner
@@ -24128,11 +24272,98 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case keypair
+        case password
+        case token
+        case x509
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .keypair,
+                .password,
+                .token,
+                .x509
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .keypair: return "KEYPAIR"
+            case .password: return "PASSWORD"
+            case .token: return "TOKEN"
+            case .x509: return "X509"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// VPC connection properties.
+    public struct VpcConnectionProperties: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the VPC connection.
+        /// This member is required.
+        public var vpcConnectionArn: Swift.String?
+
+        public init(
+            vpcConnectionArn: Swift.String? = nil
+        ) {
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake, Starburst, and Databricks.
+    public struct OAuthParameters: Swift.Sendable {
+        /// The S3 URI of the identity provider's CA certificates bundle in PEM format. Use this parameter to provide a custom CA certificate bundle for the identity provider when the default trust store does not include the required certificates.
+        public var identityProviderCACertificatesBundleS3Uri: Swift.String?
+        /// The resource uri of the identity provider.
+        public var identityProviderResourceUri: Swift.String?
+        /// VPC connection properties.
+        public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+        /// The OAuth scope.
+        public var oAuthScope: Swift.String?
+        /// The token endpoint URL of the identity provider.
+        /// This member is required.
+        public var tokenProviderUrl: Swift.String?
+
+        public init(
+            identityProviderCACertificatesBundleS3Uri: Swift.String? = nil,
+            identityProviderResourceUri: Swift.String? = nil,
+            identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
+            oAuthScope: Swift.String? = nil,
+            tokenProviderUrl: Swift.String? = nil
+        ) {
+            self.identityProviderCACertificatesBundleS3Uri = identityProviderCACertificatesBundleS3Uri
+            self.identityProviderResourceUri = identityProviderResourceUri
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.oAuthScope = oAuthScope
+            self.tokenProviderUrl = tokenProviderUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The parameters that are required to connect to a Databricks data source.
     public struct DatabricksParameters: Swift.Sendable {
+        /// The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.
+        public var authenticationType: QuickSightClientTypes.AuthenticationType?
         /// The host name of the Databricks data source.
         /// This member is required.
         public var host: Swift.String?
+        /// An object that contains information needed to create a data source connection between an Quick Sight account and Databricks.
+        public var oAuthParameters: QuickSightClientTypes.OAuthParameters?
         /// The port for the Databricks data source.
         /// This member is required.
         public var port: Swift.Int?
@@ -24141,11 +24372,15 @@ extension QuickSightClientTypes {
         public var sqlEndpointPath: Swift.String?
 
         public init(
+            authenticationType: QuickSightClientTypes.AuthenticationType? = nil,
             host: Swift.String? = nil,
+            oAuthParameters: QuickSightClientTypes.OAuthParameters? = nil,
             port: Swift.Int? = nil,
             sqlEndpointPath: Swift.String? = nil
         ) {
+            self.authenticationType = authenticationType
             self.host = host
+            self.oAuthParameters = oAuthParameters
             self.port = port
             self.sqlEndpointPath = sqlEndpointPath
         }
@@ -24689,89 +24924,6 @@ extension QuickSightClientTypes {
             self.clientId = clientId
             self.sharePointDomain = sharePointDomain
             self.tenantId = tenantId
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case keypair
-        case password
-        case token
-        case x509
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AuthenticationType] {
-            return [
-                .keypair,
-                .password,
-                .token,
-                .x509
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .keypair: return "KEYPAIR"
-            case .password: return "PASSWORD"
-            case .token: return "TOKEN"
-            case .x509: return "X509"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// VPC connection properties.
-    public struct VpcConnectionProperties: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for the VPC connection.
-        /// This member is required.
-        public var vpcConnectionArn: Swift.String?
-
-        public init(
-            vpcConnectionArn: Swift.String? = nil
-        ) {
-            self.vpcConnectionArn = vpcConnectionArn
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake and Starburst.
-    public struct OAuthParameters: Swift.Sendable {
-        /// The S3 URI of the identity provider's CA certificates bundle in PEM format. Use this parameter to provide a custom CA certificate bundle for the identity provider when the default trust store does not include the required certificates.
-        public var identityProviderCACertificatesBundleS3Uri: Swift.String?
-        /// The resource uri of the identity provider.
-        public var identityProviderResourceUri: Swift.String?
-        /// VPC connection properties.
-        public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
-        /// The OAuth scope.
-        public var oAuthScope: Swift.String?
-        /// The token endpoint URL of the identity provider.
-        /// This member is required.
-        public var tokenProviderUrl: Swift.String?
-
-        public init(
-            identityProviderCACertificatesBundleS3Uri: Swift.String? = nil,
-            identityProviderResourceUri: Swift.String? = nil,
-            identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
-            oAuthScope: Swift.String? = nil,
-            tokenProviderUrl: Swift.String? = nil
-        ) {
-            self.identityProviderCACertificatesBundleS3Uri = identityProviderCACertificatesBundleS3Uri
-            self.identityProviderResourceUri = identityProviderResourceUri
-            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
-            self.oAuthScope = oAuthScope
-            self.tokenProviderUrl = tokenProviderUrl
         }
     }
 }
@@ -31856,60 +32008,6 @@ extension QuickSightClientTypes {
     }
 }
 
-public struct CreateAnalysisInput: Swift.Sendable {
-    /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
-    /// This member is required.
-    public var analysisId: Swift.String?
-    /// The ID of the Amazon Web Services account where you are creating an analysis.
-    /// This member is required.
-    public var awsAccountId: Swift.String?
-    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
-    public var definition: QuickSightClientTypes.AnalysisDefinition?
-    /// When you create the analysis, Amazon Quick Sight adds the analysis to these folders.
-    public var folderArns: [Swift.String]?
-    /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon Quick Sight console.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
-    public var parameters: QuickSightClientTypes.Parameters?
-    /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN). To specify no permissions, omit Permissions.
-    public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets or topics. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
-    public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
-    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
-    public var tags: [QuickSightClientTypes.Tag]?
-    /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
-    public var themeArn: Swift.String?
-    /// The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
-    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
-
-    public init(
-        analysisId: Swift.String? = nil,
-        awsAccountId: Swift.String? = nil,
-        definition: QuickSightClientTypes.AnalysisDefinition? = nil,
-        folderArns: [Swift.String]? = nil,
-        name: Swift.String? = nil,
-        parameters: QuickSightClientTypes.Parameters? = nil,
-        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
-        sourceEntity: QuickSightClientTypes.AnalysisSourceEntity? = nil,
-        tags: [QuickSightClientTypes.Tag]? = nil,
-        themeArn: Swift.String? = nil,
-        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil
-    ) {
-        self.analysisId = analysisId
-        self.awsAccountId = awsAccountId
-        self.definition = definition
-        self.folderArns = folderArns
-        self.name = name
-        self.parameters = parameters
-        self.permissions = permissions
-        self.sourceEntity = sourceEntity
-        self.tags = tags
-        self.themeArn = themeArn
-        self.validationStrategy = validationStrategy
-    }
-}
-
 public struct CreateAnalysisOutput: Swift.Sendable {
     /// The ID of the analysis.
     public var analysisId: Swift.String?
@@ -32487,62 +32585,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The contents of a dashboard.
-    public struct DashboardVersionDefinition: Swift.Sendable {
-        /// The configuration for default analysis settings.
-        public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
-        /// An array of calculated field definitions for the dashboard.
-        public var calculatedFields: [QuickSightClientTypes.CalculatedField]?
-        /// An array of dashboard-level column configurations. Column configurations are used to set the default formatting for a column that is used throughout a dashboard.
-        public var columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]?
-        /// An array of dataset identifier declarations. With this mapping,you can use dataset identifiers instead of dataset Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
-        /// This member is required.
-        public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
-        /// The filter definitions for a dashboard. For more information, see [Filtering Data in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon Quick Suite User Guide.
-        public var filterGroups: [QuickSightClientTypes.FilterGroup]?
-        /// An array of option definitions for a dashboard.
-        public var options: QuickSightClientTypes.AssetOptions?
-        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
-        public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
-        /// An array of sheet definitions for a dashboard.
-        public var sheets: [QuickSightClientTypes.SheetDefinition]?
-        /// The static files for the definition.
-        public var staticFiles: [QuickSightClientTypes.StaticFile]?
-        /// An array of tooltip sheet definitions for a dashboard.
-        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
-        /// An array of topic identifier declarations. With this mapping, you can use topic identifiers instead of topic Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
-        public var topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]?
-
-        public init(
-            analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
-            calculatedFields: [QuickSightClientTypes.CalculatedField]? = nil,
-            columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
-            dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]? = nil,
-            filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
-            parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
-            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
-            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
-            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
-            topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]? = nil
-        ) {
-            self.analysisDefaults = analysisDefaults
-            self.calculatedFields = calculatedFields
-            self.columnConfigurations = columnConfigurations
-            self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
-            self.filterGroups = filterGroups
-            self.options = options
-            self.parameterDeclarations = parameterDeclarations
-            self.sheets = sheets
-            self.staticFiles = staticFiles
-            self.tooltipSheets = tooltipSheets
-            self.topicIdentifierDeclarations = topicIdentifierDeclarations
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// A structure that contains the configuration of a shareable link to the dashboard.
     public struct LinkSharingConfiguration: Swift.Sendable {
         /// A structure that contains the permissions of a shareable link.
@@ -32593,88 +32635,6 @@ extension QuickSightClientTypes {
         ) {
             self.sourceTemplate = sourceTemplate
         }
-    }
-}
-
-public struct CreateDashboardInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account where you want to create the dashboard.
-    /// This member is required.
-    public var awsAccountId: Swift.String?
-    /// The ID for the dashboard, also added to the IAM policy.
-    /// This member is required.
-    public var dashboardId: Swift.String?
-    /// Options for publishing the dashboard when you create it:
-    ///
-    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
-    ///
-    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
-    ///
-    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
-    ///
-    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
-    ///
-    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
-    ///
-    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
-    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
-    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
-    public var definition: QuickSightClientTypes.DashboardVersionDefinition?
-    /// When you create the dashboard, Amazon Quick Sight adds the dashboard to these folders.
-    public var folderArns: [Swift.String]?
-    /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
-    public var linkEntities: [Swift.String]?
-    /// A structure that contains the permissions of a shareable link to the dashboard.
-    public var linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
-    /// The display name of the dashboard.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values.
-    public var parameters: QuickSightClientTypes.Parameters?
-    /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN. To specify no permissions, omit the permissions list.
-    public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
-    public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
-    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
-    public var tags: [QuickSightClientTypes.Tag]?
-    /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
-    public var themeArn: Swift.String?
-    /// The option to relax the validation needed to create a dashboard with definition objects. This option skips the validation step for specific errors.
-    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
-    /// A description for the first version of the dashboard being created.
-    public var versionDescription: Swift.String?
-
-    public init(
-        awsAccountId: Swift.String? = nil,
-        dashboardId: Swift.String? = nil,
-        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
-        definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
-        folderArns: [Swift.String]? = nil,
-        linkEntities: [Swift.String]? = nil,
-        linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration? = nil,
-        name: Swift.String? = nil,
-        parameters: QuickSightClientTypes.Parameters? = nil,
-        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
-        sourceEntity: QuickSightClientTypes.DashboardSourceEntity? = nil,
-        tags: [QuickSightClientTypes.Tag]? = nil,
-        themeArn: Swift.String? = nil,
-        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
-        versionDescription: Swift.String? = nil
-    ) {
-        self.awsAccountId = awsAccountId
-        self.dashboardId = dashboardId
-        self.dashboardPublishOptions = dashboardPublishOptions
-        self.definition = definition
-        self.folderArns = folderArns
-        self.linkEntities = linkEntities
-        self.linkSharingConfiguration = linkSharingConfiguration
-        self.name = name
-        self.parameters = parameters
-        self.permissions = permissions
-        self.sourceEntity = sourceEntity
-        self.tags = tags
-        self.themeArn = themeArn
-        self.validationStrategy = validationStrategy
-        self.versionDescription = versionDescription
     }
 }
 
@@ -37647,66 +37607,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The detailed definition of a template.
-    public struct TemplateVersionDefinition: Swift.Sendable {
-        /// The configuration for default analysis settings.
-        public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
-        /// An array of calculated field definitions for the template.
-        public var calculatedFields: [QuickSightClientTypes.CalculatedField]?
-        /// An array of template-level column configurations. Column configurations are used to set default formatting for a column that's used throughout a template.
-        public var columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]?
-        /// An array of dataset configurations. These configurations define the required columns for each dataset used within a template.
-        /// This member is required.
-        public var dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]?
-        /// Filter definitions for a template. For more information, see [Filtering Data](https://docs.aws.amazon.com/quicksight/latest/user/filtering-visual-data.html) in the Amazon Quick Suite User Guide.
-        public var filterGroups: [QuickSightClientTypes.FilterGroup]?
-        /// An array of option definitions for a template.
-        public var options: QuickSightClientTypes.AssetOptions?
-        /// An array of parameter declarations for a template. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
-        public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
-        /// A structure that describes the query execution options.
-        public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
-        /// An array of sheet definitions for a template.
-        public var sheets: [QuickSightClientTypes.SheetDefinition]?
-        /// The static files for the definition.
-        public var staticFiles: [QuickSightClientTypes.StaticFile]?
-        /// An array of tooltip sheet definitions for a template.
-        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
-        /// An array of topic configurations. These configurations define the required columns for each topic used within a template.
-        public var topicConfigurations: [QuickSightClientTypes.TopicConfiguration]?
-
-        public init(
-            analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
-            calculatedFields: [QuickSightClientTypes.CalculatedField]? = nil,
-            columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
-            dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]? = nil,
-            filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
-            parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
-            queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
-            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
-            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
-            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
-            topicConfigurations: [QuickSightClientTypes.TopicConfiguration]? = nil
-        ) {
-            self.analysisDefaults = analysisDefaults
-            self.calculatedFields = calculatedFields
-            self.columnConfigurations = columnConfigurations
-            self.dataSetConfigurations = dataSetConfigurations
-            self.filterGroups = filterGroups
-            self.options = options
-            self.parameterDeclarations = parameterDeclarations
-            self.queryExecutionOptions = queryExecutionOptions
-            self.sheets = sheets
-            self.staticFiles = staticFiles
-            self.tooltipSheets = tooltipSheets
-            self.topicConfigurations = topicConfigurations
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// The source analysis of the template.
     public struct TemplateSourceAnalysis: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
@@ -37762,51 +37662,6 @@ extension QuickSightClientTypes {
             self.sourceAnalysis = sourceAnalysis
             self.sourceTemplate = sourceTemplate
         }
-    }
-}
-
-public struct CreateTemplateInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
-    /// This member is required.
-    public var awsAccountId: Swift.String?
-    /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
-    public var definition: QuickSightClientTypes.TemplateVersionDefinition?
-    /// A display name for the template.
-    public var name: Swift.String?
-    /// A list of resource permissions to be set on the template.
-    public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
-    public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
-    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
-    public var tags: [QuickSightClientTypes.Tag]?
-    /// An ID for the template that you want to create. This template is unique per Amazon Web Services Region; in each Amazon Web Services account.
-    /// This member is required.
-    public var templateId: Swift.String?
-    /// TThe option to relax the validation needed to create a template with definition objects. This skips the validation step for specific errors.
-    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
-    /// A description of the current template version being created. This API operation creates the first version of the template. Every time UpdateTemplate is called, a new version is created. Each version of the template maintains a description of the version in the VersionDescription field.
-    public var versionDescription: Swift.String?
-
-    public init(
-        awsAccountId: Swift.String? = nil,
-        definition: QuickSightClientTypes.TemplateVersionDefinition? = nil,
-        name: Swift.String? = nil,
-        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
-        sourceEntity: QuickSightClientTypes.TemplateSourceEntity? = nil,
-        tags: [QuickSightClientTypes.Tag]? = nil,
-        templateId: Swift.String? = nil,
-        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
-        versionDescription: Swift.String? = nil
-    ) {
-        self.awsAccountId = awsAccountId
-        self.definition = definition
-        self.name = name
-        self.permissions = permissions
-        self.sourceEntity = sourceEntity
-        self.tags = tags
-        self.templateId = templateId
-        self.validationStrategy = validationStrategy
-        self.versionDescription = versionDescription
     }
 }
 
@@ -43170,59 +43025,6 @@ public struct DescribeAnalysisDefinitionInput: Swift.Sendable {
     }
 }
 
-public struct DescribeAnalysisDefinitionOutput: Swift.Sendable {
-    /// The ID of the analysis described.
-    public var analysisId: Swift.String?
-    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    public var definition: QuickSightClientTypes.AnalysisDefinition?
-    /// Errors associated with the analysis.
-    public var errors: [QuickSightClientTypes.AnalysisError]?
-    /// The descriptive name of the analysis.
-    public var name: Swift.String?
-    /// The Amazon Web Services request ID for this operation.
-    public var requestId: Swift.String?
-    /// Status associated with the analysis.
-    ///
-    /// * CREATION_IN_PROGRESS
-    ///
-    /// * CREATION_SUCCESSFUL
-    ///
-    /// * CREATION_FAILED
-    ///
-    /// * UPDATE_IN_PROGRESS
-    ///
-    /// * UPDATE_SUCCESSFUL
-    ///
-    /// * UPDATE_FAILED
-    ///
-    /// * DELETED
-    public var resourceStatus: QuickSightClientTypes.ResourceStatus?
-    /// The HTTP status of the request.
-    public var status: Swift.Int
-    /// The ARN of the theme of the analysis.
-    public var themeArn: Swift.String?
-
-    public init(
-        analysisId: Swift.String? = nil,
-        definition: QuickSightClientTypes.AnalysisDefinition? = nil,
-        errors: [QuickSightClientTypes.AnalysisError]? = nil,
-        name: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
-        status: Swift.Int = 0,
-        themeArn: Swift.String? = nil
-    ) {
-        self.analysisId = analysisId
-        self.definition = definition
-        self.errors = errors
-        self.name = name
-        self.requestId = requestId
-        self.resourceStatus = resourceStatus
-        self.status = status
-        self.themeArn = themeArn
-    }
-}
-
 public struct DescribeAnalysisPermissionsInput: Swift.Sendable {
     /// The ID of the analysis whose permissions you're describing. The ID is part of the analysis URL.
     /// This member is required.
@@ -43883,75 +43685,6 @@ public struct DescribeDashboardDefinitionInput: Swift.Sendable {
         self.awsAccountId = awsAccountId
         self.dashboardId = dashboardId
         self.versionNumber = versionNumber
-    }
-}
-
-public struct DescribeDashboardDefinitionOutput: Swift.Sendable {
-    /// The ID of the dashboard described.
-    public var dashboardId: Swift.String?
-    /// Options for publishing the dashboard:
-    ///
-    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
-    ///
-    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
-    ///
-    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
-    ///
-    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
-    ///
-    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
-    ///
-    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
-    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
-    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    public var definition: QuickSightClientTypes.DashboardVersionDefinition?
-    /// Errors associated with this dashboard version.
-    public var errors: [QuickSightClientTypes.DashboardError]?
-    /// The display name of the dashboard.
-    public var name: Swift.String?
-    /// The Amazon Web Services request ID for this operation.
-    public var requestId: Swift.String?
-    /// Status associated with the dashboard version.
-    ///
-    /// * CREATION_IN_PROGRESS
-    ///
-    /// * CREATION_SUCCESSFUL
-    ///
-    /// * CREATION_FAILED
-    ///
-    /// * UPDATE_IN_PROGRESS
-    ///
-    /// * UPDATE_SUCCESSFUL
-    ///
-    /// * UPDATE_FAILED
-    ///
-    /// * DELETED
-    public var resourceStatus: QuickSightClientTypes.ResourceStatus?
-    /// The HTTP status of the request.
-    public var status: Swift.Int
-    /// The ARN of the theme of the dashboard.
-    public var themeArn: Swift.String?
-
-    public init(
-        dashboardId: Swift.String? = nil,
-        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
-        definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
-        errors: [QuickSightClientTypes.DashboardError]? = nil,
-        name: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
-        status: Swift.Int = 0,
-        themeArn: Swift.String? = nil
-    ) {
-        self.dashboardId = dashboardId
-        self.dashboardPublishOptions = dashboardPublishOptions
-        self.definition = definition
-        self.errors = errors
-        self.name = name
-        self.requestId = requestId
-        self.resourceStatus = resourceStatus
-        self.status = status
-        self.themeArn = themeArn
     }
 }
 
@@ -47147,59 +46880,6 @@ public struct DescribeTemplateDefinitionInput: Swift.Sendable {
         self.awsAccountId = awsAccountId
         self.templateId = templateId
         self.versionNumber = versionNumber
-    }
-}
-
-public struct DescribeTemplateDefinitionOutput: Swift.Sendable {
-    /// The definition of the template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    public var definition: QuickSightClientTypes.TemplateVersionDefinition?
-    /// Errors associated with the template version.
-    public var errors: [QuickSightClientTypes.TemplateError]?
-    /// The descriptive name of the template.
-    public var name: Swift.String?
-    /// The Amazon Web Services request ID for this operation.
-    public var requestId: Swift.String?
-    /// Status associated with the template.
-    ///
-    /// * CREATION_IN_PROGRESS
-    ///
-    /// * CREATION_SUCCESSFUL
-    ///
-    /// * CREATION_FAILED
-    ///
-    /// * UPDATE_IN_PROGRESS
-    ///
-    /// * UPDATE_SUCCESSFUL
-    ///
-    /// * UPDATE_FAILED
-    ///
-    /// * DELETED
-    public var resourceStatus: QuickSightClientTypes.ResourceStatus?
-    /// The HTTP status of the request.
-    public var status: Swift.Int
-    /// The ID of the template described.
-    public var templateId: Swift.String?
-    /// The ARN of the theme of the template.
-    public var themeArn: Swift.String?
-
-    public init(
-        definition: QuickSightClientTypes.TemplateVersionDefinition? = nil,
-        errors: [QuickSightClientTypes.TemplateError]? = nil,
-        name: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
-        status: Swift.Int = 0,
-        templateId: Swift.String? = nil,
-        themeArn: Swift.String? = nil
-    ) {
-        self.definition = definition
-        self.errors = errors
-        self.name = name
-        self.requestId = requestId
-        self.resourceStatus = resourceStatus
-        self.status = status
-        self.templateId = templateId
-        self.themeArn = themeArn
     }
 }
 
@@ -55059,48 +54739,6 @@ public struct UpdateAgentPermissionsOutput: Swift.Sendable {
     }
 }
 
-public struct UpdateAnalysisInput: Swift.Sendable {
-    /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
-    /// This member is required.
-    public var analysisId: Swift.String?
-    /// The ID of the Amazon Web Services account that contains the analysis that you're updating.
-    /// This member is required.
-    public var awsAccountId: Swift.String?
-    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    public var definition: QuickSightClientTypes.AnalysisDefinition?
-    /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon Quick Sight console.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
-    public var parameters: QuickSightClientTypes.Parameters?
-    /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets or topics.
-    public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
-    /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
-    public var themeArn: Swift.String?
-    /// The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
-    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
-
-    public init(
-        analysisId: Swift.String? = nil,
-        awsAccountId: Swift.String? = nil,
-        definition: QuickSightClientTypes.AnalysisDefinition? = nil,
-        name: Swift.String? = nil,
-        parameters: QuickSightClientTypes.Parameters? = nil,
-        sourceEntity: QuickSightClientTypes.AnalysisSourceEntity? = nil,
-        themeArn: Swift.String? = nil,
-        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil
-    ) {
-        self.analysisId = analysisId
-        self.awsAccountId = awsAccountId
-        self.definition = definition
-        self.name = name
-        self.parameters = parameters
-        self.sourceEntity = sourceEntity
-        self.themeArn = themeArn
-        self.validationStrategy = validationStrategy
-    }
-}
-
 public struct UpdateAnalysisOutput: Swift.Sendable {
     /// The ID of the analysis.
     public var analysisId: Swift.String?
@@ -55466,68 +55104,6 @@ public struct UpdateCustomPermissionsOutput: Swift.Sendable {
         self.arn = arn
         self.requestId = requestId
         self.status = status
-    }
-}
-
-public struct UpdateDashboardInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account that contains the dashboard that you're updating.
-    /// This member is required.
-    public var awsAccountId: Swift.String?
-    /// The ID for the dashboard.
-    /// This member is required.
-    public var dashboardId: Swift.String?
-    /// Options for publishing the dashboard when you create it:
-    ///
-    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
-    ///
-    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
-    ///
-    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
-    ///
-    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
-    ///
-    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
-    ///
-    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
-    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
-    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    public var definition: QuickSightClientTypes.DashboardVersionDefinition?
-    /// The display name of the dashboard.
-    /// This member is required.
-    public var name: Swift.String?
-    /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
-    public var parameters: QuickSightClientTypes.Parameters?
-    /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
-    public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
-    /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
-    public var themeArn: Swift.String?
-    /// The option to relax the validation needed to update a dashboard with definition objects. This skips the validation step for specific errors.
-    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
-    /// A description for the first version of the dashboard being created.
-    public var versionDescription: Swift.String?
-
-    public init(
-        awsAccountId: Swift.String? = nil,
-        dashboardId: Swift.String? = nil,
-        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
-        definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
-        name: Swift.String? = nil,
-        parameters: QuickSightClientTypes.Parameters? = nil,
-        sourceEntity: QuickSightClientTypes.DashboardSourceEntity? = nil,
-        themeArn: Swift.String? = nil,
-        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
-        versionDescription: Swift.String? = nil
-    ) {
-        self.awsAccountId = awsAccountId
-        self.dashboardId = dashboardId
-        self.dashboardPublishOptions = dashboardPublishOptions
-        self.definition = definition
-        self.name = name
-        self.parameters = parameters
-        self.sourceEntity = sourceEntity
-        self.themeArn = themeArn
-        self.validationStrategy = validationStrategy
-        self.versionDescription = versionDescription
     }
 }
 
@@ -57362,43 +56938,6 @@ public struct UpdateSPICECapacityConfigurationOutput: Swift.Sendable {
     }
 }
 
-public struct UpdateTemplateInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account that contains the template that you're updating.
-    /// This member is required.
-    public var awsAccountId: Swift.String?
-    /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
-    public var definition: QuickSightClientTypes.TemplateVersionDefinition?
-    /// The name for the template.
-    public var name: Swift.String?
-    /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region;. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
-    public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
-    /// The ID for the template.
-    /// This member is required.
-    public var templateId: Swift.String?
-    /// The option to relax the validation needed to update a template with definition objects. This skips the validation step for specific errors.
-    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
-    /// A description of the current template version that is being updated. Every time you call UpdateTemplate, you create a new version of the template. Each version of the template maintains a description of the version in the VersionDescription field.
-    public var versionDescription: Swift.String?
-
-    public init(
-        awsAccountId: Swift.String? = nil,
-        definition: QuickSightClientTypes.TemplateVersionDefinition? = nil,
-        name: Swift.String? = nil,
-        sourceEntity: QuickSightClientTypes.TemplateSourceEntity? = nil,
-        templateId: Swift.String? = nil,
-        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
-        versionDescription: Swift.String? = nil
-    ) {
-        self.awsAccountId = awsAccountId
-        self.definition = definition
-        self.name = name
-        self.sourceEntity = sourceEntity
-        self.templateId = templateId
-        self.validationStrategy = validationStrategy
-        self.versionDescription = versionDescription
-    }
-}
-
 public struct UpdateTemplateOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the template.
     public var arn: Swift.String?
@@ -58203,6 +57742,39 @@ public struct UpdateVPCConnectionOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// A node in the selection tree of a HierarchyFilter. Each node records the values that are selected at one level of the hierarchy. Nodes nest through Children to record selections at deeper levels. The tree cannot be deeper than the number of levels declared in HierarchyLevels. A tree can be a maximum of 5 levels deep, and a node can have a maximum of 1,000 children.
+    public struct HierarchyFilterNode: Swift.Sendable {
+        /// The nodes that record the selections at the next level of the hierarchy. You can specify a maximum of 1,000 children per node.
+        public var children: [QuickSightClientTypes.HierarchyFilterNode]?
+        /// The column that this node selects values from. This column must match the column of the corresponding level in HierarchyFilter$HierarchyLevels. The node at depth 1 must match the first level, the node at depth 2 must match the second level, and so on.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The values that are selected at this level of the hierarchy. You can specify a maximum of 2,000 values per node.
+        public var hierarchyValues: [Swift.String]?
+        /// The value in the parent node's HierarchyValues that this node belongs to. When a parent selects several values, each of its children repeats one of them here to identify which branch of the hierarchy that child describes. Omit this attribute on the root node of HierarchyTree, which has no parent.
+        public var parentValue: Swift.String?
+
+        public init(
+            children: [QuickSightClientTypes.HierarchyFilterNode]? = nil,
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            hierarchyValues: [Swift.String]? = nil,
+            parentValue: Swift.String? = nil
+        ) {
+            self.children = children
+            self.column = column
+            self.hierarchyValues = hierarchyValues
+            self.parentValue = parentValue
+        }
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterNode: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HierarchyFilterNode(children: \(Swift.String(describing: children)), column: \(Swift.String(describing: column)), hierarchyValues: \"CONTENT_REDACTED\", parentValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
     /// The definition for a TopicVisual.
     public struct TopicVisual: Swift.Sendable {
         /// The ir for the TopicVisual.
@@ -58273,6 +57845,60 @@ extension QuickSightClientTypes.CreateTopicReviewedAnswer: Swift.CustomDebugStri
 
 extension QuickSightClientTypes {
 
+    /// A HierarchyFilter filters data by drilling down through an ordered list of columns. Each level in the list narrows the data by one column, and the selected values at each level determine which values are available at the next.
+    public struct HierarchyFilter: Swift.Sendable {
+        /// The column that anchors the filter. This column determines the dataset that the whole filter applies to, so every column in HierarchyLevels and in HierarchyTree must belong to the same dataset.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        /// This member is required.
+        public var filterId: Swift.String?
+        /// The ordered list of columns that defines the drill-down path of the filter. The first level is the top of the hierarchy. You can specify a maximum of 5 levels.
+        /// This member is required.
+        public var hierarchyLevels: [QuickSightClientTypes.HierarchyFilterLevel]?
+        /// The tree of selected values for the filter. Each node records the values that are selected at one level of the hierarchy, and its children record the selections beneath those values. Omit this attribute to define the drill-down path without restricting any values.
+        public var hierarchyTree: QuickSightClientTypes.HierarchyFilterNode?
+        /// Determines whether the values selected in HierarchyTree are kept or removed. Choose one of the following options:
+        ///
+        /// * INCLUDE: Keep only the selected values.
+        ///
+        /// * EXCLUDE: Remove the selected values.
+        /// This member is required.
+        public var matchOperator: QuickSightClientTypes.HierarchyFilterMatchOperator?
+        /// This option determines how null values should be treated when filtering data.
+        ///
+        /// * ALL_VALUES: Include null values in filtered results.
+        ///
+        /// * NULLS_ONLY: Only include null values in filtered results.
+        ///
+        /// * NON_NULLS_ONLY: Exclude null values from filtered results.
+        /// This member is required.
+        public var nullOption: QuickSightClientTypes.FilterNullOption?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
+            filterId: Swift.String? = nil,
+            hierarchyLevels: [QuickSightClientTypes.HierarchyFilterLevel]? = nil,
+            hierarchyTree: QuickSightClientTypes.HierarchyFilterNode? = nil,
+            matchOperator: QuickSightClientTypes.HierarchyFilterMatchOperator? = nil,
+            nullOption: QuickSightClientTypes.FilterNullOption? = nil
+        ) {
+            self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
+            self.filterId = filterId
+            self.hierarchyLevels = hierarchyLevels
+            self.hierarchyTree = hierarchyTree
+            self.matchOperator = matchOperator
+            self.nullOption = nullOption
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The deinition for a TopicReviewedAnswer.
     public struct TopicReviewedAnswer: Swift.Sendable {
         /// The answer ID of the reviewed answer.
@@ -58316,6 +57942,53 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.TopicReviewedAnswer: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "TopicReviewedAnswer(answerId: \(Swift.String(describing: answerId)), arn: \(Swift.String(describing: arn)), datasetArn: \(Swift.String(describing: datasetArn)), mir: \(Swift.String(describing: mir)), primaryVisual: \(Swift.String(describing: primaryVisual)), template: \(Swift.String(describing: template)), question: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// With a Filter, you can remove portions of data from a particular visual or view. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct Filter: Swift.Sendable {
+        /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon Quick Suite User Guide.
+        public var categoryFilter: QuickSightClientTypes.CategoryFilter?
+        /// A HierarchyFilter filters data by drilling down through an ordered list of columns. Each level in the list narrows the data by one column, and the selected values at each level determine which values are available at the next.
+        public var hierarchyFilter: QuickSightClientTypes.HierarchyFilter?
+        /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
+        public var nestedFilter: QuickSightClientTypes.NestedFilter?
+        /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
+        public var numericEqualityFilter: QuickSightClientTypes.NumericEqualityFilter?
+        /// A NumericRangeFilter filters numeric values that are either inside or outside a given numeric range.
+        public var numericRangeFilter: QuickSightClientTypes.NumericRangeFilter?
+        /// A RelativeDatesFilter filters date values that are relative to a given date.
+        public var relativeDatesFilter: QuickSightClientTypes.RelativeDatesFilter?
+        /// A TimeEqualityFilter filters date-time values that equal or do not equal a given date/time value.
+        public var timeEqualityFilter: QuickSightClientTypes.TimeEqualityFilter?
+        /// A TimeRangeFilter filters date-time values that are either inside or outside a given date/time range.
+        public var timeRangeFilter: QuickSightClientTypes.TimeRangeFilter?
+        /// A TopBottomFilter filters data to the top or bottom values for a given column.
+        public var topBottomFilter: QuickSightClientTypes.TopBottomFilter?
+
+        public init(
+            categoryFilter: QuickSightClientTypes.CategoryFilter? = nil,
+            hierarchyFilter: QuickSightClientTypes.HierarchyFilter? = nil,
+            nestedFilter: QuickSightClientTypes.NestedFilter? = nil,
+            numericEqualityFilter: QuickSightClientTypes.NumericEqualityFilter? = nil,
+            numericRangeFilter: QuickSightClientTypes.NumericRangeFilter? = nil,
+            relativeDatesFilter: QuickSightClientTypes.RelativeDatesFilter? = nil,
+            timeEqualityFilter: QuickSightClientTypes.TimeEqualityFilter? = nil,
+            timeRangeFilter: QuickSightClientTypes.TimeRangeFilter? = nil,
+            topBottomFilter: QuickSightClientTypes.TopBottomFilter? = nil
+        ) {
+            self.categoryFilter = categoryFilter
+            self.hierarchyFilter = hierarchyFilter
+            self.nestedFilter = nestedFilter
+            self.numericEqualityFilter = numericEqualityFilter
+            self.numericRangeFilter = numericRangeFilter
+            self.relativeDatesFilter = relativeDatesFilter
+            self.timeEqualityFilter = timeEqualityFilter
+            self.timeRangeFilter = timeRangeFilter
+            self.topBottomFilter = topBottomFilter
+        }
+    }
 }
 
 public struct BatchCreateTopicReviewedAnswerInput: Swift.Sendable {
@@ -58364,6 +58037,718 @@ public struct ListTopicReviewedAnswersOutput: Swift.Sendable {
         self.status = status
         self.topicArn = topicArn
         self.topicId = topicId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A grouping of individual filters. Filter groups are applied to the same group of visuals. For more information, see [Adding filter conditions (group filters) with AND and OR operators](https://docs.aws.amazon.com/quicksight/latest/user/add-a-compound-filter.html) in the Amazon Quick Suite User Guide.
+    public struct FilterGroup: Swift.Sendable {
+        /// The filter new feature which can apply filter group to all data sets. Choose one of the following options:
+        ///
+        /// * ALL_DATASETS
+        ///
+        /// * SINGLE_DATASET
+        /// This member is required.
+        public var crossDataset: QuickSightClientTypes.CrossDatasetTypes?
+        /// The value that uniquely identifies a FilterGroup within a dashboard, template, or analysis.
+        /// This member is required.
+        public var filterGroupId: Swift.String?
+        /// The list of filters that are present in a FilterGroup.
+        /// This member is required.
+        public var filters: [QuickSightClientTypes.Filter]?
+        /// The configuration that specifies what scope to apply to a FilterGroup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        /// This member is required.
+        public var scopeConfiguration: QuickSightClientTypes.FilterScopeConfiguration?
+        /// The status of the FilterGroup.
+        public var status: QuickSightClientTypes.WidgetStatus?
+
+        public init(
+            crossDataset: QuickSightClientTypes.CrossDatasetTypes? = nil,
+            filterGroupId: Swift.String? = nil,
+            filters: [QuickSightClientTypes.Filter]? = nil,
+            scopeConfiguration: QuickSightClientTypes.FilterScopeConfiguration? = nil,
+            status: QuickSightClientTypes.WidgetStatus? = nil
+        ) {
+            self.crossDataset = crossDataset
+            self.filterGroupId = filterGroupId
+            self.filters = filters
+            self.scopeConfiguration = scopeConfiguration
+            self.status = status
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition of an analysis.
+    public struct AnalysisDefinition: Swift.Sendable {
+        /// The configuration for default analysis settings.
+        public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
+        /// An array of calculated field definitions for the analysis.
+        public var calculatedFields: [QuickSightClientTypes.CalculatedField]?
+        /// An array of analysis-level column configurations. Column configurations can be used to set default formatting for a column to be used throughout an analysis.
+        public var columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]?
+        /// An array of dataset identifier declarations. This mapping allows the usage of dataset identifiers instead of dataset ARNs throughout analysis sub-structures.
+        /// This member is required.
+        public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
+        /// Filter definitions for an analysis. For more information, see [Filtering Data in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon Quick Suite User Guide.
+        public var filterGroups: [QuickSightClientTypes.FilterGroup]?
+        /// An array of option definitions for an analysis.
+        public var options: QuickSightClientTypes.AssetOptions?
+        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
+        public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
+        /// A structure that describes the query execution options.
+        public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
+        /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
+        public var sheets: [QuickSightClientTypes.SheetDefinition]?
+        /// The static files for the definition.
+        public var staticFiles: [QuickSightClientTypes.StaticFile]?
+        /// An array of tooltip sheet definitions for an analysis. Each TooltipSheetDefinition provides detailed information about a tooltip sheet within this analysis.
+        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
+        /// An array of topic identifier declarations. This mapping allows the usage of topic identifiers instead of topic ARNs throughout analysis sub-structures.
+        public var topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]?
+
+        public init(
+            analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
+            calculatedFields: [QuickSightClientTypes.CalculatedField]? = nil,
+            columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
+            dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]? = nil,
+            filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
+            parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
+            queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
+            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
+            topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]? = nil
+        ) {
+            self.analysisDefaults = analysisDefaults
+            self.calculatedFields = calculatedFields
+            self.columnConfigurations = columnConfigurations
+            self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
+            self.filterGroups = filterGroups
+            self.options = options
+            self.parameterDeclarations = parameterDeclarations
+            self.queryExecutionOptions = queryExecutionOptions
+            self.sheets = sheets
+            self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
+            self.topicIdentifierDeclarations = topicIdentifierDeclarations
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The contents of a dashboard.
+    public struct DashboardVersionDefinition: Swift.Sendable {
+        /// The configuration for default analysis settings.
+        public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
+        /// An array of calculated field definitions for the dashboard.
+        public var calculatedFields: [QuickSightClientTypes.CalculatedField]?
+        /// An array of dashboard-level column configurations. Column configurations are used to set the default formatting for a column that is used throughout a dashboard.
+        public var columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]?
+        /// An array of dataset identifier declarations. With this mapping,you can use dataset identifiers instead of dataset Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
+        /// This member is required.
+        public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
+        /// The filter definitions for a dashboard. For more information, see [Filtering Data in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon Quick Suite User Guide.
+        public var filterGroups: [QuickSightClientTypes.FilterGroup]?
+        /// An array of option definitions for a dashboard.
+        public var options: QuickSightClientTypes.AssetOptions?
+        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
+        public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
+        /// An array of sheet definitions for a dashboard.
+        public var sheets: [QuickSightClientTypes.SheetDefinition]?
+        /// The static files for the definition.
+        public var staticFiles: [QuickSightClientTypes.StaticFile]?
+        /// An array of tooltip sheet definitions for a dashboard.
+        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
+        /// An array of topic identifier declarations. With this mapping, you can use topic identifiers instead of topic Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
+        public var topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]?
+
+        public init(
+            analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
+            calculatedFields: [QuickSightClientTypes.CalculatedField]? = nil,
+            columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
+            dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]? = nil,
+            filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
+            parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
+            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
+            topicIdentifierDeclarations: [QuickSightClientTypes.TopicIdentifierDeclaration]? = nil
+        ) {
+            self.analysisDefaults = analysisDefaults
+            self.calculatedFields = calculatedFields
+            self.columnConfigurations = columnConfigurations
+            self.dataSetIdentifierDeclarations = dataSetIdentifierDeclarations
+            self.filterGroups = filterGroups
+            self.options = options
+            self.parameterDeclarations = parameterDeclarations
+            self.sheets = sheets
+            self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
+            self.topicIdentifierDeclarations = topicIdentifierDeclarations
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The detailed definition of a template.
+    public struct TemplateVersionDefinition: Swift.Sendable {
+        /// The configuration for default analysis settings.
+        public var analysisDefaults: QuickSightClientTypes.AnalysisDefaults?
+        /// An array of calculated field definitions for the template.
+        public var calculatedFields: [QuickSightClientTypes.CalculatedField]?
+        /// An array of template-level column configurations. Column configurations are used to set default formatting for a column that's used throughout a template.
+        public var columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]?
+        /// An array of dataset configurations. These configurations define the required columns for each dataset used within a template.
+        /// This member is required.
+        public var dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]?
+        /// Filter definitions for a template. For more information, see [Filtering Data](https://docs.aws.amazon.com/quicksight/latest/user/filtering-visual-data.html) in the Amazon Quick Suite User Guide.
+        public var filterGroups: [QuickSightClientTypes.FilterGroup]?
+        /// An array of option definitions for a template.
+        public var options: QuickSightClientTypes.AssetOptions?
+        /// An array of parameter declarations for a template. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
+        public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
+        /// A structure that describes the query execution options.
+        public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
+        /// An array of sheet definitions for a template.
+        public var sheets: [QuickSightClientTypes.SheetDefinition]?
+        /// The static files for the definition.
+        public var staticFiles: [QuickSightClientTypes.StaticFile]?
+        /// An array of tooltip sheet definitions for a template.
+        public var tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]?
+        /// An array of topic configurations. These configurations define the required columns for each topic used within a template.
+        public var topicConfigurations: [QuickSightClientTypes.TopicConfiguration]?
+
+        public init(
+            analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
+            calculatedFields: [QuickSightClientTypes.CalculatedField]? = nil,
+            columnConfigurations: [QuickSightClientTypes.ColumnConfiguration]? = nil,
+            dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]? = nil,
+            filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
+            options: QuickSightClientTypes.AssetOptions? = nil,
+            parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
+            queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
+            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil,
+            tooltipSheets: [QuickSightClientTypes.TooltipSheetDefinition]? = nil,
+            topicConfigurations: [QuickSightClientTypes.TopicConfiguration]? = nil
+        ) {
+            self.analysisDefaults = analysisDefaults
+            self.calculatedFields = calculatedFields
+            self.columnConfigurations = columnConfigurations
+            self.dataSetConfigurations = dataSetConfigurations
+            self.filterGroups = filterGroups
+            self.options = options
+            self.parameterDeclarations = parameterDeclarations
+            self.queryExecutionOptions = queryExecutionOptions
+            self.sheets = sheets
+            self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
+            self.topicConfigurations = topicConfigurations
+        }
+    }
+}
+
+public struct CreateAnalysisInput: Swift.Sendable {
+    /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The ID of the Amazon Web Services account where you are creating an analysis.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    public var definition: QuickSightClientTypes.AnalysisDefinition?
+    /// When you create the analysis, Amazon Quick Sight adds the analysis to these folders.
+    public var folderArns: [Swift.String]?
+    /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon Quick Sight console.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
+    public var parameters: QuickSightClientTypes.Parameters?
+    /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN). To specify no permissions, omit Permissions.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets or topics. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
+    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
+    public var themeArn: Swift.String?
+    /// The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
+    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        definition: QuickSightClientTypes.AnalysisDefinition? = nil,
+        folderArns: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        parameters: QuickSightClientTypes.Parameters? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        sourceEntity: QuickSightClientTypes.AnalysisSourceEntity? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        themeArn: Swift.String? = nil,
+        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil
+    ) {
+        self.analysisId = analysisId
+        self.awsAccountId = awsAccountId
+        self.definition = definition
+        self.folderArns = folderArns
+        self.name = name
+        self.parameters = parameters
+        self.permissions = permissions
+        self.sourceEntity = sourceEntity
+        self.tags = tags
+        self.themeArn = themeArn
+        self.validationStrategy = validationStrategy
+    }
+}
+
+public struct CreateDashboardInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account where you want to create the dashboard.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the dashboard, also added to the IAM policy.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// Options for publishing the dashboard when you create it:
+    ///
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///
+    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
+    ///
+    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
+    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
+    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    public var definition: QuickSightClientTypes.DashboardVersionDefinition?
+    /// When you create the dashboard, Amazon Quick Sight adds the dashboard to these folders.
+    public var folderArns: [Swift.String]?
+    /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
+    public var linkEntities: [Swift.String]?
+    /// A structure that contains the permissions of a shareable link to the dashboard.
+    public var linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
+    /// The display name of the dashboard.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values.
+    public var parameters: QuickSightClientTypes.Parameters?
+    /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN. To specify no permissions, omit the permissions list.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
+    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
+    public var themeArn: Swift.String?
+    /// The option to relax the validation needed to create a dashboard with definition objects. This option skips the validation step for specific errors.
+    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
+    /// A description for the first version of the dashboard being created.
+    public var versionDescription: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
+        definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
+        folderArns: [Swift.String]? = nil,
+        linkEntities: [Swift.String]? = nil,
+        linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration? = nil,
+        name: Swift.String? = nil,
+        parameters: QuickSightClientTypes.Parameters? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        sourceEntity: QuickSightClientTypes.DashboardSourceEntity? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        themeArn: Swift.String? = nil,
+        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
+        versionDescription: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.dashboardPublishOptions = dashboardPublishOptions
+        self.definition = definition
+        self.folderArns = folderArns
+        self.linkEntities = linkEntities
+        self.linkSharingConfiguration = linkSharingConfiguration
+        self.name = name
+        self.parameters = parameters
+        self.permissions = permissions
+        self.sourceEntity = sourceEntity
+        self.tags = tags
+        self.themeArn = themeArn
+        self.validationStrategy = validationStrategy
+        self.versionDescription = versionDescription
+    }
+}
+
+public struct CreateTemplateInput: Swift.Sendable {
+    /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    public var definition: QuickSightClientTypes.TemplateVersionDefinition?
+    /// A display name for the template.
+    public var name: Swift.String?
+    /// A list of resource permissions to be set on the template.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
+    /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// An ID for the template that you want to create. This template is unique per Amazon Web Services Region; in each Amazon Web Services account.
+    /// This member is required.
+    public var templateId: Swift.String?
+    /// TThe option to relax the validation needed to create a template with definition objects. This skips the validation step for specific errors.
+    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
+    /// A description of the current template version being created. This API operation creates the first version of the template. Every time UpdateTemplate is called, a new version is created. Each version of the template maintains a description of the version in the VersionDescription field.
+    public var versionDescription: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        definition: QuickSightClientTypes.TemplateVersionDefinition? = nil,
+        name: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        sourceEntity: QuickSightClientTypes.TemplateSourceEntity? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        templateId: Swift.String? = nil,
+        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
+        versionDescription: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.definition = definition
+        self.name = name
+        self.permissions = permissions
+        self.sourceEntity = sourceEntity
+        self.tags = tags
+        self.templateId = templateId
+        self.validationStrategy = validationStrategy
+        self.versionDescription = versionDescription
+    }
+}
+
+public struct DescribeAnalysisDefinitionOutput: Swift.Sendable {
+    /// The ID of the analysis described.
+    public var analysisId: Swift.String?
+    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    public var definition: QuickSightClientTypes.AnalysisDefinition?
+    /// Errors associated with the analysis.
+    public var errors: [QuickSightClientTypes.AnalysisError]?
+    /// The descriptive name of the analysis.
+    public var name: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// Status associated with the analysis.
+    ///
+    /// * CREATION_IN_PROGRESS
+    ///
+    /// * CREATION_SUCCESSFUL
+    ///
+    /// * CREATION_FAILED
+    ///
+    /// * UPDATE_IN_PROGRESS
+    ///
+    /// * UPDATE_SUCCESSFUL
+    ///
+    /// * UPDATE_FAILED
+    ///
+    /// * DELETED
+    public var resourceStatus: QuickSightClientTypes.ResourceStatus?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ARN of the theme of the analysis.
+    public var themeArn: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        definition: QuickSightClientTypes.AnalysisDefinition? = nil,
+        errors: [QuickSightClientTypes.AnalysisError]? = nil,
+        name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
+        status: Swift.Int = 0,
+        themeArn: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.definition = definition
+        self.errors = errors
+        self.name = name
+        self.requestId = requestId
+        self.resourceStatus = resourceStatus
+        self.status = status
+        self.themeArn = themeArn
+    }
+}
+
+public struct DescribeDashboardDefinitionOutput: Swift.Sendable {
+    /// The ID of the dashboard described.
+    public var dashboardId: Swift.String?
+    /// Options for publishing the dashboard:
+    ///
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///
+    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
+    ///
+    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
+    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
+    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    public var definition: QuickSightClientTypes.DashboardVersionDefinition?
+    /// Errors associated with this dashboard version.
+    public var errors: [QuickSightClientTypes.DashboardError]?
+    /// The display name of the dashboard.
+    public var name: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// Status associated with the dashboard version.
+    ///
+    /// * CREATION_IN_PROGRESS
+    ///
+    /// * CREATION_SUCCESSFUL
+    ///
+    /// * CREATION_FAILED
+    ///
+    /// * UPDATE_IN_PROGRESS
+    ///
+    /// * UPDATE_SUCCESSFUL
+    ///
+    /// * UPDATE_FAILED
+    ///
+    /// * DELETED
+    public var resourceStatus: QuickSightClientTypes.ResourceStatus?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ARN of the theme of the dashboard.
+    public var themeArn: Swift.String?
+
+    public init(
+        dashboardId: Swift.String? = nil,
+        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
+        definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
+        errors: [QuickSightClientTypes.DashboardError]? = nil,
+        name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
+        status: Swift.Int = 0,
+        themeArn: Swift.String? = nil
+    ) {
+        self.dashboardId = dashboardId
+        self.dashboardPublishOptions = dashboardPublishOptions
+        self.definition = definition
+        self.errors = errors
+        self.name = name
+        self.requestId = requestId
+        self.resourceStatus = resourceStatus
+        self.status = status
+        self.themeArn = themeArn
+    }
+}
+
+public struct DescribeTemplateDefinitionOutput: Swift.Sendable {
+    /// The definition of the template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    public var definition: QuickSightClientTypes.TemplateVersionDefinition?
+    /// Errors associated with the template version.
+    public var errors: [QuickSightClientTypes.TemplateError]?
+    /// The descriptive name of the template.
+    public var name: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// Status associated with the template.
+    ///
+    /// * CREATION_IN_PROGRESS
+    ///
+    /// * CREATION_SUCCESSFUL
+    ///
+    /// * CREATION_FAILED
+    ///
+    /// * UPDATE_IN_PROGRESS
+    ///
+    /// * UPDATE_SUCCESSFUL
+    ///
+    /// * UPDATE_FAILED
+    ///
+    /// * DELETED
+    public var resourceStatus: QuickSightClientTypes.ResourceStatus?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The ID of the template described.
+    public var templateId: Swift.String?
+    /// The ARN of the theme of the template.
+    public var themeArn: Swift.String?
+
+    public init(
+        definition: QuickSightClientTypes.TemplateVersionDefinition? = nil,
+        errors: [QuickSightClientTypes.TemplateError]? = nil,
+        name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceStatus: QuickSightClientTypes.ResourceStatus? = nil,
+        status: Swift.Int = 0,
+        templateId: Swift.String? = nil,
+        themeArn: Swift.String? = nil
+    ) {
+        self.definition = definition
+        self.errors = errors
+        self.name = name
+        self.requestId = requestId
+        self.resourceStatus = resourceStatus
+        self.status = status
+        self.templateId = templateId
+        self.themeArn = themeArn
+    }
+}
+
+public struct UpdateAnalysisInput: Swift.Sendable {
+    /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The ID of the Amazon Web Services account that contains the analysis that you're updating.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    public var definition: QuickSightClientTypes.AnalysisDefinition?
+    /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon Quick Sight console.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
+    public var parameters: QuickSightClientTypes.Parameters?
+    /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets or topics.
+    public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
+    /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
+    public var themeArn: Swift.String?
+    /// The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
+    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        definition: QuickSightClientTypes.AnalysisDefinition? = nil,
+        name: Swift.String? = nil,
+        parameters: QuickSightClientTypes.Parameters? = nil,
+        sourceEntity: QuickSightClientTypes.AnalysisSourceEntity? = nil,
+        themeArn: Swift.String? = nil,
+        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil
+    ) {
+        self.analysisId = analysisId
+        self.awsAccountId = awsAccountId
+        self.definition = definition
+        self.name = name
+        self.parameters = parameters
+        self.sourceEntity = sourceEntity
+        self.themeArn = themeArn
+        self.validationStrategy = validationStrategy
+    }
+}
+
+public struct UpdateDashboardInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the dashboard that you're updating.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// Options for publishing the dashboard when you create it:
+    ///
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///
+    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
+    ///
+    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
+    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
+    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    public var definition: QuickSightClientTypes.DashboardVersionDefinition?
+    /// The display name of the dashboard.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
+    public var parameters: QuickSightClientTypes.Parameters?
+    /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
+    public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
+    /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
+    public var themeArn: Swift.String?
+    /// The option to relax the validation needed to update a dashboard with definition objects. This skips the validation step for specific errors.
+    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
+    /// A description for the first version of the dashboard being created.
+    public var versionDescription: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
+        definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
+        name: Swift.String? = nil,
+        parameters: QuickSightClientTypes.Parameters? = nil,
+        sourceEntity: QuickSightClientTypes.DashboardSourceEntity? = nil,
+        themeArn: Swift.String? = nil,
+        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
+        versionDescription: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.dashboardPublishOptions = dashboardPublishOptions
+        self.definition = definition
+        self.name = name
+        self.parameters = parameters
+        self.sourceEntity = sourceEntity
+        self.themeArn = themeArn
+        self.validationStrategy = validationStrategy
+        self.versionDescription = versionDescription
+    }
+}
+
+public struct UpdateTemplateInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the template that you're updating.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    public var definition: QuickSightClientTypes.TemplateVersionDefinition?
+    /// The name for the template.
+    public var name: Swift.String?
+    /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region;. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
+    public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
+    /// The ID for the template.
+    /// This member is required.
+    public var templateId: Swift.String?
+    /// The option to relax the validation needed to update a template with definition objects. This skips the validation step for specific errors.
+    public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
+    /// A description of the current template version that is being updated. Every time you call UpdateTemplate, you create a new version of the template. Each version of the template maintains a description of the version in the VersionDescription field.
+    public var versionDescription: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        definition: QuickSightClientTypes.TemplateVersionDefinition? = nil,
+        name: Swift.String? = nil,
+        sourceEntity: QuickSightClientTypes.TemplateSourceEntity? = nil,
+        templateId: Swift.String? = nil,
+        validationStrategy: QuickSightClientTypes.ValidationStrategy? = nil,
+        versionDescription: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.definition = definition
+        self.name = name
+        self.sourceEntity = sourceEntity
+        self.templateId = templateId
+        self.validationStrategy = validationStrategy
+        self.versionDescription = versionDescription
     }
 }
 
@@ -80883,7 +81268,9 @@ extension QuickSightClientTypes.DatabricksParameters {
 
     static func write(value: QuickSightClientTypes.DatabricksParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
         try writer["Host"].write(value.host)
+        try writer["OAuthParameters"].write(value.oAuthParameters, with: QuickSightClientTypes.OAuthParameters.write(value:to:))
         try writer["Port"].write(value.port)
         try writer["SqlEndpointPath"].write(value.sqlEndpointPath)
     }
@@ -80894,6 +81281,8 @@ extension QuickSightClientTypes.DatabricksParameters {
         value.host = try reader["Host"].readIfPresent() ?? ""
         value.port = try reader["Port"].readIfPresent() ?? 0
         value.sqlEndpointPath = try reader["SqlEndpointPath"].readIfPresent() ?? ""
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: QuickSightClientTypes.OAuthParameters.read(from:))
         return value
     }
 }
@@ -82461,6 +82850,8 @@ extension QuickSightClientTypes.DefaultFilterControlOptions {
         guard let value else { return }
         try writer["DefaultDateTimePickerOptions"].write(value.defaultDateTimePickerOptions, with: QuickSightClientTypes.DefaultDateTimePickerControlOptions.write(value:to:))
         try writer["DefaultDropdownOptions"].write(value.defaultDropdownOptions, with: QuickSightClientTypes.DefaultFilterDropDownControlOptions.write(value:to:))
+        try writer["DefaultHierarchyDropdown"].write(value.defaultHierarchyDropdown, with: QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions.write(value:to:))
+        try writer["DefaultHierarchyList"].write(value.defaultHierarchyList, with: QuickSightClientTypes.DefaultHierarchyFilterListControlOptions.write(value:to:))
         try writer["DefaultListOptions"].write(value.defaultListOptions, with: QuickSightClientTypes.DefaultFilterListControlOptions.write(value:to:))
         try writer["DefaultRelativeDateTimeOptions"].write(value.defaultRelativeDateTimeOptions, with: QuickSightClientTypes.DefaultRelativeDateTimeControlOptions.write(value:to:))
         try writer["DefaultSliderOptions"].write(value.defaultSliderOptions, with: QuickSightClientTypes.DefaultSliderControlOptions.write(value:to:))
@@ -82478,6 +82869,8 @@ extension QuickSightClientTypes.DefaultFilterControlOptions {
         value.defaultTextAreaOptions = try reader["DefaultTextAreaOptions"].readIfPresent(with: QuickSightClientTypes.DefaultTextAreaControlOptions.read(from:))
         value.defaultSliderOptions = try reader["DefaultSliderOptions"].readIfPresent(with: QuickSightClientTypes.DefaultSliderControlOptions.read(from:))
         value.defaultRelativeDateTimeOptions = try reader["DefaultRelativeDateTimeOptions"].readIfPresent(with: QuickSightClientTypes.DefaultRelativeDateTimeControlOptions.read(from:))
+        value.defaultHierarchyList = try reader["DefaultHierarchyList"].readIfPresent(with: QuickSightClientTypes.DefaultHierarchyFilterListControlOptions.read(from:))
+        value.defaultHierarchyDropdown = try reader["DefaultHierarchyDropdown"].readIfPresent(with: QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions.read(from:))
         return value
     }
 }
@@ -82569,6 +82962,52 @@ extension QuickSightClientTypes.DefaultGridLayoutConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.DefaultGridLayoutConfiguration()
         value.canvasSizeOptions = try reader["CanvasSizeOptions"].readIfPresent(with: QuickSightClientTypes.GridLayoutCanvasSizeOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions {
+
+    static func write(value: QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
+        try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DefaultHierarchyFilterDropDownControlOptions()
+        value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DefaultHierarchyFilterListControlOptions {
+
+    static func write(value: QuickSightClientTypes.DefaultHierarchyFilterListControlOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
+        try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DefaultHierarchyFilterListControlOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DefaultHierarchyFilterListControlOptions()
+        value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
         return value
     }
 }
@@ -83500,6 +83939,7 @@ extension QuickSightClientTypes.Filter {
     static func write(value: QuickSightClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CategoryFilter"].write(value.categoryFilter, with: QuickSightClientTypes.CategoryFilter.write(value:to:))
+        try writer["HierarchyFilter"].write(value.hierarchyFilter, with: QuickSightClientTypes.HierarchyFilter.write(value:to:))
         try writer["NestedFilter"].write(value.nestedFilter, with: QuickSightClientTypes.NestedFilter.write(value:to:))
         try writer["NumericEqualityFilter"].write(value.numericEqualityFilter, with: QuickSightClientTypes.NumericEqualityFilter.write(value:to:))
         try writer["NumericRangeFilter"].write(value.numericRangeFilter, with: QuickSightClientTypes.NumericRangeFilter.write(value:to:))
@@ -83520,6 +83960,7 @@ extension QuickSightClientTypes.Filter {
         value.relativeDatesFilter = try reader["RelativeDatesFilter"].readIfPresent(with: QuickSightClientTypes.RelativeDatesFilter.read(from:))
         value.topBottomFilter = try reader["TopBottomFilter"].readIfPresent(with: QuickSightClientTypes.TopBottomFilter.read(from:))
         value.nestedFilter = try reader["NestedFilter"].readIfPresent(with: QuickSightClientTypes.NestedFilter.read(from:))
+        value.hierarchyFilter = try reader["HierarchyFilter"].readIfPresent(with: QuickSightClientTypes.HierarchyFilter.read(from:))
         return value
     }
 }
@@ -83550,6 +83991,8 @@ extension QuickSightClientTypes.FilterControl {
         try writer["CrossSheet"].write(value.crossSheet, with: QuickSightClientTypes.FilterCrossSheetControl.write(value:to:))
         try writer["DateTimePicker"].write(value.dateTimePicker, with: QuickSightClientTypes.FilterDateTimePickerControl.write(value:to:))
         try writer["Dropdown"].write(value.dropdown, with: QuickSightClientTypes.FilterDropDownControl.write(value:to:))
+        try writer["HierarchyDropdown"].write(value.hierarchyDropdown, with: QuickSightClientTypes.HierarchyFilterDropDownControl.write(value:to:))
+        try writer["HierarchyList"].write(value.hierarchyList, with: QuickSightClientTypes.HierarchyFilterListControl.write(value:to:))
         try writer["List"].write(value.list, with: QuickSightClientTypes.FilterListControl.write(value:to:))
         try writer["RelativeDateTime"].write(value.relativeDateTime, with: QuickSightClientTypes.FilterRelativeDateTimeControl.write(value:to:))
         try writer["Slider"].write(value.slider, with: QuickSightClientTypes.FilterSliderControl.write(value:to:))
@@ -83568,6 +84011,8 @@ extension QuickSightClientTypes.FilterControl {
         value.slider = try reader["Slider"].readIfPresent(with: QuickSightClientTypes.FilterSliderControl.read(from:))
         value.relativeDateTime = try reader["RelativeDateTime"].readIfPresent(with: QuickSightClientTypes.FilterRelativeDateTimeControl.read(from:))
         value.crossSheet = try reader["CrossSheet"].readIfPresent(with: QuickSightClientTypes.FilterCrossSheetControl.read(from:))
+        value.hierarchyList = try reader["HierarchyList"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterListControl.read(from:))
+        value.hierarchyDropdown = try reader["HierarchyDropdown"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterDropDownControl.read(from:))
         return value
     }
 }
@@ -85883,6 +86328,178 @@ extension QuickSightClientTypes.HeatMapVisual {
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilter {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["DefaultFilterControlConfiguration"].write(value.defaultFilterControlConfiguration, with: QuickSightClientTypes.DefaultFilterControlConfiguration.write(value:to:))
+        try writer["FilterId"].write(value.filterId)
+        try writer["HierarchyLevels"].writeList(value.hierarchyLevels, memberWritingClosure: QuickSightClientTypes.HierarchyFilterLevel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HierarchyTree"].write(value.hierarchyTree, with: QuickSightClientTypes.HierarchyFilterNode.write(value:to:))
+        try writer["MatchOperator"].write(value.matchOperator)
+        try writer["NullOption"].write(value.nullOption)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilter()
+        value.filterId = try reader["FilterId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.hierarchyLevels = try reader["HierarchyLevels"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.HierarchyFilterLevel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.hierarchyTree = try reader["HierarchyTree"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterNode.read(from:))
+        value.nullOption = try reader["NullOption"].readIfPresent() ?? .sdkUnknown("")
+        value.matchOperator = try reader["MatchOperator"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterDropDownControl {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterDropDownControl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
+        try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions.write(value:to:))
+        try writer["FilterControlId"].write(value.filterControlId)
+        try writer["SourceFilterId"].write(value.sourceFilterId)
+        try writer["Title"].write(value.title)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterDropDownControl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterDropDownControl()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent()
+        value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InfoIconLabelOptions"].write(value.infoIconLabelOptions, with: QuickSightClientTypes.SheetControlInfoIconLabelOptions.write(value:to:))
+        try writer["TitleOptions"].write(value.titleOptions, with: QuickSightClientTypes.LabelOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterDropDownControlDisplayOptions()
+        value.titleOptions = try reader["TitleOptions"].readIfPresent(with: QuickSightClientTypes.LabelOptions.read(from:))
+        value.infoIconLabelOptions = try reader["InfoIconLabelOptions"].readIfPresent(with: QuickSightClientTypes.SheetControlInfoIconLabelOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterLevel {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterLevel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterLevel()
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterListControl {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterListControl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommitMode"].write(value.commitMode)
+        try writer["ControlSortConfigurations"].writeList(value.controlSortConfigurations, memberWritingClosure: QuickSightClientTypes.ControlSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlTitleFormatText"].write(value.controlTitleFormatText, with: QuickSightClientTypes.ControlTitleFormatText.write(value:to:))
+        try writer["DisplayOptions"].write(value.displayOptions, with: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions.write(value:to:))
+        try writer["FilterControlId"].write(value.filterControlId)
+        try writer["SourceFilterId"].write(value.sourceFilterId)
+        try writer["Title"].write(value.title)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterListControl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterListControl()
+        value.filterControlId = try reader["FilterControlId"].readIfPresent() ?? ""
+        value.sourceFilterId = try reader["SourceFilterId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent()
+        value.displayOptions = try reader["DisplayOptions"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.commitMode = try reader["CommitMode"].readIfPresent()
+        value.controlSortConfigurations = try reader["ControlSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ControlSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlTitleFormatText = try reader["ControlTitleFormatText"].readIfPresent(with: QuickSightClientTypes.ControlTitleFormatText.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterListControlDisplayOptions {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterListControlDisplayOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InfoIconLabelOptions"].write(value.infoIconLabelOptions, with: QuickSightClientTypes.SheetControlInfoIconLabelOptions.write(value:to:))
+        try writer["SearchOptions"].write(value.searchOptions, with: QuickSightClientTypes.HierarchyFilterListControlSearchOptions.write(value:to:))
+        try writer["TitleOptions"].write(value.titleOptions, with: QuickSightClientTypes.LabelOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterListControlDisplayOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterListControlDisplayOptions()
+        value.titleOptions = try reader["TitleOptions"].readIfPresent(with: QuickSightClientTypes.LabelOptions.read(from:))
+        value.infoIconLabelOptions = try reader["InfoIconLabelOptions"].readIfPresent(with: QuickSightClientTypes.SheetControlInfoIconLabelOptions.read(from:))
+        value.searchOptions = try reader["SearchOptions"].readIfPresent(with: QuickSightClientTypes.HierarchyFilterListControlSearchOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterListControlSearchOptions {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterListControlSearchOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterListControlSearchOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterListControlSearchOptions()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.HierarchyFilterNode {
+
+    static func write(value: QuickSightClientTypes.HierarchyFilterNode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Children"].writeList(value.children, memberWritingClosure: QuickSightClientTypes.HierarchyFilterNode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["HierarchyValues"].writeList(value.hierarchyValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ParentValue"].write(value.parentValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.HierarchyFilterNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.HierarchyFilterNode()
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.parentValue = try reader["ParentValue"].readIfPresent()
+        value.hierarchyValues = try reader["HierarchyValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.children = try reader["Children"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.HierarchyFilterNode.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

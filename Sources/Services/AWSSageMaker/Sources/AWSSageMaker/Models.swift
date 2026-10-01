@@ -504,6 +504,7 @@ extension SageMakerClientTypes {
         case mlC7gLarge
         case mlC7gMedium
         case mlC7gXlarge
+        case mlC8a16xlarge
         case mlC8g12xlarge
         case mlC8g16xlarge
         case mlC8g24xlarge
@@ -617,6 +618,7 @@ extension SageMakerClientTypes {
         case mlM7i8xlarge
         case mlM7iLarge
         case mlM7iXlarge
+        case mlM8a16xlarge
         case mlM8g12xlarge
         case mlM8g16xlarge
         case mlM8g24xlarge
@@ -715,6 +717,7 @@ extension SageMakerClientTypes {
                 .mlC7gLarge,
                 .mlC7gMedium,
                 .mlC7gXlarge,
+                .mlC8a16xlarge,
                 .mlC8g12xlarge,
                 .mlC8g16xlarge,
                 .mlC8g24xlarge,
@@ -828,6 +831,7 @@ extension SageMakerClientTypes {
                 .mlM7i8xlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
+                .mlM8a16xlarge,
                 .mlM8g12xlarge,
                 .mlM8g16xlarge,
                 .mlM8g24xlarge,
@@ -932,6 +936,7 @@ extension SageMakerClientTypes {
             case .mlC7gLarge: return "ml.c7g.large"
             case .mlC7gMedium: return "ml.c7g.medium"
             case .mlC7gXlarge: return "ml.c7g.xlarge"
+            case .mlC8a16xlarge: return "ml.c8a.16xlarge"
             case .mlC8g12xlarge: return "ml.c8g.12xlarge"
             case .mlC8g16xlarge: return "ml.c8g.16xlarge"
             case .mlC8g24xlarge: return "ml.c8g.24xlarge"
@@ -1045,6 +1050,7 @@ extension SageMakerClientTypes {
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
+            case .mlM8a16xlarge: return "ml.m8a.16xlarge"
             case .mlM8g12xlarge: return "ml.m8g.12xlarge"
             case .mlM8g16xlarge: return "ml.m8g.16xlarge"
             case .mlM8g24xlarge: return "ml.m8g.24xlarge"
@@ -18971,7 +18977,7 @@ public struct CreateClusterSchedulerConfigInput: Swift.Sendable {
     public var clusterArn: Swift.String?
     /// Description of the cluster policy.
     public var description: Swift.String?
-    /// Name for the cluster policy.
+    /// The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     /// This member is required.
     public var name: Swift.String?
     /// Configuration about the monitoring schedule.
@@ -19546,7 +19552,7 @@ public struct CreateComputeQuotaInput: Swift.Sendable {
     public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
     /// Description of the compute allocation definition.
     public var description: Swift.String?
-    /// Name to the compute allocation definition.
+    /// The name of the compute allocation definition. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     /// This member is required.
     public var name: Swift.String?
     /// Tags of the compute allocation definition.
