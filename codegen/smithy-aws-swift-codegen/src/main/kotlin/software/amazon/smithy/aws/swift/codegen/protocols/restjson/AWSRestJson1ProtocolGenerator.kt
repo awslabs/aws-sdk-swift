@@ -11,7 +11,7 @@ import software.amazon.smithy.swift.codegen.aws.protocols.restjson.RestJson1Prot
 
 class AWSRestJson1ProtocolGenerator :
     RestJson1ProtocolGenerator(
-        customizations = RestJSONCustomizations(),
+        customizations = AWSRestJSON1Customizations(),
         operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
         userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
         serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
