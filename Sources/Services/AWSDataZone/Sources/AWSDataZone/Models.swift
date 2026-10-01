@@ -22051,6 +22051,74 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// A notebook run state that triggers a notification in Amazon SageMaker Unified Studio.
+    public enum NotifyOnState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Notify when the notebook run fails.
+        case failed
+        /// Notify when the notebook run is queued.
+        case queued
+        /// Notify when the notebook run is running.
+        case running
+        /// Notify when the notebook run is starting.
+        case starting
+        /// Notify when the notebook run is stopped.
+        case stopped
+        /// Notify when the notebook run is stopping.
+        case stopping
+        /// Notify when the notebook run succeeds.
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotifyOnState] {
+            return [
+                .failed,
+                .queued,
+                .running,
+                .starting,
+                .stopped,
+                .stopping,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The notification configuration for a notebook run in Amazon SageMaker Unified Studio.
+    public struct NotificationConfig: Swift.Sendable {
+        /// Notebook run states that trigger notifications. Ordering is not significant.
+        /// This member is required.
+        public var notifyOn: [DataZoneClientTypes.NotifyOnState]?
+
+        public init(
+            notifyOn: [DataZoneClientTypes.NotifyOnState]? = nil
+        ) {
+            self.notifyOn = notifyOn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The status of a notebook run in Amazon SageMaker Unified Studio.
     public enum NotebookRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// The notebook run failed.
@@ -22218,6 +22286,8 @@ public struct GetNotebookRunOutput: Swift.Sendable {
     /// The identifier of the notebook.
     /// This member is required.
     public var notebookId: Swift.String?
+    /// The notification configuration of the notebook run, including the notebook run states that trigger notifications.
+    public var notificationConfiguration: DataZoneClientTypes.NotificationConfig?
     /// The identifier of the project that owns the notebook run.
     /// This member is required.
     public var owningProjectId: Swift.String?
@@ -22254,6 +22324,7 @@ public struct GetNotebookRunOutput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
         notebookId: Swift.String? = nil,
+        notificationConfiguration: DataZoneClientTypes.NotificationConfig? = nil,
         owningProjectId: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         scheduleId: Swift.String? = nil,
@@ -22277,6 +22348,7 @@ public struct GetNotebookRunOutput: Swift.Sendable {
         self.metadata = metadata
         self.networkConfiguration = networkConfiguration
         self.notebookId = notebookId
+        self.notificationConfiguration = notificationConfiguration
         self.owningProjectId = owningProjectId
         self.parameters = parameters
         self.scheduleId = scheduleId
@@ -22292,7 +22364,7 @@ public struct GetNotebookRunOutput: Swift.Sendable {
 
 extension GetNotebookRunOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+        "GetNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), notificationConfiguration: \(Swift.String(describing: notificationConfiguration)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotebookRunsInput: Swift.Sendable {
@@ -22434,6 +22506,8 @@ public struct StartNotebookRunInput: Swift.Sendable {
     /// The identifier of the notebook to run.
     /// This member is required.
     public var notebookIdentifier: Swift.String?
+    /// The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications.
+    public var notificationConfiguration: DataZoneClientTypes.NotificationConfig?
     /// The identifier of the project that owns the notebook run.
     /// This member is required.
     public var owningProjectIdentifier: Swift.String?
@@ -22453,6 +22527,7 @@ public struct StartNotebookRunInput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
         notebookIdentifier: Swift.String? = nil,
+        notificationConfiguration: DataZoneClientTypes.NotificationConfig? = nil,
         owningProjectIdentifier: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         scheduleIdentifier: Swift.String? = nil,
@@ -22465,6 +22540,7 @@ public struct StartNotebookRunInput: Swift.Sendable {
         self.metadata = metadata
         self.networkConfiguration = networkConfiguration
         self.notebookIdentifier = notebookIdentifier
+        self.notificationConfiguration = notificationConfiguration
         self.owningProjectIdentifier = owningProjectIdentifier
         self.parameters = parameters
         self.scheduleIdentifier = scheduleIdentifier
@@ -22475,7 +22551,7 @@ public struct StartNotebookRunInput: Swift.Sendable {
 
 extension StartNotebookRunInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartNotebookRunInput(clientToken: \(Swift.String(describing: clientToken)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookIdentifier: \(Swift.String(describing: notebookIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), scheduleIdentifier: \(Swift.String(describing: scheduleIdentifier)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+        "StartNotebookRunInput(clientToken: \(Swift.String(describing: clientToken)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookIdentifier: \(Swift.String(describing: notebookIdentifier)), notificationConfiguration: \(Swift.String(describing: notificationConfiguration)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), scheduleIdentifier: \(Swift.String(describing: scheduleIdentifier)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartNotebookRunOutput: Swift.Sendable {
@@ -22506,6 +22582,8 @@ public struct StartNotebookRunOutput: Swift.Sendable {
     /// The identifier of the notebook.
     /// This member is required.
     public var notebookId: Swift.String?
+    /// The notification configuration of the notebook run, including the notebook run states that trigger notifications.
+    public var notificationConfiguration: DataZoneClientTypes.NotificationConfig?
     /// The identifier of the project that owns the notebook run.
     /// This member is required.
     public var owningProjectId: Swift.String?
@@ -22542,6 +22620,7 @@ public struct StartNotebookRunOutput: Swift.Sendable {
         metadata: [Swift.String: Swift.String]? = nil,
         networkConfiguration: DataZoneClientTypes.NetworkConfig? = nil,
         notebookId: Swift.String? = nil,
+        notificationConfiguration: DataZoneClientTypes.NotificationConfig? = nil,
         owningProjectId: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         scheduleId: Swift.String? = nil,
@@ -22565,6 +22644,7 @@ public struct StartNotebookRunOutput: Swift.Sendable {
         self.metadata = metadata
         self.networkConfiguration = networkConfiguration
         self.notebookId = notebookId
+        self.notificationConfiguration = notificationConfiguration
         self.owningProjectId = owningProjectId
         self.parameters = parameters
         self.scheduleId = scheduleId
@@ -22580,7 +22660,7 @@ public struct StartNotebookRunOutput: Swift.Sendable {
 
 extension StartNotebookRunOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
+        "StartNotebookRunOutput(cellOrder: \(Swift.String(describing: cellOrder)), completedAt: \(Swift.String(describing: completedAt)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), environmentConfiguration: \(Swift.String(describing: environmentConfiguration)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), notebookId: \(Swift.String(describing: notebookId)), notificationConfiguration: \(Swift.String(describing: notificationConfiguration)), owningProjectId: \(Swift.String(describing: owningProjectId)), scheduleId: \(Swift.String(describing: scheduleId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), storageConfiguration: \(Swift.String(describing: storageConfiguration)), timeoutConfiguration: \(Swift.String(describing: timeoutConfiguration)), triggerSource: \(Swift.String(describing: triggerSource)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), metadata: [keys: \(Swift.String(describing: metadata?.keys)), values: \"CONTENT_REDACTED\"], parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct StopNotebookRunInput: Swift.Sendable {
@@ -31111,6 +31191,7 @@ extension StartNotebookRunInput {
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: DataZoneClientTypes.NetworkConfig.write(value:to:))
         try writer["notebookIdentifier"].write(value.notebookIdentifier)
+        try writer["notificationConfiguration"].write(value.notificationConfiguration, with: DataZoneClientTypes.NotificationConfig.write(value:to:))
         try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["scheduleIdentifier"].write(value.scheduleIdentifier)
@@ -33177,6 +33258,7 @@ extension GetNotebookRunOutput {
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: DataZoneClientTypes.NetworkConfig.read(from:))
         value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.notificationConfiguration = try reader["notificationConfiguration"].readIfPresent(with: DataZoneClientTypes.NotificationConfig.read(from:))
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.scheduleId = try reader["scheduleId"].readIfPresent()
@@ -34166,6 +34248,7 @@ extension StartNotebookRunOutput {
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: DataZoneClientTypes.NetworkConfig.read(from:))
         value.notebookId = try reader["notebookId"].readIfPresent() ?? ""
+        value.notificationConfiguration = try reader["notificationConfiguration"].readIfPresent(with: DataZoneClientTypes.NotificationConfig.read(from:))
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.scheduleId = try reader["scheduleId"].readIfPresent()
@@ -41791,6 +41874,21 @@ extension DataZoneClientTypes.NotEqualToExpression {
         var value = DataZoneClientTypes.NotEqualToExpression()
         value.columnName = try reader["columnName"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NotificationConfig {
+
+    static func write(value: DataZoneClientTypes.NotificationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["notifyOn"].writeList(value.notifyOn, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.NotifyOnState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NotificationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NotificationConfig()
+        value.notifyOn = try reader["notifyOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.NotifyOnState>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

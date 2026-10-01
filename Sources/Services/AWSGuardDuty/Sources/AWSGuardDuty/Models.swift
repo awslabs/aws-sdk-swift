@@ -8749,8 +8749,36 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum ManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case guarddutyPolicy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedBy] {
+            return [
+                .guarddutyPolicy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .guarddutyPolicy: return "GUARDDUTY_POLICY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Information about the additional configuration.
     public struct DetectorAdditionalConfigurationResult: Swift.Sendable {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public var managedBy: GuardDutyClientTypes.ManagedBy?
         /// Name of the additional configuration.
         public var name: GuardDutyClientTypes.FeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -8759,10 +8787,12 @@ extension GuardDutyClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            managedBy: GuardDutyClientTypes.ManagedBy? = nil,
             name: GuardDutyClientTypes.FeatureAdditionalConfiguration? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -8835,6 +8865,8 @@ extension GuardDutyClientTypes {
     public struct DetectorFeatureConfigurationResult: Swift.Sendable {
         /// Additional configuration for a resource.
         public var additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public var managedBy: GuardDutyClientTypes.ManagedBy?
         /// Indicates the name of the feature that can be enabled for the detector.
         public var name: GuardDutyClientTypes.DetectorFeatureResult?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -8844,11 +8876,13 @@ extension GuardDutyClientTypes {
 
         public init(
             additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfigurationResult]? = nil,
+            managedBy: GuardDutyClientTypes.ManagedBy? = nil,
             name: GuardDutyClientTypes.DetectorFeatureResult? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -12588,6 +12622,8 @@ extension GuardDutyClientTypes {
 
     /// Information about the additional configuration for the member account.
     public struct MemberAdditionalConfigurationResult: Swift.Sendable {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public var managedBy: GuardDutyClientTypes.ManagedBy?
         /// Indicates the name of the additional configuration that is set for the member account.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
         /// Indicates the status of the additional configuration that is set for the member account.
@@ -12596,10 +12632,12 @@ extension GuardDutyClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            managedBy: GuardDutyClientTypes.ManagedBy? = nil,
             name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -12613,6 +12651,8 @@ extension GuardDutyClientTypes {
     public struct MemberFeaturesConfigurationResult: Swift.Sendable {
         /// Indicates the additional configuration of the feature that is configured for the member account.
         public var additionalConfiguration: [GuardDutyClientTypes.MemberAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public var managedBy: GuardDutyClientTypes.ManagedBy?
         /// Indicates the name of the feature that is enabled for the detector.
         public var name: GuardDutyClientTypes.OrgFeature?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -12622,11 +12662,13 @@ extension GuardDutyClientTypes {
 
         public init(
             additionalConfiguration: [GuardDutyClientTypes.MemberAdditionalConfigurationResult]? = nil,
+            managedBy: GuardDutyClientTypes.ManagedBy? = nil,
             name: GuardDutyClientTypes.OrgFeature? = nil,
             status: GuardDutyClientTypes.FeatureStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -22473,6 +22515,7 @@ extension GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.managedBy = try reader["managedBy"].readIfPresent()
         return value
     }
 }
@@ -22496,6 +22539,7 @@ extension GuardDutyClientTypes.DetectorFeatureConfigurationResult {
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DetectorAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedBy = try reader["managedBy"].readIfPresent()
         return value
     }
 }
@@ -23539,6 +23583,7 @@ extension GuardDutyClientTypes.MemberAdditionalConfigurationResult {
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.managedBy = try reader["managedBy"].readIfPresent()
         return value
     }
 }
@@ -23574,6 +23619,7 @@ extension GuardDutyClientTypes.MemberFeaturesConfigurationResult {
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedBy = try reader["managedBy"].readIfPresent()
         return value
     }
 }

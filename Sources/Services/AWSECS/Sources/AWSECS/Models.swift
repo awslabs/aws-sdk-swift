@@ -9881,14 +9881,14 @@ public struct CreateExpressGatewayServiceInput: Swift.Sendable {
     public var cluster: Swift.String?
     /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
     public var cpu: Swift.String?
-    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:
+    /// The CPU architecture that the task runs on. If you don't specify a value, the default is X86_64. Valid values:
     ///
     /// * X86_64 - The x86 64-bit architecture.
     ///
     /// * ARM64 - The 64-bit ARM architecture.
     ///
     ///
-    /// Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+    /// Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
     public var cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
     public var executionRoleArn: Swift.String?
@@ -9974,14 +9974,14 @@ extension ECSClientTypes {
     public struct ExpressGatewayServiceConfiguration: Swift.Sendable {
         /// The CPU allocation for tasks in this service revision.
         public var cpu: Swift.String?
-        /// The CPU architecture that the tasks in this service revision run on. This is the architecture from the task definition that the service revision uses, so it reflects the default or the previously configured architecture when the request that created the revision didn't specify one. Valid values:
+        /// The CPU architecture that the task runs on. Valid values:
         ///
         /// * X86_64 - The x86 64-bit architecture.
         ///
         /// * ARM64 - The 64-bit ARM architecture.
         ///
         ///
-        /// This value isn't returned when the task definition for the service revision doesn't specify a runtime platform. Because the architecture comes from each service revision's own task definition, revisions of the same service can report different architectures.
+        /// Different service revisions can report different architectures. This value isn't returned when the service uses a customer-provided task definition that doesn't specify a CPU architecture.
         public var cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture?
         /// The Unix timestamp for when this service revision was created.
         public var createdAt: Foundation.Date?
@@ -11077,8 +11077,33 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The advanced settings for VPC Lattice used in blue/green deployments. Specify the alternate target group and listener rules required for traffic shifting during blue/green deployments. For more information, see [Required resources for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-deployment-implementation.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct VpcLatticeAdvancedConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the alternate target group associated with the VPC Lattice Configuration for Amazon ECS blue/green deployments.
+        public var alternateTargetGroupArn: Swift.String?
+        /// The Amazon Resource Name (ARN) that identifies the production listener rule or listener for routing production traffic.
+        public var productionListenerRule: Swift.String?
+        /// The Amazon Resource Name (ARN) that identifies the test listener rule or listener for routing test traffic.
+        public var testListenerRule: Swift.String?
+
+        public init(
+            alternateTargetGroupArn: Swift.String? = nil,
+            productionListenerRule: Swift.String? = nil,
+            testListenerRule: Swift.String? = nil
+        ) {
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.productionListenerRule = productionListenerRule
+            self.testListenerRule = testListenerRule
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The VPC Lattice configuration for your service that holds the information for the target group(s) Amazon ECS tasks will be registered to.
     public struct VpcLatticeConfiguration: Swift.Sendable {
+        /// The advanced settings for VPC Lattice used in blue/green deployments. Specify the alternate target group and listener rules required for traffic shifting during blue/green deployments. For more information, see [Required resources for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-deployment-implementation.html) in the Amazon Elastic Container Service Developer Guide.
+        public var advancedConfiguration: ECSClientTypes.VpcLatticeAdvancedConfiguration?
         /// The name of the port mapping to register in the VPC Lattice target group. This is the name of the portMapping you defined in your task definition.
         /// This member is required.
         public var portName: Swift.String?
@@ -11090,10 +11115,12 @@ extension ECSClientTypes {
         public var targetGroupArn: Swift.String?
 
         public init(
+            advancedConfiguration: ECSClientTypes.VpcLatticeAdvancedConfiguration? = nil,
             portName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil
         ) {
+            self.advancedConfiguration = advancedConfiguration
             self.portName = portName
             self.roleArn = roleArn
             self.targetGroupArn = targetGroupArn
@@ -12340,14 +12367,14 @@ public struct StopServiceDeploymentOutput: Swift.Sendable {
 public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
     /// The number of CPU units used by the task.
     public var cpu: Swift.String?
-    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:
+    /// The CPU architecture that the task runs on. If you don't specify a value, the service keeps its current architecture. Valid values:
     ///
     /// * X86_64 - The x86 64-bit architecture.
     ///
     /// * ARM64 - The 64-bit ARM architecture.
     ///
     ///
-    /// Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+    /// Changing the architecture starts a new deployment that replaces the running tasks. Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
     public var cpuArchitecture: ECSClientTypes.ExpressCpuArchitecture?
     /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
     public var executionRoleArn: Swift.String?
@@ -13212,15 +13239,38 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The resolved VPC Lattice configuration for a service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+    public struct ServiceRevisionVpcLatticeConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
+        public var productionListenerRule: Swift.String?
+        /// The Amazon Resource Name (ARN) of the target group associated with the service revision.
+        public var targetGroupArn: Swift.String?
+
+        public init(
+            productionListenerRule: Swift.String? = nil,
+            targetGroupArn: Swift.String? = nil
+        ) {
+            self.productionListenerRule = productionListenerRule
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The resolved configuration for a service revision, which contains the actual resources your service revision uses, such as which target groups serve traffic.
     public struct ResolvedConfiguration: Swift.Sendable {
         /// The resolved load balancer configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
         public var loadBalancers: [ECSClientTypes.ServiceRevisionLoadBalancer]?
+        /// The resolved VPC Lattice configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+        public var vpcLatticeConfigurations: [ECSClientTypes.ServiceRevisionVpcLatticeConfiguration]?
 
         public init(
-            loadBalancers: [ECSClientTypes.ServiceRevisionLoadBalancer]? = nil
+            loadBalancers: [ECSClientTypes.ServiceRevisionLoadBalancer]? = nil,
+            vpcLatticeConfigurations: [ECSClientTypes.ServiceRevisionVpcLatticeConfiguration]? = nil
         ) {
             self.loadBalancers = loadBalancers
+            self.vpcLatticeConfigurations = vpcLatticeConfigurations
         }
     }
 }

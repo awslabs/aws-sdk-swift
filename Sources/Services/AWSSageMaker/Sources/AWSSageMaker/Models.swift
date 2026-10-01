@@ -5237,6 +5237,12 @@ extension SageMakerClientTypes {
         case mlC7i48xlarge
         case mlC7i4xlarge
         case mlC7i8xlarge
+        case mlC7iFlex12xlarge
+        case mlC7iFlex16xlarge
+        case mlC7iFlex2xlarge
+        case mlC7iFlex4xlarge
+        case mlC7iFlex8xlarge
+        case mlC7iFlexXlarge
         case mlC7iLarge
         case mlC7iXlarge
         case mlC8i12xlarge
@@ -5248,6 +5254,12 @@ extension SageMakerClientTypes {
         case mlC8i4xlarge
         case mlC8i8xlarge
         case mlC8i96xlarge
+        case mlC8iFlex12xlarge
+        case mlC8iFlex16xlarge
+        case mlC8iFlex2xlarge
+        case mlC8iFlex4xlarge
+        case mlC8iFlex8xlarge
+        case mlC8iFlexXlarge
         case mlC8iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
@@ -5318,6 +5330,13 @@ extension SageMakerClientTypes {
         case mlM7i48xlarge
         case mlM7i4xlarge
         case mlM7i8xlarge
+        case mlM7iFlex12xlarge
+        case mlM7iFlex16xlarge
+        case mlM7iFlex2xlarge
+        case mlM7iFlex4xlarge
+        case mlM7iFlex8xlarge
+        case mlM7iFlexLarge
+        case mlM7iFlexXlarge
         case mlM7iLarge
         case mlM7iXlarge
         case mlM8i12xlarge
@@ -5329,6 +5348,13 @@ extension SageMakerClientTypes {
         case mlM8i4xlarge
         case mlM8i8xlarge
         case mlM8i96xlarge
+        case mlM8iFlex12xlarge
+        case mlM8iFlex16xlarge
+        case mlM8iFlex2xlarge
+        case mlM8iFlex4xlarge
+        case mlM8iFlex8xlarge
+        case mlM8iFlexLarge
+        case mlM8iFlexXlarge
         case mlM8iLarge
         case mlM8iXlarge
         case mlP216xlarge
@@ -5390,6 +5416,13 @@ extension SageMakerClientTypes {
         case mlR8i4xlarge
         case mlR8i8xlarge
         case mlR8i96xlarge
+        case mlR8iFlex12xlarge
+        case mlR8iFlex16xlarge
+        case mlR8iFlex2xlarge
+        case mlR8iFlex4xlarge
+        case mlR8iFlex8xlarge
+        case mlR8iFlexLarge
+        case mlR8iFlexXlarge
         case mlR8iLarge
         case mlR8iXlarge
         case mlT32xlarge
@@ -5433,6 +5466,12 @@ extension SageMakerClientTypes {
                 .mlC7i48xlarge,
                 .mlC7i4xlarge,
                 .mlC7i8xlarge,
+                .mlC7iFlex12xlarge,
+                .mlC7iFlex16xlarge,
+                .mlC7iFlex2xlarge,
+                .mlC7iFlex4xlarge,
+                .mlC7iFlex8xlarge,
+                .mlC7iFlexXlarge,
                 .mlC7iLarge,
                 .mlC7iXlarge,
                 .mlC8i12xlarge,
@@ -5444,6 +5483,12 @@ extension SageMakerClientTypes {
                 .mlC8i4xlarge,
                 .mlC8i8xlarge,
                 .mlC8i96xlarge,
+                .mlC8iFlex12xlarge,
+                .mlC8iFlex16xlarge,
+                .mlC8iFlex2xlarge,
+                .mlC8iFlex4xlarge,
+                .mlC8iFlex8xlarge,
+                .mlC8iFlexXlarge,
                 .mlC8iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
@@ -5514,6 +5559,13 @@ extension SageMakerClientTypes {
                 .mlM7i48xlarge,
                 .mlM7i4xlarge,
                 .mlM7i8xlarge,
+                .mlM7iFlex12xlarge,
+                .mlM7iFlex16xlarge,
+                .mlM7iFlex2xlarge,
+                .mlM7iFlex4xlarge,
+                .mlM7iFlex8xlarge,
+                .mlM7iFlexLarge,
+                .mlM7iFlexXlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
                 .mlM8i12xlarge,
@@ -5525,6 +5577,13 @@ extension SageMakerClientTypes {
                 .mlM8i4xlarge,
                 .mlM8i8xlarge,
                 .mlM8i96xlarge,
+                .mlM8iFlex12xlarge,
+                .mlM8iFlex16xlarge,
+                .mlM8iFlex2xlarge,
+                .mlM8iFlex4xlarge,
+                .mlM8iFlex8xlarge,
+                .mlM8iFlexLarge,
+                .mlM8iFlexXlarge,
                 .mlM8iLarge,
                 .mlM8iXlarge,
                 .mlP216xlarge,
@@ -5586,6 +5645,13 @@ extension SageMakerClientTypes {
                 .mlR8i4xlarge,
                 .mlR8i8xlarge,
                 .mlR8i96xlarge,
+                .mlR8iFlex12xlarge,
+                .mlR8iFlex16xlarge,
+                .mlR8iFlex2xlarge,
+                .mlR8iFlex4xlarge,
+                .mlR8iFlex8xlarge,
+                .mlR8iFlexLarge,
+                .mlR8iFlexXlarge,
                 .mlR8iLarge,
                 .mlR8iXlarge,
                 .mlT32xlarge,
@@ -5635,6 +5701,12 @@ extension SageMakerClientTypes {
             case .mlC7i48xlarge: return "ml.c7i.48xlarge"
             case .mlC7i4xlarge: return "ml.c7i.4xlarge"
             case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iFlex12xlarge: return "ml.c7i-flex.12xlarge"
+            case .mlC7iFlex16xlarge: return "ml.c7i-flex.16xlarge"
+            case .mlC7iFlex2xlarge: return "ml.c7i-flex.2xlarge"
+            case .mlC7iFlex4xlarge: return "ml.c7i-flex.4xlarge"
+            case .mlC7iFlex8xlarge: return "ml.c7i-flex.8xlarge"
+            case .mlC7iFlexXlarge: return "ml.c7i-flex.xlarge"
             case .mlC7iLarge: return "ml.c7i.large"
             case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlC8i12xlarge: return "ml.c8i.12xlarge"
@@ -5646,6 +5718,12 @@ extension SageMakerClientTypes {
             case .mlC8i4xlarge: return "ml.c8i.4xlarge"
             case .mlC8i8xlarge: return "ml.c8i.8xlarge"
             case .mlC8i96xlarge: return "ml.c8i.96xlarge"
+            case .mlC8iFlex12xlarge: return "ml.c8i-flex.12xlarge"
+            case .mlC8iFlex16xlarge: return "ml.c8i-flex.16xlarge"
+            case .mlC8iFlex2xlarge: return "ml.c8i-flex.2xlarge"
+            case .mlC8iFlex4xlarge: return "ml.c8i-flex.4xlarge"
+            case .mlC8iFlex8xlarge: return "ml.c8i-flex.8xlarge"
+            case .mlC8iFlexXlarge: return "ml.c8i-flex.xlarge"
             case .mlC8iXlarge: return "ml.c8i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
@@ -5716,6 +5794,13 @@ extension SageMakerClientTypes {
             case .mlM7i48xlarge: return "ml.m7i.48xlarge"
             case .mlM7i4xlarge: return "ml.m7i.4xlarge"
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iFlex12xlarge: return "ml.m7i-flex.12xlarge"
+            case .mlM7iFlex16xlarge: return "ml.m7i-flex.16xlarge"
+            case .mlM7iFlex2xlarge: return "ml.m7i-flex.2xlarge"
+            case .mlM7iFlex4xlarge: return "ml.m7i-flex.4xlarge"
+            case .mlM7iFlex8xlarge: return "ml.m7i-flex.8xlarge"
+            case .mlM7iFlexLarge: return "ml.m7i-flex.large"
+            case .mlM7iFlexXlarge: return "ml.m7i-flex.xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlM8i12xlarge: return "ml.m8i.12xlarge"
@@ -5727,6 +5812,13 @@ extension SageMakerClientTypes {
             case .mlM8i4xlarge: return "ml.m8i.4xlarge"
             case .mlM8i8xlarge: return "ml.m8i.8xlarge"
             case .mlM8i96xlarge: return "ml.m8i.96xlarge"
+            case .mlM8iFlex12xlarge: return "ml.m8i-flex.12xlarge"
+            case .mlM8iFlex16xlarge: return "ml.m8i-flex.16xlarge"
+            case .mlM8iFlex2xlarge: return "ml.m8i-flex.2xlarge"
+            case .mlM8iFlex4xlarge: return "ml.m8i-flex.4xlarge"
+            case .mlM8iFlex8xlarge: return "ml.m8i-flex.8xlarge"
+            case .mlM8iFlexLarge: return "ml.m8i-flex.large"
+            case .mlM8iFlexXlarge: return "ml.m8i-flex.xlarge"
             case .mlM8iLarge: return "ml.m8i.large"
             case .mlM8iXlarge: return "ml.m8i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
@@ -5788,6 +5880,13 @@ extension SageMakerClientTypes {
             case .mlR8i4xlarge: return "ml.r8i.4xlarge"
             case .mlR8i8xlarge: return "ml.r8i.8xlarge"
             case .mlR8i96xlarge: return "ml.r8i.96xlarge"
+            case .mlR8iFlex12xlarge: return "ml.r8i-flex.12xlarge"
+            case .mlR8iFlex16xlarge: return "ml.r8i-flex.16xlarge"
+            case .mlR8iFlex2xlarge: return "ml.r8i-flex.2xlarge"
+            case .mlR8iFlex4xlarge: return "ml.r8i-flex.4xlarge"
+            case .mlR8iFlex8xlarge: return "ml.r8i-flex.8xlarge"
+            case .mlR8iFlexLarge: return "ml.r8i-flex.large"
+            case .mlR8iFlexXlarge: return "ml.r8i-flex.xlarge"
             case .mlR8iLarge: return "ml.r8i.large"
             case .mlR8iXlarge: return "ml.r8i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
@@ -13634,6 +13733,35 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The external MySQL-compatible database that the Slurm accounting daemon (slurmdbd) connects to for a SageMaker HyperPod cluster. You provide the database credentials in an Amazon Web Services Secrets Manager secret instead of in the request.
+    public struct ClusterAccountingDatabase: Swift.Sendable {
+        /// The hostname or endpoint of the accounting database, such as the endpoint of an Amazon RDS for MySQL or Aurora MySQL database. The database must be reachable from the subnets and security groups that you configure for the cluster.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The name of the database schema that stores the Slurm accounting data. The default is slurm_acct_db_ followed by the cluster ID from the cluster ARN, for example slurm_acct_db_a1b2c3d4e5f6.
+        public var name: Swift.String?
+        /// The port that the accounting database listens on. The default is 3306.
+        public var port: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the user name and password for the accounting database. The database user must be able to create the schema and to read from and write to it.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.endpoint = endpoint
+            self.name = name
+            self.port = port
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The configurations that SageMaker uses when updating the AMI versions.
     public struct RollingDeploymentPolicy: Swift.Sendable {
         /// The maximum amount of instances in the cluster that SageMaker can update at a time.
@@ -14095,6 +14223,70 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum DatabaseConfigurationRollbackStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notApplicable
+        case reverted
+        case revertFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseConfigurationRollbackStatus] {
+            return [
+                .notApplicable,
+                .reverted,
+                .revertFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notApplicable: return "NotApplicable"
+            case .reverted: return "Reverted"
+            case .revertFailed: return "RevertFailed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata information about a change to the external Slurm accounting database of a HyperPod cluster.
+    public struct DatabaseConfigurationMetadata: Swift.Sendable {
+        /// Additional information about a change that succeeded, such as an action to take on the cluster.
+        public var advisory: Swift.String?
+        /// An error message describing why the accounting database change failed, and how to resolve it.
+        public var failureMessage: Swift.String?
+        /// Whether HyperPod restored the previous accounting database configuration after the change failed. Valid values:
+        ///
+        /// * NotApplicable: The change failed before HyperPod modified the cluster, for example because the database could not be reached or rejected the credentials, so there was nothing to restore.
+        ///
+        /// * Reverted: The change failed after it was applied, and HyperPod restored the previous configuration. The cluster continues to use the previous accounting database.
+        ///
+        /// * RevertFailed: The change failed and HyperPod could not restore the previous configuration, so Slurm accounting on the cluster might not be working.
+        ///
+        ///
+        /// This field is omitted when the change succeeds.
+        public var rollbackStatus: SageMakerClientTypes.DatabaseConfigurationRollbackStatus?
+
+        public init(
+            advisory: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            rollbackStatus: SageMakerClientTypes.DatabaseConfigurationRollbackStatus? = nil
+        ) {
+            self.advisory = advisory
+            self.failureMessage = failureMessage
+            self.rollbackStatus = rollbackStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The customer ENI and additional ENIs associated with a network interface category.
     public struct InstanceRequirementsEniConfiguration: Swift.Sendable {
         /// Information about additional Elastic Network Interfaces (ENIs) associated with the instance type category.
@@ -14215,6 +14407,127 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum SlurmHealthComponent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case slurmdbd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlurmHealthComponent] {
+            return [
+                .slurmdbd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .slurmdbd: return "Slurmdbd"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SlurmHealthReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case daemonDisabled
+        case daemonDown
+        case dbUnreachable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlurmHealthReason] {
+            return [
+                .daemonDisabled,
+                .daemonDown,
+                .dbUnreachable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daemonDisabled: return "DaemonDisabled"
+            case .daemonDown: return "DaemonDown"
+            case .dbUnreachable: return "DbUnreachable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SlurmHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlurmHealthStatus] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "Healthy"
+            case .unhealthy: return "Unhealthy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata information about the health of a Slurm component on the controller node of a HyperPod cluster.
+    public struct SlurmHealthMetadata: Swift.Sendable {
+        /// The Slurm component that the health information describes. The valid value is Slurmdbd, the Slurm accounting daemon.
+        /// This member is required.
+        public var component: SageMakerClientTypes.SlurmHealthComponent?
+        /// The reason the component is unhealthy. Valid values:
+        ///
+        /// * DaemonDown: The daemon is not running, so job accounting records are not being written.
+        ///
+        /// * DaemonDisabled: The daemon is running and its accounting database is responding, but the daemon is not enabled to start automatically. Job accounting stops the next time the controller node restarts.
+        ///
+        /// * DbUnreachable: The daemon is running, but its accounting database did not respond. Job accounting records might not be written.
+        ///
+        ///
+        /// This field is omitted when the component is healthy.
+        public var reason: SageMakerClientTypes.SlurmHealthReason?
+        /// The health of the component. Valid values are Healthy and Unhealthy.
+        /// This member is required.
+        public var status: SageMakerClientTypes.SlurmHealthStatus?
+
+        public init(
+            component: SageMakerClientTypes.SlurmHealthComponent? = nil,
+            reason: SageMakerClientTypes.SlurmHealthReason? = nil,
+            status: SageMakerClientTypes.SlurmHealthStatus? = nil
+        ) {
+            self.component = component
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Metadata associated with a cluster event, which may include details about various resource types.
     public enum EventMetadata: Swift.Sendable {
         /// Metadata specific to cluster-level events.
@@ -14225,6 +14538,10 @@ extension SageMakerClientTypes {
         case instancegroupscaling(SageMakerClientTypes.InstanceGroupScalingMetadata)
         /// Metadata specific to instance-level events.
         case instance(SageMakerClientTypes.InstanceMetadata)
+        /// Metadata specific to events about the external Slurm accounting database of the cluster.
+        case databaseconfiguration(SageMakerClientTypes.DatabaseConfigurationMetadata)
+        /// Metadata specific to events about the health of the Slurm components on the controller node of the cluster.
+        case slurmhealth(SageMakerClientTypes.SlurmHealthMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -15647,12 +15964,16 @@ extension SageMakerClientTypes {
 
     /// The configuration settings for the Slurm orchestrator used with the SageMaker HyperPod cluster.
     public struct ClusterOrchestratorSlurmConfig: Swift.Sendable {
+        /// The external database that stores the Slurm accounting data for the cluster, such as job history, associations, and usage. When you omit this field, Slurm accounting uses a database on the cluster's controller node. This field is only supported for clusters using Continuous as the NodeProvisioningMode.
+        public var accountingDatabase: SageMakerClientTypes.ClusterAccountingDatabase?
         /// The strategy for managing partitions for the Slurm configuration. Valid values are Managed, Overwrite, and Merge.
         public var slurmConfigStrategy: SageMakerClientTypes.ClusterSlurmConfigStrategy?
 
         public init(
+            accountingDatabase: SageMakerClientTypes.ClusterAccountingDatabase? = nil,
             slurmConfigStrategy: SageMakerClientTypes.ClusterSlurmConfigStrategy? = nil
         ) {
+            self.accountingDatabase = accountingDatabase
             self.slurmConfigStrategy = slurmConfigStrategy
         }
     }
@@ -19594,6 +19915,12 @@ extension SageMakerClientTypes {
         case mlC7i48xlarge
         case mlC7i4xlarge
         case mlC7i8xlarge
+        case mlC7iFlex12xlarge
+        case mlC7iFlex16xlarge
+        case mlC7iFlex2xlarge
+        case mlC7iFlex4xlarge
+        case mlC7iFlex8xlarge
+        case mlC7iFlexXlarge
         case mlC7iLarge
         case mlC7iXlarge
         case mlC8i12xlarge
@@ -19605,6 +19932,12 @@ extension SageMakerClientTypes {
         case mlC8i4xlarge
         case mlC8i8xlarge
         case mlC8i96xlarge
+        case mlC8iFlex12xlarge
+        case mlC8iFlex16xlarge
+        case mlC8iFlex2xlarge
+        case mlC8iFlex4xlarge
+        case mlC8iFlex8xlarge
+        case mlC8iFlexXlarge
         case mlC8iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
@@ -19675,6 +20008,13 @@ extension SageMakerClientTypes {
         case mlM7i48xlarge
         case mlM7i4xlarge
         case mlM7i8xlarge
+        case mlM7iFlex12xlarge
+        case mlM7iFlex16xlarge
+        case mlM7iFlex2xlarge
+        case mlM7iFlex4xlarge
+        case mlM7iFlex8xlarge
+        case mlM7iFlexLarge
+        case mlM7iFlexXlarge
         case mlM7iLarge
         case mlM7iXlarge
         case mlM8i12xlarge
@@ -19686,6 +20026,13 @@ extension SageMakerClientTypes {
         case mlM8i4xlarge
         case mlM8i8xlarge
         case mlM8i96xlarge
+        case mlM8iFlex12xlarge
+        case mlM8iFlex16xlarge
+        case mlM8iFlex2xlarge
+        case mlM8iFlex4xlarge
+        case mlM8iFlex8xlarge
+        case mlM8iFlexLarge
+        case mlM8iFlexXlarge
         case mlM8iLarge
         case mlM8iXlarge
         case mlP216xlarge
@@ -19738,6 +20085,13 @@ extension SageMakerClientTypes {
         case mlR8i4xlarge
         case mlR8i8xlarge
         case mlR8i96xlarge
+        case mlR8iFlex12xlarge
+        case mlR8iFlex16xlarge
+        case mlR8iFlex2xlarge
+        case mlR8iFlex4xlarge
+        case mlR8iFlex8xlarge
+        case mlR8iFlexLarge
+        case mlR8iFlexXlarge
         case mlR8iLarge
         case mlR8iXlarge
         case mlT32xlarge
@@ -19772,6 +20126,12 @@ extension SageMakerClientTypes {
                 .mlC7i48xlarge,
                 .mlC7i4xlarge,
                 .mlC7i8xlarge,
+                .mlC7iFlex12xlarge,
+                .mlC7iFlex16xlarge,
+                .mlC7iFlex2xlarge,
+                .mlC7iFlex4xlarge,
+                .mlC7iFlex8xlarge,
+                .mlC7iFlexXlarge,
                 .mlC7iLarge,
                 .mlC7iXlarge,
                 .mlC8i12xlarge,
@@ -19783,6 +20143,12 @@ extension SageMakerClientTypes {
                 .mlC8i4xlarge,
                 .mlC8i8xlarge,
                 .mlC8i96xlarge,
+                .mlC8iFlex12xlarge,
+                .mlC8iFlex16xlarge,
+                .mlC8iFlex2xlarge,
+                .mlC8iFlex4xlarge,
+                .mlC8iFlex8xlarge,
+                .mlC8iFlexXlarge,
                 .mlC8iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
@@ -19853,6 +20219,13 @@ extension SageMakerClientTypes {
                 .mlM7i48xlarge,
                 .mlM7i4xlarge,
                 .mlM7i8xlarge,
+                .mlM7iFlex12xlarge,
+                .mlM7iFlex16xlarge,
+                .mlM7iFlex2xlarge,
+                .mlM7iFlex4xlarge,
+                .mlM7iFlex8xlarge,
+                .mlM7iFlexLarge,
+                .mlM7iFlexXlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
                 .mlM8i12xlarge,
@@ -19864,6 +20237,13 @@ extension SageMakerClientTypes {
                 .mlM8i4xlarge,
                 .mlM8i8xlarge,
                 .mlM8i96xlarge,
+                .mlM8iFlex12xlarge,
+                .mlM8iFlex16xlarge,
+                .mlM8iFlex2xlarge,
+                .mlM8iFlex4xlarge,
+                .mlM8iFlex8xlarge,
+                .mlM8iFlexLarge,
+                .mlM8iFlexXlarge,
                 .mlM8iLarge,
                 .mlM8iXlarge,
                 .mlP216xlarge,
@@ -19916,6 +20296,13 @@ extension SageMakerClientTypes {
                 .mlR8i4xlarge,
                 .mlR8i8xlarge,
                 .mlR8i96xlarge,
+                .mlR8iFlex12xlarge,
+                .mlR8iFlex16xlarge,
+                .mlR8iFlex2xlarge,
+                .mlR8iFlex4xlarge,
+                .mlR8iFlex8xlarge,
+                .mlR8iFlexLarge,
+                .mlR8iFlexXlarge,
                 .mlR8iLarge,
                 .mlR8iXlarge,
                 .mlT32xlarge,
@@ -19956,6 +20343,12 @@ extension SageMakerClientTypes {
             case .mlC7i48xlarge: return "ml.c7i.48xlarge"
             case .mlC7i4xlarge: return "ml.c7i.4xlarge"
             case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iFlex12xlarge: return "ml.c7i-flex.12xlarge"
+            case .mlC7iFlex16xlarge: return "ml.c7i-flex.16xlarge"
+            case .mlC7iFlex2xlarge: return "ml.c7i-flex.2xlarge"
+            case .mlC7iFlex4xlarge: return "ml.c7i-flex.4xlarge"
+            case .mlC7iFlex8xlarge: return "ml.c7i-flex.8xlarge"
+            case .mlC7iFlexXlarge: return "ml.c7i-flex.xlarge"
             case .mlC7iLarge: return "ml.c7i.large"
             case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlC8i12xlarge: return "ml.c8i.12xlarge"
@@ -19967,6 +20360,12 @@ extension SageMakerClientTypes {
             case .mlC8i4xlarge: return "ml.c8i.4xlarge"
             case .mlC8i8xlarge: return "ml.c8i.8xlarge"
             case .mlC8i96xlarge: return "ml.c8i.96xlarge"
+            case .mlC8iFlex12xlarge: return "ml.c8i-flex.12xlarge"
+            case .mlC8iFlex16xlarge: return "ml.c8i-flex.16xlarge"
+            case .mlC8iFlex2xlarge: return "ml.c8i-flex.2xlarge"
+            case .mlC8iFlex4xlarge: return "ml.c8i-flex.4xlarge"
+            case .mlC8iFlex8xlarge: return "ml.c8i-flex.8xlarge"
+            case .mlC8iFlexXlarge: return "ml.c8i-flex.xlarge"
             case .mlC8iXlarge: return "ml.c8i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
@@ -20037,6 +20436,13 @@ extension SageMakerClientTypes {
             case .mlM7i48xlarge: return "ml.m7i.48xlarge"
             case .mlM7i4xlarge: return "ml.m7i.4xlarge"
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iFlex12xlarge: return "ml.m7i-flex.12xlarge"
+            case .mlM7iFlex16xlarge: return "ml.m7i-flex.16xlarge"
+            case .mlM7iFlex2xlarge: return "ml.m7i-flex.2xlarge"
+            case .mlM7iFlex4xlarge: return "ml.m7i-flex.4xlarge"
+            case .mlM7iFlex8xlarge: return "ml.m7i-flex.8xlarge"
+            case .mlM7iFlexLarge: return "ml.m7i-flex.large"
+            case .mlM7iFlexXlarge: return "ml.m7i-flex.xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlM8i12xlarge: return "ml.m8i.12xlarge"
@@ -20048,6 +20454,13 @@ extension SageMakerClientTypes {
             case .mlM8i4xlarge: return "ml.m8i.4xlarge"
             case .mlM8i8xlarge: return "ml.m8i.8xlarge"
             case .mlM8i96xlarge: return "ml.m8i.96xlarge"
+            case .mlM8iFlex12xlarge: return "ml.m8i-flex.12xlarge"
+            case .mlM8iFlex16xlarge: return "ml.m8i-flex.16xlarge"
+            case .mlM8iFlex2xlarge: return "ml.m8i-flex.2xlarge"
+            case .mlM8iFlex4xlarge: return "ml.m8i-flex.4xlarge"
+            case .mlM8iFlex8xlarge: return "ml.m8i-flex.8xlarge"
+            case .mlM8iFlexLarge: return "ml.m8i-flex.large"
+            case .mlM8iFlexXlarge: return "ml.m8i-flex.xlarge"
             case .mlM8iLarge: return "ml.m8i.large"
             case .mlM8iXlarge: return "ml.m8i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
@@ -20100,6 +20513,13 @@ extension SageMakerClientTypes {
             case .mlR8i4xlarge: return "ml.r8i.4xlarge"
             case .mlR8i8xlarge: return "ml.r8i.8xlarge"
             case .mlR8i96xlarge: return "ml.r8i.96xlarge"
+            case .mlR8iFlex12xlarge: return "ml.r8i-flex.12xlarge"
+            case .mlR8iFlex16xlarge: return "ml.r8i-flex.16xlarge"
+            case .mlR8iFlex2xlarge: return "ml.r8i-flex.2xlarge"
+            case .mlR8iFlex4xlarge: return "ml.r8i-flex.4xlarge"
+            case .mlR8iFlex8xlarge: return "ml.r8i-flex.8xlarge"
+            case .mlR8iFlexLarge: return "ml.r8i-flex.large"
+            case .mlR8iFlexXlarge: return "ml.r8i-flex.xlarge"
             case .mlR8iLarge: return "ml.r8i.large"
             case .mlR8iXlarge: return "ml.r8i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"

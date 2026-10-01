@@ -1584,7 +1584,7 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
-    /// The configuration parameters for log delivery, including logType settings. Applies to resource types that support configurable log delivery, such as Amazon Bedrock Knowledge Bases and Elastic Load Balancing Application Load Balancers.
+    /// The configuration parameters for log delivery, including logType settings. Applies to resource types that support configurable log delivery, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, and Elastic Load Balancing Application Load Balancers.
     public struct LogDeliveryParameters: Swift.Sendable {
         /// The types of logs to collect from the resource.
         public var logTypes: [ObservabilityAdminClientTypes.LogType]?
@@ -1879,7 +1879,7 @@ extension ObservabilityAdminClientTypes {
         public var elbLoadBalancerLoggingParameters: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters?
         /// The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation.
         public var kmsKeyArn: Swift.String?
-        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases or Elastic Load Balancing Application Load Balancers.
+        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, or Elastic Load Balancing Application Load Balancers.
         public var logDeliveryParameters: ObservabilityAdminClientTypes.LogDeliveryParameters?
         /// Configuration parameters specific to MSK monitoring when MSK is the resource type.
         public var mskMonitoringParameters: ObservabilityAdminClientTypes.MskMonitoringParameters?
@@ -1923,6 +1923,7 @@ extension ObservabilityAdminClientTypes {
         case awsBedrockAgentcoreCodeInterpreter
         case awsBedrockAgentcoreGateway
         case awsBedrockAgentcoreMemory
+        case awsBedrockAgentcorePaymentManager
         case awsBedrockAgentcoreRuntime
         case awsBedrockAgentcoreWorkloadIdentity
         case awsBedrockKnowledgebase
@@ -1948,6 +1949,7 @@ extension ObservabilityAdminClientTypes {
                 .awsBedrockAgentcoreCodeInterpreter,
                 .awsBedrockAgentcoreGateway,
                 .awsBedrockAgentcoreMemory,
+                .awsBedrockAgentcorePaymentManager,
                 .awsBedrockAgentcoreRuntime,
                 .awsBedrockAgentcoreWorkloadIdentity,
                 .awsBedrockKnowledgebase,
@@ -1979,6 +1981,7 @@ extension ObservabilityAdminClientTypes {
             case .awsBedrockAgentcoreCodeInterpreter: return "AWS::BedrockAgentCore::CodeInterpreter"
             case .awsBedrockAgentcoreGateway: return "AWS::BedrockAgentCore::Gateway"
             case .awsBedrockAgentcoreMemory: return "AWS::BedrockAgentCore::Memory"
+            case .awsBedrockAgentcorePaymentManager: return "AWS::BedrockAgentCore::PaymentManager"
             case .awsBedrockAgentcoreRuntime: return "AWS::BedrockAgentCore::Runtime"
             case .awsBedrockAgentcoreWorkloadIdentity: return "AWS::BedrockAgentCore::WorkloadIdentity"
             case .awsBedrockKnowledgebase: return "AWS::Bedrock::KnowledgeBase"
@@ -2091,7 +2094,7 @@ extension ObservabilityAdminClientTypes {
         public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
         /// An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public var regions: [Swift.String]?
-        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, or AWS::Bedrock::KnowledgeBase).
+        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, or AWS::BedrockAgentCore::PaymentManager).
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The organizational scope to which the rule applies, specified using accounts or organizational units.
         public var scope: Swift.String?

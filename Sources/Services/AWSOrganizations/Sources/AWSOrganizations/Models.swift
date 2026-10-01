@@ -2218,6 +2218,7 @@ extension OrganizationsClientTypes {
         case bedrockPolicy
         case chatbotPolicy
         case declarativePolicyEc2
+        case guarddutyPolicy
         case inspectorPolicy
         case networkSecurityDirectorPolicy
         case resourceControlPolicy
@@ -2235,6 +2236,7 @@ extension OrganizationsClientTypes {
                 .bedrockPolicy,
                 .chatbotPolicy,
                 .declarativePolicyEc2,
+                .guarddutyPolicy,
                 .inspectorPolicy,
                 .networkSecurityDirectorPolicy,
                 .resourceControlPolicy,
@@ -2258,6 +2260,7 @@ extension OrganizationsClientTypes {
             case .bedrockPolicy: return "BEDROCK_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .guarddutyPolicy: return "GUARDDUTY_POLICY"
             case .inspectorPolicy: return "INSPECTOR_POLICY"
             case .networkSecurityDirectorPolicy: return "NETWORK_SECURITY_DIRECTOR_POLICY"
             case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
@@ -2558,6 +2561,8 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var type: OrganizationsClientTypes.PolicyType?
 
@@ -2909,6 +2914,7 @@ extension OrganizationsClientTypes {
         case bedrockPolicy
         case chatbotPolicy
         case declarativePolicyEc2
+        case guarddutyPolicy
         case inspectorPolicy
         case networkSecurityDirectorPolicy
         case s3Policy
@@ -2924,6 +2930,7 @@ extension OrganizationsClientTypes {
                 .bedrockPolicy,
                 .chatbotPolicy,
                 .declarativePolicyEc2,
+                .guarddutyPolicy,
                 .inspectorPolicy,
                 .networkSecurityDirectorPolicy,
                 .s3Policy,
@@ -2945,6 +2952,7 @@ extension OrganizationsClientTypes {
             case .bedrockPolicy: return "BEDROCK_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .guarddutyPolicy: return "GUARDDUTY_POLICY"
             case .inspectorPolicy: return "INSPECTOR_POLICY"
             case .networkSecurityDirectorPolicy: return "NETWORK_SECURITY_DIRECTOR_POLICY"
             case .s3Policy: return "S3_POLICY"
@@ -2981,6 +2989,8 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
     /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
@@ -3443,6 +3453,8 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// ID for the root in which you want to disable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3564,6 +3576,8 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// ID for the root in which you want to enable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3761,6 +3775,8 @@ public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
@@ -3803,6 +3819,8 @@ public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
     public init(
@@ -4161,6 +4179,8 @@ public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
@@ -4238,6 +4258,8 @@ public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
     public init(
@@ -4569,6 +4591,8 @@ public struct ListPoliciesInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
@@ -4630,6 +4654,8 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
     ///
     /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
+    ///
+    /// * [GUARDDUTY_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_guardduty.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.

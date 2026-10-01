@@ -269,6 +269,35 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
+    public enum ExtendedAnalysisMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtendedAnalysisMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     public enum SummaryGenerationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -300,16 +329,24 @@ extension ElementalInferenceClientTypes {
 
     /// The output configuration settings for the contextual metadata feature. Use this structure when the feed output generates metadata that describes the media content.
     public struct ContextualMetadataConfig: Swift.Sendable {
-        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output. Valid values:
+        /// Specifies whether Elemental Inference generates extended analysis of the media content for this output. Extended analysis identifies the people, environments, brands, and on-screen text in the media content. This setting is independent of summaryGeneration. Valid values:
         ///
-        /// * ENABLED (default) – Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications.
+        /// * ENABLED (default) – Elemental Inference populates the people, environments, brands, and on-screen text fields.
         ///
-        /// * DISABLED – No descriptive summary is generated.
+        /// * DISABLED – Elemental Inference doesn't populate the people, environments, brands, and on-screen text fields.
+        public var extendedAnalysis: ElementalInferenceClientTypes.ExtendedAnalysisMode?
+        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output, along with the objects and actions that it detects. This setting is independent of extendedAnalysis. Valid values:
+        ///
+        /// * ENABLED (default) – Elemental Inference populates the summary, objects, and actions fields, along with the IAB taxonomy and GARM suitability classifications.
+        ///
+        /// * DISABLED – Elemental Inference doesn't populate the summary, objects, and actions fields.
         public var summaryGeneration: ElementalInferenceClientTypes.SummaryGenerationMode?
 
         public init(
+            extendedAnalysis: ElementalInferenceClientTypes.ExtendedAnalysisMode? = nil,
             summaryGeneration: ElementalInferenceClientTypes.SummaryGenerationMode? = nil
         ) {
+            self.extendedAnalysis = extendedAnalysis
             self.summaryGeneration = summaryGeneration
         }
     }
@@ -435,7 +472,7 @@ extension ElementalInferenceClientTypes {
 
 extension ElementalInferenceClientTypes {
 
-    /// A type of OutputConfig, used when the output in a feed is for the smart subtitling feature. smart subtitling uses automatic speech recognition (ASR) to generate live TTML subtitles from the audio in your source media.
+    /// A type of OutputConfig, used when the output in a feed is for the smart subtitling feature. Smart subtitling uses automatic speech recognition (ASR) to generate live TTML subtitles from the audio in your source media.
     public struct SubtitlingConfig: Swift.Sendable {
         /// The aspect ratio of the output video, specified as width and height integer values. Elemental Inference uses the aspect ratio to determine subtitle layout and line lengths.
         public var aspectRatio: ElementalInferenceClientTypes.AspectRatio?
@@ -3011,6 +3048,7 @@ extension ElementalInferenceClientTypes.ContextualMetadataConfig {
 
     static func write(value: ElementalInferenceClientTypes.ContextualMetadataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["extendedAnalysis"].write(value.extendedAnalysis)
         try writer["summaryGeneration"].write(value.summaryGeneration)
     }
 
@@ -3018,6 +3056,7 @@ extension ElementalInferenceClientTypes.ContextualMetadataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ElementalInferenceClientTypes.ContextualMetadataConfig()
         value.summaryGeneration = try reader["summaryGeneration"].readIfPresent()
+        value.extendedAnalysis = try reader["extendedAnalysis"].readIfPresent()
         return value
     }
 }

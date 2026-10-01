@@ -1676,6 +1676,80 @@ extension S3VectorsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutVectorBucketDefaultIndexMode` operation on the `S3Vectors` service.
+    ///
+    /// Updates the default index mode for a vector bucket. The updated default applies to vector indexes that you create after the request succeeds. The operation doesn't change existing vector indexes. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketDefaultIndexMode permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutVectorBucketDefaultIndexModeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutVectorBucketDefaultIndexModeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func putVectorBucketDefaultIndexMode(input: PutVectorBucketDefaultIndexModeInput) async throws -> PutVectorBucketDefaultIndexModeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putVectorBucketDefaultIndexMode")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>(PutVectorBucketDefaultIndexModeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutVectorBucketDefaultIndexModeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVectorBucketDefaultIndexModeOutput>(PutVectorBucketDefaultIndexModeOutput.httpOutput(from:), PutVectorBucketDefaultIndexModeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutVectorBucketDefaultIndexModeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutVectorBucketDefaultIndexModeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutVectorBucketDefaultIndexModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Vectors"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutVectorBucketDefaultIndexModeInput, PutVectorBucketDefaultIndexModeOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutVectorBucketDefaultIndexMode")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
     /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
@@ -2061,6 +2135,80 @@ extension S3VectorsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateIndexMode` operation on the `S3Vectors` service.
+    ///
+    /// Updates the mode for an existing vector index. You can set the mode to ENHANCED for any vector index. You can set the mode to CLASSIC only for a vector index in a vector bucket created before September 30, 2026. This operation doesn't change the default index mode of the vector bucket or the mode of other vector indexes. Specify the vector index by using its Amazon Resource Name (ARN) or both the vector bucket name and vector index name. Permissions You must have the s3vectors:UpdateIndexMode permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexModeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateIndexModeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func updateIndexMode(input: UpdateIndexModeInput) async throws -> UpdateIndexModeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateIndexMode")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateIndexModeInput, UpdateIndexModeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>(UpdateIndexModeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIndexModeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexModeOutput>(UpdateIndexModeOutput.httpOutput(from:), UpdateIndexModeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexModeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIndexModeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIndexModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Vectors"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIndexModeInput, UpdateIndexModeOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIndexMode")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -120,6 +120,25 @@ extension GlobalAcceleratorClientTypes {
 
 extension GlobalAcceleratorClientTypes {
 
+    /// Detailed information for the IP addresses assigned to the Global Accelerator.
+    public struct IpAddressDetail: Swift.Sendable {
+        /// The static IP address.
+        public var ipAddress: Swift.String?
+        /// The network zone that the specified IP address is located on.
+        public var networkZone: Swift.String?
+
+        public init(
+            ipAddress: Swift.String? = nil,
+            networkZone: Swift.String? = nil
+        ) {
+            self.ipAddress = ipAddress
+            self.networkZone = networkZone
+        }
+    }
+}
+
+extension GlobalAcceleratorClientTypes {
+
     public enum IpAddressFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ipv4
         case ipv6
@@ -151,6 +170,8 @@ extension GlobalAcceleratorClientTypes {
 
     /// A complex type for the set of IP addresses for an accelerator.
     public struct IpSet: Swift.Sendable {
+        /// The array of IP addresses in the IP address set, with detailed information about the IP addresses. An IP address set can have a maximum of two IP addresses.
+        public var ipAddressDetails: [GlobalAcceleratorClientTypes.IpAddressDetail]?
         /// The types of IP addresses included in this IP set.
         public var ipAddressFamily: GlobalAcceleratorClientTypes.IpAddressFamily?
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
@@ -160,10 +181,12 @@ extension GlobalAcceleratorClientTypes {
         public var ipFamily: Swift.String?
 
         public init(
+            ipAddressDetails: [GlobalAcceleratorClientTypes.IpAddressDetail]? = nil,
             ipAddressFamily: GlobalAcceleratorClientTypes.IpAddressFamily? = nil,
             ipAddresses: [Swift.String]? = nil,
             ipFamily: Swift.String? = nil
         ) {
+            self.ipAddressDetails = ipAddressDetails
             self.ipAddressFamily = ipAddressFamily
             self.ipAddresses = ipAddresses
             self.ipFamily = ipFamily
@@ -1895,7 +1918,7 @@ extension GlobalAcceleratorClientTypes {
         public var flowLogsEnabled: Swift.Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the bucket.
         public var flowLogsS3Bucket: Swift.String?
-        /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+        /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
         public var flowLogsS3Prefix: Swift.String?
 
         public init(
@@ -3132,7 +3155,7 @@ public struct UpdateCustomRoutingAcceleratorAttributesInput: Swift.Sendable {
     public var flowLogsEnabled: Swift.Bool?
     /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the bucket.
     public var flowLogsS3Bucket: Swift.String?
-    /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+    /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
     public var flowLogsS3Prefix: Swift.String?
 
     public init(

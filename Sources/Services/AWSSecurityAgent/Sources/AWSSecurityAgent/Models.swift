@@ -1307,6 +1307,114 @@ extension SecurityAgentClientTypes.Assets: Swift.CustomDebugStringConvertible {
 
 extension SecurityAgentClientTypes {
 
+    /// Connection details for an Azure DevOps integration.
+    public struct AzureDevOpsIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned to your redirect URL after the connection is authorized.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The name of the Azure DevOps organization to connect, for example my-org.
+        /// This member is required.
+        public var organizationName: Swift.String?
+        /// The CSRF state value returned by InitiateProviderRegistration and echoed back on the authorization redirect.
+        /// This member is required.
+        public var state: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            organizationName: Swift.String? = nil,
+            state: Swift.String? = nil
+        ) {
+            self.code = code
+            self.organizationName = organizationName
+            self.state = state
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Metadata for an integrated Azure DevOps repository.
+    public struct AzureDevOpsRepositoryMetadata: Swift.Sendable {
+        /// Defines the visibility level of provider resources. PRIVATE indicates restricted access, while PUBLIC indicates open access.
+        public var accessType: SecurityAgentClientTypes.AccessType?
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Azure DevOps organization that owns the repository.
+        /// This member is required.
+        public var organization: Swift.String?
+        /// The name of the Azure DevOps project that contains the repository.
+        public var project: Swift.String?
+        /// The GUID of the Azure DevOps project that contains the repository.
+        public var projectId: Swift.String?
+        /// Provider Id of the resource e.g. GitHub repository id, etc.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+
+        public init(
+            accessType: SecurityAgentClientTypes.AccessType? = nil,
+            name: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            project: Swift.String? = nil,
+            projectId: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.name = name
+            self.organization = organization
+            self.project = project
+            self.projectId = projectId
+            self.providerResourceId = providerResourceId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// An Azure DevOps repository integrated as a resource.
+    public struct AzureDevOpsRepositoryResource: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Azure DevOps organization that owns the repository.
+        /// This member is required.
+        public var organization: Swift.String?
+        /// The name of the Azure DevOps project that contains the repository.
+        public var project: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            project: Swift.String? = nil
+        ) {
+            self.name = name
+            self.organization = organization
+            self.project = project
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Capabilities for an integrated Azure DevOps repository.
+    public struct AzureDevOpsResourceCapabilities: Swift.Sendable {
+        /// Whether to post code review comments on pull requests.
+        public var leaveComments: Swift.Bool?
+        /// Whether to create pull requests with automated fixes.
+        public var remediateCode: Swift.Bool?
+
+        public init(
+            leaveComments: Swift.Bool? = nil,
+            remediateCode: Swift.Bool? = nil
+        ) {
+            self.leaveComments = leaveComments
+            self.remediateCode = remediateCode
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Contains information about a successfully created security requirement.
     public struct BatchCreateSecurityRequirementResult: Swift.Sendable {
         /// The date and time the security requirement was created, in UTC format.
@@ -4906,6 +5014,32 @@ public struct BatchUpdateSecurityRequirementsOutput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// Connection details for a self-managed Bitbucket Data Center integration.
+    public struct BitbucketDataCenterIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned to your redirect URL after the connection is authorized.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The CSRF state value returned by InitiateProviderRegistration and echoed back on the authorization redirect.
+        /// This member is required.
+        public var state: Swift.String?
+        /// The HTTPS URL of your Bitbucket Data Center instance, for example https://bitbucket.example.com.
+        /// This member is required.
+        public var targetUrl: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            state: Swift.String? = nil,
+            targetUrl: Swift.String? = nil
+        ) {
+            self.code = code
+            self.state = state
+            self.targetUrl = targetUrl
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// The configuration for creating a Bitbucket integration.
     public struct BitbucketIntegrationInput: Swift.Sendable {
         /// The OAuth 2.0 authorization code returned from the consent redirect.
@@ -5472,6 +5606,10 @@ extension SecurityAgentClientTypes {
         case bitbucket(SecurityAgentClientTypes.BitbucketIntegrationInput)
         /// The configuration for a Confluence integration.
         case confluence(SecurityAgentClientTypes.ConfluenceIntegrationInput)
+        /// The Azure DevOps-specific input for creating an integration.
+        case azuredevops(SecurityAgentClientTypes.AzureDevOpsIntegrationInput)
+        /// The Bitbucket Data Center-specific input for creating an integration.
+        case bitbucketdatacenter(SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5480,6 +5618,7 @@ extension SecurityAgentClientTypes {
 
     /// Third-party provider type.
     public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureDevops
         case bitbucket
         case confluence
         case github
@@ -5488,6 +5627,7 @@ extension SecurityAgentClientTypes {
 
         public static var allCases: [Provider] {
             return [
+                .azureDevops,
                 .bitbucket,
                 .confluence,
                 .github,
@@ -5502,6 +5642,7 @@ extension SecurityAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .azureDevops: return "AZURE_DEVOPS"
             case .bitbucket: return "BITBUCKET"
             case .confluence: return "CONFLUENCE"
             case .github: return "GITHUB"
@@ -5523,7 +5664,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The name of an active private connection used to reach a self-hosted provider instance over private networking. Specify this when the instance is not publicly reachable.
     public var privateConnectionName: Swift.String?
-    /// The integration provider. Currently, only GITHUB is supported.
+    /// The integration provider.
     /// This member is required.
     public var provider: SecurityAgentClientTypes.Provider?
     /// The tags to associate with the integration.
@@ -6981,6 +7122,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var providerType: SecurityAgentClientTypes.ProviderType?
     /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
     public var targetUrl: Swift.String?
+    /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
+    public var webhookUrl: Swift.String?
 
     public init(
         displayName: Swift.String? = nil,
@@ -6990,7 +7133,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
         privateConnectionName: Swift.String? = nil,
         provider: SecurityAgentClientTypes.Provider? = nil,
         providerType: SecurityAgentClientTypes.ProviderType? = nil,
-        targetUrl: Swift.String? = nil
+        targetUrl: Swift.String? = nil,
+        webhookUrl: Swift.String? = nil
     ) {
         self.displayName = displayName
         self.installationId = installationId
@@ -7000,6 +7144,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         self.provider = provider
         self.providerType = providerType
         self.targetUrl = targetUrl
+        self.webhookUrl = webhookUrl
     }
 }
 
@@ -7386,15 +7531,36 @@ public struct ImportSecurityRequirementsOutput: Swift.Sendable {
 }
 
 public struct InitiateProviderRegistrationInput: Swift.Sendable {
-    /// The provider to initiate registration with. Currently, only GITHUB is supported.
+    /// The client ID of the OAuth application registered on your self-managed provider instance.
+    public var clientId: Swift.String?
+    /// The client secret of the OAuth application registered on your self-managed provider instance.
+    public var clientSecret: Swift.String?
+    /// The name of the organization to connect.
+    public var organizationName: Swift.String?
+    /// The provider to initiate registration with.
     /// This member is required.
     public var provider: SecurityAgentClientTypes.Provider?
+    /// The HTTPS URL of a self-managed provider instance. Omit for SaaS providers.
+    public var targetUrl: Swift.String?
 
     public init(
-        provider: SecurityAgentClientTypes.Provider? = nil
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        organizationName: Swift.String? = nil,
+        provider: SecurityAgentClientTypes.Provider? = nil,
+        targetUrl: Swift.String? = nil
     ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.organizationName = organizationName
         self.provider = provider
+        self.targetUrl = targetUrl
     }
+}
+
+extension InitiateProviderRegistrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InitiateProviderRegistrationInput(clientId: \(Swift.String(describing: clientId)), organizationName: \(Swift.String(describing: organizationName)), provider: \(Swift.String(describing: provider)), targetUrl: \(Swift.String(describing: targetUrl)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 public struct InitiateProviderRegistrationOutput: Swift.Sendable {
@@ -7426,6 +7592,8 @@ extension SecurityAgentClientTypes {
         case bitbucketrepository(SecurityAgentClientTypes.BitbucketRepositoryResource)
         /// A Confluence document (page) integrated as a resource.
         case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentResource)
+        /// The Azure DevOps repository resource information.
+        case azuredevopsrepository(SecurityAgentClientTypes.AzureDevOpsRepositoryResource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7442,6 +7610,8 @@ extension SecurityAgentClientTypes {
         case bitbucket(SecurityAgentClientTypes.BitbucketResourceCapabilities)
         /// Capabilities for an integrated Confluence space.
         case confluence(SecurityAgentClientTypes.ConfluenceResourceCapabilities)
+        /// The Azure DevOps-specific resource capabilities.
+        case azuredevops(SecurityAgentClientTypes.AzureDevOpsResourceCapabilities)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7478,6 +7648,8 @@ extension SecurityAgentClientTypes {
         case bitbucketrepository(SecurityAgentClientTypes.BitbucketRepositoryMetadata)
         /// Metadata for an integrated Confluence document.
         case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentMetadata)
+        /// The Azure DevOps repository metadata.
+        case azuredevopsrepository(SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7561,6 +7733,8 @@ extension SecurityAgentClientTypes {
         public var providerType: SecurityAgentClientTypes.ProviderType?
         /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
         public var targetUrl: Swift.String?
+        /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
+        public var webhookUrl: Swift.String?
 
         public init(
             displayName: Swift.String? = nil,
@@ -7569,7 +7743,8 @@ extension SecurityAgentClientTypes {
             privateConnectionName: Swift.String? = nil,
             provider: SecurityAgentClientTypes.Provider? = nil,
             providerType: SecurityAgentClientTypes.ProviderType? = nil,
-            targetUrl: Swift.String? = nil
+            targetUrl: Swift.String? = nil,
+            webhookUrl: Swift.String? = nil
         ) {
             self.displayName = displayName
             self.installationId = installationId
@@ -7578,6 +7753,7 @@ extension SecurityAgentClientTypes {
             self.provider = provider
             self.providerType = providerType
             self.targetUrl = targetUrl
+            self.webhookUrl = webhookUrl
         }
     }
 }
@@ -7596,6 +7772,82 @@ public struct ListIntegrationsOutput: Swift.Sendable {
         self.integrationSummaries = integrationSummaries
         self.nextToken = nextToken
     }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The action to perform on an integration's webhook.
+    public enum WebhookAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Create the webhook if one does not already exist. Returns the payload URL and the signing secret.
+        case createIfAbsent
+        /// Generate a new signing secret for the existing webhook, keeping the same payload URL. Returns the new secret.
+        case rotate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookAction] {
+            return [
+                .createIfAbsent,
+                .rotate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createIfAbsent: return "CREATE_IF_ABSENT"
+            case .rotate: return "ROTATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Input for creating or rotating an integration's webhook.
+public struct UpdateIntegrationInput: Swift.Sendable {
+    /// The ID of the integration whose webhook you want to create or rotate.
+    /// This member is required.
+    public var integrationId: Swift.String?
+    /// The action to perform on the integration's webhook.
+    /// This member is required.
+    public var webhookAction: SecurityAgentClientTypes.WebhookAction?
+
+    public init(
+        integrationId: Swift.String? = nil,
+        webhookAction: SecurityAgentClientTypes.WebhookAction? = nil
+    ) {
+        self.integrationId = integrationId
+        self.webhookAction = webhookAction
+    }
+}
+
+/// Output for the UpdateIntegration operation.
+public struct UpdateIntegrationOutput: Swift.Sendable {
+    /// The ID of the integration.
+    /// This member is required.
+    public var integrationId: Swift.String?
+    /// The HMAC signing secret for the webhook. Returned only once, in this response; it is never returned again.
+    public var secret: Swift.String?
+    /// The payload URL to configure on your provider instance. Returned when a webhook is created; unchanged by a rotate.
+    public var webhookUrl: Swift.String?
+
+    public init(
+        integrationId: Swift.String? = nil,
+        secret: Swift.String? = nil,
+        webhookUrl: Swift.String? = nil
+    ) {
+        self.integrationId = integrationId
+        self.secret = secret
+        self.webhookUrl = webhookUrl
+    }
+}
+
+extension UpdateIntegrationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateIntegrationOutput(integrationId: \(Swift.String(describing: integrationId)), webhookUrl: \(Swift.String(describing: webhookUrl)), secret: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListActorMessagesInput: Swift.Sendable {
@@ -10892,6 +11144,13 @@ extension UpdateIntegratedResourcesInput {
     }
 }
 
+extension UpdateIntegrationInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationInput) -> Swift.String? {
+        return "/UpdateIntegration"
+    }
+}
+
 extension UpdatePentestInput {
 
     static func urlPathProvider(_ value: UpdatePentestInput) -> Swift.String? {
@@ -11419,7 +11678,11 @@ extension InitiateProviderRegistrationInput {
 
     static func write(value: InitiateProviderRegistrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["organizationName"].write(value.organizationName)
         try writer["provider"].write(value.provider)
+        try writer["targetUrl"].write(value.targetUrl)
     }
 }
 
@@ -11819,6 +12082,15 @@ extension UpdateIntegratedResourcesInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["integrationId"].write(value.integrationId)
         try writer["items"].writeList(value.items, memberWritingClosure: SecurityAgentClientTypes.IntegratedResourceInputItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateIntegrationInput {
+
+    static func write(value: UpdateIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationId"].write(value.integrationId)
+        try writer["webhookAction"].write(value.webhookAction)
     }
 }
 
@@ -12561,6 +12833,7 @@ extension GetIntegrationOutput {
         value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
         value.targetUrl = try reader["targetUrl"].readIfPresent()
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
         return value
     }
 }
@@ -13085,6 +13358,20 @@ extension UpdateIntegratedResourcesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegratedResourcesOutput {
         return UpdateIntegratedResourcesOutput()
+    }
+}
+
+extension UpdateIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIntegrationOutput()
+        value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
+        value.secret = try reader["secret"].readIfPresent()
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
+        return value
     }
 }
 
@@ -14498,6 +14785,25 @@ enum UpdateIntegratedResourcesOutputError {
     }
 }
 
+enum UpdateIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdatePentestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14880,6 +15186,58 @@ extension SecurityAgentClientTypes.AWSResources {
     }
 }
 
+extension SecurityAgentClientTypes.AzureDevOpsIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.AzureDevOpsIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["organizationName"].write(value.organizationName)
+        try writer["state"].write(value.state)
+    }
+}
+
+extension SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.organization = try reader["organization"].readIfPresent() ?? ""
+        value.project = try reader["project"].readIfPresent()
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.accessType = try reader["accessType"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.AzureDevOpsRepositoryResource {
+
+    static func write(value: SecurityAgentClientTypes.AzureDevOpsRepositoryResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["organization"].write(value.organization)
+        try writer["project"].write(value.project)
+    }
+}
+
+extension SecurityAgentClientTypes.AzureDevOpsResourceCapabilities {
+
+    static func write(value: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["leaveComments"].write(value.leaveComments)
+        try writer["remediateCode"].write(value.remediateCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.AzureDevOpsResourceCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.AzureDevOpsResourceCapabilities()
+        value.leaveComments = try reader["leaveComments"].readIfPresent()
+        value.remediateCode = try reader["remediateCode"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
@@ -14923,6 +15281,16 @@ extension SecurityAgentClientTypes.BatchSecurityRequirementError {
         value.code = try reader["code"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["state"].write(value.state)
+        try writer["targetUrl"].write(value.targetUrl)
     }
 }
 
@@ -15675,6 +16043,8 @@ extension SecurityAgentClientTypes.IntegratedResource {
     static func write(value: SecurityAgentClientTypes.IntegratedResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azuredevopsrepository(azuredevopsrepository):
+                try writer["azureDevOpsRepository"].write(azuredevopsrepository, with: SecurityAgentClientTypes.AzureDevOpsRepositoryResource.write(value:to:))
             case let .bitbucketrepository(bitbucketrepository):
                 try writer["bitbucketRepository"].write(bitbucketrepository, with: SecurityAgentClientTypes.BitbucketRepositoryResource.write(value:to:))
             case let .confluencedocument(confluencedocument):
@@ -15712,6 +16082,8 @@ extension SecurityAgentClientTypes.IntegratedResourceMetadata {
                 return .bitbucketrepository(try reader["bitbucketRepository"].read(with: SecurityAgentClientTypes.BitbucketRepositoryMetadata.read(from:)))
             case "confluenceDocument":
                 return .confluencedocument(try reader["confluenceDocument"].read(with: SecurityAgentClientTypes.ConfluenceDocumentMetadata.read(from:)))
+            case "azureDevOpsRepository":
+                return .azuredevopsrepository(try reader["azureDevOpsRepository"].read(with: SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15756,6 +16128,7 @@ extension SecurityAgentClientTypes.IntegrationSummary {
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.targetUrl = try reader["targetUrl"].readIfPresent()
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
         value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
         return value
     }
@@ -16015,8 +16388,12 @@ extension SecurityAgentClientTypes.ProviderInput {
     static func write(value: SecurityAgentClientTypes.ProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azuredevops(azuredevops):
+                try writer["azureDevOps"].write(azuredevops, with: SecurityAgentClientTypes.AzureDevOpsIntegrationInput.write(value:to:))
             case let .bitbucket(bitbucket):
                 try writer["bitbucket"].write(bitbucket, with: SecurityAgentClientTypes.BitbucketIntegrationInput.write(value:to:))
+            case let .bitbucketdatacenter(bitbucketdatacenter):
+                try writer["bitbucketDataCenter"].write(bitbucketdatacenter, with: SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput.write(value:to:))
             case let .confluence(confluence):
                 try writer["confluence"].write(confluence, with: SecurityAgentClientTypes.ConfluenceIntegrationInput.write(value:to:))
             case let .github(github):
@@ -16034,6 +16411,8 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
     static func write(value: SecurityAgentClientTypes.ProviderResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azuredevops(azuredevops):
+                try writer["azureDevOps"].write(azuredevops, with: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities.write(value:to:))
             case let .bitbucket(bitbucket):
                 try writer["bitbucket"].write(bitbucket, with: SecurityAgentClientTypes.BitbucketResourceCapabilities.write(value:to:))
             case let .confluence(confluence):
@@ -16059,6 +16438,8 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
                 return .bitbucket(try reader["bitbucket"].read(with: SecurityAgentClientTypes.BitbucketResourceCapabilities.read(from:)))
             case "confluence":
                 return .confluence(try reader["confluence"].read(with: SecurityAgentClientTypes.ConfluenceResourceCapabilities.read(from:)))
+            case "azureDevOps":
+                return .azuredevops(try reader["azureDevOps"].read(with: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

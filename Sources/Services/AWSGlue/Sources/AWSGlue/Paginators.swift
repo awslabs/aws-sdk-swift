@@ -104,6 +104,7 @@ extension GlueClient {
 extension GetColumnStatisticsTaskRunsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetColumnStatisticsTaskRunsInput {
         return GetColumnStatisticsTaskRunsInput(
+            catalogID: self.catalogID,
             databaseName: self.databaseName,
             maxResults: self.maxResults,
             nextToken: token,

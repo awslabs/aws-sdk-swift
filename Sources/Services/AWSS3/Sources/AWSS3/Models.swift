@@ -5821,6 +5821,7 @@ extension S3ClientTypes {
         case etag
         case encryptionstatus
         case intelligenttieringaccesstier
+        case intelligenttieringreferencedate
         case ismultipartuploaded
         case lastmodifieddate
         case lifecycleexpirationdate
@@ -5843,6 +5844,7 @@ extension S3ClientTypes {
                 .etag,
                 .encryptionstatus,
                 .intelligenttieringaccesstier,
+                .intelligenttieringreferencedate,
                 .ismultipartuploaded,
                 .lastmodifieddate,
                 .lifecycleexpirationdate,
@@ -5871,6 +5873,7 @@ extension S3ClientTypes {
             case .etag: return "ETag"
             case .encryptionstatus: return "EncryptionStatus"
             case .intelligenttieringaccesstier: return "IntelligentTieringAccessTier"
+            case .intelligenttieringreferencedate: return "IntelligentTieringReferenceDate"
             case .ismultipartuploaded: return "IsMultipartUploaded"
             case .lastmodifieddate: return "LastModifiedDate"
             case .lifecycleexpirationdate: return "LifecycleExpirationDate"
